@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(./**/*.md)",
+      "Read(./**/*.ts)",
+      "Read(./**/*.tsx)",
+      "Read(./**/*.py)",
+      "Read(./**/*.json)",
+      "Read(./**/*.yaml)",
+      "Read(./**/*.yml)",
+      "Read(./**/*.txt)",
+      "Read(./**/*.js)",
+      "Read(./**/*.jsx)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(./dist/**)",
+      "Read(./**/node_modules/**)",
+      "Read(./**/__pycache__/**)",
+      "Read(./**/venv/**)",
+      "Read(./.git/**)",
+      "Read(./**/.venv/**)",
+      "Read(./**/build/**)",
+      "Read(./**/coverage/**)"
+    ],
+    "defaultMode": "default"
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true
+  },
+  "effortLevel": "medium"
+}
