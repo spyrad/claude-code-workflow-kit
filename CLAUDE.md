@@ -6,30 +6,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **Claude Code workflow toolkit** — a collection of slash commands, frameworks, and templates that extend Claude Code's capabilities for structured development workflows. It is not a runnable application; it contains markdown-based prompts and configuration files.
 
-The primary language for commands and documentation is **German**. Code, file names, and technical terms remain in English.
+The primary language for commands and documentation is **German**. The memory framework (`frameworks/claude-code-memory-framework/`) documentation is in **Polish** (third-party inclusion). Code, file names, and technical terms remain in English.
 
-## Repository Structure
+## How This Repo Is Used
 
-- `commands/dtb/` — Slash commands (invoked as `/dtb:<name>`) for development workflow management. These are markdown prompt templates, not executable code.
-- `frameworks/claude-code-memory-framework/` — A framework for managing Claude Code's persistent memory effectively, with templates for CLAUDE.md, MEMORY.md, autonomy-rules.md, and pitfalls.md.
-- `agents/` — Custom agent definitions (currently empty).
-- `plugins/` — Plugin configurations (currently empty).
-- `skills/` — Skill definitions (currently empty).
-- `settings.json` — Project-level Claude Code settings (permissions, plugins, effort level).
+This is a **distribution repository**, not a standalone project. Users copy parts into their own projects:
+- `commands/dtb/` → target project's `.claude/commands/dtb/`
+- `frameworks/` templates → target project's `memory/` directory
+- `settings.json` → target project's `.claude/settings.json`
+
+There are no build steps, tests, or runtime dependencies. The `context7` plugin is enabled in settings.json.
 
 ## DTB Command System
 
-The `/dtb:*` commands form a German-language workflow system for managing development sessions. Key commands:
+The `/dtb:*` commands form a German-language workflow system for managing development sessions.
 
-- **Session lifecycle**: `workflow-checkpoint` (log session + update status), `workflow-status` (show current state), `workflow-resume` (continue after break)
-- **Project documentation**: `analyze-project` (brownfield project onboarding), `project-architecture`, `project-context`, `project-prd`, `project-roadmap`, `project-glossary`
-- **Development**: `feature-plan` (structured feature specs), `debug-plan` (debugging strategy), `code-review`, `build-check`, `backlog`
+### Command Workflow Lifecycle
+
+Commands are designed to work together in a session lifecycle:
+1. **Start/Resume**: `workflow-resume` reads `WORKFLOW_STATUS.md` to restore context
+2. **Work**: Use `feature-plan`, `debug-plan`, `code-review`, `build-check` during development
+3. **Save**: `workflow-checkpoint` writes a session log AND overwrites `WORKFLOW_STATUS.md`
+4. **Next session**: `workflow-resume` picks up where checkpoint left off
+
+### Command Categories
+
+- **Session lifecycle**: `workflow-checkpoint`, `workflow-status`, `workflow-resume`
+- **Project documentation**: `analyze-project` (brownfield onboarding), `project-architecture`, `project-context`, `project-prd`, `project-roadmap`, `project-glossary`
+- **Development**: `feature-plan`, `debug-plan`, `code-review`, `build-check`, `backlog`
 - **Utilities**: `repo-sync`, `unstuck` (session recovery)
 
-All commands output to `dtb-project/` subdirectories:
-- `dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md` — Session logs
-- `dtb-project/project-workflows/WORKFLOW_STATUS.md` — Status dashboard (max 60-80 lines, overwritten each update)
-- `dtb-project/project-workflows/FEATURE_*.md` — Feature specs
+### Output Locations (in target project)
+
+- `dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md` — Session logs (appended per session)
+- `dtb-project/project-workflows/WORKFLOW_STATUS.md` — Status dashboard (overwritten each update, max 60-80 lines)
+- `dtb-project/project-workflows/FEATURE_*.md` — Feature specs (UPPER_SNAKE_CASE naming)
 
 ## Memory Framework
 
@@ -41,8 +52,8 @@ The `frameworks/claude-code-memory-framework/` provides templates for three patt
 
 ## Conventions When Editing Commands
 
-- Command files are markdown with frontmatter-style headers and embedded template blocks
+- Command files are markdown with embedded template blocks (fenced code blocks showing output format)
 - Templates use `[PLACEHOLDER]` syntax for values to be filled at runtime
 - File paths in commands use forward slashes and are relative to the target project root
 - Dates always use `YYYY-MM-DD` format, never relative terms
-- Keep WORKFLOW_STATUS.md compact: 1-line summaries with links, no detail tables
+- WORKFLOW_STATUS.md: 1-line summaries with links only, no detail tables — details belong in session logs or test reports
