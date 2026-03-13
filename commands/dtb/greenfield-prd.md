@@ -1,6 +1,12 @@
-# DTB Projekt-PRD
+# Greenfield PRD
 
-Du liest das Product Requirements Document und fasst die MVP-Anforderungen zusammen.
+Liest ein Product Requirements Document und fasst die MVP-Anforderungen zusammen. Geeignet fuer Projekte in der Planungsphase.
+
+## Schritt 0: Config laden
+
+Lies `workflow.config.yaml` im Projekt-Root fuer den Projektnamen.
+
+Falls nicht vorhanden: Frage den Projektnamen ab.
 
 ## Aufgabe
 
@@ -25,7 +31,7 @@ Identifiziere und kategorisiere:
 Erstelle einen strukturierten Report in diesem Format:
 
 ```markdown
-# PRD-Uebersicht: DtB-Assistant MVP
+# PRD-Uebersicht: {config.project_name} MVP
 **Stand:** {DD.MM.YYYY}
 
 ---
@@ -168,9 +174,8 @@ Nutze diesen Command:
 
 ## Verwandte Commands
 
-- `/dtb:project-context` - Business-Kontext
-- `/dtb:project-architecture` - Technische Architektur
-- `/dtb:project-roadmap` - Zeitliche Planung
+- `/dtb:greenfield-roadmap` - Zeitliche Planung
+- `/dtb:workflow-resume` - Aktueller Workflow-Fortschritt
 
 ---
 

@@ -2,11 +2,18 @@
 
 Du bist ein Feature-Plan-Manager. Deine Aufgabe ist es, den aktuell diskutierten Feature-Plan als strukturierte Spec-Datei zu speichern.
 
+## Schritt 0: Config laden
+
+Lies `workflow.config.yaml` im Projekt-Root.
+
+Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
+
 ## Aufgabe
 
 1. **Analysiere den Chat-Verlauf** und identifiziere den diskutierten Feature-Plan
 2. **Strukturiere den Plan** nach dem unten stehenden Template
-3. **Speichere** in `dtb-project/project-workflows/FEATURE_[NAME].md`
+3. **Speichere** in `{config.paths.workflows}/features/FEATURE_[NAME].md`
+4. **Frage den Benutzer** ob das Feature in BACKLOG.md eingetragen werden soll
 
 ## Template fuer FEATURE_[NAME].md
 
@@ -19,7 +26,7 @@ Verwende folgende Struktur:
 **Ziel:** [Hauptziel in einem Satz]
 **Geschaetzte Dauer:** [Gesamt]
 **Prioritaet:** Hoch / Mittel / Niedrig
-**Status:** Geplant / In Arbeit / Abgeschlossen
+**Status:** Geplant / In Arbeit / Fertig zum Testen / Abgenommen / Abgeschlossen / Pausiert
 
 ---
 
@@ -135,12 +142,35 @@ Verwende folgende Struktur:
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
    - Sei spezifisch bei Deliverables
 
-5. **Speichere und bestaetige:**
-   ```
-   Gespeichert: dtb-project/project-workflows/FEATURE_[NAME].md
+5. **Speichere die Datei**
 
+6. **Backlog-Eintrag anbieten:**
+
+   Frage den Benutzer:
+   ```
+   Feature gespeichert: {config.paths.workflows}/features/FEATURE_[NAME].md
+
+   Soll das Feature in BACKLOG.md eingetragen werden? (Ja/Nein)
+   ```
+
+   **Bei Ja:**
+   - Lies `{config.paths.workflows}/BACKLOG.md`
+   - Bestimme Ziel-Abschnitt anhand des Status:
+     - Status "Idee" → "Ideen / Backlog"
+     - Alle anderen (Geplant, In Arbeit, etc.) → "Aktive Features"
+   - Fuege eine neue Zeile in die entsprechende Tabelle ein:
+     `| {Feature-Name} | Geplant | {Prio} | FEATURE_{NAME}.md | {Ziel aus Executive Summary} |`
+   - Aktualisiere das Datum in "Letzte Aktualisierung"
+
+   **Bei Nein:**
+   ```
+   OK, Feature nicht ins Backlog eingetragen.
+   Du kannst es spaeter mit /dtb:backlog-status sehen (FEATURE_*.md werden automatisch erkannt).
+   ```
+
+7. **Bestaetige:**
+   ```
    Naechste Schritte:
    1. Feature reviewen
-   2. In BACKLOG.md eintragen (falls nicht vorhanden)
-   3. Bei Start: Fortschritt in WORKFLOW_STATUS.md tracken
+   2. Bei Start: Fortschritt wird ueber /dtb:workflow-checkpoint getrackt
    ```

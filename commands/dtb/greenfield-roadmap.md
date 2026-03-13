@@ -1,15 +1,21 @@
-# DTB Projekt-Roadmap
+# Greenfield Roadmap
 
-Du liest die Roadmap und zeigst den aktuellen Projektstand sowie geplante Meilensteine.
+Erstelle eine Roadmap-Uebersicht fuer ein Projekt in der Aufbauphase (Greenfield). Liest strategische Docs und zeigt Phasen, Meilensteine und Fortschritt.
+
+## Schritt 0: Config laden
+
+Lies `workflow.config.yaml` im Projekt-Root fuer den Projektnamen.
+
+Falls nicht vorhanden: Frage den Projektnamen ab.
 
 ## Aufgabe
 
-Lade die Roadmap aus `dtb-project/project-strategy/roadmap.md` und erstelle eine Uebersicht des Projekt-Fortschritts.
+Lade die Roadmap aus dem Projekt und erstelle eine visuelle Uebersicht des Projekt-Fortschritts.
 
 ## Schritt 1: Roadmap laden
 
 Lies die folgenden Dateien:
-- **dtb-project/project-strategy/roadmap.md** - Strategische Roadmap
+- **dtb-project/project-strategy/ROADMAP.md** - Strategische Roadmap
 - **dtb-project/project-strategy/PRD-MVP.md** - MVP-Anforderungen (fuer Status-Abgleich)
 
 ## Schritt 2: Fortschritt analysieren
@@ -22,7 +28,7 @@ Fuer jeden Meilenstein/Phase:
 ## Schritt 3: Roadmap-Report erstellen
 
 ```markdown
-# Roadmap: DtB-Assistant
+# Roadmap: {config.project_name}
 **Stand:** {DD.MM.YYYY}
 
 ---
@@ -157,7 +163,7 @@ Phase 1 ──────> Phase 2 ──────> Phase 3
 
 ---
 
-*Quelle: dtb-project/project-strategy/roadmap.md*
+*Quelle: dtb-project/project-strategy/ROADMAP.md*
 ```
 
 ## Richtlinien
@@ -178,9 +184,8 @@ Nutze diesen Command:
 
 ## Verwandte Commands
 
-- `/dtb:project-context` - Business-Kontext
-- `/dtb:project-prd` - Detaillierte Anforderungen
-- `/dtb:workflow-status` - Aktueller Workflow-Fortschritt
+- `/dtb:greenfield-prd` - Detaillierte Anforderungen
+- `/dtb:workflow-resume` - Aktueller Workflow-Fortschritt
 
 ---
 

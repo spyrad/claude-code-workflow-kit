@@ -1,33 +1,37 @@
 # DTB Repo-Sync
 
-Pruefe den Git-Status beider Repos und erkenne Cross-Repo-Abhaengigkeiten.
+Pruefe den Git-Status aller konfigurierten Repos und erkenne Cross-Repo-Abhaengigkeiten.
 
 ## Aufgabe
 
-Erstelle einen kompakten Multi-Repo Status-Report fuer assistant-backend/ und assistant-frontend/.
+### Schritt 1: Config laden
 
-## Schritt 1: Git-Status beider Repos
+Lies `workflow.config.yaml` im Projekt-Root.
 
-Fuehre fuer **beide** Repos (`assistant-backend/` und `assistant-frontend/`) aus:
-
-```bash
-# Pro Repo:
-git -C {repo} status --short
-git -C {repo} branch --show-current
-git -C {repo} log --oneline -5
-git -C {repo} remote -v
-git -C {repo} diff --stat
+Falls nicht vorhanden:
+```
+workflow.config.yaml nicht gefunden. Erstelle eine Config mit repos-Eintraegen.
 ```
 
-## Schritt 2: Cross-Repo-Abhaengigkeiten pruefen
+### Schritt 2: Git-Status aller Repos
 
-Pruefe ob Aenderungen in einem Repo Aenderungen im anderen erfordern:
+Fuer jeden Eintrag in `config.repos`:
+```bash
+git -C {repo.path} status --short
+git -C {repo.path} branch --show-current
+git -C {repo.path} log --oneline -5
+git -C {repo.path} remote -v
+git -C {repo.path} diff --stat
+```
 
-1. **Event-Konsistenz**: Neue/geaenderte Events im Backend (`src/routes/`) muessen im Frontend (`src/events/event-list.tsx`) existieren
-2. **Schema-Aenderungen**: Geaenderte Pydantic-Schemas (`src/schemas/`) muessen im Frontend-Typ-System reflektiert sein
+### Schritt 3: Cross-Repo-Abhaengigkeiten pruefen
+
+Falls mehrere Repos konfiguriert, pruefe:
+1. **Event-Konsistenz**: Neue/geaenderte Events im Backend muessen im Frontend existieren
+2. **Schema-Aenderungen**: Geaenderte Schemas muessen im anderen Repo reflektiert sein
 3. **API-Aenderungen**: Neue Endpoints oder Payload-Aenderungen
 
-## Schritt 3: Status-Report erstellen
+### Schritt 4: Status-Report
 
 Erstelle einen kompakten Report (max 60 Zeilen):
 
@@ -35,17 +39,13 @@ Erstelle einen kompakten Report (max 60 Zeilen):
 # Repo-Sync Status
 **Datum:** {DD.MM.YYYY HH:MM}
 
-## Backend (assistant-backend/)
+## {repo.name} ({repo.path}/)
 - **Branch:** {branch}
 - **Status:** {clean / X uncommitted changes}
 - **Letzte Commits:** {3 neueste, einzeilig}
 - **Remote:** {sync status}
 
-## Frontend (assistant-frontend/)
-- **Branch:** {branch}
-- **Status:** {clean / X uncommitted changes}
-- **Letzte Commits:** {3 neueste, einzeilig}
-- **Remote:** {sync status}
+[Fuer jeden Eintrag in config.repos]
 
 ## Cross-Repo
 - **Event-Konsistenz:** {OK / Warnung}
@@ -61,15 +61,7 @@ Erstelle einen kompakten Report (max 60 Zeilen):
 - **Kompakt**: Max 60 Zeilen Output
 - **Actionable**: Konkrete Empfehlungen, nicht nur Status
 - **Deutsch**: Alle Texte auf Deutsch
-- **Cross-Repo-Fokus**: Der Mehrwert liegt in der Koordination, nicht im einzelnen `git status`
-
-## Verwendung
-
-Nutze diesen Command:
-- Am Session-Start (nach `/dtb:workflow-resume`)
-- Vor Commits (sind beide Repos konsistent?)
-- Vor Deployments (gleicher Stand?)
-- Bei Branch-Wechseln
+- **Cross-Repo-Fokus**: Mehrwert liegt in der Koordination
 
 ## Verwandte Commands
 
@@ -79,4 +71,4 @@ Nutze diesen Command:
 
 ---
 
-Pruefe jetzt den Status beider Repos und erstelle den Sync-Report.
+Pruefe jetzt den Status aller Repos und erstelle den Sync-Report.

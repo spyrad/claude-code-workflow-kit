@@ -6,10 +6,18 @@ Du dokumentierst den aktuellen Stand einer Development-Session. Zwei Aufgaben:
 
 ---
 
+## Schritt 0: Config laden
+
+Lies `workflow.config.yaml` im Projekt-Root.
+
+Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` und `dtb-project/project-changelog/`.
+
+---
+
 ## Teil 1: Session-Log
 
 ### Datei
-- Pfad: `dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md`
+- Pfad: `{config.paths.changelog}/YYYY-MM/YYYY-MM-DD.md`
 - Falls Datei existiert: Neue Session anhaengen (mit `---` Trenner)
 - Falls neu: Neue Datei erstellen
 
@@ -43,24 +51,23 @@ Du dokumentierst den aktuellen Stand einer Development-Session. Zwei Aufgaben:
 - **Praezise**: Was genau wurde geaendert, nicht nur "Code optimiert"
 - **Kontext**: Kurz erklaeren warum, nicht nur was
 - **Deutsch**: Alle Texte auf Deutsch
-- **Lesbar**: Bullet Points, keine langen Absaetze
 
 ---
 
 ## Teil 2: WORKFLOW_STATUS.md aktualisieren
 
 ### Datei
-- Pfad: `dtb-project/project-workflows/WORKFLOW_STATUS.md`
+- Pfad: `{config.paths.workflows}/WORKFLOW_STATUS.md`
 - **IMMER UEBERSCHREIBEN** (nicht anhaengen)
 - **Max 60-80 Zeilen** — keine Detail-Tabellen, nur 1-Zeilen-Zusammenfassungen mit Links
 
 ### Template
 
 ```markdown
-# Workflow-Status: DTB-Assistant
+# Workflow-Status: {config.project_name}
 
 **Letztes Update:** YYYY-MM-DD
-**Letzter Session-Log:** `project-changelog/YYYY-MM/YYYY-MM-DD.md`
+**Letzter Session-Log:** `{config.paths.changelog}/YYYY-MM/YYYY-MM-DD.md`
 
 ---
 
@@ -86,7 +93,6 @@ Du dokumentierst den aktuellen Stand einer Development-Session. Zwei Aufgaben:
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
 | YYYY-MM-DD | [Meilenstein] | [Ergebnis] | `[Link zu Quelle]` |
-| ... | ... | ... | ... |
 
 ---
 
@@ -104,13 +110,9 @@ Fuer neue Session: `/dtb:workflow-resume`
 ```
 
 ### Kernprinzip
-- **Keine Detail-Tabellen** in WORKFLOW_STATUS (keine V11-Einzelergebnisse, keine Tuning-Matrizen)
+- **Keine Detail-Tabellen** in WORKFLOW_STATUS
 - Nur **1-Zeilen-Zusammenfassungen** mit Link zur Quelle
-- Details leben in:
-  - Session-Logs (`project-changelog/`)
-  - Testberichte (`project-testing/`)
-  - Planfiles (`.claude/plans/`)
-- Meilenstein-Tabelle: nur abgeschlossene Dinge, jeweils 1 Zeile
+- Details leben in Session-Logs, Testberichten, Planfiles
 
 ---
 
@@ -124,30 +126,54 @@ Fuer neue Session: `/dtb:workflow-resume`
 - Was sind naechste Schritte?
 - Gibt es Blocker?
 
-**Aus Git (beide Repos pruefen):**
+**Aus Git (alle config.repos pruefen):**
 ```bash
-cd assistant-backend && git status --short && git log --oneline -3 && cd ..
-cd assistant-frontend && git status --short && git log --oneline -3 && cd ..
+git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 ```
 
-### Schritt 2: Session-Log schreiben
-- Erstelle/aktualisiere die Tages-Datei
-- Halte das Format ein (Implementiert, Dateien, Kontext, Naechste Schritte)
-- Sei praezise und technisch
+### Schritt 2: Feature-Status pruefen
 
-### Schritt 3: WORKFLOW_STATUS.md aktualisieren
-- Lies den aktuellen Stand
-- Aktualisiere mit neuem Status
-- **Halte die 60-80 Zeilen-Grenze ein**
-- Verschiebe abgeschlossene Detail-Tabellen NICHT in die Status-Datei — sie gehoeren in die Session-Logs/Testberichte
+Lies `{config.paths.workflows}/BACKLOG.md` und pruefe ob die Arbeit dieser Session mit einem Feature zusammenhaengt:
 
-### Schritt 4: Bestaetigung
+1. **Vergleiche** die Chat-Inhalte mit den Features in BACKLOG.md (Abschnitt "Aktive Features")
+2. **Falls ein Feature betroffen ist**, frage den Benutzer:
+
+```
+Feature-Status-Update erkannt:
+
+Feature: {Feature-Name}
+Aktueller Status: {aktueller Status aus BACKLOG}
+
+Neuen Status setzen?
+  1. In Arbeit
+  2. Fertig zum Testen
+  3. Abgenommen
+  4. Abgeschlossen (deployed/merged)
+  5. Pausiert
+  6. Kein Update
+```
+
+3. **Bei Statusaenderung:**
+   - Aktualisiere die Zeile in BACKLOG.md mit dem neuen Status
+   - Bei **"Abgeschlossen"**: Verschiebe das Feature von "Aktive Features" nach "Abgeschlossen" mit aktuellem Datum
+   - Aktualisiere das Datum in "Letzte Aktualisierung"
+   - Aktualisiere auch den Status in der `features/FEATURE_*.md` Datei (Zeile `**Status:**`)
+
+4. **Falls kein Feature erkannt wird**, ueberspringe diesen Schritt ohne Nachfrage.
+
+### Schritt 3: Session-Log schreiben
+
+### Schritt 4: WORKFLOW_STATUS.md aktualisieren
+- Halte die 60-80 Zeilen-Grenze ein
+
+### Schritt 5: Bestaetigung
 
 ```
 Workflow-Checkpoint dokumentiert:
 
-Session-Log: dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md (Session N)
-Status: dtb-project/project-workflows/WORKFLOW_STATUS.md
+Session-Log: {config.paths.changelog}/YYYY-MM/YYYY-MM-DD.md (Session N)
+Status: {config.paths.workflows}/WORKFLOW_STATUS.md
+{Falls Feature-Update: "Feature-Update: {Feature-Name} → {neuer Status}"}
 
 Naechster Schritt: [Konkret]
 Blocker: [Keine / Beschreibung]

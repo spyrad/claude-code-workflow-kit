@@ -1,0 +1,16 @@
+# Workflow Config — wird durch /dtb:project-init ausgefuellt
+# Single Source of Truth fuer alle DTB Commands
+
+project_name: "[Projektname]"
+namespace: "[namespace]"
+
+paths:
+  workflows: "dtb-project/project-workflows"
+  changelog: "dtb-project/project-changelog"
+
+repos:
+  - name: "[Repo-Name]"
+    path: "."
+    type: "[python|typescript|go|rust|...]"
+    test_command: null
+    build_command: null

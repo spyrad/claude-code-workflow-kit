@@ -1,40 +1,42 @@
 # DTB Build-Check
 
-Strukturierter Build/Test-Check ueber beide Repos vor Deploy.
+Strukturierter Build/Test-Check ueber alle konfigurierten Repos.
 
 ## Aufgabe
 
-Fuehre alle Build- und Test-Schritte aus und erstelle einen Deploy-Readiness Report.
+### Schritt 1: Config laden
 
-## Schritt 1: Backend Tests
+Lies `workflow.config.yaml` im Projekt-Root.
 
-```bash
-cd assistant-backend
-set PYTHON_TEST_ENVIRONMENT=TRUE
-python -m pytest --tb=short -q
+Falls nicht vorhanden:
+```
+workflow.config.yaml nicht gefunden. Erstelle eine Config mit repos-Eintraegen inkl. test_command/build_command.
 ```
 
-Erfasse: Anzahl Tests, Passed, Failed, Errors, Warnungen.
+### Schritt 2: Tests & Builds ausfuehren
 
-## Schritt 2: Frontend Build
+Fuer jeden Eintrag in `config.repos`:
 
+**Falls `repo.test_command` gesetzt:**
 ```bash
-cd assistant-frontend
-npx tsc --noEmit
-npm run build
+cd {repo.path} && {repo.test_command}
 ```
+Erfasse: Anzahl Tests, Passed, Failed, Errors.
 
-Erfasse: TypeScript-Fehler, Build-Erfolg/Fehler, Bundle-Groesse.
+**Falls `repo.build_command` gesetzt:**
+```bash
+cd {repo.path} && {repo.build_command}
+```
+Erfasse: Fehler, Build-Erfolg, Bundle-Groesse.
 
-## Schritt 3: Event-Konsistenz
+### Schritt 3: Event-Konsistenz (optional)
 
-Pruefe ob alle Backend-Events im Frontend registriert sind:
+Falls mehrere Repos mit type "python" + "typescript" vorhanden:
+1. Lies alle Event-Namen aus Backend-Routes (Pattern: `@fastws.post("EVENT_*")`)
+2. Lies alle Events aus Frontend Event-Liste
+3. Vergleiche: Fehlende/Verwaiste Events?
 
-1. Lies alle Event-Namen aus `assistant-backend/src/routes/` (Pattern: `@fastws.post("EVENT_*")`)
-2. Lies alle Events aus `assistant-frontend/src/events/event-list.tsx`
-3. Vergleiche: Fehlende Events im Frontend? Verwaiste Events?
-
-## Schritt 4: Deploy-Readiness Report
+### Schritt 4: Report
 
 ```markdown
 # Build-Check Report
@@ -42,25 +44,18 @@ Pruefe ob alle Backend-Events im Frontend registriert sind:
 
 ## Ergebnis-Uebersicht
 
-| Check | Status | Details |
-|-------|--------|---------|
-| Backend Tests | {PASS/FAIL} | {X passed, Y failed} |
-| Frontend TypeScript | {PASS/FAIL} | {X errors} |
-| Frontend Build | {PASS/FAIL} | {Bundle-Info} |
-| Event-Konsistenz | {PASS/WARN} | {Details} |
+| Repo | Check | Status | Details |
+|------|-------|--------|---------|
+| {repo.name} | Tests | {PASS/FAIL/SKIP} | {Details} |
+| {repo.name} | Build | {PASS/FAIL/SKIP} | {Details} |
+| Cross-Repo | Events | {PASS/WARN/SKIP} | {Details} |
 
 ## Gesamt-Status: {DEPLOY-READY / NICHT READY}
 
 ## Fehler-Details (falls vorhanden)
 
-### Backend
-{Fehlermeldungen oder "Alle Tests bestanden"}
-
-### Frontend
-{TypeScript-Fehler oder "Keine Fehler"}
-
-### Events
-{Inkonsistenzen oder "Alle Events konsistent"}
+### {repo.name}
+{Fehlermeldungen oder "Alle Checks bestanden"}
 
 ## Empfehlung
 {Konkreter naechster Schritt}
@@ -73,18 +68,9 @@ Pruefe ob alle Backend-Events im Frontend registriert sind:
 - **Deutsch**: Alle Texte auf Deutsch
 - **Actionable**: Bei Fehlern konkrete Fix-Empfehlungen
 
-## Verwendung
-
-Nutze diesen Command:
-- Vor Deployments auf DEV/PROD
-- Nach groesseren Refactorings
-- Vor Pull Requests
-- Als Smoke-Test nach Merges
-
 ## Verwandte Commands
 
-- `/dtb:repo-sync` - Git-Status beider Repos
-- `/dtb:code-review` - Code-Review
+- `/dtb:repo-sync` - Git-Status aller Repos
 - `/dtb:workflow-checkpoint` - Session-Ende
 
 ---
