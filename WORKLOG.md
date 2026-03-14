@@ -27,3 +27,18 @@ Persoenliches Log zu Arbeitsweise, Erkenntnissen und Ideen rund um Claude Code u
 Deswegen habe ich angefangen, mit einzelnen Schritten zu arbeiten, die mich tatsaechlich bei der Arbeit unterstuetzen — und so meinen Workflow Stueck fuer Stueck aufzubauen. Das kann jeder fuer sich bauen oder einzelne Schritte uebernehmen.
 
 **Warum es sich lohnt:** Das ist ein schneller Weg zur Automatisierung aller Routinen, die tatsaechlich automatisch oder zumindest halbautomatisch ablaufen koennen. Kein theoretisches Framework-Studium noetig — einfach anfangen, was funktioniert behalten, was nicht passt anpassen.
+
+### Agent-Teams: Zwei Rollen reichen
+**Kontext:** Beim Design von `/dtb:epic-review` habe ich mir das BMAD-Framework angeschaut — dort gibt es 5 Rollen (Bob, Alice, Charlie, Dana, Elena). Das ist fuer ein Solo-Projekt nicht realistisch: kein QA-Team, keine Junior-Devs, kein Scrum-Master noetig.
+
+**Rollenaufteilung die funktioniert:**
+
+| Rolle | Warum | Was sie tut |
+|-------|-------|-------------|
+| Architekt | Prueft ob der Feature-Plan technisch solide ist | Abhaengigkeiten, Risiken, fehlende Schritte |
+| Pragmatiker | Haelt den Scope realistisch | "Zu gross", "Phase 2 reicht erstmal", MVP-Schnitt |
+| Du (Damian) | Entscheidungshoheit + Domain-Wissen | Wirst gefragt, gibst Kontext, entscheidest |
+
+**Kerngedanke:** Damian ist nicht ein weiterer Agent — er ist der Product Owner. Die Agenten diskutieren, stellen gezielt Fragen ("Damian, brauchst du Feature X wirklich in Phase 1?"), und er entscheidet. Ein Koordinator/Scrum-Master ist bei 2 Agenten + PO unnoetig — das waere Over-Engineering.
+
+**Prinzip:** Weniger Rollen = klarere Verantwortung. Lieber mit 2 fokussierten Perspektiven starten und bei Bedarf erweitern, als sofort ein komplexes Agenten-Orchester aufzubauen. Die dritte Rolle (Koordination) ergibt sich natuerlich aus der PO-Rolle.
