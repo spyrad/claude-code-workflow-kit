@@ -133,28 +133,50 @@ Verwende folgende Struktur:
 
 ### Beim Ausfuehren des Commands:
 
-1. **Feature-Name ermitteln:**
+1. **Inbox pruefen:**
+   - Lies `{config.paths.workflows}/INBOX.md`
+   - Filtere alle Eintraege mit Status `Offen`
+   - Falls offene Ideen vorhanden, zeige:
+     ```
+     Offene Ideen in der Inbox:
+       1. #{N} — {Idee-Text} ({Datum})
+       2. #{N} — {Idee-Text} ({Datum})
+       ...
+
+     Idee auswaehlen (Nummer) oder neues Feature beschreiben:
+     ```
+   - Falls Inbox nicht existiert oder keine offenen Ideen: Ueberspringe diesen Schritt ohne Hinweis
+   - **Bei Auswahl einer Idee:**
+     - Verwende den Idee-Text als Ausgangsbasis fuer die Feature-Diskussion
+     - Setze den Inbox-Status auf `In Arbeit`
+
+2. **Feature-Name ermitteln:**
    - Frage den Benutzer nach dem Feature-Namen falls nicht klar
    - Konvertiere zu UPPER_SNAKE_CASE fuer den Dateinamen (z.B. "Chat History" → `FEATURE_CHAT_HISTORY.md`)
 
-2. **Prüfe ob Datei existiert:**
+3. **Prüfe ob Datei existiert:**
    - Falls JA: Frage "Soll ich die existierende Datei ueberschreiben oder aktualisieren?"
    - Falls NEIN: Erstelle neue Datei
 
-3. **Analysiere den Chat-Verlauf:**
+4. **Analysiere den Chat-Verlauf:**
    - Suche nach diskutierten Phasen, Schritten
    - Identifiziere Zeitschaetzungen
    - Finde technische Entscheidungen (auch offene)
    - Sammle Risiken
 
-4. **Fuelle das Template:**
+5. **Fuelle das Template:**
    - Nutze konkrete Informationen aus dem Chat
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
    - Sei spezifisch bei Deliverables
 
-5. **Speichere die Datei**
+6. **Speichere die Datei**
 
-6. **Backlog-Eintrag anbieten:**
+7. **Inbox-Status aktualisieren:**
+   - Falls das Feature aus einer Inbox-Idee erstellt wurde:
+     - Setze den Status in `INBOX.md` auf `Ausgearbeitet`
+     - Ergaenze die Idee-Zeile um den Link: `→ FEATURE_{NAME}.md`
+
+8. **Backlog-Eintrag anbieten:**
 
    Frage den Benutzer:
    ```
@@ -178,7 +200,7 @@ Verwende folgende Struktur:
    Du kannst es spaeter mit /dtb:backlog-status sehen (FEATURE_*.md werden automatisch erkannt).
    ```
 
-7. **Bestaetige:**
+9. **Bestaetige:**
    ```
    Naechste Schritte:
    1. Feature reviewen

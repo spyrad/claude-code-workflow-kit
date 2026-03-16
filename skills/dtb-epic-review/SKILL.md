@@ -32,9 +32,9 @@ Erstelle zuerst einen Feature-Plan mit /dtb:feature-plan.
 
 ## Schritt 2: Agent-Definitionen laden
 
-Lies die Agenten-Definitionen:
-- `references/architekt.md`
-- `references/pragmatiker.md`
+Lies die Agenten-Definitionen aus dem Projekt-Root:
+- `agents/architekt.md`
+- `agents/pragmatiker.md`
 
 Nimm diese Rollen fuer die Diskussion ein.
 

@@ -48,6 +48,25 @@ Fuehre die folgenden 8 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis
 - Pruefe ob jede Datei in BACKLOG.md referenziert wird
 - Nicht referenzierte = Orphan → FEHLER
 
+**INBOX → Features:**
+- Lies INBOX.md, filtere Eintraege mit Status `Ausgearbeitet`
+- Pruefe ob der verlinkte `FEATURE_*.md` Eintrag existiert
+- Eintraege mit Status `Offen` oder `Verworfen` brauchen keinen Link
+
+**INBOX Integritaet:**
+- Pruefe ob alle Eintraege einen gueltigen Status haben (Offen, In Arbeit, Ausgearbeitet, Verworfen)
+- Luecken in den Nummern sind erlaubt (entstehen durch Archivierung)
+
+**Archiv-Integritaet:**
+- Falls `{config.paths.workflows}/archive/` existiert:
+  - Pruefe ob ARCHIVE_LOG.md vorhanden ist
+  - Pruefe ob jede `FEATURE_*.md` im Archiv einen Eintrag im ARCHIVE_LOG hat
+  - Warnung bei verwaisten Feature-Specs im Archiv (ohne Log-Eintrag)
+
+**Archiv-Empfehlung:**
+- Zaehle verworfene/ausgearbeitete Eintraege in INBOX.md und abgeschlossene Features in BACKLOG.md
+- Warnung wenn mehr als 5 archivierbare Eintraege vorhanden → Empfehlung: `/dtb:archive`
+
 **WORKFLOW_STATUS → Logs:**
 - Extrahiere alle Session-Log-Links aus WORKFLOW_STATUS.md (Pattern: `` `project-changelog/...` ``)
 - Pruefe ob jeder referenzierte Log existiert
@@ -64,6 +83,10 @@ Fuehre die folgenden 8 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis
 - Pruefe: WORKFLOW_STATUS "Laufende Arbeit" → das referenzierte Feature sollte in BACKLOG "In Arbeit" sein
 - Erlaubte Abweichungen: "Geplant" in BACKLOG + beliebiger Status in Spec ist OK solange Spec nicht "In Arbeit"/"Fertig" sagt
 
+**INBOX ↔ Feature-Status:**
+- Idee "In Arbeit" → es sollte noch kein FEATURE_*.md existieren (sonst muesste Status "Ausgearbeitet" sein)
+- Idee "Ausgearbeitet" → das verlinkte FEATURE_*.md muss existieren
+
 #### Check 4: Namenskonventionen
 
 **dtb-project/ Root-Dateien:**
@@ -74,8 +97,9 @@ Fuehre die folgenden 8 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis
 - Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `FEATURE_*.md` folgen
 - FEHLER bei Abweichung
 
-**Commands:**
-- Alle `.md`-Dateien in `~/.claude/commands/dtb/` muessen kebab-case sein (kleinbuchstaben, bindestriche)
+**Skills:**
+- Alle Skill-Verzeichnisse in `.claude/skills/` muessen kebab-case sein (kleinbuchstaben, bindestriche)
+- Jedes Skill-Verzeichnis muss eine `SKILL.md` enthalten
 - Warnung bei Abweichung
 
 #### Check 5: Frische / Aktualitaet
@@ -137,6 +161,9 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 ## Querverweise
 - ✅/❌ BACKLOG → Features: {X}/{Y} Referenzen gueltig
 - ✅/❌ Features → BACKLOG: {Orphan-Details falls vorhanden}
+- ✅/❌ INBOX → Features: {X}/{Y} ausgearbeitete Ideen mit gueltigem Link
+- ✅/❌ Archiv: {Status}
+- ✅/⚠️ Archivierbare Eintraege: {N} (Empfehlung: /dtb:archive bei >5)
 - ✅/❌ WORKFLOW_STATUS → Logs: {Status}
 - ✅/❌ WORKFLOW_STATUS → Plans: {Status}
 
@@ -147,7 +174,7 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 ## Namenskonventionen
 - ✅/⚠️ dtb-project/: {Status}
 - ✅/⚠️ features/: {Status}
-- ✅/⚠️ commands/: {Status}
+- ✅/⚠️ skills/: {Status}
 
 ## Frische
 - ✅/⚠️ WORKFLOW_STATUS: Aktualisiert vor {N} Tagen
@@ -195,10 +222,11 @@ Falls keine Fehler/Warnungen: "✅ Alle Checks bestanden — keine Aktionen noet
 - **Idempotent:** Kann jederzeit ohne Seiteneffekte ausgefuehrt werden
 - **Kein Overkill:** Bei OK-Checks eine Zeile, nicht auswalzen
 
-## Verwandte Commands
+## Verwandte Skills
 
 - `/dtb:build-check` — Tests und Builds ausfuehren
 - `/dtb:backlog-status` — Backlog-Details
+- `/dtb:archive` — Abgeschlossene/verworfene Eintraege archivieren
 - `/dtb:workflow-resume` — Session fortsetzen
 - `/dtb:project-init` — Erstinitialisierung
 

@@ -5,41 +5,71 @@
 
 ## What's Inside
 
-- **16 Slash Commands** (`/dtb:*`) — German-language workflow system for session management,
-  project documentation, feature planning, debugging, and code review
+- **Skills** (`/dtb:*`) — German-language workflow system for session management,
+  project documentation, feature planning, idea capture, and code review
+- **Agent Roles** — Reusable agent definitions (Architekt, Pragmatiker) for structured reviews
 - **Memory Framework** — Production-tested patterns for managing Claude Code's persistent
   memory (autonomy rules, pitfalls tracking, memory size management)
 - **Project Settings** — Pre-configured permissions and plugin setup
 
-## Quick Start
+## Installation
 
-1. Clone this repo into your project (or copy the parts you need):
-   ```bash
-   git clone https://github.com/SpyraD/claude-code-workflow-kit.git
-   ```
-2. Copy `commands/dtb/` to your project's `.claude/commands/dtb/`
-3. Use commands via `/dtb:<name>` in Claude Code
+### Minimal (Skills + Agents)
 
-## Commands Overview
+```bash
+# 1. Skills in dein Projekt kopieren
+cp -r skills/* <dein-projekt>/.claude/skills/
 
-| Command | Purpose |
-|---------|---------|
+# 2. Agenten-Rollen kopieren
+cp -r agents/ <dein-projekt>/agents/
+
+# 3. In deinem Projekt Claude Code starten und initialisieren
+cd <dein-projekt>
+# /dtb:project-init ausfuehren — befuellt workflow.config.yaml und legt dtb-project/ an
+```
+
+### Vollstaendig (mit Memory Framework + Settings)
+
+```bash
+# 1-2: Wie oben
+
+# 3. Memory Framework Templates kopieren
+cp frameworks/claude-code-memory-framework/templates/* <dein-projekt>/memory/
+
+# 4. Settings uebernehmen (oder manuell in bestehende settings.json mergen)
+cp settings.json <dein-projekt>/.claude/settings.json
+
+# 5. Initialisieren
+cd <dein-projekt>
+# /dtb:project-init ausfuehren
+```
+
+### Nach der Installation
+
+- Skills werden von Claude Code automatisch erkannt
+- Aufruf per Slash-Command (`/dtb:idea`) oder natuerliche Sprache ("Session speichern")
+- `/dtb:project-init` ist der erste Schritt — danach sind alle anderen Skills einsatzbereit
+
+## Skills Overview
+
+| Skill | Purpose |
+|-------|---------|
 | `/dtb:workflow-checkpoint` | Log session progress + update status dashboard |
-| `/dtb:workflow-status` | Show current workflow state |
 | `/dtb:workflow-resume` | Resume after a break |
-| `/dtb:analyze-project` | Onboard into an existing (brownfield) project |
-| `/dtb:feature-plan` | Create structured feature specifications |
-| `/dtb:debug-plan` | Systematic debugging strategy |
-| `/dtb:code-review` | Structured code review |
+| `/dtb:idea` | Quick-capture an idea into the inbox |
+| `/dtb:idea-review` | Review and triage open ideas |
+| `/dtb:feature-plan` | Create structured feature specifications (with inbox integration) |
+| `/dtb:feature-start` | Start a planned feature from the backlog |
+| `/dtb:epic-review` | Structured review with Architekt + Pragmatiker agents |
 | `/dtb:build-check` | Build verification |
-| `/dtb:project-architecture` | Document project architecture |
-| `/dtb:project-context` | Capture project context |
-| `/dtb:project-prd` | Generate product requirements |
-| `/dtb:project-roadmap` | Create project roadmap |
-| `/dtb:project-glossary` | Build project glossary |
-| `/dtb:backlog` | Backlog overview |
+| `/dtb:backlog-status` | Backlog overview |
+| `/dtb:archive` | Archive completed/discarded items from workflow files |
 | `/dtb:repo-sync` | Repository synchronization |
-| `/dtb:unstuck` | Session recovery when stuck |
+| `/dtb:project-init` | Initialize DTB workflow in a project |
+| `/dtb:project-health` | Project linting and consistency checks |
+| `/dtb:project-team` | Team documentation |
+| `/dtb:greenfield-prd` | Generate product requirements for new projects |
+| `/dtb:greenfield-roadmap` | Create project roadmap for new projects |
 
 ## Memory Framework
 
@@ -53,19 +83,19 @@ provides templates for:
 ## Project Structure
 
 ```
-commands/dtb/          # Slash commands (markdown prompt templates)
+skills/                # Skill definitions (primary — auto-detected by Claude Code)
+agents/                # Reusable agent role definitions
 frameworks/            # Memory framework with templates
-agents/                # Custom agent definitions (extensible)
-plugins/               # Plugin configurations (extensible)
-skills/                # Skill definitions (extensible)
+workflow.config.yaml   # Project-specific config (template — filled by /dtb:project-init)
 settings.json          # Claude Code project settings
 CLAUDE.md              # Project instructions for Claude Code
 ```
 
 ## Note
 
-- Commands and documentation are in **German**; code and file names are in English
-- Commands are markdown-based prompt templates, not executable code
+- Skills and documentation are in **German**; code and file names are in English
+- Skills are markdown-based prompt templates with YAML frontmatter, not executable code
+- Skills support natural language triggers (e.g. "Session speichern" activates `dtb:workflow-checkpoint`)
 - Generated session data goes to `dtb-project/` (gitignored)
 
 ## License

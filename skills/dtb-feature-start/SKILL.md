@@ -73,6 +73,7 @@ Nach Auswahl durch den Benutzer:
 [Konkret: Erste Phase/Aufgabe aus der Feature-Spec, welche Dateien]
 
 Bereit? Sage "Los" oder stelle Fragen.
+Tipp: Fuer einen detaillierten Implementierungsplan dieser Phase → /plan
 ```
 
 ---

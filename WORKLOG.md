@@ -6,10 +6,20 @@ Persoenliches Log zu Arbeitsweise, Erkenntnissen und Ideen rund um Claude Code u
 
 ## Arbeits-Prinzipien
 
-### Wiederholte Prompts → Automatisieren
-**Erkenntnis:** Sobald ein Prompt mehr als einmal benutzt wird, lohnt es sich zu pruefen, ob daraus ein Command oder Skill entstehen sollte.
+### Entstehung: Workflow aus der Praxis, nicht aus der Theorie
+**Erkenntnis:** Die Skills in diesem Toolkit sind nicht von einem Framework uebernommen oder theoretisch entworfen worden. Sie sind waehrend der taeglichen Projektarbeit mit einem AI-Assistenten entstanden — Stueck fuer Stueck, aus echten Momenten heraus:
 
-**Warum:** Wiederholung ist ein Signal fuer ein wiederkehrendes Muster. Commands/Skills machen diese Muster wiederverwendbar, konsistent und teilbar — statt jedes Mal den Prompt neu zu formulieren.
+- "Diesen Schritt mache ich jedes Mal von Hand" → Skill draus bauen
+- "Braucht es hier wirklich mein Feedback oder kann das automatisch laufen?" → Autonomie-Level definieren
+- "Es waere praktisch, das kurz irgendwo zu dokumentieren" → Session-Log / Checkpoint
+- "In welchem Schritt wird diese Notiz spaeter wieder gebraucht?" → Inbox → Feature-Plan Pipeline
+
+**Warum das wichtig ist:** Dieser Bottom-up-Ansatz fuehrt zu Skills, die tatsaechlich genutzt werden — weil sie ein reales Problem loesen, das beim Arbeiten aufgefallen ist. Kein theoretisches Workflow-Design im Voraus, sondern beobachten, was sich wiederholt, und dann erst automatisieren.
+
+### Wiederholte Prompts → Automatisieren
+**Erkenntnis:** Sobald ein Prompt mehr als einmal benutzt wird, lohnt es sich zu pruefen, ob daraus ein Skill entstehen sollte.
+
+**Warum:** Wiederholung ist ein Signal fuer ein wiederkehrendes Muster. Skills machen diese Muster wiederverwendbar, konsistent und teilbar — statt jedes Mal den Prompt neu zu formulieren.
 
 ### Dokumentation aktuell halten
 **Erkenntnis:** CLAUDE.md, MEMORY.md und Status-Dateien muessen den tatsaechlichen Projektzustand widerspiegeln. Veraltete Eintraege (z.B. "noch nicht begonnen" obwohl ein Feature laengst fertig ist) fuehren dazu, dass Claude auf falschem Kontext arbeitet und falsche Entscheidungen trifft.
@@ -42,3 +52,13 @@ Deswegen habe ich angefangen, mit einzelnen Schritten zu arbeiten, die mich tats
 **Kerngedanke:** Damian ist nicht ein weiterer Agent — er ist der Product Owner. Die Agenten diskutieren, stellen gezielt Fragen ("Damian, brauchst du Feature X wirklich in Phase 1?"), und er entscheidet. Ein Koordinator/Scrum-Master ist bei 2 Agenten + PO unnoetig — das waere Over-Engineering.
 
 **Prinzip:** Weniger Rollen = klarere Verantwortung. Lieber mit 2 fokussierten Perspektiven starten und bei Bedarf erweitern, als sofort ein komplexes Agenten-Orchester aufzubauen. Die dritte Rolle (Koordination) ergibt sich natuerlich aus der PO-Rolle.
+
+### Skills statt Commands — eine Variante reichen lassen
+**Erkenntnis:** Wir hatten Commands und Skills parallel gepflegt — identischer Inhalt, doppelte Arbeit. Skills koennen alles was Commands koennen, plus Trigger-basierte Erkennung durch YAML-Frontmatter. Die Commands boten keinen Mehrwert.
+
+**Warum:** Doppelpflege fuehrt unweigerlich zu Drift. Wenn zwei Dateien denselben Inhalt haben, wird eine irgendwann veraltet sein. Lieber eine Single Source of Truth waehlen und konsequent dabei bleiben. Skills sind die maechtigere Variante — Commands wurden entfernt.
+
+### Ideen sofort einfangen, spaeter ausarbeiten
+**Erkenntnis:** Waehrend der Arbeit kommen staendig Gedanken und Ideen. Ohne einen schnellen Weg sie festzuhalten, gehen sie verloren oder unterbrechen den Flow. Die Loesung: `/dtb:idea` fuer sofortiges Erfassen (Freitext, keine Rueckfragen), `/dtb:idea-review` fuer spaeteres Sichten, und `/dtb:feature-plan` greift offene Ideen automatisch auf.
+
+**Warum:** Der Schluessel ist die Trennung von Erfassen und Ausarbeiten. Beim Erfassen zaehlt Geschwindigkeit — kein Formular, keine Kategorisierung, kein Workflow. Die Struktur kommt spaeter, wenn man bewusst Zeit dafuer nimmt. So bleibt der aktuelle Arbeitsfluss ungestoert.

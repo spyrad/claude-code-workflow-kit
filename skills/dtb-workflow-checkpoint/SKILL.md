@@ -175,7 +175,14 @@ Neuen Status setzen?
 ### Schritt 4: WORKFLOW_STATUS.md aktualisieren
 - Halte die 60-80 Zeilen-Grenze ein
 
-### Schritt 5: Bestaetigung
+### Schritt 5: Archiv-Hinweis pruefen
+
+Zaehle in INBOX.md (Status `Verworfen` + `Ausgearbeitet`) und BACKLOG.md (Abschnitt "Abgeschlossen") die archivierbaren Eintraege.
+
+- Falls >5 archivierbare Eintraege: Hinweis in die Bestaetigung aufnehmen
+- Falls <=5: Keinen Hinweis zeigen
+
+### Schritt 6: Bestaetigung
 
 ```
 Workflow-Checkpoint dokumentiert:
@@ -186,6 +193,7 @@ Status: {config.paths.workflows}/WORKFLOW_STATUS.md
 
 Naechster Schritt: [Konkret]
 Blocker: [Keine / Beschreibung]
+{Falls >5 archivierbare Eintraege: "Aufraumen: {N} Eintraege koennten archiviert werden → /dtb:archive"}
 
 Fuer naechste Session: /dtb:workflow-resume
 ```
