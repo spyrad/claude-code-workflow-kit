@@ -7,7 +7,7 @@
 
 - **Skills** (`/dtb:*`) — German-language workflow system for session management,
   project documentation, feature planning, idea capture, and code review
-- **Agent Roles** — Reusable agent definitions (Architekt, Pragmatiker) for structured reviews
+- **Agent Roles** — Reusable agent definitions (Architekt, Pragmatiker, Senior Dev) for structured reviews
 - **Memory Framework** — Production-tested patterns for managing Claude Code's persistent
   memory (autonomy rules, pitfalls tracking, memory size management)
 - **Project Settings** — Pre-configured permissions and plugin setup
@@ -60,7 +60,8 @@ cd <dein-projekt>
 | `/dtb:idea-review` | Review and triage open ideas |
 | `/dtb:feature-plan` | Create structured feature specifications (with inbox integration) |
 | `/dtb:feature-start` | Start a planned feature from the backlog |
-| `/dtb:epic-review` | Structured review with Architekt + Pragmatiker agents |
+| `/dtb:impl-plan` | Create implementation plan from feature spec |
+| `/dtb:plan-review` | Structured review with Architekt, Pragmatiker + Senior Dev agents |
 | `/dtb:build-check` | Build verification |
 | `/dtb:backlog-status` | Backlog overview |
 | `/dtb:archive` | Archive completed/discarded items from workflow files |
