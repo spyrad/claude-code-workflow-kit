@@ -5,6 +5,13 @@ description: >-
   "TEAM.md erstellen". Captures the project team and saves it
   to dtb-project/project-strategy/TEAM.md.
 disable-model-invocation: true
+allowed-tools: Read, Write
+pipeline:
+  stage: setup
+  after: dtb:project-init
+  next: null
+  consumes: [workflow.config.yaml]
+  produces: [TEAM.md]
 ---
 
 # DTB Projekt-Team

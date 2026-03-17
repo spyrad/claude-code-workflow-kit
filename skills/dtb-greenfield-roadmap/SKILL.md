@@ -6,6 +6,12 @@ description: >-
   by reading strategic docs and showing phases, milestones, and progress.
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
+pipeline:
+  stage: greenfield
+  after: dtb:greenfield-prd
+  next: null
+  consumes: [ROADMAP.md, PRD-MVP.md]
+  produces: []
 ---
 
 # Greenfield Roadmap

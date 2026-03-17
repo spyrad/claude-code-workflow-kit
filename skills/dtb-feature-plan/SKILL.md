@@ -6,6 +6,13 @@ description: >-
   from the current chat discussion and saves it as FEATURE_[NAME].md.
 disable-model-invocation: true
 argument-hint: "[Feature-Name]"
+allowed-tools: Read, Write, Glob, Grep
+pipeline:
+  stage: planning
+  after: dtb:idea-review
+  next: dtb:impl-plan
+  consumes: [INBOX.md, workflow.config.yaml]
+  produces: [FEATURE_*.md, INBOX.md, BACKLOG.md]
 ---
 
 # Feature-Plan erstellen
@@ -34,7 +41,6 @@ Verwende folgende Struktur:
 
 **Erstellt:** [Datum]
 **Ziel:** [Hauptziel in einem Satz]
-**Geschaetzte Dauer:** [Gesamt]
 **Prioritaet:** Hoch / Mittel / Niedrig
 **Status:** Geplant / In Arbeit / Fertig zum Testen / Abgenommen / Abgeschlossen / Pausiert
 
@@ -46,53 +52,13 @@ Verwende folgende Struktur:
 
 ---
 
-## Phasen-Uebersicht
+## Scope / Abgrenzung
 
-| Phase | Beschreibung | Dauer | Status |
-|-------|-------------|-------|--------|
-| Phase 1 | [Name] | [Zeit] | Geplant |
-| Phase 2 | [Name] | [Zeit] | Geplant |
+### Enthalten
+- [Was gehoert zu diesem Feature?]
 
----
-
-## Phase 1: [Name]
-
-### Ziel
-[Was soll erreicht werden?]
-
-### Schritte
-
-#### Schritt 1: [Name]
-- **Zweck:** [Warum wird dieser Schritt gemacht?]
-- **Input:** [Was wird benoetigt?]
-- **Output:** [Was wird erzeugt?]
-- **Geschaetzte Dauer:** [Zeit]
-
-#### Schritt 2: [Name]
-[Gleiche Struktur]
-
-### Deliverables
-- [ ] [Output 1]
-- [ ] [Output 2]
-
-### Checkpoint-Kriterien
-**Phase gilt als abgeschlossen wenn:**
-- [ ] [Kriterium 1]
-- [ ] [Kriterium 2]
-
----
-
-## Phase 2: [Name]
-
-[Gleiche Struktur wie Phase 1]
-
----
-
-## Technische Entscheidungen (zu treffen)
-
-| Thema | Optionen | Zu klaeren in | Relevanz |
-|-------|----------|-------------|----------|
-| [Thema 1] | [Option A, Option B] | [Phase X] | [Warum wichtig?] |
+### Nicht enthalten
+- [Was gehoert explizit NICHT dazu?]
 
 ---
 
@@ -159,15 +125,14 @@ Verwende folgende Struktur:
    - Falls NEIN: Erstelle neue Datei
 
 4. **Analysiere den Chat-Verlauf:**
-   - Suche nach diskutierten Phasen, Schritten
-   - Identifiziere Zeitschaetzungen
-   - Finde technische Entscheidungen (auch offene)
-   - Sammle Risiken
+   - Identifiziere Ziel, Scope und Abgrenzung
+   - Finde Risiken und Dependencies
+   - Sammle Success Criteria
 
 5. **Fuelle das Template:**
    - Nutze konkrete Informationen aus dem Chat
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
-   - Sei spezifisch bei Deliverables
+   - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in PLAN_*.md)
 
 6. **Speichere die Datei**
 
@@ -203,6 +168,7 @@ Verwende folgende Struktur:
 9. **Bestaetige:**
    ```
    Naechste Schritte:
-   1. Feature reviewen
-   2. Bei Start: Fortschritt wird ueber /dtb:workflow-checkpoint getrackt
+   1. Implementierungsplan erstellen: /dtb:impl-plan [Feature-Name]
+   2. Plan reviewen: /dtb:plan-review [Feature-Name]
+   3. Feature starten: /dtb:feature-start
    ```

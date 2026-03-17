@@ -32,9 +32,9 @@ Skills are designed to work together in a session lifecycle:
 
 ### Skill Categories
 
-- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`
+- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`
 - **Idea management**: `idea` (quick capture), `idea-review` (triage)
-- **Feature workflow**: `feature-plan` (with inbox integration), `feature-start`, `epic-review`
+- **Feature workflow**: `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`
 - **Project setup**: `project-init`, `project-health`, `project-team`
 - **Greenfield**: `greenfield-prd`, `greenfield-roadmap`
 - **Maintenance**: `archive` (move completed/discarded items to archive)
@@ -42,15 +42,17 @@ Skills are designed to work together in a session lifecycle:
 
 ### Agent Roles
 
-Reusable agent definitions in `agents/` are referenced by skills (e.g. `dtb:epic-review`):
+Reusable agent definitions in `agents/` are referenced by skills (e.g. `dtb:plan-review`):
 - `architekt.md` — Technical reviewer (feasibility, dependencies, risks)
 - `pragmatiker.md` — Scope guardian (MVP cut, effort-value, prioritization)
+- `senior-dev.md` — Implementation reviewer (time estimates, test strategy, code-level feasibility)
 
 ### Output Locations (in target project)
 
 - `dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md` — Session logs (appended per session)
 - `dtb-project/project-workflows/WORKFLOW_STATUS.md` — Status dashboard (overwritten each update, max 60-80 lines)
 - `dtb-project/project-workflows/features/FEATURE_*.md` — Feature specs (UPPER_SNAKE_CASE naming)
+- `dtb-project/project-workflows/features/PLAN_*.md` — Implementation plans (paired with FEATURE_*.md by name)
 - `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`)
 - `dtb-project/project-workflows/archive/` — Archived items: completed features, discarded ideas, archive log
 
@@ -70,3 +72,5 @@ The `frameworks/claude-code-memory-framework/` provides templates for three patt
 - File paths in skills use forward slashes and are relative to the target project root
 - Dates always use `YYYY-MM-DD` format, never relative terms
 - WORKFLOW_STATUS.md: 1-line summaries with links only, no detail tables — details belong in session logs or test reports
+- Pipeline metadata in frontmatter: `stage`, `after`, `next`, `consumes`, `produces`
+- `workflow-status` reads pipeline frontmatter to auto-generate the flow visualization

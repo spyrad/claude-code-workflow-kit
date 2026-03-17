@@ -6,6 +6,12 @@ description: >-
   and current progress from BACKLOG.md and FEATURE_*.md files.
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
+pipeline:
+  stage: monitoring
+  after: null
+  next: null
+  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md]
+  produces: []
 ---
 
 # DTB Backlog-Status
@@ -23,9 +29,11 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 Lies die Datei:
 - **`{config.paths.workflows}/BACKLOG.md`**
 
-## Schritt 2: Feature-Specs scannen
+## Schritt 2: Feature-Specs und Plaene scannen
 
 Finde alle `FEATURE_*.md` Dateien in `{config.paths.workflows}/features/` und lies jeweils die ersten 20 Zeilen (Titel, Status, Zusammenfassung).
+
+Pruefe fuer jedes Feature ob eine zugehoerige `PLAN_*.md` existiert (gleicher Name).
 
 ## Schritt 3: Abgleich
 
@@ -42,14 +50,14 @@ Erstelle einen kompakten Report:
 **Datum:** {DD.MM.YYYY}
 
 ## Aktiv (in Arbeit)
-| Feature | Status | Prio | Datei | Ziel |
-|---------|--------|------|-------|------|
-| {Feature} | {Status} | {Prio} | {Datei} | {Ziel} |
+| Feature | Status | Prio | Plan | Datei | Ziel |
+|---------|--------|------|------|-------|------|
+| {Feature} | {Status} | {Prio} | ✅/❌ | {Datei} | {Ziel} |
 
 ## Geplant (priorisiert)
-| Feature | Status | Prio | Datei | Ziel |
-|---------|--------|------|-------|------|
-| {Feature} | Geplant | {Prio} | {Datei} | {Ziel} |
+| Feature | Status | Prio | Plan | Datei | Ziel |
+|---------|--------|------|------|-------|------|
+| {Feature} | Geplant | {Prio} | ✅/❌ | {Datei} | {Ziel} |
 
 ## Ideen / Backlog
 - {Feature}: {Einzeiler-Beschreibung}
@@ -101,6 +109,7 @@ Nutze diesen Command:
 - `/dtb:workflow-resume` - Session-Start mit vollem Kontext
 - `/dtb:feature-plan` - Neues Feature planen (mit Backlog-Eintrag)
 - `/dtb:workflow-checkpoint` - Session dokumentieren (mit Feature-Status-Update)
+- `/dtb:workflow-status` - Pipeline-Visualisierung (alle Workflow-Stufen)
 
 ---
 

@@ -6,6 +6,13 @@ description: >-
   into the project inbox without interrupting the current workflow.
 disable-model-invocation: true
 argument-hint: "[Idee als Freitext]"
+allowed-tools: Read, Write
+pipeline:
+  stage: idea
+  after: null
+  next: dtb:idea-review
+  consumes: [INBOX.md]
+  produces: [INBOX.md]
 ---
 
 # Idee schnell erfassen

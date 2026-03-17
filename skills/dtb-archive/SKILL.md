@@ -5,6 +5,13 @@ description: >-
   "alte Features entfernen", "Backlog aufraumen". Moves completed and
   discarded items from active workflow files into the archive directory.
 disable-model-invocation: true
+allowed-tools: Read, Write, Glob, Grep
+pipeline:
+  stage: monitoring
+  after: null
+  next: null
+  consumes: [INBOX.md, BACKLOG.md, FEATURE_*.md, PLAN_*.md]
+  produces: [ARCHIVE_LOG.md, INBOX.md, BACKLOG.md]
 ---
 
 # Workflow archivieren
@@ -82,9 +89,10 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 | YYYY-MM-DD | Feature | {Name} | BACKLOG.md | Abgeschlossen |
 ```
 
-### 4b: Feature-Specs verschieben
+### 4b: Feature-Specs und Plaene verschieben
 
 - Verschiebe abgeschlossene `FEATURE_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
+- Verschiebe die zugehoerige `PLAN_*.md` mit (falls vorhanden, gleicher Name)
 
 ### 4c: INBOX.md bereinigen
 
@@ -107,7 +115,7 @@ Archivierung abgeschlossen:
   Features archiviert: {N}
 
 Archiv-Log: {config.paths.workflows}/archive/ARCHIVE_LOG.md
-Feature-Specs: {config.paths.workflows}/archive/FEATURE_*.md
+Feature-Specs: {config.paths.workflows}/archive/FEATURE_*.md (+ PLAN_*.md falls vorhanden)
 
 Verbleibend in INBOX.md: {N} offene Ideen
 Verbleibend in BACKLOG.md: {N} aktive Features

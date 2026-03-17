@@ -5,6 +5,13 @@ description: >-
   "Session dokumentieren". Documents the current development session with
   a session log entry and updates WORKFLOW_STATUS.md.
 disable-model-invocation: true
+allowed-tools: Read, Write, Bash
+pipeline:
+  stage: session
+  after: null
+  next: dtb:workflow-resume
+  consumes: [BACKLOG.md, INBOX.md, FEATURE_*.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, session-log]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)

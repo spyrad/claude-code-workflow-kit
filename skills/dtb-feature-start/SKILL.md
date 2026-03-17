@@ -5,6 +5,13 @@ description: >-
   "Feature aus Backlog starten". Starts a planned feature from the backlog
   by updating status to "In Arbeit" and showing the feature context.
 disable-model-invocation: true
+allowed-tools: Read, Write
+pipeline:
+  stage: implementation
+  after: dtb:plan-review
+  next: dtb:build-check
+  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md]
+  produces: [BACKLOG.md, WORKFLOW_STATUS.md]
 ---
 
 # Neues Feature starten
@@ -54,8 +61,9 @@ Welches Feature moechtest du starten?
 Nach Auswahl durch den Benutzer:
 
 1. **Lies die Feature-Spec:** `{config.paths.workflows}/features/FEATURE_*.md` (passend zum gewaehlten Feature)
-2. **Setze Status in BACKLOG.md** auf "In Arbeit"
-3. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Feature-Name eintragen
+2. **Lies den Implementierungsplan:** `{config.paths.workflows}/features/PLAN_*.md` (passend zum gewaehlten Feature, falls vorhanden)
+3. **Setze Status in BACKLOG.md** auf "In Arbeit"
+4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Feature-Name eintragen
 
 ### Schritt 5: Feature-Kontext zeigen
 
@@ -70,10 +78,10 @@ Nach Auswahl durch den Benutzer:
 
 ## Naechster Schritt
 
-[Konkret: Erste Phase/Aufgabe aus der Feature-Spec, welche Dateien]
+[Falls PLAN_*.md vorhanden: Erste Phase aus dem Implementierungsplan mit Ziel und ersten Schritten]
+[Falls PLAN_*.md NICHT vorhanden: "Kein Implementierungsplan vorhanden. Erstelle einen mit /dtb:impl-plan"]
 
 Bereit? Sage "Los" oder stelle Fragen.
-Tipp: Fuer einen detaillierten Implementierungsplan dieser Phase → /plan
 ```
 
 ---

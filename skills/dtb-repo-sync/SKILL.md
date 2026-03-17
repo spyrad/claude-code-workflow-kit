@@ -6,6 +6,12 @@ description: >-
   and detects cross-repo dependency issues.
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash
+pipeline:
+  stage: monitoring
+  after: null
+  next: null
+  consumes: [workflow.config.yaml]
+  produces: []
 ---
 
 # DTB Repo-Sync

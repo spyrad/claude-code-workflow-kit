@@ -7,6 +7,12 @@ description: >-
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash
 context: fork
+pipeline:
+  stage: development
+  after: dtb:feature-start
+  next: dtb:workflow-checkpoint
+  consumes: [workflow.config.yaml]
+  produces: []
 ---
 
 # DTB Build-Check
@@ -83,6 +89,7 @@ Falls mehrere Repos mit type "python" + "typescript" vorhanden:
 
 - `/dtb:repo-sync` - Git-Status aller Repos
 - `/dtb:workflow-checkpoint` - Session-Ende
+- `/dtb:workflow-status` - Pipeline-Status
 
 ---
 

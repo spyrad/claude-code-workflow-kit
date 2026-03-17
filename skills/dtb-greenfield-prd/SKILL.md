@@ -6,6 +6,12 @@ description: >-
   Document (PRD-MVP.md) for greenfield projects.
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
+pipeline:
+  stage: greenfield
+  after: null
+  next: dtb:greenfield-roadmap
+  consumes: [PRD-MVP.md]
+  produces: []
 ---
 
 # Greenfield PRD

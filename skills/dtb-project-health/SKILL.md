@@ -6,6 +6,12 @@ description: >-
   freshness, and naming conventions of all project artifacts.
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash
+pipeline:
+  stage: monitoring
+  after: null
+  next: null
+  consumes: [workflow.config.yaml, BACKLOG.md, FEATURE_*.md, PLAN_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md]
+  produces: []
 ---
 
 # DTB Projekt-Health
@@ -26,7 +32,7 @@ workflow.config.yaml nicht gefunden. Bitte zuerst /dtb:project-init ausfuehren.
 
 ### Schritt 1: Alle Checks ausfuehren
 
-Fuehre die folgenden 8 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis: `✅` (OK), `⚠️` (Warnung), `❌` (Fehler).
+Fuehre die folgenden 9 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis: `✅` (OK), `⚠️` (Warnung), `❌` (Fehler).
 
 ---
 
@@ -47,6 +53,12 @@ Fuehre die folgenden 8 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis
 - Liste alle `FEATURE_*.md` in `{config.paths.workflows}/features/`
 - Pruefe ob jede Datei in BACKLOG.md referenziert wird
 - Nicht referenzierte = Orphan → FEHLER
+
+**PLAN ↔ FEATURE Pairing:**
+- Liste alle `PLAN_*.md` in `{config.paths.workflows}/features/`
+- Pruefe ob zu jeder `PLAN_*.md` eine passende `FEATURE_*.md` existiert (gleicher Name)
+- PLAN ohne FEATURE = FEHLER (verwaister Implementierungsplan)
+- FEATURE ohne PLAN = INFO (kein Fehler — Plan kann spaeter mit `/dtb:impl-plan` erstellt werden)
 
 **INBOX → Features:**
 - Lies INBOX.md, filtere Eintraege mit Status `Ausgearbeitet`
@@ -94,7 +106,7 @@ Fuehre die folgenden 8 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis
 - Warnung bei Abweichung
 
 **Feature-Dateien:**
-- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `FEATURE_*.md` folgen
+- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `FEATURE_*.md` oder `PLAN_*.md` folgen
 - FEHLER bei Abweichung
 
 **Skills:**
@@ -132,7 +144,27 @@ git -C {repo.path} log -1 --format="%cr"
 ```
 - Zeige: Branch, Uncommitted Changes (Warnung wenn vorhanden), letzter Commit-Zeitpunkt
 
-#### Check 8: Memory-Health
+#### Check 8: Skill-Frontmatter-Konsistenz
+
+Scanne alle `.claude/skills/dtb-*/SKILL.md` im Projekt:
+
+**Pflichtfelder pruefen:**
+- `name` vorhanden → FEHLER wenn fehlend
+- `description` vorhanden → FEHLER wenn fehlend
+- `disable-model-invocation` vorhanden → WARNUNG wenn fehlend
+- `allowed-tools` vorhanden → WARNUNG wenn fehlend
+- `pipeline` Block vorhanden → WARNUNG wenn fehlend
+
+**Pipeline-Konsistenz pruefen:**
+- `pipeline.after` referenziert einen existierenden Skill (Verzeichnis `.claude/skills/dtb-*/SKILL.md` muss existieren) → FEHLER wenn nicht
+- `pipeline.next` referenziert einen existierenden Skill → FEHLER wenn nicht
+- `pipeline.consumes` Artefakte: Pruefe ob mindestens ein anderer Skill diese in `produces` listet → WARNUNG wenn verwaist
+- Zirkulaere Referenzen (A→B→A via `next`) → FEHLER
+
+**allowed-tools vs. Body pruefen:**
+- Skill-Body referenziert `Write` oder `Bash` Aktionen aber `allowed-tools` enthaelt es nicht → WARNUNG
+
+#### Check 9: Memory-Health
 
 - `MEMORY.md` existiert unter dem Memory-Pfad (`~/.claude/projects/.../memory/MEMORY.md`)
 - Suche alle `.md`-Dateien im Memory-Verzeichnis (ausser MEMORY.md)
@@ -189,6 +221,12 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 ## Git
 - ✅/⚠️ {Repo}: `{Branch}` — letzter Commit vor {N}, {Changes}
 
+## Skill-Frontmatter
+- ✅/⚠️ Pflichtfelder: {N}/{M} Skills vollstaendig
+- ✅/⚠️ Pipeline: {N}/{M} Skills mit Pipeline-Block
+- ✅/❌ Pipeline-Referenzen: {Status}
+- ✅/⚠️ allowed-tools: {N}/{M} konsistent
+
 ## Memory
 - ✅/❌ MEMORY.md: {N} Eintraege, {Status}
 ```
@@ -229,6 +267,7 @@ Falls keine Fehler/Warnungen: "✅ Alle Checks bestanden — keine Aktionen noet
 - `/dtb:archive` — Abgeschlossene/verworfene Eintraege archivieren
 - `/dtb:workflow-resume` — Session fortsetzen
 - `/dtb:project-init` — Erstinitialisierung
+- `/dtb:workflow-status` — Pipeline-Status und Queue-Analyse
 
 ---
 

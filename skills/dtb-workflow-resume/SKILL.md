@@ -5,6 +5,13 @@ description: >-
   "Kontext wiederherstellen". Restores workflow context after a session break
   by reading WORKFLOW_STATUS.md, session logs, and git status.
 disable-model-invocation: true
+allowed-tools: Read, Bash
+pipeline:
+  stage: session
+  after: dtb:workflow-checkpoint
+  next: null
+  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, PLAN_*.md, session-log]
+  produces: []
 ---
 
 # Workflow fortsetzen (Resume)
@@ -51,7 +58,8 @@ Pruefe ob ein Feature aktiv bearbeitet wird:
 
 **Fall A: Feature "In Arbeit" erkannt**
 - Lies die zugehoerige Feature-Spec (`features/FEATURE_*.md`)
-- Zeige Feature-Kontext im Resume-Report (aktueller Stand, naechste Phase/Schritt)
+- Lies den Implementierungsplan (`features/PLAN_*.md`), falls vorhanden
+- Zeige Feature-Kontext im Resume-Report (Ziel aus Feature-Spec, aktuelle Phase/naechster Schritt aus Plan)
 
 **Fall B: Mehrere Features "In Arbeit"**
 - Zeige Auswahlliste der laufenden Features
@@ -74,7 +82,8 @@ Halte den Report **kompakt** (max 60 Zeilen Output). Fokus auf Actionable Info.
 
 ## Feature-Stand
 
-[2-3 Zeilen aus Feature-Spec: Aktuelle Phase, was ist offen]
+[Ziel aus Feature-Spec + aktuelle Phase/naechster Schritt aus PLAN_*.md]
+[Falls kein PLAN_*.md: "Kein Implementierungsplan vorhanden → /dtb:impl-plan"]
 
 ## Letzte Session
 
@@ -118,7 +127,8 @@ Welches Feature moechtest du fortsetzen?
 
 **Bei Feature-Auswahl durch den Benutzer:**
 1. Lies die Feature-Spec (`features/FEATURE_*.md`)
-2. Zeige Feature-Kontext (aktuelle Phase, naechster Schritt)
+2. Lies den Implementierungsplan (`features/PLAN_*.md`), falls vorhanden
+3. Zeige Feature-Kontext (Ziel aus Spec, aktuelle Phase/naechster Schritt aus Plan)
 
 **Fall C: Kein Feature "In Arbeit"**
 

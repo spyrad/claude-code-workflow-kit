@@ -5,6 +5,13 @@ description: >-
   "Ideen sichten", "Inbox pruefen". Reviews all open ideas in the
   inbox and lets the user decide on each: keep, elaborate, or discard.
 disable-model-invocation: true
+allowed-tools: Read, Write
+pipeline:
+  stage: idea
+  after: dtb:idea
+  next: dtb:feature-plan
+  consumes: [INBOX.md]
+  produces: [INBOX.md]
 ---
 
 # Ideen-Inbox reviewen

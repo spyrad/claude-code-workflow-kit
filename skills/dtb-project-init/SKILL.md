@@ -5,6 +5,13 @@ description: >-
   "workflow.config.yaml erstellen". One-time project initialization that
   creates workflow.config.yaml and the directory structure.
 disable-model-invocation: true
+allowed-tools: Read, Write, Bash
+pipeline:
+  stage: setup
+  after: null
+  next: dtb:workflow-resume
+  consumes: []
+  produces: [workflow.config.yaml, CLAUDE.md, WORKFLOW_STATUS.md, BACKLOG.md]
 ---
 
 # DTB Projekt-Initialisierung
