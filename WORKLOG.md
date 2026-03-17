@@ -86,3 +86,10 @@ Deswegen habe ich angefangen, mit einzelnen Schritten zu arbeiten, die mich tats
 **Loesung:** Sub-CLAUDE.md Dateien in Unterverzeichnissen (`skills/CLAUDE.md`, `agents/CLAUDE.md`). Diese werden nur geladen, wenn Claude in dem jeweiligen Verzeichnis arbeitet. So bekommt der Agent die richtigen Regeln genau dann, wenn er sie braucht — ohne die Root-Datei aufzublaehen.
 
 **Warum das funktioniert:** Claude Code laedt CLAUDE.md Dateien kontextabhaengig — die Root-Datei immer, Sub-Dateien nur wenn im entsprechenden Verzeichnis gearbeitet wird. Das ist ein natuerlicher Mechanismus fuer geschichtete Dokumentation: allgemeine Regeln oben, spezifische Details dort wo sie gebraucht werden.
+
+### Fuer die AI denken, nicht fuer Menschen dokumentieren
+**Erkenntnis:** Beim Erstellen von Skills, Rules und Kontext-Dateien ist die entscheidende Frage nicht "Wie wuerde ein Mensch das lesen?", sondern "Was braucht die AI, um optimal zu arbeiten?". Das bedeutet: keine ausfuehrlichen Manuals oder Erklaerungstexte, sondern schmale, gezielte Informationen — kompakt, strukturiert, direkt umsetzbar.
+
+**Warum:** Die AI liest keine Doku zum Verstaendnis — sie braucht klare Anweisungen, Regeln und Kontext um Entscheidungen zu treffen. Lange Erklaerungen verwaessern den Fokus, kurze Regeln mit Begruendung sind sofort anwendbar. Ein "Do: X, weil Y" ist fuer die AI wertvoller als drei Absaetze Hintergrund.
+
+**Konkret:** Rules-Dateien in `project-rules/` sollten keine Coding-Handbuecher sein, sondern knappe Checklisten: Was gilt, warum, und ein Beispiel-Pfad. Dasselbe Prinzip gilt fuer CLAUDE.md, Memory-Dateien und Skill-Templates — immer fragen: "Ist das fuer die AI nuetzlich oder nur fuer menschliche Leser huebsch?"
