@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, FEATURE_*.md, PLAN_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md]
+  consumes: [workflow.config.yaml, BACKLOG.md, FEATURE_*.md, PLAN_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
   produces: []
 ---
 
@@ -32,7 +32,7 @@ workflow.config.yaml nicht gefunden. Bitte zuerst /dtb:project-init ausfuehren.
 
 ### Schritt 1: Alle Checks ausfuehren
 
-Fuehre die folgenden 9 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis: `✅` (OK), `⚠️` (Warnung), `❌` (Fehler).
+Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis: `✅` (OK), `⚠️` (Warnung), `❌` (Fehler).
 
 ---
 
@@ -171,6 +171,13 @@ Scanne alle `.claude/skills/dtb-*/SKILL.md` im Projekt:
 - Pruefe ob jede Memory-Datei in MEMORY.md referenziert ist (und umgekehrt)
 - Pruefe ob Memory-Dateien gueltiges Frontmatter haben (name, type, description)
 
+#### Check 10: Rules-Konsistenz
+
+- `{config.paths.rules}/` Verzeichnis existiert → INFO wenn fehlend (kein Fehler — Rules sind optional)
+- Falls vorhanden: Zaehle Rules-Dateien
+- Pruefe ob Rules-Dateien das erwartete Format haben (Titel `# Coding Rules:`, Sektionen wie `## Do's`, `## Don'ts`)
+- Pruefe ob `**Manuell angepasst:**` Feld vorhanden → INFO wenn noch "Nein" (Hinweis: Review empfohlen)
+
 ---
 
 ### Schritt 2: Report generieren
@@ -229,6 +236,11 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 
 ## Memory
 - ✅/❌ MEMORY.md: {N} Eintraege, {Status}
+
+## Rules
+- ✅/ℹ️ Rules-Verzeichnis: {vorhanden/nicht vorhanden}
+- ✅/ℹ️ Rules-Dateien: {N} vorhanden
+- ✅/ℹ️ Manuell reviewed: {N}/{M}
 ```
 
 ### Schritt 3: Empfohlene Aktionen

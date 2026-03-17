@@ -38,7 +38,7 @@ Skills are designed to work together in a session lifecycle:
 - **Project setup**: `project-init`, `project-health`, `project-team`
 - **Greenfield**: `greenfield-prd`, `greenfield-roadmap`
 - **Maintenance**: `archive` (move completed/discarded items to archive)
-- **Development**: `build-check`, `backlog-status`, `repo-sync`
+- **Development**: `build-check`, `code-review`, `backlog-status`, `repo-sync`
 
 ### Agent Roles
 
@@ -55,6 +55,7 @@ Reusable agent definitions in `agents/` are referenced by skills (e.g. `dtb:plan
 - `dtb-project/project-workflows/features/PLAN_*.md` — Implementation plans (paired with FEATURE_*.md by name)
 - `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`)
 - `dtb-project/project-workflows/archive/` — Archived items: completed features, discarded ideas, archive log
+- `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)
 
 ## Memory Framework
 
@@ -74,3 +75,4 @@ The `frameworks/claude-code-memory-framework/` provides templates for three patt
 - WORKFLOW_STATUS.md: 1-line summaries with links only, no detail tables — details belong in session logs or test reports
 - Pipeline metadata in frontmatter: `stage`, `after`, `next`, `consumes`, `produces`
 - `workflow-status` reads pipeline frontmatter to auto-generate the flow visualization
+- `dtb:code-review` reads rules from `{config.paths.rules}/` to validate implementations

@@ -77,6 +77,7 @@ namespace: "[namespace]"
 paths:
   workflows: "dtb-project/project-workflows"
   changelog: "dtb-project/project-changelog"
+  rules: "dtb-project/project-rules"
 
 repos:
   - name: "[Repo-Name]"
@@ -102,6 +103,7 @@ Erstelle fehlende Verzeichnisse:
 ```
 dtb-project/
 ├── project-changelog/
+├── project-rules/
 ├── project-workflows/
 │   └── features/
 ├── project-strategy/

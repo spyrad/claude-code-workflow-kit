@@ -10,7 +10,7 @@ context: fork
 pipeline:
   stage: development
   after: dtb:feature-start
-  next: dtb:workflow-checkpoint
+  next: dtb:code-review
   consumes: [workflow.config.yaml]
   produces: []
 ---

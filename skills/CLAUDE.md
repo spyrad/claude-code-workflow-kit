@@ -45,6 +45,7 @@ pipeline:
 - Template placeholders: `[PLACEHOLDER]` syntax
 - File paths: forward slashes, relative to target project root
 - Dates: `YYYY-MM-DD`, never relative terms
+- `project-rules/` files use UPPER_SNAKE_CASE (e.g. `FRONTEND.md`, `BACKEND.md`)
 
 ## Language
 

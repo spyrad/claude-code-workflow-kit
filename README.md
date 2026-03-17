@@ -63,6 +63,9 @@ cd <dein-projekt>
 | `/dtb:impl-plan` | Create implementation plan from feature spec |
 | `/dtb:plan-review` | Structured review with Architekt, Pragmatiker + Senior Dev agents |
 | `/dtb:build-check` | Build verification |
+| `/dtb:code-review` | Review code changes against project-specific rules |
+| `/dtb:generate-rules` | Generate coding rules/guidelines from codebase analysis |
+| `/dtb:workflow-status` | Pipeline visualization and queue analysis |
 | `/dtb:backlog-status` | Backlog overview |
 | `/dtb:archive` | Archive completed/discarded items from workflow files |
 | `/dtb:repo-sync` | Repository synchronization |
