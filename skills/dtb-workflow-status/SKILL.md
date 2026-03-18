@@ -11,7 +11,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, FEATURE_*.md, PLAN_*.md, WORKFLOW_STATUS.md]
+  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, WORKFLOW_STATUS.md]
   produces: []
 ---
 
@@ -32,6 +32,10 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 **INBOX.md** (`{config.paths.workflows}/INBOX.md`):
 - Zaehle Eintraege nach Status: `Offen`, `In Arbeit`, `Ausgearbeitet`, `Verworfen`
 - Nur `Offen` und `In Arbeit` sind Pipeline-relevant
+
+**DISCOVERY_*.md** (`{config.paths.workflows}/features/DISCOVERY_*.md`):
+- Zaehle vorhandene Discovery-Dateien
+- Lies jeweils den `**Status:**`-Wert (Abgeschlossen = fertig fuer Feature-Spec)
 
 **BACKLOG.md** (`{config.paths.workflows}/BACKLOG.md`):
 - Zaehle Features nach Status: `Geplant`, `In Arbeit`, `Fertig zum Testen`, `Abgenommen`, `Abgeschlossen`
@@ -87,7 +91,8 @@ Gib den Report direkt in der Konsole aus (keine Datei schreiben). Verwende folge
 
 ```mermaid
 flowchart LR
-    INBOX["Inbox\n{n_offen} Offen"] --> SPEC["Feature-Spec\n{n_in_arbeit_inbox} In Arbeit"]
+    INBOX["Inbox\n{n_offen} Offen"] --> DISC["Discovery\n{n_discovery} In Arbeit"]
+    DISC --> SPEC["Feature-Spec\n{n_in_arbeit_inbox} In Arbeit"]
     SPEC --> IMPL["Impl-Plan\n{n_impl_plan} Erstellt"]
     IMPL --> REVIEW["Plan-Review\n{n_reviewed} Reviewed"]
     REVIEW --> BACKLOG["Backlog\n{n_geplant} Geplant"]
@@ -102,7 +107,8 @@ flowchart LR
 | Stufe | Anzahl | Wartend | Naechster Skill |
 |-------|--------|---------|-----------------|
 | Inbox (Offen) | {n} | {aeltester} | `/dtb:idea-review` |
-| Inbox (In Arbeit) | {n} | {aeltester} | `/dtb:feature-plan` |
+| Inbox (In Arbeit) | {n} | {aeltester} | `/dtb:feature-discover` |
+| Discovery | {n} | {aeltester} | `/dtb:feature-plan` |
 | Feature-Spec (ohne Plan) | {n} | {aeltester} | `/dtb:impl-plan` |
 | Impl-Plan (Entwurf) | {n} | {aeltester} | `/dtb:plan-review` |
 | Backlog (Geplant) | {n} | {aeltester} | `/dtb:feature-start` |
@@ -117,6 +123,7 @@ flowchart LR
 |-----------|-------|-------|
 | Idee erfassen | `/dtb:idea` | — |
 | Idee bewerten | `/dtb:idea-review` | — |
+| Feature Discovery | `/dtb:feature-discover` | — |
 | Feature planen | `/dtb:feature-plan` | — |
 | Impl-Plan erstellen | `/dtb:impl-plan` | — |
 | Plan reviewen | `/dtb:plan-review` | Architekt, Pragmatiker, Senior Dev |

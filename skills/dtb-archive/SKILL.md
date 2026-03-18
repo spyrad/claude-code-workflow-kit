@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, FEATURE_*.md, PLAN_*.md]
+  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md]
   produces: [ARCHIVE_LOG.md, INBOX.md, BACKLOG.md]
 ---
 
@@ -92,7 +92,7 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 ### 4b: Feature-Specs und Plaene verschieben
 
 - Verschiebe abgeschlossene `FEATURE_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
-- Verschiebe die zugehoerige `PLAN_*.md` mit (falls vorhanden, gleicher Name)
+- Verschiebe die zugehoerige `DISCOVERY_*.md` und `PLAN_*.md` mit (falls vorhanden, gleicher Name)
 
 ### 4c: INBOX.md bereinigen
 

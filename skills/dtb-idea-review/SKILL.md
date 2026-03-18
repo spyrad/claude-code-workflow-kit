@@ -9,7 +9,7 @@ allowed-tools: Read, Write
 pipeline:
   stage: idea
   after: dtb:idea
-  next: dtb:feature-plan
+  next: dtb:feature-discover
   consumes: [INBOX.md]
   produces: [INBOX.md]
 ---
@@ -69,7 +69,7 @@ Idee #{N} ({Datum}):
 
 Aktion?
   1. Behalten (bleibt Offen)
-  2. Ausarbeiten → startet /dtb:feature-plan mit dieser Idee
+  2. Ausarbeiten → startet /dtb:feature-discover mit dieser Idee
   3. Verwerfen
   4. Zusammenlegen mit anderer Idee (Nummer angeben)
 ```
@@ -81,10 +81,10 @@ Aktion?
 **Ausarbeiten (2):**
 - Setze Status auf `In Arbeit`
 - Beende den Review
-- Weise darauf hin: `/dtb:feature-plan` als naechsten Schritt ausfuehren
+- Weise darauf hin: `/dtb:feature-discover` als naechsten Schritt ausfuehren
 ```
 Idee #{N} auf "In Arbeit" gesetzt.
-Naechster Schritt: /dtb:feature-plan
+Naechster Schritt: /dtb:feature-discover
 ```
 
 **Verwerfen (3):**

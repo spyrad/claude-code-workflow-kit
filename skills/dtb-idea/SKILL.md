@@ -49,7 +49,7 @@ Welche Idee moechtest du festhalten? (Freitext)
 ```markdown
 # Ideen-Inbox
 
-> Schnell erfasste Ideen und Gedanken. Ausarbeitung mit `/dtb:feature-plan`.
+> Schnell erfasste Ideen und Gedanken. Ausarbeitung mit `/dtb:feature-discover`.
 
 ---
 
@@ -67,7 +67,7 @@ Welche Idee moechtest du festhalten? (Freitext)
 
 ### Status-Werte
 - **Offen** — Noch nicht bearbeitet
-- **In Arbeit** — Wird gerade mit `/dtb:feature-plan` ausgearbeitet
+- **In Arbeit** — Wird gerade mit `/dtb:feature-discover` ausgearbeitet
 - **Ausgearbeitet** — Feature-Plan erstellt → `FEATURE_*.md`
 - **Verworfen** — Bewusst nicht weiterverfolgt
 
@@ -80,7 +80,7 @@ Idee #{N} gespeichert: {config.paths.workflows}/INBOX.md
 
   "{Idee-Text}"
 
-Ausarbeiten: /dtb:feature-plan
+Ausarbeiten: /dtb:feature-discover
 ```
 
 **Keine weiteren Rueckfragen.** Zurueck zur aktuellen Arbeit.

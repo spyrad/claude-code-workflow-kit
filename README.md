@@ -58,6 +58,7 @@ cd <dein-projekt>
 | `/dtb:workflow-resume` | Resume after a break |
 | `/dtb:idea` | Quick-capture an idea into the inbox |
 | `/dtb:idea-review` | Review and triage open ideas |
+| `/dtb:feature-discover` | Analyze idea, scan codebase, gather requirements before spec writing |
 | `/dtb:feature-plan` | Create structured feature specifications (with inbox integration) |
 | `/dtb:feature-start` | Start a planned feature from the backlog |
 | `/dtb:impl-plan` | Create implementation plan from feature spec |

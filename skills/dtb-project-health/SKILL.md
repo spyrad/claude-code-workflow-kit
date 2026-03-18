@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, FEATURE_*.md, PLAN_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
+  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
   produces: []
 ---
 
@@ -96,7 +96,7 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Erlaubte Abweichungen: "Geplant" in BACKLOG + beliebiger Status in Spec ist OK solange Spec nicht "In Arbeit"/"Fertig" sagt
 
 **INBOX ↔ Feature-Status:**
-- Idee "In Arbeit" → es sollte noch kein FEATURE_*.md existieren (sonst muesste Status "Ausgearbeitet" sein)
+- Idee "In Arbeit" → es sollte noch kein FEATURE_*.md existieren (sonst muesste Status "Ausgearbeitet" sein). Ein DISCOVERY_*.md-Link ist erlaubt (Discovery-Phase laeuft)
 - Idee "Ausgearbeitet" → das verlinkte FEATURE_*.md muss existieren
 
 #### Check 4: Namenskonventionen
@@ -106,7 +106,7 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Warnung bei Abweichung
 
 **Feature-Dateien:**
-- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `FEATURE_*.md` oder `PLAN_*.md` folgen
+- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `DISCOVERY_*.md`, `FEATURE_*.md` oder `PLAN_*.md` folgen
 - FEHLER bei Abweichung
 
 **Skills:**

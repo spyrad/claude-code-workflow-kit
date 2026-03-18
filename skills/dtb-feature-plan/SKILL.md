@@ -9,9 +9,9 @@ argument-hint: "[Feature-Name]"
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: planning
-  after: dtb:idea-review
+  after: dtb:feature-discover
   next: dtb:impl-plan
-  consumes: [INBOX.md, workflow.config.yaml]
+  consumes: [INBOX.md, DISCOVERY_*.md, workflow.config.yaml]
   produces: [FEATURE_*.md, INBOX.md, BACKLOG.md]
 ---
 
@@ -99,7 +99,12 @@ Verwende folgende Struktur:
 
 ### Beim Ausfuehren des Commands:
 
-1. **Inbox pruefen:**
+1. **Discovery pruefen (optional):**
+   - Suche in `{config.paths.workflows}/features/` nach `DISCOVERY_*.md` die zum Feature-Namen passen
+   - Falls vorhanden: Lies die Discovery-Datei und uebernimm Scope, betroffene Module, Anforderungen und Abhaengigkeiten als Ausgangsbasis fuer die Feature-Spec
+   - Falls nicht vorhanden: Ueberspringe diesen Schritt ohne Hinweis
+
+2. **Inbox pruefen:**
    - Lies `{config.paths.workflows}/INBOX.md`
    - Filtere alle Eintraege mit Status `Offen`
    - Falls offene Ideen vorhanden, zeige:
@@ -116,32 +121,32 @@ Verwende folgende Struktur:
      - Verwende den Idee-Text als Ausgangsbasis fuer die Feature-Diskussion
      - Setze den Inbox-Status auf `In Arbeit`
 
-2. **Feature-Name ermitteln:**
+3. **Feature-Name ermitteln:**
    - Frage den Benutzer nach dem Feature-Namen falls nicht klar
    - Konvertiere zu UPPER_SNAKE_CASE fuer den Dateinamen (z.B. "Chat History" → `FEATURE_CHAT_HISTORY.md`)
 
-3. **Prüfe ob Datei existiert:**
+4. **Prüfe ob Datei existiert:**
    - Falls JA: Frage "Soll ich die existierende Datei ueberschreiben oder aktualisieren?"
    - Falls NEIN: Erstelle neue Datei
 
-4. **Analysiere den Chat-Verlauf:**
+5. **Analysiere den Chat-Verlauf:**
    - Identifiziere Ziel, Scope und Abgrenzung
    - Finde Risiken und Dependencies
    - Sammle Success Criteria
 
-5. **Fuelle das Template:**
+6. **Fuelle das Template:**
    - Nutze konkrete Informationen aus dem Chat
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
    - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in PLAN_*.md)
 
-6. **Speichere die Datei**
+7. **Speichere die Datei**
 
-7. **Inbox-Status aktualisieren:**
+8. **Inbox-Status aktualisieren:**
    - Falls das Feature aus einer Inbox-Idee erstellt wurde:
      - Setze den Status in `INBOX.md` auf `Ausgearbeitet`
      - Ergaenze die Idee-Zeile um den Link: `→ FEATURE_{NAME}.md`
 
-8. **Backlog-Eintrag anbieten:**
+9. **Backlog-Eintrag anbieten:**
 
    Frage den Benutzer:
    ```
@@ -165,7 +170,7 @@ Verwende folgende Struktur:
    Du kannst es spaeter mit /dtb:backlog-status sehen (FEATURE_*.md werden automatisch erkannt).
    ```
 
-9. **Bestaetige:**
+10. **Bestaetige:**
    ```
    Naechste Schritte:
    1. Implementierungsplan erstellen: /dtb:impl-plan [Feature-Name]
