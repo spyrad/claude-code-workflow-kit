@@ -36,6 +36,7 @@ flowchart TD
 
     subgraph MONITORING["Monitoring"]
         wstatus["dtb:workflow-status"]
+        wnext["dtb:workflow-next"]
         bstatus["dtb:backlog-status"]
         health["dtb:project-health"]
         rsync["dtb:repo-sync"]
@@ -70,7 +71,7 @@ flowchart TD
 project-init → idea → idea-review → feature-plan → impl-plan → plan-review → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
 ```
 
-Die Monitoring-Skills (`workflow-status`, `backlog-status`, `project-health`, `repo-sync`, `archive`) stehen seitlich — sie lesen quer ueber alle Artefakte, greifen aber nicht in die Pipeline ein.
+Die Monitoring-Skills (`workflow-next`, `workflow-status`, `backlog-status`, `project-health`, `repo-sync`, `archive`) stehen seitlich — sie lesen quer ueber alle Artefakte, greifen aber nicht in die Pipeline ein.
 
 ---
 
@@ -107,6 +108,7 @@ SESSION
   workflow-resume                       📖       📖     📖    📖       📖
 
 MONITORING
+  workflow-next                   📖     📖       📖     📖    📖
   workflow-status                📖     📖       📖     📖    📖
   backlog-status                        📖       📖     📖
   project-health          📖     📖     📖       📖     📖    📖                                              📖     📖
@@ -185,6 +187,7 @@ GREENFIELD
 ### Monitoring (read-only, kein Pipeline-Flow)
 | Skill | Beschreibung |
 |-------|-------------|
+| `dtb:workflow-next` | Konkreter naechster Schritt pro aktivem Feature |
 | `dtb:workflow-status` | Pipeline-Visualisierung mit Queue-Analyse |
 | `dtb:backlog-status` | Backlog-Uebersicht mit Priorisierung |
 | `dtb:project-health` | Projekt-Linting (10 Check-Kategorien) |

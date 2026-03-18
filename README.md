@@ -67,6 +67,7 @@ cd <dein-projekt>
 | `/dtb:code-review` | Review code changes against project-specific rules |
 | `/dtb:generate-rules` | Generate coding rules/guidelines from codebase analysis |
 | `/dtb:workflow-status` | Pipeline visualization and queue analysis |
+| `/dtb:workflow-next` | Show next concrete action per active feature |
 | `/dtb:backlog-status` | Backlog overview |
 | `/dtb:archive` | Archive completed/discarded items from workflow files |
 | `/dtb:repo-sync` | Repository synchronization |

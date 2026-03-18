@@ -32,7 +32,7 @@ Skills are designed to work together in a session lifecycle:
 
 ### Skill Categories
 
-- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`
+- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`
 - **Idea management**: `idea` (quick capture), `idea-review` (triage)
 - **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`
 - **Project setup**: `project-init`, `project-health`, `project-team`

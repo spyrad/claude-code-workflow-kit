@@ -147,6 +147,7 @@ flowchart LR
 
 ## Verwandte Skills
 
+- `/dtb:workflow-next` — Konkreter naechster Schritt pro Feature
 - `/dtb:backlog-status` — Backlog-Details
 - `/dtb:project-health` — Projekt-Audit
 - `/dtb:workflow-resume` — Session fortsetzen
