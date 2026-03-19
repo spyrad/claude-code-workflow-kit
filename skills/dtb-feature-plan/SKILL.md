@@ -138,6 +138,7 @@ Verwende folgende Struktur:
    - Nutze konkrete Informationen aus dem Chat
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
    - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in PLAN_*.md)
+   - **Max. 500 Zeilen** — laengere Specs verschlechtern die AI-Verarbeitung. Bei komplexen Features: Details in PLAN_*.md auslagern
 
 7. **Speichere die Datei**
 

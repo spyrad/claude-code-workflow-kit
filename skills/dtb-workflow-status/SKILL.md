@@ -56,11 +56,33 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 **Archiv** (`{config.paths.workflows}/archive/ARCHIVE_LOG.md`):
 - Falls vorhanden: Zaehle archivierte Eintraege
 
-## Schritt 2: Mermaid-Flowchart generieren
+## Schritt 2: Quality Gates pro aktivem Feature pruefen
+
+Fuer jedes Feature mit Status "In Arbeit" oder "Geplant" im Backlog: Pruefe welche Gates bestanden sind.
+
+**Gate-Definitionen (in Reihenfolge):**
+
+| Gate | Bestanden wenn |
+|------|---------------|
+| Discovery | `DISCOVERY_*.md` existiert mit Status `Abgeschlossen` |
+| Feature-Spec | `FEATURE_*.md` existiert |
+| Impl-Plan | `PLAN_*.md` existiert |
+| Plan-Review | `PLAN_*.md` Status = `Reviewed` oder `In Umsetzung` |
+| Build/Lint | Letzter `/dtb:build-check` ohne Fehler (aus WORKFLOW_STATUS.md ablesen) |
+| Code-Review | `/dtb:code-review` durchgefuehrt (aus Session-Log oder WORKFLOW_STATUS.md ablesen) |
+
+**Symbole:**
+- `[x]` = Gate bestanden
+- `[ ]` = Gate offen
+- `[-]` = Gate uebersprungen (z.B. Discovery nicht noetig wenn Feature direkt geplant)
+
+Falls keine aktiven Features vorhanden: Sektion weglassen.
+
+## Schritt 3: Mermaid-Flowchart generieren
 
 Erstelle ein `flowchart LR` Diagramm mit einem Knoten pro Pipeline-Stufe. Jeder Knoten zeigt die Stufe und die Anzahl der Items als Label. Verwende die tatsaechlich gezaehlten Werte aus Schritt 1.
 
-## Schritt 3: Queue-Tabelle generieren
+## Schritt 4: Queue-Tabelle generieren
 
 Erstelle eine kompakte Tabelle mit den Spalten:
 - **Stufe**: Name der Pipeline-Stufe
@@ -68,11 +90,11 @@ Erstelle eine kompakte Tabelle mit den Spalten:
 - **Wartend**: Aeltester Eintrag oder `—` wenn leer
 - **Naechster Skill**: Welcher `/dtb:*` Skill als naechstes greift
 
-## Schritt 4: Skills & Agents Tabelle
+## Schritt 5: Skills & Agents Tabelle
 
 Zeige welche Skills und Agents an welchem Uebergang beteiligt sind (statische Referenz).
 
-## Schritt 5: Engpass-Analyse
+## Schritt 6: Engpass-Analyse
 
 Identifiziere wo sich Items stauen:
 - Welche Stufe hat die meisten wartenden Items?
@@ -101,6 +123,15 @@ flowchart LR
     TEST --> DONE["Abgenommen\n{n_abgenommen}"]
     DONE --> ARCHIV["Archiv\n{n_archiv}"]
 ```
+
+## Quality Gates (aktive Features)
+
+| Feature | Discovery | Spec | Plan | Review | Build | Code-Review |
+|---------|-----------|------|------|--------|-------|-------------|
+| {Feature-Name} | [x] | [x] | [x] | [ ] | [ ] | [ ] |
+
+{Falls kein Gate offen: "Alle Gates bestanden — bereit fuer Abnahme."}
+{Falls Gates offen: "Naechstes offenes Gate: {Gate-Name} → /dtb:{skill}"}
 
 ## Queue-Details
 
@@ -140,7 +171,7 @@ flowchart LR
 ## Richtlinien
 
 - **Read-Only**: Dieser Skill aendert keine Dateien
-- **Kompakt**: Max 80 Zeilen Output
+- **Kompakt**: Max 90 Zeilen Output (Quality Gates nur bei aktiven Features zeigen)
 - **Deutsch**: Alle Texte auf Deutsch
 - **Doppel-Format**: Mermaid-Diagramm fuer visuelle Darstellung, Tabelle als Fallback
 - **Actionable**: Konkrete Empfehlung am Ende

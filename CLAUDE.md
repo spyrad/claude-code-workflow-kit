@@ -74,6 +74,7 @@ The `frameworks/claude-code-memory-framework/` provides templates for three patt
 - File paths in skills use forward slashes and are relative to the target project root
 - Dates always use `YYYY-MM-DD` format, never relative terms
 - WORKFLOW_STATUS.md: 1-line summaries with links only, no detail tables — details belong in session logs or test reports
+- Spec size limits: `FEATURE_*.md` and `PLAN_*.md` max 500 lines each (longer specs degrade AI processing quality)
 - Pipeline metadata in frontmatter: `stage`, `after`, `next`, `consumes`, `produces`
 - `workflow-status` reads pipeline frontmatter to auto-generate the flow visualization
 - `dtb:code-review` reads rules from `{config.paths.rules}/` to validate implementations

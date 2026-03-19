@@ -11,7 +11,7 @@ pipeline:
   after: dtb:plan-review
   next: dtb:build-check
   consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md]
-  produces: [BACKLOG.md, WORKFLOW_STATUS.md]
+  produces: [BACKLOG.md, WORKFLOW_STATUS.md, IMPL_STATUS_*.md]
 ---
 
 # Neues Feature starten
@@ -81,6 +81,20 @@ Nach Auswahl durch den Benutzer:
 [Falls PLAN_*.md vorhanden: Erste Phase aus dem Implementierungsplan mit Ziel und ersten Schritten]
 [Falls PLAN_*.md NICHT vorhanden: "Kein Implementierungsplan vorhanden. Erstelle einen mit /dtb:impl-plan"]
 
+## Arbeitsrhythmus: 3x3
+
+[Falls PLAN_*.md vorhanden:]
+Wir arbeiten im **3x3-Rhythmus**:
+1. Ich setze max. 3 Schritte aus dem Plan um
+2. Fasse zusammen was erledigt wurde
+3. Beschreibe die naechsten 3 Schritte
+4. Warte auf dein Feedback
+
+Erster Block: Schritte [1.1 – 1.3 aus dem Plan]
+
+Bei Kontextverlust oder nach >6 Schritten:
+→ Erstelle `IMPL_STATUS_[NAME].md` und setze in neuer Konversation fort.
+
 Bereit? Sage "Los" oder stelle Fragen.
 ```
 
@@ -91,5 +105,6 @@ Bereit? Sage "Los" oder stelle Fragen.
 - **Nur "Geplant":** Zeige ausschliesslich Features mit Status "Geplant", keine "In Arbeit" oder "Abgeschlossen"
 - **Status-Update:** BACKLOG.md und WORKFLOW_STATUS.md muessen aktualisiert werden
 - **Feature-Spec lesen:** Immer die vollstaendige Spec lesen um den Kontext zu zeigen
+- **3x3-Rhythmus:** Wenn ein PLAN_*.md vorhanden ist, weise auf den Arbeitsrhythmus hin (max. 3 Schritte → Zusammenfassung → Feedback → naechste 3)
 - **Kompakt:** Max 40 Zeilen Output
 - **Deutsch:** Alle Texte auf Deutsch

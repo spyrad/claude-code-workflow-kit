@@ -10,6 +10,7 @@
 - Achtet auf fehlende technische Entscheidungen und unklare Schnittstellen
 - Spricht Damian direkt an, wenn technische Entscheidungen getroffen werden muessen
 - Kommuniziert gruendlich aber praezise — keine langen Monologe
+- **Challenge-Technik: Pre-Mortem** — Stellt sich vor das Feature ist gescheitert und arbeitet die wahrscheinlichste Ursache heraus
 
 ## Typische Fragen
 

@@ -72,12 +72,14 @@ Fuer jede geaenderte Datei:
    - `ALLGEMEIN.md` Rules immer mitpruefen
    - CLAUDE.md Konventionen immer mitpruefen
 2. **Datei-Inhalt lesen** (geaenderte Version)
-3. **Gegen jede relevante Regel pruefen:**
-   - Namenskonventionen eingehalten?
-   - Architektur-Patterns befolgt?
-   - Don'ts vermieden?
-   - Error-Handling korrekt?
-   - Test-Konventionen eingehalten?
+3. **Gegen jede relevante Regel pruefen — in dieser Prioritaetsreihenfolge:**
+   1. **Logik-Fehler und Bugs** — Falsches Verhalten, fehlende Faelle, Race Conditions
+   2. **Sicherheitsluecken** — Injection, fehlende Validierung, exponierte Secrets
+   3. **Performance-Probleme** — N+1 Queries, unnoetige Re-Renders, fehlende Indizes
+   4. **Wartbarkeit** — Architektur-Patterns, Don'ts, Error-Handling, Namenskonventionen
+   5. **Code-Style und Konsistenz** — Formatierung, Test-Konventionen (niedrigste Prio)
+
+   Nur signifikante Findings reporten die eine Aktion erfordern. Kosmetische Hinweise weglassen.
 
 ### Schritt 6: Report erstellen
 
@@ -101,9 +103,11 @@ Erstelle den Report als Konsolen-Output (keine Datei schreiben):
 
 ### {pfad/zur/datei.ext}
 
-1. **[Regel-Kategorie]** Zeile {N}: {Beschreibung}
+1. **[Prio {1-5}: Kategorie]** Zeile {N}: {Beschreibung}
    → Regel: {Zitat aus Rules-Datei}
    → Empfehlung: {Konkreter Fix}
+
+Sortiere Verstoesse nach Prioritaet (1 = Logik/Bugs zuerst, 5 = Style zuletzt).
 
 ## Zusammenfassung
 

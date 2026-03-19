@@ -12,7 +12,7 @@ pipeline:
   after: dtb:feature-plan
   next: dtb:plan-review
   consumes: [FEATURE_*.md]
-  produces: [PLAN_*.md]
+  produces: [PLAN_*.md, IMPL_STATUS_*.md]
 ---
 
 # Implementierungsplan erstellen
@@ -62,12 +62,19 @@ Verwende folgende Struktur:
 
 ### Schritte
 
-#### Schritt 1: [Name]
+#### Schritt 1.1: [Name]
 - **Zweck:** [Warum?]
 - **Dateien:** [Welche Dateien werden geaendert/erstellt?]
 - **Input:** [Was wird benoetigt?]
 - **Output:** [Was wird erzeugt?]
-- **Geschaetzte Dauer:** [Zeit]
+
+#### Schritt 1.2: [Name]
+...
+
+#### Schritt 1.3: [Name]
+...
+
+> **3x3-Block:** Nach Schritt 1.3 → Zusammenfassung + Feedback einholen
 
 ### Deliverables
 - [ ] [Output 1]
@@ -82,6 +89,38 @@ Verwende folgende Struktur:
 | Thema | Optionen | Entscheidung | Begruendung |
 |-------|----------|-------------|-------------|
 | [Thema] | [A, B] | [Offen/A/B] | [Warum?] |
+
+---
+
+## 3x3 Umsetzungsrhythmus
+
+Dieser Plan ist fuer die Umsetzung im **3x3-Rhythmus** ausgelegt:
+
+1. Implementiere max. 3 Schritte aus dem Plan
+2. Fasse kurz zusammen was erledigt wurde
+3. Beschreibe die naechsten 3 Schritte
+4. **Stoppe und warte auf Feedback** bevor du weiterarbeitest
+
+Bei Kontextverlust oder nach >6 Schritten: Erstelle `IMPL_STATUS_[NAME].md` im features-Ordner:
+
+```
+# Impl-Status: [Feature-Name]
+**Stand:** [Datum]
+**Plan:** PLAN_[NAME].md
+
+## Erledigte Schritte
+- [x] 1.1: [Name] — [kurzes Ergebnis]
+- [x] 1.2: [Name] — [kurzes Ergebnis]
+
+## Naechste Schritte (laut Plan)
+- [ ] 1.3: [Name]
+- [ ] 1.4: [Name]
+
+## Erkenntnisse / Abweichungen
+- [Was lief anders als geplant? Scope-Creep erkannt?]
+```
+
+Setze in einer neuen Konversation fort — dort `IMPL_STATUS_[NAME].md` und `PLAN_[NAME].md` als Kontext laden.
 
 ---
 
@@ -120,6 +159,8 @@ Verwende folgende Struktur:
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
    - Jede Phase braucht ein klares Ziel, Schritte mit Dateibezug, und Checkpoint-Kriterien
    - Technische Entscheidungen: Optionen auflisten, Entscheidung kann "Offen" sein
+   - **3x3-Blockung:** Nummeriere Schritte fortlaufend pro Phase (1.1, 1.2, 1.3, 1.4 ...) und setze nach jedem 3. Schritt einen `> 3x3-Block`-Hinweis. Jeder Schritt soll ein konkretes, testbares Ergebnis liefern.
+   - **Max. 500 Zeilen** — laengere Plaene verschlechtern die AI-Verarbeitung. Bei sehr grossen Features: in mehrere Phasen-Dateien aufteilen oder Details in Schritten knapp halten.
 
 6. **Speichere die Datei**
 

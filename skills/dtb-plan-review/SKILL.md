@@ -56,8 +56,14 @@ Alle drei Agenten bewerten, was am Plan gut ist — jeweils aus ihrer Perspektiv
 ### Runde 2 — Bedenken & Risiken
 Alle drei Agenten identifizieren Probleme aus ihrer Perspektive: technische Risiken und Abhaengigkeiten (Architekt), Scope-Creep und Aufwand-Nutzen (Pragmatiker), unrealistische Zeitschaetzungen und fehlende Implementierungsschritte (Senior Dev).
 
-### Runde 3 — Fragen an Damian
-Alle drei Agenten stellen gezielte Entscheidungsfragen an Damian. Die Fragen sollen konkret und entscheidungsrelevant sein — keine rhetorischen Fragen.
+### Runde 3 — Challenge-Runde (Anti-Bias)
+Alle drei Agenten wenden gezielt kritische Analysetechniken an:
+- **Architekt:** Pre-Mortem — "Angenommen das Feature ist gescheitert. Was war die wahrscheinlichste Ursache?"
+- **Pragmatiker:** Devil's Advocate — "Was spricht GEGEN diesen Plan? Welche einfachere Alternative wurde uebersehen?"
+- **Senior Dev:** Unknown Unknowns — "Was wissen wir NICHT, das uns spaeter ueberraschen koennte?"
+
+### Runde 4 — Fragen an Damian
+Alle drei Agenten stellen gezielte Entscheidungsfragen an Damian. Die Fragen sollen konkret und entscheidungsrelevant sein — keine rhetorischen Fragen. Fragen koennen sich auf Erkenntnisse aus der Challenge-Runde beziehen.
 
 ## Schritt 4: Zusammenfassung
 
@@ -101,7 +107,17 @@ Gib die Diskussion in folgendem Format aus:
 
 ---
 
-## Runde 3: Fragen an Damian
+## Runde 3: Challenge (Anti-Bias)
+
+**🏗️ Architekt (Pre-Mortem):** "Angenommen dieses Feature ist gescheitert — [wahrscheinlichstes Szenario und Ursache]."
+
+**⚡ Pragmatiker (Devil's Advocate):** "Gegen diesen Plan spricht: [staerkstes Gegenargument]. Alternative: [einfachere Loesung]."
+
+**💻 Senior Dev (Unknown Unknowns):** "Was wir nicht wissen: [versteckte Risiken, fehlende Informationen, ungetestete Annahmen]."
+
+---
+
+## Runde 4: Fragen an Damian
 
 **🏗️ Architekt:** "Damian, [konkrete technische Entscheidungsfrage]?"
 
