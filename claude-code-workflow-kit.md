@@ -14,6 +14,11 @@ flowchart TD
         review["dtb:idea-review"]
     end
 
+    subgraph BUG["Bug"]
+        bugreport["dtb:bug-report"]
+        debugplan["dtb:debug-plan"]
+    end
+
     subgraph PLANNING["Planning"]
         fplan["dtb:feature-plan"]
         iplan["dtb:impl-plan"]
@@ -48,7 +53,7 @@ flowchart TD
         roadmap["dtb:greenfield-roadmap"]
     end
 
-    %% Pipeline Flow
+    %% Feature Pipeline
     init --> resume
     init --> team
     idea --> review
@@ -61,6 +66,10 @@ flowchart TD
     codereview --> checkpoint
     checkpoint --> resume
     prd --> roadmap
+
+    %% Bug Pipeline
+    bugreport --> debugplan
+    debugplan --> fstart
 ```
 
 ---
@@ -68,10 +77,11 @@ flowchart TD
 ## Hauptpipeline
 
 ```
-project-init → idea → idea-review → feature-plan → impl-plan → plan-review → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
+Feature: project-init → idea → idea-review → feature-plan → impl-plan → plan-review → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
+Bug:     bug-report → debug-plan → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
 ```
 
-Die Monitoring-Skills (`workflow-next`, `workflow-status`, `backlog-status`, `project-health`, `repo-sync`, `archive`) stehen seitlich — sie lesen quer ueber alle Artefakte, greifen aber nicht in die Pipeline ein.
+Die Bug-Pipeline muendet bei `feature-start` in die Feature-Pipeline ein. Die Monitoring-Skills (`workflow-next`, `workflow-status`, `backlog-status`, `project-health`, `repo-sync`, `archive`) stehen seitlich — sie lesen quer ueber alle Artefakte, greifen aber nicht in die Pipeline ein.
 
 ---
 
@@ -80,44 +90,48 @@ Die Monitoring-Skills (`workflow-next`, `workflow-status`, `backlog-status`, `pr
 Wer liest was, wer schreibt was:
 
 ```
-                          CONFIG INBOX BACKLOG FEATURE PLAN WF_STATUS SESSION TEAM ARCHIVE AGENTS PRD ROADMAP CLAUDE RULES
-                          ────── ───── ─────── ─────── ──── ───────── ─────── ──── ─────── ────── ─── ─────── ────── ─────
+                          CONFIG INBOX BACKLOG FEATURE PLAN BUG  WF_STATUS SESSION TEAM ARCHIVE AGENTS PRD ROADMAP CLAUDE RULES
+                          ────── ───── ─────── ─────── ──── ──── ───────── ─────── ──── ─────── ────── ─── ─────── ────── ─────
 SETUP
-  project-init            ✏️                                  ✏️                                              ✏️
-  project-team            📖                                                   ✏️
-  generate-rules          📖                                                                            📖            ✏️
+  project-init            ✏️                                       ✏️                                              ✏️
+  project-team            📖                                                         ✏️
+  generate-rules          📖                                                                                 📖            ✏️
 
 IDEA
   idea                           ✏️
   idea-review                    ✏️
 
+BUG
+  bug-report                            ✏️                ✏️
+  debug-plan                                              ✏️
+
 PLANNING
   feature-plan            📖     ✏️     ✏️       ✏️
   impl-plan                                      📖     ✏️
-  plan-review                                    📖     📖                                  📖
+  plan-review                                    📖     📖                                       📖
 
 IMPLEMENTATION
-  feature-start                         ✏️       📖     📖    ✏️
+  feature-start                         ✏️       📖     📖  📖   ✏️
 
 DEVELOPMENT
   build-check             📖
-  code-review             📖                                                                            📖     📖
+  code-review             📖                                                                                 📖     📖
 
 SESSION
-  workflow-checkpoint            📖     ✏️       ✏️                ✏️
-  workflow-resume                       📖       📖     📖    📖       📖
+  workflow-checkpoint            📖     ✏️       ✏️                  ✏️
+  workflow-resume                       📖       📖     📖       📖        📖
 
 MONITORING
-  workflow-next                   📖     📖       📖     📖    📖
-  workflow-status                📖     📖       📖     📖    📖
-  backlog-status                        📖       📖     📖
-  project-health          📖     📖     📖       📖     📖    📖                                              📖     📖
+  workflow-next                   📖     📖       📖     📖  📖   📖
+  workflow-status                📖     📖       📖     📖  📖   📖
+  backlog-status                        📖       📖     📖  📖
+  project-health          📖     📖     📖       📖     📖  📖   📖                                               📖     📖
   repo-sync               📖
-  archive                        ✏️     ✏️       📖     📖                     ✏️
+  archive                        ✏️     ✏️       📖     📖  📖                      ✏️
 
 GREENFIELD
-  greenfield-prd                                                                                📖
-  greenfield-roadmap                                                                            📖    📖
+  greenfield-prd                                                                                     📖
+  greenfield-roadmap                                                                                 📖    📖
 ```
 
 `📖 = liest (consumes)` | `✏️ = schreibt (produces)`
@@ -134,6 +148,7 @@ GREENFIELD
 | `BACKLOG.md` | `dtb-project/project-workflows/` | Feature-Backlog mit Priorisierung |
 | `WORKFLOW_STATUS.md` | `dtb-project/project-workflows/` | Kompaktes Status-Dashboard (max 60-80 Zeilen) |
 | `FEATURE_*.md` | `dtb-project/project-workflows/features/` | Feature-Spezifikationen (UPPER_SNAKE_CASE) |
+| `BUG_*.md` | `dtb-project/project-workflows/features/` | Bug-Reports mit Severity und Status (UPPER_SNAKE_CASE) |
 | `PLAN_*.md` | `dtb-project/project-workflows/features/` | Implementierungsplaene (gepaart mit FEATURE_*.md) |
 | `session-log` | `dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md` | Tages-Changelogs (append per Session) |
 | `TEAM.md` | `dtb-project/project-strategy/` | Projektteam-Dokumentation |
@@ -159,6 +174,12 @@ GREENFIELD
 |-------|-------------|------------|------------|
 | `dtb:idea` | Idee schnell in Inbox erfassen | — | `dtb:idea-review` |
 | `dtb:idea-review` | Inbox-Ideen sichten und bewerten | `dtb:idea` | `dtb:feature-plan` |
+
+### Bug
+| Skill | Beschreibung | Vorgaenger | Nachfolger |
+|-------|-------------|------------|------------|
+| `dtb:bug-report` | Bug mit Severity erfassen | — | `dtb:debug-plan` |
+| `dtb:debug-plan` | Root-Cause analysieren + Fix-Strategie | `dtb:bug-report` | `dtb:feature-start` |
 
 ### Planning
 | Skill | Beschreibung | Vorgaenger | Nachfolger |

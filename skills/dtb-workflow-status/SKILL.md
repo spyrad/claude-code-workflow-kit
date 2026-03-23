@@ -11,7 +11,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, WORKFLOW_STATUS.md]
+  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, WORKFLOW_STATUS.md]
   produces: []
 ---
 
@@ -49,6 +49,10 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 - Zaehle Features ohne PLAN_*.md (= "Feature-Spec ohne Plan")
 - Zaehle PLAN_*.md mit Status "Entwurf" (= wartend auf Review)
 - Zaehle PLAN_*.md mit Status "Reviewed" (= bereit fuer Backlog/Start)
+
+**BUG_*.md** (`{config.paths.workflows}/features/BUG_*.md`):
+- Lies jeweils den `**Status:**`-Wert aus den ersten 10 Zeilen (Offen / Analysiert / In Arbeit / Behoben)
+- Zaehle Bugs nach Status: `Offen`, `Analysiert`, `In Arbeit`, `Behoben`
 
 **WORKFLOW_STATUS.md** (`{config.paths.workflows}/WORKFLOW_STATUS.md`):
 - Identifiziere aktuell laufende Arbeit (Sektion "Laufende Arbeit" o.ae.)
@@ -122,6 +126,12 @@ flowchart LR
     DEV --> TEST["Test\n{n_test} Fertig"]
     TEST --> DONE["Abgenommen\n{n_abgenommen}"]
     DONE --> ARCHIV["Archiv\n{n_archiv}"]
+
+    %% Bug Pipeline
+    BUGREP["Bug-Report\n{n_bug_offen} Offen"] --> DEBUG["Debug-Plan\n{n_bug_analysiert} Analysiert"]
+    DEBUG --> BUGFIX["Bug-Fix\n{n_bug_in_arbeit} In Arbeit"]
+    BUGFIX --> BUGDONE["Bug Behoben\n{n_bug_behoben}"]
+    BUGDONE --> ARCHIV
 ```
 
 ## Quality Gates (aktive Features)
@@ -146,6 +156,11 @@ flowchart LR
 | In Arbeit | {n} | {aeltester} | `/dtb:build-check` |
 | Fertig zum Testen | {n} | {aeltester} | — |
 | Abgenommen | {n} | {aeltester} | `/dtb:workflow-checkpoint` |
+| **Bug-Pipeline** | | | |
+| Bugs (Offen) | {n} | {aeltester} | `/dtb:debug-plan` |
+| Bugs (Analysiert) | {n} | {aeltester} | `/dtb:feature-start` |
+| Bugs (In Arbeit) | {n} | {aeltester} | `/dtb:build-check` |
+| Bugs (Behoben) | {n} | {aeltester} | `/dtb:archive` |
 | Archiv | {n} | — | — |
 
 ## Beteiligte Skills & Agents
@@ -154,6 +169,8 @@ flowchart LR
 |-----------|-------|-------|
 | Idee erfassen | `/dtb:idea` | — |
 | Idee bewerten | `/dtb:idea-review` | — |
+| Bug erfassen | `/dtb:bug-report` | — |
+| Bug analysieren | `/dtb:debug-plan` | — |
 | Feature Discovery | `/dtb:feature-discover` | — |
 | Feature planen | `/dtb:feature-plan` | — |
 | Impl-Plan erstellen | `/dtb:impl-plan` | — |

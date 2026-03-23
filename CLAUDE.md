@@ -35,6 +35,7 @@ Skills are designed to work together in a session lifecycle:
 - **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`
 - **Idea management**: `idea` (quick capture), `idea-review` (triage)
 - **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`
+- **Bug workflow**: `bug-report` (quick capture with severity), `debug-plan` (root-cause analysis + fix strategy)
 - **Project setup**: `project-init`, `project-health`, `project-team`
 - **Greenfield**: `greenfield-prd`, `greenfield-roadmap`
 - **Maintenance**: `archive` (move completed/discarded items to archive)
@@ -53,6 +54,7 @@ Reusable agent definitions in `agents/` are referenced by skills (e.g. `dtb:plan
 - `dtb-project/project-workflows/WORKFLOW_STATUS.md` — Status dashboard (overwritten each update, max 60-80 lines)
 - `dtb-project/project-workflows/features/DISCOVERY_*.md` — Discovery docs (requirements gathering before spec writing)
 - `dtb-project/project-workflows/features/FEATURE_*.md` — Feature specs (UPPER_SNAKE_CASE naming)
+- `dtb-project/project-workflows/features/BUG_*.md` — Bug reports (UPPER_SNAKE_CASE naming, same directory as features)
 - `dtb-project/project-workflows/features/PLAN_*.md` — Implementation plans (paired with FEATURE_*.md by name)
 - `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`)
 - `dtb-project/project-workflows/archive/` — Archived items: completed features, discarded ideas, archive log

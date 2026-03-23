@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md]
+  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md, BUG_*.md]
   produces: []
 ---
 
@@ -31,15 +31,16 @@ Lies die Datei:
 
 ## Schritt 2: Feature-Specs und Plaene scannen
 
-Finde alle `FEATURE_*.md` Dateien in `{config.paths.workflows}/features/` und lies jeweils die ersten 20 Zeilen (Titel, Status, Zusammenfassung).
+Finde alle `FEATURE_*.md` und `BUG_*.md` Dateien in `{config.paths.workflows}/features/` und lies jeweils die ersten 20 Zeilen (Titel, Status, Zusammenfassung).
 
 Pruefe fuer jedes Feature ob eine zugehoerige `PLAN_*.md` existiert (gleicher Name).
+Pruefe fuer jeden Bug ob ein Analyse-Abschnitt vorhanden ist (Status `Analysiert` oder `Behoben`).
 
 ## Schritt 3: Abgleich
 
-Vergleiche die gefundenen `FEATURE_*.md` Dateien mit den Eintraegen in BACKLOG.md:
-- Markiere Features die in BACKLOG.md **fehlen** (FEATURE_*.md existiert aber kein Backlog-Eintrag)
-- Markiere Features deren Status in BACKLOG.md **veraltet** sein koennte (z.B. FEATURE_*.md sagt "Abgeschlossen" aber BACKLOG sagt "Geplant")
+Vergleiche die gefundenen `FEATURE_*.md` und `BUG_*.md` Dateien mit den Eintraegen in BACKLOG.md:
+- Markiere Features/Bugs die in BACKLOG.md **fehlen** (Datei existiert aber kein Backlog-Eintrag)
+- Markiere Features/Bugs deren Status in BACKLOG.md **veraltet** sein koennte
 
 ## Schritt 4: Backlog-Report erstellen
 
@@ -74,13 +75,18 @@ Erstelle einen kompakten Report:
 
 ---
 
-## Nicht im Backlog (FEATURE_*.md ohne Eintrag)
+## Offene Bugs
+| Bug | Severity | Status | Analyse | Datei |
+|-----|----------|--------|---------|-------|
+| {Bug-Name} | {Severity} | {Status} | ✅/❌ | {Datei} |
+
+## Nicht im Backlog (FEATURE_*.md / BUG_*.md ohne Eintrag)
 | Datei | Titel | Status |
 |-------|-------|--------|
 | {Datei} | {Titel} | {Status} |
 
-> Diese Features haben eine Spec-Datei, sind aber nicht in BACKLOG.md eingetragen.
-> Trage sie manuell in BACKLOG.md ein oder nutze `/dtb:feature-plan` beim naechsten Feature-Update.
+> Diese Features/Bugs haben eine Datei, sind aber nicht in BACKLOG.md eingetragen.
+> Trage sie manuell ein oder nutze `/dtb:feature-plan` bzw. `/dtb:bug-report`.
 
 ---
 

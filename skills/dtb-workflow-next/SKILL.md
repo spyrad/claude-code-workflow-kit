@@ -12,7 +12,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BACKLOG.md, WORKFLOW_STATUS.md]
+  consumes: [INBOX.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, BACKLOG.md, WORKFLOW_STATUS.md]
   produces: []
 ---
 
@@ -35,11 +35,14 @@ Scanne die Workflow-Artefakte und bestimme pro Feature die aktuelle Pipeline-Pos
 - `{config.paths.workflows}/features/DISCOVERY_*.md` — Discovery-Dokumente
 - `{config.paths.workflows}/features/FEATURE_*.md` — Feature-Specs
 - `{config.paths.workflows}/features/PLAN_*.md` — Implementierungsplaene (Status aus ersten 10 Zeilen)
+- `{config.paths.workflows}/features/BUG_*.md` — Bug-Reports (Status aus ersten 10 Zeilen)
 - `{config.paths.workflows}/BACKLOG.md` — Backlog-Eintraege mit Status
 
 **Pipeline-Position pro Feature ermitteln:**
 
 Fuer jedes Feature den "weitesten" Stand bestimmen:
+
+**Feature-Pipeline:**
 
 | Artefakt-Kombination | Pipeline-Position | Naechster Skill |
 |---|---|---|
@@ -51,6 +54,15 @@ Fuer jedes Feature den "weitesten" Stand bestimmen:
 | BACKLOG Status `In Arbeit` | In Entwicklung | `/dtb:build-check` |
 | BACKLOG Status `Fertig zum Testen` | Test ausstehend | Manuell testen |
 | BACKLOG Status `Abgenommen` | Abschluss | `/dtb:workflow-checkpoint` |
+
+**Bug-Pipeline:**
+
+| Artefakt-Kombination | Pipeline-Position | Naechster Skill |
+|---|---|---|
+| BUG_*.md Status `Offen` | Analyse ausstehend | `/dtb:debug-plan [NAME]` |
+| BUG_*.md Status `Analysiert` | Fix ausstehend | `/dtb:feature-start` oder direkt fixen |
+| BUG_*.md Status `In Arbeit` | Fix in Arbeit | `/dtb:build-check` |
+| BUG_*.md Status `Behoben` | Abschluss | `/dtb:workflow-checkpoint` |
 
 ## Schritt 3: Sortieren & priorisieren
 
@@ -95,7 +107,7 @@ Naechste Schritte:
 - **Kompakt**: Max 15 Zeilen Output (ohne Argument), max 12 Zeilen (mit Argument)
 - **Keine Rueckfragen**: Sofort Output liefern
 - **Deutsch**: Alle Texte auf Deutsch
-- **Leer-Zustand**: Bei 0 aktiven Features: "Keine aktiven Features. Starte mit `/dtb:idea` oder `/dtb:feature-plan`."
+- **Leer-Zustand**: Bei 0 aktiven Features/Bugs: "Keine aktiven Features oder Bugs. Starte mit `/dtb:idea`, `/dtb:feature-plan` oder `/dtb:bug-report`."
 
 ## Verwandte Skills
 

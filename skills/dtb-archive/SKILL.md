@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md]
+  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md]
   produces: [ARCHIVE_LOG.md, INBOX.md, BACKLOG.md]
 ---
 
@@ -46,6 +46,9 @@ Pruefe die folgenden Quellen und sammle alle Kandidaten:
 ### Feature-Specs
 - `{config.paths.workflows}/features/FEATURE_*.md` mit `**Status:** Abgeschlossen`
 
+### Bug-Reports
+- `{config.paths.workflows}/features/BUG_*.md` mit `**Status:** Behoben`
+
 ---
 
 ## Schritt 3: Uebersicht zeigen
@@ -62,6 +65,9 @@ Backlog:
 
 Feature-Specs:
   - FEATURE_{NAME}.md (Abgeschlossen)
+
+Bug-Reports:
+  - BUG_{NAME}.md (Behoben)
 
 Alles archivieren? (Ja / Auswahl treffen / Abbrechen)
 ```
@@ -87,12 +93,14 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 | YYYY-MM-DD | Idee | #{N} "{Text}" | INBOX.md | Verworfen |
 | YYYY-MM-DD | Idee | #{N} "{Text}" | INBOX.md | Ausgearbeitet → FEATURE_*.md |
 | YYYY-MM-DD | Feature | {Name} | BACKLOG.md | Abgeschlossen |
+| YYYY-MM-DD | Bug | {Name} | BUG_*.md | Behoben |
 ```
 
 ### 4b: Feature-Specs und Plaene verschieben
 
 - Verschiebe abgeschlossene `FEATURE_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
 - Verschiebe die zugehoerige `DISCOVERY_*.md` und `PLAN_*.md` mit (falls vorhanden, gleicher Name)
+- Verschiebe behobene `BUG_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
 
 ### 4c: INBOX.md bereinigen
 

@@ -15,7 +15,7 @@ pipeline:
   stage: idea | planning | implementation | development | session | monitoring | setup | greenfield
   after: dtb:<predecessor>    # or null
   next: dtb:<successor>       # or null
-  consumes: [ARTIFACT_*.md]   # artifacts read by this skill
+  consumes: [ARTIFACT_*.md]   # artifacts read by this skill (FEATURE_*, PLAN_*, BUG_*, etc.)
   produces: [ARTIFACT_*.md]   # artifacts written by this skill
 ---
 ```
@@ -37,6 +37,15 @@ pipeline:
 | `next` | string/null | Successor skill (`dtb:<name>`) or `null` if terminal |
 | `consumes` | list | Artifact patterns this skill reads (e.g. `FEATURE_*.md`, `INBOX.md`) |
 | `produces` | list | Artifact patterns this skill writes (e.g. `PLAN_*.md`) |
+
+### Artifact status values
+
+| Artifact | Valid status values |
+|----------|---------------------|
+| `FEATURE_*.md` | Geplant, In Arbeit, Fertig zum Testen, Abgenommen, Abgeschlossen, Pausiert |
+| `PLAN_*.md` | Entwurf, Reviewed, In Umsetzung, Abgeschlossen |
+| `BUG_*.md` | Offen, Analysiert, In Arbeit, Behoben |
+| `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen |
 
 ## Directory & naming conventions
 

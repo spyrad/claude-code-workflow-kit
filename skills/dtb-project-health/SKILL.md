@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
+  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
   produces: []
 ---
 
@@ -54,6 +54,16 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Pruefe ob jede Datei in BACKLOG.md referenziert wird
 - Nicht referenzierte = Orphan → FEHLER
 
+**Bugs → BACKLOG (Orphan-Check):**
+- Liste alle `BUG_*.md` in `{config.paths.workflows}/features/`
+- Pruefe ob jede Datei in BACKLOG.md referenziert wird
+- Nicht referenzierte = INFO (Bugs muessen nicht zwingend im Backlog stehen, aber Warnung bei Severity "Kritisch" oder "Hoch")
+
+**Bug-Status-Konsistenz:**
+- Pruefe ob jede `BUG_*.md` einen gueltigen Status hat (Offen, Analysiert, In Arbeit, Behoben)
+- Bugs mit Status "Analysiert" sollten einen Analyse-Abschnitt enthalten → WARNUNG wenn fehlend
+- Bugs mit Status "Offen" aelter als 14 Tage → WARNUNG
+
 **PLAN ↔ FEATURE Pairing:**
 - Liste alle `PLAN_*.md` in `{config.paths.workflows}/features/`
 - Pruefe ob zu jeder `PLAN_*.md` eine passende `FEATURE_*.md` existiert (gleicher Name)
@@ -76,7 +86,7 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
   - Warnung bei verwaisten Feature-Specs im Archiv (ohne Log-Eintrag)
 
 **Archiv-Empfehlung:**
-- Zaehle verworfene/ausgearbeitete Eintraege in INBOX.md und abgeschlossene Features in BACKLOG.md
+- Zaehle verworfene/ausgearbeitete Eintraege in INBOX.md, abgeschlossene Features in BACKLOG.md und behobene Bugs
 - Warnung wenn mehr als 5 archivierbare Eintraege vorhanden → Empfehlung: `/dtb:archive`
 
 **WORKFLOW_STATUS → Logs:**
@@ -106,7 +116,7 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Warnung bei Abweichung
 
 **Feature-Dateien:**
-- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `DISCOVERY_*.md`, `FEATURE_*.md` oder `PLAN_*.md` folgen
+- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `DISCOVERY_*.md`, `FEATURE_*.md`, `PLAN_*.md` oder `BUG_*.md` folgen
 - FEHLER bei Abweichung
 
 **Skills:**
@@ -200,6 +210,8 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 ## Querverweise
 - ✅/❌ BACKLOG → Features: {X}/{Y} Referenzen gueltig
 - ✅/❌ Features → BACKLOG: {Orphan-Details falls vorhanden}
+- ✅/ℹ️ Bugs → BACKLOG: {N} Bugs, davon {M} ohne Backlog-Eintrag
+- ✅/⚠️ Bug-Status: {N}/{M} konsistent
 - ✅/❌ INBOX → Features: {X}/{Y} ausgearbeitete Ideen mit gueltigem Link
 - ✅/❌ Archiv: {Status}
 - ✅/⚠️ Archivierbare Eintraege: {N} (Empfehlung: /dtb:archive bei >5)
