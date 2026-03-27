@@ -107,7 +107,37 @@ dtb-project/
 ├── project-workflows/
 │   └── features/
 ├── project-strategy/
-└── project-testing/
+│   └── input/
+├── project-testing/
+├── project-infrastructure/
+│   └── input/
+├── project-requirements/
+│   └── input/
+└── integrations/
+    └── vendor-x/
+        └── input/
+```
+
+Lege in jedem `input/`-Ordner eine `.gitkeep`-Datei an damit die Verzeichnisse im Git versioniert werden.
+
+Lege in `integrations/vendor-x/input/` zusaetzlich eine `README.md` an:
+
+```markdown
+# Integrations
+
+Dieses Verzeichnis enthaelt Dokumente zu externen Integrationen und Vendor-APIs.
+
+## Struktur
+
+Fuer jede Integration einen eigenen Unterordner anlegen:
+
+```
+integrations/
+└── <vendor-name>/
+    └── input/    ← Rohdokumente (PDFs, Specs, Exports)
+```
+
+Verzeichnis `vendor-x/` umbenennen oder als Vorlage nutzen.
 ```
 
 Erstelle eine `CLAUDE.md` im Projekt-Root falls sie nicht existiert:

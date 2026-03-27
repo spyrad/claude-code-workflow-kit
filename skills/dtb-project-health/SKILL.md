@@ -112,7 +112,8 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 #### Check 4: Namenskonventionen
 
 **dtb-project/ Root-Dateien:**
-- Alle `.md`-Dateien direkt in `dtb-project/project-workflows/` und `dtb-project/project-strategy/` muessen UPPER_SNAKE_CASE sein (z.B. BACKLOG.md, WORKFLOW_STATUS.md, TEAM.md)
+- Alle `.md`-Dateien direkt in `dtb-project/project-workflows/`, `dtb-project/project-strategy/`, `dtb-project/project-infrastructure/` und `dtb-project/project-requirements/` muessen UPPER_SNAKE_CASE sein (z.B. BACKLOG.md, GPU_SERVERS.md, TEAM.md)
+- `.md`-Dateien in `integrations/*/` (ausser `input/`) muessen ebenfalls UPPER_SNAKE_CASE sein
 - Warnung bei Abweichung
 
 **Feature-Dateien:**

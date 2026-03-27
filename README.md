@@ -78,6 +78,7 @@ cd <dein-projekt>
 | `/dtb:project-team` | Team documentation |
 | `/dtb:greenfield-prd` | Generate product requirements for new projects |
 | `/dtb:greenfield-roadmap` | Create project roadmap for new projects |
+| `/dtb:docs-extract` | Scan input/ folder, extract facts from PDFs/docs, create thematic MDs |
 
 ## Memory Framework
 

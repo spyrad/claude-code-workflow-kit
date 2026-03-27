@@ -40,6 +40,7 @@ Skills are designed to work together in a session lifecycle:
 - **Greenfield**: `greenfield-prd`, `greenfield-roadmap`
 - **Maintenance**: `archive` (move completed/discarded items to archive)
 - **Development**: `build-check`, `code-review`, `backlog-status`, `repo-sync`
+- **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs)
 
 ### Agent Roles
 
@@ -59,6 +60,11 @@ Reusable agent definitions in `agents/` are referenced by skills (e.g. `dtb:plan
 - `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`)
 - `dtb-project/project-workflows/archive/` — Archived items: completed features, discarded ideas, archive log
 - `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)
+- `dtb-project/project-infrastructure/input/` — Drop-Zone für Infra-Dokumente (PDFs, Configs, Exports)
+- `dtb-project/project-infrastructure/*.md` — Extrahierte Infra-Fakten (UPPER_SNAKE_CASE, generiert von `dtb:docs-extract`)
+- `dtb-project/project-requirements/input/` — Drop-Zone für Anforderungs-Dokumente
+- `dtb-project/project-strategy/input/` — Drop-Zone für Strategie-Dokumente
+- `integrations/<vendor-name>/input/` — Drop-Zone für Vendor-/Integrations-Dokumente
 
 ## Memory Framework
 
