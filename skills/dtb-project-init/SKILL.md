@@ -249,6 +249,7 @@ Repos: {Anzahl} ({Namen})
 Naechste Schritte:
 - /dtb:workflow-resume — Workflow starten
 - /dtb:feature-plan — Erstes Feature planen
+- /dtb:pipeline-docs — Pipeline-Uebersicht als HTML generieren
 ```
 
 ---

@@ -45,10 +45,10 @@ Speichere alle Daten in einer internen Liste, sortiert nach Stage.
 Scanne Agenten-Dateien:
 
 ```
-Glob: agents/*.md
+Glob: .claude/agents/*.md
 ```
 
-Ignoriere `agents/CLAUDE.md`. Fuer jede andere Datei: Lies die ersten 5 Zeilen und extrahiere:
+Ignoriere `.claude/agents/CLAUDE.md`. Fuer jede andere Datei: Lies die ersten 5 Zeilen und extrahiere:
 - Dateiname (ohne `.md`)
 - **Rolle:** Wert
 - **Perspektive:** Wert
@@ -252,7 +252,7 @@ Wickle die Matrix in ein `<details>` Element:
 
 ### Sektion 5: Artefakte & Speicherorte
 
-Statische Referenztabelle (Inhalt aus dem bestehenden `claude-code-workflow-kit.md` uebernehmen):
+Statische Referenztabelle:
 
 | Artefakt | Pfad (im Zielprojekt) | Beschreibung |
 |----------|----------------------|--------------|
@@ -269,7 +269,7 @@ Statische Referenztabelle (Inhalt aus dem bestehenden `claude-code-workflow-kit.
 | `TEAM.md` | `dtb-project/project-strategy/` | Projektteam-Dokumentation |
 | `ARCHIVE_LOG.md` | `dtb-project/project-workflows/archive/` | Log archivierter Eintraege |
 | `project-rules/*.md` | `dtb-project/project-rules/` | Coding-Richtlinien |
-| `agents/*.md` | Projekt-Root | Agenten-Rollen |
+| `agents/*.md` | `.claude/agents/` | Agenten-Rollen |
 | `PRD-MVP.md` | `dtb-project/project-strategy/` | Product Requirements Document |
 | `ROADMAP.md` | `dtb-project/project-strategy/` | Strategische Projekt-Roadmap |
 
@@ -470,21 +470,21 @@ footer {
 Schreibe die generierte HTML-Datei nach:
 
 ```
-claude-code-workflow-kit.html
+dtb-project/claude-code-workflow-kit.html
 ```
 
-Im Root-Verzeichnis des Repos (neben `claude-code-workflow-kit.md`).
+Im `dtb-project/` Verzeichnis.
 
 ## Schritt 6: Ergebnis melden
 
 Gib dem Benutzer eine kurze Zusammenfassung:
 
 ```
-Pipeline-Docs generiert: claude-code-workflow-kit.html
+Pipeline-Docs generiert: dtb-project/claude-code-workflow-kit.html
 - [N] Skills in [M] Stages
 - [K] Artefakt-Typen in der Matrix
 - [L] Agenten
-→ Im Browser oeffnen: start claude-code-workflow-kit.html
+→ Im Browser oeffnen: start dtb-project/claude-code-workflow-kit.html
 ```
 
 ## Richtlinien
