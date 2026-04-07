@@ -48,6 +48,7 @@ flowchart TD
         health["dtb:project-health"]
         rsync["dtb:repo-sync"]
         archive["dtb:archive"]
+        pdocs["dtb:pipeline-docs"]
     end
 
     subgraph GREENFIELD["Greenfield"]
@@ -130,6 +131,7 @@ MONITORING
   project-health          📖     📖     📖       📖     📖  📖   📖                                               📖     📖
   repo-sync               📖
   archive                        ✏️     ✏️       📖     📖  📖                      ✏️
+  pipeline-docs
 
 GREENFIELD
   greenfield-prd                                                                                     📖
@@ -216,6 +218,7 @@ GREENFIELD
 | `dtb:project-health` | Projekt-Linting (10 Check-Kategorien) |
 | `dtb:repo-sync` | Git-Status aller Repos + Cross-Repo-Check |
 | `dtb:archive` | Abgeschlossene/verworfene Eintraege archivieren |
+| `dtb:pipeline-docs` | Interaktive HTML-Uebersicht des Skill-Systems generieren |
 
 ### Greenfield
 | Skill | Beschreibung | Vorgaenger | Nachfolger |
