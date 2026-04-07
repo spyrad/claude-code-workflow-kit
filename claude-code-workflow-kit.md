@@ -1,5 +1,7 @@
 # Claude Code Workflow Kit — Pipeline & Artefakt-Uebersicht
 
+> Diese Datei kann automatisch als interaktive HTML-Version generiert werden: `/dtb:pipeline-docs`
+
 ## Pipeline-Visualisierung
 
 ```mermaid
