@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
+  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
   produces: []
 ---
 
@@ -59,6 +59,11 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Pruefe ob jede Datei in BACKLOG.md referenziert wird
 - Nicht referenzierte = INFO (Bugs muessen nicht zwingend im Backlog stehen, aber Warnung bei Severity "Kritisch" oder "Hoch")
 
+**Tasks → BACKLOG (Orphan-Check):**
+- Liste alle `TASK_*.md` in `{config.paths.workflows}/features/`
+- Pruefe ob jede Datei in BACKLOG.md (Abschnitt "Aufgaben") referenziert wird
+- Nicht referenzierte = INFO (Tasks muessen nicht zwingend im Backlog stehen, aber Warnung bei Prioritaet "Hoch")
+
 **Bug-Status-Konsistenz:**
 - Pruefe ob jede `BUG_*.md` einen gueltigen Status hat (Offen, Analysiert, In Arbeit, Behoben)
 - Bugs mit Status "Analysiert" sollten einen Analyse-Abschnitt enthalten → WARNUNG wenn fehlend
@@ -102,8 +107,13 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Lies den Status jedes Features aus BACKLOG.md (Spalte "Status")
 - Lies den `**Status:**`-Wert aus der jeweiligen FEATURE_*.md
 - Vergleiche: Wenn BACKLOG "In Arbeit" sagt aber Feature-Spec "Geplant" (oder umgekehrt) → FEHLER
-- Pruefe: WORKFLOW_STATUS "Laufende Arbeit" → das referenzierte Feature sollte in BACKLOG "In Arbeit" sein
+- Pruefe: WORKFLOW_STATUS "Laufende Arbeit" → das referenzierte Feature/Task sollte in BACKLOG "In Arbeit" sein
 - Erlaubte Abweichungen: "Geplant" in BACKLOG + beliebiger Status in Spec ist OK solange Spec nicht "In Arbeit"/"Fertig" sagt
+
+**TASK Status-Konsistenz:**
+- Lies den Status jeder Aufgabe aus BACKLOG.md (Abschnitt "Aufgaben")
+- Lies den `**Status:**`-Wert aus der jeweiligen TASK_*.md
+- Vergleiche: Status muss uebereinstimmen (Offen, In Arbeit, Erledigt) → FEHLER bei Abweichung
 
 **INBOX ↔ Feature-Status:**
 - Idee "In Arbeit" → es sollte noch kein FEATURE_*.md existieren (sonst muesste Status "Ausgearbeitet" sein). Ein DISCOVERY_*.md-Link ist erlaubt (Discovery-Phase laeuft)
@@ -117,7 +127,7 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Warnung bei Abweichung
 
 **Feature-Dateien:**
-- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `DISCOVERY_*.md`, `FEATURE_*.md`, `PLAN_*.md` oder `BUG_*.md` folgen
+- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `DISCOVERY_*.md`, `FEATURE_*.md`, `PLAN_*.md`, `BUG_*.md` oder `TASK_*.md` folgen
 - FEHLER bei Abweichung
 
 **Skills:**
@@ -213,6 +223,8 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 - ✅/❌ Features → BACKLOG: {Orphan-Details falls vorhanden}
 - ✅/ℹ️ Bugs → BACKLOG: {N} Bugs, davon {M} ohne Backlog-Eintrag
 - ✅/⚠️ Bug-Status: {N}/{M} konsistent
+- ✅/ℹ️ Tasks → BACKLOG: {N} Aufgaben, davon {M} ohne Backlog-Eintrag
+- ✅/⚠️ Task-Status: {N}/{M} konsistent
 - ✅/❌ INBOX → Features: {X}/{Y} ausgearbeitete Ideen mit gueltigem Link
 - ✅/❌ Archiv: {Status}
 - ✅/⚠️ Archivierbare Eintraege: {N} (Empfehlung: /dtb:archive bei >5)

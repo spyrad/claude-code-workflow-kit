@@ -11,7 +11,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, WORKFLOW_STATUS.md]
+  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, WORKFLOW_STATUS.md]
   produces: []
 ---
 
@@ -53,6 +53,10 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 **BUG_*.md** (`{config.paths.workflows}/features/BUG_*.md`):
 - Lies jeweils den `**Status:**`-Wert aus den ersten 10 Zeilen (Offen / Analysiert / In Arbeit / Behoben)
 - Zaehle Bugs nach Status: `Offen`, `Analysiert`, `In Arbeit`, `Behoben`
+
+**TASK_*.md** (`{config.paths.workflows}/features/TASK_*.md`):
+- Lies jeweils den `**Status:**`-Wert aus den ersten 10 Zeilen (Offen / In Arbeit / Erledigt)
+- Zaehle Aufgaben nach Status: `Offen`, `In Arbeit`, `Erledigt`
 
 **WORKFLOW_STATUS.md** (`{config.paths.workflows}/WORKFLOW_STATUS.md`):
 - Identifiziere aktuell laufende Arbeit (Sektion "Laufende Arbeit" o.ae.)
@@ -132,6 +136,11 @@ flowchart LR
     DEBUG --> BUGFIX["Bug-Fix\n{n_bug_in_arbeit} In Arbeit"]
     BUGFIX --> BUGDONE["Bug Behoben\n{n_bug_behoben}"]
     BUGDONE --> ARCHIV
+
+    %% Aufgaben Pipeline
+    TASKREP["Aufgabe\n{n_task_offen} Offen"] --> TASKWORK["In Arbeit\n{n_task_arbeit}"]
+    TASKWORK --> TASKDONE["Erledigt\n{n_task_erledigt}"]
+    TASKDONE --> ARCHIV
 ```
 
 ## Quality Gates (aktive Features)
@@ -161,6 +170,10 @@ flowchart LR
 | Bugs (Analysiert) | {n} | {aeltester} | `/dtb:feature-start` |
 | Bugs (In Arbeit) | {n} | {aeltester} | `/dtb:build-check` |
 | Bugs (Behoben) | {n} | {aeltester} | `/dtb:archive` |
+| **Aufgaben-Pipeline** | | | |
+| Aufgaben (Offen) | {n} | {aeltester} | `/dtb:feature-start` |
+| Aufgaben (In Arbeit) | {n} | {aeltester} | Weiterarbeiten |
+| Aufgaben (Erledigt) | {n} | {aeltester} | `/dtb:archive` |
 | Archiv | {n} | — | — |
 
 ## Beteiligte Skills & Agents
@@ -171,6 +184,7 @@ flowchart LR
 | Idee bewerten | `/dtb:idea-review` | — |
 | Bug erfassen | `/dtb:bug-report` | — |
 | Bug analysieren | `/dtb:debug-plan` | — |
+| Aufgabe erfassen | `/dtb:task` | — |
 | Feature Discovery | `/dtb:feature-discover` | — |
 | Feature planen | `/dtb:feature-plan` | — |
 | Impl-Plan erstellen | `/dtb:impl-plan` | — |

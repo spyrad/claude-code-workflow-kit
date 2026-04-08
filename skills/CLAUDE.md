@@ -45,6 +45,7 @@ pipeline:
 | `FEATURE_*.md` | Geplant, In Arbeit, Fertig zum Testen, Abgenommen, Abgeschlossen, Pausiert |
 | `PLAN_*.md` | Entwurf, Reviewed, In Umsetzung, Abgeschlossen |
 | `BUG_*.md` | Offen, Analysiert, In Arbeit, Behoben |
+| `TASK_*.md` | Offen, In Arbeit, Erledigt |
 | `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen |
 
 ## Directory & naming conventions

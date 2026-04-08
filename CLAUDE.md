@@ -57,6 +57,7 @@ Reusable agent definitions in `agents/` are referenced by skills (e.g. `dtb:plan
 - `dtb-project/project-workflows/features/DISCOVERY_*.md` — Discovery docs (requirements gathering before spec writing)
 - `dtb-project/project-workflows/features/FEATURE_*.md` — Feature specs (UPPER_SNAKE_CASE naming)
 - `dtb-project/project-workflows/features/BUG_*.md` — Bug reports (UPPER_SNAKE_CASE naming, same directory as features)
+- `dtb-project/project-workflows/features/TASK_*.md` — Operational/infrastructure tasks (UPPER_SNAKE_CASE naming, lightweight checklists)
 - `dtb-project/project-workflows/features/PLAN_*.md` — Implementation plans (paired with FEATURE_*.md by name)
 - `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`)
 - `dtb-project/project-workflows/archive/` — Archived items: completed features, discarded ideas, archive log

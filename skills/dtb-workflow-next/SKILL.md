@@ -12,7 +12,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, BACKLOG.md, WORKFLOW_STATUS.md]
+  consumes: [INBOX.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, BACKLOG.md, WORKFLOW_STATUS.md]
   produces: []
 ---
 
@@ -64,6 +64,14 @@ Fuer jedes Feature den "weitesten" Stand bestimmen:
 | BUG_*.md Status `In Arbeit` | Fix in Arbeit | `/dtb:build-check` |
 | BUG_*.md Status `Behoben` | Abschluss | `/dtb:workflow-checkpoint` |
 
+**Aufgaben-Pipeline:**
+
+| Artefakt-Kombination | Pipeline-Position | Naechster Skill |
+|---|---|---|
+| TASK_*.md Status `Offen` | Start ausstehend | `/dtb:feature-start` |
+| TASK_*.md Status `In Arbeit` | In Arbeit | Weiterarbeiten |
+| TASK_*.md Status `Erledigt` | Abschluss | `/dtb:workflow-checkpoint` |
+
 ## Schritt 3: Sortieren & priorisieren
 
 - Features mit Status "In Arbeit" (Entwicklung) zuerst — die sind am weitesten
@@ -107,7 +115,7 @@ Naechste Schritte:
 - **Kompakt**: Max 15 Zeilen Output (ohne Argument), max 12 Zeilen (mit Argument)
 - **Keine Rueckfragen**: Sofort Output liefern
 - **Deutsch**: Alle Texte auf Deutsch
-- **Leer-Zustand**: Bei 0 aktiven Features/Bugs: "Keine aktiven Features oder Bugs. Starte mit `/dtb:idea`, `/dtb:feature-plan` oder `/dtb:bug-report`."
+- **Leer-Zustand**: Bei 0 aktiven Features/Bugs/Aufgaben: "Keine aktiven Features, Bugs oder Aufgaben. Starte mit `/dtb:idea`, `/dtb:feature-plan`, `/dtb:bug-report` oder `/dtb:task`."
 
 ## Verwandte Skills
 

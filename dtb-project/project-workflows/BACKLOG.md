@@ -13,6 +13,13 @@
 
 ---
 
+## Aufgaben
+
+| Aufgabe | Status | Prio | Datei | Beschreibung |
+|---------|--------|------|-------|--------------|
+
+---
+
 ## Ideen / Backlog
 
 | Feature | Status | Prio | Datei | Beschreibung |

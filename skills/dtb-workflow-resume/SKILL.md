@@ -10,7 +10,7 @@ pipeline:
   stage: session
   after: dtb:workflow-checkpoint
   next: null
-  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, PLAN_*.md, session-log]
+  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, PLAN_*.md, TASK_*.md, session-log]
   produces: []
 ---
 

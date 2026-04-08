@@ -10,8 +10,8 @@ pipeline:
   stage: session
   after: null
   next: dtb:workflow-resume
-  consumes: [BACKLOG.md, INBOX.md, FEATURE_*.md]
-  produces: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, session-log]
+  consumes: [BACKLOG.md, INBOX.md, FEATURE_*.md, TASK_*.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, TASK_*.md, session-log]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)
@@ -149,9 +149,9 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 
 ### Schritt 2: Feature-Status pruefen
 
-Lies `{config.paths.workflows}/BACKLOG.md` und pruefe ob die Arbeit dieser Session mit einem Feature zusammenhaengt:
+Lies `{config.paths.workflows}/BACKLOG.md` und pruefe ob die Arbeit dieser Session mit einem Feature oder einer Aufgabe zusammenhaengt:
 
-1. **Vergleiche** die Chat-Inhalte mit den Features in BACKLOG.md (Abschnitt "Aktive Features")
+1. **Vergleiche** die Chat-Inhalte mit den Features in BACKLOG.md (Abschnitt "Aktive Features") und Aufgaben (Abschnitt "Aufgaben")
 2. **Falls ein Feature betroffen ist**, frage den Benutzer:
 
 ```
@@ -175,7 +175,26 @@ Neuen Status setzen?
    - Aktualisiere das Datum in "Letzte Aktualisierung"
    - Aktualisiere auch den Status in der `features/FEATURE_*.md` Datei (Zeile `**Status:**`)
 
-4. **Falls kein Feature erkannt wird**, ueberspringe diesen Schritt ohne Nachfrage.
+4. **Falls eine Aufgabe betroffen ist**, frage den Benutzer:
+
+```
+Aufgaben-Status-Update erkannt:
+
+Aufgabe: {Aufgaben-Name}
+Aktueller Status: {aktueller Status}
+
+Neuen Status setzen?
+  1. In Arbeit
+  2. Erledigt
+  3. Kein Update
+```
+
+5. **Bei Statusaenderung einer Aufgabe:**
+   - Aktualisiere die Zeile in BACKLOG.md (Abschnitt "Aufgaben") mit dem neuen Status
+   - Aktualisiere auch den Status in der `features/TASK_*.md` Datei (Zeile `**Status:**`)
+   - Aktualisiere das Datum in "Letzte Aktualisierung"
+
+6. **Falls weder Feature noch Aufgabe erkannt wird**, ueberspringe diesen Schritt ohne Nachfrage.
 
 ### Schritt 3: Session-Log schreiben
 

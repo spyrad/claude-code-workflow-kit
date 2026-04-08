@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md]
+  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md]
   produces: [ARCHIVE_LOG.md, INBOX.md, BACKLOG.md]
 ---
 
@@ -49,6 +49,9 @@ Pruefe die folgenden Quellen und sammle alle Kandidaten:
 ### Bug-Reports
 - `{config.paths.workflows}/features/BUG_*.md` mit `**Status:** Behoben`
 
+### Aufgaben
+- `{config.paths.workflows}/features/TASK_*.md` mit `**Status:** Erledigt`
+
 ---
 
 ## Schritt 3: Uebersicht zeigen
@@ -68,6 +71,9 @@ Feature-Specs:
 
 Bug-Reports:
   - BUG_{NAME}.md (Behoben)
+
+Aufgaben:
+  - TASK_{NAME}.md (Erledigt)
 
 Alles archivieren? (Ja / Auswahl treffen / Abbrechen)
 ```
@@ -94,6 +100,7 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 | YYYY-MM-DD | Idee | #{N} "{Text}" | INBOX.md | Ausgearbeitet → FEATURE_*.md |
 | YYYY-MM-DD | Feature | {Name} | BACKLOG.md | Abgeschlossen |
 | YYYY-MM-DD | Bug | {Name} | BUG_*.md | Behoben |
+| YYYY-MM-DD | Aufgabe | {Name} | TASK_*.md | Erledigt |
 ```
 
 ### 4b: Feature-Specs und Plaene verschieben
@@ -101,6 +108,7 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 - Verschiebe abgeschlossene `FEATURE_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
 - Verschiebe die zugehoerige `DISCOVERY_*.md` und `PLAN_*.md` mit (falls vorhanden, gleicher Name)
 - Verschiebe behobene `BUG_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
+- Verschiebe erledigte `TASK_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
 
 ### 4c: INBOX.md bereinigen
 
@@ -110,6 +118,7 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 ### 4d: BACKLOG.md bereinigen
 
 - Entferne archivierte Features aus dem Abschnitt "Abgeschlossen"
+- Entferne archivierte Aufgaben aus dem Abschnitt "Aufgaben"
 - Abschnitt "Aktive Features" bleibt unberuehrt
 
 ---
@@ -121,6 +130,7 @@ Archivierung abgeschlossen:
 
   Ideen archiviert:    {N}
   Features archiviert: {N}
+  Aufgaben archiviert: {N}
 
 Archiv-Log: {config.paths.workflows}/archive/ARCHIVE_LOG.md
 Feature-Specs: {config.paths.workflows}/archive/FEATURE_*.md (+ PLAN_*.md falls vorhanden)

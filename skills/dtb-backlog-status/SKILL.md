@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md, BUG_*.md]
+  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md]
   produces: []
 ---
 
@@ -31,16 +31,16 @@ Lies die Datei:
 
 ## Schritt 2: Feature-Specs und Plaene scannen
 
-Finde alle `FEATURE_*.md` und `BUG_*.md` Dateien in `{config.paths.workflows}/features/` und lies jeweils die ersten 20 Zeilen (Titel, Status, Zusammenfassung).
+Finde alle `FEATURE_*.md`, `BUG_*.md` und `TASK_*.md` Dateien in `{config.paths.workflows}/features/` und lies jeweils die ersten 20 Zeilen (Titel, Status, Zusammenfassung).
 
 Pruefe fuer jedes Feature ob eine zugehoerige `PLAN_*.md` existiert (gleicher Name).
 Pruefe fuer jeden Bug ob ein Analyse-Abschnitt vorhanden ist (Status `Analysiert` oder `Behoben`).
 
 ## Schritt 3: Abgleich
 
-Vergleiche die gefundenen `FEATURE_*.md` und `BUG_*.md` Dateien mit den Eintraegen in BACKLOG.md:
-- Markiere Features/Bugs die in BACKLOG.md **fehlen** (Datei existiert aber kein Backlog-Eintrag)
-- Markiere Features/Bugs deren Status in BACKLOG.md **veraltet** sein koennte
+Vergleiche die gefundenen `FEATURE_*.md`, `BUG_*.md` und `TASK_*.md` Dateien mit den Eintraegen in BACKLOG.md:
+- Markiere Features/Bugs/Tasks die in BACKLOG.md **fehlen** (Datei existiert aber kein Backlog-Eintrag)
+- Markiere Features/Bugs/Tasks deren Status in BACKLOG.md **veraltet** sein koennte
 
 ## Schritt 4: Backlog-Report erstellen
 
@@ -80,7 +80,12 @@ Erstelle einen kompakten Report:
 |-----|----------|--------|---------|-------|
 | {Bug-Name} | {Severity} | {Status} | ✅/❌ | {Datei} |
 
-## Nicht im Backlog (FEATURE_*.md / BUG_*.md ohne Eintrag)
+## Offene Aufgaben
+| Aufgabe | Prio | Status | Datei |
+|---------|------|--------|-------|
+| {Aufgaben-Name} | {Prio} | {Status} | {Datei} |
+
+## Nicht im Backlog (FEATURE_*.md / BUG_*.md / TASK_*.md ohne Eintrag)
 | Datei | Titel | Status |
 |-------|-------|--------|
 | {Datei} | {Titel} | {Status} |
