@@ -10,8 +10,8 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md]
-  produces: [ARCHIVE_LOG.md, INBOX.md, BACKLOG.md]
+  consumes: [INBOX.md, BACKLOG.md, WORKFLOW_STATUS.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md]
+  produces: [ARCHIVE_LOG.md, INBOX.md, BACKLOG.md, WORKFLOW_STATUS.md]
 ---
 
 # Workflow archivieren
@@ -42,6 +42,8 @@ Pruefe die folgenden Quellen und sammle alle Kandidaten:
 
 ### BACKLOG.md
 - Features im Abschnitt "Abgeschlossen"
+- Bugs im Abschnitt "Bugs" mit Status `Behoben`
+- Aufgaben im Abschnitt "Aufgaben" mit Status `Erledigt`
 
 ### Feature-Specs
 - `{config.paths.workflows}/features/FEATURE_*.md` mit `**Status:** Abgeschlossen`
@@ -118,8 +120,15 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 ### 4d: BACKLOG.md bereinigen
 
 - Entferne archivierte Features aus dem Abschnitt "Abgeschlossen"
-- Entferne archivierte Aufgaben aus dem Abschnitt "Aufgaben"
+- Entferne archivierte Bugs aus dem Abschnitt "Bugs" (Status `Behoben`)
+- Entferne archivierte Aufgaben aus dem Abschnitt "Aufgaben" (Status `Erledigt`)
 - Abschnitt "Aktive Features" bleibt unberuehrt
+
+### 4e: WORKFLOW_STATUS.md bereinigen
+
+- Lies `{config.paths.workflows}/WORKFLOW_STATUS.md`
+- Entferne Referenzen auf soeben archivierte Features, Bugs und Tasks
+- Falls ein archiviertes Item dort als "aktiv" oder "in Arbeit" gefuehrt wird: **nicht entfernen**, sondern Warnung ausgeben
 
 ---
 
