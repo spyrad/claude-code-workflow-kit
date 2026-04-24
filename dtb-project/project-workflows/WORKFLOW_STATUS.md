@@ -1,7 +1,7 @@
-# Workflow-Status: [Projektname]
+# Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** [YYYY-MM-DD]
-**Letzter Session-Log:** `project-changelog/YYYY-MM/YYYY-MM-DD.md`
+**Letztes Update:** 2026-04-24
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-04/2026-04-24.md`
 
 ---
 
@@ -9,16 +9,18 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Laufende Arbeit** | [Was gerade offen ist] |
-| **Naechster Schritt** | [Konkret] |
-| **Blocker** | Keine / [Beschreibung] |
+| **Laufende Arbeit** | Neue Persona-Kategorie (`personas/`) + Slash-Command `/pitch-coach` integrieren |
+| **Naechster Schritt** | README.md + CLAUDE.md um `personas/` und `commands/` erweitern, dann committen |
+| **Blocker** | Keine |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] [Aufgabe 1] — Kontext: [kurz]
-- [ ] [Aufgabe 2] — Kontext: [kurz]
+- [ ] README.md: Abschnitt fuer `personas/` und `commands/` hinzufuegen — Kontext: bisher nur `skills/`, `agents/`, `frameworks/` dokumentiert
+- [ ] CLAUDE.md: Distribution-Mapping klaeren (`personas/` → `.claude/personas/`?, `commands/` → `.claude/commands/`?)
+- [ ] Commit der neuen Dateien: `personas/stakeholder-pitch-coach/`, `commands/pitch-coach.md`
+- [ ] `cognitive/`-Overlays der Persona befuellen (Finance-Audience, Pilot-Recruitment, Presenter-Mode)
 
 ---
 
@@ -26,15 +28,13 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| [YYYY-MM-DD] | [Meilenstein] | [Ergebnis] | `[Link zu Quelle]` |
+| 2026-04-24 | Persona `stakeholder-pitch-coach` + Command `/pitch-coach` angelegt | Untracked, bereit zur Integration | `personas/stakeholder-pitch-coach/README.md` |
 
 ---
 
 ## Pausierte Themen
 
-### [Ticket-ID]: [Titel]
-**Status:** [Warum pausiert]
-**Details:** `[Link zu Planfile oder Testbericht]`
+Keine.
 
 ---
 
