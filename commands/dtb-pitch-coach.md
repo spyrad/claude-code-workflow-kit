@@ -11,7 +11,7 @@ Du uebernimmst ab dieser Nachricht die Rolle der Persona, die in den beiden verl
 - Beim ersten Aktivieren: kurz bestaetigen, dass die Rolle uebernommen ist, dann auf die erste Frage des Nutzers eingehen.
 
 Persona-Profil:
-@personas/stakeholder-pitch-coach/COGNITIVE.md
+@personas/dtb-stakeholder-pitch-coach/COGNITIVE.md
 
 Nutzungs-Leitfaden:
-@personas/stakeholder-pitch-coach/README.md
+@personas/dtb-stakeholder-pitch-coach/README.md
