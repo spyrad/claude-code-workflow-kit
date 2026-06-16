@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-04-24
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-04/2026-04-24.md`
+**Letztes Update:** 2026-06-16
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-06/2026-06-16.md`
 
 ---
 
@@ -9,18 +9,17 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Laufende Arbeit** | Neue Persona-Kategorie (`personas/`) + Slash-Command `/pitch-coach` integrieren |
-| **Naechster Schritt** | README.md + CLAUDE.md um `personas/` und `commands/` erweitern, dann committen |
+| **Laufende Arbeit** | Persona-/Command-Kategorie im Repo dokumentiert (README + CLAUDE.md) |
+| **Naechster Schritt** | Geaenderte README.md + CLAUDE.md committen; danach `cognitive/`-Overlays angehen |
 | **Blocker** | Keine |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] README.md: Abschnitt fuer `personas/` und `commands/` hinzufuegen — Kontext: bisher nur `skills/`, `agents/`, `frameworks/` dokumentiert
-- [ ] CLAUDE.md: Distribution-Mapping klaeren (`personas/` → `.claude/personas/`?, `commands/` → `.claude/commands/`?)
-- [ ] Commit der neuen Dateien: `personas/stakeholder-pitch-coach/`, `commands/pitch-coach.md`
-- [ ] `cognitive/`-Overlays der Persona befuellen (Finance-Audience, Pilot-Recruitment, Presenter-Mode)
+- [ ] README.md + CLAUDE.md committen — Kontext: aktuell `M` (uncommitted)
+- [ ] `.claude/` (untracked) — entscheiden ob versioniert oder ignoriert
+- [ ] `cognitive/`-Overlays der Persona befuellen (Finance-Audience, Pilot-Recruitment, Presenter-Mode) — Kontext: kreative Arbeit, vorher Brainstorming
 
 ---
 
@@ -28,7 +27,8 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-04-24 | Persona `stakeholder-pitch-coach` + Command `/pitch-coach` angelegt | Untracked, bereit zur Integration | `personas/stakeholder-pitch-coach/README.md` |
+| 2026-06-16 | Persona-/Command-Kategorie dokumentiert | README + CLAUDE.md aktualisiert | `dtb-project/project-changelog/2026-06/2026-06-16.md` |
+| 2026-04-24 | Persona `dtb-stakeholder-pitch-coach` + `/dtb-pitch-coach` | Committet (`7082e98`, `2b77e6f`) | `personas/dtb-stakeholder-pitch-coach/README.md` |
 
 ---
 

@@ -8,6 +8,9 @@
 - **Skills** (`/dtb:*`) — German-language workflow system for session management,
   project documentation, feature planning, idea capture, and code review
 - **Agent Roles** — Reusable agent definitions (Architekt, Pragmatiker, Senior Dev) for structured reviews
+- **Personas** — Reusable persona definitions (e.g. `dtb-stakeholder-pitch-coach`) that adopt a
+  role to work *with the human over an event* rather than on a code artifact
+- **Commands** — Slash-command definitions that activate personas or shortcuts (e.g. `/dtb-pitch-coach`)
 - **Memory Framework** — Production-tested patterns for managing Claude Code's persistent
   memory (autonomy rules, pitfalls tracking, memory size management)
 - **Project Settings** — Pre-configured permissions and plugin setup
@@ -90,11 +93,38 @@ provides templates for:
 - **Pitfalls File** — Institutional knowledge about non-obvious technical issues
 - **Memory Management** — Keep MEMORY.md lean (<150 lines) with topic file pointers
 
+## Personas & Commands
+
+**Personas** (`personas/`) are role definitions Claude adopts to work *with the human over an
+event* (a pitch, a kick-off), as opposed to **agent roles** (`agents/`), which work *on a code
+artifact* (a review). Each persona lives in its own directory with a `COGNITIVE.md` (core
+thinking, voice, filters, risks) and a `README.md` (when to use, activation examples).
+
+| Persona | Purpose |
+|---------|---------|
+| `dtb-stakeholder-pitch-coach` | Coaching for business-stakeholder pitches with a commitment goal (pilot, beta, budget). Coach-only — delivers structure and talking points, never read-aloud scripts. |
+
+**Commands** (`commands/`) are slash-command definitions that activate a persona or workflow
+shortcut. They use `@`-references to pull persona files into context.
+
+| Command | Activates |
+|---------|-----------|
+| `/dtb-pitch-coach` | `dtb-stakeholder-pitch-coach` persona (coach-only) |
+
+Install by copying into the target project's `.claude/` directory:
+
+```bash
+cp -r personas/ <dein-projekt>/.claude/personas/
+cp -r commands/* <dein-projekt>/.claude/commands/
+```
+
 ## Project Structure
 
 ```
 skills/                # Skill definitions (primary — auto-detected by Claude Code)
-agents/                # Reusable agent role definitions
+agents/                # Reusable agent role definitions (work on code artifacts)
+personas/              # Reusable persona definitions (work with the human over an event)
+commands/              # Slash-command definitions (activate personas / shortcuts)
 frameworks/            # Memory framework with templates
 workflow.config.yaml   # Project-specific config (template — filled by /dtb:project-init)
 settings.json          # Claude Code project settings
