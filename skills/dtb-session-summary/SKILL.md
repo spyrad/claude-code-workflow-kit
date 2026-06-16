@@ -26,7 +26,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [YYYY-MM-DD.md]
+  consumes: [session-log]
   produces: []
 ---
 
