@@ -73,6 +73,7 @@ cd <dein-projekt>
 | `/dtb:generate-rules` | Generate coding rules/guidelines from codebase analysis |
 | `/dtb:workflow-status` | Pipeline visualization and queue analysis |
 | `/dtb:workflow-next` | Show next concrete action per active feature |
+| `/dtb:session-summary` | Compact recap of work done (active session, a given day, or last 7 days) |
 | `/dtb:backlog-status` | Backlog overview |
 | `/dtb:archive` | Archive completed/discarded items from workflow files |
 | `/dtb:repo-sync` | Repository synchronization |
