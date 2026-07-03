@@ -43,7 +43,7 @@ Skills are designed to work together in a session lifecycle:
 - **Maintenance**: `archive` (move completed/discarded items to archive)
 - **Development**: `build-check`, `code-review`, `backlog-status`, `repo-sync`
 - **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs)
-- **Documentation**: `pipeline-docs` (generate interactive HTML overview of entire skill pipeline from frontmatter)
+- **Documentation**: `pipeline-graph` (generate interactive HTML overview of entire skill pipeline from frontmatter)
 
 ### Agent Roles
 

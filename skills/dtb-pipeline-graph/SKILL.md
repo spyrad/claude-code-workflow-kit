@@ -1,8 +1,9 @@
 ---
-name: dtb:pipeline-docs
+name: dtb:pipeline-graph
 description: >-
-  Use when: "Pipeline Doku", "Toolkit Uebersicht", "Skills HTML",
-  "Pipeline HTML generieren", "Skill-Matrix". Generates an interactive
+  Use when: "Pipeline-Graph", "Pipeline-Graph generieren", "Pipeline Doku",
+  "Toolkit Uebersicht", "Skills HTML", "Pipeline HTML generieren",
+  "Skill-Matrix". Generates an interactive
   HTML overview of the entire skill pipeline from frontmatter metadata,
   styled per project-rules/STYLE.md.
 disable-model-invocation: true
@@ -15,7 +16,7 @@ pipeline:
   produces: []
 ---
 
-# DTB Pipeline-Docs
+# DTB Pipeline-Graph
 
 Generiert eine interaktive HTML-Uebersicht des gesamten Skill-Systems aus den Frontmatter-Metadaten aller Skills. Das Ergebnis ist eine einzelne, selbststaendige HTML-Datei mit Mermaid-Pipeline-Diagramm, Skill-Tabellen, Artefakt-Matrix und Agenten-Uebersicht.
 
@@ -136,7 +137,7 @@ Erstelle eine einzelne HTML-Datei mit folgendem Aufbau. Alle Inhalte werden dyna
   [Sektion 6: Agenten]
 
   <footer>
-    <p>Generiert mit <code>dtb:pipeline-docs</code> am [YYYY-MM-DD]</p>
+    <p>Generiert mit <code>dtb:pipeline-graph</code> am [YYYY-MM-DD]</p>
   </footer>
 
   <script>
@@ -480,7 +481,7 @@ Im `dtb-project/` Verzeichnis.
 Gib dem Benutzer eine kurze Zusammenfassung:
 
 ```
-Pipeline-Docs generiert: dtb-project/claude-code-workflow-kit.html
+Pipeline-Graph generiert: dtb-project/claude-code-workflow-kit.html
 - [N] Skills in [M] Stages
 - [K] Artefakt-Typen in der Matrix
 - [L] Agenten
