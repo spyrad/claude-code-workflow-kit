@@ -1,3 +1,8 @@
 # Generated session data (not part of the toolkit)
-dtb-project/
+# dtb-project/: nur Workflow-Artefakte (Ideen, Status, Session-Logs) werden versioniert,
+# generierte Outputs (HTML) und Drop-Zones bleiben lokal
+dtb-project/*
+!dtb-project/project-workflows/
+!dtb-project/project-changelog/
+!dtb-project/project-strategy/
 .obsidian/
