@@ -5,4 +5,9 @@ dtb-project/*
 !dtb-project/project-workflows/
 !dtb-project/project-changelog/
 !dtb-project/project-strategy/
+# project-rules bleibt lokal — Ausnahme: DERIVED_STATE_RULES.md ist Kit-Bestandteil
+# (zentrale Ableitungsregel, Vorlage fuer project-init)
+!dtb-project/project-rules/
+dtb-project/project-rules/*
+!dtb-project/project-rules/DERIVED_STATE_RULES.md
 .obsidian/
