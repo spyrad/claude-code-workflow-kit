@@ -38,15 +38,20 @@ pipeline:
 | `consumes` | list | Artifact patterns this skill reads (e.g. `FEATURE_*.md`, `INBOX.md`) |
 | `produces` | list | Artifact patterns this skill writes (e.g. `PLAN_*.md`) |
 
-### Artifact status values
+### Artifact status values (Derived State)
 
-| Artifact | Valid status values |
-|----------|---------------------|
-| `FEATURE_*.md` | Geplant, In Arbeit, Fertig zum Testen, Abgenommen, Abgeschlossen, Pausiert |
-| `PLAN_*.md` | Entwurf, Reviewed, In Umsetzung, Abgeschlossen |
-| `BUG_*.md` | Offen, Analysiert, In Arbeit, Behoben |
-| `TASK_*.md` | Offen, In Arbeit, Erledigt |
-| `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen |
+Status is **derived from artifacts**, not maintained in fields — rules in
+`dtb-project/project-rules/DERIVED_STATE_RULES.md` (single source; read-side skills must
+reference it instead of implementing their own logic). Status fields/columns are derived
+displays synced by `dtb:workflow-checkpoint`. `IMPL_STATUS_*.md` is abolished.
+
+| Artifact | Status values (derivation source) |
+|----------|-----------------------------------|
+| `FEATURE_*.md` | Derived: Spezifiziert, Geplant, In Arbeit, Fertig zum Testen (from PLAN `## Progress` checkboxes). Explicit only: Abgenommen, Abgeschlossen, Pausiert |
+| `PLAN_*.md` | Entwurf, Reviewed (first 10 lines); progress via mandatory `## Progress` section (one checkbox per step N.M, commit SHA as evidence) |
+| `BUG_*.md` | Derived from `## Fix-Schritte` checklist: Offen, Analysiert, In Arbeit, Behoben |
+| `TASK_*.md` | Derived from `## Schritte` checklist: Offen, In Arbeit, Erledigt |
+| `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen (maintained by idea skills) |
 
 ## Directory & naming conventions
 

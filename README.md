@@ -26,7 +26,11 @@ cp -r skills/* <dein-projekt>/.claude/skills/
 # 2. Agenten-Rollen kopieren
 cp -r agents/ <dein-projekt>/agents/
 
-# 3. In deinem Projekt Claude Code starten und initialisieren
+# 3. Statusableitungs-Regeln kopieren (von den Lese-Skills referenziert)
+mkdir -p <dein-projekt>/dtb-project/project-rules
+cp dtb-project/project-rules/DERIVED_STATE_RULES.md <dein-projekt>/dtb-project/project-rules/
+
+# 4. In deinem Projekt Claude Code starten und initialisieren
 cd <dein-projekt>
 # /dtb:project-init ausfuehren — befuellt workflow.config.yaml und legt dtb-project/ an
 ```
@@ -138,6 +142,9 @@ CLAUDE.md              # Project instructions for Claude Code
 - Skills are markdown-based prompt templates with YAML frontmatter, not executable code
 - Skills support natural language triggers (e.g. "Session speichern" activates `dtb:workflow-checkpoint`)
 - Generated session data goes to `dtb-project/` (gitignored)
+- **Derived State:** feature status is derived from artifacts (`## Progress` checkboxes in
+  `PLAN_*.md`), not maintained in status fields — rules in
+  `dtb-project/project-rules/DERIVED_STATE_RULES.md`
 
 ## License
 
