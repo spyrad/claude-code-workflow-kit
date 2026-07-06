@@ -61,13 +61,13 @@ Der Status eines Features steht heute redundant in BACKLOG.md, WORKFLOW_STATUS.m
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] `dtb:impl-plan` erzeugt PLAN_*.md mit `## Progress`-Sektion; IMPL_STATUS_*.md wird nirgendwo mehr erzeugt oder referenziert (kit-weit 0 Treffer ausser Archiv/Changelog)
-- [ ] Zentrale Ableitungsregel existiert als eine Datei; alle 4 Lese-Skills referenzieren sie
-- [ ] `workflow-next`/`-resume` liefern korrekten Stand allein aus Artefakten — auch wenn nie ein Checkpoint lief (Test: Checkpoint weglassen, Resume zeigt trotzdem richtigen naechsten Schritt)
-- [ ] Widerspruch zwischen BACKLOG-Feld und Artefakt-Zustand wird im Report gemeldet, Artefakt gewinnt
-- [ ] Alt-Artefakte (PLAN ohne Progress, vorhandene IMPL_STATUS) fuehren zu definiertem Fallback statt Fehlverhalten
-- [ ] WORKFLOW_STATUS.md enthaelt keine handgepflegten Statusaussagen mehr; Pipeline-Frontmatter (`consumes`/`produces`) kit-weit konsistent
-- [ ] `pipeline-graph` zeigt die neuen Kanten ohne manuelle Nacharbeit
+- [x] `dtb:impl-plan` erzeugt PLAN_*.md mit `## Progress`-Sektion; IMPL_STATUS_*.md wird nirgendwo mehr erzeugt oder referenziert — kit-weit nur noch dokumentierte Fallback-/Abschaffungs-Referenzen (2026-07-06, Grep-Verifikation)
+- [x] Zentrale Ableitungsregel existiert als eine Datei (`project-rules/DERIVED_STATE_RULES.md`); alle 4 Lese-Skills + 5 weitere referenzieren sie (2026-07-06)
+- [x] `workflow-next`/`-resume` liefern korrekten Stand allein aus Artefakten — Fixture-Test durch unabhaengigen Agenten ohne Checkpoint bestanden (2026-07-06)
+- [x] Widerspruch zwischen BACKLOG-Feld und Artefakt-Zustand wird im Report gemeldet, Artefakt gewinnt — Fixture DELTA (2026-07-06)
+- [x] Alt-Artefakte (PLAN ohne Progress, vorhandene IMPL_STATUS) fuehren zu definiertem Fallback statt Fehlverhalten — Fixture LEGACY (2026-07-06)
+- [x] WORKFLOW_STATUS.md-Template ohne handgepflegte Statusaussagen (generierter Block); Pipeline-Frontmatter kit-weit konsistent — Live-Datei wird beim naechsten /dtb:workflow-checkpoint auf das neue Format umgestellt (2026-07-06)
+- [x] `pipeline-graph` zeigt die neuen Kanten ohne manuelle Nacharbeit — regeneriert: DERIVED_STATE_RULES-Spalte mit 9×R/1×W, IMPL_STATUS 0 Treffer (2026-07-06)
 
 ---
 

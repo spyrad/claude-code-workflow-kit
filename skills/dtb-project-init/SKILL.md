@@ -11,7 +11,7 @@ pipeline:
   after: null
   next: dtb:workflow-resume
   consumes: []
-  produces: [workflow.config.yaml, CLAUDE.md, WORKFLOW_STATUS.md, BACKLOG.md]
+  produces: [workflow.config.yaml, CLAUDE.md, WORKFLOW_STATUS.md, BACKLOG.md, project-rules/DERIVED_STATE_RULES.md]
 ---
 
 # DTB Projekt-Initialisierung
