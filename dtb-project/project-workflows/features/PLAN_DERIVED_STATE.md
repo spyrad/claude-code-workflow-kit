@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-06
 **Feature-Spec:** `features/FEATURE_DERIVED_STATE.md`
 **Geschaetzte Dauer:** 3-4 Sessions
-**Status:** Reviewed (Plan-Review 2026-07-06: 3 Entscheidungen eingearbeitet)
+**Status:** Abgeschlossen (alle 16 Schritte umgesetzt, Success Criteria abgenommen 2026-07-06)
 
 > **Dogfooding:** Dieser Plan enthaelt bereits die `## Progress`-Sektion, die er selbst einfuehrt. Die Umsetzung hakt dort ab (mit Commit-SHA) — kein IMPL_STATUS_DERIVED_STATE.md.
 
@@ -129,10 +129,10 @@ Die 4 Lese-Skills leiten Status aus Artefakten ab und referenzieren die zentrale
 - [ ] 4 Lese-Skills referenzieren DERIVED_STATE_RULES.md
 
 ### Checkpoint-Kriterien
-- [ ] Test-Szenario (Fixture c): PLAN mit 2/5 Checkboxen, KEIN Checkpoint gelaufen → workflow-next/-resume nennen korrekt Schritt 3 (Success Criterion 3)
-- [ ] Widerspruchs-Szenario (Fixture d): BACKLOG sagt "Geplant", PLAN ist abgehakt → Report meldet Konflikt, Artefakt gewinnt (Success Criterion 4)
-- [ ] Fallback-Szenario (Alt-Fixture): PLAN ohne Progress + IMPL_STATUS → "Fortschritt unbekannt" + Nachruest-Angebot, kein Abbruch (Success Criterion 5)
-- [ ] Ergebnisse als kurzes Testprotokoll im Session-Log dokumentiert (Szenario → erwartet → beobachtet)
+- [x] Test-Szenario (Fixture c): PLAN mit 2/5 Checkboxen, KEIN Checkpoint gelaufen → workflow-next/-resume nennen korrekt Schritt 3 (Success Criterion 3) — 2026-07-06, unabhaengiger Agent
+- [x] Widerspruchs-Szenario (Fixture d): BACKLOG sagt "Geplant", PLAN ist abgehakt → Report meldet Konflikt, Artefakt gewinnt (Success Criterion 4) — 2026-07-06
+- [x] Fallback-Szenario (Alt-Fixture): PLAN ohne Progress + IMPL_STATUS → "Fortschritt unbekannt" + Nachruest-Angebot, kein Abbruch (Success Criterion 5) — 2026-07-06
+- [ ] Ergebnisse als kurzes Testprotokoll im Session-Log dokumentiert (Szenario → erwartet → beobachtet) — beim naechsten /dtb:workflow-checkpoint
 
 ---
 
@@ -226,22 +226,22 @@ Kit-weite Doku und Pipeline-Metadaten stimmen mit dem neuen Modell ueberein; Suc
 
 > Single Source of Truth fuer den Umsetzungsstand. Abhaken nach jedem Schritt, Commit-SHA als Beleg (optional bei Doku-Schritten).
 
-- [ ] 1.1 Referenzdatei DERIVED_STATE_RULES.md anlegen
-- [ ] 1.2 Progress-Sektion-Format spezifizieren
-- [ ] 1.3 Statusmodell-Mapping definieren
-- [ ] 2.1 impl-plan umbauen
-- [ ] 2.2 feature-start umbauen
-- [ ] 2.3 Schreibseite verifizieren
-- [ ] 3.0 Test-Fixtures anlegen
-- [ ] 3.1 workflow-next umstellen
-- [ ] 3.2 workflow-resume umstellen
-- [ ] 3.3 workflow-status + backlog-status umstellen
-- [ ] 4.1 workflow-checkpoint umbauen
-- [ ] 4.2 BACKLOG-Vorlage + Eintrags-Skills anpassen
-- [ ] 4.3 archive, project-init, project-health, plan-review anpassen
-- [ ] 5.1 Doku aktualisieren
-- [ ] 5.2 Pipeline-Frontmatter kit-weit pruefen
-- [ ] 5.3 pipeline-graph regenerieren + Abnahme
+- [x] 1.1 Referenzdatei DERIVED_STATE_RULES.md anlegen — `e127284`
+- [x] 1.2 Progress-Sektion-Format spezifizieren — `e127284`
+- [x] 1.3 Statusmodell-Mapping definieren — `e127284`
+- [x] 2.1 impl-plan umbauen — `cdf7f31`
+- [x] 2.2 feature-start umbauen — `cdf7f31`
+- [x] 2.3 Schreibseite verifizieren — `cdf7f31`
+- [x] 3.0 Test-Fixtures anlegen
+- [x] 3.1 workflow-next umstellen — `a6c2828`
+- [x] 3.2 workflow-resume umstellen — `a6c2828`
+- [x] 3.3 workflow-status + backlog-status umstellen — `40d88d9`
+- [x] 4.1 workflow-checkpoint umbauen — `669519d`
+- [x] 4.2 BACKLOG-Vorlage + Eintrags-Skills anpassen — `4b18df8`
+- [x] 4.3 archive, project-init, project-health, plan-review anpassen — `4b18df8`
+- [x] 5.1 Doku aktualisieren — `51d3d92`
+- [x] 5.2 Pipeline-Frontmatter kit-weit pruefen — `fb23c06`
+- [x] 5.3 pipeline-graph regenerieren + Abnahme — `fb23c06`
 
 ---
 
