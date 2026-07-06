@@ -7,13 +7,13 @@ description: >-
   Starts a planned feature, analyzed bug, or open task from the backlog
   by updating status to "In Arbeit" and showing the context.
 disable-model-invocation: true
-allowed-tools: Read, Write
+allowed-tools: Read, Write, Edit
 pipeline:
   stage: implementation
   after: dtb:plan-review
   next: dtb:build-check
-  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md]
-  produces: [BACKLOG.md, WORKFLOW_STATUS.md, IMPL_STATUS_*.md, TASK_*.md]
+  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, project-rules/DERIVED_STATE_RULES.md]
+  produces: [BACKLOG.md, WORKFLOW_STATUS.md, PLAN_*.md, TASK_*.md]
 ---
 
 # Feature, Bug-Fix oder Aufgabe starten
@@ -77,7 +77,10 @@ Nach Auswahl durch den Benutzer:
 **Bei Feature:**
 1. **Lies die Feature-Spec:** `{config.paths.workflows}/features/FEATURE_*.md`
 2. **Lies den Implementierungsplan:** `{config.paths.workflows}/features/PLAN_*.md` (falls vorhanden)
-3. **Setze Status in BACKLOG.md** auf "In Arbeit"
+   — die `## Progress`-Sektion bestimmt den Einstiegspunkt (erster nicht abgehakter Schritt).
+   Falls der Plan keine `## Progress`-Sektion hat (Altbestand): Nachruestung anbieten
+   (Fallback gemaess `project-rules/DERIVED_STATE_RULES.md`)
+3. **Setze Status in BACKLOG.md** auf "In Arbeit" (abgeleitete Anzeige, siehe Regeln)
 4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Feature-Name eintragen
 
 **Bei Bug:**
@@ -114,14 +117,16 @@ Nach Auswahl durch den Benutzer:
 [Falls PLAN_*.md vorhanden:]
 Wir arbeiten im **3x3-Rhythmus**:
 1. Ich setze max. 3 Schritte aus dem Plan um
-2. Fasse zusammen was erledigt wurde
-3. Beschreibe die naechsten 3 Schritte
-4. Warte auf dein Feedback
+2. Hake erledigte Schritte in der `## Progress`-Sektion des Plans ab (Commit-SHA als Beleg)
+3. Fasse zusammen was erledigt wurde
+4. Beschreibe die naechsten 3 Schritte
+5. Warte auf dein Feedback
 
-Erster Block: Schritte [1.1 – 1.3 aus dem Plan]
+Erster Block: Schritte [erste 3 nicht abgehakte Schritte aus `## Progress`]
 
 Bei Kontextverlust oder nach >6 Schritten:
-→ Erstelle `IMPL_STATUS_[NAME].md` und setze in neuer Konversation fort.
+→ `## Progress` in PLAN_[NAME].md ist der Wiedereinstiegspunkt — in neuer Konversation
+  den Plan laden; der erste nicht abgehakte Schritt ist der naechste.
 
 Bereit? Sage "Los" oder stelle Fragen.
 ```
@@ -176,6 +181,7 @@ Bereit? Sage "Los" oder stelle Fragen.
 
 - **Nur startbare Items:** Features mit Status "Geplant", Bugs mit Status "Analysiert" und Aufgaben mit Status "Offen" — keine "In Arbeit" oder "Abgeschlossen"
 - **Status-Update:** BACKLOG.md und WORKFLOW_STATUS.md muessen aktualisiert werden
+- **Checkbox-Pflicht im Implementierungs-Loop:** Nach JEDEM umgesetzten Schritt sofort die Checkbox in der `## Progress`-Sektion des Plans abhaken — mit Commit-SHA als Beleg (`- [x] N.M Kurzname — \`SHA\``; SHA optional bei Schritten ohne Commit, ein Commit darf mehrere Checkboxen belegen). Nicht gesammelt am Session-Ende. Die Progress-Sektion ist die Single Source of Truth (`project-rules/DERIVED_STATE_RULES.md`) — es gibt kein IMPL_STATUS_*.md mehr
 - **Feature-Spec lesen:** Immer die vollstaendige Spec lesen um den Kontext zu zeigen
 - **3x3-Rhythmus:** Wenn ein PLAN_*.md vorhanden ist, weise auf den Arbeitsrhythmus hin (max. 3 Schritte → Zusammenfassung → Feedback → naechste 3)
 - **Kompakt:** Max 40 Zeilen Output

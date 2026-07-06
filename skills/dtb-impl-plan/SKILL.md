@@ -11,8 +11,8 @@ pipeline:
   stage: planning
   after: dtb:feature-plan
   next: dtb:plan-review
-  consumes: [FEATURE_*.md]
-  produces: [PLAN_*.md, IMPL_STATUS_*.md]
+  consumes: [FEATURE_*.md, project-rules/DERIVED_STATE_RULES.md]
+  produces: [PLAN_*.md]
 ---
 
 # Implementierungsplan erstellen
@@ -92,35 +92,31 @@ Verwende folgende Struktur:
 
 ---
 
+## Progress
+
+> Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
+> Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg (optional bei Schritten ohne Commit).
+
+- [ ] 1.1 [Kurzname]
+- [ ] 1.2 [Kurzname]
+- [ ] 1.3 [Kurzname]
+- [ ] 2.1 [Kurzname]
+
+---
+
 ## 3x3 Umsetzungsrhythmus
 
 Dieser Plan ist fuer die Umsetzung im **3x3-Rhythmus** ausgelegt:
 
 1. Implementiere max. 3 Schritte aus dem Plan
-2. Fasse kurz zusammen was erledigt wurde
-3. Beschreibe die naechsten 3 Schritte
-4. **Stoppe und warte auf Feedback** bevor du weiterarbeitest
+2. Hake die erledigten Schritte in `## Progress` ab (Commit-SHA als Beleg)
+3. Fasse kurz zusammen was erledigt wurde
+4. Beschreibe die naechsten 3 Schritte
+5. **Stoppe und warte auf Feedback** bevor du weiterarbeitest
 
-Bei Kontextverlust oder nach >6 Schritten: Erstelle `IMPL_STATUS_[NAME].md` im features-Ordner:
-
-```
-# Impl-Status: [Feature-Name]
-**Stand:** [Datum]
-**Plan:** PLAN_[NAME].md
-
-## Erledigte Schritte
-- [x] 1.1: [Name] — [kurzes Ergebnis]
-- [x] 1.2: [Name] — [kurzes Ergebnis]
-
-## Naechste Schritte (laut Plan)
-- [ ] 1.3: [Name]
-- [ ] 1.4: [Name]
-
-## Erkenntnisse / Abweichungen
-- [Was lief anders als geplant? Scope-Creep erkannt?]
-```
-
-Setze in einer neuen Konversation fort — dort `IMPL_STATUS_[NAME].md` und `PLAN_[NAME].md` als Kontext laden.
+Bei Kontextverlust oder nach >6 Schritten: Die `## Progress`-Sektion ist der Wiedereinstiegspunkt —
+in neuer Konversation `PLAN_[NAME].md` laden; der erste nicht abgehakte Schritt ist der naechste.
+Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint`).
 
 ---
 
@@ -160,6 +156,7 @@ Setze in einer neuen Konversation fort — dort `IMPL_STATUS_[NAME].md` und `PLA
    - Jede Phase braucht ein klares Ziel, Schritte mit Dateibezug, und Checkpoint-Kriterien
    - Technische Entscheidungen: Optionen auflisten, Entscheidung kann "Offen" sein
    - **3x3-Blockung:** Nummeriere Schritte fortlaufend pro Phase (1.1, 1.2, 1.3, 1.4 ...) und setze nach jedem 3. Schritt einen `> 3x3-Block`-Hinweis. Jeder Schritt soll ein konkretes, testbares Ergebnis liefern.
+   - **Progress-Sektion (Pflicht):** Erzeuge fuer JEDEN Schritt N.M genau eine Checkbox-Zeile `- [ ] N.M Kurzname` in `## Progress`. Format gemaess `project-rules/DERIVED_STATE_RULES.md`: 1 Zeile pro Schritt, keine Prosa, SHA-Beleg kommt erst beim Abhaken dazu. Diese Sektion ist die Single Source of Truth fuer den Umsetzungsstand — es gibt KEIN separates Status-Artefakt (IMPL_STATUS_*.md ist abgeschafft).
    - **Max. 500 Zeilen** — laengere Plaene verschlechtern die AI-Verarbeitung. Bei sehr grossen Features: in mehrere Phasen-Dateien aufteilen oder Details in Schritten knapp halten.
 
 6. **Speichere die Datei**
