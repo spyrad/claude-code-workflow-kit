@@ -9,8 +9,8 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Laufende Arbeit** | 10x-devs-3.0-Analyse abgeschlossen, 7 Verbesserungs-Ideen in INBOX erfasst |
-| **Naechster Schritt** | Ideen-Triage (`/dtb:idea-review`); Startkandidat: Idee #1 Derived State |
+| **Laufende Arbeit** | Feature "Derived State" (In Arbeit) — `features/PLAN_DERIVED_STATE.md`, Phase 1 von 5 |
+| **Naechster Schritt** | Phase 1 umsetzen: Schritte 1.1-1.3 (Regel-Datei `project-rules/DERIVED_STATE_RULES.md`) |
 | **Blocker** | Keine |
 
 ---

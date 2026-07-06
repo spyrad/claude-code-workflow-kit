@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** [YYYY-MM-DD]
+**Letzte Aktualisierung:** 2026-07-06
 
 ---
 
@@ -8,8 +8,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| [Feature 1] | [Status] | [Prio] | `features/FEATURE_[NAME].md` | [Kurzbeschreibung] |
-| [Feature 2] | [Status] | [Prio] | `features/FEATURE_[NAME].md` | [Kurzbeschreibung] |
+| Derived State | In Arbeit | Hoch | `features/FEATURE_DERIVED_STATE.md` | Status aus Artefakten ableiten statt manuell pflegen — Status-Drift strukturell unmoeglich machen |
 
 ---
 
