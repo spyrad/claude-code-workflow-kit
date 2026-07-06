@@ -11,7 +11,7 @@ pipeline:
   stage: planning
   after: dtb:impl-plan
   next: dtb:feature-start
-  consumes: [PLAN_*.md, FEATURE_*.md, agents/*.md]
+  consumes: [PLAN_*.md, FEATURE_*.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -29,6 +29,11 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 1. **Feature ermitteln:** Frage den Benutzer nach dem Feature-Namen, falls nicht aus dem Chat-Kontext erkennbar
 2. **Plan lesen:** Lies `{config.paths.workflows}/features/PLAN_[NAME].md`
+   - **Formal-Check `## Progress`:** Der Plan muss eine `## Progress`-Sektion haben —
+     genau eine Checkbox-Zeile pro Schritt N.M, Format gemaess
+     `{config.paths.rules}/DERIVED_STATE_RULES.md` §2. Fehlt die Sektion oder weicht
+     die Nummerierung von den Plan-Schritten ab → als Finding in Runde 2 aufnehmen
+     (der Umsetzungsstand waere sonst nicht ableitbar)
 3. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/FEATURE_[NAME].md` als zusaetzlichen Kontext
 
 Falls Plan nicht gefunden:

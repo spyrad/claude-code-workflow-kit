@@ -42,7 +42,7 @@ Verwende folgende Struktur:
 **Erstellt:** [Datum]
 **Ziel:** [Hauptziel in einem Satz]
 **Prioritaet:** Hoch / Mittel / Niedrig
-**Status:** Geplant / In Arbeit / Fertig zum Testen / Abgenommen / Abgeschlossen / Pausiert
+**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -158,11 +158,14 @@ Verwende folgende Struktur:
 
    **Bei Ja:**
    - Lies `{config.paths.workflows}/BACKLOG.md`
+   - Die Status-Spalte ist eine **abgeleitete Anzeige** (Regeln: `project-rules/DERIVED_STATE_RULES.md`):
+     trage den initialen abgeleiteten Status ein — frisch erstellte Spec ohne Plan = `Spezifiziert`.
+     Danach pflegt `dtb:workflow-checkpoint` das Feld; manuell gepflegt werden nur Prio und Ziel
    - Bestimme Ziel-Abschnitt anhand des Status:
      - Status "Idee" → "Ideen / Backlog"
      - Alle anderen (Geplant, In Arbeit, etc.) → "Aktive Features"
    - Fuege eine neue Zeile in die entsprechende Tabelle ein:
-     `| {Feature-Name} | Geplant | {Prio} | FEATURE_{NAME}.md | {Ziel aus Executive Summary} |`
+     `| {Feature-Name} | Spezifiziert | {Prio} | FEATURE_{NAME}.md | {Ziel aus Executive Summary} |`
    - Aktualisiere das Datum in "Letzte Aktualisierung"
 
    **Bei Nein:**

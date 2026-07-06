@@ -181,7 +181,12 @@ CLAUDE.md Pflege-Richtlinien:
 [Entry Points, kritische Dateien]
 ```
 
-Erstelle eine leere `WORKFLOW_STATUS.md` und `BACKLOG.md` falls sie nicht existieren:
+Erstelle eine leere `WORKFLOW_STATUS.md` und `BACKLOG.md` falls sie nicht existieren.
+
+**Regel-Datei verteilen:** Kopiere `DERIVED_STATE_RULES.md` (zentrale Statusableitungs-Regeln,
+Quelle: Kit-Repo `dtb-project/project-rules/DERIVED_STATE_RULES.md`) nach
+`{config.paths.rules}/DERIVED_STATE_RULES.md` im Zielprojekt — die Lese-Skills
+(workflow-next/-status/-resume, backlog-status) und workflow-checkpoint referenzieren sie.
 
 **WORKFLOW_STATUS.md:**
 ```markdown
@@ -192,13 +197,18 @@ Erstelle eine leere `WORKFLOW_STATUS.md` und `BACKLOG.md` falls sie nicht existi
 
 ---
 
-## Aktueller Stand
+## Status (generiert aus Artefakten — nicht manuell editieren)
+
+Kein aktives Feature.
+
+---
+
+## Kontext (manuell)
 
 | Kennzahl | Wert |
 |----------|------|
-| **Laufende Arbeit** | Projekt initialisiert |
-| **Naechster Schritt** | Erstes Feature planen |
 | **Blocker** | Keine |
+| **Notizen** | Projekt initialisiert — erstes Feature planen |
 
 ---
 
@@ -212,6 +222,10 @@ Fuer neue Session: `/dtb:workflow-resume`
 # Feature Backlog
 
 **Letzte Aktualisierung:** [YYYY-MM-DD]
+
+> Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
+> Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
+> synchronisiert — nicht manuell pflegen. Manuell gepflegt werden nur **Prio** und **Ziel**.
 
 ---
 

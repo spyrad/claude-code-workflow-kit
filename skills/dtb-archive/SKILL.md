@@ -42,17 +42,23 @@ Pruefe die folgenden Quellen und sammle alle Kandidaten:
 
 ### BACKLOG.md
 - Features im Abschnitt "Abgeschlossen"
-- Bugs im Abschnitt "Bugs" mit Status `Behoben`
-- Aufgaben im Abschnitt "Aufgaben" mit Status `Erledigt`
 
-### Feature-Specs
-- `{config.paths.workflows}/features/FEATURE_*.md` mit `**Status:** Abgeschlossen`
+### Feature-Specs (abgeleitet, Regeln: `project-rules/DERIVED_STATE_RULES.md`)
+- `FEATURE_*.md` mit explizitem `**Status:** Abgenommen` oder `Abgeschlossen`
+- `FEATURE_*.md` deren `PLAN_*.md` vollstaendig abgehakt ist ("Fertig zum Testen") —
+  NUR als Kandidat vorschlagen, Archivierung braucht explizite Bestaetigung
+  (Regel-Datei §1.2: 100% Checkboxen ≠ automatisch abgeschlossen)
 
-### Bug-Reports
-- `{config.paths.workflows}/features/BUG_*.md` mit `**Status:** Behoben`
+### Bug-Reports (abgeleitet, §1.5)
+- `BUG_*.md` deren `## Fix-Schritte` vollstaendig abgehakt sind (= Behoben)
 
-### Aufgaben
-- `{config.paths.workflows}/features/TASK_*.md` mit `**Status:** Erledigt`
+### Aufgaben (abgeleitet, §1.5)
+- `TASK_*.md` deren `## Schritte` vollstaendig abgehakt sind (= Erledigt)
+
+### Altlasten
+- `IMPL_STATUS_*.md` Dateien (abgeschafftes Artefakt) — beim Archivieren des
+  zugehoerigen Features mit verschieben; verwaiste IMPL_STATUS ohne aktives Feature
+  direkt als Archiv-Kandidat vorschlagen
 
 ---
 
@@ -108,7 +114,8 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 ### 4b: Feature-Specs und Plaene verschieben
 
 - Verschiebe abgeschlossene `FEATURE_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
-- Verschiebe die zugehoerige `DISCOVERY_*.md` und `PLAN_*.md` mit (falls vorhanden, gleicher Name)
+- Verschiebe die zugehoerige `DISCOVERY_*.md`, `PLAN_*.md` und `IMPL_STATUS_*.md` mit (falls vorhanden, gleicher Name)
+- Setze beim Archivieren `**Status:** Abgeschlossen` in der Feature-Spec — die Archivierung IST der explizite Abschluss-Akt (Regel-Datei §1.2)
 - Verschiebe behobene `BUG_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
 - Verschiebe erledigte `TASK_*.md` von `{config.paths.workflows}/features/` nach `{config.paths.workflows}/archive/`
 

@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md]
+  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -102,18 +102,29 @@ Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emoji
 - Extrahiere alle Plan-Links (Pattern: `` `.claude/plans/*.md` ``)
 - Pruefe ob jeder referenzierte Plan existiert
 
-#### Check 3: Status-Konsistenz
+#### Check 3: Derived-State-Konsistenz
 
-- Lies den Status jedes Features aus BACKLOG.md (Spalte "Status")
-- Lies den `**Status:**`-Wert aus der jeweiligen FEATURE_*.md
-- Vergleiche: Wenn BACKLOG "In Arbeit" sagt aber Feature-Spec "Geplant" (oder umgekehrt) → FEHLER
-- Pruefe: WORKFLOW_STATUS "Laufende Arbeit" → das referenzierte Feature/Task sollte in BACKLOG "In Arbeit" sein
-- Erlaubte Abweichungen: "Geplant" in BACKLOG + beliebiger Status in Spec ist OK solange Spec nicht "In Arbeit"/"Fertig" sagt
+Grundlage: `{config.paths.rules}/DERIVED_STATE_RULES.md` (Fallback:
+`dtb-project/project-rules/DERIVED_STATE_RULES.md`). Leite den Status jedes Items aus
+den Artefakten ab (Artefakt-Existenz + `## Progress`-Checkboxen) und pruefe:
 
-**TASK Status-Konsistenz:**
-- Lies den Status jeder Aufgabe aus BACKLOG.md (Abschnitt "Aufgaben")
-- Lies den `**Status:**`-Wert aus der jeweiligen TASK_*.md
-- Vergleiche: Status muss uebereinstimmen (Offen, In Arbeit, Erledigt) → FEHLER bei Abweichung
+**Anzeige-Drift (WARNUNG, kein FEHLER — Anzeige-Felder sind nachlaufend):**
+- BACKLOG-Status-Spalte oder `**Status:**`-Zeile weicht vom abgeleiteten Status ab
+  → WARNUNG mit Fix-Hinweis: `/dtb:workflow-checkpoint` synchronisiert die Anzeige
+- WORKFLOW_STATUS "Status (generiert)"-Block widerspricht der Ableitung → WARNUNG (veraltet)
+
+**Verwaiste Paare (FEHLER):**
+- `PLAN_*.md` ohne zugehoerige `FEATURE_*.md` (gleicher Name) → verwaister Plan
+- `DISCOVERY_*.md`/`PLAN_*.md` deren Namens-Pairing auf keine Spec passt (z.B. nach Umbenennung)
+
+**Checkbox-Hygiene (WARNUNG):**
+- PLAN "In Arbeit" (teilweise abgehakt), aber abgehakte Schritte ohne SHA-Beleg UND
+  `git log` zeigt neuere Commits, die das Feature betreffen → moeglicherweise vergessene Checkboxen
+- PLAN ohne `## Progress`-Sektion → Nachruestung empfehlen (Fallback §1.4)
+
+**IMPL_STATUS-Altlasten (WARNUNG):**
+- `IMPL_STATUS_*.md` vorhanden (abgeschafftes Artefakt) → Migration empfehlen:
+  Stand in die `## Progress`-Sektion des Plans uebertragen, Datei archivieren
 
 **INBOX ↔ Feature-Status:**
 - Idee "In Arbeit" → es sollte noch kein FEATURE_*.md existieren (sonst muesste Status "Ausgearbeitet" sein). Ein DISCOVERY_*.md-Link ist erlaubt (Discovery-Phase laeuft)

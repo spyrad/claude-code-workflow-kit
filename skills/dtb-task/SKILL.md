@@ -128,6 +128,9 @@ Soll die Aufgabe in BACKLOG.md eingetragen werden? (Ja/Nein)
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aufgaben" ein:
   `| {Aufgaben-Name} | Offen | {Prioritaet} | TASK_{NAME}.md | {Beschreibung-Einzeiler} |`
+  (`Offen` = initialer abgeleiteter Status, 0 Schritte abgehakt. Die Status-Spalte ist
+  abgeleitete Anzeige und wird danach von `dtb:workflow-checkpoint` gepflegt —
+  Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
 - Falls die Sektion "Aufgaben" noch nicht existiert, fuege sie zwischen "Aktive Features" und "Ideen / Backlog" ein:
   ```markdown
   ## Aufgaben

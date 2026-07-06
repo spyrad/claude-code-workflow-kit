@@ -2,6 +2,10 @@
 
 **Letzte Aktualisierung:** 2026-07-06
 
+> Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
+> Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
+> synchronisiert — nicht manuell pflegen. Manuell gepflegt werden nur **Prio** und **Ziel**.
+
 ---
 
 ## Aktive Features
@@ -35,17 +39,19 @@
 
 ---
 
-## Status-Legende
+## Status-Legende (abgeleitet aus Artefakten)
 
-| Status | Bedeutung |
-|--------|-----------|
-| Idee | Noch nicht ausgearbeitet |
-| Geplant | Plan erstellt, bereit zur Umsetzung |
-| In Arbeit | Aktiv in Entwicklung |
-| Fertig zum Testen | Implementiert, wartet auf Test/QA |
-| Abgenommen | Getestet und freigegeben |
-| Abgeschlossen | Deployed/Merged |
-| Pausiert | Zurueckgestellt |
+| Status | Abgeleitet aus |
+|--------|----------------|
+| Idee | Nur INBOX-/BACKLOG-Eintrag, keine Artefakte |
+| In Discovery | DISCOVERY_*.md existiert |
+| Spezifiziert | FEATURE_*.md existiert, kein PLAN |
+| Geplant | PLAN_*.md existiert, 0 Schritte abgehakt |
+| In Arbeit | `## Progress` teilweise abgehakt (X/Y) |
+| Fertig zum Testen | Alle Schritte abgehakt |
+| Abgenommen | Explizit gesetzt (getestet und freigegeben) |
+| Abgeschlossen | Explizit via `/dtb:archive` |
+| Pausiert | Explizit gesetzt, ueberschreibt Ableitung |
 
 ## Prio-Legende
 

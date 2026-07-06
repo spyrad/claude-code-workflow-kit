@@ -130,6 +130,9 @@ Soll der Bug in BACKLOG.md eingetragen werden? (Ja/Nein)
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aktive Features" ein:
   `| Bug: {Bug-Name} | Offen | {Severity} | BUG_{NAME}.md | {Symptom-Einzeiler} |`
+  (`Offen` = initialer abgeleiteter Status, kein Analyse-Abschnitt vorhanden. Die
+  Status-Spalte ist abgeleitete Anzeige und wird danach von `dtb:workflow-checkpoint`
+  gepflegt — Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
 - Aktualisiere das Datum in "Letzte Aktualisierung"
 
 **Bei Nein:**
