@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Derived State | In Arbeit | Hoch | `features/FEATURE_DERIVED_STATE.md` | Status aus Artefakten ableiten statt manuell pflegen — Status-Drift strukturell unmoeglich machen |
+| Derived State | Fertig zum Testen | Hoch | `features/FEATURE_DERIVED_STATE.md` | Status aus Artefakten ableiten statt manuell pflegen — Status-Drift strukturell unmoeglich machen |
 
 ---
 

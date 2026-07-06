@@ -132,7 +132,7 @@ Die 4 Lese-Skills leiten Status aus Artefakten ab und referenzieren die zentrale
 - [x] Test-Szenario (Fixture c): PLAN mit 2/5 Checkboxen, KEIN Checkpoint gelaufen → workflow-next/-resume nennen korrekt Schritt 3 (Success Criterion 3) — 2026-07-06, unabhaengiger Agent
 - [x] Widerspruchs-Szenario (Fixture d): BACKLOG sagt "Geplant", PLAN ist abgehakt → Report meldet Konflikt, Artefakt gewinnt (Success Criterion 4) — 2026-07-06
 - [x] Fallback-Szenario (Alt-Fixture): PLAN ohne Progress + IMPL_STATUS → "Fortschritt unbekannt" + Nachruest-Angebot, kein Abbruch (Success Criterion 5) — 2026-07-06
-- [ ] Ergebnisse als kurzes Testprotokoll im Session-Log dokumentiert (Szenario → erwartet → beobachtet) — beim naechsten /dtb:workflow-checkpoint
+- [x] Ergebnisse als kurzes Testprotokoll im Session-Log dokumentiert (Szenario → erwartet → beobachtet) — `2026-07/2026-07-06.md`
 
 ---
 

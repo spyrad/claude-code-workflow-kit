@@ -11,3 +11,5 @@ dtb-project/*
 dtb-project/project-rules/*
 !dtb-project/project-rules/DERIVED_STATE_RULES.md
 .obsidian/
+# Lokale Claude-Code-Einstellungen (Permission-Cache), maschinenspezifisch
+.claude/settings.local.json

@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-06
 **Ziel:** Feature-Status wird aus Artefakten abgeleitet statt in mehreren Dateien manuell gepflegt — Status-Drift wird strukturell unmoeglich.
 **Prioritaet:** Hoch
-**Status:** Geplant
+**Status:** Fertig zum Testen
 
 ---
 
