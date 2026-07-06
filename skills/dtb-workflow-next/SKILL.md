@@ -12,7 +12,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, BACKLOG.md, WORKFLOW_STATUS.md]
+  consumes: [INBOX.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, BACKLOG.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -28,53 +28,64 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 ## Schritt 2: Alle aktiven Features scannen
 
-Scanne die Workflow-Artefakte und bestimme pro Feature die aktuelle Pipeline-Position anhand vorhandener Artefakte:
+**Ableitungsregel:** Der Status wird aus Artefakten ABGELEITET, nie aus Statusfeldern
+uebernommen — verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
+(Fallback: `dtb-project/project-rules/DERIVED_STATE_RULES.md`). Lies diese Datei zuerst.
+Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 
 **Quellen:**
 - `{config.paths.workflows}/INBOX.md` — Eintraege mit Status `In Arbeit`
 - `{config.paths.workflows}/features/DISCOVERY_*.md` — Discovery-Dokumente
 - `{config.paths.workflows}/features/FEATURE_*.md` — Feature-Specs
-- `{config.paths.workflows}/features/PLAN_*.md` — Implementierungsplaene (Status aus ersten 10 Zeilen)
-- `{config.paths.workflows}/features/BUG_*.md` — Bug-Reports (Status aus ersten 10 Zeilen)
-- `{config.paths.workflows}/BACKLOG.md` — Backlog-Eintraege mit Status
+- `{config.paths.workflows}/features/PLAN_*.md` — Implementierungsplaene: `## Progress`-Checkboxen zaehlen (X von Y abgehakt); Plan-Status (`Entwurf`/`Reviewed`) aus den ersten 10 Zeilen
+- `{config.paths.workflows}/features/BUG_*.md`, `TASK_*.md` — Checkliste in der Datei zaehlen (`## Fix-Schritte` bzw. `## Schritte`)
+- `{config.paths.workflows}/BACKLOG.md` — NUR fuer Konflikterkennung und Prio
 
-**Pipeline-Position pro Feature ermitteln:**
-
-Fuer jedes Feature den "weitesten" Stand bestimmen:
+**Pipeline-Position pro Feature ermitteln (abgeleitet):**
 
 **Feature-Pipeline:**
 
-| Artefakt-Kombination | Pipeline-Position | Naechster Skill |
+| Abgeleiteter Zustand | Pipeline-Position | Naechster Skill |
 |---|---|---|
 | INBOX `In Arbeit`, kein DISCOVERY | Discovery ausstehend | `/dtb:feature-discover` |
 | DISCOVERY_*.md vorhanden, kein FEATURE | Spec ausstehend | `/dtb:feature-plan [NAME]` |
 | FEATURE_*.md vorhanden, kein PLAN | Plan ausstehend | `/dtb:impl-plan [NAME]` |
 | PLAN_*.md Status `Entwurf` | Review ausstehend | `/dtb:plan-review [NAME]` |
-| PLAN_*.md Status `Reviewed` | Start ausstehend | `/dtb:feature-start` |
-| BACKLOG Status `In Arbeit` | In Entwicklung | `/dtb:build-check` |
-| BACKLOG Status `Fertig zum Testen` | Test ausstehend | Manuell testen |
-| BACKLOG Status `Abgenommen` | Abschluss | `/dtb:workflow-checkpoint` |
+| PLAN_*.md Status `Reviewed`, 0/Y Checkboxen | Start ausstehend | `/dtb:feature-start` |
+| PLAN_*.md teilweise abgehakt (X/Y) | In Entwicklung | Schritt {erster nicht abgehakter N.M} umsetzen |
+| PLAN_*.md alle Checkboxen abgehakt | Fertig zum Testen | Manuell testen, dann `/dtb:archive` |
+| Datei in `archive/` | Abgeschlossen | — |
 
-**Bug-Pipeline:**
+**Bug-Pipeline** (Checkliste = `## Fix-Schritte` im Bug-Report):
 
-| Artefakt-Kombination | Pipeline-Position | Naechster Skill |
+| Abgeleiteter Zustand | Pipeline-Position | Naechster Skill |
 |---|---|---|
-| BUG_*.md Status `Offen` | Analyse ausstehend | `/dtb:debug-plan [NAME]` |
-| BUG_*.md Status `Analysiert` | Fix ausstehend | `/dtb:feature-start` oder direkt fixen |
-| BUG_*.md Status `In Arbeit` | Fix in Arbeit | `/dtb:build-check` |
-| BUG_*.md Status `Behoben` | Abschluss | `/dtb:workflow-checkpoint` |
+| kein Analyse-Abschnitt (nur Symptom) | Analyse ausstehend | `/dtb:debug-plan [NAME]` |
+| Analyse vorhanden, 0 Fix-Schritte abgehakt | Fix ausstehend | `/dtb:feature-start` oder direkt fixen |
+| Fix-Schritte teilweise abgehakt | Fix in Arbeit | naechsten Fix-Schritt umsetzen |
+| alle Fix-Schritte abgehakt | Test/Abschluss | Testplan ausfuehren, `/dtb:workflow-checkpoint` |
 
-**Aufgaben-Pipeline:**
+**Aufgaben-Pipeline** (Checkliste = `## Schritte` in TASK_*.md):
 
-| Artefakt-Kombination | Pipeline-Position | Naechster Skill |
+| Abgeleiteter Zustand | Pipeline-Position | Naechster Skill |
 |---|---|---|
-| TASK_*.md Status `Offen` | Start ausstehend | `/dtb:feature-start` |
-| TASK_*.md Status `In Arbeit` | In Arbeit | Weiterarbeiten |
-| TASK_*.md Status `Erledigt` | Abschluss | `/dtb:workflow-checkpoint` |
+| 0 Schritte abgehakt | Start ausstehend | `/dtb:feature-start` |
+| teilweise abgehakt | In Arbeit | naechsten Schritt umsetzen |
+| alle abgehakt | Abschluss | `/dtb:workflow-checkpoint` |
 
-## Schritt 3: Sortieren & priorisieren
+**Fallbacks (kein Abbruch, siehe Regel-Datei §1.4):**
+- PLAN ohne `## Progress` oder mit 0 Checkbox-Zeilen → "Plan vorhanden, Fortschritt unbekannt"; Nachruestung anbieten
+- `IMPL_STATUS_*.md` vorhanden (Altbestand) → fuer Ableitung ignorieren, Migrations-Hinweis zeigen
+- PLAN ohne FEATURE-Spec → als "verwaister Plan" melden
+- Explizit `Pausiert` markierte Items → nicht anzeigen (ueberschreibt Ableitung)
 
-- Features mit Status "In Arbeit" (Entwicklung) zuerst — die sind am weitesten
+## Schritt 3: Konflikte erkennen, sortieren & priorisieren
+
+**Konfliktregel (Regel-Datei §1.3):** Weicht ein BACKLOG-Statusfeld vom abgeleiteten
+Zustand ab, gewinnt das Artefakt. Den Widerspruch mit 1 Hinweiszeile melden
+(`⚠ BACKLOG sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`), NICHT selbst korrigieren (read-only).
+
+- Abgeleitet "In Entwicklung" zuerst — die sind am weitesten
 - Dann nach Pipeline-Position absteigend (weiter fortgeschritten = hoehere Prio)
 - Falls ein Argument uebergeben wurde: Nur dieses Feature zeigen
 
@@ -102,11 +113,12 @@ Naechste Schritte:
   Discovery      ✓ (YYYY-MM-DD)
   Feature-Spec   ✓ (YYYY-MM-DD)
   Impl-Plan      ✓ Reviewed
-  Backlog        In Arbeit
+  Progress       X/Y Schritte (abgeleitet)
   Build/Test     ○
   Abnahme        ○
 
-→ Naechster Schritt: /dtb:build-check
+→ Naechster Schritt: {erster nicht abgehakter Schritt N.M aus ## Progress}
+{falls Konflikt: ⚠ BACKLOG sagt "...", Artefakte zeigen "..."}
 ```
 
 ## Richtlinien
