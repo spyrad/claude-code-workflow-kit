@@ -11,7 +11,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, WORKFLOW_STATUS.md]
+  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -25,38 +25,45 @@ Lies `workflow.config.yaml` im Projekt-Root.
 
 Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
-## Schritt 1: Artefakte zaehlen
+## Schritt 1: Artefakte zaehlen (abgeleitet)
+
+**Ableitungsregel:** Alle Stufen-Zaehlungen werden aus Artefakten ABGELEITET, nicht aus
+Statusfeldern uebernommen — verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
+(Fallback: `dtb-project/project-rules/DERIVED_STATE_RULES.md`). Lies diese Datei zuerst.
+Statusfelder (BACKLOG.md, `**Status:**`-Zeilen) dienen nur der Konflikterkennung;
+Ausnahme: explizite Zustaende `Pausiert`/`Abgenommen` (Regel-Datei §1.2).
 
 Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 
 **INBOX.md** (`{config.paths.workflows}/INBOX.md`):
 - Zaehle Eintraege nach Status: `Offen`, `In Arbeit`, `Ausgearbeitet`, `Verworfen`
-- Nur `Offen` und `In Arbeit` sind Pipeline-relevant
+- Nur `Offen` und `In Arbeit` sind Pipeline-relevant (INBOX-Status wird von den
+  Idea-Skills gepflegt und gilt als Artefakt-Zustand)
 
 **DISCOVERY_*.md** (`{config.paths.workflows}/features/DISCOVERY_*.md`):
 - Zaehle vorhandene Discovery-Dateien
 - Lies jeweils den `**Status:**`-Wert (Abgeschlossen = fertig fuer Feature-Spec)
 
+**FEATURE_*.md + PLAN_*.md** (`{config.paths.workflows}/features/`) — Kern der Ableitung:
+- FEATURE ohne PLAN → Stufe "Spezifiziert" (= Feature-Spec ohne Plan)
+- PLAN Status `Entwurf` (erste 10 Zeilen) → wartend auf Review
+- PLAN Status `Reviewed`, `## Progress` 0/Y abgehakt → bereit fuer Start ("Geplant")
+- PLAN `## Progress` teilweise abgehakt (X/Y) → "In Arbeit"
+- PLAN `## Progress` vollstaendig abgehakt → "Fertig zum Testen"
+- Fallbacks (Regel-Datei §1.4): PLAN ohne Progress-Sektion → "Fortschritt unbekannt"
+  (eigene Zeile in Queue-Tabelle); IMPL_STATUS_*.md → ignorieren, Migrations-Hinweis;
+  PLAN ohne FEATURE → "verwaister Plan"
+
 **BACKLOG.md** (`{config.paths.workflows}/BACKLOG.md`):
-- Zaehle Features nach Status: `Geplant`, `In Arbeit`, `Fertig zum Testen`, `Abgenommen`, `Abgeschlossen`
+- NUR fuer Prio-Werte und Konflikterkennung lesen — Zaehlungen kommen aus der Ableitung oben
+- Weicht ein BACKLOG-Status vom abgeleiteten Zustand ab: Konflikt vormerken (Schritt 6)
 
-**FEATURE_*.md** (`{config.paths.workflows}/features/FEATURE_*.md`):
-- Lies jeweils den `**Status:**`-Wert aus den ersten 20 Zeilen
-- Verwende als Gegenprobe zu BACKLOG.md
+**BUG_*.md** (`{config.paths.workflows}/features/BUG_*.md`) — abgeleitet:
+- kein Analyse-Abschnitt → `Offen`; Analyse vorhanden, 0 `## Fix-Schritte` abgehakt → `Analysiert`
+- Fix-Schritte teilweise abgehakt → `In Arbeit`; alle abgehakt → `Behoben`
 
-**PLAN_*.md** (`{config.paths.workflows}/features/PLAN_*.md`):
-- Lies jeweils den `**Status:**`-Wert aus den ersten 10 Zeilen (Entwurf / Reviewed / In Umsetzung / Abgeschlossen)
-- Zaehle Features ohne PLAN_*.md (= "Feature-Spec ohne Plan")
-- Zaehle PLAN_*.md mit Status "Entwurf" (= wartend auf Review)
-- Zaehle PLAN_*.md mit Status "Reviewed" (= bereit fuer Backlog/Start)
-
-**BUG_*.md** (`{config.paths.workflows}/features/BUG_*.md`):
-- Lies jeweils den `**Status:**`-Wert aus den ersten 10 Zeilen (Offen / Analysiert / In Arbeit / Behoben)
-- Zaehle Bugs nach Status: `Offen`, `Analysiert`, `In Arbeit`, `Behoben`
-
-**TASK_*.md** (`{config.paths.workflows}/features/TASK_*.md`):
-- Lies jeweils den `**Status:**`-Wert aus den ersten 10 Zeilen (Offen / In Arbeit / Erledigt)
-- Zaehle Aufgaben nach Status: `Offen`, `In Arbeit`, `Erledigt`
+**TASK_*.md** (`{config.paths.workflows}/features/TASK_*.md`) — abgeleitet:
+- `## Schritte` 0 abgehakt → `Offen`; teilweise → `In Arbeit`; alle → `Erledigt`
 
 **WORKFLOW_STATUS.md** (`{config.paths.workflows}/WORKFLOW_STATUS.md`):
 - Identifiziere aktuell laufende Arbeit (Sektion "Laufende Arbeit" o.ae.)
@@ -102,12 +109,16 @@ Erstelle eine kompakte Tabelle mit den Spalten:
 
 Zeige welche Skills und Agents an welchem Uebergang beteiligt sind (statische Referenz).
 
-## Schritt 6: Engpass-Analyse
+## Schritt 6: Engpass- & Konflikt-Analyse
 
 Identifiziere wo sich Items stauen:
 - Welche Stufe hat die meisten wartenden Items?
 - Gibt es Stufen mit Items aber ohne nachfolgende Aktivitaet?
 - Konkrete Empfehlung welcher Skill als naechstes ausgefuehrt werden sollte
+
+Melde vorgemerkte Konflikte (Regel-Datei §1.3): pro Widerspruch 1 Hinweiszeile
+(`⚠ {Quelle} sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`) — das Artefakt gewinnt,
+Felder werden NICHT korrigiert (read-only).
 
 ## Output-Format
 
