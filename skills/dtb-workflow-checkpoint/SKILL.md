@@ -10,7 +10,7 @@ pipeline:
   stage: session
   after: null
   next: dtb:workflow-resume
-  consumes: [BACKLOG.md, INBOX.md, FEATURE_*.md, TASK_*.md]
+  consumes: [BACKLOG.md, INBOX.md, FEATURE_*.md, PLAN_*.md, TASK_*.md, project-rules/DERIVED_STATE_RULES.md]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, TASK_*.md, session-log]
 ---
 
@@ -77,6 +77,15 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 - **IMMER UEBERSCHREIBEN** (nicht anhaengen)
 - **Max 60-80 Zeilen** — keine Detail-Tabellen, nur 1-Zeilen-Zusammenfassungen mit Links
 
+### Aufbau: generierter Statusblock + manueller Kontextblock
+
+Der Statusblock wird aus Artefakten GENERIERT (Regeln:
+`{config.paths.rules}/DERIVED_STATE_RULES.md`, Fallback
+`dtb-project/project-rules/DERIVED_STATE_RULES.md`). **Befuelle ausschliesslich die
+`{Platzhalter}` — Struktur, Spaltennamen und feste Texte duerfen NICHT umformuliert
+werden.** Keine freien Statusaussagen im generierten Block; Prosa gehoert in den
+Session-Log oder den Kontextblock.
+
 ### Template
 
 ```markdown
@@ -87,13 +96,23 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 
 ---
 
-## Aktueller Stand
+## Status (generiert aus Artefakten — nicht manuell editieren)
+
+| Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
+|------|---------------------|-------------|-------------------|
+| {Feature/Bug/Task-Name} | {abgeleiteter Status} | {X/Y oder —} | {erster nicht abgehakter Schritt N.M oder /dtb:skill} |
+
+{Pro Konflikt genau 1 Zeile: ⚠ {Item}: {Quelle} sagt "{Feld}", Artefakte zeigen "{abgeleitet}"}
+{Falls keine aktiven Items: "Kein aktives Feature."}
+
+---
+
+## Kontext (manuell)
 
 | Kennzahl | Wert |
 |----------|------|
-| **Laufende Arbeit** | [Was gerade offen ist] |
-| **Naechster Schritt** | [Konkret] |
 | **Blocker** | Keine / [Beschreibung] |
+| **Notizen** | [optional, 1 Zeile] |
 
 ---
 
@@ -126,6 +145,7 @@ Fuer neue Session: `/dtb:workflow-resume`
 ```
 
 ### Kernprinzip
+- **Statusblock = generiert**, Kontextblock = manuell — niemals mischen
 - **Keine Detail-Tabellen** in WORKFLOW_STATUS
 - Nur **1-Zeilen-Zusammenfassungen** mit Link zur Quelle
 - Details leben in Session-Logs, Testberichten, Planfiles
@@ -147,54 +167,31 @@ Fuer neue Session: `/dtb:workflow-resume`
 git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 ```
 
-### Schritt 2: Feature-Status pruefen
+### Schritt 2: Status ableiten & Anzeige-Felder synchronisieren
 
-Lies `{config.paths.workflows}/BACKLOG.md` und pruefe ob die Arbeit dieser Session mit einem Feature oder einer Aufgabe zusammenhaengt:
+Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Teil 2):
 
-1. **Vergleiche** die Chat-Inhalte mit den Features in BACKLOG.md (Abschnitt "Aktive Features") und Aufgaben (Abschnitt "Aufgaben")
-2. **Falls ein Feature betroffen ist**, frage den Benutzer:
-
-```
-Feature-Status-Update erkannt:
-
-Feature: {Feature-Name}
-Aktueller Status: {aktueller Status aus BACKLOG}
-
-Neuen Status setzen?
-  1. In Arbeit
-  2. Fertig zum Testen
-  3. Abgenommen
-  4. Abgeschlossen (deployed/merged)
-  5. Pausiert
-  6. Kein Update
-```
-
-3. **Bei Statusaenderung:**
-   - Aktualisiere die Zeile in BACKLOG.md mit dem neuen Status
-   - Bei **"Abgeschlossen"**: Verschiebe das Feature von "Aktive Features" nach "Abgeschlossen" mit aktuellem Datum
-   - Aktualisiere das Datum in "Letzte Aktualisierung"
-   - Aktualisiere auch den Status in der `features/FEATURE_*.md` Datei (Zeile `**Status:**`)
-
-4. **Falls eine Aufgabe betroffen ist**, frage den Benutzer:
+1. **Leite den Status aller aktiven Items ab:** PLAN_*.md `## Progress`-Checkboxen zaehlen
+   (0/Y = Geplant, X/Y = In Arbeit, Y/Y = Fertig zum Testen); Bugs/Tasks ueber die
+   Checkliste in der Datei (Regel-Datei §1.5). Pruefe dabei, ob Checkboxen dieser Session
+   abgehakt wurden — falls nicht, erinnere daran (Checkbox-Pflicht aus `dtb:feature-start`)
+2. **Synchronisiere die Anzeige-Felder** mit dem abgeleiteten Status (dieser Skill ist der
+   schreibende Skill aus Regel-Datei §1.3):
+   - Status-Spalte in BACKLOG.md (Abschnitte "Aktive Features"/"Aufgaben")
+   - `**Status:**`-Zeile in `features/FEATURE_*.md` bzw. `TASK_*.md`
+   - Datum in "Letzte Aktualisierung"
+3. **Nur explizite Zustaende erfragen** (Regel-Datei §1.2 — nicht ableitbar). Frage NUR,
+   wenn ein Item vollstaendig abgehakt ist oder der Chat-Verlauf es nahelegt:
 
 ```
-Aufgaben-Status-Update erkannt:
-
-Aufgabe: {Aufgaben-Name}
-Aktueller Status: {aktueller Status}
-
-Neuen Status setzen?
-  1. In Arbeit
-  2. Erledigt
-  3. Kein Update
+{Item-Name} ist fertig umgesetzt (alle Schritte abgehakt).
+  1. Fertig zum Testen (Standard — keine Aktion noetig)
+  2. Abgenommen (getestet & freigegeben)
+  3. Abgeschlossen → /dtb:archive
+  4. Pausiert (mit Grund)
 ```
 
-5. **Bei Statusaenderung einer Aufgabe:**
-   - Aktualisiere die Zeile in BACKLOG.md (Abschnitt "Aufgaben") mit dem neuen Status
-   - Aktualisiere auch den Status in der `features/TASK_*.md` Datei (Zeile `**Status:**`)
-   - Aktualisiere das Datum in "Letzte Aktualisierung"
-
-6. **Falls weder Feature noch Aufgabe erkannt wird**, ueberspringe diesen Schritt ohne Nachfrage.
+4. **Falls kein aktives Item betroffen ist**, ueberspringe diesen Schritt ohne Nachfrage.
 
 ### Schritt 3: Session-Log schreiben
 
