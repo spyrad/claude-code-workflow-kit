@@ -201,7 +201,7 @@ Totes `pitfalls.md`-Konzept ablösen, Doku/Graph aktualisieren, Feature abnehmen
 - [x] 3.1 pitfalls.md ablösen — `4b4b080`
 - [x] 3.2 Doku (CLAUDE.md, README.md) — `4b4b080`
 - [x] 3.3 Pipeline-Graph regenerieren — `4b4b080`
-- [ ] 3.4 Klasse-A-Artefakte via kit-sync abgleichen — zurückgestellt bis nach Push (Nutzer-Entscheidung 2026-07-08)
+- [x] 3.4 Klasse-A-Artefakte via kit-sync abgleichen — 12 übernommen (2 neu + 10 Updates), Lock `4ee4a9a`; pitch-coach bewusst übersprungen
 - [x] 3.5 Fixture-/Praxis-Abnahme (isoliert) — unabhängiger Agent, 8/8 Szenarien ✅; 4 Findings (#1 Pipe-Escaping, #2 leer-Def, #3 Konflikt-Klausel, #7 Edit-Tool) behoben
 
 ---
