@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Derived State | Abgenommen | 16/16 | /dtb:archive |
+| Kit Sync | In Arbeit | 0/10 | Schritt 1.1 (Lock-Schema + Skill-Geruest + Hash-Spike) |
+| Derived State | Abgenommen | 16/16 | /dtb:archive (Batch mit Kit Sync) |
 
 ---
 
