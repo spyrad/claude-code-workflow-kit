@@ -68,6 +68,16 @@ Bestimme welche Dateien geprueft werden sollen:
 - Argument mit Dateinamen → diese Dateien direkt lesen
 - Kein Argument → `git diff --name-only` + `git diff` (unstaged + staged)
 
+**Wiederaufnahme:** Enthaelt der Chat einen `dtb-review-resume`-Marker (YAML-Block aus einem
+frueheren Report, vom Nutzer eingefuegt — mehrzeilig, passt nicht ins Argument):
+1. `sha` mit `git rev-parse HEAD` vergleichen — bei Abweichung:
+   `⚠ Stand geaendert ({alt} → {neu}) — frisches Review empfohlen. Fortfahren? (Ja/Nein)`
+2. Scope aus dem `scope`-Feld uebernehmen; weicht der beim Aufruf angegebene Scope davon ab →
+   gleiche Warnung + Rueckfrage
+3. Findings unter `triagiert` ueberspringen (Identitaet: Datei + Zeile + Kategorie — NIE ueber
+   laufende Report-Nummern matchen); nur `offen`-Findings erneut pruefen und zeigen;
+   `nicht_triagiert` (Cap-Ueberlauf) wird im neuen Lauf frisch ermittelt
+
 Falls keine Aenderungen gefunden:
 ```
 Keine Aenderungen gefunden. Gib einen Scope an: staged, last-commit, oder Dateinamen.
@@ -125,7 +135,7 @@ Erstelle den Report als Konsolen-Output (keine Datei schreiben):
 
 1. **[S:{Hoch|Mittel|Niedrig} × I:{Hoch|Mittel|Niedrig} | {Kategorie}]** Zeile {N}: {Beschreibung}
    → Regel: {Zitat aus Rules-Datei}
-   → Empfehlung: {Konkreter Fix}
+   → Option: {Konkreter Fix} — Tradeoff: {Kosten/Nebenwirkung} — Confidence: {Hoch|Mittel|Niedrig}
 
 Sortiere Findings global nach Severity, bei Gleichstand nach Impact — Severity dominiert
 (S:Hoch×I:Niedrig kommt VOR S:Mittel×I:Hoch); Anzeige gruppiert nach Datei.
@@ -141,13 +151,33 @@ folgt darunter genau eine Zeile:
 {Falls alles OK: "Alle Aenderungen entsprechen den Projekt-Richtlinien."}
 ```
 
+### Schritt 6b: Resume-Marker ausgeben
+
+Falls der Report Findings enthaelt, beende ihn mit einem kopierbaren Marker-Block
+(bei 0 Findings entfaellt der Marker):
+
+```yaml
+dtb-review-resume:
+  scope: {staged | last-commit | Dateiliste}
+  sha: {git rev-parse HEAD}
+  offen:
+    - {datei}:{zeile} [{Kategorie}]
+  triagiert: []
+  nicht_triagiert: {N}   # Findings unterhalb des Caps — zaehlen NIE als "offen"
+```
+
+- Initial stehen alle gezeigten Findings unter `offen`, `triagiert` ist leer
+- Wird die Triage im Chat unterbrochen: Marker aktualisiert erneut ausgeben —
+  besprochene/behobene/verworfene Findings wandern nach `triagiert`
+- Hinweis unter dem Block: `Wiederaufnahme: /dtb:code-review aufrufen und diesen Block in den Chat einfuegen.`
+
 ---
 
 ## Richtlinien
 
 - **Read-Only:** Keine Dateien aendern — nur reporten
 - **Spezifisch:** Immer Zeilennummer + konkrete Regel referenzieren
-- **Actionable:** Bei jedem Verstoss eine konkrete Fix-Empfehlung
+- **Actionable:** Bei jedem Verstoss genau EINE Fix-Option mit Tradeoff und Confidence (nicht mehrere — Report-Laenge)
 - **Relevant:** Nur Rules pruefen die zum Bereich der geaenderten Datei passen
 - **Deutsch:** Alle Texte auf Deutsch
 - **Keine generischen Regeln:** Nur gegen projekt-spezifische Rules aus `project-rules/` pruefen, nicht gegen allgemeine Best Practices
