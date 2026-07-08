@@ -11,7 +11,7 @@ pipeline:
   stage: planning
   after: dtb:bug-report
   next: dtb:feature-start
-  consumes: [BUG_*.md]
+  consumes: [BUG_*.md, project-rules/lessons.md]
   produces: [BUG_*.md]
 ---
 
@@ -24,6 +24,19 @@ Du bist ein Debug-Analyst. Deine Aufgabe ist es, basierend auf einem bestehenden
 Lies `workflow.config.yaml` im Projekt-Root.
 
 Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
+
+---
+
+## Lektionen als Prior lesen
+
+Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`).
+
+- Fehlt die Datei oder ist sie leer (nur Header) → diesen Schritt still ueberspringen (kein Abbruch)
+- Sonst: filtere Eintraege, deren `Applies-to` `debug-plan` oder `alle` enthaelt
+- Wende die passenden `Rule`-Aussagen bei Hypothesen und Fix-Strategie still an
+- Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
+- **Konflikt** (zwei passende Lektionen mit ueberlappendem `Applies-to` und gegensaetzlicher `Rule`):
+  beide zeigen und den Widerspruch melden — nicht selbst aufloesen
 
 ---
 
@@ -136,6 +149,18 @@ Naechste Schritte:
   1. Fix umsetzen: /dtb:feature-start
   2. Oder direkt fixen, falls der Bug einfach ist
 ```
+
+---
+
+## Lektion-Kandidat erkennen (Vorschlager)
+
+Wenn dir waehrend der Analyse eine nicht-offensichtliche, wiederverwendbare Erkenntnis auffaellt
+(Trigger-Frage: „Wuerde ich denselben Fehler nochmal machen, wenn das nur im Session-Log stuende?"),
+schlage sie zur Aufnahme vor — **nie stiller Auto-Write**:
+```
+💡 Lektion-Kandidat: "{knappe Regel}". Nach lessons.md uebernehmen? (/dtb:lesson oder ja/nein)
+```
+Bei „ja": den Text an `/dtb:lesson` uebergeben.
 
 ---
 

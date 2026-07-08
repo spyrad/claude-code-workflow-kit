@@ -270,6 +270,7 @@ Statische Referenztabelle:
 | `TEAM.md` | `dtb-project/project-strategy/` | Projektteam-Dokumentation |
 | `ARCHIVE_LOG.md` | `dtb-project/project-workflows/archive/` | Log archivierter Eintraege |
 | `project-rules/*.md` | `dtb-project/project-rules/` | Coding-Richtlinien |
+| `project-rules/lessons.md` | `dtb-project/project-rules/` | Lektionen-Sammlung (Prior, keine Coding-Rule) |
 | `agents/*.md` | `.claude/agents/` | Agenten-Rollen |
 | `PRD-MVP.md` | `dtb-project/project-strategy/` | Product Requirements Document |
 | `ROADMAP.md` | `dtb-project/project-strategy/` | Strategische Projekt-Roadmap |

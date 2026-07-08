@@ -11,7 +11,7 @@ pipeline:
   stage: planning
   after: dtb:feature-plan
   next: dtb:plan-review
-  consumes: [FEATURE_*.md, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [FEATURE_*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
   produces: [PLAN_*.md]
 ---
 
@@ -24,6 +24,17 @@ Du bist ein Implementierungsplan-Manager. Deine Aufgabe ist es, basierend auf ei
 Lies `workflow.config.yaml` im Projekt-Root.
 
 Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
+
+## Lektionen als Prior lesen
+
+Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`).
+
+- Fehlt die Datei oder ist sie leer (nur Header) → diesen Schritt still ueberspringen (kein Abbruch)
+- Sonst: filtere Eintraege, deren `Applies-to` `impl-plan` oder `alle` enthaelt
+- Wende die passenden `Rule`-Aussagen bei der Planerstellung still an
+- Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
+- **Konflikt** (zwei passende Lektionen mit ueberlappendem `Applies-to` und gegensaetzlicher `Rule`):
+  beide zeigen und den Widerspruch melden — nicht selbst aufloesen
 
 ## Aufgabe
 
@@ -170,8 +181,19 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
    2. Feature starten: /dtb:feature-start
    ```
 
+## Lektion-Kandidat erkennen (Vorschlager)
+
+Wenn dir waehrend der Planung eine nicht-offensichtliche, wiederverwendbare Erkenntnis auffaellt
+(Trigger-Frage: „Wuerde ich denselben Fehler nochmal machen, wenn das nur im Session-Log stuende?"),
+schlage sie zur Aufnahme vor — **nie stiller Auto-Write**:
+```
+💡 Lektion-Kandidat: "{knappe Regel}". Nach lessons.md uebernehmen? (/dtb:lesson oder ja/nein)
+```
+Bei „ja": den Text an `/dtb:lesson` uebergeben.
+
 ## Verwandte Commands
 
 - `/dtb:feature-plan` — Feature-Spec erstellen
 - `/dtb:plan-review` — Plan reviewen lassen
 - `/dtb:feature-start` — Feature starten
+- `/dtb:lesson` — Lektion festhalten (Prior-Quelle)

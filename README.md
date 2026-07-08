@@ -97,6 +97,7 @@ cd <dein-projekt>
 | `/dtb:greenfield-prd` | Generate product requirements for new projects |
 | `/dtb:greenfield-roadmap` | Create project roadmap for new projects |
 | `/dtb:docs-extract` | Scan input/ folder, extract facts from PDFs/docs, create thematic MDs |
+| `/dtb:lesson` | Capture a reusable lesson append-only into `lessons.md`, read as a prior by plan/review skills |
 | `/dtb:pipeline-graph` | Generate interactive HTML overview of entire skill pipeline |
 
 ## Memory Framework

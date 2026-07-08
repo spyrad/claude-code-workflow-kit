@@ -1,5 +1,11 @@
 # Pitfalls (do not repeat)
 
+> **Abgeloest im DTB-Kit:** Dieses statische Template wurde nie in einen Skill verdrahtet.
+> Im DTB-Workflow ersetzt der Skill `dtb:lesson` dieses Konzept: Lektionen werden append-only in
+> `dtb-project/project-rules/lessons.md` erfasst und von `impl-plan`, `debug-plan`, `plan-review`
+> und `code-review` als Prior gelesen. Nutze `/dtb:lesson` statt dieser Datei.
+> (Die Datei bleibt als Bestandteil des Drittanbieter-Memory-Frameworks erhalten.)
+
 <!--
 Record non-obvious technical issues here as you encounter them.
 Format: short description of the trap and the fix/workaround.

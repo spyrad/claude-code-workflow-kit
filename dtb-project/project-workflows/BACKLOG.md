@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-08
+**Letzte Aktualisierung:** 2026-07-08 (LESSON_LOOP)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| _(keine aktiven Features)_ | | | | |
+| Lesson Loop | In Arbeit | Mittel | FEATURE_LESSON_LOOP.md | Append-only `lessons.md` als Prior für Plan-/Review-Skills, löst totes `pitfalls.md` ab |
 
 ---
 

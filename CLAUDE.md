@@ -57,7 +57,7 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 - **Greenfield**: `greenfield-prd`, `greenfield-roadmap`
 - **Maintenance**: `archive` (move completed/discarded items to archive), `kit-sync` (install/update installed kit copies under `~/.claude/` via lock-based drift detection — see below)
 - **Development**: `build-check`, `code-review`, `backlog-status`, `repo-sync`
-- **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs)
+- **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs), `lesson` (capture a reusable lesson append-only into `project-rules/lessons.md`, read as a prior by impl-plan/debug-plan/plan-review/code-review — replaces the dead `pitfalls.md` concept)
 - **Documentation**: `pipeline-graph` (generate interactive HTML overview of entire skill pipeline from frontmatter)
 
 ### Agent Roles
@@ -94,6 +94,7 @@ Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a p
 - `dtb-project/project-workflows/archive/` — Archived items: completed features, discarded ideas, archive log
 - `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)
 - `dtb-project/project-rules/DERIVED_STATE_RULES.md` — Zentrale Statusableitungs-Regeln (Kit-Bestandteil, von project-init verteilt; einzige versionierte Datei in project-rules/)
+- `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (Laufzeit-Artefakt, angelegt von `dtb:lesson`; Prior für impl-plan/debug-plan/plan-review/code-review; keine Coding-Rule)
 - `dtb-project/project-infrastructure/input/` — Drop-Zone für Infra-Dokumente (PDFs, Configs, Exports)
 - `dtb-project/project-infrastructure/*.md` — Extrahierte Infra-Fakten (UPPER_SNAKE_CASE, generiert von `dtb:docs-extract`)
 - `dtb-project/project-requirements/input/` — Drop-Zone für Anforderungs-Dokumente

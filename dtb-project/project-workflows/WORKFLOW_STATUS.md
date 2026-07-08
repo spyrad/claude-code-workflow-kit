@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| _(keine aktiven Features — Pipeline leer)_ | | | Ideen-Triage `/dtb:idea-review` oder neues Feature `/dtb:feature-start` |
+| Lesson Loop | In Arbeit | 13/15 | Schritt 3.4 Klasse-A-Artefakte via kit-sync abgleichen |
 
 ---
 

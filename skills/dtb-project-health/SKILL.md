@@ -206,8 +206,10 @@ Scanne alle `.claude/skills/dtb-*/SKILL.md` im Projekt:
 #### Check 10: Rules-Konsistenz
 
 - `{config.paths.rules}/` Verzeichnis existiert → INFO wenn fehlend (kein Fehler — Rules sind optional)
-- Falls vorhanden: Zaehle Rules-Dateien
-- Pruefe ob Rules-Dateien das erwartete Format haben (Titel `# Coding Rules:`, Sektionen wie `## Do's`, `## Don'ts`)
+- Falls vorhanden: Zaehle Rules-Dateien — **`lessons.md` und `DERIVED_STATE_RULES.md` ausnehmen**
+  (keine Coding-Rules: `lessons.md` ist die Lektionen-Sammlung von `dtb:lesson`,
+  `DERIVED_STATE_RULES.md` die Statusregel)
+- Pruefe ob Rules-Dateien das erwartete Format haben (Titel `# Coding Rules:`, Sektionen wie `## Do's`, `## Don'ts`) — nur fuer echte Coding-Rules, nicht fuer die ausgenommenen Dateien
 - Pruefe ob `**Manuell angepasst:**` Feld vorhanden → INFO wenn noch "Nein" (Hinweis: Review empfohlen)
 
 #### Check 11: Kit-Drift (leichtgewichtig, ohne Netzwerk)

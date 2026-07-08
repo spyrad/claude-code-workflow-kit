@@ -11,7 +11,7 @@ pipeline:
   stage: development
   after: dtb:build-check
   next: dtb:workflow-checkpoint
-  consumes: [project-rules/*.md, CLAUDE.md, workflow.config.yaml]
+  consumes: [project-rules/*.md, CLAUDE.md, workflow.config.yaml]  # lessons.md separat als Prior (aus Rules-Glob ausgeschlossen)
   produces: []
 ---
 
@@ -33,7 +33,8 @@ workflow.config.yaml nicht gefunden. Bitte zuerst /dtb:project-init ausfuehren.
 
 ### Schritt 2: Rules laden
 
-Lies alle `*.md`-Dateien aus `{config.paths.rules}/`.
+Lies alle `*.md`-Dateien aus `{config.paths.rules}/` — **ausser `lessons.md`**. Diese Datei ist
+keine Coding-Regel, sondern eine Lektionen-Sammlung und wird in Schritt 2b separat als Prior gelesen.
 
 Falls keine Rules vorhanden:
 ```
@@ -41,6 +42,18 @@ Keine Richtlinien gefunden in {config.paths.rules}/.
 Erstelle welche mit /dtb:generate-rules.
 ```
 → Abbruch.
+
+### Schritt 2b: Lektionen als Prior lesen
+
+Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`) — **separat
+vom Rules-Glob** aus Schritt 2.
+
+- Fehlt die Datei oder ist sie leer (nur Header) → diesen Schritt still ueberspringen (kein Abbruch)
+- Sonst: filtere Eintraege, deren `Applies-to` `code-review` oder `alle` enthaelt
+- Wende die passenden `Rule`-Aussagen beim Review still an (zusaetzlich zu den Coding-Rules)
+- Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
+- **Konflikt** (zwei passende Lektionen mit ueberlappendem `Applies-to` und gegensaetzlicher `Rule`):
+  beide zeigen und den Widerspruch melden — nicht selbst aufloesen
 
 ### Schritt 3: CLAUDE.md laden
 
@@ -128,12 +141,23 @@ Sortiere Verstoesse nach Prioritaet (1 = Logik/Bugs zuerst, 5 = Style zuletzt).
 - **Deutsch:** Alle Texte auf Deutsch
 - **Keine generischen Regeln:** Nur gegen projekt-spezifische Rules aus `project-rules/` pruefen, nicht gegen allgemeine Best Practices
 
+## Lektion-Kandidat erkennen (Vorschlager)
+
+Wenn dir waehrend des Reviews eine nicht-offensichtliche, wiederverwendbare Erkenntnis auffaellt
+(Trigger-Frage: „Wuerde ich denselben Fehler nochmal machen, wenn das nur im Session-Log stuende?"),
+schlage sie zur Aufnahme vor — **nie stiller Auto-Write**:
+```
+💡 Lektion-Kandidat: "{knappe Regel}". Nach lessons.md uebernehmen? (/dtb:lesson oder ja/nein)
+```
+Bei „ja": den Text an `/dtb:lesson` uebergeben.
+
 ## Verwandte Skills
 
 - `/dtb:generate-rules` — Richtlinien generieren
 - `/dtb:build-check` — Build/Test-Checks (Vorgaenger)
 - `/dtb:workflow-checkpoint` — Session-Ende (Nachfolger)
 - `/dtb:project-health` — Prueft Rules-Konsistenz
+- `/dtb:lesson` — Lektion festhalten (Prior-Quelle)
 
 ---
 
