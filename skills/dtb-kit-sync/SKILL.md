@@ -104,11 +104,16 @@ REF=$(git -C "$SRC" symbolic-ref --short HEAD)  # Default-Branch dynamisch
 COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
 ```
 
+- `sourceType: local-path` → `source` ist ein lokaler Klon-Pfad; die Sequenz ist
+  identisch (git warnt harmlos, dass `--depth` bei lokalen Klonen ignoriert wird),
+  KEIN Offline-Fallback-Vermerk im Report
 - Clone schlaegt fehl (offline/Auth) UND `localPath` existiert → `SRC="{localPath}"`,
   im Report kennzeichnen: `Quelle: localPath (offline-Fallback — Stand kann vom
   GitHub-Stand abweichen)`
-- Clone schlaegt fehl UND kein localPath → Meldung, kein Abbruch:
-  `Quelle nicht erreichbar. Netzverbindung pruefen oder localPath im Lock hinterlegen.`
+- Clone schlaegt fehl UND kein localPath → Meldung ausgeben und den Lauf regulaer
+  beenden (das IST das definierte Ende dieses Randfalls — kein Fehlerzustand,
+  kein leerer Report): `Quelle nicht erreichbar. Netzverbindung pruefen oder
+  localPath im Lock hinterlegen.`
 - Nach Abschluss des Laufs: `rm -rf "{scratchpad}/kit-src"` (Scratch aufraeumen)
 
 ---
@@ -132,11 +137,16 @@ COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
 | R = L, K ≠ L | **lokal geaendert** (Kopie weicht ab) |
 | R ≠ L, K ≠ L, K = R | **Lock veraltet** (Kopie wurde manuell aktualisiert, z.B. cp am Skill vorbei) |
 | R ≠ L, K ≠ L, K ≠ R | **Konflikt** (beide Seiten geaendert) |
-| Kopie fehlt am `target` | **fehlt** |
-| Datei im Repo, kein Lock-Eintrag | **neu** (noch nie installiert) |
+| Lock-Eintrag vorhanden, Kopie am `target` fehlt | **fehlt** |
+| Datei im Repo, KEIN Lock-Eintrag (Kopie egal) | **neu** — "neu" hat Vorrang vor "fehlt": ohne Lock-Eintrag gibt es kein `target`, das fehlen koennte |
 
-5. **Verwaiste Kopien:** installierte `dtb-*`-Dateien in den drei Zielverzeichnissen,
-   die keinem Repo-Pfad mehr entsprechen → **verwaist** (z.B. umbenannter Skill).
+5. **Verwaiste Kopien** (zwei Quellen, beide → **verwaist**):
+   - Lock-Eintraege, deren Repo-Pfad in `$SRC` nicht mehr existiert (deckt auch
+     Artefakte ohne dtb-Praefix ab, z.B. geloeschte `agents/*.md`)
+   - `dtb-*`-Dateien in den drei Zielverzeichnissen ohne Repo-Entsprechung und ohne
+     Lock-Eintrag (Altbestand, z.B. umbenannter Skill)
+   Nutzer-eigene Dateien OHNE dtb-Praefix und OHNE Lock-Eintrag (z.B. fremde Agents)
+   werden ignoriert — sie gehoeren nicht dem Kit.
 6. **Report ausgeben** (Format fix), Scratch aufraeumen.
 
 ### Report-Format (fix)
@@ -144,7 +154,7 @@ COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
 ```
 Kit-Sync Check
 Quelle: {source} @ {REF} ({COMMIT})   [ggf. "localPath (offline-Fallback)"]
-Lock:   {updatedAt}, {N} Artefakte
+Lock:   {updatedAt}, {N} Artefakte    [N = Anzahl der artifacts-Eintraege im Lock]
 
 Abweichungen:
 | Artefakt | Zustand |
@@ -248,7 +258,7 @@ Verifikation: /dtb:kit-sync check
 | 7 | Konflikt (beide Seiten geaendert) | melden + einfache Wahl: Repo-Version uebernehmen / ueberspringen (kein Diff-Dialog) |
 | 8 | Zeilenenden LF vs. CRLF | durch Hashing-Methode (Referenz 2) kein Drift |
 | 9 | Seed-Artefakte veraendert | nie als Drift melden — Bestimmungszweck |
-| 10 | Lock korrupt (ungueltiges JSON) | wie "kein Lock" behandeln: Meldung + install (Adoption) anbieten; korrupte Datei vorher nach `dtb-lock.json.bak` sichern |
+| 10 | Lock korrupt (ungueltiges JSON) | wie "kein Lock" behandeln: Meldung + install (Adoption) anbieten. `check` bleibt dabei strikt read-only (nur melden); die Sicherung nach `dtb-lock.json.bak` (gleicher Ordner) erfolgt erst durch install/sync, unmittelbar bevor das Lock neu geschrieben wird |
 
 ---
 
