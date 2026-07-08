@@ -48,11 +48,11 @@ Erstelle welche mit /dtb:generate-rules.
 Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`) — **separat
 vom Rules-Glob** aus Schritt 2.
 
-- Fehlt die Datei oder ist sie leer (nur Header) → diesen Schritt still ueberspringen (kein Abbruch)
+- Fehlt die Datei oder ist sie leer (keine Datenzeile unter der `|---|`-Trennzeile) → diesen Schritt still ueberspringen (kein Abbruch)
 - Sonst: filtere Eintraege, deren `Applies-to` `code-review` oder `alle` enthaelt
 - Wende die passenden `Rule`-Aussagen beim Review still an (zusaetzlich zu den Coding-Rules)
 - Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
-- **Konflikt** (zwei passende Lektionen mit ueberlappendem `Applies-to` und gegensaetzlicher `Rule`):
+- **Konflikt** (zwei nach dem Filter behaltene Lektionen mit gegensaetzlicher `Rule` — z.B. „immer X" vs. „nie X" zum selben Gegenstand):
   beide zeigen und den Widerspruch melden — nicht selbst aufloesen
 
 ### Schritt 3: CLAUDE.md laden

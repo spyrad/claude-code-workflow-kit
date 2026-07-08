@@ -7,7 +7,7 @@ description: >-
   project-rules/lessons.md, read later as a prior by the plan/review skills.
 disable-model-invocation: true
 argument-hint: "[Lektion als Freitext]"
-allowed-tools: Read, Write, Grep
+allowed-tools: Read, Write, Edit, Grep
 pipeline:
   stage: development
   after: null
@@ -59,7 +59,12 @@ strukturierte Eintrag (Schritt 2) gezeigt und bestaetigt wurde.
 
 ## Schritt 2: In 4 Felder strukturieren
 
-Leite aus dem Freitext die vier Felder ab. Halte jedes Feld **knapp** (1 Satz):
+Leite aus dem Freitext die vier Felder ab. Halte jedes Feld **knapp** (1 Satz).
+
+**Feld-Hygiene (Pflicht — sonst bricht die Tabelle):** Jedes Feld muss einzeilig sein.
+- Literale `|` (z.B. Shell-Pipes) im Text als `\|` escapen
+- Keine Zeilenumbrueche im Feld (Backticks/Code mit Pipe umschreiben oder Pipe escapen)
+- Beispiel Rule mit Pipe: `` `tr -d '\r' \| git -c core.autocrlf=false hash-object --stdin` ``
 
 | Feld | Bedeutung |
 |------|-----------|
@@ -120,7 +125,9 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 ```
 
 ### Format bei bestehender Datei
-- Neue Zeile ans Tabellenende anfuegen (append-only — bestehende Zeilen unveraendert lassen)
+- Neue Zeile ans Tabellenende anfuegen — **mit `Edit`** (letzte Datenzeile als Anker, neue
+  Zeile dahinter einfuegen), NICHT die Datei per `Write` komplett neu schreiben. So bleiben
+  bestehende Zeilen garantiert unveraendert (append-only)
 - Naechste laufende Nummer vergeben
 - Datum: aktuelles Datum (`YYYY-MM-DD`)
 

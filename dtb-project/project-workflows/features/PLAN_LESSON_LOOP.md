@@ -188,21 +188,21 @@ Totes `pitfalls.md`-Konzept ablösen, Doku/Graph aktualisieren, Feature abnehmen
 > Single Source of Truth für den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg.
 
-- [x] 1.1 lessons.md-Format definieren
-- [x] 1.2 Skill dtb:lesson erstellen (Capture)
-- [x] 1.3 Duplikat-Check + Randfälle
-- [x] 2.1 Prior-Lese-Baustein formulieren
-- [x] 2.2 impl-plan verdrahten
-- [x] 2.3 debug-plan verdrahten
-- [x] 2.4 code-review verdrahten (Rules-Abgrenzung)
-- [x] 2.5 plan-review verdrahten (nur Leser)
-- [x] 2.6 Konsistenz-Check der vier Verdrahtungen
-- [x] 2.7 project-rules/-Globber-Audit (alle Skills)
-- [x] 3.1 pitfalls.md ablösen
-- [x] 3.2 Doku (CLAUDE.md, README.md)
-- [x] 3.3 Pipeline-Graph regenerieren
-- [ ] 3.4 Klasse-A-Artefakte via kit-sync abgleichen
-- [ ] 3.5 Fixture-/Praxis-Abnahme (isoliert)
+- [x] 1.1 lessons.md-Format definieren — `4b4b080`
+- [x] 1.2 Skill dtb:lesson erstellen (Capture) — `4b4b080`
+- [x] 1.3 Duplikat-Check + Randfälle — `4b4b080`
+- [x] 2.1 Prior-Lese-Baustein formulieren — `4b4b080`
+- [x] 2.2 impl-plan verdrahten — `4b4b080`
+- [x] 2.3 debug-plan verdrahten — `4b4b080`
+- [x] 2.4 code-review verdrahten (Rules-Abgrenzung) — `4b4b080`
+- [x] 2.5 plan-review verdrahten (nur Leser) — Working Tree, kommt über parallelen #3-Commit
+- [x] 2.6 Konsistenz-Check der vier Verdrahtungen — `4b4b080`
+- [x] 2.7 project-rules/-Globber-Audit (alle Skills) — `4b4b080`
+- [x] 3.1 pitfalls.md ablösen — `4b4b080`
+- [x] 3.2 Doku (CLAUDE.md, README.md) — `4b4b080`
+- [x] 3.3 Pipeline-Graph regenerieren — `4b4b080`
+- [ ] 3.4 Klasse-A-Artefakte via kit-sync abgleichen — zurückgestellt bis nach Push (Nutzer-Entscheidung 2026-07-08)
+- [x] 3.5 Fixture-/Praxis-Abnahme (isoliert) — unabhängiger Agent, 8/8 Szenarien ✅; 4 Findings (#1 Pipe-Escaping, #2 leer-Def, #3 Konflikt-Klausel, #7 Edit-Tool) behoben
 
 ---
 

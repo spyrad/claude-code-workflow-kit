@@ -29,11 +29,11 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`).
 
-- Fehlt die Datei oder ist sie leer (nur Header) → diesen Schritt still ueberspringen (kein Abbruch)
+- Fehlt die Datei oder ist sie leer (keine Datenzeile unter der `|---|`-Trennzeile) → diesen Schritt still ueberspringen (kein Abbruch)
 - Sonst: filtere Eintraege, deren `Applies-to` `impl-plan` oder `alle` enthaelt
 - Wende die passenden `Rule`-Aussagen bei der Planerstellung still an
 - Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
-- **Konflikt** (zwei passende Lektionen mit ueberlappendem `Applies-to` und gegensaetzlicher `Rule`):
+- **Konflikt** (zwei nach dem Filter behaltene Lektionen mit gegensaetzlicher `Rule` — z.B. „immer X" vs. „nie X" zum selben Gegenstand):
   beide zeigen und den Widerspruch melden — nicht selbst aufloesen
 
 ## Aufgabe
