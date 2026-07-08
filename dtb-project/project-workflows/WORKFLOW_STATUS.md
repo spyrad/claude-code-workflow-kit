@@ -9,8 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Kit Sync | Fertig zum Testen | 10/10 | Praxiserprobung (naechstes Kit-Update via check → sync), dann Abnahme |
-| Derived State | Abgenommen | 16/16 | /dtb:archive (Batch mit Kit Sync nach dessen Abnahme) |
+| _(keine aktiven Features — Pipeline leer)_ | | | Ideen-Triage `/dtb:idea-review` oder neues Feature `/dtb:feature-start` |
 
 ---
 
@@ -19,14 +18,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | `~/.claude/dtb-lock.json` real aktiv (34 Artefakte, Stand `ec0d167`); pitch-coach-Kopie bewusst nicht ueberschrieben (INBOX #8) |
+| **Notizen** | Pipeline leer — beide Features abgenommen + archiviert. `~/.claude/dtb-lock.json` aktiv (34 Artefakte, Stand `ec0d167`); pitch-coach bewusst nicht ueberschrieben (INBOX #8/#10) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] KIT_SYNC praxiserproben + abnehmen, dann `/dtb:archive` im Batch (DERIVED_STATE + KIT_SYNC)
-- [ ] Ideen #2, #3, #5-#9 triagieren — Kontext: `project-workflows/INBOX.md`; empfohlene Reihenfolge #2 → #3 → #5/#6 → #7 zuletzt
+- [ ] Ideen #2, #3, #5-#10 triagieren — Kontext: `project-workflows/INBOX.md`; empfohlene Reihenfolge #2 → #3 → #5/#6 → #7 zuletzt (NEU: #10 kit-sync pinned/hold)
 - [ ] `cognitive/`-Overlays der `dtb-stakeholder-pitch-coach`-Persona befuellen — Kontext: kreative Arbeit, vorher Brainstorming
 - [ ] Optional: Description-Optimierungs-Loop auf macOS/Linux/WSL nachholen — Kontext: auf Windows nicht lauffaehig
 
@@ -36,6 +34,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-08 | KIT_SYNC + DERIVED_STATE abgenommen & archiviert | Praxiserprobung check → sync bestanden; beide Features nach `archive/`, Pipeline leer | `2026-07/2026-07-08.md` (Session 3) |
 | 2026-07-08 | Feature KIT_SYNC umgesetzt | 10/10 Schritte, 10/10 SC, Fixture- + Realtest bestanden, Lock aktiv | `2026-07/2026-07-08.md` (Session 2) |
 | 2026-07-08 | Derived State abgenommen + Skill-Sync | Praxistest mit neuen Skill-Kopien bestanden; 28 Skills synchronisiert | `2026-07/2026-07-08.md` (Session 1) |
 | 2026-07-06 | Feature DERIVED_STATE umgesetzt | 16/16 Schritte, 7/7 Success Criteria, Fixture-Test bestanden | `2026-07/2026-07-06.md` |
