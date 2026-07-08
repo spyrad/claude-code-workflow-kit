@@ -78,6 +78,38 @@ Pruefe anhand von Plan und Feature-Spec, ob der Plan mindestens einen dieser Tri
 - **Kein Trigger** → Agent nicht laden, Ensemble bleibt bei drei Stimmen. Gib aus:
   `🔧 Betriebs-Waechter nicht aktiviert (kein Ops-/Security-Bezug im Plan)`
 
+## Schritt 2d: Grounding (Codebase-Behauptungen verifizieren)
+
+Extrahiere aus dem Plan alle eindeutig pruefbaren Codebase-Referenzen:
+- Datei-Pfade (z.B. `skills/x/SKILL.md`, `agents/foo.md`)
+- Benannte Funktionen/Sektionen in konkreten Dateien (z.B. "Schritt 2c in SKILL.md", "`## Progress` in PLAN_X.md")
+- Struktur-Behauptungen ("Verzeichnis X enthaelt Y")
+
+Nicht gierig extrahieren: Prosa ohne konkreten Datei-Bezug ist KEINE Referenz ("wir erweitern
+das Review-Konzept" ist nichts Pruefbares). Verifiziere jede Referenz per Glob/Grep.
+
+Ausgabe (genau eine Variante):
+- Alle gefunden → `🔎 Grounding: {N} Referenzen geprueft, alle gefunden`
+- Abweichungen → pro Abweichung eine Zeile `⚠ Plan referenziert {X} — nicht gefunden`, dazu eine Erfolgszeile fuer den Rest
+- Keine pruefbaren Referenzen → `🔎 Grounding: keine pruefbaren Referenzen` (kein Fehler, weiter)
+
+Unsichere Checks (dynamische/implizite Referenzen, Mehrdeutigkeiten) nur als Hinweis ausgeben —
+sie duerfen NIE ein FAIL-Verdikt treiben. Alle Abweichungen fliessen als Input in Runde 2.
+
+## Schritt 2e: Challenger-Pass (mechanische Konsistenz)
+
+Pruefe den Plan mechanisch auf Konsistenz — das ist KEINE Perspektiv-Kritik (die leistet
+Runde 3), sondern Text-gegen-Text-Pruefung:
+
+1. **Promise-Gaps:** Jede Zusage im Plan (Deliverables, Checkpoint-Kriterien, "wird ergaenzt"-
+   Aussagen) muss einem Schritt N.M zuordenbar sein, der sie liefert. Zusage ohne liefernden
+   Schritt = Promise-Gap
+2. **Widersprueche:** Schritte, die sich gegenseitig aufheben, dieselbe Datei inkompatibel
+   aendern oder gegensaetzliche Entscheidungen kodieren
+
+Ausgabe: Befunde als nummerierte Liste (`⚔ Challenger: {Befund}`); keine Befunde →
+`⚔ Challenger-Pass: keine Widersprueche oder Promise-Gaps`. Befunde fliessen als Input in Runde 2.
+
 ## Schritt 3: Diskussion fuehren
 
 Fuehre die Diskussion in **3 Runden** basierend auf dem geladenen Implementierungsplan (mit Feature-Spec als Kontext):
@@ -87,6 +119,8 @@ Alle aktiven Agenten bewerten, was am Plan gut ist — jeweils aus ihrer Perspek
 
 ### Runde 2 — Bedenken & Risiken
 Alle aktiven Agenten identifizieren Probleme aus ihrer Perspektive: technische Risiken und Abhaengigkeiten (Architekt), Scope-Creep, Aufwand-Nutzen und Spec-Deckung — deckt der Plan die Feature-Spec vollstaendig ab, ohne darueber hinauszugehen (Pragmatiker), unrealistische Zeitschaetzungen und fehlende Implementierungsschritte (Senior Dev), und — falls aktiviert — Betriebs-, Deployment- und Sicherheitsrisiken (Betriebs-Waechter).
+Befunde aus Grounding (2d) und Challenger-Pass (2e) werden hier von den zustaendigen Agenten
+aufgegriffen und bewertet.
 
 ### Runde 3 — Challenge-Runde (Anti-Bias)
 Alle aktiven Agenten wenden gezielt kritische Analysetechniken an:
@@ -98,9 +132,31 @@ Alle aktiven Agenten wenden gezielt kritische Analysetechniken an:
 ### Runde 4 — Fragen an Damian
 Alle aktiven Agenten stellen gezielte Entscheidungsfragen an Damian. Die Fragen sollen konkret und entscheidungsrelevant sein — keine rhetorischen Fragen. Fragen koennen sich auf Erkenntnisse aus der Challenge-Runde beziehen.
 
-## Schritt 4: Zusammenfassung
+## Schritt 4: Zusammenfassung mit Verdikt
 
-Erstelle eine kompakte Bewertungstabelle und konkrete Empfehlungen.
+Erstelle die Verdikt-Liste und konkrete Empfehlungen. Verdikte werden ERST JETZT vergeben —
+nach Runde 3, nie innerhalb der Runden 1-4 (fruehe Verdikte nageln die Agenten vor der
+Challenge-Runde fest). Jeder Agent bewertet NUR seine eigenen Dimensionen:
+
+| Agent | Dimensionen |
+|-------|-------------|
+| Architekt | Technische Machbarkeit, Abhaengigkeiten |
+| Pragmatiker | Scope/MVP-Schnitt, Spec-Deckung |
+| Senior Dev | Reihenfolge der Phasen, Zeitschaetzungen, Teststrategie |
+| Betriebs-Waechter (nur falls aktiviert) | Betrieb & Haertung |
+
+**Verdikt-Semantik:** PASS = keine Bedenken; WARN = Problem vorhanden, im Plan behebbar;
+FAIL = Dimension nicht tragfaehig, Plan muss in diesem Punkt neu gedacht werden.
+
+**Einspruchs-Regel:** Sieht ein Agent ein Problem in einer fremden Dimension, ergaenzt er
+unter der Liste eine Zeile `Einspruch {Agent} zu {Dimension}: {1 Satz}`. Der zustaendige
+Agent bestaetigt oder entkraeftet in einem Satz. Ein bestaetigter Einspruch zaehlt wie WARN
+der Dimension — bei belegtem schwerwiegendem Fall wie FAIL.
+
+**Gesamt-Verdikt (feste Regel — nie aufweichen, keine Zwischenstufen):**
+- alle Dimensionen PASS → **SOUND**
+- mindestens ein WARN, kein FAIL → **REVISE**
+- mindestens ein FAIL → **RETHINK**
 
 ## Schritt 5: Anpassungen anbieten
 
@@ -117,6 +173,9 @@ Gib die Diskussion in folgendem Format aus:
 **Datum:** [YYYY-MM-DD]
 **Implementierungsplan:** `features/PLAN_[NAME].md`
 **Feature-Spec:** `features/FEATURE_[NAME].md`
+
+🔎 Grounding: [Ergebniszeile(n) aus Schritt 2d]
+⚔ Challenger-Pass: [Ergebniszeile oder nummerierte Befunde aus Schritt 2e]
 
 ---
 
@@ -170,16 +229,20 @@ Gib die Diskussion in folgendem Format aus:
 
 ## Review-Zusammenfassung
 
-| Aspekt | Bewertung | Anmerkung |
-|--------|-----------|-----------|
-| Technische Machbarkeit | ✅/⚠️/❌ | [kurz] |
-| Scope / MVP-Schnitt | ✅/⚠️/❌ | [kurz] |
-| Spec-Deckung | ✅/⚠️/❌ | [deckt der Plan die Feature-Spec vollstaendig ab?] |
-| Abhaengigkeiten | ✅/⚠️/❌ | [kurz] |
-| Reihenfolge der Phasen | ✅/⚠️/❌ | [kurz] |
-| Zeitschaetzungen | ✅/⚠️/❌ | [kurz] |
-| Teststrategie | ✅/⚠️/❌ | [kurz] |
-| Betrieb & Haertung (falls aktiviert) | ✅/⚠️/❌ | [Deployment, Observability, Angriffsflaeche] |
+| Dimension | Zustaendig | Verdikt | Anmerkung |
+|-----------|------------|---------|-----------|
+| Technische Machbarkeit | 🏗️ Architekt | PASS/WARN/FAIL | [kurz] |
+| Abhaengigkeiten | 🏗️ Architekt | PASS/WARN/FAIL | [kurz] |
+| Scope / MVP-Schnitt | ⚡ Pragmatiker | PASS/WARN/FAIL | [kurz] |
+| Spec-Deckung | ⚡ Pragmatiker | PASS/WARN/FAIL | [deckt der Plan die Feature-Spec vollstaendig ab?] |
+| Reihenfolge der Phasen | 💻 Senior Dev | PASS/WARN/FAIL | [kurz] |
+| Zeitschaetzungen | 💻 Senior Dev | PASS/WARN/FAIL | [kurz] |
+| Teststrategie | 💻 Senior Dev | PASS/WARN/FAIL | [kurz] |
+| Betrieb & Haertung (nur falls aktiviert) | 🔧 Betriebs-Waechter | PASS/WARN/FAIL | [Deployment, Observability, Angriffsflaeche] |
+
+[Falls Einsprueche: `Einspruch {Agent} zu {Dimension}: {1 Satz}` + Reaktion des zustaendigen Agenten (1 Satz)]
+
+**Gesamt-Verdikt: SOUND / REVISE / RETHINK** — [1 Satz Herleitung ueber die feste Regel]
 
 ## Empfehlungen
 
@@ -197,6 +260,8 @@ Moechtest du Anpassungen am Implementierungsplan vornehmen? (Ja/Nein)
 
 - **Rollen einhalten:** Jeder Agent argumentiert konsequent aus seiner Perspektive
 - **Konkret bleiben:** Keine generischen Aussagen — immer Bezug auf den spezifischen Implementierungsplan
+- **Verdikt-Disziplin:** Verdikte NUR in der Review-Zusammenfassung (nie in den Runden), nur PASS/WARN/FAIL
+  (keine Zwischenstufen wie "WARN mit Tendenz PASS"), Gesamt-Verdikt strikt nach der festen Regel
 - **Feature-Spec als Kontext:** Die Feature-Spec definiert das "Was/Warum" — der Plan das "Wie". Pruefe ob der Plan die Feature-Anforderungen vollstaendig abdeckt
 - **Fragen muessen entscheidungsrelevant sein:** Nur Fragen stellen, deren Antwort den Plan tatsaechlich aendert
 - **Max 3 Fragen pro Agent** in Runde 3 — Qualitaet vor Quantitaet
