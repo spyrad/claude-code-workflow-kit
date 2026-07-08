@@ -85,14 +85,21 @@ Fuer jede geaenderte Datei:
    - `ALLGEMEIN.md` Rules immer mitpruefen
    - CLAUDE.md Konventionen immer mitpruefen
 2. **Datei-Inhalt lesen** (geaenderte Version)
-3. **Gegen jede relevante Regel pruefen — in dieser Prioritaetsreihenfolge:**
-   1. **Logik-Fehler und Bugs** — Falsches Verhalten, fehlende Faelle, Race Conditions
-   2. **Sicherheitsluecken** — Injection, fehlende Validierung, exponierte Secrets
-   3. **Performance-Probleme** — N+1 Queries, unnoetige Re-Renders, fehlende Indizes
-   4. **Wartbarkeit** — Architektur-Patterns, Don'ts, Error-Handling, Namenskonventionen
-   5. **Code-Style und Konsistenz** — Formatierung, Test-Konventionen (niedrigste Prio)
+3. **Gegen jede relevante Regel pruefen — Kategorien:**
+   - **Logik-Fehler und Bugs** — Falsches Verhalten, fehlende Faelle, Race Conditions
+   - **Sicherheitsluecken** — Injection, fehlende Validierung, exponierte Secrets
+   - **Performance-Probleme** — N+1 Queries, unnoetige Re-Renders, fehlende Indizes
+   - **Wartbarkeit** — Architektur-Patterns, Don'ts, Error-Handling, Namenskonventionen
+   - **Code-Style und Konsistenz** — Formatierung, Test-Konventionen
 
    Nur signifikante Findings reporten die eine Aktion erfordern. Kosmetische Hinweise weglassen.
+4. **Jedes Finding auf zwei Achsen einstufen** (Doppelachse — ersetzt die alte Prio 1-5;
+   die Kategorie bleibt als Label erhalten, steuert aber nicht mehr allein die Reihenfolge):
+   - **Severity** (Schwere des Problems selbst): Hoch = falsches Verhalten, Sicherheitsluecke,
+     Datenverlust; Mittel = Performance-/Wartbarkeitsproblem mit realen Folgen; Niedrig =
+     Stil/Konsistenz mit Handlungsbedarf
+   - **Impact** (Reichweite und Folgekosten): Hoch = betrifft mehrere Module oder alle Aufrufer;
+     Mittel = auf Datei/Komponente begrenzt; Niedrig = lokale Einzelstelle
 
 ### Schritt 6: Report erstellen
 
@@ -116,15 +123,19 @@ Erstelle den Report als Konsolen-Output (keine Datei schreiben):
 
 ### {pfad/zur/datei.ext}
 
-1. **[Prio {1-5}: Kategorie]** Zeile {N}: {Beschreibung}
+1. **[S:{Hoch|Mittel|Niedrig} × I:{Hoch|Mittel|Niedrig} | {Kategorie}]** Zeile {N}: {Beschreibung}
    → Regel: {Zitat aus Rules-Datei}
    → Empfehlung: {Konkreter Fix}
 
-Sortiere Verstoesse nach Prioritaet (1 = Logik/Bugs zuerst, 5 = Style zuletzt).
+Sortiere Findings global nach Severity, bei Gleichstand nach Impact — Severity dominiert
+(S:Hoch×I:Niedrig kommt VOR S:Mittel×I:Hoch); Anzeige gruppiert nach Datei.
+**Cap: maximal 10 Findings im Report** (die Top 10 der globalen Sortierung). Gibt es mehr,
+folgt darunter genau eine Zeile:
+`{N} weitere Findings unterhalb des Caps (erneut ausfuehren nach Behebung)`
 
 ## Zusammenfassung
 
-✅ {N} Dateien konform | ⚠️ {N} Warnungen | ❌ {N} Verstoesse
+✅ {N} Dateien konform | ⚠️ {N} Warnungen | ❌ {N} Verstoesse (ALLE Findings, auch unterhalb des Caps)
 
 {Falls Verstoesse: "Empfohlene Aktion: Verstoesse beheben vor Commit/Checkpoint"}
 {Falls alles OK: "Alle Aenderungen entsprechen den Projekt-Richtlinien."}
