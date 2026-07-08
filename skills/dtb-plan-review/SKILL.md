@@ -11,13 +11,13 @@ pipeline:
   stage: planning
   after: dtb:impl-plan
   next: dtb:feature-start
-  consumes: [PLAN_*.md, FEATURE_*.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [PLAN_*.md, FEATURE_*.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
   produces: []
 ---
 
 # Plan Review Discussion
 
-Du fuehrst ein strukturiertes Review eines Implementierungsplans durch. Drei Agenten (Architekt, Pragmatiker und Senior Dev) diskutieren den Plan und stellen Damian als Product Owner gezielte Fragen.
+Du fuehrst ein strukturiertes Review eines Implementierungsplans durch. Drei Agenten (Architekt, Pragmatiker und Senior Dev) diskutieren den Plan und stellen Damian als Product Owner gezielte Fragen. Bei Ops-/Security-Bezug kommt ein vierter Agent (Betriebs-Waechter) hinzu — Aktivierung siehe Schritt 2c.
 
 ## Schritt 0: Config laden
 
@@ -48,27 +48,55 @@ Lies die Agenten-Definitionen aus dem Projekt-Root:
 - `agents/architekt.md`
 - `agents/pragmatiker.md`
 - `agents/senior-dev.md`
+- `agents/betriebs-waechter.md` — nur laden, wenn in Schritt 2c aktiviert
 
 Nimm diese Rollen fuer die Diskussion ein.
+
+## Schritt 2b: Lektionen als Prior lesen
+
+Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`).
+
+- Fehlt die Datei oder ist sie leer (keine Datenzeile unter der `|---|`-Trennzeile) → diesen Schritt still ueberspringen (kein Abbruch)
+- Sonst: filtere Eintraege, deren `Applies-to` `plan-review` oder `alle` enthaelt
+- Die Agenten beruecksichtigen die passenden `Rule`-Aussagen in ihrer Diskussion still
+- Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
+- **Konflikt** (zwei nach dem Filter behaltene Lektionen mit gegensaetzlicher `Rule` — z.B. „immer X" vs. „nie X" zum selben Gegenstand):
+  beide zeigen und den Widerspruch melden — nicht selbst aufloesen
+
+## Schritt 2c: Betriebs-Waechter-Relevanz pruefen
+
+Pruefe anhand von Plan und Feature-Spec, ob der Plan mindestens einen dieser Trigger beruehrt:
+
+- Deployment / Rollout / Infrastruktur-Aenderung
+- Datenverarbeitung oder -speicherung (v.a. sensible/personenbezogene Daten, neues Logging)
+- Externe Angriffsflaeche (oeffentliche Endpunkte, Input von aussen, Auth/Authz)
+- Betriebskritischer Pfad / last- oder performance-relevant
+- Secrets / Config / Berechtigungen
+
+- **Mindestens ein Trigger** → `agents/betriebs-waechter.md` laden; der Agent nimmt als
+  vierte Stimme an allen Runden teil. Gib aus: `🔧 Betriebs-Waechter aktiviert: {Trigger-Grund}`
+- **Kein Trigger** → Agent nicht laden, Ensemble bleibt bei drei Stimmen. Gib aus:
+  `🔧 Betriebs-Waechter nicht aktiviert (kein Ops-/Security-Bezug im Plan)`
 
 ## Schritt 3: Diskussion fuehren
 
 Fuehre die Diskussion in **3 Runden** basierend auf dem geladenen Implementierungsplan (mit Feature-Spec als Kontext):
 
 ### Runde 1 — Staerken des Implementierungsplans
-Alle drei Agenten bewerten, was am Plan gut ist — jeweils aus ihrer Perspektive: Systemdesign (Architekt), Scope (Pragmatiker), Umsetzbarkeit (Senior Dev).
+Alle aktiven Agenten bewerten, was am Plan gut ist — jeweils aus ihrer Perspektive: Systemdesign (Architekt), Scope und Spec-Deckung (Pragmatiker), Umsetzbarkeit (Senior Dev), Betrieb & Haertung (Betriebs-Waechter, falls aktiviert).
 
 ### Runde 2 — Bedenken & Risiken
-Alle drei Agenten identifizieren Probleme aus ihrer Perspektive: technische Risiken und Abhaengigkeiten (Architekt), Scope-Creep und Aufwand-Nutzen (Pragmatiker), unrealistische Zeitschaetzungen und fehlende Implementierungsschritte (Senior Dev).
+Alle aktiven Agenten identifizieren Probleme aus ihrer Perspektive: technische Risiken und Abhaengigkeiten (Architekt), Scope-Creep, Aufwand-Nutzen und Spec-Deckung — deckt der Plan die Feature-Spec vollstaendig ab, ohne darueber hinauszugehen (Pragmatiker), unrealistische Zeitschaetzungen und fehlende Implementierungsschritte (Senior Dev), und — falls aktiviert — Betriebs-, Deployment- und Sicherheitsrisiken (Betriebs-Waechter).
 
 ### Runde 3 — Challenge-Runde (Anti-Bias)
-Alle drei Agenten wenden gezielt kritische Analysetechniken an:
+Alle aktiven Agenten wenden gezielt kritische Analysetechniken an:
 - **Architekt:** Pre-Mortem — "Angenommen das Feature ist gescheitert. Was war die wahrscheinlichste Ursache?"
 - **Pragmatiker:** Devil's Advocate — "Was spricht GEGEN diesen Plan? Welche einfachere Alternative wurde uebersehen?"
 - **Senior Dev:** Unknown Unknowns — "Was wissen wir NICHT, das uns spaeter ueberraschen koennte?"
+- **Betriebs-Waechter (falls aktiviert):** Adversarielles Day-2-Szenario — "Es ist 3 Uhr nachts und das System verhaelt sich falsch: sehen wir es und koennen wir es stoppen? Und wie wuerde ein Angreifer genau diese Aenderung ausnutzen?"
 
 ### Runde 4 — Fragen an Damian
-Alle drei Agenten stellen gezielte Entscheidungsfragen an Damian. Die Fragen sollen konkret und entscheidungsrelevant sein — keine rhetorischen Fragen. Fragen koennen sich auf Erkenntnisse aus der Challenge-Runde beziehen.
+Alle aktiven Agenten stellen gezielte Entscheidungsfragen an Damian. Die Fragen sollen konkret und entscheidungsrelevant sein — keine rhetorischen Fragen. Fragen koennen sich auf Erkenntnisse aus der Challenge-Runde beziehen.
 
 ## Schritt 4: Zusammenfassung
 
@@ -100,15 +128,19 @@ Gib die Diskussion in folgendem Format aus:
 
 **💻 Senior Dev:** "[Einschaetzung zu Umsetzbarkeit, Schrittfolge, Zeitschaetzungen]"
 
+**🔧 Betriebs-Waechter (falls aktiviert):** "[Einschaetzung zu Deployment, Observability, Haertung]"
+
 ---
 
 ## Runde 2: Bedenken & Risiken
 
 **🏗️ Architekt:** "[Technische Risiken, Systemgrenzen, Abhaengigkeiten]"
 
-**⚡ Pragmatiker:** "[Aufwand-Nutzen-Probleme, Scope-Creep, Priorisierung]"
+**⚡ Pragmatiker:** "[Aufwand-Nutzen-Probleme, Scope-Creep, Spec-Deckung, Priorisierung]"
 
 **💻 Senior Dev:** "[Unrealistische Zeitschaetzungen, fehlende Schritte, Teststrategie]"
+
+**🔧 Betriebs-Waechter (falls aktiviert):** "[Betriebs-, Deployment- und Sicherheitsrisiken]"
 
 ---
 
@@ -120,6 +152,8 @@ Gib die Diskussion in folgendem Format aus:
 
 **💻 Senior Dev (Unknown Unknowns):** "Was wir nicht wissen: [versteckte Risiken, fehlende Informationen, ungetestete Annahmen]."
 
+**🔧 Betriebs-Waechter (Adversarielles Day-2-Szenario, falls aktiviert):** "3 Uhr nachts: [sehen/stoppen wir die Stoerung?]. Angreifer: [wie wird die Aenderung ausgenutzt?]."
+
 ---
 
 ## Runde 4: Fragen an Damian
@@ -130,6 +164,8 @@ Gib die Diskussion in folgendem Format aus:
 
 **💻 Senior Dev:** "Damian, [konkrete Frage zu Umsetzung/Zeitrahmen/Teststrategie]?"
 
+**🔧 Betriebs-Waechter (falls aktiviert):** "Damian, [konkrete Frage zu Deployment/Betrieb/Sicherheit]?"
+
 ---
 
 ## Review-Zusammenfassung
@@ -138,10 +174,12 @@ Gib die Diskussion in folgendem Format aus:
 |--------|-----------|-----------|
 | Technische Machbarkeit | ✅/⚠️/❌ | [kurz] |
 | Scope / MVP-Schnitt | ✅/⚠️/❌ | [kurz] |
+| Spec-Deckung | ✅/⚠️/❌ | [deckt der Plan die Feature-Spec vollstaendig ab?] |
 | Abhaengigkeiten | ✅/⚠️/❌ | [kurz] |
 | Reihenfolge der Phasen | ✅/⚠️/❌ | [kurz] |
 | Zeitschaetzungen | ✅/⚠️/❌ | [kurz] |
 | Teststrategie | ✅/⚠️/❌ | [kurz] |
+| Betrieb & Haertung (falls aktiviert) | ✅/⚠️/❌ | [Deployment, Observability, Angriffsflaeche] |
 
 ## Empfehlungen
 

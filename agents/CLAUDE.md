@@ -13,6 +13,7 @@ Agent files define reusable role perspectives for multi-agent skill discussions 
 
 Each agent file should contain:
 
+0. **Leitsatz** (optional) — a one-line motto giving the role a sharp, opinionated stance. Keeps the role thin but pointed (not a full persona — no voice/filters/risks).
 1. **Rolle** — Name and one-line description of the perspective
 2. **Perspektive** — What this agent focuses on (technical design, scope, implementation feasibility, etc.)
 3. **Verhalten** — How the agent argues: what it prioritizes, what it challenges
@@ -29,9 +30,15 @@ Each agent file should contain:
 
 | Agent | Perspective | Used by |
 |-------|-------------|---------|
-| `architekt.md` | System design, technical feasibility, dependencies | `dtb:plan-review` |
-| `pragmatiker.md` | Scope, MVP cut, effort-value tradeoffs | `dtb:plan-review` |
-| `senior-dev.md` | Implementation feasibility, time estimates, test strategy | `dtb:plan-review` |
+| `architekt.md` | System design (macro), technical feasibility, dependencies | `dtb:plan-review` |
+| `pragmatiker.md` | Scope, MVP cut, effort-value tradeoffs, spec coverage | `dtb:plan-review` |
+| `senior-dev.md` | Implementation feasibility (micro), time estimates, test strategy | `dtb:plan-review` |
+| `betriebs-waechter.md` | Deployment, observability, hardening — **conditional** (Ops/Security relevance only) | `dtb:plan-review` |
+
+**Conditional agents:** Architekt, Pragmatiker and Senior Dev are always active. The
+Betriebs-Waechter joins only when the plan touches Ops/Security concerns — activation
+heuristic lives in `dtb:plan-review` Schritt 2c. Keeps the ensemble at three voices for
+plans without operational or security relevance (refactors, docs, internal tooling).
 
 ## Language
 
