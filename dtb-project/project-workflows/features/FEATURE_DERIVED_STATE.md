@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-06
 **Ziel:** Feature-Status wird aus Artefakten abgeleitet statt in mehreren Dateien manuell gepflegt — Status-Drift wird strukturell unmoeglich.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen
+**Status:** Abgenommen (2026-07-08 — Praxiserprobung bestanden: Lese-Skills leiten Status aus Progress-Checkboxen ab, Konfliktpruefung aktiv)
 
 ---
 

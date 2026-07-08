@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-06
+**Letzte Aktualisierung:** 2026-07-08
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Derived State | Fertig zum Testen | Hoch | `features/FEATURE_DERIVED_STATE.md` | Status aus Artefakten ableiten statt manuell pflegen — Status-Drift strukturell unmoeglich machen |
+| Derived State | Abgenommen | Hoch | `features/FEATURE_DERIVED_STATE.md` | Status aus Artefakten ableiten statt manuell pflegen — Status-Drift strukturell unmoeglich machen |
 
 ---
 
