@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Lesson Loop | Abgenommen | 15/15 | Archivieren `/dtb:archive` |
+| _(Pipeline leer)_ | — | — | Ideen-Triage `/dtb:idea-review` |
 
 ---
 
@@ -18,13 +18,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | LESSON_LOOP abgenommen + global via kit-sync installiert (Lock `4ee4a9a`). Betriebs-Wächter parallel gebaut (Commit `4ee4a9a`, kein FEATURE-Artefakt). `dtb-pitch-coach` weiter bewusst abweichend (INBOX #8/#10) |
+| **Notizen** | LESSON_LOOP abgenommen + archiviert (global via kit-sync installiert, Lock `4ee4a9a`). Betriebs-Wächter parallel gebaut (Commit `4ee4a9a`, kein FEATURE-Artefakt). `dtb-pitch-coach` weiter bewusst abweichend (INBOX #8/#10) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:archive` im Batch: LESSON_LOOP (abgenommen) — raeumt auch INBOX #2 auf
+- [ ] Archivierung committen (3× git mv + INBOX/BACKLOG/WORKFLOW_STATUS/ARCHIVE_LOG)
 - [ ] Ideen triagieren: #3 (Rest-Scope nach Betriebs-Wächter), #5, #6, #7, #8, #9, #10 — Kontext: `INBOX.md`
 - [ ] `cognitive/`-Overlays der `dtb-stakeholder-pitch-coach`-Persona (vorher Brainstorming)
 - [ ] INBOX #8/#10: pitch-coach-Quellen klaeren / kit-sync `pinned/hold` (sonst taucht pitch-coach bei jedem check als „Update" auf)
@@ -35,6 +35,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-08 | LESSON_LOOP archiviert | FEATURE+DISCOVERY+PLAN nach `archive/` (git mv); Pipeline leer | `2026-07/2026-07-08.md` (Session 5) |
 | 2026-07-08 | Feature LESSON_LOOP abgenommen | 15/15, isolierte Abnahme 8/8, global installiert; loest totes pitfalls.md ab | `2026-07/2026-07-08.md` (Session 4) |
 | 2026-07-08 | Betriebs-Wächter + Rollen-Schärfung | Bedingter 4. plan-review-Agent (Ops/Security) + schaerfere Rollen | Commit `4ee4a9a` |
 | 2026-07-08 | KIT_SYNC + DERIVED_STATE abgenommen & archiviert | Beide Features nach `archive/` | `2026-07/2026-07-08.md` (Session 3) |

@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-08 (LESSON_LOOP abgenommen, Betriebs-Wächter)
+**Letzte Aktualisierung:** 2026-07-08 (LESSON_LOOP archiviert — Pipeline leer)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Lesson Loop | Abgenommen | Mittel | FEATURE_LESSON_LOOP.md | Append-only `lessons.md` als Prior für Plan-/Review-Skills, löst totes `pitfalls.md` ab |
+| _(keine)_ | | | | |
 
 ---
 
@@ -37,6 +37,7 @@
 |---------|---------------|-------|
 | Derived State | 2026-07-08 | `archive/FEATURE_DERIVED_STATE.md` |
 | Kit Sync | 2026-07-08 | `archive/FEATURE_KIT_SYNC.md` |
+| Lesson Loop | 2026-07-08 | `archive/FEATURE_LESSON_LOOP.md` |
 | Betriebs-Wächter (plan-review) | 2026-07-08 | kein FEATURE-Artefakt — Commit `4ee4a9a` (bedingter 4. Review-Agent + Rollen-Schärfung) |
 
 ---
