@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-08
 **Ziel:** Ein manuell kuratierter, append-only Lektionen-Speicher (`lessons.md`), den die Plan- und Review-Skills als Prior lesen — damit einmal gelernte, nicht-offensichtliche Regeln nicht in vergänglichen Session-Logs verloren gehen.
 **Priorität:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen (2026-07-08) <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
