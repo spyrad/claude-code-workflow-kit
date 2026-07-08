@@ -58,6 +58,7 @@ vom Rules-Glob** aus Schritt 2.
 ### Schritt 3: CLAUDE.md laden
 
 Lies die Root-CLAUDE.md und relevante Sub-CLAUDE.md Dateien fuer Architektur-Kontext, Gotchas und Conventions.
+Fehlt eine CLAUDE.md → diesen Schritt still ueberspringen (kein Abbruch).
 
 ### Schritt 4: Scope bestimmen
 
@@ -66,17 +67,18 @@ Bestimme welche Dateien geprueft werden sollen:
 - Argument `staged` → `git diff --cached --name-only` + `git diff --cached`
 - Argument `last-commit` → `git diff HEAD~1 --name-only` + `git diff HEAD~1`
 - Argument mit Dateinamen → diese Dateien direkt lesen
-- Kein Argument → `git diff --name-only` + `git diff` (unstaged + staged)
+- Kein Argument → `git diff HEAD --name-only` + `git diff HEAD` (unstaged + staged)
 
 **Wiederaufnahme:** Enthaelt der Chat einen `dtb-review-resume`-Marker (YAML-Block aus einem
 frueheren Report, vom Nutzer eingefuegt — mehrzeilig, passt nicht ins Argument):
 1. `sha` mit `git rev-parse HEAD` vergleichen — bei Abweichung:
    `⚠ Stand geaendert ({alt} → {neu}) — frisches Review empfohlen. Fortfahren? (Ja/Nein)`
 2. Scope aus dem `scope`-Feld uebernehmen; weicht der beim Aufruf angegebene Scope davon ab →
-   gleiche Warnung + Rueckfrage
+   `⚠ Scope geaendert ({alt} → {neu}) — frisches Review empfohlen. Fortfahren? (Ja/Nein)`
 3. Findings unter `triagiert` ueberspringen (Identitaet: Datei + Zeile + Kategorie — NIE ueber
-   laufende Report-Nummern matchen); nur `offen`-Findings erneut pruefen und zeigen;
-   `nicht_triagiert` (Cap-Ueberlauf) wird im neuen Lauf frisch ermittelt
+   laufende Report-Nummern matchen); `offen`-Findings erneut pruefen und zeigen. Der Cap gilt
+   erneut: durch Triage frei gewordene Plaetze fuellen sich mit bisher nicht triagierten
+   Findings (Nachruecken); `nicht_triagiert` wird entsprechend frisch ermittelt
 
 Falls keine Aenderungen gefunden:
 ```
@@ -113,7 +115,11 @@ Fuer jede geaenderte Datei:
 
 ### Schritt 6: Report erstellen
 
-Erstelle den Report als Konsolen-Output (keine Datei schreiben):
+Erstelle den Report als Konsolen-Output (keine Datei schreiben).
+
+**Zaehl- und Status-Regeln:** Warnung = Finding mit S:Niedrig; Verstoss = Finding mit
+S:Hoch oder S:Mittel. Datei-Status: ✅ = keine Findings, ⚠️ = nur Warnungen,
+❌ = mindestens ein Verstoss.
 
 ```markdown
 # Code Review: {Scope}
@@ -167,6 +173,8 @@ dtb-review-resume:
 ```
 
 - Initial stehen alle gezeigten Findings unter `offen`, `triagiert` ist leer
+- Kollidieren zwei Findings in Datei + Zeile + Kategorie: ein unterscheidendes Stichwort
+  anhaengen (`{datei}:{zeile} [{Kategorie}] {Stichwort}`)
 - Wird die Triage im Chat unterbrochen: Marker aktualisiert erneut ausgeben —
   besprochene/behobene/verworfene Findings wandern nach `triagiert`
 - Hinweis unter dem Block: `Wiederaufnahme: /dtb:code-review aufrufen und diesen Block in den Chat einfuegen.`

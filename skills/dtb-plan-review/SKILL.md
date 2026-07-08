@@ -90,7 +90,8 @@ das Review-Konzept" ist nichts Pruefbares). Verifiziere jede Referenz per Glob/G
 
 Ausgabe (genau eine Variante):
 - Alle gefunden → `🔎 Grounding: {N} Referenzen geprueft, alle gefunden`
-- Abweichungen → pro Abweichung eine Zeile `⚠ Plan referenziert {X} — nicht gefunden`, dazu eine Erfolgszeile fuer den Rest
+- Abweichungen → pro Abweichung eine Zeile `⚠ Plan referenziert {X} — nicht gefunden`, dazu
+  fuer den Rest genau eine Zeile `🔎 Grounding: {M} weitere Referenzen geprueft, alle gefunden`
 - Keine pruefbaren Referenzen → `🔎 Grounding: keine pruefbaren Referenzen` (kein Fehler, weiter)
 
 Unsichere Checks (dynamische/implizite Referenzen, Mehrdeutigkeiten) nur als Hinweis ausgeben —
@@ -107,12 +108,13 @@ Runde 3), sondern Text-gegen-Text-Pruefung:
 2. **Widersprueche:** Schritte, die sich gegenseitig aufheben, dieselbe Datei inkompatibel
    aendern oder gegensaetzliche Entscheidungen kodieren
 
-Ausgabe: Befunde als nummerierte Liste (`⚔ Challenger: {Befund}`); keine Befunde →
-`⚔ Challenger-Pass: keine Widersprueche oder Promise-Gaps`. Befunde fliessen als Input in Runde 2.
+Ausgabe: Kopfzeile `⚔ Challenger-Pass: {N} Befund(e)`, darunter nummerierte Liste (`1. {Befund}`);
+keine Befunde → nur `⚔ Challenger-Pass: keine Widersprueche oder Promise-Gaps`.
+Befunde fliessen als Input in Runde 2.
 
 ## Schritt 3: Diskussion fuehren
 
-Fuehre die Diskussion in **3 Runden** basierend auf dem geladenen Implementierungsplan (mit Feature-Spec als Kontext):
+Fuehre die Diskussion in **4 Runden** basierend auf dem geladenen Implementierungsplan (mit Feature-Spec als Kontext):
 
 ### Runde 1 — Staerken des Implementierungsplans
 Alle aktiven Agenten bewerten, was am Plan gut ist — jeweils aus ihrer Perspektive: Systemdesign (Architekt), Scope und Spec-Deckung (Pragmatiker), Umsetzbarkeit (Senior Dev), Betrieb & Haertung (Betriebs-Waechter, falls aktiviert).
@@ -148,6 +150,10 @@ Challenge-Runde fest). Jeder Agent bewertet NUR seine eigenen Dimensionen:
 **Verdikt-Semantik:** PASS = keine Bedenken; WARN = Problem vorhanden, im Plan behebbar;
 FAIL = Dimension nicht tragfaehig, Plan muss in diesem Punkt neu gedacht werden.
 
+Fehlt die Feature-Spec (Altbestand, Fixture): Dimension **Spec-Deckung** nur gegen die
+planinternen Zusagen pruefen (Deliverables, Checkpoint-Kriterien) und in der Anmerkung
+`keine Spec vorhanden` vermerken.
+
 **Einspruchs-Regel:** Sieht ein Agent ein Problem in einer fremden Dimension, ergaenzt er
 unter der Liste eine Zeile `Einspruch {Agent} zu {Dimension}: {1 Satz}`. Der zustaendige
 Agent bestaetigt oder entkraeftet in einem Satz. Ein bestaetigter Einspruch zaehlt wie WARN
@@ -174,8 +180,10 @@ Gib die Diskussion in folgendem Format aus:
 **Implementierungsplan:** `features/PLAN_[NAME].md`
 **Feature-Spec:** `features/FEATURE_[NAME].md`
 
+[📚-Zeile aus Schritt 2b, falls Lektionen beruecksichtigt]
+[🔧-Zeile aus Schritt 2c]
 🔎 Grounding: [Ergebniszeile(n) aus Schritt 2d]
-⚔ Challenger-Pass: [Ergebniszeile oder nummerierte Befunde aus Schritt 2e]
+⚔ Challenger-Pass: [Ergebniszeile oder Kopfzeile + nummerierte Befunde aus Schritt 2e]
 
 ---
 
@@ -264,7 +272,8 @@ Moechtest du Anpassungen am Implementierungsplan vornehmen? (Ja/Nein)
   (keine Zwischenstufen wie "WARN mit Tendenz PASS"), Gesamt-Verdikt strikt nach der festen Regel
 - **Feature-Spec als Kontext:** Die Feature-Spec definiert das "Was/Warum" — der Plan das "Wie". Pruefe ob der Plan die Feature-Anforderungen vollstaendig abdeckt
 - **Fragen muessen entscheidungsrelevant sein:** Nur Fragen stellen, deren Antwort den Plan tatsaechlich aendert
-- **Max 3 Fragen pro Agent** in Runde 3 — Qualitaet vor Quantitaet
+- **Max 3 Fragen pro Agent** in Runde 4 — Qualitaet vor Quantitaet
 - **Deutsch:** Alle Texte auf Deutsch
-- **Keine Datei-Erstellung:** Die Diskussion wird nur in der Konsole ausgegeben
+- **Keine Datei-Erstellung:** Die Diskussion wird nur in der Konsole ausgegeben (Write dient
+  ausschliesslich Plan-Anpassungen nach Zustimmung in Schritt 5)
 - **Bei "Ja" zu Anpassungen:** Konkrete Aenderungen am Implementierungsplan vorschlagen und nach Bestaetigung umsetzen
