@@ -190,8 +190,48 @@ Erstinstallation ODER Adoption eines bestehenden Setups (Lock fehlt/wird neu auf
 
 ## Modus: sync
 
-> Wird in Schritt 1.4 des Implementierungsplans spezifiziert (PLAN_KIT_SYNC.md).
-> Bis dahin: auf `check` und manuelle Bestaetigung verweisen.
+Kontrollierter Abgleich nach Drift-Befund. Grundregel: **NIE stillschweigend
+ueberschreiben oder loeschen** — aber unkritische Aktionen buendeln, damit der
+Normalfall (Updates einspielen) ein einziges Ja ist.
+
+### Sequenz
+
+1. **check-Sequenz ausfuehren** (Schritte 1-5 des check-Modus) — liefert die
+   Klassifikation. Alles synchron → `Nichts abzugleichen.`, Ende.
+2. **Aktionsliste zeigen, gebuendelt nach Kritikalitaet:**
+
+   **Buendel 1 — unkritisch (EINE Sammel-Bestaetigung fuer alle):**
+   | Zustand | Aktion |
+   |---------|--------|
+   | Update verfuegbar | Repo-Version an `target` kopieren, Lock-Hash aktualisieren |
+   | neu | installieren (kopieren + Lock-Eintrag) |
+   | fehlt | neu installieren (kopieren, Lock-Eintrag aktualisieren) |
+   | Lock veraltet | NUR Lock-Eintrag nachziehen (Kopie ist schon aktuell, keine Datei-Aktion) |
+
+   **Buendel 2 — einzeln bestaetigen (potenziell destruktiv):**
+   | Zustand | Aktion |
+   |---------|--------|
+   | lokal geaendert | einfache Wahl: `Repo-Version uebernehmen / ueberspringen` (kein Diff-Dialog — Entscheidung 2026-07-08) |
+   | Konflikt | einfache Wahl: `Repo-Version uebernehmen / ueberspringen` |
+   | verwaist | einfache Wahl: `entfernen / behalten` (behalten = bleibt ausserhalb des Locks) |
+
+3. **Aktionen ausfuehren** in der bestaetigten Reihenfolge; uebersprungene Artefakte
+   bleiben unveraendert und erscheinen beim naechsten check erneut.
+4. **Lock schreiben:** betroffene Eintraege (`hash`, `installedAt`), `sourceCommit`,
+   `updatedAt` aktualisieren.
+5. **Abschlussreport (fix):**
+
+```
+Kit-Sync Abgleich
+  uebernommen:   {N} (Updates/neu/fehlt)
+  Lock gepflegt: {N} (Lock veraltet)
+  entfernt:      {N} (verwaist)
+  uebersprungen: {N}
+
+Verifikation: /dtb:kit-sync check
+```
+
+6. Scratch aufraeumen (`rm -rf "{scratchpad}/kit-src"`).
 
 ---
 

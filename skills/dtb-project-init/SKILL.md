@@ -27,6 +27,19 @@ Lies `workflow.config.yaml` im Projekt-Root.
 - Falls die Datei **bereits existiert und ausgefuellt** ist: Zeige den aktuellen Inhalt und frage ob ein Update gewuenscht ist.
 - Falls die Datei **nicht existiert**: Fahre mit Schritt 1 fort.
 
+**Kit-Installation pruefen (Ebenen-Trennung):** project-init arbeitet auf der
+**Projekt-Ebene** und kopiert KEINE globalen Kit-Dateien (Skills, Agents, Commands) —
+das ist Sache von `/dtb:kit-sync` (Maschinen-Ebene, einmal pro Rechner).
+
+```bash
+ls "$HOME/.claude/dtb-lock.json" 2>/dev/null
+```
+
+- Lock fehlt → Hinweis (kein Abbruch): `Kit ist ohne Lock installiert. Empfehlung:
+  einmalig /dtb:kit-sync install ausfuehren (adoptiert den vorhandenen Bestand).`
+- Lock vorhanden → weiter ohne Meldung. Kein Netzwerk-Check hier — Drift prueft
+  `/dtb:kit-sync check` bzw. `/dtb:project-health`.
+
 ---
 
 ## Schritt 1: Informationen sammeln
@@ -140,9 +153,23 @@ integrations/
 Verzeichnis `vendor-x/` umbenennen oder als Vorlage nutzen.
 ```
 
-Erstelle eine `CLAUDE.md` im Projekt-Root falls sie nicht existiert:
+### CLAUDE.md mit Sentinel-Markern
 
-**CLAUDE.md:**
+Der DTB-Abschnitt in der Ziel-CLAUDE.md steht zwischen **Sentinel-Markern** —
+nur dieser Block gehoert dem Kit und darf bei spaeteren project-init-Laeufen oder
+Kit-Updates ersetzt werden. Alles ausserhalb der Marker ist Nutzertext und wird
+NIEMALS angefasst.
+
+**Update-Logik (idempotent):**
+1. CLAUDE.md existiert nicht → komplett aus dem Template unten erstellen
+2. CLAUDE.md existiert MIT Markern → NUR den Inhalt zwischen
+   `<!-- BEGIN dtb -->` und `<!-- END dtb -->` durch den aktuellen DTB-Block ersetzen
+3. CLAUDE.md existiert OHNE Marker → DTB-Block (inkl. Marker) ans Dateiende anhaengen;
+   falls ein alter unmarkierter DTB-/Workflow-Abschnitt erkennbar ist: einmalige
+   Migration anbieten (alten Abschnitt entfernen, markierten Block uebernehmen) —
+   nur mit Bestaetigung
+
+**CLAUDE.md (Template fuer Neuanlage):**
 ```markdown
 # CLAUDE.md
 
@@ -179,14 +206,33 @@ CLAUDE.md Pflege-Richtlinien:
 ## Quick Reference
 
 [Entry Points, kritische Dateien]
+
+<!-- BEGIN dtb -->
+## DTB Workflow
+
+Dieses Projekt nutzt das DTB-Workflow-Kit (`workflow.config.yaml` ist die Config).
+
+- **Session-Lifecycle:** `/dtb:workflow-resume` (Start), `/dtb:workflow-checkpoint` (Ende)
+- **Artefakte:** `{paths.workflows}/features/` (FEATURE_*/PLAN_*/BUG_*/TASK_*),
+  `{paths.workflows}/BACKLOG.md`, `{paths.changelog}/`
+- **Derived State:** Status wird aus Artefakten abgeleitet (`## Progress`-Checkboxen
+  in PLAN_*.md), nie manuell gepflegt — Regeln: `{paths.rules}/DERIVED_STATE_RULES.md`
+- **Naechster Schritt unklar?** `/dtb:workflow-next`
+<!-- END dtb -->
 ```
+
+Der Block zwischen den Markern ist der **DTB-Block** — beim Anhaengen an bestehende
+CLAUDE.md (Fall 3) nur diesen Block inkl. Marker verwenden, `{paths.*}` aus der
+workflow.config.yaml einsetzen.
 
 Erstelle eine leere `WORKFLOW_STATUS.md` und `BACKLOG.md` falls sie nicht existieren.
 
-**Regel-Datei verteilen:** Kopiere `DERIVED_STATE_RULES.md` (zentrale Statusableitungs-Regeln,
+**Regel-Datei verteilen (Seed):** Kopiere `DERIVED_STATE_RULES.md` (zentrale Statusableitungs-Regeln,
 Quelle: Kit-Repo `dtb-project/project-rules/DERIVED_STATE_RULES.md`) nach
 `{config.paths.rules}/DERIVED_STATE_RULES.md` im Zielprojekt — die Lese-Skills
 (workflow-next/-status/-resume, backlog-status) und workflow-checkpoint referenzieren sie.
+Die Datei ist ein **Seed** (Klasse B im Sinne von `dtb:kit-sync`): projektlokal,
+nicht vom globalen Drift-Check erfasst.
 
 **WORKFLOW_STATUS.md:**
 ```markdown
