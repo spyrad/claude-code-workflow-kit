@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-08
 **Ziel:** Drift zwischen Kit-Repo und installierten Kopien wird automatisch erkannt und kontrolliert abgeglichen — manueller, fehleranfaelliger Sync entfaellt.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

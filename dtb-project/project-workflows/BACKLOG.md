@@ -13,7 +13,7 @@
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
 | Derived State | Abgenommen | Hoch | `features/FEATURE_DERIVED_STATE.md` | Status aus Artefakten ableiten statt manuell pflegen — Status-Drift strukturell unmoeglich machen |
-| Kit Sync | In Arbeit | Hoch | `features/FEATURE_KIT_SYNC.md` | Drift zwischen Kit-Repo und installierten Kopien automatisch erkennen und kontrolliert abgleichen |
+| Kit Sync | Fertig zum Testen | Hoch | `features/FEATURE_KIT_SYNC.md` | Drift zwischen Kit-Repo und installierten Kopien automatisch erkennen und kontrolliert abgleichen |
 
 ---
 
