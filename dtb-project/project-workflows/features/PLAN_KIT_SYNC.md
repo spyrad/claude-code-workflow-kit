@@ -156,15 +156,15 @@ Drift-Check in project-health integriert, alle Success Criteria per Fixture/Real
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg (optional bei Schritten ohne Commit).
 
-- [ ] 1.1 Lock-Schema + Skill-Geruest
-- [ ] 1.2 Modus check
-- [ ] 1.3 Modus install
-- [ ] 1.4 Modus sync
-- [ ] 2.1 Sentinel-Marker in project-init
-- [ ] 2.2 Ebenen-Trennung project-init
-- [ ] 3.1 project-health Check 5
-- [ ] 3.2 Fixture-Tests
-- [ ] 3.3 Realtest install auf Bestand
+- [x] 1.1 Lock-Schema + Skill-Geruest — `6ec445b`
+- [x] 1.2 Modus check — `6ec445b`
+- [x] 1.3 Modus install — `6ec445b`
+- [x] 1.4 Modus sync — `9f1f745`
+- [x] 2.1 Sentinel-Marker in project-init — `9f1f745`
+- [x] 2.2 Ebenen-Trennung project-init — `9f1f745`
+- [x] 3.1 project-health Check 11 (Kit-Drift) — `aa87aa9`
+- [x] 3.2 Fixture-Tests (unabhaengiger Agent, 4 Szenarien bestanden, 5 Nachschaerfungen) — `2a0eddf`
+- [x] 3.3 Realtest install auf Bestand (34 Artefakte, Lock erzeugt, check: 33 synchron + 1 bewusst uebersprungen)
 - [ ] 3.4 Doku + Abnahme
 
 ---
