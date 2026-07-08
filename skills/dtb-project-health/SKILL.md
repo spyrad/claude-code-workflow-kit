@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md, dtb-lock.json]
   produces: []
 ---
 
@@ -32,7 +32,7 @@ workflow.config.yaml nicht gefunden. Bitte zuerst /dtb:project-init ausfuehren.
 
 ### Schritt 1: Alle Checks ausfuehren
 
-Fuehre die folgenden 10 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis: `✅` (OK), `⚠️` (Warnung), `❌` (Fehler).
+Fuehre die folgenden 11 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis: `✅` (OK), `⚠️` (Warnung), `❌` (Fehler).
 
 ---
 
@@ -210,6 +210,21 @@ Scanne alle `.claude/skills/dtb-*/SKILL.md` im Projekt:
 - Pruefe ob Rules-Dateien das erwartete Format haben (Titel `# Coding Rules:`, Sektionen wie `## Do's`, `## Don'ts`)
 - Pruefe ob `**Manuell angepasst:**` Feld vorhanden → INFO wenn noch "Nein" (Hinweis: Review empfohlen)
 
+#### Check 11: Kit-Drift (leichtgewichtig, ohne Netzwerk)
+
+Kurzform des Drift-Checks aus `dtb:kit-sync` — nur melden, nie abgleichen.
+Logik NICHT duplizieren: Hashing-Methode und Zustaende sind in
+`skills/dtb-kit-sync/SKILL.md` definiert (Referenz 2).
+
+- `~/.claude/dtb-lock.json` fehlt → INFO: Kit ohne Lock installiert, `/dtb:kit-sync install` empfohlen (adoptiert den Bestand)
+- Lock korrupt (kein gueltiges JSON) → WARNUNG: `/dtb:kit-sync install` (Randfall 10)
+- Pro `mode: synced`-Eintrag im Lock:
+  - Kopie am `target` fehlt → WARNUNG
+  - `kithash(Kopie)` ≠ Lock-`hash` → WARNUNG "weicht vom Lock ab"
+- Falls `localPath` im Lock existiert: zusaetzlich Repo ↔ Lock vergleichen (Updates
+  zaehlen) — sonst nur Hinweis: `Vollstaendiger Drei-Punkte-Check: /dtb:kit-sync check`
+- Seeds (`mode: seed`) NIE pruefen
+
 ---
 
 ### Schritt 2: Report generieren
@@ -277,6 +292,10 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 - ✅/ℹ️ Rules-Verzeichnis: {vorhanden/nicht vorhanden}
 - ✅/ℹ️ Rules-Dateien: {N} vorhanden
 - ✅/ℹ️ Manuell reviewed: {N}/{M}
+
+## Kit-Drift
+- ✅/ℹ️/⚠️ Lock: {vorhanden ({N} Artefakte) / fehlt / korrupt}
+- ✅/⚠️ Installierte Kopien: {N} synchron zum Lock, {M} abweichend, {K} fehlend → /dtb:kit-sync sync
 ```
 
 ### Schritt 3: Empfohlene Aktionen
@@ -310,6 +329,7 @@ Falls keine Fehler/Warnungen: "✅ Alle Checks bestanden — keine Aktionen noet
 
 ## Verwandte Skills
 
+- `/dtb:kit-sync` — Kit-Drift im Detail pruefen und abgleichen (check/sync/install)
 - `/dtb:build-check` — Tests und Builds ausfuehren
 - `/dtb:backlog-status` — Backlog-Details
 - `/dtb:archive` — Abgeschlossene/verworfene Eintraege archivieren
