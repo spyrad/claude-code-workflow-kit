@@ -18,6 +18,10 @@ pipeline:
 
 Pruefe den Git-Status aller konfigurierten Repos und erkenne Cross-Repo-Abhaengigkeiten.
 
+> **Abgrenzung:** repo-sync prueft die **Projekt-Repos** aus `workflow.config.yaml`
+> (Git-Status, Branches, Cross-Repo). Die Verteilung des **Kits selbst** (installierte
+> Skill-/Agent-/Command-Kopien unter `~/.claude/`) prueft und pflegt `/dtb:kit-sync`.
+
 ## Aufgabe
 
 ### Schritt 1: Config laden

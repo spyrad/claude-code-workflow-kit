@@ -67,16 +67,16 @@ Zwischen dem Kit-Repo (Quelle) und den installierten Kopien unter `~/.claude/` g
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] `/dtb:kit-sync install` auf dem Bestand vom 2026-07-08 erzeugt `~/.claude/dtb-lock.json` mit allen Klasse-A-Artefakten (Hash, Ziel, Datum) und adoptiert die vorhandenen Kopien ohne Ueberschreiben
-- [ ] `/dtb:kit-sync check` erkennt den Drift-Fall des 2026-07-08 (Fixture: Repo-Datei neuer als Kopie) als "Update verfuegbar" — nicht als lokale Aenderung
-- [ ] Drei-Punkte-Diagnose unterscheidet die drei Drift-Arten korrekt (Fixtures: nur Repo geaendert / nur Kopie geaendert / beide geaendert → Konflikt)
-- [ ] `sync` ueberschreibt eine lokal geaenderte Kopie nie ohne explizite Bestaetigung; Diff wird vorher gezeigt
-- [ ] Verwaiste Kopie (Fixture: Skill im Repo umbenannt, pipeline-docs-Fall) wird erkannt, Entfernen wird angeboten
-- [ ] Identischer Inhalt mit LF vs. CRLF erzeugt KEINEN Drift (Fixture mit konvertierten Zeilenenden)
-- [ ] Offline-Verhalten: ohne Netz klare Meldung bzw. localPath-Fallback, kein Abbruch
-- [ ] `project-health` meldet Drift als Check 5 (read-only) und verweist auf kit-sync
-- [ ] Zweiter `project-init`-Lauf auf einem Projekt mit Sentinel-Markern aendert Nutzertext in CLAUDE.md nicht (Idempotenz-Fixture)
-- [ ] README-Installation verweist primaer auf `/dtb:kit-sync install`; `pipeline-graph` zeigt den neuen Skill ohne Nacharbeit
+- [x] `/dtb:kit-sync install` auf dem Bestand vom 2026-07-08 erzeugt `~/.claude/dtb-lock.json` mit allen Klasse-A-Artefakten (Hash, Ziel, Datum) und adoptiert die vorhandenen Kopien ohne Ueberschreiben — Realtest 2026-07-08: 34 Artefakte, 1 kopiert / 30 adoptiert / 3 mit Abweichung, nichts ueberschrieben
+- [x] `/dtb:kit-sync check` erkennt den Drift-Fall des 2026-07-08 (Repo-Datei neuer als Kopie) als "Update verfuegbar" — nicht als lokale Aenderung — Fixture ALPHA + real (project-health/project-init), 2026-07-08
+- [x] Drei-Punkte-Diagnose unterscheidet die drei Drift-Arten korrekt — Fixtures ALPHA (Update) / BETA (lokal geaendert) / GAMMA (Konflikt), unabhaengiger Agent, 2026-07-08
+- [x] `sync` ueberschreibt eine lokal geaenderte Kopie nie ohne explizite Bestaetigung — Buendel-2-Regel; real: dtb-pitch-coach bewusst uebersprungen (Anm.: Diff-Dialog per Plan-Review-Entscheidung zu einfacher Wahl verschlankt)
+- [x] Verwaiste Kopie wird erkannt, Entfernen wird angeboten — Fixture ORPHAN, 2026-07-08
+- [x] Identischer Inhalt mit LF vs. CRLF erzeugt KEINEN Drift — Hash-Spike + Fixture DELTA (Methode: tr + git hash-object mit autocrlf=false erzwungen), 2026-07-08
+- [x] Offline-Verhalten: ohne Netz klare Meldung bzw. localPath-Fallback, kein Abbruch — Fixture-Szenario C, 2026-07-08
+- [x] `project-health` meldet Drift read-only und verweist auf kit-sync — implementiert als Check 11 (Plan sprach von "Check 5"; real hat der Skill 10 Bestands-Checks), `aa87aa9`
+- [x] Zweiter `project-init`-Lauf auf einem Projekt mit Sentinel-Markern aendert Nutzertext in CLAUDE.md nicht — Fixture-Szenario D: Nutzertext byte-identisch, nur Block zwischen Markern ersetzt, 2026-07-08
+- [x] README-Installation verweist primaer auf `/dtb:kit-sync install` (inkl. Bootstrap-Schritt); `pipeline-graph` zeigt den neuen Skill ohne Nacharbeit — 2026-07-08
 
 ---
 

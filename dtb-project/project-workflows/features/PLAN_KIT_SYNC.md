@@ -165,7 +165,7 @@ Drift-Check in project-health integriert, alle Success Criteria per Fixture/Real
 - [x] 3.1 project-health Check 11 (Kit-Drift) — `aa87aa9`
 - [x] 3.2 Fixture-Tests (unabhaengiger Agent, 4 Szenarien bestanden, 5 Nachschaerfungen) — `2a0eddf`
 - [x] 3.3 Realtest install auf Bestand (34 Artefakte, Lock erzeugt, check: 33 synchron + 1 bewusst uebersprungen)
-- [ ] 3.4 Doku + Abnahme
+- [x] 3.4 Doku + Abnahme (README, skills/CLAUDE.md, CLAUDE.md, repo-sync-Abgrenzung, pipeline-graph 29 Skills, 10/10 SC)
 
 ---
 

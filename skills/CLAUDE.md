@@ -62,6 +62,21 @@ displays synced by `dtb:workflow-checkpoint`. `IMPL_STATUS_*.md` is abolished.
 - Dates: `YYYY-MM-DD`, never relative terms
 - `project-rules/` files use UPPER_SNAKE_CASE (e.g. `FRONTEND.md`, `BACKEND.md`)
 
+## Distribution (kit-sync)
+
+Skills are distributed to `~/.claude/skills/` by `dtb:kit-sync` (modes: check/sync/install).
+A lock file `~/.claude/dtb-lock.json` records source, ref, and a content hash per artifact
+(three-point drift detection: repo ↔ lock ↔ installed copy; hashing normalizes line endings).
+
+- **Class A (`mode: synced`, drift-checked):** `skills/dtb-*/SKILL.md`, `agents/*.md`,
+  `commands/dtb-*.md` — a NEW skill is covered automatically by the pattern, no registration needed
+- **Class B (`mode: seed`, copied once, never drift-checked):** `frameworks/` templates,
+  `settings.json`, `DERIVED_STATE_RULES.md` (distributed per project by `dtb:project-init`)
+- Not distributed in v1: `personas/` (source cleanup pending, see INBOX #8)
+
+Lock schema and fixed command sequences live in `skills/dtb-kit-sync/SKILL.md` — do not
+duplicate that logic in other skills; reference it (like `dtb:project-health` check 11 does).
+
 ## Language
 
 - **Frontmatter keys**: English

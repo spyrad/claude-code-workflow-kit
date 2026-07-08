@@ -20,6 +20,14 @@ This is a **distribution repository**, not a standalone project. Users copy part
 
 There are no build steps, tests, or runtime dependencies. The `context7` plugin is enabled in settings.json.
 
+**Distribution model:** `dtb:kit-sync` installs class-A artifacts (`skills/dtb-*/SKILL.md`,
+`agents/*.md`, `commands/dtb-*.md`) globally to `~/.claude/` and records a content hash per
+file in `~/.claude/dtb-lock.json` (three-point drift detection repo ↔ lock ↔ copy; source is
+this repo on GitHub). Seeds (`frameworks/`, `settings.json`, `DERIVED_STATE_RULES.md`) are
+copied per project by `dtb:project-init` and never drift-checked. `dtb:project-init` writes
+its CLAUDE.md block in target projects between `<!-- BEGIN dtb -->…<!-- END dtb -->` sentinel
+markers (idempotent updates, user text untouched).
+
 ## DTB Skill System
 
 The `/dtb:*` skills form a German-language workflow system for managing development sessions. Skills are the primary delivery format — they support YAML frontmatter with natural language triggers and are auto-detected by Claude Code.
@@ -47,7 +55,7 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 - **Bug workflow**: `bug-report` (quick capture with severity), `debug-plan` (root-cause analysis + fix strategy)
 - **Project setup**: `project-init`, `project-health`, `project-team`
 - **Greenfield**: `greenfield-prd`, `greenfield-roadmap`
-- **Maintenance**: `archive` (move completed/discarded items to archive)
+- **Maintenance**: `archive` (move completed/discarded items to archive), `kit-sync` (install/update installed kit copies under `~/.claude/` via lock-based drift detection — see below)
 - **Development**: `build-check`, `code-review`, `backlog-status`, `repo-sync`
 - **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs)
 - **Documentation**: `pipeline-graph` (generate interactive HTML overview of entire skill pipeline from frontmatter)

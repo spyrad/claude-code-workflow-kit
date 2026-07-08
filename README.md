@@ -17,36 +17,45 @@
 
 ## Installation
 
-### Minimal (Skills + Agents)
+### Empfohlen: `/dtb:kit-sync install` (verwaltete Installation)
+
+Das Kit installiert sich selbst und haelt sich aktuell — ueber eine Lock-Datei
+(`~/.claude/dtb-lock.json`) mit Content-Hashes pro Artefakt (Drift-Erkennung
+Repo ↔ installierte Kopie).
 
 ```bash
-# 1. Skills in dein Projekt kopieren
-cp -r skills/* <dein-projekt>/.claude/skills/
+# 1. Bootstrap: den kit-sync-Skill einmalig manuell installieren
+git clone https://github.com/spyrad/claude-code-workflow-kit.git
+mkdir -p ~/.claude/skills/dtb-kit-sync
+cp claude-code-workflow-kit/skills/dtb-kit-sync/SKILL.md ~/.claude/skills/dtb-kit-sync/
 
-# 2. Agenten-Rollen kopieren
-cp -r agents/ <dein-projekt>/agents/
+# 2. In Claude Code (beliebiges Verzeichnis):
+#    /dtb:kit-sync install
+#    → installiert Skills, Agents und Commands global nach ~/.claude/,
+#      adoptiert vorhandene Kopien und erzeugt ~/.claude/dtb-lock.json
 
-# 3. Statusableitungs-Regeln kopieren (von den Lese-Skills referenziert)
-mkdir -p <dein-projekt>/dtb-project/project-rules
-cp dtb-project/project-rules/DERIVED_STATE_RULES.md <dein-projekt>/dtb-project/project-rules/
-
-# 4. In deinem Projekt Claude Code starten und initialisieren
-cd <dein-projekt>
-# /dtb:project-init ausfuehren — befuellt workflow.config.yaml und legt dtb-project/ an
+# 3. Pro Projekt initialisieren:
+#    cd <dein-projekt>  →  /dtb:project-init
+#    → Scaffolding, workflow.config.yaml, Regel-Datei, CLAUDE.md-Block (Sentinel-Marker)
 ```
 
-### Vollstaendig (mit Memory Framework + Settings)
+**Updates spaeter:** `/dtb:kit-sync check` (Drift-Report) → `/dtb:kit-sync sync`
+(kontrollierter Abgleich; lokal geaenderte Kopien werden nie stillschweigend
+ueberschrieben). `/dtb:project-health` meldet Drift nebenbei als eigenen Check.
+
+### Fallback: manuelle Kopie (ohne Lock/Drift-Erkennung)
 
 ```bash
-# 1-2: Wie oben
+# Global (von Claude Code in allen Projekten geladen)
+cp -r skills/* ~/.claude/skills/
+cp -r agents/* ~/.claude/agents/
+cp -r commands/* ~/.claude/commands/
 
-# 3. Memory Framework Templates kopieren
+# Optional: Memory Framework Templates + Settings ins Zielprojekt
 cp frameworks/claude-code-memory-framework/templates/* <dein-projekt>/memory/
-
-# 4. Settings uebernehmen (oder manuell in bestehende settings.json mergen)
 cp settings.json <dein-projekt>/.claude/settings.json
 
-# 5. Initialisieren
+# Pro Projekt initialisieren (verteilt auch die Statusableitungs-Regeln)
 cd <dein-projekt>
 # /dtb:project-init ausfuehren
 ```
@@ -80,7 +89,8 @@ cd <dein-projekt>
 | `/dtb:session-summary` | Compact recap of work done (active session, a given day, or last 7 days) |
 | `/dtb:backlog-status` | Backlog overview |
 | `/dtb:archive` | Archive completed/discarded items from workflow files |
-| `/dtb:repo-sync` | Repository synchronization |
+| `/dtb:repo-sync` | Git status across configured project repos (not kit distribution) |
+| `/dtb:kit-sync` | Install/update kit copies under `~/.claude/` with lock-based drift detection |
 | `/dtb:project-init` | Initialize DTB workflow in a project |
 | `/dtb:project-health` | Project linting and consistency checks |
 | `/dtb:project-team` | Team documentation |
