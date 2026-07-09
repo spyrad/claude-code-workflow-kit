@@ -148,14 +148,19 @@ Verwende folgende Struktur:
    - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in PLAN_*.md)
    - **Max. 500 Zeilen** — laengere Specs verschlechtern die AI-Verarbeitung. Bei komplexen Features: Details in PLAN_*.md auslagern
 
-7. **Speichere die Datei**
+7. **Technical-Leak-Lint (Pflicht vor dem Speichern):**
+   - Wende den Lint aus Abschnitt „## Technical-Leak-Lint" (unten) auf den fertigen Spec-Text an
+   - **Treffer → Hard-Block:** Datei NICHT speichern; melde die Funde im Meldeformat und korrigiere, dann erneut pruefen
+   - Override nur mit Begruendung + Markierung an der Stelle (siehe Abschnitt)
 
-8. **Inbox-Status aktualisieren:**
+8. **Speichere die Datei**
+
+9. **Inbox-Status aktualisieren:**
    - Falls das Feature aus einer Inbox-Idee erstellt wurde:
      - Setze den Status in `INBOX.md` auf `Ausgearbeitet`
      - Ergaenze die Idee-Zeile um den Link: `→ FEATURE_{NAME}.md`
 
-9. **Backlog-Eintrag anbieten:**
+10. **Backlog-Eintrag anbieten:**
 
    Frage den Benutzer:
    ```
@@ -182,10 +187,45 @@ Verwende folgende Struktur:
    Du kannst es spaeter mit /dtb:backlog-status sehen (FEATURE_*.md werden automatisch erkannt).
    ```
 
-10. **Bestaetige:**
+11. **Bestaetige:**
    ```
    Naechste Schritte:
    1. Implementierungsplan erstellen: /dtb:impl-plan [Feature-Name]
    2. Plan reviewen: /dtb:plan-review [Feature-Name]
    3. Feature starten: /dtb:feature-start
    ```
+
+---
+
+## Technical-Leak-Lint
+
+Prueft den fertigen Spec-Text unmittelbar vor dem Speichern (Ausfuehrungs-Schritt 7). Ziel: die
+Spec beschreibt das **Was/Warum**, nicht das **Wie**. Ein Treffer bricht den Write ab (Hard-Block).
+
+**7 Leck-Kategorien** (je 1 Beispiel → loesungsneutrale Alternative):
+
+| # | Kategorie | Leck (verboten) | Stattdessen |
+|---|-----------|-----------------|-------------|
+| 1 | Vendor-/Produktname | „in PostgreSQL/Redis/S3 speichern" | „persistent speichern" |
+| 2 | ORM-/Query-Notation | „`User.objects.filter()`", „`SELECT …`" | „Nutzer nach Kriterium finden" |
+| 3 | Transport/Protokoll | „per REST `POST /users`", „WebSocket" | „Nutzer legt Datensatz an" |
+| 4 | Implementierungs-Verb | „instanziiere", „iteriere", „caste" | „das System verarbeitet …" |
+| 5 | Konkrete Datenstruktur | „`Dict[str, List]`", „Array von Objekten" | „Zuordnung von X zu Y" |
+| 6 | Framework-/Library-Name | „mit React/FastAPI/Pydantic" | „Oberflaeche/Schnittstelle …" |
+| 7 | Datei-/Pfad-/Klassenname | „`services/auth.py`", Klasse `AuthManager` | „im Authentifizierungs-Teil" |
+
+**Meldeformat bei Treffern** (Hard-Block, Datei NICHT speichern):
+```
+❌ Technical-Leak-Lint: {N} Leck(s) gefunden, Write abgebrochen
+  Zeile {Z} [{Kategorie}]: „{Fund}" → {loesungsneutraler Hinweis}
+```
+Danach korrigieren und erneut pruefen.
+
+**Meta-Spec-Ausnahme (eng gefasst):** Beschreibt die Spec selbst ein Code-/Config-/Skill-Artefakt
+als Gegenstand (betroffene Module = Skill-/Code-Dateien), sind Referenzen *auf dieses Artefakt*
+legitim — inkl. aus `DISCOVERY_*.md` geerbter technischer Angaben. Technische Details ueber
+*andere*, nicht-gegenstaendliche Loesungen bleiben Lecks.
+
+**Override:** Ein bewusst gehaltener Fachbegriff (echte fachliche Anforderung, z.B. „Export nach
+SAP") ist zulaessig — **nur mit kurzer Begruendung** und **Markierung an der Stelle** in der
+erzeugten Spec: `<!-- Lint-Override: {Begruendung} -->`. Kein Override ohne Begruendung.
