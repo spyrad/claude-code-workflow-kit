@@ -251,9 +251,9 @@ Alle Bloecke verifiziert, Budgets/Frontmatter konsistent, gehaertete Skills glob
 - [x] 2.1 debug-plan Hypothesen-Tabelle Evidenzstaerke — `06751ec`
 - [x] 2.2 debug-plan „Framing war korrekt"-Ergebnis — `06751ec`
 - [x] 3.1 greenfield-roadmap vertikale Slices — `06751ec`
-- [ ] 3.2 greenfield-roadmap Foundations/Unlocks
-- [ ] 3.3 greenfield-roadmap Selbst-Review-Checkliste
-- [ ] 4.1 feature-discover Resume-Marker (HTML-Kommentar)
+- [x] 3.2 greenfield-roadmap Foundations/Unlocks — `37819f2`
+- [x] 3.3 greenfield-roadmap Selbst-Review-Checkliste — `37819f2`
+- [x] 4.1 feature-discover Resume-Marker (HTML-Kommentar) — `37819f2`
 - [ ] 4.2 feature-discover „(Recommended)" an Auswahlpunkten
 - [ ] 5.1 checkpoint Handoff-Block (Sende-Seite)
 - [ ] 5.2 resume Handoff-Aufnahme (Empfangs-Seite)
