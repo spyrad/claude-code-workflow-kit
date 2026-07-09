@@ -231,7 +231,7 @@ Dieses Kit migrieren, Verhalten unabhaengig abnehmen, Skills global verteilen.
 - [x] 4.1 archive auf Ordner-Verschieben (+ Bash, Git-/Non-Git) — `e0de0d5`
 - [x] 4.2 Migrations-Helfer Erkennung + Kernlogik (Git/Non-Git, Backup) — `e0de0d5`
 - [x] 4.3 Migrations-Helfer Namens-Taxonomie + Archiv + Drift-Report — `e0de0d5`
-- [ ] 5.1 Sicherungspunkt + Dogfood-Migration dieses Kits
+- [x] 5.1 Sicherungspunkt + Dogfood-Migration dieses Kits
 - [ ] 5.2 Unabhaengige Multi-Varianten-Abnahme (inkl. Non-Git)
 - [ ] 5.3 Konsistenz-Sweep + Budget-Check + kit-sync
 
