@@ -13,8 +13,9 @@
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung auf migriertem Projekt, dann Abnahme + `/dtb:archive` |
 | Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung auf migriertem Projekt, dann Abnahme + `/dtb:archive` |
 | Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Praxiserprobung auf migriertem Projekt, dann Abnahme + `/dtb:archive` |
+| Frontmatter- und Pfad-Hygiene | In Arbeit | 0/12 | Phase 1: agents/-Pfad — Schritt 1.1 plan-review global + Fallback |
 
-Kein Feature „In Arbeit" — alle 4 sind „Fertig zum Testen".
+**In Arbeit:** Frontmatter- und Pfad-Hygiene (0/12, Phase 1). Die 4 anderen sind „Fertig zum Testen".
 
 ---
 

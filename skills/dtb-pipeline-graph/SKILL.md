@@ -46,10 +46,12 @@ Speichere alle Daten in einer internen Liste, sortiert nach Stage.
 Scanne Agenten-Dateien:
 
 ```
-Glob: .claude/agents/*.md
+Glob: ~/.claude/agents/*.md   (Fallback: agents/*.md im Projekt-Root, falls global leer)
 ```
 
-Ignoriere `.claude/agents/CLAUDE.md`. Fuer jede andere Datei: Lies die ersten 5 Zeilen und extrahiere:
+Die Kit-Distribution installiert die Agenten global (`dtb:kit-sync`); Projekte ohne eigenen
+`agents/`-Ordner werden so korrekt bedient. Ignoriere `CLAUDE.md` im Agenten-Ordner. Fuer jede
+andere Datei: Lies die ersten 5 Zeilen und extrahiere:
 - Dateiname (ohne `.md`)
 - **Rolle:** Wert
 - **Perspektive:** Wert
@@ -265,7 +267,7 @@ Wickle die Matrix in ein `<details>` Element:
 | `TEAM.md` | `dtb-project/project-strategy/` | Projektteam-Dokumentation |
 | `ARCHIVE_LOG.md` | `dtb-project/project-workflows/archive/` | Log archivierter Eintraege |
 | `project-rules/*.md` | `dtb-project/project-rules/` | Coding-Richtlinien + `lessons.md` (Prior, keine Rule) |
-| `agents/*.md` | `.claude/agents/` | Agenten-Rollen |
+| `agents/*.md` | `~/.claude/agents/` (Fallback: `agents/`) | Agenten-Rollen |
 | `PRD-MVP.md` | `dtb-project/project-strategy/` | Product Requirements Document |
 | `ROADMAP.md` | `dtb-project/project-strategy/` | Strategische Projekt-Roadmap |
 

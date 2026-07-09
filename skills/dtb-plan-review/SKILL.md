@@ -44,11 +44,18 @@ Erstelle zuerst einen Implementierungsplan mit /dtb:impl-plan.
 
 ## Schritt 2: Agent-Definitionen laden
 
-Lies die Agenten-Definitionen aus dem Projekt-Root:
-- `agents/architekt.md`
-- `agents/pragmatiker.md`
-- `agents/senior-dev.md`
-- `agents/betriebs-waechter.md` — nur laden, wenn in Schritt 2c aktiviert
+Lies die Agenten-Definitionen — bevorzugt aus der globalen Installation `~/.claude/agents/`,
+mit Fallback auf den Projekt-Root `agents/`. Die Kit-Distribution installiert die Agenten global
+(`dtb:kit-sync`); Zielprojekte haben i.d.R. keinen eigenen `agents/`-Ordner:
+- `architekt.md`
+- `pragmatiker.md`
+- `senior-dev.md`
+- `betriebs-waechter.md` — nur laden, wenn in Schritt 2c aktiviert
+
+Aufloesung je Datei: zuerst `~/.claude/agents/{name}.md`, sonst `agents/{name}.md` (Projekt-Root).
+Fehlt eine Rollen-Datei in **beiden** Quellen → melde
+`⚠ Agenten-Definition {name}.md weder global (~/.claude/agents/) noch im Projekt (agents/) gefunden — /dtb:kit-sync ausfuehren`
+und fahre mit den gefundenen Rollen fort (die 3 Kern-Agenten sind Minimum).
 
 Nimm diese Rollen fuer die Diskussion ein.
 
@@ -73,7 +80,8 @@ Pruefe anhand von Plan und Feature-Spec, ob der Plan mindestens einen dieser Tri
 - Betriebskritischer Pfad / last- oder performance-relevant
 - Secrets / Config / Berechtigungen
 
-- **Mindestens ein Trigger** → `agents/betriebs-waechter.md` laden; der Agent nimmt als
+- **Mindestens ein Trigger** → `betriebs-waechter.md` laden (global `~/.claude/agents/` mit
+  Projekt-Root-`agents/`-Fallback wie Schritt 2); der Agent nimmt als
   vierte Stimme an allen Runden teil. Gib aus: `🔧 Betriebs-Waechter aktiviert: {Trigger-Grund}`
 - **Kein Trigger** → Agent nicht laden, Ensemble bleibt bei drei Stimmen. Gib aus:
   `🔧 Betriebs-Waechter nicht aktiviert (kein Ops-/Security-Bezug im Plan)`
