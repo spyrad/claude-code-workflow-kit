@@ -245,9 +245,9 @@ Alle Bloecke verifiziert, Budgets/Frontmatter konsistent, gehaertete Skills glob
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg.
 
-- [ ] 1.1 project-health A/B-Kategorisierung
-- [ ] 1.2 project-health WARN-AND-CONTINUE
-- [ ] 1.3 project-health Fixes mit Kommando/Aufwand
+- [x] 1.1 project-health A/B-Kategorisierung — `f9feef4`
+- [x] 1.2 project-health WARN-AND-CONTINUE — `f9feef4`
+- [x] 1.3 project-health Fixes mit Kommando/Aufwand — `f9feef4`
 - [ ] 2.1 debug-plan Hypothesen-Tabelle Evidenzstaerke
 - [ ] 2.2 debug-plan „Framing war korrekt"-Ergebnis
 - [ ] 3.1 greenfield-roadmap vertikale Slices
