@@ -9,13 +9,13 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Change-Folder-Modell | Fertig zum Testen | 15/15 | Real auf migriertem `dtb-assistant` erproben, dann Abnahme + `/dtb:archive` |
-| Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung auf migriertem Projekt, dann Abnahme + `/dtb:archive` |
-| Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung auf migriertem Projekt, dann Abnahme + `/dtb:archive` |
-| Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Praxiserprobung auf migriertem Projekt, dann Abnahme + `/dtb:archive` |
-| Frontmatter- und Pfad-Hygiene | In Arbeit | 0/12 | Phase 1: agents/-Pfad — Schritt 1.1 plan-review global + Fallback |
+| Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
+| Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
+| Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
+| Change-Folder-Modell | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
+| Frontmatter- und Pfad-Hygiene | Fertig zum Testen | 12/12 | Praxiserprobung (plan-review/debug-plan), dann Abnahme + `/dtb:archive` |
 
-**In Arbeit:** Frontmatter- und Pfad-Hygiene (0/12, Phase 1). Die 4 anderen sind „Fertig zum Testen".
+Kein Feature „In Arbeit" — alle 5 sind „Fertig zum Testen".
 
 ---
 
@@ -24,16 +24,15 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | CHANGE_FOLDER_MODELL umgesetzt: ganzes Kit auf `features/<slug>/`-Ordner migriert (Rollback-Tag `pre-change-folder-migration`), global via kit-sync (Lock `2dfce5f`, pitch-coach übersprungen). Enabler für die gemeinsame Abnahme aller 4 Features auf einem migrierten realen Projekt (`dtb-assistant`, kein Git-Repo → Move+Backup) |
+| **Notizen** | Frontmatter-Pfad-Hygiene (#8+#9) umgesetzt + global (Lock `8f508b8`): agents/-Pfad global+Fallback, after/next→Listen (1:n), debug-plan `## Fix-Schritte` (aktiver Bug behoben). Lektion L2 erfasst. 5 Features warten auf gemeinsame Abnahme an einem migrierten realen Testbett (`dtb-assistant`, kein Git → Move+Backup) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `dtb-assistant` migrieren: `/dtb:migrate-change-folders` (Move + Backup, Drift-Report), dann `/dtb:project-health` — Kontext: reales Testbett für die Abnahme
-- [ ] Alle 4 Features auf migriertem `dtb-assistant` praxiserproben → gemeinsam abnehmen + `/dtb:archive`
-- [ ] Ideen triagieren: #8, #9, #10, #11, #12 — `/dtb:idea-review` (#9 teils in Change-Folder mitgenommen)
-- [ ] INBOX #10 (kit-sync pinned/hold) würde die pitch-coach-Dauerreibung beheben
+- [ ] `dtb-assistant` migrieren (`/dtb:migrate-change-folders` → Move+Backup, Drift-Report), dann `/dtb:project-health` — reales Testbett für die Abnahme
+- [ ] Alle 5 „Fertig zum Testen"-Features praxiserproben → gemeinsam abnehmen + `/dtb:archive`
+- [ ] Ideen triagieren: #10, #11, #12 — `/dtb:idea-review` (#10 kit-sync pinned/hold behebt die pitch-coach-Dauerreibung, erneut belegt)
 
 ---
 
@@ -41,7 +40,8 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-09 | CHANGE_FOLDER_MODELL umgesetzt | 15/15, Abnahme 6/6 PASS, Kit migriert, global (Lock `2dfce5f`) | `2026-07/2026-07-09.md` (Session 5) |
+| 2026-07-09 | Frontmatter- und Pfad-Hygiene umgesetzt | 12/12, Abnahme A/B/C PASS, global (Lock `8f508b8`) | `2026-07/2026-07-09.md` (Session 6) |
+| 2026-07-09 | CHANGE_FOLDER_MODELL umgesetzt | 15/15, Abnahme 6/6, global (Lock `2dfce5f`) | `2026-07/2026-07-09.md` (Session 5) |
 | 2026-07-09 | SKILL_10X_OPTIMIERUNGEN umgesetzt | 15/15, global (Lock `77f7f7f`) | `2026-07/2026-07-09.md` (Session 4) |
 | 2026-07-09 | SPEC_HAERTUNG umgesetzt | 9/9, global (Lock `7554e8d`) | `2026-07/2026-07-09.md` (Session 2/3) |
 | 2026-07-09 | REVIEW_HAERTUNG umgesetzt | 11/11, Abnahme 14/14, global (Lock `971e16a`) | `2026-07/2026-07-09.md` (Session 1) |
@@ -56,5 +56,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:migrate-change-folders` — auszuführen **im Projekt `dtb-assistant`** (nach kit-sync dort), um das reale Testbett zu schaffen; danach `/dtb:project-health` zur Verifikation. Alternativ hier `/dtb:idea-review` für #8–#12.
+**Naechster Befehl:** `/dtb:idea-review` — die 3 offenen Ideen (#10, #11, #12) triagieren; alternativ die Abnahme vorbereiten: `/dtb:migrate-change-folders` **im Projekt `dtb-assistant`** (reales Testbett), danach dort `/dtb:project-health`.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.

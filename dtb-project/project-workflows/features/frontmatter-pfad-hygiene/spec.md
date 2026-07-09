@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** Konsistenz-Lecks im Kit schliessen — Agenten-Pfad, Frontmatter-Kanten und die debug-plan-Ausgabe an die real gelesenen Konventionen angleichen.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
