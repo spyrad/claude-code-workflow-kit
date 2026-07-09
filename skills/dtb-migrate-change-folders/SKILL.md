@@ -34,34 +34,43 @@ Lies `workflow.config.yaml` im Projekt-Root. Fehlt sie: Fallback `dtb-project/pr
 
 ## Schritt 1: Layout-Selbsterkennung
 
-Scanne `{config.paths.workflows}/features/`:
+Scanne **beide** Bereiche `{config.paths.workflows}/features/` UND `{config.paths.workflows}/archive/`
+(falls vorhanden) auf lose `.md`-Dateien:
 
-- **Direkte `.md`-Dateien** (z.B. `FEATURE_*.md`, `PLAN_*.md`) → flaches Layout, Migration noetig
-- **Nur Unterordner, keine losen `.md`** → bereits migriert:
+- **Lose `.md` in features/ oder archive/** (z.B. `FEATURE_*.md`, `PLAN_*.md`) → flaches Layout,
+  Migration noetig — den jeweils flachen Bereich migrieren (features/ in Schritt 4, archive/ in Schritt 5)
+- **Beide Bereiche frei von losen `.md`** (nur Unterordner + evtl. `ARCHIVE_LOG.md`) → bereits migriert:
   ```
   Projekt ist bereits im Change-Folder-Modell — nichts zu migrieren.
   ```
   sauber beenden (kein Fehler)
 - **Gemischt** (Ordner UND lose Dateien) → nur die losen Dateien migrieren, vorhandene Ordner
-  unangetastet lassen (idempotenter Wiederlauf)
+  unangetastet lassen (idempotenter Wiederlauf). Die „bereits migriert"-Abkuerzung greift nur,
+  wenn BEIDE Bereiche frei von losen `.md` sind.
 
 ---
 
 ## Schritt 2: Sicherheits-Guards
 
+**„Betroffene Pfade"** = ausschliesslich die Kategorie-A-Quelldateien (erkannte Praefixe, Schritt 3)
+in `features/` UND `archive/`. Kategorie-B-Dateien loesen NIE einen Abbruch aus (sie werden nicht angefasst).
+
 **Git-Erkennung:** `git -C {Projekt-Root} rev-parse --is-inside-work-tree 2>/dev/null`
 
 - **Git-Repo vorhanden:**
-  - Pruefe `git status --short` fuer die betroffenen Pfade. **Uncommittete Aenderungen an
-    zu migrierenden Dateien → ABBRUCH** mit Meldung (kein Move+Edit-Mix):
+  - Pruefe `git status --short` fuer die betroffenen Pfade. **Modifizierte getrackte Dateien**
+    (` M`, `MM`, `AM` an einer zu migrierenden Datei) → **ABBRUCH** mit Meldung (kein Move+Edit-Mix):
     ```
-    ❌ Uncommittete Aenderungen in features/ — bitte erst committen, dann erneut migrieren.
+    ❌ Uncommittete Aenderungen an zu migrierenden Dateien — bitte erst committen, dann erneut migrieren.
     ```
-  - Verschiebe spaeter mit `git mv` (erhaelt Historie)
+  - **Ungetrackte** betroffene Dateien (`??`) sind KEIN Abbruchgrund — sie werden in Schritt 4
+    per Dateisystem-Move + `git add` behandelt (nicht `git mv`, das scheitert an Ungetracktem)
+  - Getrackte, unveraenderte Dateien → `git mv` (erhaelt Historie)
 - **Kein Git-Repo:**
   - **PFLICHT-Backup** vor jeder Aenderung: kopiere den kompletten `features/`-Baum (und
     `archive/`, falls vorhanden) nach `{config.paths.workflows}/.migration-backup-{Datum}/`
-    (Datum aus dem Kontext, nie raten)
+    (Datum aus dem Kontext, nie raten). **Existiert der Backup-Ordner schon** (abgebrochener
+    Vorlauf) → nicht ueberschreiben, Suffix `-2`/`-3` anhaengen
   - Laute Warnung ausgeben:
     ```
     ⚠ Kein Git-Repo — Dateisystem-Move ohne Versionshistorie. Backup unter .migration-backup-{Datum}/ angelegt.
@@ -93,8 +102,10 @@ Ordne jede lose Datei in `features/` einer Kategorie zu:
 - nicht-praefigierte Dateien (z.B. `finn-018-...md`) — kein erkennbarer Change-Bezug
 - ein separater `bugs/`-Ordner neben `features/` — Inhalt melden, nicht automatisch einfalten
 
-**C. Kollisions-Check:** Leiten zwei verschiedene `<NAME>` denselben `<slug>` ab → **ABBRUCH**
-mit Meldung der kollidierenden Namen (§4, kein Auto-Suffix); Nutzer benennt eine Quelle um.
+**C. Kollisions-Check (pro Bereich):** Leiten zwei verschiedene `<NAME>` **im selben Bereich**
+(`features/` bzw. `archive/`) denselben `<slug>` ab → **ABBRUCH** mit Meldung der kollidierenden
+Namen (§4, kein Auto-Suffix); Nutzer benennt eine Quelle um. Gleicher Slug in `features/` UND
+`archive/` ist KEINE Kollision (verschiedene Elternordner).
 
 ---
 
@@ -102,10 +113,11 @@ mit Meldung der kollidierenden Namen (§4, kein Auto-Suffix); Nutzer benennt ein
 
 Fuer jeden Ziel-`<slug>` aus Kategorie A:
 
-1. Ziel-Ordner `features/<slug>/` anlegen (falls nicht vorhanden). Existiert er bereits mit der
-   Ziel-Datei → **ueberspringen** (idempotent)
+1. Ziel-Ordner **zuerst anlegen** — `mkdir -p features/<slug>` (Pflicht vor jedem Move; `git mv`
+   legt den Zielordner NICHT selbst an). Existiert die Ziel-Datei bereits → **ueberspringen** (idempotent)
 2. Jede zugehoerige Quelldatei in ihre Ziel-Datei verschieben:
-   - Git: `git mv features/<NAME-Datei> features/<slug>/<ziel>.md`
+   - Git, getrackt+unveraendert: `mkdir -p features/<slug> && git mv features/<NAME-Datei> features/<slug>/<ziel>.md`
+   - Git, ungetrackt (`??`): `mkdir -p features/<slug>`, Dateisystem-Move, dann `git add features/<slug>/<ziel>.md`
    - Non-Git: Dateisystem-Move
 3. Kategorie-B-Dateien bleiben unangetastet
 
