@@ -311,11 +311,14 @@ Am Ende des Reports: konkrete Handlungsempfehlungen, gruppiert in **zwei Kategor
 nach Emoji sortiert). Jede Aktion bekommt einen konkreten Fix und eine Aufwandsschaetzung.
 
 **Kategorisierung:**
-- **A — Jetzt:** alle FEHLER (`❌`) sowie WARNungen, die Korrektheit/Konsistenz betreffen
-  (verwaiste Paare, Anzeige-Drift, kaputte Querverweise, IMPL_STATUS-Altlasten). Blockieren die
-  Verlaesslichkeit der abgeleiteten Zustaende.
-- **B — Spaeter:** kosmetische bzw. nachlaufende WARNungen (Frische/Alter, Archiv-Empfehlung,
-  Namens-Kosmetik) und `ℹ️`-Hinweise. Kein Handlungsdruck.
+- **A — Jetzt:** alle FEHLER (`❌`) sowie WARNungen, die die Verlaesslichkeit abgeleiteter
+  Zustaende oder Querverweise brechen (verwaiste PLAN/FEATURE-Paare, kaputte Links/Orphans,
+  Feature-Datei-Namens-FEHLER).
+- **B — Spaeter:** nachlaufende bzw. kosmetische WARNungen — Anzeige-Drift (per
+  `/dtb:workflow-checkpoint` behebbar), Frische/Alter, Archiv-Empfehlung, IMPL_STATUS-Migration,
+  Namens-Warnungen ausserhalb `features/` — und `ℹ️`-Hinweise. Kein Handlungsdruck.
+- **Tiebreak (Grenzfall):** Betrifft der Befund die Verlaesslichkeit abgeleiteter
+  Zustaende/Querverweise → **A**, sonst → **B**.
 
 **Aufwand:** `klein` (1 Kommando / <5 min), `mittel` (mehrere Schritte / Nachpflege),
 `gross` (Migration / mehrere Dateien).
