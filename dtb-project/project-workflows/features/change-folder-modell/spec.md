@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** Jeder Change bekommt einen eigenen Ordner (`features/<kebab-slug>/`) mit fixen Dateinamen statt flacher UPPER_SNAKE-Dateien mit fragilem Namens-Pairing.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
