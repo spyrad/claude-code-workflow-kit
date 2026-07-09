@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Spec-Härtung | In Arbeit | 0/9 | Schritt 1.1 — `## Offene Punkte` ins feature-plan-Template |
+| Spec-Härtung | In Arbeit | 8/9 | Schritt 3.3 — `/dtb:kit-sync` (globale Kopie auf gepushten Stand) |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 
 ---
@@ -19,16 +19,16 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | REVIEW_HAERTUNG umgesetzt + global installiert (Lock `971e16a`). Isolierte Abnahme 14/14 bestanden, aber bewusst noch nicht abgenommen (Praxiserprobung ausstehend). `dtb-pitch-coach` weiter bewusst abweichend (INBOX #8/#10) |
+| **Notizen** | SPEC_HAERTUNG (Idee #5) inhaltlich fertig, unabh. Doppel-Abnahme PASS (6 Ambiguitäten nachgeschärft); nur kit-sync (3.3) offen — Commits gepusht (`7554e8d`), globale Installation bewusst später. Neue Ideen #11 (greenfield-Redesign) + #12 (Eligibility-Gates) aus Scope-Trennung |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] REVIEW_HAERTUNG praxiserproben (echtes Review), dann abnehmen + archivieren — Kontext: `FEATURE_REVIEW_HAERTUNG.md`
-- [ ] Ideen triagieren: #5, #6, #7, #8, #9, #10 — Kontext: `INBOX.md`
-- [ ] INBOX #10 (kit-sync pinned/hold) würde die pitch-coach-Dauerreibung beheben
-- [ ] `cognitive/`-Overlays der `dtb-stakeholder-pitch-coach`-Persona (vorher Brainstorming)
+- [ ] SPEC_HAERTUNG 3.3: `/dtb:kit-sync` check → sync — Kontext: `PLAN_SPEC_HAERTUNG.md`
+- [ ] Lektion festhalten: „vor Skill-Härtung reale `allowed-tools`/`produces` prüfen" — `/dtb:lesson`
+- [ ] REVIEW_HAERTUNG praxiserproben, dann abnehmen + archivieren — Kontext: `FEATURE_REVIEW_HAERTUNG.md`
+- [ ] Ideen triagieren: #6, #7, #8, #9, #10, #11, #12 — Kontext: `INBOX.md`
 
 ---
 
@@ -36,11 +36,10 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-09 | SPEC_HAERTUNG umgesetzt | 8/9, Abnahme PASS, gepusht — kit-sync offen | `2026-07/2026-07-09.md` (Session 2) |
 | 2026-07-09 | REVIEW_HAERTUNG umgesetzt | 11/11, Abnahme 14/14, global installiert (Lock `971e16a`) | `2026-07/2026-07-09.md` (Session 1) |
-| 2026-07-08 | LESSON_LOOP abgenommen & archiviert | FEATURE+DISCOVERY+PLAN nach `archive/`; loest totes pitfalls.md ab | `2026-07/2026-07-08.md` (Session 4/5) |
-| 2026-07-08 | Betriebs-Wächter + Rollen-Schärfung | Bedingter 4. plan-review-Agent (Ops/Security) | Commit `4ee4a9a` |
+| 2026-07-08 | LESSON_LOOP abgenommen & archiviert | löst totes pitfalls.md ab | `2026-07/2026-07-08.md` (Session 4/5) |
 | 2026-07-08 | KIT_SYNC + DERIVED_STATE abgenommen & archiviert | Beide Features nach `archive/` | `2026-07/2026-07-08.md` (Session 3) |
-| 2026-07-06 | Feature DERIVED_STATE umgesetzt | 16/16 Schritte, Fixture-Test bestanden | `2026-07/2026-07-06.md` |
 
 ---
 

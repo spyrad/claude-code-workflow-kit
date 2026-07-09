@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-09 (SPEC_HAERTUNG spezifiziert)
+**Letzte Aktualisierung:** 2026-07-09 (SPEC_HAERTUNG 8/9, kit-sync offen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
