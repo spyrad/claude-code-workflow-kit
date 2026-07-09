@@ -68,13 +68,25 @@ Basierend auf dem Bug-Report:
 
 ## Schritt 3: Root-Cause-Hypothesen aufstellen
 
-Formuliere 2-3 Hypothesen, sortiert nach Wahrscheinlichkeit:
+Formuliere 2-3 Hypothesen und fuehre sie in einer **Hypothesen-Tabelle mit Evidenzstaerke**:
 
-Fuer jede Hypothese:
-- **Was:** Was genau koennte den Bug verursachen?
-- **Wo:** Welche Datei(en) und Zeile(n)?
-- **Warum:** Warum fuehrt das zum beobachteten Symptom?
-- **Pruefung:** Wie kann man diese Hypothese verifizieren?
+| # | Hypothese (Was) | Wo (Datei:Zeile) | Evidenz | Staerke |
+|---|-----------------|------------------|---------|---------|
+| 1 | … | `pfad:zeile` | konkreter Codebefund/Beobachtung | STRONG/WEAK/NONE |
+
+**Evidenzstaerke** (auf Basis des in Schritt 2 gelesenen Codes, nie Vermutung):
+- **STRONG:** direkter Codebefund erklaert das Symptom vollstaendig
+- **WEAK:** plausibel, aber Beleg indirekt/unvollstaendig — Pruefung noetig
+- **NONE:** noch kein Beleg, reine Vermutung → Pruefschritt definieren, bevor sie Fix-Grundlage wird
+
+Sortiere nach Staerke (STRONG zuerst). Zu jeder Hypothese zusaetzlich: **Warum** (fuehrt zum
+Symptom) und **Pruefung** (wie verifizieren).
+
+**Ergebnis „Framing war korrekt" (valider Ausgang):** Erreicht KEINE Hypothese mindestens WEAK
+mit klarer Pruefung — oder zeigt die Untersuchung, dass das Symptom bereits behoben ist, gar nicht
+reproduziert oder falsch geframt war —, ist das ein legitimes Endergebnis. Dann KEINE Fix-Strategie
+erfinden: dokumentiere den Befund („Framing war korrekt / kein Root-Cause im vermuteten Bereich")
+und den naechsten sinnvollen Schritt (Bug neu framen, Repro schaerfen, schliessen).
 
 ---
 
@@ -103,19 +115,17 @@ Ergaenze die bestehende `BUG_[NAME].md` um einen Analyse-Abschnitt:
 
 ### Root-Cause-Hypothesen
 
-#### Hypothese 1 (wahrscheinlichste)
-- **Ursache:** [Was verursacht den Bug?]
-- **Datei:** `[Pfad:Zeile]`
-- **Begruendung:** [Warum fuehrt das zum Symptom?]
-- **Pruefung:** [Wie verifizieren?]
+| # | Hypothese | Wo (Datei:Zeile) | Evidenz | Staerke |
+|---|-----------|------------------|---------|---------|
+| 1 | [wahrscheinlichste Ursache] | `[Pfad:Zeile]` | [Codebefund] | STRONG/WEAK/NONE |
+| 2 | [Alternative] | `[Pfad:Zeile]` | [Codebefund] | STRONG/WEAK/NONE |
 
-#### Hypothese 2
-- **Ursache:** [Alternative Erklaerung]
-- **Datei:** `[Pfad:Zeile]`
-- **Begruendung:** [Warum?]
-- **Pruefung:** [Wie verifizieren?]
+Je Hypothese ergaenzend — **Begruendung:** [warum fuehrt das zum Symptom?] · **Pruefung:** [wie verifizieren?]
 
 ### Fix-Strategie
+
+> Nur ausfuellen, wenn mindestens eine Hypothese STRONG/WEAK mit Pruefung ist.
+> Sonst stattdessen den Block „Ergebnis" unten nutzen.
 
 #### Schritte
 1. [Konkrete Aenderung in Datei X]
@@ -128,12 +138,19 @@ Ergaenze die bestehende `BUG_[NAME].md` um einen Analyse-Abschnitt:
 #### Regressionsrisiko
 - [Was koennte durch den Fix betroffen sein?]
 
+### Ergebnis (nur wenn keine tragfaehige Hypothese)
+
+- **Befund:** Framing war korrekt / kein Root-Cause im vermuteten Bereich / nicht reproduzierbar / bereits behoben
+- **Naechster Schritt:** [Bug neu framen | Repro schaerfen | schliessen]
+
 ---
 
 **Analysiert mit:** `/dtb:debug-plan`
 ```
 
-Aktualisiere ausserdem den **Status** im Header von `Offen` auf `Analysiert`.
+Aktualisiere ausserdem den **Status** im Header von `Offen` auf `Analysiert`. Beim
+Framing-Ergebnis (keine Fix-Strategie) bleibt der Bug faktisch analysiert, aber ohne Fix-Schritte —
+den Naechsten-Schritt-Befund im Header vermerken.
 
 ---
 

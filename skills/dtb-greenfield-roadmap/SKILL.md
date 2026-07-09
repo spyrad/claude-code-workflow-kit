@@ -41,6 +41,11 @@ Fuer jeden Meilenstein/Phase:
 - Pruefe aktuellen Status (falls dokumentiert)
 - Erkenne Abhaengigkeiten zwischen Phasen
 
+**Vertikale Slices statt Schicht-Phasen:** Fasse jede Phase als durchgaengigen Slice, der
+End-to-End Nutzerwert liefert (nicht „erst alle Datenschicht, dann alle Oberflaeche"). Pruefe je
+Phase: Liefert sie fuer sich genommen etwas Nutzbares? Rein technische Schicht-Phasen ohne
+sichtbaren Wert markieren.
+
 ## Schritt 3: Roadmap-Report erstellen
 
 ```markdown
