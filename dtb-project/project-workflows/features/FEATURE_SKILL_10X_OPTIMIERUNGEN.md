@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** Fuenf Bestands-Skills nach 10x-Vorbild additiv haerten, ohne ihre Struktur umzubauen.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
