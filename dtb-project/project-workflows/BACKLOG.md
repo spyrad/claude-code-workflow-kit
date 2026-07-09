@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-08 (LESSON_LOOP archiviert — Pipeline leer)
+**Letzte Aktualisierung:** 2026-07-08 (REVIEW_HAERTUNG spezifiziert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| _(keine)_ | | | | |
+| Review-Härtung | In Arbeit | Hoch | FEATURE_REVIEW_HAERTUNG.md | plan-review und code-review liefern mechanisch geprüfte, verbindliche Verdikte: Grounding + Challenger-Pass + Dimensions-Verdikte; Severity×Impact-Doppelachse + Cap + Resume-Marker |
 
 ---
 

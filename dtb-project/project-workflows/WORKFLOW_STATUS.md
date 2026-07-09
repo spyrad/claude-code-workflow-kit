@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| _(Pipeline leer)_ | — | — | Ideen-Triage `/dtb:idea-review` |
+| Review-Härtung | In Arbeit | 0/11 | Schritt 1.1 Grounding (plan-review 2d) |
 
 ---
 
