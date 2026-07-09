@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-08
 **Ziel:** plan-review und code-review liefern belastbare, mechanisch geprüfte Verdikte statt weicher Diskussions-Prosa — Pläne werden gegen die echte Codebase verifiziert, Findings priorisiert gecappt und Reviews wiederaufnehmbar.
 **Priorität:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
