@@ -15,7 +15,7 @@
 | Review-Härtung | Fertig zum Testen | Hoch | features/review-haertung/spec.md | plan-review und code-review liefern mechanisch geprüfte, verbindliche Verdikte: Grounding + Challenger-Pass + Dimensions-Verdikte; Severity×Impact-Doppelachse + Cap + Resume-Marker |
 | Spec-Härtung | Fertig zum Testen | Mittel | features/spec-haertung/spec.md | feature-plan-Specs lösungsneutral + ehrlich halten: Technical-Leak-Lint (7 Kategorien, Hard-Block+Override) + „nie erfinden → Offene Punkte" statt [TODO] |
 | Skill-10x-Optimierungen | Fertig zum Testen | Mittel | features/skill-10x-optimierungen/spec.md | Fünf Bestands-Skills additiv nach 10x-Vorbild härten: project-health (A/B, WARN-CONTINUE, Fixes), debug-plan (Evidenz-Tabelle), greenfield-roadmap (Slices/Unlocks), feature-discover (Checkpoint, Recommended), checkpoint/resume (Handoff) |
-| Change-Folder-Modell | In Arbeit | Mittel | features/change-folder-modell/spec.md | Ein Ordner pro Change (`features/<kebab-slug>/` mit fixen Dateinamen) statt flacher UPPER_SNAKE-Dateien mit Namens-Pairing; Archivierung = `git mv` des Ordners; harter Schnitt + einmaliger Migrations-Helfer |
+| Change-Folder-Modell | Fertig zum Testen | Mittel | features/change-folder-modell/spec.md | Ein Ordner pro Change (`features/<kebab-slug>/` mit fixen Dateinamen) statt flacher UPPER_SNAKE-Dateien mit Namens-Pairing; Archivierung = `git mv` des Ordners; harter Schnitt + einmaliger Migrations-Helfer |
 
 ---
 
