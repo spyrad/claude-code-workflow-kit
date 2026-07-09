@@ -213,10 +213,11 @@ CLAUDE.md Pflege-Richtlinien:
 Dieses Projekt nutzt das DTB-Workflow-Kit (`workflow.config.yaml` ist die Config).
 
 - **Session-Lifecycle:** `/dtb:workflow-resume` (Start), `/dtb:workflow-checkpoint` (Ende)
-- **Artefakte:** `{paths.workflows}/features/` (FEATURE_*/PLAN_*/BUG_*/TASK_*),
+- **Artefakte:** `{paths.workflows}/features/<slug>/` (ein Ordner pro Change mit fixen
+  Dateinamen `discovery.md`/`spec.md`/`plan.md`/`bug.md`/`task.md`),
   `{paths.workflows}/BACKLOG.md`, `{paths.changelog}/`
 - **Derived State:** Status wird aus Artefakten abgeleitet (`## Progress`-Checkboxen
-  in PLAN_*.md), nie manuell gepflegt — Regeln: `{paths.rules}/DERIVED_STATE_RULES.md`
+  in `plan.md`), nie manuell gepflegt — Regeln: `{paths.rules}/DERIVED_STATE_RULES.md`
 - **Naechster Schritt unklar?** `/dtb:workflow-next`
 <!-- END dtb -->
 ```

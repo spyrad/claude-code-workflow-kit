@@ -4,7 +4,7 @@ description: >-
   Use when: "Aufgabe erfassen", "task anlegen", "Housekeeping",
   "Wartungsaufgabe", "operativ", "Aufgabe erstellen", "task".
   Captures a lightweight operational/infrastructure task as
-  TASK_[NAME].md in the features directory.
+  features/<slug>/task.md in the features directory.
 disable-model-invocation: true
 argument-hint: "[Aufgaben-Beschreibung als Freitext]"
 allowed-tools: Read, Write, Glob, Grep
@@ -13,7 +13,7 @@ pipeline:
   after: null
   next: null
   consumes: [BACKLOG.md]
-  produces: [TASK_*.md, BACKLOG.md]
+  produces: [features/*/task.md, BACKLOG.md]
 ---
 
 # Aufgabe erfassen
@@ -63,19 +63,20 @@ Frage den Benutzer nur bei Unklarheit — sonst schlage die Prioritaet vor und v
 
 ---
 
-## Schritt 3: Task-Name ermitteln
+## Schritt 3: Task-Name / Slug ermitteln
 
 Leite einen kurzen, beschreibenden Namen aus der Aufgaben-Beschreibung ab.
-- Konvertiere zu UPPER_SNAKE_CASE fuer den Dateinamen (z.B. "HANA Schema Audit" → `TASK_HANA_SCHEMA_AUDIT.md`)
 - Max. 3-4 Woerter
+- Leite den **kebab-case-Slug** ab (Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4; z.B. "HANA Schema Audit" → `features/hana-schema-audit/`). Eine eigenstaendige Aufgabe ist ein eigener Change-Ordner
+- Bei Slug-Kollision → melden und anderen Namen erfragen (§4)
 
 ---
 
-## Schritt 4: TASK_[NAME].md speichern
+## Schritt 4: task.md speichern
 
 ### Datei
 
-- Pfad: `{config.paths.workflows}/features/TASK_[NAME].md`
+- Pfad: `{config.paths.workflows}/features/{slug}/task.md` (Ordner bei Bedarf anlegen)
 - Falls Datei bereits existiert: Frage "Aufgabe existiert bereits. Aktualisieren oder neuen Namen waehlen?"
 
 ### Template
@@ -119,7 +120,7 @@ Leite einen kurzen, beschreibenden Namen aus der Aufgaben-Beschreibung ab.
 
 Frage den Benutzer:
 ```
-Aufgabe gespeichert: {config.paths.workflows}/features/TASK_[NAME].md
+Aufgabe gespeichert: {config.paths.workflows}/features/{slug}/task.md
 
 Soll die Aufgabe in BACKLOG.md eingetragen werden? (Ja/Nein)
 ```
@@ -127,7 +128,7 @@ Soll die Aufgabe in BACKLOG.md eingetragen werden? (Ja/Nein)
 **Bei Ja:**
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aufgaben" ein:
-  `| {Aufgaben-Name} | Offen | {Prioritaet} | TASK_{NAME}.md | {Beschreibung-Einzeiler} |`
+  `| {Aufgaben-Name} | Offen | {Prioritaet} | features/{slug}/task.md | {Beschreibung-Einzeiler} |`
   (`Offen` = initialer abgeleiteter Status, 0 Schritte abgehakt. Die Status-Spalte ist
   abgeleitete Anzeige und wird danach von `dtb:workflow-checkpoint` gepflegt —
   Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
@@ -137,14 +138,14 @@ Soll die Aufgabe in BACKLOG.md eingetragen werden? (Ja/Nein)
 
   | Aufgabe | Status | Prio | Datei | Beschreibung |
   |---------|--------|------|-------|--------------|
-  | {Aufgaben-Name} | Offen | {Prioritaet} | TASK_{NAME}.md | {Beschreibung-Einzeiler} |
+  | {Aufgaben-Name} | Offen | {Prioritaet} | features/{slug}/task.md | {Beschreibung-Einzeiler} |
   ```
 - Aktualisiere das Datum in "Letzte Aktualisierung"
 
 **Bei Nein:**
 ```
 OK, Aufgabe nicht ins Backlog eingetragen.
-Du kannst sie spaeter mit /dtb:backlog-status sehen (TASK_*.md werden automatisch erkannt).
+Du kannst sie spaeter mit /dtb:backlog-status sehen (features/*/task.md werden automatisch erkannt).
 ```
 
 ---
@@ -152,7 +153,7 @@ Du kannst sie spaeter mit /dtb:backlog-status sehen (TASK_*.md werden automatisc
 ## Schritt 6: Bestaetigung
 
 ```
-Aufgabe erfasst: {config.paths.workflows}/features/TASK_[NAME].md
+Aufgabe erfasst: {config.paths.workflows}/features/{slug}/task.md
 Prioritaet: {Prioritaet}
 
 Naechste Schritte:

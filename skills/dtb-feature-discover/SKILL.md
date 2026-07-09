@@ -13,7 +13,7 @@ pipeline:
   after: dtb:idea-review
   next: dtb:feature-plan
   consumes: [INBOX.md, workflow.config.yaml]
-  produces: [DISCOVERY_*.md, INBOX.md]
+  produces: [features/*/discovery.md, INBOX.md]
 ---
 
 # Feature Discovery
@@ -81,8 +81,8 @@ DISCOVERY-Entwurf (Schritt-6-Template, so weit befuellt) mit einem Resume-Marker
 **HTML-Kommentar** direkt unter dem Header: `<!-- resume: {zuletzt beantwortete Kategorie, z.B. 3c} -->`.
 Bewusst ein Kommentar statt YAML-Frontmatter — so ignorieren project-health und pipeline-graph
 den DISCOVERY-Konsum unveraendert. Wird der Skill fuer eine Idee erneut gestartet und existiert
-eine `DISCOVERY_{NAME}.md` mit einem Marker ungleich `done`, biete an, ab der naechsten Kategorie
-fortzusetzen (bereits beantwortete Kategorien nicht erneut fragen).
+bereits `{config.paths.workflows}/features/<slug>/discovery.md` mit einem Marker ungleich `done`,
+biete an, ab der naechsten Kategorie fortzusetzen (bereits beantwortete Kategorien nicht erneut fragen).
 
 ### 3a: Scope
 
@@ -129,7 +129,7 @@ Integrationspunkte:
 
 ## Schritt 4: Abhaengigkeiten pruefen
 
-Scanne `{config.paths.workflows}/features/` nach bestehenden FEATURE_*.md und PLAN_*.md:
+Scanne `{config.paths.workflows}/features/*/` nach bestehenden Change-Ordnern (`spec.md`/`plan.md`):
 
 - Lies jeweils Titel und Scope
 - Identifiziere potenzielle Konflikte oder Ueberschneidungen
@@ -144,15 +144,18 @@ Abhaengigkeits-Check:
 
 ---
 
-## Schritt 5: Feature-Name festlegen
+## Schritt 5: Feature-Name / Slug festlegen
 
 ```
 Feature-Name festlegen:
-  1. {UPPER_SNAKE_CASE basierend auf Idee-Text} (Recommended)
+  1. {Name basierend auf Idee-Text} (Recommended)  →  Ordner: features/{slug}/
   2. Alternativer Name (angeben)
 ```
 
-Der Name wird fuer DISCOVERY_{NAME}.md, FEATURE_{NAME}.md und PLAN_{NAME}.md verwendet.
+Aus dem Namen wird der **kebab-case-Slug** abgeleitet (Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4).
+Der Change-Ordner `features/{slug}/` traegt die fixen Dateien `discovery.md`, `spec.md`, `plan.md`.
+Bei einer Slug-Kollision mit einem bestehenden Ordner (anderer Name, gleicher Slug) → melden und
+einen anderen Namen erfragen (kein Auto-Suffix, §4).
 
 **„(Recommended)"-Muster:** An echten Auswahlpunkten dieses Skills — dem Namensvorschlag hier und
 einem etwaigen Scope-Schnitt (wenn eine Sammelidee in mehrere Features zerlegt wird) — die
@@ -161,9 +164,10 @@ Auswahlpunkte; die offenen Klaerungsfragen (3a-3e) bleiben Freitext ohne Options
 
 ---
 
-## Schritt 6: DISCOVERY_[NAME].md speichern
+## Schritt 6: discovery.md speichern
 
-Speichere in `{config.paths.workflows}/features/DISCOVERY_{NAME}.md` (setzt den Resume-Marker aus
+Lege bei Bedarf den Ordner `{config.paths.workflows}/features/{slug}/` an und speichere in
+`{config.paths.workflows}/features/{slug}/discovery.md` (setzt den Resume-Marker aus
 Schritt 3 final auf `<!-- resume: done -->`):
 
 ```markdown
@@ -227,14 +231,14 @@ Schritt 3 final auf `<!-- resume: done -->`):
 ## Schritt 7: Inbox aktualisieren
 
 - Der Status der Idee bleibt auf `In Arbeit`
-- Haenge den Link `→ DISCOVERY_{NAME}.md` an die Inbox-Zeile an
+- Haenge den Link `→ features/{slug}/discovery.md` an die Inbox-Zeile an
 
 ---
 
 ## Schritt 8: Naechste Schritte
 
 ```
-Discovery abgeschlossen: {config.paths.workflows}/features/DISCOVERY_{NAME}.md
+Discovery abgeschlossen: {config.paths.workflows}/features/{slug}/discovery.md
 
 Naechster Schritt: /dtb:feature-plan {Feature-Name}
   (Die Discovery-Ergebnisse werden automatisch uebernommen)

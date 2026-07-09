@@ -3,7 +3,7 @@ name: dtb:bug-report
 description: >-
   Use when: "Bug melden", "bug report", "Fehler gefunden", "Bug erfassen",
   "das geht nicht", "Fehler notieren". Captures a bug report with reproduction
-  steps and saves it as BUG_[NAME].md in the features directory.
+  steps and saves it as features/<slug>/bug.md in the features directory.
 disable-model-invocation: true
 argument-hint: "[Bug-Beschreibung als Freitext]"
 allowed-tools: Read, Write, Glob, Grep
@@ -12,7 +12,7 @@ pipeline:
   after: null
   next: dtb:debug-plan
   consumes: [BACKLOG.md]
-  produces: [BUG_*.md, BACKLOG.md]
+  produces: [features/*/bug.md, BACKLOG.md]
 ---
 
 # Bug erfassen
@@ -63,19 +63,20 @@ Frage den Benutzer nur bei Unklarheit — sonst schlage die Severity vor und ver
 
 ---
 
-## Schritt 3: Bug-Name ermitteln
+## Schritt 3: Bug-Name / Slug ermitteln
 
 Leite einen kurzen, beschreibenden Namen aus der Bug-Beschreibung ab.
-- Konvertiere zu UPPER_SNAKE_CASE fuer den Dateinamen (z.B. "Login geht nicht" → `BUG_LOGIN_BROKEN.md`)
 - Max. 3-4 Woerter
+- Leite den **kebab-case-Slug** ab (Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4; z.B. "Login geht nicht" → `features/login-broken/`). Ein eigenstaendiger Bug ist ein eigener Change-Ordner
+- Bei Slug-Kollision → melden und anderen Namen erfragen (§4)
 
 ---
 
-## Schritt 4: BUG_[NAME].md speichern
+## Schritt 4: bug.md speichern
 
 ### Datei
 
-- Pfad: `{config.paths.workflows}/features/BUG_[NAME].md`
+- Pfad: `{config.paths.workflows}/features/{slug}/bug.md` (Ordner bei Bedarf anlegen)
 - Falls Datei bereits existiert: Frage "Bug-Report existiert bereits. Aktualisieren oder neuen Namen waehlen?"
 
 ### Template
@@ -121,7 +122,7 @@ Leite einen kurzen, beschreibenden Namen aus der Bug-Beschreibung ab.
 
 Frage den Benutzer:
 ```
-Bug gespeichert: {config.paths.workflows}/features/BUG_[NAME].md
+Bug gespeichert: {config.paths.workflows}/features/{slug}/bug.md
 
 Soll der Bug in BACKLOG.md eingetragen werden? (Ja/Nein)
 ```
@@ -129,7 +130,7 @@ Soll der Bug in BACKLOG.md eingetragen werden? (Ja/Nein)
 **Bei Ja:**
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aktive Features" ein:
-  `| Bug: {Bug-Name} | Offen | {Severity} | BUG_{NAME}.md | {Symptom-Einzeiler} |`
+  `| Bug: {Bug-Name} | Offen | {Severity} | features/{slug}/bug.md | {Symptom-Einzeiler} |`
   (`Offen` = initialer abgeleiteter Status, kein Analyse-Abschnitt vorhanden. Die
   Status-Spalte ist abgeleitete Anzeige und wird danach von `dtb:workflow-checkpoint`
   gepflegt — Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
@@ -138,7 +139,7 @@ Soll der Bug in BACKLOG.md eingetragen werden? (Ja/Nein)
 **Bei Nein:**
 ```
 OK, Bug nicht ins Backlog eingetragen.
-Du kannst ihn spaeter mit /dtb:backlog-status sehen (BUG_*.md werden automatisch erkannt).
+Du kannst ihn spaeter mit /dtb:backlog-status sehen (features/*/bug.md werden automatisch erkannt).
 ```
 
 ---
@@ -146,7 +147,7 @@ Du kannst ihn spaeter mit /dtb:backlog-status sehen (BUG_*.md werden automatisch
 ## Schritt 6: Bestaetigung
 
 ```
-Bug erfasst: {config.paths.workflows}/features/BUG_[NAME].md
+Bug erfasst: {config.paths.workflows}/features/{slug}/bug.md
 Severity: {Severity}
 
 Naechste Schritte:

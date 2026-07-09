@@ -12,8 +12,8 @@ pipeline:
   stage: implementation
   after: dtb:plan-review
   next: dtb:build-check
-  consumes: [BACKLOG.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, project-rules/DERIVED_STATE_RULES.md]
-  produces: [BACKLOG.md, WORKFLOW_STATUS.md, PLAN_*.md, TASK_*.md]
+  consumes: [BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
+  produces: [BACKLOG.md, WORKFLOW_STATUS.md, features/*/plan.md, features/*/task.md]
 ---
 
 # Feature, Bug-Fix oder Aufgabe starten
@@ -35,10 +35,10 @@ Erstelle eine Config-Datei mit /dtb:project-init.
 ### Schritt 2: Backlog, Bugs und Tasks lesen
 
 1. **Lies das Backlog:** `{config.paths.workflows}/BACKLOG.md`
-2. **Filtere Features mit Status "Geplant"**
-3. **Scanne Bug-Reports:** `{config.paths.workflows}/features/BUG_*.md`
+2. **Filtere Features mit Status "Geplant"** (Change-Ordner mit `plan.md`, 0 Progress-Checkboxen)
+3. **Scanne Bug-Reports:** `{config.paths.workflows}/features/*/bug.md`
 4. **Filtere Bugs mit Status "Analysiert"** (haben einen Debug-Plan, sind bereit zum Fixen)
-5. **Scanne Aufgaben:** `{config.paths.workflows}/features/TASK_*.md`
+5. **Scanne Aufgaben:** `{config.paths.workflows}/features/*/task.md`
 6. **Filtere Tasks mit Status "Offen"**
 
 Falls weder geplante Features, analysierte Bugs noch offene Aufgaben vorhanden:
@@ -75,8 +75,8 @@ Falls nur eine oder zwei Kategorien vorhanden: Zeige nur die relevanten Sektione
 Nach Auswahl durch den Benutzer:
 
 **Bei Feature:**
-1. **Lies die Feature-Spec:** `{config.paths.workflows}/features/FEATURE_*.md`
-2. **Lies den Implementierungsplan:** `{config.paths.workflows}/features/PLAN_*.md` (falls vorhanden)
+1. **Lies die Feature-Spec:** `{config.paths.workflows}/features/{slug}/spec.md`
+2. **Lies den Implementierungsplan:** `{config.paths.workflows}/features/{slug}/plan.md` (falls vorhanden)
    — die `## Progress`-Sektion bestimmt den Einstiegspunkt (erster nicht abgehakter Schritt).
    Falls der Plan keine `## Progress`-Sektion hat (Altbestand): Nachruestung anbieten
    (Fallback gemaess `project-rules/DERIVED_STATE_RULES.md`)
@@ -84,14 +84,14 @@ Nach Auswahl durch den Benutzer:
 4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Feature-Name eintragen
 
 **Bei Bug:**
-1. **Lies den Bug-Report:** `{config.paths.workflows}/features/BUG_*.md`
-2. **Setze Status in BUG_*.md** von "Analysiert" auf "In Arbeit"
+1. **Lies den Bug-Report:** `{config.paths.workflows}/features/{slug}/bug.md`
+2. **Setze Status in `bug.md`** von "Analysiert" auf "In Arbeit"
 3. **Falls Bug in BACKLOG.md:** Setze Status auf "In Arbeit"
 4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Bug-Name eintragen
 
 **Bei Aufgabe:**
-1. **Lies die Aufgabe:** `{config.paths.workflows}/features/TASK_*.md`
-2. **Setze Status in TASK_*.md** von "Offen" auf "In Arbeit"
+1. **Lies die Aufgabe:** `{config.paths.workflows}/features/{slug}/task.md`
+2. **Setze Status in `task.md`** von "Offen" auf "In Arbeit"
 3. **Falls Aufgabe in BACKLOG.md:** Setze Status auf "In Arbeit"
 4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Aufgaben-Name eintragen
 
@@ -109,12 +109,12 @@ Nach Auswahl durch den Benutzer:
 
 ## Naechster Schritt
 
-[Falls PLAN_*.md vorhanden: Erste Phase aus dem Implementierungsplan mit Ziel und ersten Schritten]
-[Falls PLAN_*.md NICHT vorhanden: "Kein Implementierungsplan vorhanden. Erstelle einen mit /dtb:impl-plan"]
+[Falls `plan.md` vorhanden: Erste Phase aus dem Implementierungsplan mit Ziel und ersten Schritten]
+[Falls `plan.md` NICHT vorhanden: "Kein Implementierungsplan vorhanden. Erstelle einen mit /dtb:impl-plan"]
 
 ## Arbeitsrhythmus: 3x3
 
-[Falls PLAN_*.md vorhanden:]
+[Falls `plan.md` vorhanden:]
 Wir arbeiten im **3x3-Rhythmus**:
 1. Ich setze max. 3 Schritte aus dem Plan um
 2. Hake erledigte Schritte in der `## Progress`-Sektion des Plans ab (Commit-SHA als Beleg)
@@ -125,7 +125,7 @@ Wir arbeiten im **3x3-Rhythmus**:
 Erster Block: Schritte [erste 3 nicht abgehakte Schritte aus `## Progress`]
 
 Bei Kontextverlust oder nach >6 Schritten:
-→ `## Progress` in PLAN_[NAME].md ist der Wiedereinstiegspunkt — in neuer Konversation
+→ `## Progress` in `features/{slug}/plan.md` ist der Wiedereinstiegspunkt — in neuer Konversation
   den Plan laden; der erste nicht abgehakte Schritt ist der naechste.
 
 Bereit? Sage "Los" oder stelle Fragen.
@@ -140,7 +140,7 @@ Bereit? Sage "Los" oder stelle Fragen.
 
 ## Symptom
 
-[Symptom aus BUG_*.md]
+[Symptom aus `bug.md`]
 
 ## Root-Cause
 
@@ -166,11 +166,11 @@ Bereit? Sage "Los" oder stelle Fragen.
 
 ## Beschreibung
 
-[Beschreibung aus TASK_*.md]
+[Beschreibung aus `task.md`]
 
 ## Schritte
 
-[Schritte-Checkliste aus TASK_*.md]
+[Schritte-Checkliste aus `task.md`]
 
 Bereit? Sage "Los" oder stelle Fragen.
 ```
@@ -183,6 +183,6 @@ Bereit? Sage "Los" oder stelle Fragen.
 - **Status-Update:** BACKLOG.md und WORKFLOW_STATUS.md muessen aktualisiert werden
 - **Checkbox-Pflicht im Implementierungs-Loop:** Nach JEDEM umgesetzten Schritt sofort die Checkbox in der `## Progress`-Sektion des Plans abhaken — mit Commit-SHA als Beleg (`- [x] N.M Kurzname — \`SHA\``; SHA optional bei Schritten ohne Commit, ein Commit darf mehrere Checkboxen belegen). Nicht gesammelt am Session-Ende. Die Progress-Sektion ist die Single Source of Truth (`project-rules/DERIVED_STATE_RULES.md`) — es gibt kein IMPL_STATUS_*.md mehr
 - **Feature-Spec lesen:** Immer die vollstaendige Spec lesen um den Kontext zu zeigen
-- **3x3-Rhythmus:** Wenn ein PLAN_*.md vorhanden ist, weise auf den Arbeitsrhythmus hin (max. 3 Schritte → Zusammenfassung → Feedback → naechste 3)
+- **3x3-Rhythmus:** Wenn ein `plan.md` vorhanden ist, weise auf den Arbeitsrhythmus hin (max. 3 Schritte → Zusammenfassung → Feedback → naechste 3)
 - **Kompakt:** Max 40 Zeilen Output
 - **Deutsch:** Alle Texte auf Deutsch

@@ -11,8 +11,8 @@ pipeline:
   stage: planning
   after: dtb:feature-discover
   next: dtb:impl-plan
-  consumes: [INBOX.md, DISCOVERY_*.md, workflow.config.yaml]
-  produces: [FEATURE_*.md, INBOX.md, BACKLOG.md]
+  consumes: [INBOX.md, features/*/discovery.md, workflow.config.yaml]
+  produces: [features/*/spec.md, INBOX.md, BACKLOG.md]
 ---
 
 # Feature-Plan erstellen
@@ -29,10 +29,10 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 1. **Analysiere den Chat-Verlauf** und identifiziere den diskutierten Feature-Plan
 2. **Strukturiere den Plan** nach dem unten stehenden Template
-3. **Speichere** in `{config.paths.workflows}/features/FEATURE_[NAME].md`
+3. **Speichere** in `{config.paths.workflows}/features/{slug}/spec.md`
 4. **Frage den Benutzer** ob das Feature in BACKLOG.md eingetragen werden soll
 
-## Template fuer FEATURE_[NAME].md
+## Template fuer spec.md
 
 Verwende folgende Struktur:
 
@@ -106,7 +106,7 @@ Verwende folgende Struktur:
 ### Beim Ausfuehren des Commands:
 
 1. **Discovery pruefen (optional):**
-   - Suche in `{config.paths.workflows}/features/` nach `DISCOVERY_*.md` die zum Feature-Namen passen
+   - Suche `{config.paths.workflows}/features/{slug}/discovery.md` (Slug aus dem Feature-Namen, §4)
    - Falls vorhanden: Lies die Discovery-Datei und uebernimm Scope, betroffene Module, Anforderungen und Abhaengigkeiten als Ausgangsbasis fuer die Feature-Spec
    - Falls nicht vorhanden: Ueberspringe diesen Schritt ohne Hinweis
 
@@ -127,13 +127,14 @@ Verwende folgende Struktur:
      - Verwende den Idee-Text als Ausgangsbasis fuer die Feature-Diskussion
      - Setze den Inbox-Status auf `In Arbeit`
 
-3. **Feature-Name ermitteln:**
+3. **Feature-Name / Slug ermitteln:**
    - Frage den Benutzer nach dem Feature-Namen falls nicht klar
-   - Konvertiere zu UPPER_SNAKE_CASE fuer den Dateinamen (z.B. "Chat History" → `FEATURE_CHAT_HISTORY.md`)
+   - Leite den **kebab-case-Slug** ab (Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4; z.B. "Chat History" → `features/chat-history/`)
+   - Bei Slug-Kollision mit einem bestehenden Ordner (anderer Name, gleicher Slug) → melden und anderen Namen erfragen (§4, kein Auto-Suffix)
 
-4. **Prüfe ob Datei existiert:**
-   - Falls JA: Frage "Soll ich die existierende Datei ueberschreiben oder aktualisieren?"
-   - Falls NEIN: Erstelle neue Datei
+4. **Prüfe ob `features/{slug}/spec.md` existiert:**
+   - Falls JA: Frage "Soll ich die existierende Spec ueberschreiben oder aktualisieren?"
+   - Falls NEIN: Lege den Ordner `features/{slug}/` bei Bedarf an und erstelle `spec.md`
 
 5. **Analysiere den Chat-Verlauf:**
    - Identifiziere Ziel, Scope und Abgrenzung
@@ -145,8 +146,8 @@ Verwende folgende Struktur:
    - **Nie erfinden:** Fehlt eine Information, fuelle sie NICHT mit einer plausiblen Annahme.
      Trage sie stattdessen als konkrete Frage unter `## Offene Punkte` ein. Eine ehrliche
      Luecke ist besser als ein verstecktes Rateergebnis. Kein `[TODO]`-Platzhalter mehr.
-   - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in PLAN_*.md)
-   - **Max. 500 Zeilen** — laengere Specs verschlechtern die AI-Verarbeitung. Bei komplexen Features: Details in PLAN_*.md auslagern
+   - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in `plan.md`)
+   - **Max. 500 Zeilen** — laengere Specs verschlechtern die AI-Verarbeitung. Bei komplexen Features: Details in `plan.md` auslagern
 
 7. **Technical-Leak-Lint (Pflicht vor dem Speichern):**
    - Wende den Lint aus Abschnitt „## Technical-Leak-Lint" (unten) auf den fertigen Spec-Text an
@@ -158,13 +159,13 @@ Verwende folgende Struktur:
 9. **Inbox-Status aktualisieren:**
    - Falls das Feature aus einer Inbox-Idee erstellt wurde:
      - Setze den Status in `INBOX.md` auf `Ausgearbeitet`
-     - Ergaenze die Idee-Zeile um den Link: `→ FEATURE_{NAME}.md`
+     - Ergaenze die Idee-Zeile um den Link: `→ features/{slug}/spec.md`
 
 10. **Backlog-Eintrag anbieten:**
 
    Frage den Benutzer:
    ```
-   Feature gespeichert: {config.paths.workflows}/features/FEATURE_[NAME].md
+   Feature gespeichert: {config.paths.workflows}/features/{slug}/spec.md
 
    Soll das Feature in BACKLOG.md eingetragen werden? (Ja/Nein)
    ```
@@ -178,13 +179,13 @@ Verwende folgende Struktur:
      - Status "Idee" → "Ideen / Backlog"
      - Alle anderen (Geplant, In Arbeit, etc.) → "Aktive Features"
    - Fuege eine neue Zeile in die entsprechende Tabelle ein:
-     `| {Feature-Name} | Spezifiziert | {Prio} | FEATURE_{NAME}.md | {Ziel aus Executive Summary} |`
+     `| {Feature-Name} | Spezifiziert | {Prio} | features/{slug}/spec.md | {Ziel aus Executive Summary} |`
    - Aktualisiere das Datum in "Letzte Aktualisierung"
 
    **Bei Nein:**
    ```
    OK, Feature nicht ins Backlog eingetragen.
-   Du kannst es spaeter mit /dtb:backlog-status sehen (FEATURE_*.md werden automatisch erkannt).
+   Du kannst es spaeter mit /dtb:backlog-status sehen (features/*/spec.md werden automatisch erkannt).
    ```
 
 11. **Bestaetige:**
@@ -227,7 +228,7 @@ Danach korrigieren und erneut pruefen.
 **Meta-Spec-Ausnahme (eng gefasst):** Beschreibt die Spec selbst ein Code-/Config-/Skill-Artefakt
 als Gegenstand (Heuristik: Spec-Gegenstand bzw. betroffene Module sind Skill-/Code-Dateien — eine
 `## Betroffene Module`-Sektion ist Indiz, nicht Pflicht), sind Referenzen *auf dieses Artefakt*
-legitim — inkl. aus `DISCOVERY_*.md` geerbter technischer Angaben. **Ebenfalls nie ein Leck:**
+legitim — inkl. aus `discovery.md` geerbter technischer Angaben. **Ebenfalls nie ein Leck:**
 Namen des Skill-/Workflow-Systems selbst (Skill-Namen wie `feature-discover`, Konventionen wie
 `## Offene Punkte`), unabhaengig vom Gegenstand. Technische Details ueber *andere*,
 nicht-gegenstaendliche Fach-Loesungen bleiben Lecks.

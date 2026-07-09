@@ -2,8 +2,8 @@
 name: dtb:impl-plan
 description: >-
   Use when: "Implementierungsplan", "impl plan", "Umsetzung planen",
-  "Phasen planen". Creates a structured implementation plan (PLAN_*.md)
-  based on an existing feature specification (FEATURE_*.md).
+  "Phasen planen". Creates a structured implementation plan (features/<slug>/plan.md)
+  based on an existing feature specification (features/<slug>/spec.md).
 disable-model-invocation: true
 argument-hint: "[Feature-Name]"
 allowed-tools: Read, Glob, Grep, Write
@@ -11,8 +11,8 @@ pipeline:
   stage: planning
   after: dtb:feature-plan
   next: dtb:plan-review
-  consumes: [FEATURE_*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
-  produces: [PLAN_*.md]
+  consumes: [features/*/spec.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
+  produces: [features/*/plan.md]
 ---
 
 # Implementierungsplan erstellen
@@ -38,13 +38,13 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 
 ## Aufgabe
 
-1. **Feature-Name ermitteln:** Aus dem Argument oder Frage den Benutzer
-2. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/FEATURE_[NAME].md`
+1. **Feature-Name / Slug ermitteln:** Aus dem Argument oder Frage den Benutzer
+2. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/{slug}/spec.md`
 3. **Analysiere** Ziel, Scope, Dependencies und Success Criteria aus der Feature-Spec
 4. **Erstelle** den Implementierungsplan nach dem Template
-5. **Speichere** in `{config.paths.workflows}/features/PLAN_[NAME].md`
+5. **Speichere** in `{config.paths.workflows}/features/{slug}/plan.md`
 
-## Template fuer PLAN_[NAME].md
+## Template fuer plan.md
 
 Verwende folgende Struktur:
 
@@ -52,7 +52,7 @@ Verwende folgende Struktur:
 # Implementierungsplan: [Feature-Name]
 
 **Erstellt:** [Datum]
-**Feature-Spec:** `features/FEATURE_[NAME].md`
+**Feature-Spec:** `features/{slug}/spec.md`
 **Geschaetzte Dauer:** [Gesamt]
 **Status:** Entwurf / Reviewed / In Umsetzung / Abgeschlossen
 
@@ -126,7 +126,7 @@ Dieser Plan ist fuer die Umsetzung im **3x3-Rhythmus** ausgelegt:
 5. **Stoppe und warte auf Feedback** bevor du weiterarbeitest
 
 Bei Kontextverlust oder nach >6 Schritten: Die `## Progress`-Sektion ist der Wiedereinstiegspunkt —
-in neuer Konversation `PLAN_[NAME].md` laden; der erste nicht abgehakte Schritt ist der naechste.
+in neuer Konversation `features/{slug}/plan.md` laden; der erste nicht abgehakte Schritt ist der naechste.
 Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint`).
 
 ---
@@ -140,21 +140,21 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 ### Beim Ausfuehren des Commands:
 
-1. **Feature-Name ermitteln:**
+1. **Feature-Name / Slug ermitteln:**
    - Frage den Benutzer nach dem Feature-Namen falls nicht klar
-   - Konvertiere zu UPPER_SNAKE_CASE fuer den Dateinamen (z.B. "Chat History" → `PLAN_CHAT_HISTORY.md`)
+   - Leite den **kebab-case-Slug** ab (Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4; z.B. "Chat History" → `features/chat-history/`)
 
 2. **Feature-Spec lesen:**
-   - Lies `{config.paths.workflows}/features/FEATURE_[NAME].md`
+   - Lies `{config.paths.workflows}/features/{slug}/spec.md`
    - Falls Datei nicht gefunden:
      ```
-     Feature-Spec nicht gefunden: FEATURE_[NAME].md
+     Feature-Spec nicht gefunden: features/{slug}/spec.md
      Erstelle zuerst eine Feature-Spec mit /dtb:feature-plan.
      ```
 
-3. **Prüfe ob PLAN_*.md bereits existiert:**
+3. **Prüfe ob `features/{slug}/plan.md` bereits existiert:**
    - Falls JA: Frage "Implementierungsplan existiert bereits. Soll ich ueberschreiben oder aktualisieren?"
-   - Falls NEIN: Erstelle neue Datei
+   - Falls NEIN: Erstelle neue Datei (Ordner existiert bereits durch die Spec)
 
 4. **Analysiere die Feature-Spec:**
    - Identifiziere Ziel und Scope
@@ -174,7 +174,7 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 7. **Bestaetige:**
    ```
-   Implementierungsplan gespeichert: {config.paths.workflows}/features/PLAN_[NAME].md
+   Implementierungsplan gespeichert: {config.paths.workflows}/features/{slug}/plan.md
 
    Naechste Schritte:
    1. Plan reviewen: /dtb:plan-review [Feature-Name]

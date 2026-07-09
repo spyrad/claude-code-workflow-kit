@@ -219,12 +219,12 @@ Dieses Kit migrieren, Verhalten unabhaengig abnehmen, Skills global verteilen.
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg (optional bei Schritten ohne Commit).
 
-- [x] 1.1 DERIVED_STATE_RULES.md umschreiben
-- [x] 1.2 Doku nachziehen (CLAUDE.md x2)
-- [x] 1.3 Slug-Ableitungsregel
-- [ ] 2.1 feature-discover + feature-plan
-- [ ] 2.2 impl-plan + feature-start
-- [ ] 2.3 bug-report + task + project-init
+- [x] 1.1 DERIVED_STATE_RULES.md umschreiben — `de486a5`
+- [x] 1.2 Doku nachziehen (CLAUDE.md x2) — `de486a5`
+- [x] 1.3 Slug-Ableitungsregel — `de486a5`
+- [x] 2.1 feature-discover + feature-plan
+- [x] 2.2 impl-plan + feature-start
+- [x] 2.3 bug-report + task + project-init
 - [ ] 3.1 workflow-resume + -next + -status
 - [ ] 3.2 backlog-status + project-health
 - [ ] 3.3 plan-review + debug-plan
