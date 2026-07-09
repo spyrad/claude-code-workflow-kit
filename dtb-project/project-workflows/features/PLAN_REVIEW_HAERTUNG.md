@@ -170,7 +170,7 @@ Beide gehärteten Skills bestehen eine isolierte Fixture-Abnahme durch unabhäng
 - [x] 2.4 Resume-Marker — `754b848`
 - [x] 3.1 Fixture-Set erstellen — (Scratchpad `review-haertung-fixtures/`, kein Commit)
 - [x] 3.2 Isolierte Abnahme (2 Läufe, unabhängige Agenten) — Lauf A 6/6, Lauf B 8/8, keine FAILs
-- [ ] 3.3 Findings beheben + kit-sync
+- [x] 3.3 Findings beheben + kit-sync — Nachschärfungen `0d9aff6`; kit-sync Lock→`971e16a` (6 Updates, pitch-coach übersprungen)
 
 ---
 
