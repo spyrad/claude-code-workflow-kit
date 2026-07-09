@@ -9,8 +9,8 @@ argument-hint: "[Feature-Name]"
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: planning
-  after: dtb:feature-discover
-  next: dtb:impl-plan
+  after: [dtb:feature-discover]
+  next: [dtb:impl-plan]
   consumes: [INBOX.md, features/*/discovery.md, workflow.config.yaml]
   produces: [features/*/spec.md, INBOX.md, BACKLOG.md]
 ---

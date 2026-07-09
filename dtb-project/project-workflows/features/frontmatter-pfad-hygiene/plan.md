@@ -216,12 +216,12 @@ Unabhaengige Abnahme der drei Bloecke, Budget-Check, globaler Rollout.
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg.
 
-- [x] 1.1 plan-review global + Fallback — Schritt 2 auf `~/.claude/agents/`+Fallback+Leer-Meldung, betriebs-waechter-Ladezeile nachgezogen
-- [x] 1.2 pipeline-graph-Glob umstellen — Glob + Artefakt-Tabelle auf `~/.claude/agents/`+Fallback, CLAUDE.md-Ausnahme erhalten
-- [x] 1.3 Pfad-Konsistenz verifizieren — Grep: kein `.claude/agents/*.md`-Rest, nur beabsichtigte globale Pfade
-- [ ] 2.1 after/next zu Listen (einheitlich)
-- [ ] 2.2 Reader (pipeline-graph + project-health) Listen-faehig
-- [ ] 2.3 context:fork + Stage-Enum `bug` bereinigen
+- [x] 1.1 plan-review global + Fallback — `224bba9` (Schritt 2 auf `~/.claude/agents/`+Fallback+Leer-Meldung, betriebs-waechter-Ladezeile nachgezogen)
+- [x] 1.2 pipeline-graph-Glob umstellen — `224bba9` (Glob + Artefakt-Tabelle auf `~/.claude/agents/`+Fallback, CLAUDE.md-Ausnahme erhalten)
+- [x] 1.3 Pfad-Konsistenz verifizieren — `224bba9` (Grep: kein `.claude/agents/*.md`-Rest, nur beabsichtigte globale Pfade)
+- [x] 2.1 after/next zu Listen (einheitlich) — alle Einzelwerte + 1:n (project-init→3, feature-start←2, checkpoint/resume-Symmetrie)
+- [x] 2.2 Reader (pipeline-graph + project-health) Listen-faehig — Kanten-Iteration + Element-weise Validierung
+- [x] 2.3 context:fork + Stage-Enum `bug` bereinigen — Grep 0 Treffer
 - [ ] 2.4 Doku-Konsistenz (BACKLOG-Legende + pipeline-graph-Beispielkette)
 - [ ] 3.1 debug-plan Ausgabe auf `## Fix-Schritte`
 - [ ] 3.2 Reader-Konsistenz verifizieren

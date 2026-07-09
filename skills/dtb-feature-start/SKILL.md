@@ -10,8 +10,8 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Edit
 pipeline:
   stage: implementation
-  after: dtb:plan-review
-  next: dtb:build-check
+  after: [dtb:plan-review, dtb:debug-plan]
+  next: [dtb:build-check]
   consumes: [BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
   produces: [BACKLOG.md, WORKFLOW_STATUS.md, features/*/plan.md, features/*/task.md]
 ---

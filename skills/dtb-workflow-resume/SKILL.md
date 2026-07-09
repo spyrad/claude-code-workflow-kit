@@ -8,7 +8,7 @@ disable-model-invocation: true
 allowed-tools: Read, Bash
 pipeline:
   stage: session
-  after: dtb:workflow-checkpoint
+  after: [dtb:workflow-checkpoint, dtb:project-init]
   next: null
   consumes: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, session-log, project-rules/DERIVED_STATE_RULES.md]
   produces: []

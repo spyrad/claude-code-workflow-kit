@@ -195,10 +195,9 @@ Scanne alle `.claude/skills/dtb-*/SKILL.md` im Projekt:
 - `pipeline` Block vorhanden → WARNUNG wenn fehlend
 
 **Pipeline-Konsistenz pruefen:**
-- `pipeline.after` referenziert einen existierenden Skill (Verzeichnis `.claude/skills/dtb-*/SKILL.md` muss existieren) → FEHLER wenn nicht
-- `pipeline.next` referenziert einen existierenden Skill → FEHLER wenn nicht
+- `pipeline.after`/`pipeline.next` sind **Listen** (oder null) — pruefe **jedes Listen-Element** als existierenden Skill (Verzeichnis `.claude/skills/dtb-*/SKILL.md` muss existieren) → FEHLER wenn ein Element nicht existiert
 - `pipeline.consumes` Artefakte: Pruefe ob mindestens ein anderer Skill diese in `produces` listet → WARNUNG wenn verwaist
-- Zirkulaere Referenzen (A→B→A via `next`) → FEHLER
+- Zirkulaere Referenzen (A→B→A via `next`, ueber alle `next`-Listenelemente) → FEHLER
 
 **allowed-tools vs. Body pruefen:**
 - Skill-Body referenziert `Write` oder `Bash` Aktionen aber `allowed-tools` enthaelt es nicht → WARNUNG

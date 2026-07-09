@@ -33,9 +33,9 @@ Fuer jede gefundene SKILL.md: Lies die ersten 20 Zeilen und extrahiere aus dem Y
 - `description` (vollstaendiger Text)
 - `disable-model-invocation` (true/false)
 - `allowed-tools` (Liste)
-- `pipeline.stage` (setup/idea/bug/planning/implementation/development/session/monitoring/greenfield)
-- `pipeline.after` (Vorgaenger-Skill oder null)
-- `pipeline.next` (Nachfolger-Skill oder null)
+- `pipeline.stage` (setup/idea/planning/implementation/development/session/monitoring/greenfield)
+- `pipeline.after` (Liste von Vorgaenger-Skills, oder null)
+- `pipeline.next` (Liste von Nachfolger-Skills, oder null)
 - `pipeline.consumes` (Liste von Artefakt-Patterns)
 - `pipeline.produces` (Liste von Artefakt-Patterns)
 
@@ -86,7 +86,6 @@ Gruppiere Skills nach `pipeline.stage`. Verwende diese Reihenfolge und Labels:
 |-------|-------|-------------|
 | setup | Setup | Erstinitialisierung |
 | idea | Idee | Ideenerfassung und -bewertung |
-| bug | Bug | Bug-Erfassung und -Analyse |
 | planning | Planung | Feature-Spezifikation und Planung |
 | implementation | Umsetzung | Feature-Start und Implementierung |
 | development | Entwicklung | Build, Test, Review |
@@ -187,7 +186,9 @@ flowchart TD
 Regeln:
 - Knoten-ID: Skill-Name ohne `dtb:` Praefix, Bindestriche durch Unterstriche ersetzen
 - Knoten-Label: Voller `dtb:*` Name
-- Kanten nur zwischen Skills mit explizitem `after`/`next`
+- Kanten nur zwischen Skills mit explizitem `after`/`next`; `after`/`next` sind **Listen** —
+  erzeuge **eine Kante pro Listen-Element** (z.B. `project-init` → drei Nachfolger, `feature-start`
+  ← zwei Vorgaenger)
 - Monitoring-Skills haben keine Kanten (standalone)
 
 Wickle das Diagramm in ein `<div class="mermaid">` Element.
@@ -201,7 +202,7 @@ Feature: project-init → idea → idea-review → feature-plan → impl-plan �
 Bug:     bug-report → debug-plan → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
 ```
 
-Leite die Reihenfolge aus den `after`/`next` Kanten ab. Zeige Feature-Pipeline und Bug-Pipeline separat.
+Leite die Reihenfolge aus den `after`/`next` Kanten ab (beide sind Listen — folge jedem Element). Zeige Feature-Pipeline und Bug-Pipeline separat.
 
 Wickle den Text in ein `<pre class="code">` Element mit der Annotation:
 > Die Bug-Pipeline muendet bei `feature-start` in die Feature-Pipeline ein. Monitoring-Skills stehen seitlich — sie lesen quer ueber alle Artefakte.

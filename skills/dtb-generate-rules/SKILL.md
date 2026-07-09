@@ -9,7 +9,7 @@ argument-hint: "[Bereich: frontend|backend|ui|prompts|testing|allgemein oder 'al
 allowed-tools: Read, Write, Glob, Grep, Bash
 pipeline:
   stage: setup
-  after: dtb:project-init
+  after: [dtb:project-init]
   next: null
   consumes: [workflow.config.yaml, CLAUDE.md]
   produces: [project-rules/*.md]

@@ -9,8 +9,8 @@ allowed-tools: Read, Glob, Grep, Write
 argument-hint: "[Feature-Name]"
 pipeline:
   stage: planning
-  after: dtb:impl-plan
-  next: dtb:feature-start
+  after: [dtb:impl-plan]
+  next: [dtb:feature-start]
   consumes: [features/*/plan.md, features/*/spec.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
   produces: []
 ---

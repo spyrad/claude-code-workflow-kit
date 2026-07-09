@@ -10,7 +10,7 @@ allowed-tools: Read, Write
 pipeline:
   stage: idea
   after: null
-  next: dtb:idea-review
+  next: [dtb:idea-review]
   consumes: [INBOX.md]
   produces: [INBOX.md]
 ---

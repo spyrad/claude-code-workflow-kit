@@ -9,7 +9,7 @@ allowed-tools: Read, Glob, Grep, Bash
 pipeline:
   stage: greenfield
   after: null
-  next: dtb:greenfield-roadmap
+  next: [dtb:greenfield-roadmap]
   consumes: [PRD-MVP.md]
   produces: []
 ---

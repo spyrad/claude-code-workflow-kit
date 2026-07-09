@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Bash
 pipeline:
   stage: setup
   after: null
-  next: dtb:workflow-resume
+  next: [dtb:generate-rules, dtb:project-team, dtb:workflow-resume]
   consumes: []
   produces: [workflow.config.yaml, CLAUDE.md, WORKFLOW_STATUS.md, BACKLOG.md, project-rules/DERIVED_STATE_RULES.md]
 ---

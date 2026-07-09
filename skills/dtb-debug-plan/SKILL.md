@@ -9,8 +9,8 @@ argument-hint: "[Bug-Name]"
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: planning
-  after: dtb:bug-report
-  next: dtb:feature-start
+  after: [dtb:bug-report]
+  next: [dtb:feature-start]
   consumes: [features/*/bug.md, project-rules/lessons.md]
   produces: [features/*/bug.md]
 ---

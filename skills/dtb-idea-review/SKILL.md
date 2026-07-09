@@ -8,8 +8,8 @@ disable-model-invocation: true
 allowed-tools: Read, Write
 pipeline:
   stage: idea
-  after: dtb:idea
-  next: dtb:feature-discover
+  after: [dtb:idea]
+  next: [dtb:feature-discover]
   consumes: [INBOX.md]
   produces: [INBOX.md]
 ---

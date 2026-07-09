@@ -8,7 +8,7 @@ disable-model-invocation: true
 allowed-tools: Read, Write
 pipeline:
   stage: setup
-  after: dtb:project-init
+  after: [dtb:project-init]
   next: null
   consumes: [workflow.config.yaml]
   produces: [TEAM.md]

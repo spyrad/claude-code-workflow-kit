@@ -8,8 +8,8 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Bash
 pipeline:
   stage: session
-  after: null
-  next: dtb:workflow-resume
+  after: [dtb:code-review]
+  next: [dtb:workflow-resume]
   consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log]
 ---

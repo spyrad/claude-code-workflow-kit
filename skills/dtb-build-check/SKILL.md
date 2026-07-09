@@ -6,11 +6,10 @@ description: >-
   configured repos and reports results.
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash
-context: fork
 pipeline:
   stage: development
-  after: dtb:feature-start
-  next: dtb:code-review
+  after: [dtb:feature-start]
+  next: [dtb:code-review]
   consumes: [workflow.config.yaml]
   produces: []
 ---

@@ -9,8 +9,8 @@ argument-hint: "[Dateien oder 'last-commit' oder 'staged']"
 allowed-tools: Read, Glob, Grep, Bash
 pipeline:
   stage: development
-  after: dtb:build-check
-  next: dtb:workflow-checkpoint
+  after: [dtb:build-check]
+  next: [dtb:workflow-checkpoint]
   consumes: [project-rules/*.md, CLAUDE.md, workflow.config.yaml]  # lessons.md separat als Prior (aus Rules-Glob ausgeschlossen)
   produces: []
 ---

@@ -10,7 +10,7 @@ allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: idea
   after: null
-  next: dtb:debug-plan
+  next: [dtb:debug-plan]
   consumes: [BACKLOG.md]
   produces: [features/*/bug.md, BACKLOG.md]
 ---

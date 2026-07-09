@@ -10,8 +10,8 @@ argument-hint: "[Idee-Nummer oder Suchbegriff]"
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: planning
-  after: dtb:idea-review
-  next: dtb:feature-plan
+  after: [dtb:idea-review]
+  next: [dtb:feature-plan]
   consumes: [INBOX.md, workflow.config.yaml]
   produces: [features/*/discovery.md, INBOX.md]
 ---
