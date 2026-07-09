@@ -158,8 +158,8 @@ Nachweis, dass Lint + Offene Punkte wortlautkonform greifen; geänderter Skill g
 - [x] 2.1 Lint-Kategorien-Block — `33e6bf4`
 - [x] 2.2 Pre-Write-Gate — `33e6bf4`
 - [x] 2.3 Override mit Begründung — `33e6bf4`
-- [ ] 3.1 Fixture + isolierte Abnahme
-- [ ] 3.2 Findings beheben + Zeilen-Budget
+- [x] 3.1 Fixture + isolierte Abnahme — Scratchpad `spec-haertung-fixtures/` (kein Commit); unabh. Agent, 3 Varianten × 2 Läufe, gesamt PASS + 6 Ambiguitäten
+- [x] 3.2 Findings beheben + Zeilen-Budget — `f18f281` (238 Z. < 280)
 - [ ] 3.3 kit-sync
 
 ---
