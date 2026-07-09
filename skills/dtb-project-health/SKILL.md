@@ -50,39 +50,40 @@ nicht parsbares YAML), bricht den Gesamt-Report NICHT ab. Melde ihn als `⚠️`
 #### Check 2: Querverweise (Dead Links + Orphans)
 
 **BACKLOG → Features:**
-- Lies BACKLOG.md, extrahiere alle `Datei`-Spalten-Eintraege (Pattern: `` `features/FEATURE_*.md` ``)
+- Lies BACKLOG.md, extrahiere alle `Datei`-Spalten-Eintraege (Pattern: `` `features/<slug>/spec.md` `` bzw. `bug.md`/`task.md`)
 - Pruefe ob jede referenzierte Datei unter `{config.paths.workflows}/features/` existiert
 - Ignoriere Eintraege mit `-` (kein Feature-File)
 
 **Features → BACKLOG (Orphan-Check):**
-- Liste alle `FEATURE_*.md` in `{config.paths.workflows}/features/`
-- Pruefe ob jede Datei in BACKLOG.md referenziert wird
+- Liste alle Change-Ordner mit `features/*/spec.md`
+- Pruefe ob jede `spec.md` in BACKLOG.md referenziert wird
 - Nicht referenzierte = Orphan → FEHLER
 
 **Bugs → BACKLOG (Orphan-Check):**
-- Liste alle `BUG_*.md` in `{config.paths.workflows}/features/`
+- Liste alle `features/*/bug.md`
 - Pruefe ob jede Datei in BACKLOG.md referenziert wird
 - Nicht referenzierte = INFO (Bugs muessen nicht zwingend im Backlog stehen, aber Warnung bei Severity "Kritisch" oder "Hoch")
 
 **Tasks → BACKLOG (Orphan-Check):**
-- Liste alle `TASK_*.md` in `{config.paths.workflows}/features/`
+- Liste alle `features/*/task.md`
 - Pruefe ob jede Datei in BACKLOG.md (Abschnitt "Aufgaben") referenziert wird
 - Nicht referenzierte = INFO (Tasks muessen nicht zwingend im Backlog stehen, aber Warnung bei Prioritaet "Hoch")
 
 **Bug-Status-Konsistenz:**
-- Pruefe ob jede `BUG_*.md` einen gueltigen Status hat (Offen, Analysiert, In Arbeit, Behoben)
+- Pruefe ob jede `bug.md` einen gueltigen Status hat (Offen, Analysiert, In Arbeit, Behoben)
 - Bugs mit Status "Analysiert" sollten einen Analyse-Abschnitt enthalten → WARNUNG wenn fehlend
 - Bugs mit Status "Offen" aelter als 14 Tage → WARNUNG
 
-**PLAN ↔ FEATURE Pairing:**
-- Liste alle `PLAN_*.md` in `{config.paths.workflows}/features/`
-- Pruefe ob zu jeder `PLAN_*.md` eine passende `FEATURE_*.md` existiert (gleicher Name)
-- PLAN ohne FEATURE = FEHLER (verwaister Implementierungsplan)
-- FEATURE ohne PLAN = INFO (kein Fehler — Plan kann spaeter mit `/dtb:impl-plan` erstellt werden)
+**Ordner-Vollstaendigkeit (ersetzt PLAN ↔ FEATURE Pairing):**
+- Fuer jeden Change-Ordner `features/<slug>/`:
+  - `plan.md` ohne `spec.md` im selben Ordner = FEHLER (Change ohne Spec)
+  - `spec.md` ohne `plan.md` = INFO (kein Fehler — Plan kann spaeter mit `/dtb:impl-plan` erstellt werden)
+  - leerer Ordner = WARNUNG
+- **Flache Alt-Dateien** (`FEATURE_*.md`/`PLAN_*.md`/… direkt in `features/`) = FEHLER: nicht migrierter Altbestand → `/dtb:migrate-change-folders` empfehlen
 
 **INBOX → Features:**
 - Lies INBOX.md, filtere Eintraege mit Status `Ausgearbeitet`
-- Pruefe ob der verlinkte `FEATURE_*.md` Eintrag existiert
+- Pruefe ob die verlinkte `features/<slug>/spec.md` existiert
 - Eintraege mit Status `Offen` oder `Verworfen` brauchen keinen Link
 
 **INBOX Integritaet:**
@@ -92,8 +93,8 @@ nicht parsbares YAML), bricht den Gesamt-Report NICHT ab. Melde ihn als `⚠️`
 **Archiv-Integritaet:**
 - Falls `{config.paths.workflows}/archive/` existiert:
   - Pruefe ob ARCHIVE_LOG.md vorhanden ist
-  - Pruefe ob jede `FEATURE_*.md` im Archiv einen Eintrag im ARCHIVE_LOG hat
-  - Warnung bei verwaisten Feature-Specs im Archiv (ohne Log-Eintrag)
+  - Pruefe ob jeder archivierte Change-Ordner `archive/<slug>/` einen Eintrag im ARCHIVE_LOG hat
+  - Warnung bei verwaisten Changes im Archiv (ohne Log-Eintrag)
 
 **Archiv-Empfehlung:**
 - Zaehle verworfene/ausgearbeitete Eintraege in INBOX.md, abgeschlossene Features in BACKLOG.md und behobene Bugs
@@ -118,22 +119,22 @@ den Artefakten ab (Artefakt-Existenz + `## Progress`-Checkboxen) und pruefe:
   → WARNUNG mit Fix-Hinweis: `/dtb:workflow-checkpoint` synchronisiert die Anzeige
 - WORKFLOW_STATUS "Status (generiert)"-Block widerspricht der Ableitung → WARNUNG (veraltet)
 
-**Verwaiste Paare (FEHLER):**
-- `PLAN_*.md` ohne zugehoerige `FEATURE_*.md` (gleicher Name) → verwaister Plan
-- `DISCOVERY_*.md`/`PLAN_*.md` deren Namens-Pairing auf keine Spec passt (z.B. nach Umbenennung)
+**Unvollstaendige Change-Ordner (FEHLER):**
+- `features/<slug>/plan.md` ohne `spec.md` im selben Ordner → Change ohne Spec
+- Flache Alt-Dateien direkt in `features/` (nicht migriert) → Migration empfehlen
 
 **Checkbox-Hygiene (WARNUNG):**
-- PLAN "In Arbeit" (teilweise abgehakt), aber abgehakte Schritte ohne SHA-Beleg UND
+- `plan.md` "In Arbeit" (teilweise abgehakt), aber abgehakte Schritte ohne SHA-Beleg UND
   `git log` zeigt neuere Commits, die das Feature betreffen → moeglicherweise vergessene Checkboxen
-- PLAN ohne `## Progress`-Sektion → Nachruestung empfehlen (Fallback §1.4)
+- `plan.md` ohne `## Progress`-Sektion → Nachruestung empfehlen (Fallback §1.4)
 
-**IMPL_STATUS-Altlasten (WARNUNG):**
-- `IMPL_STATUS_*.md` vorhanden (abgeschafftes Artefakt) → Migration empfehlen:
-  Stand in die `## Progress`-Sektion des Plans uebertragen, Datei archivieren
+**Alt-Bestand (WARNUNG):**
+- Flache `FEATURE_*.md`/`PLAN_*.md`/… oder `IMPL_STATUS_*.md` direkt in `features/` (abgeschaffte/nicht
+  migrierte Artefakte) → Migration empfehlen: `/dtb:migrate-change-folders`
 
 **INBOX ↔ Feature-Status:**
-- Idee "In Arbeit" → es sollte noch kein FEATURE_*.md existieren (sonst muesste Status "Ausgearbeitet" sein). Ein DISCOVERY_*.md-Link ist erlaubt (Discovery-Phase laeuft)
-- Idee "Ausgearbeitet" → das verlinkte FEATURE_*.md muss existieren
+- Idee "In Arbeit" → es sollte noch keine `features/<slug>/spec.md` existieren (sonst muesste Status "Ausgearbeitet" sein). Ein `discovery.md`-Link ist erlaubt (Discovery-Phase laeuft)
+- Idee "Ausgearbeitet" → die verlinkte `features/<slug>/spec.md` muss existieren
 
 #### Check 4: Namenskonventionen
 
@@ -142,8 +143,9 @@ den Artefakten ab (Artefakt-Existenz + `## Progress`-Checkboxen) und pruefe:
 - `.md`-Dateien in `integrations/*/` (ausser `input/`) muessen ebenfalls UPPER_SNAKE_CASE sein
 - Warnung bei Abweichung
 
-**Feature-Dateien:**
-- Alle `.md`-Dateien in `{config.paths.workflows}/features/` muessen dem Pattern `DISCOVERY_*.md`, `FEATURE_*.md`, `PLAN_*.md`, `BUG_*.md` oder `TASK_*.md` folgen
+**Change-Ordner & -Dateien:**
+- Direkte Kinder von `{config.paths.workflows}/features/` muessen **Ordner** in kebab-case sein (Slug, §4) — keine losen `.md`-Dateien (flache Alt-Dateien = FEHLER, Migration noetig)
+- Dateien in einem Change-Ordner muessen `discovery.md`, `spec.md`, `plan.md`, `bug.md` oder `task.md` heissen
 - FEHLER bei Abweichung
 
 **Skills:**
@@ -312,10 +314,10 @@ nach Emoji sortiert). Jede Aktion bekommt einen konkreten Fix und eine Aufwandss
 
 **Kategorisierung:**
 - **A — Jetzt:** alle FEHLER (`❌`) sowie WARNungen, die die Verlaesslichkeit abgeleiteter
-  Zustaende oder Querverweise brechen (verwaiste PLAN/FEATURE-Paare, kaputte Links/Orphans,
-  Feature-Datei-Namens-FEHLER).
+  Zustaende oder Querverweise brechen (unvollstaendige Change-Ordner, flache Alt-Dateien,
+  kaputte Links/Orphans, Change-Datei-Namens-FEHLER).
 - **B — Spaeter:** nachlaufende bzw. kosmetische WARNungen — Anzeige-Drift (per
-  `/dtb:workflow-checkpoint` behebbar), Frische/Alter, Archiv-Empfehlung, IMPL_STATUS-Migration,
+  `/dtb:workflow-checkpoint` behebbar), Frische/Alter, Archiv-Empfehlung, Alt-Bestand-Migration,
   Namens-Warnungen ausserhalb `features/` — und `ℹ️`-Hinweise. Kein Handlungsdruck.
 - **Tiebreak (Grenzfall):** Betrifft der Befund die Verlaesslichkeit abgeleiteter
   Zustaende/Querverweise → **A**, sonst → **B**.

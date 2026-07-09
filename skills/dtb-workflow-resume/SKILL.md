@@ -10,7 +10,7 @@ pipeline:
   stage: session
   after: dtb:workflow-checkpoint
   next: null
-  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, PLAN_*.md, TASK_*.md, session-log, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, session-log, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -58,18 +58,18 @@ git -C {repo.path} branch --show-current && git -C {repo.path} log --oneline -3 
 verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
 (Fallback: `dtb-project/project-rules/DERIVED_STATE_RULES.md`).
 
-1. Scanne `{config.paths.workflows}/features/PLAN_*.md`: Ein Feature ist **"In Arbeit"**,
+1. Scanne `{config.paths.workflows}/features/*/plan.md`: Ein Feature ist **"In Arbeit"**,
    wenn seine `## Progress`-Sektion teilweise abgehakt ist (X von Y, 0 < X < Y)
 2. WORKFLOW_STATUS.md ("Laufende Arbeit") und BACKLOG.md dienen nur als Kontext und
    zur Konflikterkennung: Widerspricht ein Statusfeld der Ableitung, gewinnt das Artefakt —
    melde den Widerspruch mit 1 Hinweiszeile im Report (nicht selbst korrigieren)
-3. Fallbacks (Regel-Datei §1.4): PLAN ohne `## Progress` → "Fortschritt unbekannt" +
-   Nachruestung anbieten; `IMPL_STATUS_*.md` (Altbestand) → ignorieren, Migrations-Hinweis;
+3. Fallbacks (Regel-Datei §1.4): `plan.md` ohne `## Progress` → "Fortschritt unbekannt" +
+   Nachruestung anbieten; flache Alt-Dateien/`IMPL_STATUS_*.md` (Altbestand) → ignorieren, Migrations-Hinweis;
    explizit "Pausiert" markierte Features → nicht als aktiv zeigen
 
 **Fall A: Feature "In Arbeit" erkannt (abgeleitet)**
-- Lies die zugehoerige Feature-Spec (`features/FEATURE_*.md`)
-- Lies den Implementierungsplan (`features/PLAN_*.md`)
+- Lies die zugehoerige Feature-Spec (`features/{slug}/spec.md`)
+- Lies den Implementierungsplan (`features/{slug}/plan.md`)
 - Naechster Schritt = erster nicht abgehakter Eintrag in `## Progress`
 - Zeige Feature-Kontext im Resume-Report (Ziel aus Feature-Spec, Fortschritt X/Y, naechster Schritt)
 
@@ -96,7 +96,7 @@ Halte den Report **kompakt** (max 60 Zeilen Output). Fokus auf Actionable Info.
 
 [Ziel aus Feature-Spec]
 **Fortschritt:** X/Y Schritte (aus `## Progress`) — naechster: {erster nicht abgehakter Schritt N.M}
-[Falls kein PLAN_*.md: "Kein Implementierungsplan vorhanden → /dtb:impl-plan"]
+[Falls kein `plan.md`: "Kein Implementierungsplan vorhanden → /dtb:impl-plan"]
 [Falls Konflikt: ⚠ {Feld-Quelle} sagt "{Feld}", Artefakte zeigen "{abgeleitet}"]
 
 ## Letzte Session
@@ -141,8 +141,8 @@ Welches Feature moechtest du fortsetzen?
 ```
 
 **Bei Feature-Auswahl durch den Benutzer:**
-1. Lies die Feature-Spec (`features/FEATURE_*.md`)
-2. Lies den Implementierungsplan (`features/PLAN_*.md`), falls vorhanden
+1. Lies die Feature-Spec (`features/{slug}/spec.md`)
+2. Lies den Implementierungsplan (`features/{slug}/plan.md`), falls vorhanden
 3. Zeige Feature-Kontext (Ziel aus Spec, aktuelle Phase/naechster Schritt aus Plan)
 
 **Fall C: Kein Feature "In Arbeit"**

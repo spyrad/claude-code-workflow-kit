@@ -222,12 +222,12 @@ Dieses Kit migrieren, Verhalten unabhaengig abnehmen, Skills global verteilen.
 - [x] 1.1 DERIVED_STATE_RULES.md umschreiben — `de486a5`
 - [x] 1.2 Doku nachziehen (CLAUDE.md x2) — `de486a5`
 - [x] 1.3 Slug-Ableitungsregel — `de486a5`
-- [x] 2.1 feature-discover + feature-plan
-- [x] 2.2 impl-plan + feature-start
-- [x] 2.3 bug-report + task + project-init
-- [ ] 3.1 workflow-resume + -next + -status
-- [ ] 3.2 backlog-status + project-health
-- [ ] 3.3 plan-review + debug-plan
+- [x] 2.1 feature-discover + feature-plan — `48b0879`
+- [x] 2.2 impl-plan + feature-start — `48b0879`
+- [x] 2.3 bug-report + task + project-init — `48b0879`
+- [x] 3.1 workflow-resume + -next + -status
+- [x] 3.2 backlog-status + project-health
+- [x] 3.3 plan-review + debug-plan
 - [ ] 4.1 archive auf Ordner-Verschieben (+ Bash, Git-/Non-Git)
 - [ ] 4.2 Migrations-Helfer Erkennung + Kernlogik (Git/Non-Git, Backup)
 - [ ] 4.3 Migrations-Helfer Namens-Taxonomie + Archiv + Drift-Report

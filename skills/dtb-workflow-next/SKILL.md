@@ -12,7 +12,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, BACKLOG.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [INBOX.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, BACKLOG.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -35,10 +35,10 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 
 **Quellen:**
 - `{config.paths.workflows}/INBOX.md` — Eintraege mit Status `In Arbeit`
-- `{config.paths.workflows}/features/DISCOVERY_*.md` — Discovery-Dokumente
-- `{config.paths.workflows}/features/FEATURE_*.md` — Feature-Specs
-- `{config.paths.workflows}/features/PLAN_*.md` — Implementierungsplaene: `## Progress`-Checkboxen zaehlen (X von Y abgehakt); Plan-Status (`Entwurf`/`Reviewed`) aus den ersten 10 Zeilen
-- `{config.paths.workflows}/features/BUG_*.md`, `TASK_*.md` — Checkliste in der Datei zaehlen (`## Fix-Schritte` bzw. `## Schritte`)
+- `{config.paths.workflows}/features/*/discovery.md` — Discovery-Dokumente
+- `{config.paths.workflows}/features/*/spec.md` — Feature-Specs
+- `{config.paths.workflows}/features/*/plan.md` — Implementierungsplaene: `## Progress`-Checkboxen zaehlen (X von Y abgehakt); Plan-Status (`Entwurf`/`Reviewed`) aus den ersten 10 Zeilen
+- `{config.paths.workflows}/features/*/bug.md`, `task.md` — Checkliste in der Datei zaehlen (`## Fix-Schritte` bzw. `## Schritte`)
 - `{config.paths.workflows}/BACKLOG.md` — NUR fuer Konflikterkennung und Prio
 
 **Pipeline-Position pro Feature ermitteln (abgeleitet):**
@@ -47,14 +47,14 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 
 | Abgeleiteter Zustand | Pipeline-Position | Naechster Skill |
 |---|---|---|
-| INBOX `In Arbeit`, kein DISCOVERY | Discovery ausstehend | `/dtb:feature-discover` |
-| DISCOVERY_*.md vorhanden, kein FEATURE | Spec ausstehend | `/dtb:feature-plan [NAME]` |
-| FEATURE_*.md vorhanden, kein PLAN | Plan ausstehend | `/dtb:impl-plan [NAME]` |
-| PLAN_*.md Status `Entwurf` | Review ausstehend | `/dtb:plan-review [NAME]` |
-| PLAN_*.md Status `Reviewed`, 0/Y Checkboxen | Start ausstehend | `/dtb:feature-start` |
-| PLAN_*.md teilweise abgehakt (X/Y) | In Entwicklung | Schritt {erster nicht abgehakter N.M} umsetzen |
-| PLAN_*.md alle Checkboxen abgehakt | Fertig zum Testen | Manuell testen, dann `/dtb:archive` |
-| Datei in `archive/` | Abgeschlossen | — |
+| INBOX `In Arbeit`, kein Change-Ordner | Discovery ausstehend | `/dtb:feature-discover` |
+| `discovery.md` vorhanden, kein `spec.md` | Spec ausstehend | `/dtb:feature-plan [NAME]` |
+| `spec.md` vorhanden, kein `plan.md` | Plan ausstehend | `/dtb:impl-plan [NAME]` |
+| `plan.md` Status `Entwurf` | Review ausstehend | `/dtb:plan-review [NAME]` |
+| `plan.md` Status `Reviewed`, 0/Y Checkboxen | Start ausstehend | `/dtb:feature-start` |
+| `plan.md` teilweise abgehakt (X/Y) | In Entwicklung | Schritt {erster nicht abgehakter N.M} umsetzen |
+| `plan.md` alle Checkboxen abgehakt | Fertig zum Testen | Manuell testen, dann `/dtb:archive` |
+| Ordner in `archive/<slug>/` | Abgeschlossen | — |
 
 **Bug-Pipeline** (Checkliste = `## Fix-Schritte` im Bug-Report):
 
@@ -65,7 +65,7 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 | Fix-Schritte teilweise abgehakt | Fix in Arbeit | naechsten Fix-Schritt umsetzen |
 | alle Fix-Schritte abgehakt | Test/Abschluss | Testplan ausfuehren, `/dtb:workflow-checkpoint` |
 
-**Aufgaben-Pipeline** (Checkliste = `## Schritte` in TASK_*.md):
+**Aufgaben-Pipeline** (Checkliste = `## Schritte` in `task.md`):
 
 | Abgeleiteter Zustand | Pipeline-Position | Naechster Skill |
 |---|---|---|
@@ -74,9 +74,9 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 | alle abgehakt | Abschluss | `/dtb:workflow-checkpoint` |
 
 **Fallbacks (kein Abbruch, siehe Regel-Datei §1.4):**
-- PLAN ohne `## Progress` oder mit 0 Checkbox-Zeilen → "Plan vorhanden, Fortschritt unbekannt"; Nachruestung anbieten
-- `IMPL_STATUS_*.md` vorhanden (Altbestand) → fuer Ableitung ignorieren, Migrations-Hinweis zeigen
-- PLAN ohne FEATURE-Spec → als "verwaister Plan" melden
+- `plan.md` ohne `## Progress` oder mit 0 Checkbox-Zeilen → "Plan vorhanden, Fortschritt unbekannt"; Nachruestung anbieten
+- Flache Alt-Dateien (`PLAN_*.md` etc.) oder `IMPL_STATUS_*.md` direkt in `features/` (Altbestand) → fuer Ableitung ignorieren, Migrations-Hinweis (`/dtb:migrate-change-folders`)
+- Ordner mit `plan.md` ohne `spec.md` → als "Change ohne Spec" melden
 - Explizit `Pausiert` markierte Items → nicht anzeigen (ueberschreibt Ableitung)
 
 ## Schritt 3: Konflikte erkennen, sortieren & priorisieren

@@ -3,7 +3,7 @@ name: dtb:debug-plan
 description: >-
   Use when: "Bug analysieren", "debug plan", "Root Cause", "Fehler untersuchen",
   "warum passiert das", "Bug fixen planen". Creates a structured debug plan
-  with root-cause hypotheses and fix strategy based on an existing BUG_*.md.
+  with root-cause hypotheses and fix strategy based on an existing features/<slug>/bug.md.
 disable-model-invocation: true
 argument-hint: "[Bug-Name]"
 allowed-tools: Read, Write, Glob, Grep
@@ -11,8 +11,8 @@ pipeline:
   stage: planning
   after: dtb:bug-report
   next: dtb:feature-start
-  consumes: [BUG_*.md, project-rules/lessons.md]
-  produces: [BUG_*.md]
+  consumes: [features/*/bug.md, project-rules/lessons.md]
+  produces: [features/*/bug.md]
 ---
 
 # Debug-Plan erstellen
@@ -42,15 +42,15 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 
 ## Schritt 1: Bug-Report laden
 
-### Bug-Name ermitteln
+### Bug-Name / Slug ermitteln
 - Aus dem Argument oder Frage den Benutzer
-- Konvertiere zu UPPER_SNAKE_CASE (z.B. "Login broken" → `BUG_LOGIN_BROKEN.md`)
+- Leite den kebab-case-Slug ab (Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4; z.B. "Login broken" → `features/login-broken/`)
 
 ### Bug-Report lesen
-- Lies `{config.paths.workflows}/features/BUG_[NAME].md`
+- Lies `{config.paths.workflows}/features/{slug}/bug.md`
 - Falls Datei nicht gefunden:
   ```
-  Bug-Report nicht gefunden: BUG_[NAME].md
+  Bug-Report nicht gefunden: features/{slug}/bug.md
   Erstelle zuerst einen Bug-Report mit /dtb:bug-report.
   ```
 
@@ -102,7 +102,7 @@ Basierend auf der wahrscheinlichsten Hypothese:
 
 ## Schritt 5: Bug-Report aktualisieren
 
-Ergaenze die bestehende `BUG_[NAME].md` um einen Analyse-Abschnitt:
+Ergaenze die bestehende `features/{slug}/bug.md` um einen Analyse-Abschnitt:
 
 ```markdown
 
@@ -157,7 +157,7 @@ den Naechsten-Schritt-Befund im Header vermerken.
 ## Schritt 6: Bestaetigung
 
 ```
-Debug-Analyse gespeichert: {config.paths.workflows}/features/BUG_[NAME].md
+Debug-Analyse gespeichert: {config.paths.workflows}/features/{slug}/bug.md
 
 Root-Cause (wahrscheinlichste): {Hypothese-1-Einzeiler}
 Fix-Schritte: {N} Schritte identifiziert

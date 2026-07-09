@@ -11,7 +11,7 @@ pipeline:
   stage: planning
   after: dtb:impl-plan
   next: dtb:feature-start
-  consumes: [PLAN_*.md, FEATURE_*.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
+  consumes: [features/*/plan.md, features/*/spec.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
   produces: []
 ---
 
@@ -27,18 +27,18 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 ## Schritt 1: Plan und Feature-Spec laden
 
-1. **Feature ermitteln:** Frage den Benutzer nach dem Feature-Namen, falls nicht aus dem Chat-Kontext erkennbar
-2. **Plan lesen:** Lies `{config.paths.workflows}/features/PLAN_[NAME].md`
+1. **Feature ermitteln:** Frage den Benutzer nach dem Feature-Namen/Slug, falls nicht aus dem Chat-Kontext erkennbar
+2. **Plan lesen:** Lies `{config.paths.workflows}/features/{slug}/plan.md`
    - **Formal-Check `## Progress`:** Der Plan muss eine `## Progress`-Sektion haben —
      genau eine Checkbox-Zeile pro Schritt N.M, Format gemaess
      `{config.paths.rules}/DERIVED_STATE_RULES.md` §2. Fehlt die Sektion oder weicht
      die Nummerierung von den Plan-Schritten ab → als Finding in Runde 2 aufnehmen
      (der Umsetzungsstand waere sonst nicht ableitbar)
-3. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/FEATURE_[NAME].md` als zusaetzlichen Kontext
+3. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/{slug}/spec.md` als zusaetzlichen Kontext
 
 Falls Plan nicht gefunden:
 ```
-Implementierungsplan nicht gefunden: PLAN_[NAME].md
+Implementierungsplan nicht gefunden: features/{slug}/plan.md
 Erstelle zuerst einen Implementierungsplan mit /dtb:impl-plan.
 ```
 
@@ -82,7 +82,7 @@ Pruefe anhand von Plan und Feature-Spec, ob der Plan mindestens einen dieser Tri
 
 Extrahiere aus dem Plan alle eindeutig pruefbaren Codebase-Referenzen:
 - Datei-Pfade (z.B. `skills/x/SKILL.md`, `agents/foo.md`)
-- Benannte Funktionen/Sektionen in konkreten Dateien (z.B. "Schritt 2c in SKILL.md", "`## Progress` in PLAN_X.md")
+- Benannte Funktionen/Sektionen in konkreten Dateien (z.B. "Schritt 2c in SKILL.md", "`## Progress` in plan.md")
 - Struktur-Behauptungen ("Verzeichnis X enthaelt Y")
 
 Nicht gierig extrahieren: Prosa ohne konkreten Datei-Bezug ist KEINE Referenz ("wir erweitern
@@ -177,8 +177,8 @@ Gib die Diskussion in folgendem Format aus:
 ```markdown
 # Plan Review: [Feature-Name]
 **Datum:** [YYYY-MM-DD]
-**Implementierungsplan:** `features/PLAN_[NAME].md`
-**Feature-Spec:** `features/FEATURE_[NAME].md`
+**Implementierungsplan:** `features/{slug}/plan.md`
+**Feature-Spec:** `features/{slug}/spec.md`
 
 [📚-Zeile aus Schritt 2b, falls Lektionen beruecksichtigt]
 [🔧-Zeile aus Schritt 2c]

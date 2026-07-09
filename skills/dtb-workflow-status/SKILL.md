@@ -11,7 +11,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [INBOX.md, BACKLOG.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -40,29 +40,29 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 - Nur `Offen` und `In Arbeit` sind Pipeline-relevant (INBOX-Status wird von den
   Idea-Skills gepflegt und gilt als Artefakt-Zustand)
 
-**DISCOVERY_*.md** (`{config.paths.workflows}/features/DISCOVERY_*.md`):
+**discovery.md** (`{config.paths.workflows}/features/*/discovery.md`):
 - Zaehle vorhandene Discovery-Dateien
 - Lies jeweils den `**Status:**`-Wert (Abgeschlossen = fertig fuer Feature-Spec)
 
-**FEATURE_*.md + PLAN_*.md** (`{config.paths.workflows}/features/`) — Kern der Ableitung:
-- FEATURE ohne PLAN → Stufe "Spezifiziert" (= Feature-Spec ohne Plan)
-- PLAN Status `Entwurf` (erste 10 Zeilen) → wartend auf Review
-- PLAN Status `Reviewed`, `## Progress` 0/Y abgehakt → bereit fuer Start ("Geplant")
-- PLAN `## Progress` teilweise abgehakt (X/Y) → "In Arbeit"
-- PLAN `## Progress` vollstaendig abgehakt → "Fertig zum Testen"
-- Fallbacks (Regel-Datei §1.4): PLAN ohne Progress-Sektion → "Fortschritt unbekannt"
-  (eigene Zeile in Queue-Tabelle); IMPL_STATUS_*.md → ignorieren, Migrations-Hinweis;
-  PLAN ohne FEATURE → "verwaister Plan"
+**spec.md + plan.md** (`{config.paths.workflows}/features/*/`) — Kern der Ableitung:
+- `spec.md` ohne `plan.md` → Stufe "Spezifiziert" (= Feature-Spec ohne Plan)
+- `plan.md` Status `Entwurf` (erste 10 Zeilen) → wartend auf Review
+- `plan.md` Status `Reviewed`, `## Progress` 0/Y abgehakt → bereit fuer Start ("Geplant")
+- `plan.md` `## Progress` teilweise abgehakt (X/Y) → "In Arbeit"
+- `plan.md` `## Progress` vollstaendig abgehakt → "Fertig zum Testen"
+- Fallbacks (Regel-Datei §1.4): `plan.md` ohne Progress-Sektion → "Fortschritt unbekannt"
+  (eigene Zeile in Queue-Tabelle); flache Alt-Dateien/`IMPL_STATUS_*.md` → ignorieren, Migrations-Hinweis;
+  Ordner mit `plan.md` ohne `spec.md` → "Change ohne Spec"
 
 **BACKLOG.md** (`{config.paths.workflows}/BACKLOG.md`):
 - NUR fuer Prio-Werte und Konflikterkennung lesen — Zaehlungen kommen aus der Ableitung oben
 - Weicht ein BACKLOG-Status vom abgeleiteten Zustand ab: Konflikt vormerken (Schritt 6)
 
-**BUG_*.md** (`{config.paths.workflows}/features/BUG_*.md`) — abgeleitet:
+**bug.md** (`{config.paths.workflows}/features/*/bug.md`) — abgeleitet:
 - kein Analyse-Abschnitt → `Offen`; Analyse vorhanden, 0 `## Fix-Schritte` abgehakt → `Analysiert`
 - Fix-Schritte teilweise abgehakt → `In Arbeit`; alle abgehakt → `Behoben`
 
-**TASK_*.md** (`{config.paths.workflows}/features/TASK_*.md`) — abgeleitet:
+**task.md** (`{config.paths.workflows}/features/*/task.md`) — abgeleitet:
 - `## Schritte` 0 abgehakt → `Offen`; teilweise → `In Arbeit`; alle → `Erledigt`
 
 **WORKFLOW_STATUS.md** (`{config.paths.workflows}/WORKFLOW_STATUS.md`):
@@ -79,10 +79,10 @@ Fuer jedes Feature mit Status "In Arbeit" oder "Geplant" im Backlog: Pruefe welc
 
 | Gate | Bestanden wenn |
 |------|---------------|
-| Discovery | `DISCOVERY_*.md` existiert mit Status `Abgeschlossen` |
-| Feature-Spec | `FEATURE_*.md` existiert |
-| Impl-Plan | `PLAN_*.md` existiert |
-| Plan-Review | `PLAN_*.md` Status = `Reviewed` oder `In Umsetzung` |
+| Discovery | `discovery.md` existiert mit Status `Abgeschlossen` |
+| Feature-Spec | `spec.md` existiert |
+| Impl-Plan | `plan.md` existiert |
+| Plan-Review | `plan.md` Status = `Reviewed` oder `In Umsetzung` |
 | Build/Lint | Letzter `/dtb:build-check` ohne Fehler (aus WORKFLOW_STATUS.md ablesen) |
 | Code-Review | `/dtb:code-review` durchgefuehrt (aus Session-Log oder WORKFLOW_STATUS.md ablesen) |
 
