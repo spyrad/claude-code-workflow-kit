@@ -33,6 +33,9 @@ Erstelle eine Config-Datei mit /dtb:project-init.
 ### Schritt 2: Status & Session-Log lesen
 
 1. **Lies die Status-Datei:** `{config.paths.workflows}/WORKFLOW_STATUS.md`
+   — inkl. `## Handoff`-Block (Empfangs-Seite des Uebergangs, geschrieben von `dtb:workflow-checkpoint`):
+   lies die Zeilen `**Naechster Befehl:**` und `**Empfehlung:**`, falls vorhanden. Fehlt der Block
+   (aeltere Status-Datei) → still ueberspringen, `## Naechster Schritt` wie bisher aus Ableitung fuellen
 2. **Lies den neuesten Session-Log:** `{config.paths.changelog}/` (neueste Datei im neuesten Monats-Ordner)
 3. **Lies das Backlog:** `{config.paths.workflows}/BACKLOG.md`
 
@@ -106,7 +109,8 @@ Halte den Report **kompakt** (max 60 Zeilen Output). Fokus auf Actionable Info.
 
 ## Naechster Schritt
 
-[Konkret: Was jetzt tun, welche Dateien]
+[Konkret: Was jetzt tun, welche Dateien — bevorzugt der `**Naechster Befehl:**` aus dem Handoff-Block]
+[Falls Handoff-Befehl dem abgeleiteten naechsten Schritt widerspricht: ⚠ Hinweis, Ableitung gewinnt]
 
 Bereit? Sage "Los" oder stelle Fragen.
 ```
@@ -170,4 +174,5 @@ Kein aktives Feature. Starte eines mit `/dtb:feature-start`.
 - **Kompakt:** Max 60 Zeilen Report, keine Detail-Tabellen
 - **Feature-Kontext:** Bei aktivem Feature die Spec lesen und relevante Phase zeigen
 - **Deutsch:** Alle Texte auf Deutsch
+- **Handoff:** Den `**Naechster Befehl:**` aus dem Handoff-Block als naechsten Schritt bevorzugen; bei Widerspruch zur Artefakt-Ableitung gewinnt die Ableitung (Konflikt als 1 Zeile melden)
 - Am Ende immer fragen ob Benutzer starten oder Fragen hat

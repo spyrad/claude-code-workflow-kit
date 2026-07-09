@@ -139,10 +139,20 @@ Session-Log oder den Kontextblock.
 
 ---
 
-## Session-Resume
+## Handoff
 
-Fuer neue Session: `/dtb:workflow-resume`
+**Naechster Befehl:** `{konkret abgeleiteter Befehl, z.B. /dtb:feature-start oder /dtb:impl-plan NAME}`
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 ```
+
+### Handoff generieren (Schritt 4)
+
+Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:workflow-resume` liest ihn).
+- **Naechster Befehl** wird aus dem abgeleiteten Stand bestimmt: erster nicht abgehakter `## Progress`-Schritt
+  → `/dtb:feature-start` bzw. Weiterarbeit; PLAN fehlt → `/dtb:impl-plan {NAME}`; kein aktives Item → `/dtb:workflow-next`
+- **Fallback:** Ist kein naechster Befehl eindeutig ableitbar, KEINEN erfinden — schreibe
+  `Naechster Befehl: — offen — (mit /dtb:workflow-next bestimmen)`
+- Format stabil halten (Zeilen `**Naechster Befehl:**` / `**Empfehlung:**`), damit die Empfangs-Seite es zuverlaessig liest
 
 ### Kernprinzip
 - **Statusblock = generiert**, Kontextblock = manuell — niemals mischen

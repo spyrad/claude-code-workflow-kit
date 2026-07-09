@@ -148,12 +148,16 @@ Abhaengigkeits-Check:
 
 ```
 Feature-Name festlegen:
-  Vorschlag: {UPPER_SNAKE_CASE basierend auf Idee-Text}
-
-  Passt das? (Ja / Alternativer Name)
+  1. {UPPER_SNAKE_CASE basierend auf Idee-Text} (Recommended)
+  2. Alternativer Name (angeben)
 ```
 
 Der Name wird fuer DISCOVERY_{NAME}.md, FEATURE_{NAME}.md und PLAN_{NAME}.md verwendet.
+
+**„(Recommended)"-Muster:** An echten Auswahlpunkten dieses Skills — dem Namensvorschlag hier und
+einem etwaigen Scope-Schnitt (wenn eine Sammelidee in mehrere Features zerlegt wird) — die
+empfohlene Option als erste listen und mit `(Recommended)` markieren. Gilt NUR fuer solche
+Auswahlpunkte; die offenen Klaerungsfragen (3a-3e) bleiben Freitext ohne Optionsliste.
 
 ---
 
