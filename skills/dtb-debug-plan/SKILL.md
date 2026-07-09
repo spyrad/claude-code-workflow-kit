@@ -122,26 +122,27 @@ Ergaenze die bestehende `features/{slug}/bug.md` um einen Analyse-Abschnitt:
 
 Je Hypothese ergaenzend — **Begruendung:** [warum fuehrt das zum Symptom?] · **Pruefung:** [wie verifizieren?]
 
-### Fix-Strategie
-
-> Nur ausfuellen, wenn mindestens eine Hypothese STRONG/WEAK mit Pruefung ist.
-> Sonst stattdessen den Block „Ergebnis" unten nutzen.
-
-#### Schritte
-1. [Konkrete Aenderung in Datei X]
-2. [Konkrete Aenderung in Datei Y]
-
-#### Testplan
-- [ ] [Test 1: Reproduktionsschritte nochmal durchfuehren]
-- [ ] [Test 2: Regression pruefen fuer ...]
-
-#### Regressionsrisiko
-- [Was koennte durch den Fix betroffen sein?]
-
 ### Ergebnis (nur wenn keine tragfaehige Hypothese)
 
 - **Befund:** Framing war korrekt / kein Root-Cause im vermuteten Bereich / nicht reproduzierbar / bereits behoben
 - **Naechster Schritt:** [Bug neu framen | Repro schaerfen | schliessen]
+
+---
+
+## Fix-Schritte
+
+> Nur ausfuellen, wenn mindestens eine Hypothese STRONG/WEAK mit Pruefung ist; sonst „## Analyse → Ergebnis" nutzen.
+> **Diese Checkliste ist die Status-Quelle** (DERIVED_STATE_RULES §1.5): 0 abgehakt = Analysiert, teilweise = In Arbeit, alle = Behoben.
+
+- [ ] [Konkrete Aenderung in Datei X]
+- [ ] [Konkrete Aenderung in Datei Y]
+
+**Regressionsrisiko:** [Was koennte durch den Fix betroffen sein?]
+
+## Testplan
+
+- [ ] [Test 1: Reproduktionsschritte nochmal durchfuehren]
+- [ ] [Test 2: Regression pruefen fuer ...]
 
 ---
 

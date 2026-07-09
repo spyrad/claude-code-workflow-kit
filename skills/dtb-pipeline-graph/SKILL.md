@@ -198,7 +198,7 @@ Wickle das Diagramm in ein `<div class="mermaid">` Element.
 Generiere die Pipeline als Textzeile:
 
 ```
-Feature: project-init → idea → idea-review → feature-plan → impl-plan → plan-review → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
+Feature: project-init → idea → idea-review → feature-discover → feature-plan → impl-plan → plan-review → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
 Bug:     bug-report → debug-plan → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
 ```
 
