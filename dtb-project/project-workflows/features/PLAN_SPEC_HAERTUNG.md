@@ -152,9 +152,9 @@ Nachweis, dass Lint + Offene Punkte wortlautkonform greifen; geänderter Skill g
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg (optional bei Schritten ohne Commit).
 
-- [ ] 1.1 Offene-Punkte ins Template
-- [ ] 1.2 „nie erfinden" ersetzt [TODO]
-- [ ] 1.3 Benennungs-Konsistenz
+- [x] 1.1 Offene-Punkte ins Template — `e81965a`
+- [x] 1.2 „nie erfinden" ersetzt [TODO] — `e81965a`
+- [x] 1.3 Benennungs-Konsistenz — `e81965a`
 - [ ] 2.1 Lint-Kategorien-Block
 - [ ] 2.2 Pre-Write-Gate
 - [ ] 2.3 Override mit Begründung
