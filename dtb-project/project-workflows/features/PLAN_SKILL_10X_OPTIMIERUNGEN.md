@@ -248,9 +248,9 @@ Alle Bloecke verifiziert, Budgets/Frontmatter konsistent, gehaertete Skills glob
 - [x] 1.1 project-health A/B-Kategorisierung — `f9feef4`
 - [x] 1.2 project-health WARN-AND-CONTINUE — `f9feef4`
 - [x] 1.3 project-health Fixes mit Kommando/Aufwand — `f9feef4`
-- [ ] 2.1 debug-plan Hypothesen-Tabelle Evidenzstaerke
-- [ ] 2.2 debug-plan „Framing war korrekt"-Ergebnis
-- [ ] 3.1 greenfield-roadmap vertikale Slices
+- [x] 2.1 debug-plan Hypothesen-Tabelle Evidenzstaerke — `06751ec`
+- [x] 2.2 debug-plan „Framing war korrekt"-Ergebnis — `06751ec`
+- [x] 3.1 greenfield-roadmap vertikale Slices — `06751ec`
 - [ ] 3.2 greenfield-roadmap Foundations/Unlocks
 - [ ] 3.3 greenfield-roadmap Selbst-Review-Checkliste
 - [ ] 4.1 feature-discover Resume-Marker (HTML-Kommentar)
