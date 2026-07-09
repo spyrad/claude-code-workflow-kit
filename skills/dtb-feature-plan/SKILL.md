@@ -217,15 +217,22 @@ Spec beschreibt das **Was/Warum**, nicht das **Wie**. Ein Treffer bricht den Wri
 **Meldeformat bei Treffern** (Hard-Block, Datei NICHT speichern):
 ```
 ❌ Technical-Leak-Lint: {N} Leck(s) gefunden, Write abgebrochen
-  Zeile {Z} [{Kategorie}]: „{Fund}" → {loesungsneutraler Hinweis}
+  {## Sektion} [{Kategorie}]: „{Fund}" → {loesungsneutraler Hinweis}
 ```
+Zaehlung: ein Fund = eine leckende Phrase (nicht pro Wort). Trifft eine Phrase mehrere
+Kategorien, melde nur die zutreffendste (keine Doppelzaehlung). Anker ist die Spec-Sektion
+(`## …`) + Zitat, KEINE Zeilennummer (der Text ist beim Pruefen noch nicht gespeichert).
 Danach korrigieren und erneut pruefen.
 
 **Meta-Spec-Ausnahme (eng gefasst):** Beschreibt die Spec selbst ein Code-/Config-/Skill-Artefakt
-als Gegenstand (betroffene Module = Skill-/Code-Dateien), sind Referenzen *auf dieses Artefakt*
-legitim — inkl. aus `DISCOVERY_*.md` geerbter technischer Angaben. Technische Details ueber
-*andere*, nicht-gegenstaendliche Loesungen bleiben Lecks.
+als Gegenstand (Heuristik: Spec-Gegenstand bzw. betroffene Module sind Skill-/Code-Dateien — eine
+`## Betroffene Module`-Sektion ist Indiz, nicht Pflicht), sind Referenzen *auf dieses Artefakt*
+legitim — inkl. aus `DISCOVERY_*.md` geerbter technischer Angaben. **Ebenfalls nie ein Leck:**
+Namen des Skill-/Workflow-Systems selbst (Skill-Namen wie `feature-discover`, Konventionen wie
+`## Offene Punkte`), unabhaengig vom Gegenstand. Technische Details ueber *andere*,
+nicht-gegenstaendliche Fach-Loesungen bleiben Lecks.
 
 **Override:** Ein bewusst gehaltener Fachbegriff (echte fachliche Anforderung, z.B. „Export nach
 SAP") ist zulaessig — **nur mit kurzer Begruendung** und **Markierung an der Stelle** in der
-erzeugten Spec: `<!-- Lint-Override: {Begruendung} -->`. Kein Override ohne Begruendung.
+erzeugten Spec: `<!-- Lint-Override: {Begruendung} -->`. Kein Override ohne Begruendung. Beim
+erneuten Pruefen zaehlt eine mit gueltigem Marker versehene Stelle nicht mehr als Leck.
