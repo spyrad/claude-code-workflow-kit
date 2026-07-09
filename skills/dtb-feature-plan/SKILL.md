@@ -90,6 +90,12 @@ Verwende folgende Struktur:
 
 ---
 
+## Offene Punkte
+
+- [Beim Schreiben ungeklaerte Fragen — als konkrete Frage formulieren, NICHT plausibel erraten. "— keine —", wenn nichts offen ist]
+
+---
+
 **Erstellt mit:** `/dtb:feature-plan`
 ```
 
@@ -136,7 +142,9 @@ Verwende folgende Struktur:
 
 6. **Fuelle das Template:**
    - Nutze konkrete Informationen aus dem Chat
-   - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
+   - **Nie erfinden:** Fehlt eine Information, fuelle sie NICHT mit einer plausiblen Annahme.
+     Trage sie stattdessen als konkrete Frage unter `## Offene Punkte` ein. Eine ehrliche
+     Luecke ist besser als ein verstecktes Rateergebnis. Kein `[TODO]`-Platzhalter mehr.
    - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in PLAN_*.md)
    - **Max. 500 Zeilen** — laengere Specs verschlechtern die AI-Verarbeitung. Bei komplexen Features: Details in PLAN_*.md auslagern
 
