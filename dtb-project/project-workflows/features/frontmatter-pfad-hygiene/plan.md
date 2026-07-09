@@ -222,12 +222,12 @@ Unabhaengige Abnahme der drei Bloecke, Budget-Check, globaler Rollout.
 - [x] 2.1 after/next zu Listen (einheitlich) — `8c0631a` (alle Einzelwerte + 1:n: project-init→3, feature-start←2, checkpoint/resume-Symmetrie)
 - [x] 2.2 Reader (pipeline-graph + project-health) Listen-faehig — `8c0631a` (Kanten-Iteration + Element-weise Validierung)
 - [x] 2.3 context:fork + Stage-Enum `bug` bereinigen — `8c0631a` (Grep 0 Treffer)
-- [x] 2.4 Doku-Konsistenz (BACKLOG-Legende + pipeline-graph-Beispielkette) — Legende auf discovery/spec/plan.md, feature-discover in Beispielkette
-- [x] 3.1 debug-plan Ausgabe auf `## Fix-Schritte` — H2-Checkliste (statt `#### Schritte` Nummernliste) + Testplan eigener H2 + Regressionsrisiko als Prosa
-- [x] 3.2 Reader-Konsistenz verifizieren — archive/workflow-status/workflow-next/§1.5 erwarten `## Fix-Schritte`, passt (keine Reader-Aenderung noetig)
-- [ ] 4.1 Unabhaengige Abnahme
-- [ ] 4.2 Findings beheben + Budget-Check
-- [ ] 4.3 kit-sync global
+- [x] 2.4 Doku-Konsistenz (BACKLOG-Legende + pipeline-graph-Beispielkette) — `548a9d6` (Legende auf discovery/spec/plan.md, feature-discover in Beispielkette)
+- [x] 3.1 debug-plan Ausgabe auf `## Fix-Schritte` — `548a9d6` (H2-Checkliste statt `#### Schritte` Nummernliste + Testplan eigener H2 + Regressionsrisiko als Prosa)
+- [x] 3.2 Reader-Konsistenz verifizieren — `548a9d6` (archive/workflow-status/workflow-next/§1.5 erwarten `## Fix-Schritte`, passt — keine Reader-Aenderung noetig)
+- [x] 4.1 Unabhaengige Abnahme — unabh. Agent: Block A/B/C PASS/PASS/PASS, 3 Findings gemeldet
+- [x] 4.2 Findings beheben + Budget-Check — §1.5 (Behoben/Erledigt statt „Fertig zum Testen" + Testplan-Ausschluss), pipeline-graph Text-Pipeline als linearisierte Lesehilfe; Budget: pipeline-graph 505→498, alle Skills < 500
+- [ ] 4.3 kit-sync global — OFFEN: erst `git push`, dann `/dtb:kit-sync` (Nutzer)
 
 ---
 

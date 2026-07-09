@@ -49,9 +49,7 @@ Scanne Agenten-Dateien:
 Glob: ~/.claude/agents/*.md   (Fallback: agents/*.md im Projekt-Root, falls global leer)
 ```
 
-Die Kit-Distribution installiert die Agenten global (`dtb:kit-sync`); Projekte ohne eigenen
-`agents/`-Ordner werden so korrekt bedient. Ignoriere `CLAUDE.md` im Agenten-Ordner. Fuer jede
-andere Datei: Lies die ersten 5 Zeilen und extrahiere:
+Ignoriere `CLAUDE.md` im Agenten-Ordner. Fuer jede andere Datei: Lies die ersten 5 Zeilen und extrahiere:
 - Dateiname (ohne `.md`)
 - **Rolle:** Wert
 - **Perspektive:** Wert
@@ -186,9 +184,7 @@ flowchart TD
 Regeln:
 - Knoten-ID: Skill-Name ohne `dtb:` Praefix, Bindestriche durch Unterstriche ersetzen
 - Knoten-Label: Voller `dtb:*` Name
-- Kanten nur zwischen Skills mit explizitem `after`/`next`; `after`/`next` sind **Listen** —
-  erzeuge **eine Kante pro Listen-Element** (z.B. `project-init` → drei Nachfolger, `feature-start`
-  ← zwei Vorgaenger)
+- Kanten nur zwischen Skills mit explizitem `after`/`next`; beide sind **Listen** → **eine Kante pro Element** (z.B. `project-init` → 3 Nachfolger, `feature-start` ← 2 Vorgaenger)
 - Monitoring-Skills haben keine Kanten (standalone)
 
 Wickle das Diagramm in ein `<div class="mermaid">` Element.
@@ -202,7 +198,7 @@ Feature: project-init → idea → idea-review → feature-discover → feature-
 Bug:     bug-report → debug-plan → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
 ```
 
-Leite die Reihenfolge aus den `after`/`next` Kanten ab (beide sind Listen — folge jedem Element). Zeige Feature-Pipeline und Bug-Pipeline separat.
+Zeige den typischen linearen Haupt-Durchlauf als Lesehilfe (Feature-/Bug-Pfad separat) — bewusst auf den dominanten Pfad linearisiert, **nicht** 1:1 kantenabgeleitet; die vollstaendigen Verzweigungen stehen im Flowchart (Sektion 1).
 
 Wickle den Text in ein `<pre class="code">` Element mit der Annotation:
 > Die Bug-Pipeline muendet bei `feature-start` in die Feature-Pipeline ein. Monitoring-Skills stehen seitlich — sie lesen quer ueber alle Artefakte.

@@ -74,7 +74,10 @@ Kein Fallback fuehrt zum Abbruch — immer definiertes Verhalten:
 
 Aufgaben und Bugs haben keinen separaten Plan — ihre Checkliste steht **direkt in der Datei**
 (`## Schritte` in `task.md` bzw. `## Fix-Schritte` in `bug.md`). Ableitung analog: 0 abgehakt =
-Offen/Analysiert, teilweise = In Arbeit, alle = Fertig zum Testen. Explizite Statusfelder im
+Offen/Analysiert (bug) bzw. Offen (task), teilweise = In Arbeit, alle abgehakt = **Behoben**
+(`bug.md`) bzw. **Erledigt** (`task.md`). Es zaehlen ausschliesslich die Checkboxen unter
+`## Fix-Schritte`/`## Schritte` — ein separater `## Testplan` in `bug.md` wird NICHT mitgezaehlt.
+Explizite Statusfelder im
 Kopf dieser Dateien gelten als manuelle Zustaende nach 1.2 nur fuer: Pausiert. Ein Change-Ordner
 kann `spec.md`/`plan.md` **und** `bug.md`/`task.md` enthalten (z.B. Bug im Zuge eines Features);
 die Ableitung nach 1.1 (plan-basiert) hat dann Vorrang, `bug.md`/`task.md` sind Zusatz-Artefakte.
