@@ -160,7 +160,7 @@ Nachweis, dass Lint + Offene Punkte wortlautkonform greifen; geänderter Skill g
 - [x] 2.3 Override mit Begründung — `33e6bf4`
 - [x] 3.1 Fixture + isolierte Abnahme — Scratchpad `spec-haertung-fixtures/` (kein Commit); unabh. Agent, 3 Varianten × 2 Läufe, gesamt PASS + 6 Ambiguitäten
 - [x] 3.2 Findings beheben + Zeilen-Budget — `f18f281` (238 Z. < 280)
-- [ ] 3.3 kit-sync
+- [x] 3.3 kit-sync — feature-plan global übernommen (Lock `hash ff0d688`, `sourceCommit 7554e8d`); pitch-coach bewusst übersprungen (INBOX #8/#10)
 
 ---
 

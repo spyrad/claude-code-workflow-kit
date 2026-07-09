@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** `feature-plan`-Specs lösungsneutral und ehrlich halten — technische Lecks vor dem Speichern blockieren, fehlendes Wissen sichtbar parken statt erfinden.
 **Prioritaet:** Mittel
-**Status:** In Arbeit <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
