@@ -254,9 +254,9 @@ Alle Bloecke verifiziert, Budgets/Frontmatter konsistent, gehaertete Skills glob
 - [x] 3.2 greenfield-roadmap Foundations/Unlocks — `37819f2`
 - [x] 3.3 greenfield-roadmap Selbst-Review-Checkliste — `37819f2`
 - [x] 4.1 feature-discover Resume-Marker (HTML-Kommentar) — `37819f2`
-- [ ] 4.2 feature-discover „(Recommended)" an Auswahlpunkten
-- [ ] 5.1 checkpoint Handoff-Block (Sende-Seite)
-- [ ] 5.2 resume Handoff-Aufnahme (Empfangs-Seite)
+- [x] 4.2 feature-discover „(Recommended)" an Auswahlpunkten — `12f396c`
+- [x] 5.1 checkpoint Handoff-Block (Sende-Seite) — `12f396c`
+- [x] 5.2 resume Handoff-Aufnahme (Empfangs-Seite) — `12f396c`
 - [ ] 6.1 Budget-/Frontmatter-Konsistenz-Check
 - [ ] 6.2 Abnahme pro Block
 - [ ] 6.3 kit-sync
