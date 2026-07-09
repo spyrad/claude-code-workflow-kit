@@ -73,6 +73,17 @@ Phase 1        Phase 2        Phase 3        Phase 4
 
 ---
 
+## Foundations
+
+Grundbausteine, die selbst keinen direkten Nutzerwert liefern, aber Slices erst ermoeglichen
+(z.B. Persistenz, Auth-Grundlage, Deploy-Pfad). Jede Foundation nennt, was sie freischaltet:
+
+| Foundation | Status | Schaltet frei |
+|------------|--------|---------------|
+| [Baustein] | [Abgeschlossen / In Arbeit / Geplant] | [Slice(s), die darauf aufbauen] |
+
+---
+
 ## Phase 1: [Name]
 
 **Status:** [Abgeschlossen / In Arbeit / Geplant]
@@ -186,6 +197,17 @@ Phase 1 ──────> Phase 2 ──────> Phase 3
 
 *Quelle: dtb-project/project-strategy/ROADMAP.md*
 ```
+
+## Schritt 4: Selbst-Review (vor Ausgabe)
+
+Pruefe die erzeugte Roadmap gegen diese Checkliste; markiere Verstoesse sichtbar im Report,
+statt sie zu verschweigen (read-only — nichts wird geaendert, nur gemeldet):
+
+- [ ] Jede Phase ist ein vertikaler Slice mit sichtbarem Nutzerwert (rein technische Schicht-Phase markiert)
+- [ ] Jede Foundation nennt, welche Slice(s) sie freischaltet
+- [ ] Abhaengigkeiten sind konsistent (keine Phase haengt an einer spaeteren)
+- [ ] Status-Angaben decken sich mit den Deliverable-Checkboxen
+- [ ] Naechste Schritte sind konkret und einer Phase/Foundation zuordenbar
 
 ## Richtlinien
 

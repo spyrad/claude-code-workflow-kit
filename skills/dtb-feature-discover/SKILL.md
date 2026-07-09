@@ -76,6 +76,14 @@ Warte auf Benutzer-Feedback. Bereinige die Liste entsprechend.
 
 Gehe Kategorie fuer Kategorie durch. Stelle pro Kategorie die Fragen und warte auf Antwort, bevor die naechste Kategorie kommt.
 
+**Wiederaufnahme (leichtgewichtig):** Nach jeder beantworteten Kategorie speichere den
+DISCOVERY-Entwurf (Schritt-6-Template, so weit befuellt) mit einem Resume-Marker als
+**HTML-Kommentar** direkt unter dem Header: `<!-- resume: {zuletzt beantwortete Kategorie, z.B. 3c} -->`.
+Bewusst ein Kommentar statt YAML-Frontmatter — so ignorieren project-health und pipeline-graph
+den DISCOVERY-Konsum unveraendert. Wird der Skill fuer eine Idee erneut gestartet und existiert
+eine `DISCOVERY_{NAME}.md` mit einem Marker ungleich `done`, biete an, ab der naechsten Kategorie
+fortzusetzen (bereits beantwortete Kategorien nicht erneut fragen).
+
 ### 3a: Scope
 
 ```
@@ -151,10 +159,12 @@ Der Name wird fuer DISCOVERY_{NAME}.md, FEATURE_{NAME}.md und PLAN_{NAME}.md ver
 
 ## Schritt 6: DISCOVERY_[NAME].md speichern
 
-Speichere in `{config.paths.workflows}/features/DISCOVERY_{NAME}.md`:
+Speichere in `{config.paths.workflows}/features/DISCOVERY_{NAME}.md` (setzt den Resume-Marker aus
+Schritt 3 final auf `<!-- resume: done -->`):
 
 ```markdown
 # Discovery: [Feature-Name]
+<!-- resume: done -->
 
 **Erstellt:** [YYYY-MM-DD]
 **Idee-Referenz:** Inbox #{N} — "{Idee-Text}"
