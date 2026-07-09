@@ -9,6 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| Spec-Härtung | In Arbeit | 0/9 | Schritt 1.1 — `## Offene Punkte` ins feature-plan-Template |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 
 ---

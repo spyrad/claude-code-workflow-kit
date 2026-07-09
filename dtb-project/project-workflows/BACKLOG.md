@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-09 (REVIEW_HAERTUNG fertig zum Testen)
+**Letzte Aktualisierung:** 2026-07-09 (SPEC_HAERTUNG spezifiziert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -13,6 +13,7 @@
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
 | Review-Härtung | Fertig zum Testen | Hoch | FEATURE_REVIEW_HAERTUNG.md | plan-review und code-review liefern mechanisch geprüfte, verbindliche Verdikte: Grounding + Challenger-Pass + Dimensions-Verdikte; Severity×Impact-Doppelachse + Cap + Resume-Marker |
+| Spec-Härtung | In Arbeit | Mittel | FEATURE_SPEC_HAERTUNG.md | feature-plan-Specs lösungsneutral + ehrlich halten: Technical-Leak-Lint (7 Kategorien, Hard-Block+Override) + „nie erfinden → Offene Punkte" statt [TODO] |
 
 ---
 
