@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-09 (SPEC_HAERTUNG 9/9 fertig zum Testen)
+**Letzte Aktualisierung:** 2026-07-09 (SKILL_10X_OPTIMIERUNGEN spezifiziert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -14,6 +14,7 @@
 |---------|--------|------|-------|------|
 | Review-Härtung | Fertig zum Testen | Hoch | FEATURE_REVIEW_HAERTUNG.md | plan-review und code-review liefern mechanisch geprüfte, verbindliche Verdikte: Grounding + Challenger-Pass + Dimensions-Verdikte; Severity×Impact-Doppelachse + Cap + Resume-Marker |
 | Spec-Härtung | Fertig zum Testen | Mittel | FEATURE_SPEC_HAERTUNG.md | feature-plan-Specs lösungsneutral + ehrlich halten: Technical-Leak-Lint (7 Kategorien, Hard-Block+Override) + „nie erfinden → Offene Punkte" statt [TODO] |
+| Skill-10x-Optimierungen | In Arbeit | Mittel | FEATURE_SKILL_10X_OPTIMIERUNGEN.md | Fünf Bestands-Skills additiv nach 10x-Vorbild härten: project-health (A/B, WARN-CONTINUE, Fixes), debug-plan (Evidenz-Tabelle), greenfield-roadmap (Slices/Unlocks), feature-discover (Checkpoint, Recommended), checkpoint/resume (Handoff) |
 
 ---
 

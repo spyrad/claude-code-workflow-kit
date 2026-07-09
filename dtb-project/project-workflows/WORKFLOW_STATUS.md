@@ -9,6 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| Skill-10x-Optimierungen | In Arbeit | 0/15 | Phase 1: project-health A/B-Kategorisierung (Schritt 1.1) |
 | Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung (echtes feature-plan mit Lint), dann Abnahme + `/dtb:archive` |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 
