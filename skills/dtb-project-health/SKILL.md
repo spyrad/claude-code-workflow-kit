@@ -34,6 +34,11 @@ workflow.config.yaml nicht gefunden. Bitte zuerst /dtb:project-init ausfuehren.
 
 Fuehre die folgenden 11 Check-Kategorien aus. Sammle Ergebnisse mit Status-Emojis: `✅` (OK), `⚠️` (Warnung), `❌` (Fehler).
 
+**WARN-AND-CONTINUE:** Ein Einzel-Check, der nicht ausfuehrbar ist (fehlende Datei, Git-Fehler,
+nicht parsbares YAML), bricht den Gesamt-Report NICHT ab. Melde ihn als `⚠️` mit kurzer Ursache
+(`Check uebersprungen: {Grund}`) und fahre mit den restlichen Checks fort. Nur ein fehlendes
+`workflow.config.yaml` (Schritt 0) ist ein harter Abbruch — alles danach laeuft best-effort.
+
 ---
 
 #### Check 1: Config-Integritaet
@@ -302,7 +307,18 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 
 ### Schritt 3: Empfohlene Aktionen
 
-Am Ende des Reports: Konkrete Handlungsempfehlungen fuer jeden FEHLER und jede WARNUNG, priorisiert (FEHLER zuerst).
+Am Ende des Reports: konkrete Handlungsempfehlungen, gruppiert in **zwei Kategorien** (nicht nur
+nach Emoji sortiert). Jede Aktion bekommt einen konkreten Fix und eine Aufwandsschaetzung.
+
+**Kategorisierung:**
+- **A — Jetzt:** alle FEHLER (`❌`) sowie WARNungen, die Korrektheit/Konsistenz betreffen
+  (verwaiste Paare, Anzeige-Drift, kaputte Querverweise, IMPL_STATUS-Altlasten). Blockieren die
+  Verlaesslichkeit der abgeleiteten Zustaende.
+- **B — Spaeter:** kosmetische bzw. nachlaufende WARNungen (Frische/Alter, Archiv-Empfehlung,
+  Namens-Kosmetik) und `ℹ️`-Hinweise. Kein Handlungsdruck.
+
+**Aufwand:** `klein` (1 Kommando / <5 min), `mittel` (mehrere Schritte / Nachpflege),
+`gross` (Migration / mehrere Dateien).
 
 ```markdown
 ---
@@ -311,12 +327,15 @@ Am Ende des Reports: Konkrete Handlungsempfehlungen fuer jeden FEHLER und jede W
 
 ✅ X bestanden | ⚠️ Y Warnungen | ❌ Z Fehler
 
-Empfohlene Aktionen:
-1. ❌ {Beschreibung} — {Empfehlung}
-2. ⚠️ {Beschreibung} — {Empfehlung}
+### A — Jetzt
+1. ❌ {Beschreibung} — Fix: `{Kommando/Aktion}` — Aufwand: {klein/mittel/gross}
+2. ⚠️ {Beschreibung} — Fix: `{Kommando/Aktion}` — Aufwand: {klein/mittel/gross}
+
+### B — Spaeter
+1. ⚠️/ℹ️ {Beschreibung} — Fix: `{Kommando/Aktion}` — Aufwand: {klein/mittel/gross}
 ```
 
-Falls keine Fehler/Warnungen: "✅ Alle Checks bestanden — keine Aktionen noetig."
+Leere Kategorie weglassen. Falls keine Fehler/Warnungen: "✅ Alle Checks bestanden — keine Aktionen noetig."
 
 ---
 
@@ -328,6 +347,8 @@ Falls keine Fehler/Warnungen: "✅ Alle Checks bestanden — keine Aktionen noet
 - **Deutsch:** Alle Texte auf Deutsch
 - **Idempotent:** Kann jederzeit ohne Seiteneffekte ausgefuehrt werden
 - **Kein Overkill:** Bei OK-Checks eine Zeile, nicht auswalzen
+- **WARN-AND-CONTINUE:** Kein Einzel-Check-Fehler bricht den Report ab (Ausnahme: fehlende Config); nicht ausfuehrbare Checks als `⚠️` melden und weiterlaufen
+- **Handlungsleitend:** Empfehlungen in A (jetzt) / B (spaeter) gruppieren, je mit konkretem Fix-Kommando + Aufwand
 
 ## Verwandte Skills
 
