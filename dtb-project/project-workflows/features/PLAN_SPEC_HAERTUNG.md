@@ -155,9 +155,9 @@ Nachweis, dass Lint + Offene Punkte wortlautkonform greifen; geänderter Skill g
 - [x] 1.1 Offene-Punkte ins Template — `e81965a`
 - [x] 1.2 „nie erfinden" ersetzt [TODO] — `e81965a`
 - [x] 1.3 Benennungs-Konsistenz — `e81965a`
-- [ ] 2.1 Lint-Kategorien-Block
-- [ ] 2.2 Pre-Write-Gate
-- [ ] 2.3 Override mit Begründung
+- [x] 2.1 Lint-Kategorien-Block — `33e6bf4`
+- [x] 2.2 Pre-Write-Gate — `33e6bf4`
+- [x] 2.3 Override mit Begründung — `33e6bf4`
 - [ ] 3.1 Fixture + isolierte Abnahme
 - [ ] 3.2 Findings beheben + Zeilen-Budget
 - [ ] 3.3 kit-sync
