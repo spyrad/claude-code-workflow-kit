@@ -259,7 +259,7 @@ Alle Bloecke verifiziert, Budgets/Frontmatter konsistent, gehaertete Skills glob
 - [x] 5.2 resume Handoff-Aufnahme (Empfangs-Seite) — `12f396c`
 - [x] 6.1 Budget-/Frontmatter-Konsistenz-Check — alle 6 < 500 Z. (max 368), Frontmatter/`produces` intakt
 - [x] 6.2 Abnahme pro Block — Report-Blöcke 1-3 Fixture-Abnahme (unabh. Agent) PASS/PASS/PASS, Ambiguität 1-3 nachgeschärft `a18f18e`; Session-Blöcke 4-5 Inspektion PASS (Praxiserprobung in Testphase)
-- [ ] 6.3 kit-sync
+- [x] 6.3 kit-sync — 6 Skills global synchronisiert (Lock `sourceCommit 77f7f7f`), R=L=K verifiziert; pitch-coach bewusst übersprungen (INBOX #8/#10)
 
 ---
 
