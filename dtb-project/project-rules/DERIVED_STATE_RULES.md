@@ -6,26 +6,39 @@
 > Aenderungen nur hier.
 
 **Grundprinzip:** Status wird nicht gespeichert, sondern abgeleitet. Quelle der Wahrheit
-sind die Artefakte im `features/`-Ordner und deren `## Progress`-Checkboxen — nicht
-Statusfelder in BACKLOG.md oder WORKFLOW_STATUS.md.
+ist **ein Ordner pro Change** unter `features/<slug>/` mit fixen Dateinamen und die
+`## Progress`-Checkboxen in `plan.md` — nicht Statusfelder in BACKLOG.md oder WORKFLOW_STATUS.md.
+
+**Change-Folder-Modell:** Jeder Change ist ein Ordner `features/<slug>/` (Slug in kebab-case,
+Regeln in §4) mit festen Dateinamen:
+
+| Datei | Inhalt |
+|-------|--------|
+| `discovery.md` | Discovery (Anforderungs-Klaerung, optional) |
+| `spec.md` | Feature-Spec (Was/Warum) |
+| `plan.md` | Implementierungsplan inkl. `## Progress` (Umsetzungsstand) |
+| `bug.md` | Bug-Report inkl. `## Fix-Schritte` (statt eigenem Ordner-Change fuer Bugs) |
+| `task.md` | Aufgabe inkl. `## Schritte` |
+
+Ein archivierter Change ist der ganze Ordner unter `archive/<slug>/`.
 
 ---
 
 ## 1. Ableitungsregel
 
-### 1.1 Artefakt-Existenz → Pipeline-Stage
+### 1.1 Vorhandene Ordner-Dateien → Pipeline-Stage
 
-Pro Feature (Pairing ueber `{NAME}` in Dateinamen) gilt die **hoechste** zutreffende Zeile:
+Pro Change-Ordner `features/<slug>/` gilt die **hoechste** zutreffende Zeile:
 
-| Vorhandene Artefakte | Abgeleiteter Status |
-|----------------------|---------------------|
-| keine | Idee (nur INBOX-Eintrag) |
-| `DISCOVERY_{NAME}.md` | In Discovery |
-| `FEATURE_{NAME}.md` (ohne PLAN) | Spezifiziert |
-| `PLAN_{NAME}.md`, 0 Checkboxen abgehakt | Geplant |
-| `PLAN_{NAME}.md`, teilweise abgehakt | In Arbeit |
-| `PLAN_{NAME}.md`, alle Checkboxen abgehakt | Fertig zum Testen |
-| Datei in `archive/` | Abgeschlossen |
+| Vorhandene Dateien im Ordner | Abgeleiteter Status |
+|------------------------------|---------------------|
+| kein Ordner (nur INBOX-Eintrag) | Idee |
+| nur `discovery.md` | In Discovery |
+| `spec.md` (ohne `plan.md`) | Spezifiziert |
+| `plan.md`, 0 Checkboxen abgehakt | Geplant |
+| `plan.md`, teilweise abgehakt | In Arbeit |
+| `plan.md`, alle Checkboxen abgehakt | Fertig zum Testen |
+| Ordner unter `archive/<slug>/` | Abgeschlossen |
 
 ### 1.2 Explizite Zustaende (nicht ableitbar)
 
@@ -49,25 +62,28 @@ Kein Fallback fuehrt zum Abbruch — immer definiertes Verhalten:
 
 | Situation | Verhalten |
 |-----------|-----------|
-| PLAN ohne `## Progress`-Sektion | Status "Plan vorhanden, Fortschritt unbekannt"; Nachruestung anbieten |
+| `plan.md` ohne `## Progress`-Sektion | Status "Plan vorhanden, Fortschritt unbekannt"; Nachruestung anbieten |
 | `## Progress` mit 0 Checkbox-Zeilen | wie "keine Sektion" |
-| `IMPL_STATUS_*.md` vorhanden (Altbestand) | ignorieren fuer Ableitung; Hinweis auf Migration (Progress-Sektion) |
-| PLAN ohne zugehoerige FEATURE-Spec | Meldung "verwaister Plan" (Pairing pruefen) |
-| FEATURE/PLAN-Namen passen nicht zusammen | `dtb:project-health` meldet verwaiste Paare |
-| gar keine Artefakte im features/-Ordner | "Kein aktives Feature" (wie bisher) |
+| Ordner mit `plan.md` ohne `spec.md` | Meldung "Change ohne Spec" (Vollstaendigkeit pruefen) |
+| leerer Change-Ordner | ignorieren + Hinweis |
+| **flache Alt-Dateien** (`FEATURE_*.md`, `PLAN_*.md` etc. direkt in `features/`) | Altbestand vor Migration; ignorieren fuer Ableitung; Migration anbieten (`/dtb:migrate-change-folders`) |
+| **`IMPL_STATUS_*.md`** (Altbestand, abgeschafft) | ignorieren; Migration anbieten |
+| gar keine Change-Ordner in `features/` | "Kein aktives Feature" |
 
-### 1.5 Sonderregel TASK_* / BUG_*
+### 1.5 Sonderregel `task.md` / `bug.md`
 
-Aufgaben und Bugs haben keinen PLAN — ihre Checkliste steht **direkt in der Datei**
-(`## Schritte` bzw. `## Fix-Schritte`). Ableitung analog: 0 abgehakt = Offen/Analysiert,
-teilweise = In Arbeit, alle = Fertig zum Testen. Explizite Statusfelder im Frontmatter/Kopf
-dieser Dateien gelten als manuelle Zustaende nach 1.2 nur fuer: Pausiert.
+Aufgaben und Bugs haben keinen separaten Plan — ihre Checkliste steht **direkt in der Datei**
+(`## Schritte` in `task.md` bzw. `## Fix-Schritte` in `bug.md`). Ableitung analog: 0 abgehakt =
+Offen/Analysiert, teilweise = In Arbeit, alle = Fertig zum Testen. Explizite Statusfelder im
+Kopf dieser Dateien gelten als manuelle Zustaende nach 1.2 nur fuer: Pausiert. Ein Change-Ordner
+kann `spec.md`/`plan.md` **und** `bug.md`/`task.md` enthalten (z.B. Bug im Zuge eines Features);
+die Ableitung nach 1.1 (plan-basiert) hat dann Vorrang, `bug.md`/`task.md` sind Zusatz-Artefakte.
 
 ---
 
 ## 2. Progress-Sektion — Format
 
-Jedes `PLAN_*.md` enthaelt eine `## Progress`-Sektion (erzeugt von `dtb:impl-plan`):
+Jedes `plan.md` enthaelt eine `## Progress`-Sektion (erzeugt von `dtb:impl-plan`):
 
 ```markdown
 ## Progress
@@ -98,7 +114,7 @@ Abgeleitete Zustaende und ihre Anzeige in Reports/BACKLOG:
 
 | Abgeleiteter Status | BACKLOG-Legende | Anzeige-Hinweis |
 |---------------------|-----------------|-----------------|
-| Idee | Idee | nur INBOX/BACKLOG-Zeile, keine Artefakte |
+| Idee | Idee | nur INBOX/BACKLOG-Zeile, kein Ordner |
 | In Discovery | Idee | Zusatz "(in Discovery)" |
 | Spezifiziert | Idee | Zusatz "(Spec erstellt)" — noch kein Plan |
 | Geplant | Geplant | Plan existiert, 0% umgesetzt |
@@ -113,4 +129,31 @@ beim naechsten Lauf nach diesen Regeln; manuell gepflegt werden nur Prio und Zie
 
 ---
 
+## 4. Slug-Ableitung (Change-Ordnername)
+
+Der Ordnername `features/<slug>/` wird aus dem Change-/Feature-Namen abgeleitet.
+
+**Ableitung (deterministisch):**
+
+1. Alles klein schreiben (lowercase)
+2. Unterstriche `_` und Leerzeichen → Bindestrich `-`
+3. Alle Zeichen ausser `a-z`, `0-9`, `-` entfernen
+4. Mehrfache `-` zu einem zusammenfassen; fuehrende/abschliessende `-` strippen
+
+Beispiele: `CHANGE_FOLDER_MODELL` → `change-folder-modell`; `Chat History` → `chat-history`;
+`FINN_MIS_AWARENESS` → `finn-mis-awareness`.
+
+**Regeln:**
+
+- **Keine laufenden Nummern** — reine Namens-Slugs (die INBOX-`#` bleibt die ID; der Ordner
+  traegt keinen Zahlenpraefix)
+- **Kebab-case, stabil:** einmal vergeben bleibt der Slug fix (Umbenennung = bewusster `git mv`)
+- **Eindeutigkeit / Kollision:** Leiten zwei verschiedene Change-Namen denselben Slug ab
+  (z.B. `FOO_BAR` und `FOO-BAR` → beide `foo-bar`), ist das eine **Kollision**. Schreibende
+  Skills und der Migrations-Helfer **brechen ab** und melden die kollidierenden Namen — kein
+  automatisches Anhaengen von Suffixen/Nummern. Der Nutzer benennt eine Quelle bewusst um.
+
+---
+
 **Eingefuehrt mit:** Feature DERIVED_STATE (`features/FEATURE_DERIVED_STATE.md`), 2026-07-06
+**Umgestellt auf Change-Folder-Modell:** Feature CHANGE_FOLDER_MODELL, 2026-07-09

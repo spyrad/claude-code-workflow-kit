@@ -41,10 +41,10 @@ Skills are designed to work together in a session lifecycle:
 4. **Next session**: `workflow-resume` picks up where the progress checkboxes left off — even without a checkpoint
 
 **Derived State principle:** Feature status is never maintained manually — it is derived
-from artifact existence and `## Progress` checkboxes in `PLAN_*.md` (single source of truth).
+from artifact existence and `## Progress` checkboxes in `features/<slug>/plan.md` (single source of truth).
 Rules live in `dtb-project/project-rules/DERIVED_STATE_RULES.md`; all read-side skills
 (`workflow-next`, `workflow-status`, `workflow-resume`, `backlog-status`) reference that file.
-Status fields in BACKLOG.md/FEATURE_*.md are derived displays synced by `workflow-checkpoint`.
+Status fields in BACKLOG.md/`spec.md` are derived displays synced by `workflow-checkpoint`.
 On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` is abolished.
 
 ### Skill Categories
@@ -85,13 +85,9 @@ Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a p
 
 - `dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md` — Session logs (appended per session)
 - `dtb-project/project-workflows/WORKFLOW_STATUS.md` — Status dashboard (overwritten each update, max 60-80 lines)
-- `dtb-project/project-workflows/features/DISCOVERY_*.md` — Discovery docs (requirements gathering before spec writing)
-- `dtb-project/project-workflows/features/FEATURE_*.md` — Feature specs (UPPER_SNAKE_CASE naming)
-- `dtb-project/project-workflows/features/BUG_*.md` — Bug reports (UPPER_SNAKE_CASE naming, same directory as features)
-- `dtb-project/project-workflows/features/TASK_*.md` — Operational/infrastructure tasks (UPPER_SNAKE_CASE naming, lightweight checklists)
-- `dtb-project/project-workflows/features/PLAN_*.md` — Implementation plans (paired with FEATURE_*.md by name)
-- `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`)
-- `dtb-project/project-workflows/archive/` — Archived items: completed features, discarded ideas, archive log
+- `dtb-project/project-workflows/features/<slug>/` — **Change-Folder-Modell:** one folder per change (kebab-case slug), fixed filenames inside — `discovery.md`, `spec.md`, `plan.md`, optional `bug.md`/`task.md`. Replaces the former flat `FEATURE_*.md`/`PLAN_*.md`/`DISCOVERY_*.md`/`BUG_*.md`/`TASK_*.md` files paired by name. Status is derived from files present in the folder + `## Progress` in `plan.md` (see `DERIVED_STATE_RULES.md`)
+- `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`); stays a flat per-project file (not a change folder)
+- `dtb-project/project-workflows/archive/<slug>/` — Archived changes (whole folder moved via `git mv`, or filesystem move + backup in non-git projects), plus archive log
 - `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)
 - `dtb-project/project-rules/DERIVED_STATE_RULES.md` — Zentrale Statusableitungs-Regeln (Kit-Bestandteil, von project-init verteilt; einzige versionierte Datei in project-rules/)
 - `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (Laufzeit-Artefakt, angelegt von `dtb:lesson`; Prior für impl-plan/debug-plan/plan-review/code-review; keine Coding-Rule)
@@ -117,9 +113,9 @@ The `frameworks/claude-code-memory-framework/` provides templates for three patt
 - File paths in skills use forward slashes and are relative to the target project root
 - Dates always use `YYYY-MM-DD` format, never relative terms
 - WORKFLOW_STATUS.md: 1-line summaries with links only, no detail tables — details belong in session logs or test reports; status block is generated from artifacts (fixed template, placeholders only), context block is manual
-- PLAN_*.md must contain a `## Progress` section (one checkbox per step N.M, commit SHA as evidence when checked) — format in `dtb-project/project-rules/DERIVED_STATE_RULES.md`
+- `plan.md` must contain a `## Progress` section (one checkbox per step N.M, commit SHA as evidence when checked) — format in `dtb-project/project-rules/DERIVED_STATE_RULES.md`
 - Status is derived, never trusted from fields: read-side skills derive from artifacts and report conflicts (artifact wins)
-- Spec size limits: `FEATURE_*.md` and `PLAN_*.md` max 500 lines each (longer specs degrade AI processing quality)
+- Spec size limits: `spec.md` and `plan.md` max 500 lines each (longer specs degrade AI processing quality)
 - Pipeline metadata in frontmatter: `stage`, `after`, `next`, `consumes`, `produces`
 - `workflow-status` reads pipeline frontmatter to auto-generate the flow visualization
 - `dtb:code-review` reads rules from `{config.paths.rules}/` to validate implementations

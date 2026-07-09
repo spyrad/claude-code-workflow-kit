@@ -35,8 +35,8 @@ pipeline:
 | `stage` | enum | Workflow phase: `idea`, `planning`, `implementation`, `development`, `session`, `monitoring`, `setup`, `greenfield` |
 | `after` | string/null | Predecessor skill (`dtb:<name>`) or `null` if entry point |
 | `next` | string/null | Successor skill (`dtb:<name>`) or `null` if terminal |
-| `consumes` | list | Artifact patterns this skill reads (e.g. `FEATURE_*.md`, `INBOX.md`) |
-| `produces` | list | Artifact patterns this skill writes (e.g. `PLAN_*.md`) |
+| `consumes` | list | Artifact patterns this skill reads (e.g. `features/*/spec.md`, `INBOX.md`) |
+| `produces` | list | Artifact patterns this skill writes (e.g. `features/*/plan.md`) |
 
 ### Artifact status values (Derived State)
 
@@ -45,12 +45,15 @@ Status is **derived from artifacts**, not maintained in fields — rules in
 reference it instead of implementing their own logic). Status fields/columns are derived
 displays synced by `dtb:workflow-checkpoint`. `IMPL_STATUS_*.md` is abolished.
 
-| Artifact | Status values (derivation source) |
-|----------|-----------------------------------|
-| `FEATURE_*.md` | Derived: Spezifiziert, Geplant, In Arbeit, Fertig zum Testen (from PLAN `## Progress` checkboxes). Explicit only: Abgenommen, Abgeschlossen, Pausiert |
-| `PLAN_*.md` | Entwurf, Reviewed (first 10 lines); progress via mandatory `## Progress` section (one checkbox per step N.M, commit SHA as evidence) |
-| `BUG_*.md` | Derived from `## Fix-Schritte` checklist: Offen, Analysiert, In Arbeit, Behoben |
-| `TASK_*.md` | Derived from `## Schritte` checklist: Offen, In Arbeit, Erledigt |
+Changes live in `features/<slug>/` folders (kebab-case slug, fixed filenames). Status derives from
+which files are present + `plan.md` `## Progress` (see `DERIVED_STATE_RULES.md`).
+
+| File in `features/<slug>/` | Status values (derivation source) |
+|----------------------------|-----------------------------------|
+| `spec.md` | Derived: Spezifiziert, Geplant, In Arbeit, Fertig zum Testen (from `plan.md` `## Progress` checkboxes). Explicit only: Abgenommen, Abgeschlossen, Pausiert |
+| `plan.md` | Entwurf, Reviewed (first 10 lines); progress via mandatory `## Progress` section (one checkbox per step N.M, commit SHA as evidence) |
+| `bug.md` | Derived from `## Fix-Schritte` checklist: Offen, Analysiert, In Arbeit, Behoben |
+| `task.md` | Derived from `## Schritte` checklist: Offen, In Arbeit, Erledigt |
 | `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen (maintained by idea skills) |
 
 ## Directory & naming conventions
@@ -61,6 +64,7 @@ displays synced by `dtb:workflow-checkpoint`. `IMPL_STATUS_*.md` is abolished.
 - File paths: forward slashes, relative to target project root
 - Dates: `YYYY-MM-DD`, never relative terms
 - `project-rules/` files use UPPER_SNAKE_CASE (e.g. `FRONTEND.md`, `BACKEND.md`)
+- **Change folders:** `features/<slug>/` with kebab-case slug (derived from the feature name, no running numbers) and fixed filenames `discovery.md`/`spec.md`/`plan.md`/`bug.md`/`task.md` — slug rules in `DERIVED_STATE_RULES.md` §4
 
 ## Distribution (kit-sync)
 

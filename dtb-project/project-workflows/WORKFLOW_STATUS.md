@@ -10,6 +10,7 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 | Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Praxiserprobung (feature-discover-Resume, checkpoint→resume), dann Abnahme + `/dtb:archive` |
+| Change-Folder-Modell | In Arbeit | 0/15 | Schritt 1.1: `DERIVED_STATE_RULES.md` auf Ordner-Konvention umschreiben |
 | Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung (echtes feature-plan mit Lint), dann Abnahme + `/dtb:archive` |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 
