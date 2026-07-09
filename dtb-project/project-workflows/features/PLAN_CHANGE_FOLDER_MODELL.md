@@ -228,9 +228,9 @@ Dieses Kit migrieren, Verhalten unabhaengig abnehmen, Skills global verteilen.
 - [x] 3.1 workflow-resume + -next + -status — `b6f1a8c`
 - [x] 3.2 backlog-status + project-health — `b6f1a8c`
 - [x] 3.3 plan-review + debug-plan — `b6f1a8c`
-- [x] 4.1 archive auf Ordner-Verschieben (+ Bash, Git-/Non-Git)
-- [x] 4.2 Migrations-Helfer Erkennung + Kernlogik (Git/Non-Git, Backup)
-- [x] 4.3 Migrations-Helfer Namens-Taxonomie + Archiv + Drift-Report
+- [x] 4.1 archive auf Ordner-Verschieben (+ Bash, Git-/Non-Git) — `e0de0d5`
+- [x] 4.2 Migrations-Helfer Erkennung + Kernlogik (Git/Non-Git, Backup) — `e0de0d5`
+- [x] 4.3 Migrations-Helfer Namens-Taxonomie + Archiv + Drift-Report — `e0de0d5`
 - [ ] 5.1 Sicherungspunkt + Dogfood-Migration dieses Kits
 - [ ] 5.2 Unabhaengige Multi-Varianten-Abnahme (inkl. Non-Git)
 - [ ] 5.3 Konsistenz-Sweep + Budget-Check + kit-sync
