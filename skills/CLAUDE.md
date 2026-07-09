@@ -15,8 +15,8 @@ pipeline:
   stage: idea | planning | implementation | development | session | monitoring | setup | greenfield
   after: dtb:<predecessor>    # or null
   next: dtb:<successor>       # or null
-  consumes: [ARTIFACT_*.md]   # artifacts read by this skill (FEATURE_*, PLAN_*, BUG_*, etc.)
-  produces: [ARTIFACT_*.md]   # artifacts written by this skill
+  consumes: [features/*/spec.md]   # artifacts read by this skill (features/*/{spec,plan,bug,task}.md, etc.)
+  produces: [features/*/plan.md]   # artifacts written by this skill
 ---
 ```
 

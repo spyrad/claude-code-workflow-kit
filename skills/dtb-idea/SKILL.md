@@ -68,7 +68,7 @@ Welche Idee moechtest du festhalten? (Freitext)
 ### Status-Werte
 - **Offen** — Noch nicht bearbeitet
 - **In Arbeit** — Wird gerade mit `/dtb:feature-discover` ausgearbeitet
-- **Ausgearbeitet** — Feature-Plan erstellt → `FEATURE_*.md`
+- **Ausgearbeitet** — Feature-Plan erstellt → `features/<slug>/spec.md`
 - **Verworfen** — Bewusst nicht weiterverfolgt
 
 ---

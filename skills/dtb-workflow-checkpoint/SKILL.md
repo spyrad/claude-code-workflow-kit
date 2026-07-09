@@ -10,8 +10,8 @@ pipeline:
   stage: session
   after: null
   next: dtb:workflow-resume
-  consumes: [BACKLOG.md, INBOX.md, FEATURE_*.md, PLAN_*.md, TASK_*.md, project-rules/DERIVED_STATE_RULES.md]
-  produces: [WORKFLOW_STATUS.md, BACKLOG.md, FEATURE_*.md, TASK_*.md, session-log]
+  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)
@@ -181,14 +181,14 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 
 Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Teil 2):
 
-1. **Leite den Status aller aktiven Items ab:** PLAN_*.md `## Progress`-Checkboxen zaehlen
+1. **Leite den Status aller aktiven Items ab:** `features/*/plan.md` `## Progress`-Checkboxen zaehlen
    (0/Y = Geplant, X/Y = In Arbeit, Y/Y = Fertig zum Testen); Bugs/Tasks ueber die
-   Checkliste in der Datei (Regel-Datei §1.5). Pruefe dabei, ob Checkboxen dieser Session
+   Checkliste in `bug.md`/`task.md` (Regel-Datei §1.5). Pruefe dabei, ob Checkboxen dieser Session
    abgehakt wurden — falls nicht, erinnere daran (Checkbox-Pflicht aus `dtb:feature-start`)
 2. **Synchronisiere die Anzeige-Felder** mit dem abgeleiteten Status (dieser Skill ist der
    schreibende Skill aus Regel-Datei §1.3):
    - Status-Spalte in BACKLOG.md (Abschnitte "Aktive Features"/"Aufgaben")
-   - `**Status:**`-Zeile in `features/FEATURE_*.md` bzw. `TASK_*.md`
+   - `**Status:**`-Zeile in `features/<slug>/spec.md` bzw. `task.md`
    - Datum in "Letzte Aktualisierung"
 3. **Nur explizite Zustaende erfragen** (Regel-Datei §1.2 — nicht ableitbar). Frage NUR,
    wenn ein Item vollstaendig abgehakt ist oder der Chat-Verlauf es nahelegt:

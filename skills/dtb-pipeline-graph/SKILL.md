@@ -251,9 +251,7 @@ Wickle die Matrix in ein `<details>` Element:
 </details>
 ```
 
-### Sektion 5: Artefakte & Speicherorte
-
-Statische Referenztabelle:
+### Sektion 5: Artefakte & Speicherorte (statische Referenz)
 
 | Artefakt | Pfad (im Zielprojekt) | Beschreibung |
 |----------|----------------------|--------------|
@@ -262,15 +260,11 @@ Statische Referenztabelle:
 | `INBOX.md` | `dtb-project/project-workflows/` | Ideen-Inbox |
 | `BACKLOG.md` | `dtb-project/project-workflows/` | Feature-Backlog mit Priorisierung |
 | `WORKFLOW_STATUS.md` | `dtb-project/project-workflows/` | Kompaktes Status-Dashboard |
-| `FEATURE_*.md` | `dtb-project/project-workflows/features/` | Feature-Spezifikationen |
-| `BUG_*.md` | `dtb-project/project-workflows/features/` | Bug-Reports mit Severity |
-| `PLAN_*.md` | `dtb-project/project-workflows/features/` | Implementierungsplaene |
-| `DISCOVERY_*.md` | `dtb-project/project-workflows/features/` | Discovery-Dokumente |
+| `features/<slug>/` | `dtb-project/project-workflows/features/<slug>/` | Change-Ordner (ein Ordner pro Change): `discovery.md`/`spec.md`/`plan.md`/`bug.md`/`task.md` |
 | `session-log` | `dtb-project/project-changelog/YYYY-MM/` | Tages-Changelogs |
 | `TEAM.md` | `dtb-project/project-strategy/` | Projektteam-Dokumentation |
 | `ARCHIVE_LOG.md` | `dtb-project/project-workflows/archive/` | Log archivierter Eintraege |
-| `project-rules/*.md` | `dtb-project/project-rules/` | Coding-Richtlinien |
-| `project-rules/lessons.md` | `dtb-project/project-rules/` | Lektionen-Sammlung (Prior, keine Coding-Rule) |
+| `project-rules/*.md` | `dtb-project/project-rules/` | Coding-Richtlinien + `lessons.md` (Prior, keine Rule) |
 | `agents/*.md` | `.claude/agents/` | Agenten-Rollen |
 | `PRD-MVP.md` | `dtb-project/project-strategy/` | Product Requirements Document |
 | `ROADMAP.md` | `dtb-project/project-strategy/` | Strategische Projekt-Roadmap |

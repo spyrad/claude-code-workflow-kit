@@ -3,7 +3,7 @@ name: dtb:feature-plan
 description: >-
   Use when: "Feature planen", "feature plan", "Feature-Spec erstellen",
   "neues Feature dokumentieren". Creates a structured feature specification
-  from the current chat discussion and saves it as FEATURE_[NAME].md.
+  from the current chat discussion and saves it as features/<slug>/spec.md.
 disable-model-invocation: true
 argument-hint: "[Feature-Name]"
 allowed-tools: Read, Write, Glob, Grep

@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, DISCOVERY_*.md, FEATURE_*.md, PLAN_*.md, BUG_*.md, TASK_*.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md, dtb-lock.json]
+  consumes: [workflow.config.yaml, BACKLOG.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md, dtb-lock.json]
   produces: []
 ---
 

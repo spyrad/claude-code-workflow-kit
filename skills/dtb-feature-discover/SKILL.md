@@ -4,7 +4,7 @@ description: >-
   Use when: "Feature Discovery", "Idee vertiefen", "Anforderungen klaeren",
   "Discovery machen". Analyzes an idea from the inbox, scans the codebase for
   affected modules, gathers requirements through structured questions, and
-  produces a DISCOVERY_*.md before spec writing.
+  produces a features/<slug>/discovery.md before spec writing.
 disable-model-invocation: true
 argument-hint: "[Idee-Nummer oder Suchbegriff]"
 allowed-tools: Read, Write, Glob, Grep

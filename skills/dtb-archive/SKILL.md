@@ -64,7 +64,7 @@ Archiv-Kandidaten gefunden:
 
 Inbox:
   - #{N} "{Idee-Text}" (Verworfen)
-  - #{N} "{Idee-Text}" (Ausgearbeitet → FEATURE_*.md)
+  - #{N} "{Idee-Text}" (Ausgearbeitet → features/{slug}/spec.md)
 
 Backlog:
   - {Feature-Name} (Abgeschlossen, {Datum})
