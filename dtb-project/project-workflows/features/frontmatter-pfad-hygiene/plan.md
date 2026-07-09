@@ -227,7 +227,7 @@ Unabhaengige Abnahme der drei Bloecke, Budget-Check, globaler Rollout.
 - [x] 3.2 Reader-Konsistenz verifizieren — `548a9d6` (archive/workflow-status/workflow-next/§1.5 erwarten `## Fix-Schritte`, passt — keine Reader-Aenderung noetig)
 - [x] 4.1 Unabhaengige Abnahme — `b911505` (unabh. Agent: Block A/B/C PASS/PASS/PASS, 3 Findings gemeldet)
 - [x] 4.2 Findings beheben + Budget-Check — `b911505` (§1.5 Behoben/Erledigt statt „Fertig zum Testen" + Testplan-Ausschluss, pipeline-graph Text-Pipeline als linearisierte Lesehilfe; Budget: pipeline-graph 505→498, alle Skills < 500)
-- [ ] 4.3 kit-sync global — OFFEN: erst `git push`, dann `/dtb:kit-sync` (Nutzer)
+- [x] 4.3 kit-sync global — 20 Skills global synchronisiert (Lock `sourceCommit 8f508b8`, R=L=K fuer 36 Artefakte verifiziert); pitch-coach bewusst uebersprungen (INBOX #8/#10)
 
 ---
 
