@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-10 (Eligibility-Gates 12/13; Bug project-init-stale-rules-seed erfasst)
+**Letzte Aktualisierung:** 2026-07-10 (Eligibility-Gates 12/13, global verteilt; Testbett pkp; Bug erfasst)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
