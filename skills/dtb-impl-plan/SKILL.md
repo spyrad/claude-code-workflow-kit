@@ -36,6 +36,27 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 - **Konflikt** (zwei nach dem Filter behaltene Lektionen mit gegensaetzlicher `Rule` — z.B. „immer X" vs. „nie X" zum selben Gegenstand):
   beide zeigen und den Widerspruch melden — nicht selbst aufloesen
 
+## Eligibility-Gate (Fit-Check am Eingang)
+
+Hard-Gate — Konvention: `skills/CLAUDE.md` → „Eligibility-Gates".
+
+1. Ermittle den Slug (aus Argument/Chat; §4 in `{config.paths.rules}/DERIVED_STATE_RULES.md`).
+2. Pruefe, ob das **kritische Artefakt** `{config.paths.workflows}/features/{slug}/spec.md`
+   existiert (Glob).
+3. **Fehlt es → Gate greift.** Gib den Meldeblock aus und arbeite NICHT weiter, bis der Nutzer
+   die Escape-Hatch bestaetigt:
+
+```
+⛔ impl-plan braucht eine Feature-Spec, die fehlt.
+   Geprueft: features/{slug}/spec.md — nicht gefunden.
+   → Erstelle sie zuerst: /dtb:feature-plan {Feature-Name}   (erzeugt von feature-plan)
+
+   Fehlalarm? Falls die Spec existiert oder du bewusst ohne fortfahren willst:
+   „trotzdem fortfahren" bestaetigen.
+```
+
+Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Plan auf falscher Basis).
+
 ## Aufgabe
 
 1. **Feature-Name / Slug ermitteln:** Aus dem Argument oder Frage den Benutzer

@@ -180,7 +180,7 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 | Tie-Break mehrdeutiger Redirect | Kontext-nächster / beide nennen | **beide, `after`-Match voran** | Entscheidung B |
 | Fehlalarm-Schutz | ohne / Escape-Hatch | **Escape-Hatch + Pfad** | Entscheidung D |
 | Rollout | direkt global / Testbett-Vorlauf | **Testbett `dtb-assistant`** | Entscheidung E |
-| Escape-Hatch-Form | `--force`-Argument / Bestätigung | **Offen** | in Schritt 1.1/2.1 festlegen |
+| Escape-Hatch-Form | `--force`-Argument / Bestätigung | **Bestätigungs-Rückfrage** | konsistent mit interaktivem Skill-Stil, kein neues Argument-Schema (Schritt 2.1) |
 
 ---
 
@@ -189,12 +189,12 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg.
 
-- [x] 1.1 Gate-Mechanik-Referenztext (inkl. Tie-Break + Escape-Hatch)
-- [x] 1.2 Einteilungsregel + Zuordnung
-- [x] 1.3 Redirect-produces-Index verifizieren
-- [ ] 2.1 impl-plan Gate
-- [ ] 2.2 plan-review Gate (mehrdeutiger Redirect)
-- [ ] 2.3 feature-start Gate
+- [x] 1.1 Gate-Mechanik-Referenztext (inkl. Tie-Break + Escape-Hatch) — `a4ee4ad`
+- [x] 1.2 Einteilungsregel + Zuordnung — `a4ee4ad`
+- [x] 1.3 Redirect-produces-Index verifizieren — `a4ee4ad`
+- [x] 2.1 impl-plan Gate
+- [x] 2.2 plan-review Gate (mehrdeutiger Redirect)
+- [x] 2.3 feature-start Gate
 - [ ] 2.4 debug-plan Gate
 - [ ] 2.5 archive Gate
 - [ ] 2.6 migrate-change-folders Gate

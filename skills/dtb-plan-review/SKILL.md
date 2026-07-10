@@ -36,11 +36,20 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
      (der Umsetzungsstand waere sonst nicht ableitbar)
 3. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/{slug}/spec.md` als zusaetzlichen Kontext
 
-Falls Plan nicht gefunden:
+**Eligibility-Gate (Fit-Check):** Fehlt `plan.md` → Hard-Gate greift (Konvention:
+`skills/CLAUDE.md` → „Eligibility-Gates"). Gib den Meldeblock aus und arbeite NICHT weiter, bis
+der Nutzer die Escape-Hatch bestaetigt:
+
 ```
-Implementierungsplan nicht gefunden: features/{slug}/plan.md
-Erstelle zuerst einen Implementierungsplan mit /dtb:impl-plan.
+⛔ plan-review braucht einen Implementierungsplan, der fehlt.
+   Geprueft: features/{slug}/plan.md — nicht gefunden.
+   → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (empfohlen — after-Match)
+     alternativ schreibt auch /dtb:feature-start ein plan.md (Progress-Update)
+
+   Fehlalarm? „trotzdem fortfahren" bestaetigen.
 ```
+
+Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Review ohne Plan).
 
 ## Schritt 2: Agent-Definitionen laden
 

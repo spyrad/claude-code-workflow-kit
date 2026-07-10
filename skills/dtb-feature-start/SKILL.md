@@ -75,6 +75,19 @@ Falls nur eine oder zwei Kategorien vorhanden: Zeige nur die relevanten Sektione
 Nach Auswahl durch den Benutzer:
 
 **Bei Feature:**
+0. **Eligibility-Gate (Fit-Check):** Pruefe, ob `{config.paths.workflows}/features/{slug}/plan.md`
+   existiert (kritisches Artefakt — NICHT das erste `consumes` `BACKLOG.md`). Fehlt es →
+   Hard-Gate greift (Konvention: `skills/CLAUDE.md` → „Eligibility-Gates"); gib den Meldeblock
+   aus und arbeite NICHT weiter, bis der Nutzer die Escape-Hatch bestaetigt:
+
+   ```
+   ⛔ feature-start braucht einen Implementierungsplan, der fehlt.
+      Geprueft: features/{slug}/plan.md — nicht gefunden.
+      → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (erzeugt von impl-plan)
+
+      Fehlalarm? „trotzdem fortfahren" bestaetigen.
+   ```
+   Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Start ohne Plan).
 1. **Lies die Feature-Spec:** `{config.paths.workflows}/features/{slug}/spec.md`
 2. **Lies den Implementierungsplan:** `{config.paths.workflows}/features/{slug}/plan.md` (falls vorhanden)
    — die `## Progress`-Sektion bestimmt den Einstiegspunkt (erster nicht abgehakter Schritt).
