@@ -41,6 +41,7 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 Hard-Gate — Konvention: `skills/CLAUDE.md` → „Eligibility-Gates".
 
 1. Ermittle den Slug (aus Argument/Chat; §4 in `{config.paths.rules}/DERIVED_STATE_RULES.md`).
+   Ist der Slug unklar, zuerst den Feature-Namen erfragen, DANN pruefen (nicht auf gut Glück raten).
 2. Pruefe, ob das **kritische Artefakt** `{config.paths.workflows}/features/{slug}/spec.md`
    existiert (Glob).
 3. **Fehlt es → Gate greift.** Gib den Meldeblock aus und arbeite NICHT weiter, bis der Nutzer
@@ -167,11 +168,9 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 2. **Feature-Spec lesen:**
    - Lies `{config.paths.workflows}/features/{slug}/spec.md`
-   - Falls Datei nicht gefunden:
-     ```
-     Feature-Spec nicht gefunden: features/{slug}/spec.md
-     Erstelle zuerst eine Feature-Spec mit /dtb:feature-plan.
-     ```
+   - Der Fehlt-Fall ist bereits durch das **Eligibility-Gate** (oben, nach „Lektionen als Prior lesen")
+     abgedeckt — harte Weigerung + Redirect `feature-plan` + Escape-Hatch. Hier keine zweite,
+     weichere Fehlermeldung: greift das Gate, wird dieser Schritt nie ohne Spec erreicht.
 
 3. **Prüfe ob `features/{slug}/plan.md` bereits existiert:**
    - Falls JA: Frage "Implementierungsplan existiert bereits. Soll ich ueberschreiben oder aktualisieren?"

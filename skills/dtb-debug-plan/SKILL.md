@@ -56,7 +56,7 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
      Geprueft: features/{slug}/bug.md — nicht gefunden.
      → Erstelle ihn zuerst: /dtb:bug-report {Bug-Name}   (erzeugt von bug-report)
 
-     Fehlalarm? „trotzdem fortfahren" bestaetigen.
+     Fehlalarm (bug.md existiert doch) oder bewusst ohne fortfahren? „trotzdem fortfahren" bestaetigen.
   ```
   Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (keine Analyse ohne Bug-Report).
 

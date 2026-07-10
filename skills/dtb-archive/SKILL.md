@@ -83,6 +83,7 @@ Alles archivieren? (Ja / Auswahl treffen / Abbrechen)
 Kandidaten gefunden:
 ```
 Nichts zu archivieren — alle Eintraege sind aktiv.
+(Falls nur nicht-migrierter flacher Altbestand vorliegt: zuerst /dtb:migrate-change-folders.)
 ```
 
 ---

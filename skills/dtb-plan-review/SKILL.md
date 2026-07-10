@@ -46,7 +46,7 @@ der Nutzer die Escape-Hatch bestaetigt:
    → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (empfohlen — after-Match)
      alternativ schreibt auch /dtb:feature-start ein plan.md (Progress-Update)
 
-   Fehlalarm? „trotzdem fortfahren" bestaetigen.
+   Fehlalarm (plan.md existiert doch) oder bewusst ohne fortfahren? „trotzdem fortfahren" bestaetigen.
 ```
 
 Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Review ohne Plan).

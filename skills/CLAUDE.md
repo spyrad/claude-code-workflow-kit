@@ -76,8 +76,10 @@ ein geplantes Folge-Feature — diese Konvention trägt sie bereits.
 
 ### Fit-Check + Redirect (Mechanik)
 
-1. **Fit-Check:** existiert das explizit benannte kritische Artefakt (Glob-Muster wie
-   `features/*/spec.md` auflösen)? Ja → Skill läuft normal. Nein → Gate greift.
+1. **Fit-Check:** existiert das explizit benannte kritische Artefakt am **slug-spezifischen Pfad**
+   `features/{slug}/<artefakt>` (z.B. `features/{slug}/spec.md`)? **Nicht** den `*`-Wildcard
+   (`features/*/spec.md`) prüfen — der träfe ein fremdes Feature und erzeugte ein False Negative.
+   Ja → Skill läuft normal. Nein → Gate greift.
 2. **Redirect-Ableitung** (fehlendes Artefakt → erzeugender Skill), Reihenfolge:
    1. **Selbst-Ausschluss:** den aktuellen Skill aus den Erzeugern streichen (viele Skills führen
       ein Artefakt in `produces`, weil sie es nur *aktualisieren*, nicht erstellen).

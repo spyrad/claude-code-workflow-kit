@@ -85,7 +85,7 @@ Nach Auswahl durch den Benutzer:
       Geprueft: features/{slug}/plan.md — nicht gefunden.
       → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (erzeugt von impl-plan)
 
-      Fehlalarm? „trotzdem fortfahren" bestaetigen.
+      Fehlalarm (plan.md existiert doch) oder bewusst ohne fortfahren? „trotzdem fortfahren" bestaetigen.
    ```
    Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Start ohne Plan).
 1. **Lies die Feature-Spec:** `{config.paths.workflows}/features/{slug}/spec.md`
