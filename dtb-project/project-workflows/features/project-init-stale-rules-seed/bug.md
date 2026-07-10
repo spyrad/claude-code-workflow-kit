@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-07-10
 **Severity:** Hoch
-**Status:** Behoben (Fix umgesetzt, lokal verifiziert, verteilt; realer Abnahme-Test als Nachkontrolle offen)
+**Status:** Behoben (Fix umgesetzt, lokal verifiziert, verteilt; realer Abnahme-Test bestanden 2026-07-10)
 **Betroffene Komponente:** `skills/dtb-project-init/SKILL.md` (Abschnitt „Regel-Datei verteilen (Seed)", Z. ~231-236)
 
 ---
@@ -74,7 +74,7 @@ Der Fix adressiert beide Hypothesen: Quelle absolut über `lock.localPath` aufl�
 
 ## Testplan
 
-- [ ] **Repro/Fix-Beleg:** in einem frischen Zielprojekt (oder erneut in `pkp`) `/dtb:project-init` laufen lassen → `git hash-object dtb-project/project-rules/DERIVED_STATE_RULES.md` == Kit-Quell-Hash (`a7961f7e` bzw. aktueller Kit-Hash).
+- [x] **Repro/Fix-Beleg:** in einem frischen Zielprojekt (oder erneut in `pkp`) `/dtb:project-init` laufen lassen → `git hash-object dtb-project/project-rules/DERIVED_STATE_RULES.md` == Kit-Quell-Hash (`a7961f7e` bzw. aktueller Kit-Hash). **Bestanden 2026-07-10** (realer Abnahme-Test durch Nutzer).
 - [ ] **Regression Lock-Fehlt:** `~/.claude/dtb-lock.json` temporär unauffindbar → Seed bricht mit ehrlicher Meldung ab, erzeugt **keine** veraltete Datei.
 - [ ] **Regression Rest-Init:** Config, Verzeichnisstruktur und CLAUDE.md-Sentinel-Block unverändert korrekt.
 

@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** Konsistenz-Lecks im Kit schliessen — Agenten-Pfad, Frontmatter-Kanten und die debug-plan-Ausgabe an die real gelesenen Konventionen angleichen.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-10 nach Realtest Block A/B (pipeline-graph + plan-review, Agenten global geladen, 1:n-Kanten gerendert) + Block C (realer debug-plan-Lauf, ## Fix-Schritte korrekt ableitbar) -->
 
 ---
 

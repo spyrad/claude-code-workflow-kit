@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** `feature-plan`-Specs lösungsneutral und ehrlich halten — technische Lecks vor dem Speichern blockieren, fehlendes Wissen sichtbar parken statt erfinden.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-10 nach 2 blinden feature-plan-Abnahmelaeufen (unabh. Agenten): SC1-8 belegt, Hard-Block feuert bei Leck-Spec, Baustein B parkt fehlendes Wissen in Offene Punkte -->
 
 ---
 
@@ -74,7 +74,7 @@
 
 **Das Feature gilt als erfolgreich wenn:**
 - [ ] `feature-plan` prüft vor dem Write auf die 7 Leck-Kategorien und bricht bei Treffer ab (Hard-Block)
-- [ ] Fund-Meldung nennt je Leck Zeile + Kategorie + lösungsneutralen Umformulierungs-Hinweis
+- [x] Fund-Meldung nennt je Leck Anker (Sektion `## …` + Zitat, KEINE Zeilennummer — der Text ist beim Prüfen noch nicht gespeichert) + Kategorie + lösungsneutralen Umformulierungs-Hinweis
 - [ ] Override mit Begründung ist möglich und dokumentiert dessen Verhalten
 - [ ] `[TODO: …]`-Muster ist vollständig durch `## Offene Punkte` ersetzt (Schritt 6 der SKILL.md)
 - [ ] `## Offene Punkte` verwendet dieselbe Benennung wie `feature-discover`; „— keine —" bei fehlenden Lücken

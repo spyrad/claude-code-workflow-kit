@@ -9,13 +9,13 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Bug: project-init-stale-rules-seed | Behoben | 4/4 | Abnahme-Test (`project-init` + Hash-Vergleich), dann `/dtb:archive` |
-| Eligibility-Gates | Abgenommen | 13/13 | Beim gemeinsamen Abnahme-Durchgang → `/dtb:archive` |
-| Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
-| Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
-| Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
-| Change-Folder-Modell | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
-| Frontmatter- und Pfad-Hygiene | Fertig zum Testen | 12/12 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
+| Bug: project-init-stale-rules-seed | Behoben | 4/4 | `/dtb:archive` |
+| Eligibility-Gates | Abgenommen | 13/13 | `/dtb:archive` |
+| Frontmatter- und Pfad-Hygiene | Abgenommen | 12/12 | `/dtb:archive` |
+| Spec-Härtung | Abgenommen | 9/9 | `/dtb:archive` |
+| Review-Härtung | Fertig zum Testen | 11/11 | `/dtb:code-review` (belegt SC5–7) |
+| Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Verproben oder pragmatisch abnehmen |
+| Change-Folder-Modell | Fertig zum Testen | 15/15 | Verproben oder pragmatisch abnehmen |
 
 ---
 
@@ -23,17 +23,18 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Blocker** | Keine (alles nach `origin/master` gepusht, `96eb2df`) |
-| **Notizen** | Kit-Bug `project-init-stale-rules-seed` behoben: Seed kopiert nun mechanisch über `lock.localPath` (+ Hash + Fallback), global verteilt (Lock `8c1c906 → 96eb2df`). Lokal verifiziert; realer Abnahme-Test offen. Lektion L4 („mechanisch kopieren statt rekonstruieren") erfasst |
+| **Blocker** | Keine (5 Dateien uncommitted → wird in diesem Checkpoint committed) |
+| **Notizen** | Abnahme-Durchgang: Frontmatter-/Pfad-Hygiene + Spec-Härtung heute → Abgenommen (Realtests via pipeline-graph/plan-review + 2 blinde feature-plan-Läufe). 4 Items abnahmereif für `/dtb:archive` |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] Abnahme-Test des Fixes: `project-init` in frischem Projekt/`pkp` → Hash der geseedeten `DERIVED_STATE_RULES.md` == Kit-Hash `a7961f7e`
-- [ ] Gemeinsamer Abnahme-/Archiv-Durchgang: 6 abnahmereife Features + behobener Bug → `/dtb:archive`
-- [ ] Ideen triagieren: #11 (Greenfield), #13 (Fachfragen-Agenda), #10 (kit-sync pinned) → `/dtb:idea-review`
-- [ ] Folge-Feature Eligibility-Gates: Git-Gates + Soft-Gates
+- [ ] `/dtb:code-review`-Lauf für Review-Härtung — Kontext: belegt SC5–7 (Severity×Impact, Cap 10, Resume-Marker), dann abnahmereif
+- [ ] `/dtb:archive` der 4 reifen Items — Kontext: Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed
+- [ ] Eligibility-Gates `plan.md`-Drifts nachziehen — Kontext: Reihenfolge 3.3↔3.4 + Testbett `dtb-assistant`→`pkp` (plan-review-Befund)
+- [ ] Skill-10x + Change-Folder-Modell verproben/abnehmen — Kontext: bislang nur teils im Alltag belegt
+- [ ] Idee-Triage #11 (Greenfield), #13 (Fachfragen-Agenda), #10 (kit-sync pinned) → `/dtb:idea-review`
 
 ---
 
@@ -41,11 +42,11 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-10 | Kit-Bug project-init-stale-rules-seed behoben | Mechanisches Seed-cp über `lock.localPath` + Hash + Fallback, global (Lock `96eb2df`) | `2026-07/2026-07-10.md` (Session 4) |
+| 2026-07-10 | Abnahme-Durchgang: 2 Features → Abgenommen | Frontmatter-/Pfad-Hygiene + Spec-Härtung via Realtests + 2 blinde feature-plan-Läufe | `2026-07/2026-07-10.md` (Session 5) |
+| 2026-07-10 | Kit-Bug project-init-stale-rules-seed behoben + Abnahme-Test bestanden | Mechanisches Seed-cp über `lock.localPath`, global (Lock `96eb2df`) | `2026-07/2026-07-10.md` (Session 4/5) |
 | 2026-07-10 | Eligibility-Gates abgenommen | 13/13, Fixture 10/10 + pkp-Realtest, global (Lock `8c1c906`) | `2026-07/2026-07-10.md` (Session 1-3) |
 | 2026-07-09 | Frontmatter- und Pfad-Hygiene umgesetzt | 12/12, global (Lock `8f508b8`) | `2026-07/2026-07-09.md` (Session 6) |
 | 2026-07-09 | CHANGE_FOLDER_MODELL umgesetzt | 15/15, global (Lock `2dfce5f`) | `2026-07/2026-07-09.md` (Session 5) |
-| 2026-07-09 | SKILL_10X_OPTIMIERUNGEN umgesetzt | 15/15, global (Lock `77f7f7f`) | `2026-07/2026-07-09.md` (Session 4) |
 
 ---
 
@@ -57,5 +58,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive` — gemeinsamer Abnahme-/Archiv-Durchgang der 6 abnahmereifen Features + des behobenen Bugs. Empfohlen davor: kurzer Abnahme-Test des project-init-Fixes (`project-init` in frischem Projekt → Hash-Vergleich) und Lektion via `/dtb:lesson` bestätigen.
+**Naechster Befehl:** `/dtb:archive` — Abnahme-/Archiv-Durchgang der 4 reifen Items (Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed). Alternativ zuvor `/dtb:code-review` (macht Review-Härtung abnahmereif, dann 5 Items im Archiv-Durchgang).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
