@@ -228,12 +228,42 @@ workflow.config.yaml einsetzen.
 
 Erstelle eine leere `WORKFLOW_STATUS.md` und `BACKLOG.md` falls sie nicht existieren.
 
-**Regel-Datei verteilen (Seed):** Kopiere `DERIVED_STATE_RULES.md` (zentrale Statusableitungs-Regeln,
-Quelle: Kit-Repo `dtb-project/project-rules/DERIVED_STATE_RULES.md`) nach
-`{config.paths.rules}/DERIVED_STATE_RULES.md` im Zielprojekt — die Lese-Skills
+**Regel-Datei verteilen (Seed):** `DERIVED_STATE_RULES.md` (zentrale Statusableitungs-Regeln)
+nach `{config.paths.rules}/DERIVED_STATE_RULES.md` im Zielprojekt **kopieren** — die Lese-Skills
 (workflow-next/-status/-resume, backlog-status) und workflow-checkpoint referenzieren sie.
 Die Datei ist ein **Seed** (Klasse B im Sinne von `dtb:kit-sync`): projektlokal,
 nicht vom globalen Drift-Check erfasst.
+
+> ⚠ **Mechanisch kopieren, nie aus dem Gedächtnis rekonstruieren.** In einer Zielprojekt-Session
+> ist das Kit-Repo nicht der cwd — ein relativer Pfad ist nicht auflösbar. Die Quelle deshalb
+> **absolut** über `~/.claude/dtb-lock.json` → `localPath` bestimmen und per `cp` byte-genau kopieren.
+> Wird die Quelle nicht gefunden, **abbrechen** (ehrliche Meldung), statt die Datei aus dem Gedächtnis
+> nachzuschreiben (führt sonst zu einer veralteten Regel-Datei).
+
+```bash
+LOCK="$HOME/.claude/dtb-lock.json"
+KIT="$(grep -o '"localPath"[[:space:]]*:[[:space:]]*"[^"]*"' "$LOCK" 2>/dev/null | sed -E 's/.*"localPath"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')"
+SRC="$KIT/dtb-project/project-rules/DERIVED_STATE_RULES.md"
+DST="{config.paths.rules}/DERIVED_STATE_RULES.md"   # konkreten Pfad aus der Config einsetzen
+
+if [ -n "$KIT" ] && [ -f "$SRC" ]; then
+  mkdir -p "$(dirname "$DST")"
+  cp "$SRC" "$DST"
+  # Hash-Verifikation Quelle <-> Ziel
+  if [ "$(git hash-object "$SRC")" = "$(git hash-object "$DST")" ]; then
+    echo "Seed OK: DERIVED_STATE_RULES.md kopiert (hashgleich zur Kit-Quelle)."
+  else
+    echo "WARN: Seed kopiert, aber Hash weicht ab — Quelle/Ziel pruefen: $SRC"
+  fi
+else
+  echo "FEHLER: Kit-Quelle nicht auflösbar (Lock/localPath fehlt oder Datei nicht gefunden)."
+  echo "        Erwartet: $SRC"
+  echo "        → DERIVED_STATE_RULES.md manuell aus dem Kit-Repo kopieren; NICHT aus dem Gedächtnis erzeugen."
+fi
+```
+
+Fehlt der Lock ganz (Schritt 0 hat bereits gewarnt), diesen Seed überspringen und den Nutzer auf
+`/dtb:kit-sync install` + manuelles Kopieren hinweisen — die Regel-Datei nie improvisieren.
 
 **WORKFLOW_STATUS.md:**
 ```markdown
