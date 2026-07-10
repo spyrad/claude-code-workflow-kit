@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-10 (Eligibility-Gates in Arbeit, 11/13)
+**Letzte Aktualisierung:** 2026-07-10 (Eligibility-Gates 12/13; Bug project-init-stale-rules-seed erfasst)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -18,6 +18,7 @@
 | Change-Folder-Modell | Fertig zum Testen | Mittel | features/change-folder-modell/spec.md | Ein Ordner pro Change (`features/<kebab-slug>/` mit fixen Dateinamen) statt flacher UPPER_SNAKE-Dateien mit Namens-Pairing; Archivierung = `git mv` des Ordners; harter Schnitt + einmaliger Migrations-Helfer |
 | Frontmatter- und Pfad-Hygiene | Fertig zum Testen | Hoch | features/frontmatter-pfad-hygiene/spec.md | Konsistenz-Lecks schliessen (#8+#9): plan-review/pipeline-graph agents/-Pfad global+Fallback; after/next zu Listen (1:n-Pipeline); context:fork + Stage-Enum `bug` bereinigen; debug-plan schreibt `## Fix-Schritte` (aktiver Ableitungs-Bug) |
 | Eligibility-Gates | In Arbeit | Mittel | features/eligibility-gates/spec.md | Schreibende Skills prüfen am Eingang das primäre `consumes`-Artefakt (+ gezielt Git-Zustand) und verweigern bei Nichteignung konstruktiv mit Redirect (produces-Rückwärtssuche → after-Liste); differenziert nach Hard-/Soft-/kein Gate |
+| Bug: project-init seedet veraltete DERIVED_STATE_RULES.md | Offen | Hoch | features/project-init-stale-rules-seed/bug.md | project-init erzeugt eine veraltete Regel-Datei (Flach-Modell), weil die Seed-Quelle in Zielprojekt-Sessions nicht auflösbar ist → Rekonstruktion statt Kopie |
 
 ---
 
