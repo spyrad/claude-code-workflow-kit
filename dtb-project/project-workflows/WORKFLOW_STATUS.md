@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Bug: project-init-stale-rules-seed | Offen | — | `/dtb:debug-plan project-init-stale-rules-seed` |
+| Bug: project-init-stale-rules-seed | Behoben | 4/4 | Abnahme-Test (`project-init` + Hash-Vergleich), dann `/dtb:archive` |
 | Eligibility-Gates | Abgenommen | 13/13 | Beim gemeinsamen Abnahme-Durchgang → `/dtb:archive` |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
@@ -23,15 +23,15 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Blocker** | Keine (alles nach `origin/master` gepusht, `f0d068d`) |
-| **Notizen** | Eligibility-Gates (Idee #12) abgenommen: 6 Hard-Gates global (Lock `8c1c906`), Fixture 10/10 + realer pkp-Lauf. Kein Re-Sync nötig (Post-Sync-Commits ohne Klasse-A). pkp als Testbett etabliert; Kit-Bug `project-init-stale-rules-seed` (Hoch) offen |
+| **Blocker** | Keine (alles nach `origin/master` gepusht, `96eb2df`) |
+| **Notizen** | Kit-Bug `project-init-stale-rules-seed` behoben: Seed kopiert nun mechanisch über `lock.localPath` (+ Hash + Fallback), global verteilt (Lock `8c1c906 → 96eb2df`). Lokal verifiziert; realer Abnahme-Test offen. Lektion L4 („mechanisch kopieren statt rekonstruieren") erfasst |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:debug-plan project-init-stale-rules-seed` — Hoch-Bug, betrifft jede Projekt-Init (Fix: Seed-Quelle über `lock.localPath`)
-- [ ] Gemeinsamer Abnahme-/Archiv-Durchgang: 6 abnahmereife Features (5× Fertig zum Testen + Eligibility-Gates Abgenommen) → `/dtb:archive`
+- [ ] Abnahme-Test des Fixes: `project-init` in frischem Projekt/`pkp` → Hash der geseedeten `DERIVED_STATE_RULES.md` == Kit-Hash `a7961f7e`
+- [ ] Gemeinsamer Abnahme-/Archiv-Durchgang: 6 abnahmereife Features + behobener Bug → `/dtb:archive`
 - [ ] Ideen triagieren: #11 (Greenfield), #13 (Fachfragen-Agenda), #10 (kit-sync pinned) → `/dtb:idea-review`
 - [ ] Folge-Feature Eligibility-Gates: Git-Gates + Soft-Gates
 
@@ -41,11 +41,11 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-10 | Kit-Bug project-init-stale-rules-seed behoben | Mechanisches Seed-cp über `lock.localPath` + Hash + Fallback, global (Lock `96eb2df`) | `2026-07/2026-07-10.md` (Session 4) |
 | 2026-07-10 | Eligibility-Gates abgenommen | 13/13, Fixture 10/10 + pkp-Realtest, global (Lock `8c1c906`) | `2026-07/2026-07-10.md` (Session 1-3) |
 | 2026-07-09 | Frontmatter- und Pfad-Hygiene umgesetzt | 12/12, global (Lock `8f508b8`) | `2026-07/2026-07-09.md` (Session 6) |
 | 2026-07-09 | CHANGE_FOLDER_MODELL umgesetzt | 15/15, global (Lock `2dfce5f`) | `2026-07/2026-07-09.md` (Session 5) |
 | 2026-07-09 | SKILL_10X_OPTIMIERUNGEN umgesetzt | 15/15, global (Lock `77f7f7f`) | `2026-07/2026-07-09.md` (Session 4) |
-| 2026-07-09 | REVIEW_HAERTUNG umgesetzt | 11/11, global (Lock `971e16a`) | `2026-07/2026-07-09.md` (Session 1) |
 
 ---
 
@@ -57,5 +57,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:debug-plan project-init-stale-rules-seed` — den offenen Hoch-Bug angehen (Lösungsrichtung im `bug.md`: Seed-Quelle über `lock.localPath`). Alternativ gemeinsamer Abnahme-/Archiv-Durchgang via `/dtb:archive`.
+**Naechster Befehl:** `/dtb:archive` — gemeinsamer Abnahme-/Archiv-Durchgang der 6 abnahmereifen Features + des behobenen Bugs. Empfohlen davor: kurzer Abnahme-Test des project-init-Fixes (`project-init` in frischem Projekt → Hash-Vergleich) und Lektion via `/dtb:lesson` bestätigen.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.

@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-07-10
 **Severity:** Hoch
-**Status:** In Arbeit (Fix umgesetzt + lokal verifiziert; Distribution offen)
+**Status:** Behoben (Fix umgesetzt, lokal verifiziert, verteilt; realer Abnahme-Test als Nachkontrolle offen)
 **Betroffene Komponente:** `skills/dtb-project-init/SKILL.md` (Abschnitt „Regel-Datei verteilen (Seed)", Z. ~231-236)
 
 ---
@@ -68,7 +68,7 @@ Der Fix adressiert beide Hypothesen: Quelle absolut über `lock.localPath` aufl�
 - [x] `skills/dtb-project-init/SKILL.md` Abschnitt „Regel-Datei verteilen (Seed)" (Z. ~231-236) umschreiben: Seed-Quelle **mechanisch** ermitteln — `localPath` aus `~/.claude/dtb-lock.json` lesen und den **absoluten** Quellpfad `<localPath>/dtb-project/project-rules/DERIVED_STATE_RULES.md` per Bash `cp` (kein Neu-Schreiben aus dem Gedächtnis) nach `{config.paths.rules}/DERIVED_STATE_RULES.md` kopieren. Beispiel-Bash-Block eingefügt.
 - [x] **Hash-Verifikation** ergänzt: nach dem Kopieren Quelle↔Ziel per `git hash-object` vergleichen; bei Abweichung Warnung (kein stiller Fehlschlag). Lokal verifiziert: Kopie hashgleich (`a7961f7e…`).
 - [x] **Fallback (ehrliche Meldung, keine Rekonstruktion):** Lock fehlt / `localPath` leer / Quelldatei nicht lesbar → Seed **abbrechen** mit klarer Meldung + manueller Kopier-Hinweis. Niemals aus dem Gedächtnis rekonstruieren. Fallback-Zweig lokal getestet.
-- [ ] Nach dem Fix: da `skills/dtb-project-init/SKILL.md` **Klasse A** ist (`skills/dtb-*/SKILL.md`) → Commit nach `origin/master` pushen und `/dtb:kit-sync sync` (Lock-Update), damit die installierte Kopie unter `~/.claude/` den Fix erhält.
+- [x] Nach dem Fix: da `skills/dtb-project-init/SKILL.md` **Klasse A** ist (`skills/dtb-*/SKILL.md`) → Commit nach `origin/master` pushen und `/dtb:kit-sync sync` (Lock-Update), damit die installierte Kopie unter `~/.claude/` den Fix erhält. Erledigt: Commit `96eb2df` gepusht + Sync (Lock `8c1c906 → 96eb2df`, `updatedAt 2026-07-10`).
 
 **Regressionsrisiko:** Gering. Der Seed hängt nun an der Lock-Existenz — project-init prüft den Lock aber bereits in Schritt 0 (Hinweis bei Fehlen). Windows-`localPath` steht mit Forward-Slashes (`C:/…`) im Lock → Bash `cp` verarbeitet ihn direkt; kein Pfad-Umbau nötig. Kein Einfluss auf die übrigen Init-Schritte (Config, Verzeichnisse, CLAUDE.md).
 
