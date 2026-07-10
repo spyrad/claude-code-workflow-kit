@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-10 (Eligibility-Gates spezifiziert)
+**Letzte Aktualisierung:** 2026-07-10 (Eligibility-Gates in Arbeit, 11/13)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`

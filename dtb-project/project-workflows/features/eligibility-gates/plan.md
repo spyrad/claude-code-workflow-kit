@@ -202,8 +202,8 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 - [x] 2.4 debug-plan Gate — `c6e8fca`
 - [x] 2.5 archive Gate — `c6e8fca`
 - [x] 2.6 migrate-change-folders Gate — `c6e8fca`
-- [x] 3.1 Fixture-Abnahme
-- [x] 3.2 Nachschärfung
+- [x] 3.1 Fixture-Abnahme — `6efe843` (PASS 10/10)
+- [x] 3.2 Nachschärfung — `6efe843`
 - [ ] 3.3 Testbett-Vorlauf dtb-assistant
 - [ ] 3.4 Globale Verteilung
 

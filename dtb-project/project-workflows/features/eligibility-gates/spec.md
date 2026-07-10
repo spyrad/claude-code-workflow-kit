@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-10
 **Ziel:** Schreibende Skills prüfen am Eingang, ob ihr kritisches Eingabe-Artefakt existiert, und verweigern bei Nichteignung konstruktiv mit Verweis auf den erzeugenden Skill.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** In Arbeit <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

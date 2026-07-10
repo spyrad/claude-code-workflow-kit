@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-09
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-09.md`
+**Letztes Update:** 2026-07-10
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-10.md`
 
 ---
 
@@ -9,14 +9,12 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| Eligibility-Gates | In Arbeit | 11/13 | 3.3 Testbett-Vorlauf / 3.4 globale Verteilung |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Change-Folder-Modell | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
-| Frontmatter- und Pfad-Hygiene | Fertig zum Testen | 12/12 | Praxiserprobung (plan-review/debug-plan), dann Abnahme + `/dtb:archive` |
-| Eligibility-Gates | In Arbeit | 0/13 | Phase 1 umsetzen: Gate-Mechanik-Referenztext (Schritt 1.1) |
-
-**Laufende Arbeit:** Eligibility-Gates (Hard-Gates v1, Plan Reviewed, 3x3 ab Schritt 1.1).
+| Frontmatter- und Pfad-Hygiene | Fertig zum Testen | 12/12 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 
 ---
 
@@ -24,16 +22,18 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Blocker** | Keine |
-| **Notizen** | Frontmatter-Pfad-Hygiene (#8+#9) umgesetzt + global (Lock `8f508b8`): agents/-Pfad global+Fallback, after/next→Listen (1:n), debug-plan `## Fix-Schritte` (aktiver Bug behoben). Lektion L2 erfasst. 5 Features warten auf gemeinsame Abnahme an einem migrierten realen Testbett (`dtb-assistant`, kein Git → Move+Backup) |
+| **Blocker** | Push nach `origin/master` (4 Commits) noch nicht freigegeben — blockiert 3.4 (kit-sync global) |
+| **Notizen** | Eligibility-Gates (Idee #12): 6 Hard-Gates v1 umgesetzt, Fixture-Abnahme PASS 10/10. 2 der 6 Gates existierten nativ (archive/migrate) — echter Neu-Wert bei impl-plan/plan-review/feature-start/debug-plan. `skills/CLAUDE.md` (Konvention) ist nicht Klasse-A → nicht distribuiert (Gates self-contained). Lektion L3 erfasst |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `dtb-assistant` migrieren (`/dtb:migrate-change-folders` → Move+Backup, Drift-Report), dann `/dtb:project-health` — reales Testbett für die Abnahme
-- [ ] Alle 5 „Fertig zum Testen"-Features praxiserproben → gemeinsam abnehmen + `/dtb:archive`
-- [ ] Ideen triagieren: #10, #11, #12 — `/dtb:idea-review` (#10 kit-sync pinned/hold behebt die pitch-coach-Dauerreibung, erneut belegt)
+- [ ] **3.4:** Push `origin/master` (Freigabe offen) → dann `/dtb:kit-sync sync` (6 Klasse-A-Updates) — Kontext: Reihenfolge getauscht (erst global, dann Testbett)
+- [ ] **3.3:** Testbett-Vorlauf `dtb-assistant` — Kontext: kein Git + flach → ggf. erst `/dtb:migrate-change-folders`
+- [ ] Optional: `skills/CLAUDE.md`-Verweis in den Gates entschärfen (Pfad dangelt in installierten Kopien; funktional unkritisch)
+- [ ] Nach Abnahme: 5 „Fertig zum Testen"-Features gemeinsam abnehmen + `/dtb:archive`
+- [ ] Folge-Feature: Git-Gates + Soft-Gates (aus Eligibility-Gates ausgelagert)
 
 ---
 
@@ -41,11 +41,11 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-09 | Frontmatter- und Pfad-Hygiene umgesetzt | 12/12, Abnahme A/B/C PASS, global (Lock `8f508b8`) | `2026-07/2026-07-09.md` (Session 6) |
-| 2026-07-09 | CHANGE_FOLDER_MODELL umgesetzt | 15/15, Abnahme 6/6, global (Lock `2dfce5f`) | `2026-07/2026-07-09.md` (Session 5) |
+| 2026-07-10 | Eligibility-Gates Hard-Gates v1 umgesetzt | 11/13, Fixture-Abnahme PASS 10/10 | `2026-07/2026-07-10.md` (Session 1) |
+| 2026-07-09 | Frontmatter- und Pfad-Hygiene umgesetzt | 12/12, global (Lock `8f508b8`) | `2026-07/2026-07-09.md` (Session 6) |
+| 2026-07-09 | CHANGE_FOLDER_MODELL umgesetzt | 15/15, global (Lock `2dfce5f`) | `2026-07/2026-07-09.md` (Session 5) |
 | 2026-07-09 | SKILL_10X_OPTIMIERUNGEN umgesetzt | 15/15, global (Lock `77f7f7f`) | `2026-07/2026-07-09.md` (Session 4) |
-| 2026-07-09 | SPEC_HAERTUNG umgesetzt | 9/9, global (Lock `7554e8d`) | `2026-07/2026-07-09.md` (Session 2/3) |
-| 2026-07-09 | REVIEW_HAERTUNG umgesetzt | 11/11, Abnahme 14/14, global (Lock `971e16a`) | `2026-07/2026-07-09.md` (Session 1) |
+| 2026-07-09 | REVIEW_HAERTUNG umgesetzt | 11/11, global (Lock `971e16a`) | `2026-07/2026-07-09.md` (Session 1) |
 
 ---
 
@@ -57,5 +57,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:idea-review` — die 3 offenen Ideen (#10, #11, #12) triagieren; alternativ die Abnahme vorbereiten: `/dtb:migrate-change-folders` **im Projekt `dtb-assistant`** (reales Testbett), danach dort `/dtb:project-health`.
+**Naechster Befehl:** Push freigeben (`git push origin master`, 4 Commits) → dann `/dtb:kit-sync sync` (Schritt 3.4). Danach Testbett-Vorlauf an `dtb-assistant` (Schritt 3.3).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
