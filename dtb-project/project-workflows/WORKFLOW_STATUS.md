@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Eligibility-Gates | Fertig zum Testen | 13/13 | Abnahme + `/dtb:archive` (oder als Abgenommen markieren) |
+| Eligibility-Gates | Abgenommen | 13/13 | Bei gemeinsamem Abnahme-Durchgang → `/dtb:archive` |
 | Bug: project-init-stale-rules-seed | Offen | — | `/dtb:debug-plan project-init-stale-rules-seed` |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
