@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Eligibility-Gates | In Arbeit | 12/13 | 3.3 Testbett-Verprobung (Block-Test in pkp belegen) |
+| Eligibility-Gates | Fertig zum Testen | 13/13 | Abnahme + `/dtb:archive` (oder als Abgenommen markieren) |
 | Bug: project-init-stale-rules-seed | Offen | — | `/dtb:debug-plan project-init-stale-rules-seed` |
 | Review-Härtung | Fertig zum Testen | 11/11 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Spec-Härtung | Fertig zum Testen | 9/9 | Praxiserprobung, dann Abnahme + `/dtb:archive` |

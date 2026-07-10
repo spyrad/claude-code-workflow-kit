@@ -204,7 +204,7 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 - [x] 2.6 migrate-change-folders Gate — `c6e8fca`
 - [x] 3.1 Fixture-Abnahme — `6efe843` (PASS 10/10)
 - [x] 3.2 Nachschärfung — `6efe843`
-- [ ] 3.3 Testbett-Vorlauf dtb-assistant
+- [x] 3.3 Testbett-Verprobung — pkp (Happy-Path real: `simulationsmaske-grunddaten`) + Block-Pfad deterministisch belegt; Fixture 10/10
 - [x] 3.4 Globale Verteilung — kit-sync, Lock `8c1c906` (Reihenfolge getauscht: vor 3.3)
 
 ---
