@@ -48,11 +48,17 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 
 ### Bug-Report lesen
 - Lies `{config.paths.workflows}/features/{slug}/bug.md`
-- Falls Datei nicht gefunden:
+- **Eligibility-Gate (Fit-Check):** Fehlt das kritische Artefakt `bug.md` → Hard-Gate greift
+  (Konvention: `skills/CLAUDE.md` → „Eligibility-Gates"). Gib den Meldeblock aus und arbeite NICHT
+  weiter, bis der Nutzer die Escape-Hatch bestaetigt:
   ```
-  Bug-Report nicht gefunden: features/{slug}/bug.md
-  Erstelle zuerst einen Bug-Report mit /dtb:bug-report.
+  ⛔ debug-plan braucht einen Bug-Report, der fehlt.
+     Geprueft: features/{slug}/bug.md — nicht gefunden.
+     → Erstelle ihn zuerst: /dtb:bug-report {Bug-Name}   (erzeugt von bug-report)
+
+     Fehlalarm? „trotzdem fortfahren" bestaetigen.
   ```
+  Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (keine Analyse ohne Bug-Report).
 
 ---
 

@@ -68,8 +68,8 @@ wertvollen Schnitt beweisen).
 | `plan-review` | `features/*/plan.md` | `impl-plan` **und** `feature-start` erzeugen `plan.md` → beide nennen, `after`-Match `impl-plan` voran |
 | `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss eindeutig) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss eindeutig) |
-| `archive` | Ziel-Ordner (Argument) existiert | Hinweis: Slug angeben |
-| `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | ehrliche Meldung „nichts zu migrieren" |
+| `archive` | archivierbare Kandidaten vorhanden | kein Redirect (`after: null`) → ehrliche Meldung (nativ vorhanden) |
+| `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | kein Redirect (`after: null`) → ehrliche Meldung (nativ vorhanden) |
 
 ---
 

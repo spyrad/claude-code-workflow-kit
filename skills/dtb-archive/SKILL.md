@@ -77,7 +77,10 @@ Change-Ordner:
 Alles archivieren? (Ja / Auswahl treffen / Abbrechen)
 ```
 
-Falls keine Kandidaten gefunden:
+**Eligibility-Gate (Fit-Check):** Dies IST der Gate von `archive` (Konvention: `skills/CLAUDE.md` →
+„Eligibility-Gates") — kritische Vorbedingung sind **archivierbare Kandidaten**, nicht ein Argument.
+`archive` ist ein Scanner (`after: null`) → kein Redirect-Ziel, nur ehrliche Meldung. Falls keine
+Kandidaten gefunden:
 ```
 Nichts zu archivieren — alle Eintraege sind aktiv.
 ```

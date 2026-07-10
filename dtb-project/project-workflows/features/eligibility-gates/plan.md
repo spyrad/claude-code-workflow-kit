@@ -21,6 +21,10 @@ Vier Spec-Annahmen widerlegt und in der Spec korrigiert:
 - **B** `produces: []` ≠ „kein Gate" → Kriterium „braucht zwingende Eingabe".
 - **C** `feature-plan` braucht `discovery.md` nicht hart (eigener Text: „optional") → Soft-Gate → Folge-Feature.
 - **D** `docs-extract` hat `consumes: []` → Soft-Gate-Sonderfall → Folge-Feature.
+- **E** (Umsetzung 2.5/2.6) `archive` ist ein **Scanner**, kein Argument-Skill (Plan-Annahme „Ziel-Ordner
+  aus Argument" widerlegt) — kritisch = archivierbare Kandidaten; `archive` (Schritt 3) und `migrate`
+  (Schritt 1) haben ihren Gate **bereits nativ** (`after: null` → ehrliche Meldung, kein Redirect).
+  Nur Konventions-Querverweis ergänzt, keine neue Logik.
 
 ## Review-Entscheidungen (eingearbeitet)
 
@@ -38,8 +42,8 @@ Vier Spec-Annahmen widerlegt und in der Spec korrigiert:
 | `plan-review` | `features/*/plan.md` | `impl-plan` + `feature-start` → beide, `impl-plan` voran |
 | `feature-start` | `features/*/plan.md` | `impl-plan` (Selbst-Ausschluss) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (Selbst-Ausschluss) |
-| `archive` | Ziel-Ordner (Argument) | Hinweis: Slug angeben |
-| `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | ehrliche Meldung „nichts zu migrieren" |
+| `archive` | archivierbare Kandidaten vorhanden (Scanner, kein Argument) | kein Redirect (`after: null`) → ehrliche Meldung — **nativ in Schritt 3** |
+| `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | kein Redirect (`after: null`) → ehrliche Meldung — **nativ in Schritt 1** |
 
 ---
 
@@ -192,12 +196,12 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 - [x] 1.1 Gate-Mechanik-Referenztext (inkl. Tie-Break + Escape-Hatch) — `a4ee4ad`
 - [x] 1.2 Einteilungsregel + Zuordnung — `a4ee4ad`
 - [x] 1.3 Redirect-produces-Index verifizieren — `a4ee4ad`
-- [x] 2.1 impl-plan Gate
-- [x] 2.2 plan-review Gate (mehrdeutiger Redirect)
-- [x] 2.3 feature-start Gate
-- [ ] 2.4 debug-plan Gate
-- [ ] 2.5 archive Gate
-- [ ] 2.6 migrate-change-folders Gate
+- [x] 2.1 impl-plan Gate — `5772553`
+- [x] 2.2 plan-review Gate (mehrdeutiger Redirect) — `5772553`
+- [x] 2.3 feature-start Gate — `5772553`
+- [x] 2.4 debug-plan Gate
+- [x] 2.5 archive Gate
+- [x] 2.6 migrate-change-folders Gate
 - [ ] 3.1 Fixture-Abnahme
 - [ ] 3.2 Nachschärfung
 - [ ] 3.3 Testbett-Vorlauf dtb-assistant

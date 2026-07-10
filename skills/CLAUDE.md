@@ -101,8 +101,8 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | `plan-review` | `features/*/plan.md` | `impl-plan` voran, `feature-start` als Alternative |
 | `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
-| `archive` | Ziel-Ordner (Argument) | Hinweis: Slug angeben |
-| `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | ehrliche Meldung „nichts zu migrieren" |
+| `archive` | archivierbare Kandidaten vorhanden | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu archivieren" (nativ in Schritt 3) |
+| `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu migrieren" (nativ in Schritt 1) |
 
 ## Directory & naming conventions
 

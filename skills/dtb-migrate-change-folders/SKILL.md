@@ -39,7 +39,9 @@ Scanne **beide** Bereiche `{config.paths.workflows}/features/` UND `{config.path
 
 - **Lose `.md` in features/ oder archive/** (z.B. `FEATURE_*.md`, `PLAN_*.md`) → flaches Layout,
   Migration noetig — den jeweils flachen Bereich migrieren (features/ in Schritt 4, archive/ in Schritt 5)
-- **Beide Bereiche frei von losen `.md`** (nur Unterordner + evtl. `ARCHIVE_LOG.md`) → bereits migriert:
+- **Beide Bereiche frei von losen `.md`** (nur Unterordner + evtl. `ARCHIVE_LOG.md`) → bereits migriert.
+  Dies IST der Eligibility-Gate von `migrate` (Konvention: `skills/CLAUDE.md` → „Eligibility-Gates") —
+  kritische Vorbedingung sind flache Alt-Dateien; ohne sie kein Redirect (`after: null`), nur ehrliche Meldung:
   ```
   Projekt ist bereits im Change-Folder-Modell — nichts zu migrieren.
   ```
