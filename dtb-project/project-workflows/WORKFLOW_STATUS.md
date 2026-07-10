@@ -14,8 +14,9 @@
 | Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Change-Folder-Modell | Fertig zum Testen | 15/15 | Praxiserprobung, dann Abnahme + `/dtb:archive` |
 | Frontmatter- und Pfad-Hygiene | Fertig zum Testen | 12/12 | Praxiserprobung (plan-review/debug-plan), dann Abnahme + `/dtb:archive` |
+| Eligibility-Gates | In Arbeit | 0/13 | Phase 1 umsetzen: Gate-Mechanik-Referenztext (Schritt 1.1) |
 
-Kein Feature „In Arbeit" — alle 5 sind „Fertig zum Testen".
+**Laufende Arbeit:** Eligibility-Gates (Hard-Gates v1, Plan Reviewed, 3x3 ab Schritt 1.1).
 
 ---
 

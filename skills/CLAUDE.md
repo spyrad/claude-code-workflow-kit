@@ -56,6 +56,54 @@ which files are present + `plan.md` `## Progress` (see `DERIVED_STATE_RULES.md`)
 | `task.md` | Derived from `## Schritte` checklist: Offen, In Arbeit, Erledigt |
 | `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen (maintained by idea skills) |
 
+## Eligibility-Gates
+
+A **schreibender Skill mit zwingender Eingabe** prüft am Eingang, ob sein kritisches Eingabe-Artefakt
+existiert. Fehlt es, verweigert er konstruktiv statt auf falscher Basis weiterzuarbeiten, und verweist
+auf den Skill, der das Artefakt erzeugt. Vorbild: die Test-zuerst-Weigerung von 10x-tdd.
+
+### Einteilungsregel (welcher Skill bekommt ein Gate)
+
+> Ein Skill bekommt ein **Hard-Gate**, wenn er eine **zwingende Eingabe** braucht (ohne die sein
+> Output sinnlos/falsch wäre). Das Kriterium ist **NICHT** `produces` ≠ leer (mehrere Skills
+> schreiben nur, ohne eigenes `produces`-Artefakt) und **NICHT** die Position in `consumes`
+> (die Reihenfolge ist kein verlässlicher Indikator). Das kritische Artefakt wird **pro Skill
+> explizit** benannt — nie positional aus `consumes` abgeleitet.
+
+Read-only-Skills, Entry-Points (`consumes: []`) und Skills ohne zwingende Eingabe bekommen kein
+Hard-Gate. Git-Gates (Git-Zustand statt Artefakt) und Soft-Gates (nur empfohlene Eingabe) sind
+ein geplantes Folge-Feature — diese Konvention trägt sie bereits.
+
+### Fit-Check + Redirect (Mechanik)
+
+1. **Fit-Check:** existiert das explizit benannte kritische Artefakt (Glob-Muster wie
+   `features/*/spec.md` auflösen)? Ja → Skill läuft normal. Nein → Gate greift.
+2. **Redirect-Ableitung** (fehlendes Artefakt → erzeugender Skill), Reihenfolge:
+   1. **Selbst-Ausschluss:** den aktuellen Skill aus den Erzeugern streichen (viele Skills führen
+      ein Artefakt in `produces`, weil sie es nur *aktualisieren*, nicht erstellen).
+   2. **`after`-Match bevorzugen:** bleibt mehr als ein Erzeuger, den nennen, der im `after` des
+      aktuellen Skills steht (der Pipeline-Vorgänger/Ersteller) — als empfohlenes Erstziel voran.
+   3. **verbleibende nennen:** weitere Erzeuger als Alternative anhängen; ist keiner ableitbar →
+      ehrliche Meldung ohne erfundenes Ziel (nie raten).
+3. **Meldeblock:** kurzer Block (Muster wie `feature-discover` Schritt 1), der (a) das fehlende
+   Artefakt + den **geprüften Pfad** ausgibt, (b) den/die Redirect-Befehl(e) nennt, (c) eine
+   **Escape-Hatch** anbietet (bewusster Fortfahren-Weg gegen Fehlalarm — der Nutzer muss ihn
+   explizit wählen, kein stilles Durchrutschen).
+4. **Nicht-Git-Projekt:** ein späterer Git-Zustand-Check (Folge-Feature) wird still übersprungen.
+
+### Verbindliche Hard-Gate-Zuordnung (v1)
+
+Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt):
+
+| Skill | Kritisches Artefakt | Redirect (nach Selbst-Ausschluss + `after`-Match) |
+|-------|---------------------|----------------------------------------------------|
+| `impl-plan` | `features/*/spec.md` | `feature-plan` (`workflow-checkpoint` nur Status-Updater) |
+| `plan-review` | `features/*/plan.md` | `impl-plan` voran, `feature-start` als Alternative |
+| `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
+| `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
+| `archive` | Ziel-Ordner (Argument) | Hinweis: Slug angeben |
+| `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | ehrliche Meldung „nichts zu migrieren" |
+
 ## Directory & naming conventions
 
 - Each skill lives in `skills/dtb-<name>/SKILL.md`
