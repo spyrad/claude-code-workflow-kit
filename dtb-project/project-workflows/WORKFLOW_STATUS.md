@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-10
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-10.md`
+**Letztes Update:** 2026-07-11
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-11.md`
 
 ---
 
@@ -24,7 +24,7 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine (5 Dateien uncommitted → wird in diesem Checkpoint committed) |
-| **Notizen** | Abnahme-Durchgang: Frontmatter-/Pfad-Hygiene + Spec-Härtung heute → Abgenommen (Realtests via pipeline-graph/plan-review + 2 blinde feature-plan-Läufe). 4 Items abnahmereif für `/dtb:archive` |
+| **Notizen** | 2026-07-11 Orientierung + Triage-Auftakt (kein Feature-Fortschritt). idea-review offen (Aktion #11 ausstehend). Neue Idee #14: Codebase-Research-Step in impl-plan/feature-plan verankern (Vorbild 10x). 4 Items weiter abnahmereif für `/dtb:archive` |
 
 ---
 
@@ -34,7 +34,7 @@
 - [ ] `/dtb:archive` der 4 reifen Items — Kontext: Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed
 - [ ] Eligibility-Gates `plan.md`-Drifts nachziehen — Kontext: Reihenfolge 3.3↔3.4 + Testbett `dtb-assistant`→`pkp` (plan-review-Befund)
 - [ ] Skill-10x + Change-Folder-Modell verproben/abnehmen — Kontext: bislang nur teils im Alltag belegt
-- [ ] Idee-Triage #11 (Greenfield), #13 (Fachfragen-Agenda), #10 (kit-sync pinned) → `/dtb:idea-review`
+- [ ] Idee-Triage fortsetzen: #11 (Greenfield, Aktion ausstehend), #13 (Fachfragen-Agenda), #10 (kit-sync pinned), #14 (Codebase-Research-Step) → `/dtb:idea-review`
 
 ---
 
@@ -42,6 +42,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-11 | Codebase-Research-Lücke erfasst (Idee #14) | Research-Step nur in feature-discover; impl-plan/feature-plan ohne angeleiteten Scan | `2026-07/2026-07-11.md` (Session 1) |
 | 2026-07-10 | Abnahme-Durchgang: 2 Features → Abgenommen | Frontmatter-/Pfad-Hygiene + Spec-Härtung via Realtests + 2 blinde feature-plan-Läufe | `2026-07/2026-07-10.md` (Session 5) |
 | 2026-07-10 | Kit-Bug project-init-stale-rules-seed behoben + Abnahme-Test bestanden | Mechanisches Seed-cp über `lock.localPath`, global (Lock `96eb2df`) | `2026-07/2026-07-10.md` (Session 4/5) |
 | 2026-07-10 | Eligibility-Gates abgenommen | 13/13, Fixture 10/10 + pkp-Realtest, global (Lock `8c1c906`) | `2026-07/2026-07-10.md` (Session 1-3) |
@@ -58,5 +59,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive` — Abnahme-/Archiv-Durchgang der 4 reifen Items (Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed). Alternativ zuvor `/dtb:code-review` (macht Review-Härtung abnahmereif, dann 5 Items im Archiv-Durchgang).
+**Naechster Befehl:** `/dtb:idea-review` fortsetzen — Aktion für #11 (Greenfield) steht aus, danach #10/#13/#14. Anschliessend `/dtb:archive` für die 4 reifen Items (Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed); optional zuvor `/dtb:code-review` (macht Review-Härtung abnahmereif → 5 Items im Archiv-Durchgang).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
