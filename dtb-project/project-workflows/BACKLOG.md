@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-13 (S5: Codebase-Research-Step aus Idee #14 spezifiziert und als aktives Feature eingetragen)
+**Letzte Aktualisierung:** 2026-07-13 (S5: Codebase-Research-Step umgesetzt 10/10 + verifiziert → Fertig zum Testen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Codebase-Research-Step | In Arbeit | Hoch | features/codebase-research-step/spec.md | impl-plan stellt vor der Schrittplanung eine verifizierte Ist-Analyse der betroffenen Module sicher — Pläne fußen auf realem Code statt Annahmen |
+| Codebase-Research-Step | Fertig zum Testen | Hoch | features/codebase-research-step/spec.md | impl-plan stellt vor der Schrittplanung eine verifizierte Ist-Analyse der betroffenen Module sicher — Pläne fußen auf realem Code statt Annahmen |
 
 ---
 
