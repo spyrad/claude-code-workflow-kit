@@ -10,7 +10,7 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 
-Kein aktives Feature. Feature-Backlog am 2026-07-13 vollständig abgearbeitet (7 Items abgenommen + archiviert); `features/` leer. Offen nur noch Ideen (#10/#11/#13/#14) → `/dtb:idea-review`.
+**Laufende Arbeit:** Codebase-Research-Step (In Arbeit, Prio Hoch) — angeleiteter Ist-Analyse-Schritt in `impl-plan`. Plan reviewt (REVISE → 3 WARN adressiert), Umsetzung ab Schritt 1.1. Offen sonst nur Ideen (#10/#11/#13).
 
 ---
 
