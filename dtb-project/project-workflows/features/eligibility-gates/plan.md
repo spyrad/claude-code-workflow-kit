@@ -30,7 +30,9 @@ Vier Spec-Annahmen widerlegt und in der Spec korrigiert:
 
 - **B Tie-Break:** mehrdeutiger Redirect → beide Erzeuger nennen, `after`-Match voran (betrifft nur `plan-review`)
 - **D Escape-Hatch:** Meldeblock zeigt geprüften Pfad + bewussten Fortfahren-Weg
-- **E Testbett:** Vorlauf an `dtb-assistant` vor globalem `kit-sync`
+- **E Testbett:** realer Vorlauf am Testbett vor globalem `kit-sync` — final **`pkp`** (git-gestützt) statt
+  `dtb-assistant`. Reihenfolge in der Praxis **getauscht**: globaler `kit-sync` (3.4) lief VOR der Verprobung
+  (3.3), da die Gate-Skills global-shared sind und der Sync vor dem Dogfooding aktiv sein muss.
 
 ---
 
@@ -140,6 +142,10 @@ Jeder der sechs Skills erhält einen Eingangs-Schritt (harte Weigerung + Redirec
 ### Ziel
 Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dann global verteilen.
 
+> **Praxis-Reihenfolge (2026-07-10):** 3.4 (globale Verteilung) lief VOR 3.3 (Testbett-Verprobung) —
+> die Gate-Skills sind global-shared, der `kit-sync` muss vor dem Dogfooding aktiv sein. Nummerierung
+> hier belassen (N.M-Referenzen stabil); die Progress-Belege sind entsprechend datiert.
+
 ### Schritte
 
 #### Schritt 3.1: Fixture-Abnahme (unabhängiger Agent)
@@ -156,10 +162,10 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 
 > **3x3-Block:** Nach Schritt 3.2 → Zusammenfassung + Feedback einholen
 
-#### Schritt 3.3: Testbett-Vorlauf `dtb-assistant`
-- **Zweck:** reale Slug-/Pfad-Situationen prüfen vor globalem Rollout (Entscheidung E)
-- **Dateien:** Zielprojekt `dtb-assistant` (ggf. `/dtb:migrate-change-folders` als Vorbereitung)
-- **Output:** Hard-Gates an echten Change-Ordnern verprobt; Findings zurück in 3.2 falls nötig
+#### Schritt 3.3: Testbett-Vorlauf `pkp`
+- **Zweck:** reale Slug-/Pfad-Situationen prüfen vor/nach globalem Rollout (Entscheidung E)
+- **Dateien:** Zielprojekt `pkp` (git-gestützt, `features/` leer → keine `/dtb:migrate-change-folders` nötig)
+- **Output:** Hard-Gates an echten Change-Ordnern verprobt (Happy-Path + Block-Pfad); Findings zurück in 3.2 falls nötig
 
 #### Schritt 3.4: Globale Verteilung
 - **Zweck:** geänderte Klasse-A-Skills global aktiv
@@ -183,7 +189,7 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 | Scope v1 | alle 14 / nur Hard-Gates | **nur Hard-Gates** | Entscheidung A (Blast-Radius) |
 | Tie-Break mehrdeutiger Redirect | Kontext-nächster / beide nennen | **beide, `after`-Match voran** | Entscheidung B |
 | Fehlalarm-Schutz | ohne / Escape-Hatch | **Escape-Hatch + Pfad** | Entscheidung D |
-| Rollout | direkt global / Testbett-Vorlauf | **Testbett `dtb-assistant`** | Entscheidung E |
+| Rollout | direkt global / Testbett-Vorlauf | **Testbett `pkp`** (final; `dtb-assistant` verworfen — kein Git) | Entscheidung E |
 | Escape-Hatch-Form | `--force`-Argument / Bestätigung | **Bestätigungs-Rückfrage** | konsistent mit interaktivem Skill-Stil, kein neues Argument-Schema (Schritt 2.1) |
 
 ---
@@ -204,8 +210,8 @@ Success Criteria fixture-basiert verifizieren, am realen Testbett verproben, dan
 - [x] 2.6 migrate-change-folders Gate — `c6e8fca`
 - [x] 3.1 Fixture-Abnahme — `6efe843` (PASS 10/10)
 - [x] 3.2 Nachschärfung — `6efe843`
-- [x] 3.3 Testbett-Verprobung — pkp (Happy-Path real: `simulationsmaske-grunddaten`) + Block-Pfad deterministisch belegt; Fixture 10/10
-- [x] 3.4 Globale Verteilung — kit-sync, Lock `8c1c906` (Reihenfolge getauscht: vor 3.3)
+- [x] 3.3 Testbett-Verprobung — pkp Happy-Path real (`simulationsmaske-grunddaten`) + Block-Pfad **real ausgeführt** (blinde Agenten 2026-07-13: `impl-plan`/`plan-review` blocken bei fehlendem spec.md/plan.md mit korrektem Redirect inkl. mehrdeutigem Fall; 2 Positiv-Kontrollen ohne Fehlalarm); Fixture 10/10
+- [x] 3.4 Globale Verteilung — kit-sync, Lock `8c1c906` (Reihenfolge getauscht: lief vor 3.3, s. Phase-3-Notiz)
 
 ---
 

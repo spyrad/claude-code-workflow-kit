@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** `feature-plan`-Specs lösungsneutral und ehrlich halten — technische Lecks vor dem Speichern blockieren, fehlendes Wissen sichtbar parken statt erfinden.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-10 nach 2 blinden feature-plan-Abnahmelaeufen (unabh. Agenten): SC1-8 belegt, Hard-Block feuert bei Leck-Spec, Baustein B parkt fehlendes Wissen in Offene Punkte -->
+**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-10 nach 2 blinden feature-plan-Abnahmelaeufen (unabh. Agenten): SC1-8 belegt, Hard-Block feuert bei Leck-Spec, Baustein B parkt fehlendes Wissen in Offene Punkte. SC-Boxen am 2026-07-13 auf verifizierten Stand gebracht (4 statische SCs mechanisch nachgeprueft). Offen als Produktfrage (kein SC): Alltags-Trigger-Haeufigkeit des Hard-Blocks -->
 
 ---
 
@@ -73,14 +73,14 @@
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] `feature-plan` prüft vor dem Write auf die 7 Leck-Kategorien und bricht bei Treffer ab (Hard-Block)
-- [x] Fund-Meldung nennt je Leck Anker (Sektion `## …` + Zitat, KEINE Zeilennummer — der Text ist beim Prüfen noch nicht gespeichert) + Kategorie + lösungsneutralen Umformulierungs-Hinweis
-- [ ] Override mit Begründung ist möglich und dokumentiert dessen Verhalten
-- [ ] `[TODO: …]`-Muster ist vollständig durch `## Offene Punkte` ersetzt (Schritt 6 der SKILL.md)
-- [ ] `## Offene Punkte` verwendet dieselbe Benennung wie `feature-discover`; „— keine —" bei fehlenden Lücken
-- [ ] `feature-plan` bleibt kompakt (Richtwert: keine Verdopplung, < ~280 Zeilen analog REVIEW_HAERTUNG)
-- [ ] Abnahme an einem Fixture: eine Spec mit bewusst platzierten Lecks + Wissenslücken wird korrekt geblockt bzw. in Offene Punkte überführt
-- [ ] Geänderter Skill via `dtb:kit-sync` global synchronisiert
+- [x] `feature-plan` prüft vor dem Write auf die 7 Leck-Kategorien und bricht bei Treffer ab (Hard-Block) — blinder Lauf 2 (2026-07-10): 21 Funde über alle 7 Kategorien, Write abgebrochen
+- [x] Fund-Meldung nennt je Leck Anker (Sektion `## …` + Zitat, KEINE Zeilennummer — der Text ist beim Prüfen noch nicht gespeichert) + Kategorie + lösungsneutralen Umformulierungs-Hinweis — blinder Lauf 2; SC2-Wortlaut in S5 korrigiert
+- [x] Override mit Begründung ist möglich und dokumentiert dessen Verhalten — blinder Lauf 2 (2026-07-10): Override-Mechanik korrekt
+- [x] `[TODO: …]`-Muster ist vollständig durch `## Offene Punkte` ersetzt (Schritt 6 der SKILL.md) — verifiziert 2026-07-13: einziges `[TODO]`-Vorkommen ist der Erklärsatz „Kein `[TODO]` mehr"
+- [x] `## Offene Punkte` verwendet dieselbe Benennung wie `feature-discover`; „— keine —" bei fehlenden Lücken — verifiziert 2026-07-13 (SKILL.md Z. 93 + „— keine —" Z. 95)
+- [x] `feature-plan` bleibt kompakt (Richtwert: keine Verdopplung, < ~280 Zeilen analog REVIEW_HAERTUNG) — verifiziert 2026-07-13: 239 Zeilen
+- [x] Abnahme an einem Fixture: eine Spec mit bewusst platzierten Lecks + Wissenslücken wird korrekt geblockt bzw. in Offene Punkte überführt — blinde Läufe 1+2 (2026-07-10)
+- [x] Geänderter Skill via `dtb:kit-sync` global synchronisiert — verifiziert 2026-07-13: Repo == global (`42ea4535`), im `dtb-lock.json` geführt
 
 ---
 

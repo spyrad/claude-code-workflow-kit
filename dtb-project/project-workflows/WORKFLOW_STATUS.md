@@ -26,7 +26,7 @@ Kein Feature „In Arbeit" — alle Pläne vollständig; 5 Items archivreif.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-13: Review-Härtung an echtem pkp-Code praxiserprobt → Resume-Trigger-Bug gefunden (bare invocation überschattete Marker-Wiederaufnahme), gefixt (`db0d03f`), global verteilt + gegenverifiziert → Abgenommen. Lektion L5. |
+| **Notizen** | 2026-07-13 (S2): Pre-Archiv-Härtung. Eligibility-Gates — Block-Pfad real ausgeführt (4 blinde Agenten, inkl. mehrdeutigem Redirect + 2 Positiv-Kontrollen) + Drift `dtb-assistant`→`pkp`/Reihenfolge 3.3↔3.4 bereinigt. Spec-Härtung — SC1–8 auf verifizierten Stand abgehakt (4 statische SCs mechanisch geprüft). Kein Kit-Skill berührt. Offen als Produktfrage (kein SC): Alltags-Trigger-Häufigkeit des Spec-Härtung-Hard-Blocks. |
 
 ---
 
@@ -34,7 +34,7 @@ Kein Feature „In Arbeit" — alle Pläne vollständig; 5 Items archivreif.
 
 - [ ] `/dtb:archive` der 5 reifen Items — Review-Härtung, Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed
 - [ ] Skill-10x + Change-Folder-Modell verproben/abnehmen — Kontext: bislang nur teils im Alltag belegt
-- [ ] Idee-Triage fortsetzen: #11 (Greenfield, Aktion ausstehend), #10 (kit-sync pinned), #13 (Fachfragen-Agenda), #14 (Codebase-Research-Step) → `/dtb:idea-review`
+- [ ] Idee-Triage fortsetzen: #11 (Greenfield), #10 (kit-sync pinned), #13 (Fachfragen-Agenda), #14 (Codebase-Research-Step) → `/dtb:idea-review`
 
 ---
 
@@ -42,8 +42,8 @@ Kein Feature „In Arbeit" — alle Pläne vollständig; 5 Items archivreif.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-13 | Pre-Archiv-Härtung Eligibility + Spec-Härtung | Eligibility: Block-Pfad real ausgeführt (blinde Agenten, mehrdeutiger Redirect + 2 Fehlalarm-Kontrollen) + Drift nachgezogen. Spec-Härtung: SC1–8 verifiziert abgehakt | `2026-07/2026-07-13.md` (Session 2) |
 | 2026-07-13 | Review-Härtung abgenommen | code-review real praxiserprobt (pkp); Resume-Trigger-Bug gefunden+gefixt (`db0d03f`), global verteilt, gegenverifiziert; Lektion L5 | `2026-07/2026-07-13.md` (Session 1) |
-| 2026-07-11 | Codebase-Research-Lücke erfasst (Idee #14) | Research-Step nur in feature-discover; impl-plan/feature-plan ohne angeleiteten Scan | `2026-07/2026-07-11.md` (Session 1) |
 | 2026-07-10 | Abnahme-Durchgang: 2 Features → Abgenommen | Frontmatter-/Pfad-Hygiene + Spec-Härtung via Realtests + 2 blinde feature-plan-Läufe | `2026-07/2026-07-10.md` (Session 5) |
 | 2026-07-10 | Kit-Bug project-init-stale-rules-seed behoben | Mechanisches Seed-cp über `lock.localPath`, global (Lock `96eb2df`) | `2026-07/2026-07-10.md` (Session 4/5) |
 | 2026-07-10 | Eligibility-Gates abgenommen | 13/13, Fixture 10/10 + pkp-Realtest, global (Lock `8c1c906`) | `2026-07/2026-07-10.md` (Session 1-3) |

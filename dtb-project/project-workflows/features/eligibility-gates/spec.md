@@ -41,7 +41,7 @@ wertvollen Schnitt beweisen).
 - Korrigierte Einteilungsregel als Fixpunkt (siehe unten) — trägt auch die späteren Git-/Soft-Gates
 
 **Abnahme + Verteilung**
-- Fixture-Abnahme, dann **Vorlauf am realen Testbett `dtb-assistant`**, dann globaler `dtb:kit-sync`
+- Fixture-Abnahme, **Vorlauf am realen Testbett `pkp`** (git-gestützt) und globaler `dtb:kit-sync` (Sync lief vor der Verprobung, da Gate-Skills global-shared)
 
 ### Nicht enthalten (Folge-Feature)
 - **Git-Gates** (`code-review`, `build-check`) — eigene Mechanik (Git-Zustand statt Artefakt) + Nicht-Git-Fallback
@@ -81,7 +81,7 @@ wertvollen Schnitt beweisen).
 | Fehlalarm blockt legitime Arbeit projektübergreifend | Mittel | Hoch | **Escape-Hatch** (bewusster Fortfahren-Weg) + geprüfter Pfad im Meldeblock |
 | Mehrdeutiger Redirect (`plan.md` von zwei Skills erzeugt) | Hoch (1 Fall) | Niedrig | Beide nennen, `after`-Match voran — keine fragile zweite Ableitungsregel |
 | Gate-Logik in 6 Prompts dupliziert → Drift | Mittel | Mittel | Ein Referenztext in `skills/CLAUDE.md`, jeder Skill verweist darauf |
-| Globaler Big-Bang-Rollback nur global | Niedrig | Hoch | Testbett-Vorlauf `dtb-assistant`; `kit-sync` lock-basiert + per `git revert` reversibel |
+| Globaler Big-Bang-Rollback nur global | Niedrig | Hoch | Testbett-Vorlauf `pkp`; `kit-sync` lock-basiert + per `git revert` reversibel |
 | Gate feuert fälschlich bei Resume-Läufen (`feature-discover`-Marker etc.) | Niedrig | Mittel | Abnahme prüft Resume-Marker-Interaktion explizit |
 
 ---
@@ -108,7 +108,7 @@ wertvollen Schnitt beweisen).
 - [ ] Der Meldeblock zeigt den geprüften Pfad; ein bewusster Fortfahren-Weg (Escape-Hatch) existiert
 - [ ] Ein Resume-Lauf wird nicht fälschlich gegated
 - [ ] Einteilungsregel + Konvention + Zuordnung stehen in `skills/CLAUDE.md`
-- [ ] Gates am Testbett `dtb-assistant` verprobt, danach per `dtb:kit-sync` global verteilt
+- [ ] Gates am Testbett `pkp` verprobt (Happy-Path + real ausgeführter Block-Pfad), per `dtb:kit-sync` global verteilt
 
 ---
 

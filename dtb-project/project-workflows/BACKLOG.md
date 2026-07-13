@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-13 (Review-Härtung abgenommen — Resume-Trigger-Bug in Praxis gefunden + gefixt, global verteilt, Lock `db0d03f`)
+**Letzte Aktualisierung:** 2026-07-13 (S2: Pre-Archiv-Härtung — Eligibility Block-Test + Drift, Spec-Härtung SC1–8 verifiziert abgehakt; Statusfelder unverändert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
