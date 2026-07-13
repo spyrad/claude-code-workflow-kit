@@ -94,8 +94,8 @@ cd <dein-projekt>
 | `/dtb:project-init` | Initialize DTB workflow in a project |
 | `/dtb:project-health` | Project linting and consistency checks |
 | `/dtb:project-team` | Team documentation |
-| `/dtb:greenfield-prd` | Generate product requirements for new projects |
-| `/dtb:greenfield-roadmap` | Create project roadmap for new projects |
+| `/dtb:greenfield-prd` | Two-mode: author `PRD-MVP.md` via a product interview when missing, else summarize it |
+| `/dtb:greenfield-roadmap` | Two-mode: author `ROADMAP.md` (+`TECH-STACK.md`) from the PRD via a lean interview, else summarize it |
 | `/dtb:docs-extract` | Scan input/ folder, extract facts from PDFs/docs, create thematic MDs |
 | `/dtb:lesson` | Capture a reusable lesson append-only into `lessons.md`, read as a prior by plan/review skills |
 | `/dtb:pipeline-graph` | Generate interactive HTML overview of entire skill pipeline |
