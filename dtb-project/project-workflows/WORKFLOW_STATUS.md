@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-11
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-11.md`
+**Letztes Update:** 2026-07-13
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-13.md`
 
 ---
 
@@ -13,9 +13,11 @@
 | Eligibility-Gates | Abgenommen | 13/13 | `/dtb:archive` |
 | Frontmatter- und Pfad-Hygiene | Abgenommen | 12/12 | `/dtb:archive` |
 | Spec-Härtung | Abgenommen | 9/9 | `/dtb:archive` |
-| Review-Härtung | Fertig zum Testen | 11/11 | `/dtb:code-review` (belegt SC5–7) |
+| Review-Härtung | Abgenommen | 11/11 | `/dtb:archive` |
 | Skill-10x-Optimierungen | Fertig zum Testen | 15/15 | Verproben oder pragmatisch abnehmen |
 | Change-Folder-Modell | Fertig zum Testen | 15/15 | Verproben oder pragmatisch abnehmen |
+
+Kein Feature „In Arbeit" — alle Pläne vollständig; 5 Items archivreif.
 
 ---
 
@@ -23,18 +25,16 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Blocker** | Keine (5 Dateien uncommitted → wird in diesem Checkpoint committed) |
-| **Notizen** | 2026-07-11 Orientierung + Triage-Auftakt (kein Feature-Fortschritt). idea-review offen (Aktion #11 ausstehend). Neue Idee #14: Codebase-Research-Step in impl-plan/feature-plan verankern (Vorbild 10x). 4 Items weiter abnahmereif für `/dtb:archive` |
+| **Blocker** | Keine |
+| **Notizen** | 2026-07-13: Review-Härtung an echtem pkp-Code praxiserprobt → Resume-Trigger-Bug gefunden (bare invocation überschattete Marker-Wiederaufnahme), gefixt (`db0d03f`), global verteilt + gegenverifiziert → Abgenommen. Lektion L5. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:code-review`-Lauf für Review-Härtung — Kontext: belegt SC5–7 (Severity×Impact, Cap 10, Resume-Marker), dann abnahmereif
-- [ ] `/dtb:archive` der 4 reifen Items — Kontext: Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed
-- [ ] Eligibility-Gates `plan.md`-Drifts nachziehen — Kontext: Reihenfolge 3.3↔3.4 + Testbett `dtb-assistant`→`pkp` (plan-review-Befund)
+- [ ] `/dtb:archive` der 5 reifen Items — Review-Härtung, Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed
 - [ ] Skill-10x + Change-Folder-Modell verproben/abnehmen — Kontext: bislang nur teils im Alltag belegt
-- [ ] Idee-Triage fortsetzen: #11 (Greenfield, Aktion ausstehend), #13 (Fachfragen-Agenda), #10 (kit-sync pinned), #14 (Codebase-Research-Step) → `/dtb:idea-review`
+- [ ] Idee-Triage fortsetzen: #11 (Greenfield, Aktion ausstehend), #10 (kit-sync pinned), #13 (Fachfragen-Agenda), #14 (Codebase-Research-Step) → `/dtb:idea-review`
 
 ---
 
@@ -42,12 +42,11 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-13 | Review-Härtung abgenommen | code-review real praxiserprobt (pkp); Resume-Trigger-Bug gefunden+gefixt (`db0d03f`), global verteilt, gegenverifiziert; Lektion L5 | `2026-07/2026-07-13.md` (Session 1) |
 | 2026-07-11 | Codebase-Research-Lücke erfasst (Idee #14) | Research-Step nur in feature-discover; impl-plan/feature-plan ohne angeleiteten Scan | `2026-07/2026-07-11.md` (Session 1) |
 | 2026-07-10 | Abnahme-Durchgang: 2 Features → Abgenommen | Frontmatter-/Pfad-Hygiene + Spec-Härtung via Realtests + 2 blinde feature-plan-Läufe | `2026-07/2026-07-10.md` (Session 5) |
-| 2026-07-10 | Kit-Bug project-init-stale-rules-seed behoben + Abnahme-Test bestanden | Mechanisches Seed-cp über `lock.localPath`, global (Lock `96eb2df`) | `2026-07/2026-07-10.md` (Session 4/5) |
+| 2026-07-10 | Kit-Bug project-init-stale-rules-seed behoben | Mechanisches Seed-cp über `lock.localPath`, global (Lock `96eb2df`) | `2026-07/2026-07-10.md` (Session 4/5) |
 | 2026-07-10 | Eligibility-Gates abgenommen | 13/13, Fixture 10/10 + pkp-Realtest, global (Lock `8c1c906`) | `2026-07/2026-07-10.md` (Session 1-3) |
-| 2026-07-09 | Frontmatter- und Pfad-Hygiene umgesetzt | 12/12, global (Lock `8f508b8`) | `2026-07/2026-07-09.md` (Session 6) |
-| 2026-07-09 | CHANGE_FOLDER_MODELL umgesetzt | 15/15, global (Lock `2dfce5f`) | `2026-07/2026-07-09.md` (Session 5) |
 
 ---
 
@@ -59,5 +58,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:idea-review` fortsetzen — Aktion für #11 (Greenfield) steht aus, danach #10/#13/#14. Anschliessend `/dtb:archive` für die 4 reifen Items (Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed); optional zuvor `/dtb:code-review` (macht Review-Härtung abnahmereif → 5 Items im Archiv-Durchgang).
+**Naechster Befehl:** `/dtb:archive` — 5 reife Items archivieren (Review-Härtung, Eligibility-Gates, Frontmatter-/Pfad-Hygiene, Spec-Härtung, Bug project-init-stale-rules-seed). Danach `/dtb:idea-review` (#11/#10/#13/#14) oder Skill-10x/Change-Folder verproben.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.

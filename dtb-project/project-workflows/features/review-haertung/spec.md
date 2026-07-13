@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-08
 **Ziel:** plan-review und code-review liefern belastbare, mechanisch geprüfte Verdikte statt weicher Diskussions-Prosa — Pläne werden gegen die echte Codebase verifiziert, Findings priorisiert gecappt und Reviews wiederaufnehmbar.
 **Priorität:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen (2026-07-13) <!-- expliziter Zustand §1.2: bewusste Abnahme nach Praxiserprobung (pkp) + unabhaengiger Fixture-Abnahme. Resume-Trigger-Bug in Praxis gefunden + gefixt (db0d03f, global verteilt) -->
 
 ---
 
@@ -73,16 +73,16 @@ Die beiden Review-Skills vertrauen heute darauf, dass die Agenten-Diskussion Pro
 
 **Das Feature gilt als erfolgreich wenn:**
 
-- [ ] **SC1 Grounding:** plan-review prüft Codebase-Referenzen eines Fixture-Plans; eine eingebaute Fake-Referenz wird gemeldet, echte Referenzen erzeugen genau eine stille Erfolgszeile
-- [ ] **SC2 Challenger-Pass:** ein eingebauter Widerspruch und ein Promise-Gap im Fixture-Plan werden als Findings gemeldet
-- [ ] **SC3 Verdikte:** Review-Zusammenfassung enthält Verdikt-Matrix (Agent × Dimension, PASS/WARN/FAIL) + Gesamt-Verdikt nach fester Regel — korrekt bei 3 UND 4 aktiven Agenten
-- [ ] **SC4 Randfall Grounding-leer:** Plan ohne prüfbare Referenzen → `🔎 Grounding: keine prüfbaren Referenzen`, kein Abbruch
-- [ ] **SC5 Doppelachse + Cap:** code-review-Report priorisiert nach Severity×Impact; bei >10 Findings werden Top 10 gezeigt + Überlauf-Zeile
-- [ ] **SC6 Fix-Optionen:** jedes Finding hat mindestens eine Fix-Option mit Tradeoff und Confidence
-- [ ] **SC7 Resume:** abgebrochenes code-review gibt Resume-Marker aus; Wiederaufnahme mit Marker überspringt triagierte Findings; SHA-Abweichung erzeugt Warnung + Rückfrage
-- [ ] **SC8 Regression:** Betriebs-Wächter-Aktivierung (2c) und Lektionen-Prior (2b) funktionieren unverändert (beide Skills)
-- [ ] **SC9 Abnahme:** isolierte Fixture-Abnahme durch unabhängigen Agenten ohne Session-Kenntnis bestanden
-- [ ] **SC10 Verteilung:** `dtb:kit-sync` check → sync durchgeführt, Lock aktualisiert
+- [x] **SC1 Grounding:** plan-review prüft Codebase-Referenzen eines Fixture-Plans; eine eingebaute Fake-Referenz wird gemeldet, echte Referenzen erzeugen genau eine stille Erfolgszeile
+- [x] **SC2 Challenger-Pass:** ein eingebauter Widerspruch und ein Promise-Gap im Fixture-Plan werden als Findings gemeldet
+- [x] **SC3 Verdikte:** Review-Zusammenfassung enthält Verdikt-Matrix (Agent × Dimension, PASS/WARN/FAIL) + Gesamt-Verdikt nach fester Regel — korrekt bei 3 UND 4 aktiven Agenten
+- [x] **SC4 Randfall Grounding-leer:** Plan ohne prüfbare Referenzen → `🔎 Grounding: keine prüfbaren Referenzen`, kein Abbruch
+- [x] **SC5 Doppelachse + Cap:** code-review-Report priorisiert nach Severity×Impact; bei >10 Findings werden Top 10 gezeigt + Überlauf-Zeile
+- [x] **SC6 Fix-Optionen:** jedes Finding hat mindestens eine Fix-Option mit Tradeoff und Confidence
+- [x] **SC7 Resume:** abgebrochenes code-review gibt Resume-Marker aus; Wiederaufnahme mit Marker überspringt triagierte Findings; SHA-Abweichung erzeugt Warnung + Rückfrage
+- [x] **SC8 Regression:** Betriebs-Wächter-Aktivierung (2c) und Lektionen-Prior (2b) funktionieren unverändert (beide Skills)
+- [x] **SC9 Abnahme:** isolierte Fixture-Abnahme durch unabhängigen Agenten ohne Session-Kenntnis bestanden
+- [x] **SC10 Verteilung:** `dtb:kit-sync` check → sync durchgeführt, Lock aktualisiert
 
 ---
 
