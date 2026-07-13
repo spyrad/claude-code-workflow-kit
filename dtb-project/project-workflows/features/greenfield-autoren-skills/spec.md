@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-13
 **Ziel:** `greenfield-prd` und `greenfield-roadmap` werden von read-only-Reports zu Autoren-Skills, die `PRD-MVP.md`, `TECH-STACK.md` und `ROADMAP.md` im Dialog erzeugen — Greenfield-Projekte bekommen damit einen echten Einstiegspfad ins Kit.
 **Prioritaet:** Hoch
-**Status:** Geplant <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige (alle Progress-Boxen abgehakt). Zweistufige Abnahme (Entscheidung G): echte Abnahme erst beim ersten realen Greenfield-Vorhaben (PRD-Interview → TECH-STACK → ROADMAP an echtem Projekt); bis dahin unabgenommen. Sync: dtb:workflow-checkpoint (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -122,15 +122,15 @@ in die Derived-State-Statusableitung.
 
 **Das Feature gilt als erfolgreich wenn:**
 
-- [ ] SC1: `greenfield-prd` ohne vorhandenes `PRD-MVP.md` führt das mehrphasige Interview (mit Resume-Marker, unterbrech- und wiederaufnehmbar ohne Doppelfragen) und erzeugt ein `PRD-MVP.md`, in dem fehlende Inhalte als `## Open Questions` stehen statt erfunden zu sein
-- [ ] SC2: `greenfield-prd` mit vorhandenem `PRD-MVP.md` liefert den Report-Modus; Neuerzeugung nur auf expliziten Wunsch und dann mit Kollisions-Dialog inkl. Archivierung nach `project-strategy/archive/YYYY-MM-DD-PRD-MVP.md` (Zweitlauf → `-2`)
-- [ ] SC3: Das PRD-Interview bietet vorhandene `project-strategy/*.md` und INBOX-Ideen als Quellmaterial an; das erzeugte PRD besteht den Technical-Leak-Lint (technikfreie Probe), technische Nennungen werden nach `TECH-STACK.md` umgeleitet
-- [ ] SC4: `greenfield-roadmap` ohne `PRD-MVP.md` blockt mit Redirect auf `greenfield-prd` (Gate-Muster inkl. Escape-Hatch); mit hohlem PRD warnt der Readiness-Check unter Nennung der fehlenden Signale und erlaubt „Trotzdem fortfahren"
-- [ ] SC5: Fehlt `TECH-STACK.md`, führt die Roadmap die kompakte Stack-Besprechung und schreibt das Living Doc; existiert es, erscheint eine sichtbare Skip-Zeile und es wird konsumiert
-- [ ] SC6: Die erzeugte `ROADMAP.md` enthält vertikale Slices in Dependency-Reihenfolge mit §4-konformen Change-IDs, ohne Zeitschätzungen (externe Termine als Constraints erlaubt); das Lean-Interview stellt höchstens 3 Ankerfragen, jede mit „(Recommended)"-Option; Hand-off ist genau ein empfohlener `/dtb:feature-discover <change-id>`-Befehl
-- [ ] SC7: Selbst-Review vor dem Schreiben bricht bei Struktur- oder Lint-Verstoß ab, ohne zu schreiben, und meldet den konkreten Befund (Negativ-Test mit präpariertem Verstoß)
-- [ ] SC8: `DERIVED_STATE_RULES.md` §5 definiert die Roadmap-Ableitung (Change-ID = Slug); `workflow-checkpoint` synchronisiert die als abgeleitete Anzeige markierte Statusspalte, ein abgeschlossener Change (`archive/<slug>/`) erscheint nach dem nächsten Checkpoint als `done`
-- [ ] SC9: Beide SKILL.md ≤ ~350 Zeilen, `disable-model-invocation: true`, `produces` korrekt befüllt; pipeline-graph-Legende kennt `TECH-STACK.md`; beidseitige Gegen-Hinweise zur Format-Kopplung vorhanden; README/CLAUDE.md-Beschreibungen aktualisiert
+- [x] SC1: `greenfield-prd` ohne vorhandenes `PRD-MVP.md` führt das mehrphasige Interview (mit Resume-Marker, unterbrech- und wiederaufnehmbar ohne Doppelfragen) und erzeugt ein `PRD-MVP.md`, in dem fehlende Inhalte als `## Open Questions` stehen statt erfunden zu sein — **Beleg:** Blindlauf fx-a: Autoren-Modus, Resume-Marker `a…f…done`, NFRs/Abhängigkeiten/Risiken als nummerierte Open Questions (nichts erfunden)
+- [x] SC2: `greenfield-prd` mit vorhandenem `PRD-MVP.md` liefert den Report-Modus; Neuerzeugung nur auf expliziten Wunsch und dann mit Kollisions-Dialog inkl. Archivierung nach `project-strategy/archive/YYYY-MM-DD-PRD-MVP.md` (Zweitlauf → `-2`) — **Beleg:** Blindlauf fx-b: Report-Modus wegen Marker `done`; bei Neuerzeugungs-Wunsch Kollisions-Dialog, Ziel `…/archive/2026-07-13-PRD-MVP.md`, kein stilles Überschreiben
+- [x] SC3: Das PRD-Interview bietet vorhandene `project-strategy/*.md` und INBOX-Ideen als Quellmaterial an; das erzeugte PRD besteht den Technical-Leak-Lint (technikfreie Probe), technische Nennungen werden nach `TECH-STACK.md` umgeleitet — **Beleg:** Blindlauf fx-a: MARKTANALYSE.md + INBOX #1/#2 angeboten; React/PostgreSQL nicht im PRD (Leak-Lint sauber, Redirect)
+- [x] SC4: `greenfield-roadmap` ohne `PRD-MVP.md` blockt mit Redirect auf `greenfield-prd` (Gate-Muster inkl. Escape-Hatch); mit hohlem PRD warnt der Readiness-Check unter Nennung der fehlenden Signale und erlaubt „Trotzdem fortfahren" — **Beleg:** Blindläufe fx-d (Hard-Gate + Redirect + Escape, kein Write) und fx-e (Readiness 0/4, fehlende Signale konkret benannt, kein Write)
+- [x] SC5: Fehlt `TECH-STACK.md`, führt die Roadmap die kompakte Stack-Besprechung und schreibt das Living Doc; existiert es, erscheint eine sichtbare Skip-Zeile und es wird konsumiert — **Beleg:** Blindläufe fx-g (Besprechung → TECH-STACK.md geschrieben) und fx-f (Skip-Zeile, Datei byte-identisch unverändert)
+- [x] SC6: Die erzeugte `ROADMAP.md` enthält vertikale Slices in Dependency-Reihenfolge mit §4-konformen Change-IDs, ohne Zeitschätzungen (externe Termine als Constraints erlaubt); das Lean-Interview stellt höchstens 3 Ankerfragen, jede mit „(Recommended)"-Option; Hand-off ist genau ein empfohlener `/dtb:feature-discover <change-id>`-Befehl — **Beleg:** Blindlauf fx-g: 3 Ankerfragen je (Recommended), 3 Slices + 2 Foundations mit kebab-case-Change-IDs, keine Zeitschätzung, genau ein Hand-off `/dtb:feature-discover angebot-erstellen`
+- [x] SC7: Selbst-Review vor dem Schreiben bricht bei Struktur- oder Lint-Verstoß ab, ohne zu schreiben, und meldet den konkreten Befund (Negativ-Test mit präpariertem Verstoß) — **Beleg:** Blindlauf fx-h: 3 Leaks (PostgreSQL/REST/React) gemeldet, Write abgebrochen, keine Datei geschrieben
+- [x] SC8: `DERIVED_STATE_RULES.md` §5 definiert die Roadmap-Ableitung (Change-ID = Slug); `workflow-checkpoint` synchronisiert die als abgeleitete Anzeige markierte Statusspalte, ein abgeschlossener Change (`archive/<slug>/`) erscheint nach dem nächsten Checkpoint als `done` — **Beleg:** Blindlauf fx-i: Spalte synchronisiert `features/`→in-progress, `archive/`→done, kein Ordner→Doc-Status `ready`
+- [x] SC9: Beide SKILL.md ≤ ~350 Zeilen, `disable-model-invocation: true`, `produces` korrekt befüllt; pipeline-graph-Legende kennt `TECH-STACK.md`; beidseitige Gegen-Hinweise zur Format-Kopplung vorhanden; README/CLAUDE.md-Beschreibungen aktualisiert — **Beleg:** statische Prüfung 4.2: prd 208 Z. / roadmap 193 Z., Frontmatter korrekt, Gegen-Hinweise beidseitig (Grep), Legende + README/CLAUDE.md aktualisiert
 
 ---
 
