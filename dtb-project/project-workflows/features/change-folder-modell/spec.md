@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** Jeder Change bekommt einen eigenen Ordner (`features/<kebab-slug>/`) mit fixen Dateinamen statt flacher UPPER_SNAKE-Dateien mit fragilem Namens-Pairing.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-13: SC1-3 live dogfooded (feature-discover-Ordneranlage, resume/backlog-Ableitung, archive git-mv), SC4 Dogfood-Migration 080b556, SC5/SC6 verhaltensecht via 3 blinde Multi-Varianten-Agenten (Git-Happy+Idempotenz, Non-Git+Backup, Kollisions-/uncommitted-Abbruch), SC7 Sweep, SC8 Budget -->
 
 ---
 
@@ -73,14 +73,14 @@ nur ihre Abnahme ist offen -> alle 4 gemeinsam auf migriertem `dtb-assistant` ab
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] Ein neuer Change wird von den Schreiber-Skills als `features/<slug>/`-Ordner mit fixen Dateinamen angelegt
-- [ ] Alle Leser/Ableiter-Skills leiten Status korrekt aus dem Ordner-Layout ab (gleiche Derived-State-Semantik wie heute)
-- [ ] `archive` verschiebt einen Change als ganzen Ordner (`git mv`), kein Pairing-Drift mehr moeglich
-- [ ] Die 3 aktiven Features + 4 Archiv-Eintraege dieses Kits sind fehlerfrei ins Ordner-Layout migriert
-- [ ] Der Migrations-Helfer konvertiert ein flaches Fixture-Projekt idempotent, meldet ungepaarte/unmigrierbare Dateien als Drift und bricht bei Kollision/uncommittetem Stand sauber ab
-- [ ] Der Helfer migriert ein **Nicht-Git-Projekt** korrekt (Move + Pflicht-Backup) und raet bei Fremd-Namen (`IMPL_STATUS_*`, `WORKFLOW_*`, nicht-praefigiert) nichts
-- [ ] `DERIVED_STATE_RULES.md` + `CLAUDE.md` beschreiben ausschliesslich das Ordner-Modell; keine Skill referenziert mehr das flache Pairing
-- [ ] Alle geaenderten Skills bleiben < 500 Zeilen
+- [x] Ein neuer Change wird von den Schreiber-Skills als `features/<slug>/`-Ordner mit fixen Dateinamen angelegt — live belegt 2026-07-13 (feature-discover legte `features/passwort-reset-per-e-mail/` in der skill-10x-Verprobung an)
+- [x] Alle Leser/Ableiter-Skills leiten Status korrekt aus dem Ordner-Layout ab — live belegt 2026-07-13 (workflow-resume + backlog-status leiteten aus `features/*/plan.md` ab, ohne Konflikt)
+- [x] `archive` verschiebt einen Change als ganzen Ordner (`git mv`), kein Pairing-Drift mehr moeglich — live belegt 2026-07-13 (5 Ordner per git mv archiviert, von Git als Renames getrackt)
+- [x] Die 3 aktiven Features + 4 Archiv-Eintraege dieses Kits sind fehlerfrei ins Ordner-Layout migriert — Dogfood-Migration `080b556`; heute verifiziert (alle Changes + Archiv-Eintraege sind Ordner)
+- [x] Der Migrations-Helfer konvertiert ein flaches Fixture-Projekt idempotent, meldet unmigrierbare Dateien als Drift und bricht bei Kollision/uncommittetem Stand sauber ab — 2026-07-13 blind verprobt: M1 (Git-Happy: git-mv-Renames, Teil-Paarungen, Drift-Report, idempotenter No-Op-Zweitlauf) + M3 (Kollision + uncommitted → fail-safe Abbruch vor jeder Schreibaktion)
+- [x] Der Helfer migriert ein **Nicht-Git-Projekt** korrekt (Move + Pflicht-Backup) und raet bei Fremd-Namen (`IMPL_STATUS_*`, `WORKFLOW_*`, nicht-praefigiert, `bugs/`) nichts — 2026-07-13 blind verprobt M2 (Backup `.migration-backup-2026-07-13/` + Warnung + Dateisystem-Move; Fremd-Namen liegen gelassen + im Drift-Report)
+- [x] `DERIVED_STATE_RULES.md` + `CLAUDE.md` beschreiben ausschliesslich das Ordner-Modell; keine Skill referenziert mehr das flache Pairing — 2026-07-13 Sweep: 8 Treffer, alle Deprecation-/Migrations-Hinweise (kein operatives Pairing)
+- [x] Alle geaenderten Skills bleiben < 500 Zeilen — 2026-07-13 geprüft (Maximum: pipeline-graph 498)
 
 ---
 

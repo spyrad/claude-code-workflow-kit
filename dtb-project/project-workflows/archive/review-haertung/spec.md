@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-08
 **Ziel:** plan-review und code-review liefern belastbare, mechanisch geprüfte Verdikte statt weicher Diskussions-Prosa — Pläne werden gegen die echte Codebase verifiziert, Findings priorisiert gecappt und Reviews wiederaufnehmbar.
 **Priorität:** Hoch
-**Status:** Abgenommen (2026-07-13) <!-- expliziter Zustand §1.2: bewusste Abnahme nach Praxiserprobung (pkp) + unabhaengiger Fixture-Abnahme. Resume-Trigger-Bug in Praxis gefunden + gefixt (db0d03f, global verteilt) -->
+**Status:** Abgeschlossen (archiviert 2026-07-13; abgenommen 2026-07-13) <!-- expliziter Zustand §1.2: bewusste Abnahme nach Praxiserprobung (pkp) + unabhaengiger Fixture-Abnahme. Resume-Trigger-Bug in Praxis gefunden + gefixt (db0d03f, global verteilt) -->
 
 ---
 

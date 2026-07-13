@@ -10,3 +10,13 @@
 | 2026-07-08 | Idee | #4 "Distributionsmodell light (kit-sync)" | INBOX.md | Ausgearbeitet → FEATURE_KIT_SYNC.md (umgesetzt) |
 | 2026-07-08 | Feature | LESSON_LOOP | features/ (FEATURE+DISCOVERY+PLAN) | Abgeschlossen (abgenommen 2026-07-08) |
 | 2026-07-08 | Idee | #2 "dtb:lesson + Lern-Feedback-Loop" | INBOX.md | Ausgearbeitet → FEATURE_LESSON_LOOP.md (umgesetzt) |
+| 2026-07-13 | Feature | review-haertung | features/review-haertung/ | Abgeschlossen (abgenommen 2026-07-13) |
+| 2026-07-13 | Feature | spec-haertung | features/spec-haertung/ | Abgeschlossen (abgenommen 2026-07-10) |
+| 2026-07-13 | Feature | eligibility-gates | features/eligibility-gates/ | Abgeschlossen (abgenommen 2026-07-10) |
+| 2026-07-13 | Feature | frontmatter-pfad-hygiene | features/frontmatter-pfad-hygiene/ | Abgeschlossen (abgenommen 2026-07-10) |
+| 2026-07-13 | Bug | project-init-stale-rules-seed | features/project-init-stale-rules-seed/bug.md | Behoben (Fix `96eb2df`, verteilt) |
+| 2026-07-13 | Idee | #3 "Review-Haertung" | INBOX.md | Ausgearbeitet → review-haertung (umgesetzt) |
+| 2026-07-13 | Idee | #5 "Spec-Haertung (Technical-Leak-Lint + Open Questions)" | INBOX.md | Ausgearbeitet → spec-haertung (umgesetzt) |
+| 2026-07-13 | Idee | #8 "Agents-Pfad-Konvention + Persona-Quellen" | INBOX.md | Ausgearbeitet → frontmatter-pfad-hygiene (umgesetzt) |
+| 2026-07-13 | Idee | #9 "Frontmatter-Hygiene (after/next, Stage-Enum, debug-plan-Mismatch)" | INBOX.md | Ausgearbeitet → frontmatter-pfad-hygiene (umgesetzt) |
+| 2026-07-13 | Idee | #12 "Eligibility-Gates mit Redirect" | INBOX.md | Ausgearbeitet → eligibility-gates (umgesetzt) |

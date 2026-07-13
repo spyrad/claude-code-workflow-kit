@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** `feature-plan`-Specs lösungsneutral und ehrlich halten — technische Lecks vor dem Speichern blockieren, fehlendes Wissen sichtbar parken statt erfinden.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-10 nach 2 blinden feature-plan-Abnahmelaeufen (unabh. Agenten): SC1-8 belegt, Hard-Block feuert bei Leck-Spec, Baustein B parkt fehlendes Wissen in Offene Punkte. SC-Boxen am 2026-07-13 auf verifizierten Stand gebracht (4 statische SCs mechanisch nachgeprueft). Offen als Produktfrage (kein SC): Alltags-Trigger-Haeufigkeit des Hard-Blocks -->
+**Status:** Abgeschlossen (archiviert 2026-07-13) <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-10 nach 2 blinden feature-plan-Abnahmelaeufen (unabh. Agenten): SC1-8 belegt, Hard-Block feuert bei Leck-Spec, Baustein B parkt fehlendes Wissen in Offene Punkte. SC-Boxen am 2026-07-13 auf verifizierten Stand gebracht (4 statische SCs mechanisch nachgeprueft). Offen als Produktfrage (kein SC): Alltags-Trigger-Haeufigkeit des Hard-Blocks -->
 
 ---
 

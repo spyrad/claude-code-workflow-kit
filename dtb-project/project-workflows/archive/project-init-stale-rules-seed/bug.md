@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-07-10
 **Severity:** Hoch
-**Status:** Behoben (Fix umgesetzt, lokal verifiziert, verteilt; realer Abnahme-Test bestanden 2026-07-10)
+**Status:** Abgeschlossen — Behoben (Fix umgesetzt, lokal verifiziert, verteilt; realer Abnahme-Test bestanden 2026-07-10; archiviert 2026-07-13)
 **Betroffene Komponente:** `skills/dtb-project-init/SKILL.md` (Abschnitt „Regel-Datei verteilen (Seed)", Z. ~231-236)
 
 ---

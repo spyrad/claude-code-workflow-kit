@@ -258,7 +258,7 @@ Alle Bloecke verifiziert, Budgets/Frontmatter konsistent, gehaertete Skills glob
 - [x] 5.1 checkpoint Handoff-Block (Sende-Seite) — `12f396c`
 - [x] 5.2 resume Handoff-Aufnahme (Empfangs-Seite) — `12f396c`
 - [x] 6.1 Budget-/Frontmatter-Konsistenz-Check — alle 6 < 500 Z. (max 368), Frontmatter/`produces` intakt
-- [x] 6.2 Abnahme pro Block — Report-Blöcke 1-3 Fixture-Abnahme (unabh. Agent) PASS/PASS/PASS, Ambiguität 1-3 nachgeschärft `a18f18e`; Session-Blöcke 4-5 Inspektion PASS (Praxiserprobung in Testphase)
+- [x] 6.2 Abnahme pro Block — Report-Blöcke 1-3 Fixture-Abnahme (unabh. Agent) PASS/PASS/PASS, Ambiguität 1-3 nachgeschärft `a18f18e`; Block 4 (feature-discover) 2026-07-13 verhaltensecht abgenommen (2 blinde Agenten: Voll-Lauf-Marker + Resume-Round-Trip; „(Recommended)" nur an Auswahlpunkt; statische Ignorier-Verifikation pipeline-graph/project-health); Block 5 (Handoff) live belegt (checkpoint→resume-Zyklus 2026-07-13, Fallback per Inspektion)
 - [x] 6.3 kit-sync — 6 Skills global synchronisiert (Lock `sourceCommit 77f7f7f`), R=L=K verifiziert; pitch-coach bewusst übersprungen (INBOX #8/#10)
 
 ---
