@@ -209,19 +209,19 @@ Konsistentes Umfeld, belegte Success Criteria (statisch + blinde Fixtures); Absc
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg (optional bei Schritten ohne Commit).
 
-- [ ] 1.1 Modus-Weiche + Frontmatter + Quellmaterial
-- [ ] 1.2 Interview-Phasen + Resume-Marker + Thin-Input
-- [ ] 1.3 PRD-Template + Nie-erfinden-Hard-Rule
-- [ ] 1.4 Selbst-Review + Kollision + Hand-off (prd)
-- [ ] 2.1 Frontmatter + Gate + Readiness (roadmap)
-- [ ] 2.2 Stack-Besprechung → TECH-STACK.md
-- [ ] 2.3 Lean-Interview + Slice-Zerlegung
-- [ ] 2.4 ROADMAP-Template + Selbst-Review + Kollision + Hand-off
-- [ ] 3.1 DERIVED_STATE_RULES.md §5
-- [ ] 3.2 workflow-checkpoint ROADMAP-Sync
-- [ ] 4.1 pipeline-graph + README/CLAUDE.md
-- [ ] 4.2 Statische Selbstprüfung
-- [ ] 4.3 Blinde Fixture-Läufe SC1-SC8
+- [x] 1.1 Modus-Weiche + Frontmatter + Quellmaterial — `948421e`
+- [x] 1.2 Interview-Phasen + Resume-Marker + Thin-Input — `948421e`
+- [x] 1.3 PRD-Template + Nie-erfinden-Hard-Rule — `948421e`
+- [x] 1.4 Selbst-Review + Kollision + Hand-off (prd) — `9fa0629`
+- [x] 2.1 Frontmatter + Gate + Readiness (roadmap) — `b6a707d`
+- [x] 2.2 Stack-Besprechung → TECH-STACK.md — `b6a707d`
+- [x] 2.3 Lean-Interview + Slice-Zerlegung — `b6a707d`
+- [x] 2.4 ROADMAP-Template + Selbst-Review + Kollision + Hand-off — `a72be38`
+- [x] 3.1 DERIVED_STATE_RULES.md §5 — `b95aa45`
+- [x] 3.2 workflow-checkpoint ROADMAP-Sync — `b95aa45`
+- [x] 4.1 pipeline-graph + README/CLAUDE.md — `357d35e`
+- [x] 4.2 Statische Selbstprüfung — `357d35e` (SC9: 208/193 Z., Frontmatter, Gegen-Hinweise beidseitig — alle PASS)
+- [x] 4.3 Blinde Fixture-Läufe SC1-SC8 — 8 blinde Agenten, 8 Fixtures, alle PASS (Details unten)
 - [ ] 4.4 kit-sync + SC-Abschluss (zweistufige Abnahme)
 
 ---
