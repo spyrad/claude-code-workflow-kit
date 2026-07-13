@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** Fuenf Bestands-Skills nach 10x-Vorbild additiv haerten, ohne ihre Struktur umzubauen.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-13 nach Abnahme aller 5 Bloecke: 1-3 Fixture (a18f18e), 4 verhaltensecht via 2 blinde Agenten + statische Ignorier-Verifikation, 5 live (Handoff-Zyklus checkpoint->resume), 6.1 Budget/Frontmatter, 6.3 kit-sync R=L=K -->
+**Status:** Abgeschlossen (archiviert 2026-07-13) <!-- expliziter Zustand (ueberschreibt Ableitung), abgenommen 2026-07-13 nach Abnahme aller 5 Bloecke: 1-3 Fixture (a18f18e), 4 verhaltensecht via 2 blinde Agenten + statische Ignorier-Verifikation, 5 live (Handoff-Zyklus checkpoint->resume), 6.1 Budget/Frontmatter, 6.3 kit-sync R=L=K -->
 
 ---
 

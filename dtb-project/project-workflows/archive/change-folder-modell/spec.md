@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-09
 **Ziel:** Jeder Change bekommt einen eigenen Ordner (`features/<kebab-slug>/`) mit fixen Dateinamen statt flacher UPPER_SNAKE-Dateien mit fragilem Namens-Pairing.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- expliziter Zustand (ueberschreibt Ableitung), gesetzt 2026-07-13: SC1-3 live dogfooded (feature-discover-Ordneranlage, resume/backlog-Ableitung, archive git-mv), SC4 Dogfood-Migration 080b556, SC5/SC6 verhaltensecht via 3 blinde Multi-Varianten-Agenten (Git-Happy+Idempotenz, Non-Git+Backup, Kollisions-/uncommitted-Abbruch), SC7 Sweep, SC8 Budget -->
+**Status:** Abgeschlossen (archiviert 2026-07-13) <!-- expliziter Zustand (ueberschreibt Ableitung), abgenommen 2026-07-13: SC1-3 live dogfooded (feature-discover-Ordneranlage, resume/backlog-Ableitung, archive git-mv), SC4 Dogfood-Migration 080b556, SC5/SC6 verhaltensecht via 3 blinde Multi-Varianten-Agenten (Git-Happy+Idempotenz, Non-Git+Backup, Kollisions-/uncommitted-Abbruch), SC7 Sweep, SC8 Budget -->
 
 ---
 

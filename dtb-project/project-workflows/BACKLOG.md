@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-13 (S3: 5 reife Items archiviert → `archive/`; verbleiben 2 Features „Fertig zum Testen")
+**Letzte Aktualisierung:** 2026-07-13 (S3: alle 7 Items abgearbeitet — 5 archiviert + skill-10x & change-folder abgenommen und archiviert; Feature-Backlog leer, nur noch Ideen offen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,8 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Skill-10x-Optimierungen | Abgenommen | Mittel | features/skill-10x-optimierungen/spec.md | Fünf Bestands-Skills additiv nach 10x-Vorbild härten: project-health (A/B, WARN-CONTINUE, Fixes), debug-plan (Evidenz-Tabelle), greenfield-roadmap (Slices/Unlocks), feature-discover (Checkpoint, Recommended), checkpoint/resume (Handoff) |
-| Change-Folder-Modell | Abgenommen | Mittel | features/change-folder-modell/spec.md | Ein Ordner pro Change (`features/<kebab-slug>/` mit fixen Dateinamen) statt flacher UPPER_SNAKE-Dateien mit Namens-Pairing; Archivierung = `git mv` des Ordners; harter Schnitt + einmaliger Migrations-Helfer |
+| _(keine aktiven Features)_ | | | | |
 
 ---
 
@@ -45,6 +44,8 @@
 | Eligibility-Gates | 2026-07-13 | `archive/eligibility-gates/` |
 | Frontmatter- und Pfad-Hygiene | 2026-07-13 | `archive/frontmatter-pfad-hygiene/` |
 | Bug: project-init-stale-rules-seed | 2026-07-13 | `archive/project-init-stale-rules-seed/` |
+| Skill-10x-Optimierungen | 2026-07-13 | `archive/skill-10x-optimierungen/` |
+| Change-Folder-Modell | 2026-07-13 | `archive/change-folder-modell/` |
 
 ---
 

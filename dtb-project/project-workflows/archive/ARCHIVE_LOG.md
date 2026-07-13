@@ -20,3 +20,7 @@
 | 2026-07-13 | Idee | #8 "Agents-Pfad-Konvention + Persona-Quellen" | INBOX.md | Ausgearbeitet → frontmatter-pfad-hygiene (umgesetzt) |
 | 2026-07-13 | Idee | #9 "Frontmatter-Hygiene (after/next, Stage-Enum, debug-plan-Mismatch)" | INBOX.md | Ausgearbeitet → frontmatter-pfad-hygiene (umgesetzt) |
 | 2026-07-13 | Idee | #12 "Eligibility-Gates mit Redirect" | INBOX.md | Ausgearbeitet → eligibility-gates (umgesetzt) |
+| 2026-07-13 | Feature | skill-10x-optimierungen | BACKLOG.md | Abgeschlossen (abgenommen 2026-07-13) |
+| 2026-07-13 | Feature | change-folder-modell | BACKLOG.md | Abgeschlossen (abgenommen 2026-07-13) |
+| 2026-07-13 | Idee | #6 "10x-Optimierungen fuer Bestands-Skills (Sammelidee)" | INBOX.md | Ausgearbeitet → skill-10x-optimierungen (umgesetzt) |
+| 2026-07-13 | Idee | #7 "Change-Folder-Modell" | INBOX.md | Ausgearbeitet → change-folder-modell (umgesetzt) |
