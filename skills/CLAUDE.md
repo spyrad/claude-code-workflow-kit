@@ -102,6 +102,7 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | `impl-plan` | `features/*/spec.md` | `feature-plan` (`workflow-checkpoint` nur Status-Updater) |
 | `plan-review` | `features/*/plan.md` | `impl-plan` voran, `feature-start` als Alternative |
 | `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
+| `greenfield-roadmap` | `project-strategy/PRD-MVP.md` | `greenfield-prd` (`after`-Match; Pfad ist kein `features/`-Slug, sondern der feste Strategie-Pfad) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
 | `archive` | archivierbare Kandidaten vorhanden | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu archivieren" (nativ in Schritt 3) |
 | `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu migrieren" (nativ in Schritt 1) |
