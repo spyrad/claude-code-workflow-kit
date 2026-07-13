@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-13 (S5: Codebase-Research-Step umgesetzt 10/10 + verifiziert → Fertig zum Testen)
+**Letzte Aktualisierung:** 2026-07-13 (S6: Idee #11 → Discovery Greenfield-Autoren-Skills abgeschlossen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -13,6 +13,7 @@
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
 | Codebase-Research-Step | Fertig zum Testen | Hoch | features/codebase-research-step/spec.md | impl-plan stellt vor der Schrittplanung eine verifizierte Ist-Analyse der betroffenen Module sicher — Pläne fußen auf realem Code statt Annahmen |
+| Greenfield-Autoren-Skills | In Discovery | Hoch | features/greenfield-autoren-skills/discovery.md | greenfield-prd/-roadmap werden Autoren-Skills (PRD-Interview → PRD-MVP.md, Lean-Roadmap → ROADMAP.md + TECH-STACK.md) nach 10x-Vorbild, Derived-State-konform |
 
 ---
 
