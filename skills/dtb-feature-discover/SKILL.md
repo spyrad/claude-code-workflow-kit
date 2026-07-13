@@ -70,6 +70,11 @@ Stimmt das so? Fehlt etwas oder ist etwas irrelevant?
 
 Warte auf Benutzer-Feedback. Bereinige die Liste entsprechend.
 
+> **Wartungs-Hinweis (Format-Kopplung):** Diese Liste wird in Schritt 6 als `## Betroffene Module`
+> in `discovery.md` geschrieben und von `dtb:impl-plan` als Ausloese-Kriterium seines
+> Codebase-Research-Schritts geparst (jede Zeile mit fuehrendem Pfad-Token). Aenderst du hier das
+> Format der `## Betroffene Module`-Zeilen, die Pfad-Zeilen-Erkennung in `impl-plan` mitdenken.
+
 ---
 
 ## Schritt 3: Klaerungsfragen
