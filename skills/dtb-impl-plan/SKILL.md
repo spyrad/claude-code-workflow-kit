@@ -65,7 +65,7 @@ statt auf Annahmen (Spec→Ist-Abgleich). Laeuft **nur, wenn keine verwertbare M
 einer Discovery existiert — sonst wird sie uebernommen.
 
 **1. Ausloese-Kriterium (eine Regel).** Eine Modul-Liste ist **verwertbar**, wenn ALLE gelten: `discovery.md` existiert ∧ Sektion `## Betroffene Module` vorhanden ∧ ≥1 Pfad-Zeile ∧ Stichproben-Verifikation bestanden.
-- **Pfad-Zeile** = Zeile unter `## Betroffene Module`, deren erstes Token wie ein Pfad aussieht (Backticks optional; Tabellen- ODER Bullet-Form). Nicht am Format scheitern (Zielprojekte formatieren frei).
+- **Pfad-Zeile** = Zeile der Modul-Tabelle/-Liste direkt unter `## Betroffene Module`, deren erstes Token wie ein repo-relativer Pfad aussieht (Backticks optional; Tabellen- ODER Bullet-Form). **Ausschluss:** eingebettete Unter-Tabellen mit eigenem Label/Kopf (z.B. `**Datenquellen …**`) und punkt-getrennte Namespace-Bezeichner ohne Verzeichnisstruktur (z.B. HANA-Views `schema.paket/VIEW`) sind KEINE Pfad-Zeilen. Nicht am Format scheitern (Zielprojekte formatieren frei).
 - **Stichproben-Verifikation** = ersten Pfad je Zeile per Glob pruefen. **≥1 Pfad fehlt → „veraltet" → nicht verwertbar → Scan.**
 
 **2a. Verwertbar → uebernehmen, kein Scan.** Genau eine sichtbare Statuszeile (macht Skip von
