@@ -169,13 +169,79 @@ Rateergebnis. Kein `[TODO]`-Platzhalter — eine echte Frage.
 PRD, sondern nach `TECH-STACK.md`. Der Selbst-Review vor dem Schreiben (Schritt 4)
 prueft das mit dem Technical-Leak-Lint.
 
-### Schritt 4: Selbst-Review, Speichern, Kollision, Hand-off
+### Schritt 4: Selbst-Review VOR dem Schreiben
 
-> **In Arbeit (Implementierungsplan-Schritt 1.4):** Selbst-Review VOR dem Write
-> (Struktur-Check + Technical-Leak-Lint, Abbruch ohne Write bei Verstoss),
-> Kollisions-Dialog mit Archivierung nach `project-strategy/archive/YYYY-MM-DD-PRD-MVP.md`
-> und Hand-off auf `/dtb:greenfield-roadmap` werden in diesem Schritt ergaenzt.
-> Bis dahin ist der Autoren-Modus **noch nicht** vollstaendig lauffaehig.
+Bevor irgendetwas auf Platte geschrieben wird, pruefe den fertigen PRD-Entwurf. Beide
+Pruefungen sind **Hard-Blocks**: Bei einem Verstoss wird **nicht** geschrieben, der
+konkrete Befund gemeldet und (kein stilles Umschreiben) auf Korrektur gewartet.
+
+**4a) Struktur-Check:** Alle Template-Sektionen aus Schritt 3 vorhanden und in der
+richtigen Reihenfolge (`## Produkt-Vision` → `## Zielgruppen` → `## Features` →
+`## User Stories` → `## Nicht-funktionale Anforderungen` → `## Out of Scope` →
+`## Abhaengigkeiten` → `## Risiken` → `## Open Questions`)? Fehlt eine Sektion oder ist
+die Reihenfolge verletzt → Abbruch mit Nennung der fehlenden/verschobenen Sektion.
+
+**4b) Technical-Leak-Lint:** Das PRD beschreibt das **Was/Warum**, nicht das **Wie**.
+Ein Treffer = eine leckende Phrase (nicht pro Wort); trifft eine Phrase mehrere
+Kategorien, nur die zutreffendste melden. Anker ist die PRD-Sektion + Zitat.
+
+| # | Kategorie | Leck (verboten) | Stattdessen |
+|---|-----------|-----------------|-------------|
+| 1 | Vendor-/Produktname | „in PostgreSQL/Redis/S3 speichern" | „persistent speichern" |
+| 2 | ORM-/Query-Notation | „`User.objects.filter()`", „`SELECT …`" | „Nutzer nach Kriterium finden" |
+| 3 | Transport/Protokoll | „per REST `POST /users`", „WebSocket" | „Nutzer legt Datensatz an" |
+| 4 | Implementierungs-Verb | „instanziiere", „iteriere", „caste" | „das System verarbeitet …" |
+| 5 | Konkrete Datenstruktur | „`Dict[str, List]`", „Array von Objekten" | „Zuordnung von X zu Y" |
+| 6 | Framework-/Library-Name | „mit React/FastAPI/Pydantic" | „Oberflaeche/Schnittstelle …" |
+| 7 | Datei-/Pfad-/Klassenname | „`services/auth.py`", Klasse `AuthManager` | „im Authentifizierungs-Teil" |
+
+> **Bewusste Kopie (Entscheidung E):** Diese 7 Kategorien sind eine bewusste Kopie des
+> Leak-Lints aus `dtb:feature-plan` (kein Import-Mechanismus). Aenderst du hier die
+> Kategorien, den Lint in `feature-plan` mitdenken — dort steht der Gegen-Hinweis.
+
+**Redirect statt bloss Fehler:** Ein Leck ist meist eine Stack-Entscheidung am falschen
+Ort. Melde konstruktiv: „gehoert in `TECH-STACK.md`" (Zustaendigkeit von `greenfield-roadmap`).
+
+**Meldeformat bei Verstoss** (Write abgebrochen, Datei NICHT geschrieben):
+```
+❌ Selbst-Review: {N} Befund(e), Write abgebrochen
+  Struktur: {fehlende/verschobene Sektion}
+  Leak [{Kategorie}] in {## Sektion}: „{Fund}" → gehoert in TECH-STACK.md
+```
+Danach korrigieren und erneut pruefen. Ein **fachlich echter** Begriff (z.B. „Export nach
+SAP" als Anforderung) ist zulaessig — nur mit Markierung `<!-- Lint-Override: {Begruendung} -->`
+an der Stelle; eine markierte Stelle zaehlt beim erneuten Pruefen nicht mehr als Leck.
+
+### Schritt 5: Speichern + Kollisions-Dialog
+
+- **Autoren-Modus, PRD existierte nicht (oder Resume-Fortsetzung):** Nach bestandenem
+  Selbst-Review das PRD schreiben und den Resume-Marker final auf `<!-- resume: done -->`
+  setzen. Ordner `project-strategy/` bei Bedarf anlegen.
+- **Explizite Neuerzeugung bei vorhandenem, fertigem PRD:** Erst der Kollisions-Dialog:
+
+  ```
+  PRD-MVP.md existiert bereits. Wie vorgehen?
+    1. Archivieren + ersetzen (Recommended)
+    2. Ueberschreiben (alte Version geht verloren)
+    3. Abbrechen
+  ```
+
+  Bei **1**: bestehendes PRD nach `project-strategy/archive/YYYY-MM-DD-PRD-MVP.md`
+  verschieben (Ordner `archive/` lazy anlegen; zweiter Lauf am selben Tag →
+  `-2`/`-3`-Suffix), dann neues PRD schreiben. In einem **Nicht-Git-Projekt** genuegt ein
+  einfacher Filesystem-Move — das Archiv **ist** die Sicherung, kein zusaetzliches Backup.
+  Bei **2**: direkt ueberschreiben. Bei **3**: nichts schreiben.
+
+### Schritt 6: Hand-off
+
+Nach dem Schreiben genau **eine** Empfehlung, **kein** Auto-Chaining:
+
+```
+PRD-MVP.md erstellt: dtb-project/project-strategy/PRD-MVP.md
+
+Naechster Schritt: /dtb:greenfield-roadmap
+  (fuehrt die Stack-Besprechung und leitet die Roadmap aus dem PRD ab)
+```
 
 ---
 

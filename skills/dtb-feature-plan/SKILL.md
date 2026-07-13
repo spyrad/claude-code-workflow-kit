@@ -203,6 +203,12 @@ Verwende folgende Struktur:
 Prueft den fertigen Spec-Text unmittelbar vor dem Speichern (Ausfuehrungs-Schritt 7). Ziel: die
 Spec beschreibt das **Was/Warum**, nicht das **Wie**. Ein Treffer bricht den Write ab (Hard-Block).
 
+> **Kopie-Hinweis (Format-Kopplung):** Diese 7 Kategorien sind bewusst auch in
+> `dtb:greenfield-prd` (Selbst-Review Schritt 4b) dupliziert — kein Import-Mechanismus,
+> je eine eigenstaendige SKILL.md. Aenderst du die Kategorien hier, den Lint in
+> `greenfield-prd` mitdenken (dort steht der Gegen-Hinweis). Unterschied dort: der
+> Redirect zeigt auf `TECH-STACK.md` statt auf loesungsneutrale Formulierung.
+
 **7 Leck-Kategorien** (je 1 Beispiel → loesungsneutrale Alternative):
 
 | # | Kategorie | Leck (verboten) | Stattdessen |
