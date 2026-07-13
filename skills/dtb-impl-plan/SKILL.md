@@ -11,7 +11,7 @@ pipeline:
   stage: planning
   after: [dtb:feature-plan]
   next: [dtb:plan-review]
-  consumes: [features/*/spec.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
+  consumes: [features/*/spec.md, features/*/discovery.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
   produces: [features/*/plan.md]
 ---
 
@@ -58,13 +58,36 @@ Hard-Gate — Konvention: `skills/CLAUDE.md` → „Eligibility-Gates".
 
 Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Plan auf falscher Basis).
 
+## Codebase-Research (Ist-Analyse)
+
+Laeuft NACH dem Eligibility-Gate und VOR der Planung. Ziel: Plan-Schritte fussen auf realem Code
+statt auf Annahmen (Spec→Ist-Abgleich). Laeuft **nur, wenn keine verwertbare Modul-Liste** aus
+einer Discovery existiert — sonst wird sie uebernommen.
+
+**1. Ausloese-Kriterium (eine Regel).** Eine Modul-Liste ist **verwertbar**, wenn ALLE gelten: `discovery.md` existiert ∧ Sektion `## Betroffene Module` vorhanden ∧ ≥1 Pfad-Zeile ∧ Stichproben-Verifikation bestanden.
+- **Pfad-Zeile** = Zeile unter `## Betroffene Module`, deren erstes Token wie ein Pfad aussieht (Backticks optional; Tabellen- ODER Bullet-Form). Nicht am Format scheitern (Zielprojekte formatieren frei).
+- **Stichproben-Verifikation** = ersten Pfad je Zeile per Glob pruefen. **≥1 Pfad fehlt → „veraltet" → nicht verwertbar → Scan.**
+
+**2a. Verwertbar → uebernehmen, kein Scan.** Genau eine sichtbare Statuszeile (macht Skip von
+vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
+`📂 Ist-Analyse aus discovery.md uebernommen ({N} Module, Pfade verifiziert)`
+
+**2b. Nicht verwertbar → Scan.** Schluesselwoerter aus der Spec → betroffene Module per Glob/Grep (read-only), Ergebnis zur Bestaetigung VOR der Planung zeigen (Muster: `feature-discover` Schritt 2 — `Codebase-Scan: {N} …` + Tabelle `| # | Pfad | Relevanz |` mit Ist-Befund + „Stimmt das so?"); auf Bestaetigung warten, Liste bereinigen.
+- **0 Treffer → Dialog, nie stumm:** aktive Frage nach den Modulen. Ausgaenge: (1) Nutzer nennt Pfade → per Glob verifizieren → uebernehmen; (2) Neubau → `## Ist-Analyse`-Zeile „keine betroffenen Bestandsmodule (Neubau)".
+- **Kappung bei 15:** nur die 15 relevantesten, Rest als Pflichtzeile „+ {M} weitere Treffer nicht gelistet" (nie still). **Priorisierung:** direkter Modul-Treffer (Schluesselwort im Pfad/Dateinamen) vor Streu-Treffer (nur im Inhalt/Doku/Tests). Viele Treffer = zu generisch → schaerfer nachscannen statt abkippen.
+
+**3. Verankern.** Bestaetigte/uebernommene Liste kompakt als `## Ist-Analyse` ins `plan.md` (Tabelle) — pruefbares Material fuer `plan-review`-Grounding (2d).
+
+> **Wartungs-Hinweis (Format-Kopplung):** Das Kriterium parst `## Betroffene Module` aus `discovery.md` (`dtb:feature-discover` Schritt 2). Format-Aenderung dort → Pfad-Zeilen-Erkennung hier mitdenken. Gegen-Hinweis steht in `feature-discover`.
+
 ## Aufgabe
 
 1. **Feature-Name / Slug ermitteln:** Aus dem Argument oder Frage den Benutzer
 2. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/{slug}/spec.md`
-3. **Analysiere** Ziel, Scope, Dependencies und Success Criteria aus der Feature-Spec
-4. **Erstelle** den Implementierungsplan nach dem Template
-5. **Speichere** in `{config.paths.workflows}/features/{slug}/plan.md`
+3. **Codebase-Research:** Ist-Analyse durchfuehren/uebernehmen (Abschnitt oben)
+4. **Analysiere** Ziel, Scope, Dependencies und Success Criteria aus der Feature-Spec
+5. **Erstelle** den Implementierungsplan nach dem Template
+6. **Speichere** in `{config.paths.workflows}/features/{slug}/plan.md`
 
 ## Template fuer plan.md
 
@@ -85,6 +108,16 @@ Verwende folgende Struktur:
 | Phase | Beschreibung | Dauer | Status |
 |-------|-------------|-------|--------|
 | Phase 1 | [Name] | [Zeit] | Geplant |
+
+---
+
+## Ist-Analyse
+
+> Ergebnis der Codebase-Research (Quelle: `discovery.md` oder Scan). Kompakt, keine Prosa. Bei Neubau: eine Zeile „keine betroffenen Bestandsmodule (Neubau)".
+
+| Pfad | Ist-Befund (relevant fuer den Plan) |
+|------|-------------------------------------|
+| [Pfad] | [Was liegt dort vor] |
 
 ---
 
@@ -172,27 +205,33 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
      abgedeckt — harte Weigerung + Redirect `feature-plan` + Escape-Hatch. Hier keine zweite,
      weichere Fehlermeldung: greift das Gate, wird dieser Schritt nie ohne Spec erreicht.
 
-3. **Prüfe ob `features/{slug}/plan.md` bereits existiert:**
+3. **Codebase-Research (Ist-Analyse) durchfuehren/uebernehmen:**
+   - Fuehre den Abschnitt „## Codebase-Research (Ist-Analyse)" (oben, nach dem Eligibility-Gate) aus:
+     verwertbare Modul-Liste aus `discovery.md` uebernehmen (Statuszeile 📂) ODER frischen Scan mit
+     Bestaetigung fahren. Das Ergebnis fuellt spaeter die `## Ist-Analyse`-Sektion des Plans.
+
+4. **Prüfe ob `features/{slug}/plan.md` bereits existiert:**
    - Falls JA: Frage "Implementierungsplan existiert bereits. Soll ich ueberschreiben oder aktualisieren?"
    - Falls NEIN: Erstelle neue Datei (Ordner existiert bereits durch die Spec)
 
-4. **Analysiere die Feature-Spec:**
+5. **Analysiere die Feature-Spec:**
    - Identifiziere Ziel und Scope
-   - Leite sinnvolle Phasen ab (Reihenfolge, Abhaengigkeiten)
+   - Leite sinnvolle Phasen ab (Reihenfolge, Abhaengigkeiten) — gestuetzt auf die Ist-Analyse aus Schritt 3
    - Beruecksichtige Risiken und Dependencies aus der Feature-Spec
 
-5. **Fuelle das Template:**
+6. **Fuelle das Template:**
    - Nutze konkrete Informationen aus der Feature-Spec und dem Chat-Verlauf
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
    - Jede Phase braucht ein klares Ziel, Schritte mit Dateibezug, und Checkpoint-Kriterien
    - Technische Entscheidungen: Optionen auflisten, Entscheidung kann "Offen" sein
    - **3x3-Blockung:** Nummeriere Schritte fortlaufend pro Phase (1.1, 1.2, 1.3, 1.4 ...) und setze nach jedem 3. Schritt einen `> 3x3-Block`-Hinweis. Jeder Schritt soll ein konkretes, testbares Ergebnis liefern.
    - **Progress-Sektion (Pflicht):** Erzeuge fuer JEDEN Schritt N.M genau eine Checkbox-Zeile `- [ ] N.M Kurzname` in `## Progress`. Format gemaess `project-rules/DERIVED_STATE_RULES.md`: 1 Zeile pro Schritt, keine Prosa, SHA-Beleg kommt erst beim Abhaken dazu. Diese Sektion ist die Single Source of Truth fuer den Umsetzungsstand — es gibt KEIN separates Status-Artefakt (IMPL_STATUS_*.md ist abgeschafft).
+   - **`## Ist-Analyse` fuellen:** Uebertrage die bestaetigte/uebernommene Modul-Liste aus Schritt 3 kompakt in die Sektion (Tabelle Pfad/Ist-Befund; bei Neubau die eine „keine betroffenen Bestandsmodule (Neubau)"-Zeile). Das ist Zusatz-Info, KEINE Status-Quelle (DERIVED_STATE_RULES.md bleibt unberuehrt).
    - **Max. 500 Zeilen** — laengere Plaene verschlechtern die AI-Verarbeitung. Bei sehr grossen Features: in mehrere Phasen-Dateien aufteilen oder Details in Schritten knapp halten.
 
-6. **Speichere die Datei**
+7. **Speichere die Datei**
 
-7. **Bestaetige:**
+8. **Bestaetige:**
    ```
    Implementierungsplan gespeichert: {config.paths.workflows}/features/{slug}/plan.md
 
