@@ -135,15 +135,104 @@ werden **abgeleitet**, nicht erfragt.
   Auto-Suffix). Die Change-ID ist zugleich der kuenftige Feature-Slug — die Bruecke in die
   Change-Pipeline (Hand-off) und in die Statusableitung (§5).
 
-> **3x3-Block-Grenze:** Nach Schritt 5 endet der aktuelle Umsetzungsblock (2.3).
+### Schritt 6: ROADMAP-Template
 
-### Schritt 6: ROADMAP-Template + Selbst-Review + Kollision + Hand-off
+Das erzeugte `ROADMAP.md` ist **deutsch** (Statuswerte englisch) und folgt dieser Struktur:
 
-> **In Arbeit (Implementierungsplan-Schritt 2.4):** ROADMAP.md-Template (At-a-glance-Tabelle,
-> Slices/Foundations, Status-Vokabular `proposed/ready/blocked/in-progress/done`,
-> abgeleitete Statusspalte), Selbst-Review VOR Write, Kollisions-Dialog und der Hand-off
-> `/dtb:feature-discover <change-id>` werden in diesem Schritt ergaenzt. Bis dahin ist der
-> Autoren-Modus **noch nicht** vollstaendig lauffaehig.
+```markdown
+# Roadmap: {config.project_name}
+<!-- resume: done -->
+
+**Stand:** {YYYY-MM-DD}
+
+## Vision
+[1-2 Saetze Vision-Recap aus dem PRD]
+
+## Ueberblick
+> Status = **abgeleitete Anzeige**, nicht manuell pflegen (DERIVED_STATE_RULES §5).
+> Legende: proposed = vorgeschlagen · ready = startbereit · blocked = blockiert ·
+> in-progress = in Arbeit · done = abgeschlossen.
+
+| ID | Change-ID | Outcome (Nutzer kann …) | Prerequisites | Status |
+|----|-----------|-------------------------|---------------|--------|
+| S-1 | {change-id} | {sichtbares Outcome} | {IDs oder —} | proposed |
+| F-1 | {change-id} | (Foundation) schaltet {S-x} frei | — | proposed |
+
+## Slices
+### S-1: {Titel} — `{change-id}`
+**Outcome:** Nutzer kann …
+**Prerequisites:** {IDs oder „keine"}
+**PRD-Bezug:** {Feature/User Story aus dem PRD}
+
+## Foundations
+### F-1: {Titel} — `{change-id}`
+**Schaltet frei:** {Slice-IDs}
+**Prerequisites:** {IDs oder „keine"}
+
+## Externe Termine
+[Extern gesetzte Termine als Constraints (Fakten) — oder „keine"]
+
+## Open Roadmap Questions
+[Woertlich jede offene Frage, nummeriert — nie erfinden]
+```
+
+Status-Vokabular einheitlich **englisch** `proposed / ready / blocked / in-progress / done`
+(konsistent zu den `S-NN`/`F-NN`-IDs); die deutsche Erklaerung steht **einmal** in der
+Legenden-Zeile. Keine `Zeitraum`-Felder, keine Ressourcen-/Kapazitaetstabelle.
+
+> **Format-Kopplung (Gegen-Hinweis):** Die `PRD-Bezug`-Zeilen und die Slice-Ableitung
+> lesen die Sektionsnamen aus `PRD-MVP.md` (`## Produkt-Vision`, `## Features`,
+> `## User Stories`, `## Out of Scope`). Aenderst du das PRD-Template in
+> `dtb:greenfield-prd`, diese Roadmap-Ableitung mitdenken (L5-Muster) — dort steht der
+> Gegen-Hinweis in Gegenrichtung.
+
+### Schritt 7: Selbst-Review VOR dem Schreiben
+
+Hard-Block vor jedem Write: Bei einem Verstoss **nicht** schreiben, den konkreten Befund
+melden, auf Korrektur warten (kein stilles Umschreiben). Pruefe:
+
+- **Struktur:** alle Template-Sektionen vorhanden und in Reihenfolge.
+- **Jeder Slice hat ein Outcome** („Nutzer kann …") — kein Slice ohne sichtbaren Wert.
+- **Jeder Slice/jede Foundation hat einen PRD-Bezug** — nichts frei Erfundenes.
+- **Jede Foundation nennt Unlocks** (welche Slices sie freischaltet).
+- **Change-IDs eindeutig** und §4-konform; keine Kollision (sonst Abbruch, Meldung).
+- **Prerequisites konsistent** — kein Item haengt an einem spaeteren; keine Zeitschaetzung
+  (externe Termine nur unter `## Externe Termine`).
+
+```
+❌ Selbst-Review: {N} Befund(e), Write abgebrochen
+  {Sektion/ID}: {konkreter Befund}
+```
+
+### Schritt 8: Speichern + Kollisions-Dialog
+
+- **ROADMAP.md existierte nicht (oder Resume-Fortsetzung):** nach bestandenem Review
+  schreiben, Resume-Marker final `<!-- resume: done -->`. Ordner lazy anlegen.
+- **Explizite Neuerzeugung bei vorhandener, fertiger ROADMAP.md:** erst Kollisions-Dialog:
+
+  ```
+  ROADMAP.md existiert bereits. Wie vorgehen?
+    1. Archivieren + ersetzen (Recommended)
+    2. Ueberschreiben (alte Version geht verloren)
+    3. Abbrechen
+  ```
+
+  Bei **1**: bestehende Roadmap nach `project-strategy/archive/YYYY-MM-DD-ROADMAP.md`
+  verschieben (`archive/` lazy; Zweitlauf am selben Tag → `-2`/`-3`), dann neu schreiben.
+  **Nicht-Git-Projekt:** einfacher Filesystem-Move genuegt (das Archiv ist die Sicherung).
+  Bei **2**: ueberschreiben. Bei **3**: nichts schreiben.
+
+### Schritt 9: Hand-off
+
+Genau **eine** Empfehlung, **kein** Auto-Chaining — der erste startbereite Slice
+(ohne offene Prerequisites):
+
+```
+ROADMAP.md erstellt: dtb-project/project-strategy/ROADMAP.md
+
+Naechster Schritt: /dtb:feature-discover {change-id des ersten Slice}
+  ({1-Zeilen-Begruendung: warum dieser Slice zuerst — z.B. „keine Prerequisites, liefert die North-Star"})
+```
 
 ---
 
