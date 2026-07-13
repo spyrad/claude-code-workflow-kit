@@ -62,15 +62,11 @@ Fehlt eine CLAUDE.md → diesen Schritt still ueberspringen (kein Abbruch).
 
 ### Schritt 4: Scope bestimmen
 
-Bestimme welche Dateien geprueft werden sollen:
-
-- Argument `staged` → `git diff --cached --name-only` + `git diff --cached`
-- Argument `last-commit` → `git diff HEAD~1 --name-only` + `git diff HEAD~1`
-- Argument mit Dateinamen → diese Dateien direkt lesen
-- Kein Argument → `git diff HEAD --name-only` + `git diff HEAD` (unstaged + staged)
-
-**Wiederaufnahme:** Enthaelt der Chat einen `dtb-review-resume`-Marker (YAML-Block aus einem
-frueheren Report, vom Nutzer eingefuegt — mehrzeilig, passt nicht ins Argument):
+**Zuerst: Wiederaufnahme-Check — hat Vorrang vor der Scope-Ableitung.** Enthaelt der Chat einen
+`dtb-review-resume`-Marker (YAML-Block aus einem frueheren Report, vom Nutzer eingefuegt —
+mehrzeilig, passt nicht ins Argument), ist dies eine **Wiederaufnahme**. Der Marker gewinnt gegen
+alle folgenden Scope-Regeln — auch bei leerem `git diff HEAD` und auch ohne Argument. Gehe dann
+NICHT in die Ableitung unten und melde NICHT „Keine Aenderungen gefunden":
 1. `sha` mit `git rev-parse HEAD` vergleichen — bei Abweichung:
    `⚠ Stand geaendert ({alt} → {neu}) — frisches Review empfohlen. Fortfahren? (Ja/Nein)`
 2. Scope aus dem `scope`-Feld uebernehmen; weicht der beim Aufruf angegebene Scope davon ab →
@@ -79,6 +75,14 @@ frueheren Report, vom Nutzer eingefuegt — mehrzeilig, passt nicht ins Argument
    laufende Report-Nummern matchen); `offen`-Findings erneut pruefen und zeigen. Der Cap gilt
    erneut: durch Triage frei gewordene Plaetze fuellen sich mit bisher nicht triagierten
    Findings (Nachruecken); `nicht_triagiert` wird entsprechend frisch ermittelt
+
+**Sonst (kein `dtb-review-resume`-Marker im Chat):** Scope aus Argument/Diff ableiten —
+bestimme welche Dateien geprueft werden sollen:
+
+- Argument `staged` → `git diff --cached --name-only` + `git diff --cached`
+- Argument `last-commit` → `git diff HEAD~1 --name-only` + `git diff HEAD~1`
+- Argument mit Dateinamen → diese Dateien direkt lesen
+- Kein Argument → `git diff HEAD --name-only` + `git diff HEAD` (unstaged + staged)
 
 Falls keine Aenderungen gefunden:
 ```
