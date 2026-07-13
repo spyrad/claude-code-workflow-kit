@@ -158,5 +158,37 @@ Beispiele: `CHANGE_FOLDER_MODELL` → `change-folder-modell`; `Chat History` →
 
 ---
 
+## 5. Roadmap-Ableitung (ROADMAP.md-Statusspalte)
+
+Die von `dtb:greenfield-roadmap` erzeugte `project-strategy/ROADMAP.md` fuehrt je Slice/Foundation
+eine **Change-ID in kebab-case = kuenftiger Feature-Slug** (§4). Die **Status-Spalte** in der
+At-a-glance-Tabelle ist eine **abgeleitete Anzeige** („nicht manuell pflegen") — analog §3.
+
+### 5.1 Ableitung (Change-ID → Slug → Ordner-Zustand)
+
+Pro Roadmap-Item gilt die **hoechste** zutreffende Zeile (`<slug>` = Change-ID des Items):
+
+| Zustand im Projekt | Abgeleiteter Roadmap-Status |
+|--------------------|-----------------------------|
+| Ordner `archive/<slug>/` existiert | `done` |
+| Ordner `features/<slug>/` existiert | `in-progress` |
+| kein Ordner (Item noch nicht in der Pipeline) | **Doc-Status** gilt: `proposed` / `ready` / `blocked` |
+
+Der **Doc-Status** ist der einzige manuell (vom Roadmap-Autor) gesetzte Wert und gilt nur, solange
+kein Change-Ordner existiert. Sobald `feature-discover` einen Ordner anlegt, gewinnt der abgeleitete
+`in-progress`; ein archivierter Change wird `done`. Vokabular einheitlich **englisch**
+`proposed / ready / blocked / in-progress / done` (Entscheidung F; konsistent zu `S-NN`/`F-NN`).
+
+### 5.2 Konflikt & Sync
+
+- **Konfliktregel §1.3 gilt analog:** Widerspricht die gesetzte Statusspalte dem abgeleiteten
+  Zustand, gewinnt das Artefakt (der Ordner-Zustand); lesende Roadmap-Laeufe (Report-Modus) melden
+  den Widerspruch mit 1 Hinweiszeile und korrigieren nicht selbst.
+- **Sync:** `dtb:workflow-checkpoint` synchronisiert die Spalte beim naechsten Lauf (nur wenn
+  `ROADMAP.md` existiert) — dieselbe Mechanik wie die BACKLOG-Spalte, **keine** `dtb:archive`-Kopplung.
+
+---
+
 **Eingefuehrt mit:** Feature DERIVED_STATE (`features/FEATURE_DERIVED_STATE.md`), 2026-07-06
 **Umgestellt auf Change-Folder-Modell:** Feature CHANGE_FOLDER_MODELL, 2026-07-09
+**§5 Roadmap-Ableitung ergaenzt:** Feature greenfield-autoren-skills, 2026-07-13

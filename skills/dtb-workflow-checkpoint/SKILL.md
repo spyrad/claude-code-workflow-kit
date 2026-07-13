@@ -10,8 +10,8 @@ pipeline:
   stage: session
   after: [dtb:code-review]
   next: [dtb:workflow-resume]
-  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
-  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log]
+  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md, ROADMAP.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)
@@ -190,6 +190,10 @@ Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Te
    - Status-Spalte in BACKLOG.md (Abschnitte "Aktive Features"/"Aufgaben")
    - `**Status:**`-Zeile in `features/<slug>/spec.md` bzw. `task.md`
    - Datum in "Letzte Aktualisierung"
+   - **Falls `dtb-project/project-strategy/ROADMAP.md` existiert**: Statusspalte nach Regel-Datei §5
+     synchronisieren (Change-ID = Slug → Ordner-Zustand: `archive/<slug>/` = `done`,
+     `features/<slug>/` = `in-progress`, sonst gesetzter Doc-Status). Existiert die Datei
+     nicht → still ueberspringen (kein Hinweis)
 3. **Nur explizite Zustaende erfragen** (Regel-Datei §1.2 — nicht ableitbar). Frage NUR,
    wenn ein Item vollstaendig abgehakt ist oder der Chat-Verlauf es nahelegt:
 
