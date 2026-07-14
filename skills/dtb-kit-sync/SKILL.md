@@ -74,7 +74,7 @@ Drei-Punkte-Vergleichs: **Repo ↔ Lock ↔ installierte Kopie**.
 | A | `skills/dtb-*/SKILL.md` | `~/.claude/skills/dtb-*/SKILL.md` | synced | ja |
 | A | `agents/*.md` | `~/.claude/agents/*.md` | synced | ja |
 | A | `commands/dtb-*.md` | `~/.claude/commands/dtb-*.md` | synced | ja |
-| B | `frameworks/`, `settings.json` | projektlokal (via project-init) | seed | nein — nie als Drift melden |
+| B | `settings.json` | projektlokal (via project-init) | seed | nein — nie als Drift melden |
 
 Nicht in v1: `personas/` (Quellen-Klaerung offen), projektlokale Ziele,
 `DERIVED_STATE_RULES.md` (Seed via project-init).
