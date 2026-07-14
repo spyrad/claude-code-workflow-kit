@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Opportunity-Map | In Arbeit | 8/11 | Schritt 3.1 — Eingangs-Nudge in greenfield-prd |
+| Opportunity-Map | In Arbeit | 10/11 | Schritt 3.3 — kit-sync (Verteilung) + SC-Abschluss |
 | Greenfield-Autoren-Skills | Fertig zum Testen | 14/14 | Abnahme beim ersten realen Greenfield (Entscheidung G) |
 
 ---
@@ -19,15 +19,15 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-14 (S2): opportunity-map Kern-Skill fertig + verhaltensecht verifiziert (SC1-7, SC9); offen ist Phase 3 (greenfield-prd-Nudge SC8 + kit-sync). 3 Commits (`772ae4f`/`a2fd691`/`e69446e`) auf master. Phase 3 fasst erstmals das noch-nicht-abgenommene greenfield-prd an (isoliert). |
+| **Notizen** | 2026-07-14 (S3): opportunity-map-Nudge in greenfield-prd gebaut + verifiziert (SC8), 6 Commits nach origin gepusht (`ff214ed`). Offen nur 3.3: kit-sync-Verteilung (außenwirksam) — check gemacht (opportunity-map neu, greenfield-prd/pipeline-graph Update, pitch-coach bewusst halten), Sync noch nicht ausgeführt. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] Opportunity-Map Phase 3 — Kontext: 3.1 Nudge in greenfield-prd, 3.2 Verifikation (SC8), 3.3 kit-sync (außenwirksam, vor Ausführung bestätigen)
-- [ ] Lektion-Kandidat festhalten — Kontext: nicht-deterministische Tool-Anteile (Websuche) geteilt verifizieren → `/dtb:lesson`
-- [ ] Idee-Triage Rest — Kontext: #10, #13, #15, #16, #18 → `/dtb:idea-review`
+- [ ] Opportunity-Map 3.3 abschließen — Kontext: `/dtb:kit-sync` sync (Bündel 1; pitch-coach halten), Lock → `ff214ed`, dann SC1-9 in spec.md abhaken → Fertig zum Testen
+- [ ] Lektion-Kandidaten festhalten — Kontext: (a) nicht-deterministische Tool-Anteile geteilt verifizieren, (b) blinde Fixtures decken Pfad-Inkonsistenzen auf → `/dtb:lesson`
+- [ ] Idee-Triage Rest — Kontext: #10 (pinned/hold, durch pitch-coach-Fall erneut motiviert), #13, #15, #16, #18
 - [ ] Erstes reales Greenfield-Vorhaben — Kontext: echte Abnahme Greenfield-Autoren-Skills (Entscheidung G)
 
 ---
@@ -36,9 +36,8 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-14 | Opportunity-Map Kern gebaut + verifiziert | Skill 286 Z.; SC1-7/9 belegt (5 Blindläufe + 2 Websuche-Läufe); 8/11 | `2026-07/2026-07-14.md` (S2) |
+| 2026-07-14 | Opportunity-Map gebaut + verifiziert | Skill + greenfield-prd-Nudge; SC1-9 belegt (7 Blindläufe + Websuche-Läufe); 10/11, nur Verteilung offen | `2026-07/2026-07-14.md` (S2/S3) |
 | 2026-07-14 | Codebase-Research-Step abgenommen | pkp-praxiserprobt; abgenommen + archiviert | `archive/codebase-research-step/` |
-| 2026-07-14 | memory-framework entfernt | Drittanbieter-Framework gelöscht; Verweise bereinigt | `2026-07/2026-07-14.md` (S1) |
 | 2026-07-13 | Greenfield-Autoren-Skills umgesetzt | prd/roadmap Autoren-Skills; 14/14, SC1-9 belegt | `2026-07/2026-07-13.md` (S8) |
 
 ---
@@ -51,5 +50,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** Weiterarbeit an `features/opportunity-map/plan.md` Schritt 3.1 (Eingangs-Nudge in greenfield-prd) — opportunity-map ist „In Arbeit" (8/11), erster nicht abgehakter Schritt ist 3.1; kein Skill-Kommando nötig, direkt am Plan fortsetzen.
-**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach Schritt 3.1. Der abschließende kit-sync (3.3) ist außenwirksam und vor Ausführung zu bestätigen.
+**Naechster Befehl:** `/dtb:kit-sync` (sync) — Schritt 3.3: Bündel 1 verteilen (opportunity-map neu + greenfield-prd/pipeline-graph Update), **pitch-coach bewusst halten** (nicht syncen), Lock → `sourceCommit ff214ed`. Danach SC1-9 in `features/opportunity-map/spec.md` abhaken (letzter nicht abgehakter Progress-Schritt 3.3).
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl. kit-sync ist außenwirksam (globale `~/.claude/`-Installation) — vor Ausführung bewusst bestätigen.
