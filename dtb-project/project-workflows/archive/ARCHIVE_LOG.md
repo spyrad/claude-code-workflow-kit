@@ -24,3 +24,5 @@
 | 2026-07-13 | Feature | change-folder-modell | BACKLOG.md | Abgeschlossen (abgenommen 2026-07-13) |
 | 2026-07-13 | Idee | #6 "10x-Optimierungen fuer Bestands-Skills (Sammelidee)" | INBOX.md | Ausgearbeitet → skill-10x-optimierungen (umgesetzt) |
 | 2026-07-13 | Idee | #7 "Change-Folder-Modell" | INBOX.md | Ausgearbeitet → change-folder-modell (umgesetzt) |
+| 2026-07-14 | Feature | codebase-research-step | features/codebase-research-step/ | Abgeschlossen (abgenommen 2026-07-14, pkp-praxiserprobt) |
+| 2026-07-14 | Idee | #14 "Codebase-Research-Step in impl-plan/feature-plan verankern" | INBOX.md | Ausgearbeitet → codebase-research-step (umgesetzt) |

@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-13
 **Ziel:** `dtb:impl-plan` stellt vor der Schrittplanung eine verifizierte Ist-Analyse der betroffenen Module sicher — Pläne fußen auf realem Code statt auf Annahmen.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- explizit abgenommen 2026-07-14 (pkp-praxiserprobt); archiviert via dtb:archive -->
 
 ---
 
