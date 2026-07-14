@@ -66,8 +66,9 @@ Zielpfad des Artefakts: `dtb-project/project-strategy/OPPORTUNITY-MAP.md` (im Fo
 
 Ziel: rohe Ideen in **spezifische, beobachtbare, wiederkehrende** Signale ueberfuehren.
 
-1. **Quellmaterial anbieten:** `Glob project-strategy/*.md` (ohne `PRD-MVP.md`, `ROADMAP.md`,
-   `TECH-STACK.md`) und lies `dtb-project/project-workflows/INBOX.md`, falls vorhanden. Zeige die
+1. **Quellmaterial anbieten:** `Glob dtb-project/project-strategy/*.md` (ohne `PRD-MVP.md`,
+   `ROADMAP.md`, `TECH-STACK.md`) und lies `dtb-project/project-workflows/INBOX.md`, falls
+   vorhanden. Zeige die
    Funde und frage, was als Ausgangsmaterial einfliessen soll.
 2. **Freitext ergaenzen:** Gibt es wiederkehrende Reibung, die nirgends dokumentiert ist? Bitte um
    **3–5 wiederkehrende Reibungen/unerfuellte Beduerfnisse** und ihre **Quellen** (Tickets, CI,
@@ -215,7 +216,7 @@ Die Map ist **deutsch** und folgt dieser Struktur:
 [Richtung + Rationale]
 ```
 
-<!-- L5-Gegen-Hinweis (Format-Kopplung): Der Dateiname/Ort `project-strategy/OPPORTUNITY-MAP.md`
+<!-- L5-Gegen-Hinweis (Format-Kopplung): Der Dateiname/Ort `dtb-project/project-strategy/OPPORTUNITY-MAP.md`
      ist an die Quellmaterial-Glob-Ausschlussliste von `dtb:greenfield-prd` (Schritt 2a) gekoppelt —
      die Map wird dort NICHT ausgeschlossen und deshalb als PRD-Quellmaterial aufgegriffen.
      Aenderst du Name oder Ort, den Glob in greenfield-prd mitdenken (dort steht die Gegenrichtung). -->
@@ -235,8 +236,8 @@ Verstoss → Abbruch mit konkretem Befund, **kein stilles Umschreiben**.
 
 ### 4c: Speichern + Kollisions-Dialog
 
-- **Map existiert nicht:** nach bestandenem Selbst-Review schreiben; Ordner `project-strategy/`
-  bei Bedarf anlegen.
+- **Map existiert nicht:** nach bestandenem Selbst-Review schreiben; Ordner
+  `dtb-project/project-strategy/` bei Bedarf anlegen.
 - **Map existiert bereits:** erst der Kollisions-Dialog:
 
   ```
@@ -246,7 +247,7 @@ Verstoss → Abbruch mit konkretem Befund, **kein stilles Umschreiben**.
     3. Abbrechen
   ```
 
-  Bei **1**: bestehende Map nach `project-strategy/archive/YYYY-MM-DD-OPPORTUNITY-MAP.md`
+  Bei **1**: bestehende Map nach `dtb-project/project-strategy/archive/YYYY-MM-DD-OPPORTUNITY-MAP.md`
   verschieben (Ordner `archive/` lazy; zweiter Lauf am selben Tag → `-2`/`-3`), dann neu schreiben.
   In einem **Nicht-Git-Projekt** genuegt ein Filesystem-Move — das Archiv **ist** die Sicherung.
   Bei **2**: ueberschreiben. Bei **3**: nichts schreiben.

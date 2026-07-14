@@ -173,10 +173,10 @@ Der Nudge macht build/buy sichtbar, ohne die verifizierte Greenfield-Logik zu be
 - [x] 1.1 Frontmatter + Grundgerüst + Signal-Erhebung — `772ae4f`
 - [x] 1.2 Klassifikation Signal-für-Signal + Daten-Risiko + Marktkenntnis — `772ae4f`
 - [x] 1.3 Kandidaten-Empfehlung + „no build"-Ausgang — `772ae4f`
-- [x] 1.4 Artefakt-Template + Selbst-Review + Kollision + Hand-off — (Beleg folgt)
-- [x] 2.1 pipeline-graph + README/CLAUDE.md — (Beleg folgt)
-- [x] 2.2 Statische Selbstprüfung (SC9) — 286 Z., Frontmatter, Gegen-Hinweis — alle PASS — (Beleg folgt)
-- [ ] 2.3 Blinde Mechanik-Fixtures (SC1–3, SC5–7)
+- [x] 1.4 Artefakt-Template + Selbst-Review + Kollision + Hand-off — `a2fd691`
+- [x] 2.1 pipeline-graph + README/CLAUDE.md — `a2fd691`
+- [x] 2.2 Statische Selbstprüfung (SC9) — 286 Z., Frontmatter, Gegen-Hinweis — alle PASS — `a2fd691`
+- [x] 2.3 Blinde Mechanik-Fixtures (SC1–3, SC5–7) — 5 Blindläufe PASS (build/buy/empty/collision/nobuild) + Pfad-Inkonsistenz gefixt — (Beleg folgt)
 - [ ] 2.4 Websuche-Sonderbehandlung (SC4)
 - [ ] 3.1 Eingangs-Nudge in greenfield-prd
 - [ ] 3.2 Nudge-Verifikation (SC8)
