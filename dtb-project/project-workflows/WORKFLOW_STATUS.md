@@ -10,6 +10,7 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 | Greenfield-Autoren-Skills | Fertig zum Testen | 14/14 | Abnahme beim ersten realen Greenfield (Entscheidung G) |
+| Opportunity-Map | In Arbeit | 0/11 | Schritt 1.1 — Frontmatter + Grundgerüst + Signal-Erhebung |
 
 ---
 
