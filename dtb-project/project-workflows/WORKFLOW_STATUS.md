@@ -9,8 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| Opportunity-Map | In Arbeit | 8/11 | Schritt 3.1 — Eingangs-Nudge in greenfield-prd |
 | Greenfield-Autoren-Skills | Fertig zum Testen | 14/14 | Abnahme beim ersten realen Greenfield (Entscheidung G) |
-| Opportunity-Map | In Arbeit | 0/11 | Schritt 1.1 — Frontmatter + Grundgerüst + Signal-Erhebung |
 
 ---
 
@@ -19,14 +19,16 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-14: memory-framework entfernt + Verweise bereinigt (README/CLAUDE.md/kit-sync); Codebase-Research-Step abgenommen + archiviert; kit-sync global synchron (`66a96e1`, 36/37 + pitch-coach gehalten). Repo = origin, Working-Tree sauber. |
+| **Notizen** | 2026-07-14 (S2): opportunity-map Kern-Skill fertig + verhaltensecht verifiziert (SC1-7, SC9); offen ist Phase 3 (greenfield-prd-Nudge SC8 + kit-sync). 3 Commits (`772ae4f`/`a2fd691`/`e69446e`) auf master. Phase 3 fasst erstmals das noch-nicht-abgenommene greenfield-prd an (isoliert). |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] Idee-Triage: #10, #13, #15, #16, #17, #18 → `/dtb:idea-review` (10x-Vorfeld #16/#17 ggf. als ein Feature)
-- [ ] Erstes reales Greenfield-Vorhaben → echte Abnahme #11 (PRD→TECH-STACK→ROADMAP); §5 in Zielprojekte nur via erneutes `/dtb:project-init`-Seeding
+- [ ] Opportunity-Map Phase 3 — Kontext: 3.1 Nudge in greenfield-prd, 3.2 Verifikation (SC8), 3.3 kit-sync (außenwirksam, vor Ausführung bestätigen)
+- [ ] Lektion-Kandidat festhalten — Kontext: nicht-deterministische Tool-Anteile (Websuche) geteilt verifizieren → `/dtb:lesson`
+- [ ] Idee-Triage Rest — Kontext: #10, #13, #15, #16, #18 → `/dtb:idea-review`
+- [ ] Erstes reales Greenfield-Vorhaben — Kontext: echte Abnahme Greenfield-Autoren-Skills (Entscheidung G)
 
 ---
 
@@ -34,11 +36,10 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-14 | Codebase-Research-Step abgenommen | pkp-praxiserprobt; abgenommen + archiviert (INBOX #14 geräumt) | `archive/codebase-research-step/` |
-| 2026-07-14 | memory-framework entfernt | Drittanbieter-Framework gelöscht; Verweise in README/CLAUDE.md/kit-sync bereinigt | `2026-07/2026-07-14.md` (S1) |
-| 2026-07-13 | Greenfield-Autoren-Skills umgesetzt | prd/roadmap Autoren-Skills; 14/14, SC1-9 belegt (8 blinde Fixtures); global synchron | `2026-07/2026-07-13.md` (S8) |
-| 2026-07-13 | Discovery + Plan Greenfield-Autoren-Skills | discovery.md + spec.md + plan.md (Reviewed, REVISE eingearbeitet) | `2026-07/2026-07-13.md` (S6/S7) |
-| 2026-07-13 | Codebase-Research-Step gebaut | impl-plan Ist-Analyse-Schritt; 10/10, SC1–8 belegt; pkp-Praxistest gehärtet | `2026-07/2026-07-13.md` (S5) |
+| 2026-07-14 | Opportunity-Map Kern gebaut + verifiziert | Skill 286 Z.; SC1-7/9 belegt (5 Blindläufe + 2 Websuche-Läufe); 8/11 | `2026-07/2026-07-14.md` (S2) |
+| 2026-07-14 | Codebase-Research-Step abgenommen | pkp-praxiserprobt; abgenommen + archiviert | `archive/codebase-research-step/` |
+| 2026-07-14 | memory-framework entfernt | Drittanbieter-Framework gelöscht; Verweise bereinigt | `2026-07/2026-07-14.md` (S1) |
+| 2026-07-13 | Greenfield-Autoren-Skills umgesetzt | prd/roadmap Autoren-Skills; 14/14, SC1-9 belegt | `2026-07/2026-07-13.md` (S8) |
 
 ---
 
@@ -50,5 +51,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:idea-review` — 6 offene Ideen triagieren (kein aktiver Implementierungs-Schritt; einziges aktives Feature Greenfield-Autoren-Skills wartet auf reale Greenfield-Abnahme).
-**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
+**Naechster Befehl:** Weiterarbeit an `features/opportunity-map/plan.md` Schritt 3.1 (Eingangs-Nudge in greenfield-prd) — opportunity-map ist „In Arbeit" (8/11), erster nicht abgehakter Schritt ist 3.1; kein Skill-Kommando nötig, direkt am Plan fortsetzen.
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach Schritt 3.1. Der abschließende kit-sync (3.3) ist außenwirksam und vor Ausführung zu bestätigen.
