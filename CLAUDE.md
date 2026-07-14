@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Repository Is
 
-This is a **Claude Code workflow toolkit** — a collection of skills, agent roles, frameworks, and templates that extend Claude Code's capabilities for structured development workflows. It is not a runnable application; it contains markdown-based prompts and configuration files.
+This is a **Claude Code workflow toolkit** — a collection of skills, agent roles, personas, and templates that extend Claude Code's capabilities for structured development workflows. It is not a runnable application; it contains markdown-based prompts and configuration files.
 
-The primary language for skills and documentation is **German**. The memory framework (`frameworks/claude-code-memory-framework/`) documentation is in **Polish** (third-party inclusion). Code, file names, and technical terms remain in English.
+The primary language for skills and documentation is **German**. Code, file names, and technical terms remain in English.
 
 ## How This Repo Is Used
 
@@ -15,7 +15,6 @@ This is a **distribution repository**, not a standalone project. Users copy part
 - `agents/` → target project root
 - `personas/` → target project's `.claude/personas/`
 - `commands/` → target project's `.claude/commands/`
-- `frameworks/` templates → target project's `memory/` directory
 - `settings.json` → target project's `.claude/settings.json`
 
 There are no build steps, tests, or runtime dependencies. The `context7` plugin is enabled in settings.json.
@@ -23,7 +22,7 @@ There are no build steps, tests, or runtime dependencies. The `context7` plugin 
 **Distribution model:** `dtb:kit-sync` installs class-A artifacts (`skills/dtb-*/SKILL.md`,
 `agents/*.md`, `commands/dtb-*.md`) globally to `~/.claude/` and records a content hash per
 file in `~/.claude/dtb-lock.json` (three-point drift detection repo ↔ lock ↔ copy; source is
-this repo on GitHub). Seeds (`frameworks/`, `settings.json`, `DERIVED_STATE_RULES.md`) are
+this repo on GitHub). Seeds (`settings.json`, `DERIVED_STATE_RULES.md`) are
 copied per project by `dtb:project-init` and never drift-checked. `dtb:project-init` writes
 its CLAUDE.md block in target projects between `<!-- BEGIN dtb -->…<!-- END dtb -->` sentinel
 markers (idempotent updates, user text untouched).
@@ -96,14 +95,6 @@ Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a p
 - `dtb-project/project-requirements/input/` — Drop-Zone für Anforderungs-Dokumente
 - `dtb-project/project-strategy/input/` — Drop-Zone für Strategie-Dokumente
 - `integrations/<vendor-name>/input/` — Drop-Zone für Vendor-/Integrations-Dokumente
-
-## Memory Framework
-
-The `frameworks/claude-code-memory-framework/` provides templates for three patterns:
-
-1. **Autonomy rules** (`autonomy-rules.md`) — Four-level permission taxonomy: ALLOWED / REQUIRES APPROVAL / NEVER / ESCALATE
-2. **Pitfalls file** (`pitfalls.md`) — Institutional knowledge about non-obvious technical issues, grouped by technology
-3. **Memory size management** — Keep MEMORY.md under 150 lines (hard cutoff at 200); use one-line summaries with pointers to topic files
 
 ## Conventions When Editing Skills
 

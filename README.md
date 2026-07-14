@@ -1,6 +1,6 @@
 # Claude Code Workflow Kit
 
-> A collection of slash commands, frameworks, and templates that extend Claude Code
+> A collection of slash commands, agent roles, and templates that extend Claude Code
 > with structured development workflows.
 
 ## What's Inside
@@ -11,8 +11,6 @@
 - **Personas** — Reusable persona definitions (e.g. `dtb-stakeholder-pitch-coach`) that adopt a
   role to work *with the human over an event* rather than on a code artifact
 - **Commands** — Slash-command definitions that activate personas or shortcuts (e.g. `/dtb-pitch-coach`)
-- **Memory Framework** — Production-tested patterns for managing Claude Code's persistent
-  memory (autonomy rules, pitfalls tracking, memory size management)
 - **Project Settings** — Pre-configured permissions and plugin setup
 
 ## Installation
@@ -51,8 +49,7 @@ cp -r skills/* ~/.claude/skills/
 cp -r agents/* ~/.claude/agents/
 cp -r commands/* ~/.claude/commands/
 
-# Optional: Memory Framework Templates + Settings ins Zielprojekt
-cp frameworks/claude-code-memory-framework/templates/* <dein-projekt>/memory/
+# Optional: Settings ins Zielprojekt
 cp settings.json <dein-projekt>/.claude/settings.json
 
 # Pro Projekt initialisieren (verteilt auch die Statusableitungs-Regeln)
@@ -100,15 +97,6 @@ cd <dein-projekt>
 | `/dtb:lesson` | Capture a reusable lesson append-only into `lessons.md`, read as a prior by plan/review skills |
 | `/dtb:pipeline-graph` | Generate interactive HTML overview of entire skill pipeline |
 
-## Memory Framework
-
-The included [Claude Code Memory Framework](frameworks/claude-code-memory-framework/)
-provides templates for:
-
-- **Autonomy Rules** — 4-level permission model (ALLOWED / REQUIRES APPROVAL / NEVER / ESCALATE)
-- **Pitfalls File** — Institutional knowledge about non-obvious technical issues
-- **Memory Management** — Keep MEMORY.md lean (<150 lines) with topic file pointers
-
 ## Personas & Commands
 
 **Personas** (`personas/`) are role definitions Claude adopts to work *with the human over an
@@ -141,7 +129,6 @@ skills/                # Skill definitions (primary — auto-detected by Claude 
 agents/                # Reusable agent role definitions (work on code artifacts)
 personas/              # Reusable persona definitions (work with the human over an event)
 commands/              # Slash-command definitions (activate personas / shortcuts)
-frameworks/            # Memory framework with templates
 workflow.config.yaml   # Project-specific config (template — filled by /dtb:project-init)
 settings.json          # Claude Code project settings
 CLAUDE.md              # Project instructions for Claude Code
