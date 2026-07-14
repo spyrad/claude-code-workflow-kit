@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-14
 **Ziel:** Ein eigenständiger Vorfeld-Skill `dtb-opportunity-map`, der wiederkehrende Reibung in eine build/buy/complement/wait-Entscheidung überführt, bevor teure PRD-/Bau-Arbeit beginnt.
 **Prioritaet:** Mittel
-**Status:** In Arbeit <!-- abgeleitet: 10/11 Progress-Schritte in plan.md (offen: 3.3 kit-sync); Sync: dtb:workflow-checkpoint (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitet: 11/11 Progress-Schritte in plan.md abgehakt (3.3 kit-sync erledigt 2026-07-14); Sync: dtb:workflow-checkpoint (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -95,15 +95,15 @@ build/buy-Frage nicht vergessen wird — ohne die Greenfield-Kette umzubauen.
 
 **Das Feature gilt als erfolgreich wenn:**
 
-- [ ] SC1: Der Skill erhebt Signale aus `project-strategy/*.md` + INBOX + Freitext, normalisiert wiederkehrende Reibung und behandelt eine vorgeschlagene Lösung („baut mir X") nicht als Schmerzsignal, sondern fragt nach dem echten wiederkehrenden Schmerz
-- [ ] SC2: Jedes Signal wird als eigener Block in build / buy / complement / wait eingeordnet (keine breite Tabelle mitten im Gespräch); das Daten-Risiko wird früh per Auswahlfrage erfasst
-- [ ] SC3: Der Skill empfiehlt genau **einen** Kandidaten mit dünner read-only Erstversion (Reads/Returns/Does-not-do/Daten-Risiko/Richtung); qualifiziert sich keiner, ist „no build / bestehendes Tool nutzen" das ausgegebene Ergebnis (kein Fehler)
-- [ ] SC4: Marktkenntnis stammt primär aus Live-Websuche; ist die Websuche-Fähigkeit nicht verfügbar, degradiert der Skill sauber auf Modellwissen und kennzeichnet das; keine Produkte/Preise werden erfunden, Unsicherheit wird benannt
-- [ ] SC5: Der Skill schreibt `project-strategy/OPPORTUNITY-MAP.md` (Kontext + Vergleichstabelle + empfohlener Kandidat + Begründung + Richtung), das von greenfield-prds Quellmaterial-Glob (`project-strategy/*.md`) aufgegriffen wird
-- [ ] SC6: Selbst-Review vor dem Schreiben bricht bei leerer Basis/Abbruch ohne Write ab; existiert bereits eine `OPPORTUNITY-MAP.md`, erscheint der Kollisions-Dialog (Archivieren+ersetzen / Überschreiben / Abbrechen), kein stilles Überschreiben
-- [ ] SC7: Der Hand-off ist korrekt und ohne Auto-Chaining: build → genau ein empfohlener `/dtb:greenfield-prd`-Befehl; buy/complement → Handlungshinweis; wait → Map gespeichert
-- [ ] SC8: `greenfield-prd` zeigt im Autoren-Modus (PRD fehlt) **und** wenn keine `OPPORTUNITY-MAP.md` existiert genau einen Eingangs-Nudge (Weiter/Abbrechen); liegt eine Map vor, erscheint er nicht; die verifizierten SC1–3 des Greenfield-Features bleiben unverändert (additiv)
-- [ ] SC9: `dtb-opportunity-map/SKILL.md` ≤ ~350 Zeilen, `disable-model-invocation: true`, Frontmatter (`produces`, `allowed-tools` inkl. Websuche-Fähigkeit) korrekt, deutsch, Guardrails im Text; pipeline-graph-Legende kennt `OPPORTUNITY-MAP.md`, kit-sync nimmt den Skill auf, README/CLAUDE.md-Katalog aktualisiert
+- [x] SC1: Der Skill erhebt Signale aus `project-strategy/*.md` + INBOX + Freitext, normalisiert wiederkehrende Reibung und behandelt eine vorgeschlagene Lösung („baut mir X") nicht als Schmerzsignal, sondern fragt nach dem echten wiederkehrenden Schmerz — *Beleg: 2.3 Blindlauf „baut mir ein Dashboard" → Rückfrage nach Schmerz, PASS (`e69446e`)*
+- [x] SC2: Jedes Signal wird als eigener Block in build / buy / complement / wait eingeordnet (keine breite Tabelle mitten im Gespräch); das Daten-Risiko wird früh per Auswahlfrage erfasst — *Beleg: 2.3 Blindläufe build/buy — Block-Format + Daten-Risiko-Frage, PASS (`e69446e`)*
+- [x] SC3: Der Skill empfiehlt genau **einen** Kandidaten mit dünner read-only Erstversion (Reads/Returns/Does-not-do/Daten-Risiko/Richtung); qualifiziert sich keiner, ist „no build / bestehendes Tool nutzen" das ausgegebene Ergebnis (kein Fehler) — *Beleg: 2.3 Blindläufe „genau 1 Kandidat" + „kein Kandidat → no build", PASS (`e69446e`)*
+- [x] SC4: Marktkenntnis stammt primär aus Live-Websuche; ist die Websuche-Fähigkeit nicht verfügbar, degradiert der Skill sauber auf Modellwissen und kennzeichnet das; keine Produkte/Preise werden erfunden, Unsicherheit wird benannt — *Beleg: 2.4 statisch + Positiv-Lauf (Suche bei Nische, Funde untrusted gekennzeichnet) + Fallback-Lauf (sichtbare Degradation, kein Fehler), PASS*
+- [x] SC5: Der Skill schreibt `project-strategy/OPPORTUNITY-MAP.md` (Kontext + Vergleichstabelle + empfohlener Kandidat + Begründung + Richtung), das von greenfield-prds Quellmaterial-Glob (`project-strategy/*.md`) aufgegriffen wird — *Beleg: 2.3 Grep — Dateiname NICHT in greenfield-prds Ausschlussliste (Schritt 2a), PASS (`e69446e`)*
+- [x] SC6: Selbst-Review vor dem Schreiben bricht bei leerer Basis/Abbruch ohne Write ab; existiert bereits eine `OPPORTUNITY-MAP.md`, erscheint der Kollisions-Dialog (Archivieren+ersetzen / Überschreiben / Abbrechen), kein stilles Überschreiben — *Beleg: 2.3 Blindläufe „leere Basis → kein Write" + „vorhandene Map → Kollisions-Dialog", PASS (`e69446e`)*
+- [x] SC7: Der Hand-off ist korrekt und ohne Auto-Chaining: build → genau ein empfohlener `/dtb:greenfield-prd`-Befehl; buy/complement → Handlungshinweis; wait → Map gespeichert — *Beleg: 2.3 Blindläufe build → Hand-off greenfield-prd, buy → Handlungshinweis, PASS (`e69446e`)*
+- [x] SC8: `greenfield-prd` zeigt im Autoren-Modus (PRD fehlt) **und** wenn keine `OPPORTUNITY-MAP.md` existiert genau einen Eingangs-Nudge (Weiter/Abbrechen); liegt eine Map vor, erscheint er nicht; die verifizierten SC1–3 des Greenfield-Features bleiben unverändert (additiv) — *Beleg: 3.2 vier Blindläufe (Nudge nur Zweig 3 ohne Map; kein Nudge bei Map/Resume/Report; Greenfield-SC1–3 nicht regressiert), PASS (`91bedac`)*
+- [x] SC9: `dtb-opportunity-map/SKILL.md` ≤ ~350 Zeilen, `disable-model-invocation: true`, Frontmatter (`produces`, `allowed-tools` inkl. Websuche-Fähigkeit) korrekt, deutsch, Guardrails im Text; pipeline-graph-Legende kennt `OPPORTUNITY-MAP.md`, kit-sync nimmt den Skill auf, README/CLAUDE.md-Katalog aktualisiert — *Beleg: 2.2 statisch (286 Z., Frontmatter, Guardrails — PASS, `a2fd691`) + 2.1 Umfeld (pipeline-graph/README/CLAUDE.md, `a2fd691`) + 3.3 kit-sync: Skill als neues Artefakt aufgenommen, Lock `sourceCommit 1ca6493` (2026-07-14)*
 
 ---
 
