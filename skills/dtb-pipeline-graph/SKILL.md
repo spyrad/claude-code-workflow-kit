@@ -265,6 +265,7 @@ Wickle die Matrix in ein `<details>` Element:
 | `ARCHIVE_LOG.md` | `dtb-project/project-workflows/archive/` | Log archivierter Eintraege |
 | `project-rules/*.md` | `dtb-project/project-rules/` | Coding-Richtlinien + `lessons.md` (Prior, keine Rule) |
 | `agents/*.md` | `~/.claude/agents/` (Fallback: `agents/`) | Agenten-Rollen |
+| `OPPORTUNITY-MAP.md` | `dtb-project/project-strategy/` | build/buy/complement/wait-Entscheidung im Vorfeld (Autor: `dtb:opportunity-map`) |
 | `PRD-MVP.md` | `dtb-project/project-strategy/` | Product Requirements Document (Autor: `dtb:greenfield-prd`) |
 | `TECH-STACK.md` | `dtb-project/project-strategy/` | Stack-Entscheidungen als Living Doc (Autor: `dtb:greenfield-roadmap`) |
 | `ROADMAP.md` | `dtb-project/project-strategy/` | Strategische Projekt-Roadmap mit Change-IDs (Autor: `dtb:greenfield-roadmap`) |

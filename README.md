@@ -91,6 +91,7 @@ cd <dein-projekt>
 | `/dtb:project-init` | Initialize DTB workflow in a project |
 | `/dtb:project-health` | Project linting and consistency checks |
 | `/dtb:project-team` | Team documentation |
+| `/dtb:opportunity-map` | Classify recurring friction into build/buy/complement/wait before building; recommends one candidate, writes `OPPORTUNITY-MAP.md` |
 | `/dtb:greenfield-prd` | Two-mode: author `PRD-MVP.md` via a product interview when missing, else summarize it |
 | `/dtb:greenfield-roadmap` | Two-mode: author `ROADMAP.md` (+`TECH-STACK.md`) from the PRD via a lean interview, else summarize it |
 | `/dtb:docs-extract` | Scan input/ folder, extract facts from PDFs/docs, create thematic MDs |

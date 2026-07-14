@@ -53,7 +53,7 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 - **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`
 - **Bug workflow**: `bug-report` (quick capture with severity), `debug-plan` (root-cause analysis + fix strategy)
 - **Project setup**: `project-init`, `project-health`, `project-team`
-- **Greenfield**: `greenfield-prd` (Autor: PRD-Interview → `PRD-MVP.md`, oder Report-Modus), `greenfield-roadmap` (Autor: Stack-Besprechung → `TECH-STACK.md` + Lean-Interview → `ROADMAP.md` mit Change-IDs, oder Report-Modus)
+- **Greenfield**: `opportunity-map` (Vorfeld: build/buy/complement/wait-Sichtung → `OPPORTUNITY-MAP.md`, Hand-off zu `greenfield-prd` bei „build"), `greenfield-prd` (Autor: PRD-Interview → `PRD-MVP.md`, oder Report-Modus), `greenfield-roadmap` (Autor: Stack-Besprechung → `TECH-STACK.md` + Lean-Interview → `ROADMAP.md` mit Change-IDs, oder Report-Modus)
 - **Maintenance**: `archive` (move completed/discarded items to archive), `kit-sync` (install/update installed kit copies under `~/.claude/` via lock-based drift detection — see below)
 - **Development**: `build-check`, `code-review`, `backlog-status`, `repo-sync`
 - **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs), `lesson` (capture a reusable lesson append-only into `project-rules/lessons.md`, read as a prior by impl-plan/debug-plan/plan-review/code-review — replaces the dead `pitfalls.md` concept)

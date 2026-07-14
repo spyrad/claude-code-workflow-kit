@@ -170,12 +170,12 @@ Der Nudge macht build/buy sichtbar, ohne die verifizierte Greenfield-Logik zu be
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
 > Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg (optional bei Schritten ohne Commit).
 
-- [x] 1.1 Frontmatter + Grundgerüst + Signal-Erhebung — (uncommitted, Beleg-SHA folgt)
-- [x] 1.2 Klassifikation Signal-für-Signal + Daten-Risiko + Marktkenntnis — (uncommitted, Beleg-SHA folgt)
-- [x] 1.3 Kandidaten-Empfehlung + „no build"-Ausgang — (uncommitted, Beleg-SHA folgt)
-- [ ] 1.4 Artefakt-Template + Selbst-Review + Kollision + Hand-off
-- [ ] 2.1 pipeline-graph + README/CLAUDE.md
-- [ ] 2.2 Statische Selbstprüfung (SC9)
+- [x] 1.1 Frontmatter + Grundgerüst + Signal-Erhebung — `772ae4f`
+- [x] 1.2 Klassifikation Signal-für-Signal + Daten-Risiko + Marktkenntnis — `772ae4f`
+- [x] 1.3 Kandidaten-Empfehlung + „no build"-Ausgang — `772ae4f`
+- [x] 1.4 Artefakt-Template + Selbst-Review + Kollision + Hand-off — (Beleg folgt)
+- [x] 2.1 pipeline-graph + README/CLAUDE.md — (Beleg folgt)
+- [x] 2.2 Statische Selbstprüfung (SC9) — 286 Z., Frontmatter, Gegen-Hinweis — alle PASS — (Beleg folgt)
 - [ ] 2.3 Blinde Mechanik-Fixtures (SC1–3, SC5–7)
 - [ ] 2.4 Websuche-Sonderbehandlung (SC4)
 - [ ] 3.1 Eingangs-Nudge in greenfield-prd
