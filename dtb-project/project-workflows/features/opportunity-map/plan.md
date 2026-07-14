@@ -178,7 +178,7 @@ Der Nudge macht build/buy sichtbar, ohne die verifizierte Greenfield-Logik zu be
 - [x] 2.2 Statische Selbstprüfung (SC9) — 286 Z., Frontmatter, Gegen-Hinweis — alle PASS — `a2fd691`
 - [x] 2.3 Blinde Mechanik-Fixtures (SC1–3, SC5–7) — 5 Blindläufe PASS (build/buy/empty/collision/nobuild) + Pfad-Inkonsistenz gefixt — `e69446e`
 - [x] 2.4 Websuche-Sonderbehandlung (SC4) — statisch + Positiv-Lauf (WebSearch bei Nische, Funde untrusted gekennzeichnet) + Fallback-Lauf (sichtbare Degradation, kein Fehler) — alle PASS (Verifikation, kein Commit; plan.md-Stand fließt in 3.x)
-- [ ] 3.1 Eingangs-Nudge in greenfield-prd
+- [x] 3.1 Eingangs-Nudge in greenfield-prd — Schritt 2·0 (nur Zweig 3, kein Resume/Report), L5-Gegenrichtung — (Beleg folgt)
 - [ ] 3.2 Nudge-Verifikation (SC8)
 - [ ] 3.3 kit-sync + SC-Abschluss
 

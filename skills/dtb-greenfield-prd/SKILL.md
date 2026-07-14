@@ -66,6 +66,32 @@ nicht automatisch wieder geoeffnet (das ist Sache des Readiness-Checks in
 
 ## Autoren-Modus
 
+### Schritt 2·0: build/buy-Nudge (nur frischer Start, kein Resume)
+
+**Nur wenn dieser Lauf ein frischer Autoren-Modus ist (Modus-Weiche Zweig 3: PRD fehlt) —
+NICHT bei Resume-Fortsetzung (Zweig 1) und NICHT im Report-Modus (Zweig 2).** Pruefe, ob
+`dtb-project/project-strategy/OPPORTUNITY-MAP.md` existiert:
+
+- **Map existiert** → diesen Schritt **still ueberspringen** (build/buy wurde bereits gesichtet;
+  die Map wird in Schritt 2a ohnehin als Quellmaterial aufgegriffen).
+- **Keine Map** → **genau einen** Hinweis ausgeben (kein Zwang, kein Hard-Gate, keine Wiederholung):
+
+  ```
+  Bevor wir das PRD schreiben: Ist die build/buy-Frage geklaert?
+  Fuer ein Greenfield-MVP lohnt oft ein kurzer Blick, ob ein bestehendes Produkt den Bedarf
+  schon deckt (kaufen/komplementieren) statt neu zu bauen.
+    1. Zuerst build/buy sichten → /dtb:opportunity-map  (kein Auto-Start, nur Empfehlung)
+    2. Weiter mit dem PRD-Interview
+  ```
+
+  Waehlt der Nutzer **2** → normal mit Schritt 2a fortfahren. Waehlt er **1** → hier stoppen und
+  `/dtb:opportunity-map` empfehlen (Hand-off, **kein** Auto-Chaining). Der Nudge blockiert nie.
+
+<!-- L5-Gegen-Hinweis (Format-Kopplung, Gegenrichtung): Nudge-Bedingung + Quellmaterial-Glob
+     (Schritt 2a) sind an `dtb:opportunity-map` gekoppelt — Artefaktname `OPPORTUNITY-MAP.md`,
+     Ort `dtb-project/project-strategy/`. Aenderst du Name/Ort/Ausschlussliste, den
+     opportunity-map-Skill mitdenken (dort steht die Gegenrichtung). -->
+
 ### Schritt 2a: Quellmaterial anbieten
 
 Bevor das Interview startet, sammle vorhandenes Material und biete es als Input an:
