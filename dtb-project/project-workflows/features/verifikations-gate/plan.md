@@ -309,14 +309,14 @@ Nichts zeigt mehr auf alte Zustände; jedes Success Criterion der Spec ist beleg
 - [x] 1.1 §2 Flip-Bedingung härten — `43042b5`
 - [x] 1.2 §2 SHA-Timing neu fassen — `43042b5`
 - [x] 1.3 Inventur alte Wortlaute + Plan-Header-Fix — `43042b5`
-- [x] 2.1 Checkpoint-Kriterien Automated/Manual
-- [x] 2.2 Anweisungen: prüfbare Kriterien
-- [x] 2.3 3x3-Template-Sektion → Verweis
-- [ ] 3.1 implement: Gerüst + Frontmatter
-- [ ] 3.2 implement: Einstieg + Hard-Gate + Wiedereinstieg
-- [ ] 3.3 implement: Umsetzungs-Loop (3x3-Quelle)
-- [ ] 3.4 implement: Phasen-Ende-Ritual
-- [ ] 3.5 implement: Multi-Repo + Abschluss
+- [x] 2.1 Checkpoint-Kriterien Automated/Manual — `7767a86`
+- [x] 2.2 Anweisungen: prüfbare Kriterien — `7767a86`
+- [x] 2.3 3x3-Template-Sektion → Verweis — `7767a86`
+- [x] 3.1 implement: Gerüst + Frontmatter
+- [x] 3.2 implement: Einstieg + Hard-Gate + Wiedereinstieg
+- [x] 3.3 implement: Umsetzungs-Loop (3x3-Quelle)
+- [x] 3.4 implement: Phasen-Ende-Ritual
+- [x] 3.5 implement: Multi-Repo + Abschluss
 - [ ] 4.1 feature-start umbauen
 - [ ] 4.2 build-check entkernen/neu positionieren
 - [ ] 4.3 code-review + checkpoint Verweise
