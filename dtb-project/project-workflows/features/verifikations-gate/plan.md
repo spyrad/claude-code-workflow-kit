@@ -306,12 +306,12 @@ Nichts zeigt mehr auf alte Zustände; jedes Success Criterion der Spec ist beleg
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 §2 Flip-Bedingung härten
-- [x] 1.2 §2 SHA-Timing neu fassen
-- [x] 1.3 Inventur alte Wortlaute + Plan-Header-Fix
-- [ ] 2.1 Checkpoint-Kriterien Automated/Manual
-- [ ] 2.2 Anweisungen: prüfbare Kriterien
-- [ ] 2.3 3x3-Template-Sektion → Verweis
+- [x] 1.1 §2 Flip-Bedingung härten — `43042b5`
+- [x] 1.2 §2 SHA-Timing neu fassen — `43042b5`
+- [x] 1.3 Inventur alte Wortlaute + Plan-Header-Fix — `43042b5`
+- [x] 2.1 Checkpoint-Kriterien Automated/Manual
+- [x] 2.2 Anweisungen: prüfbare Kriterien
+- [x] 2.3 3x3-Template-Sektion → Verweis
 - [ ] 3.1 implement: Gerüst + Frontmatter
 - [ ] 3.2 implement: Einstieg + Hard-Gate + Wiedereinstieg
 - [ ] 3.3 implement: Umsetzungs-Loop (3x3-Quelle)

@@ -146,7 +146,12 @@ Verwende folgende Struktur:
 - [ ] [Output 1]
 
 ### Checkpoint-Kriterien
-- [ ] [Kriterium 1]
+
+#### Automated
+- [ ] [Mechanisch pruefbares Kriterium: Kommando, Grep, Datei-Existenz]
+
+#### Manual
+- [ ] [Menschliches Urteil, wird am Phasen-Ende bestaetigt — Unterueberschrift weglassen, wenn nichts manuell zu pruefen ist]
 
 ---
 
@@ -161,7 +166,8 @@ Verwende folgende Struktur:
 ## Progress
 
 > Single Source of Truth fuer den Umsetzungsstand (Regeln: `project-rules/DERIVED_STATE_RULES.md`).
-> Nach jedem umgesetzten Schritt sofort abhaken; Commit-SHA als Beleg (optional bei Schritten ohne Commit).
+> Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
+> Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
 - [ ] 1.1 [Kurzname]
 - [ ] 1.2 [Kurzname]
@@ -170,18 +176,12 @@ Verwende folgende Struktur:
 
 ---
 
-## 3x3 Umsetzungsrhythmus
+## Umsetzung
 
-Dieser Plan ist fuer die Umsetzung im **3x3-Rhythmus** ausgelegt:
-
-1. Implementiere max. 3 Schritte aus dem Plan
-2. Hake die erledigten Schritte in `## Progress` ab (Commit-SHA als Beleg)
-3. Fasse kurz zusammen was erledigt wurde
-4. Beschreibe die naechsten 3 Schritte
-5. **Stoppe und warte auf Feedback** bevor du weiterarbeitest
-
-Bei Kontextverlust oder nach >6 Schritten: Die `## Progress`-Sektion ist der Wiedereinstiegspunkt —
-in neuer Konversation `features/{slug}/plan.md` laden; der erste nicht abgehakte Schritt ist der naechste.
+Umsetzung mit `/dtb:implement [Feature-Name]` — 3x3-Rhythmus und Phasen-Ende-Ritual
+(Verifikations-Gate, SHA-Nachtrag) sind dort beschrieben (die eine Quelle).
+Wiedereinstieg bei Kontextverlust: `features/{slug}/plan.md` laden; der erste nicht
+abgehakte Schritt in `## Progress` ist der naechste.
 Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint`).
 
 ---
@@ -223,9 +223,14 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
    - Nutze konkrete Informationen aus der Feature-Spec und dem Chat-Verlauf
    - Bei fehlenden Infos: Nutze Platzhalter `[TODO: ...]`
    - Jede Phase braucht ein klares Ziel, Schritte mit Dateibezug, und Checkpoint-Kriterien
+   - **Checkpoint-Kriterien (Automated/Manual, Pflicht):** Jede Phase braucht MINDESTENS ein
+     `#### Automated`-Kriterium — mechanisch pruefbar (Kommando, Grep, Datei-Existenz), keine
+     Prosa-Kriterien („Code ist sauber" ist keins). `#### Manual` nur fuer echte menschliche
+     Urteile (UX-Eindruck, fachliche Abnahme); gibt es keine, die Unterueberschrift weglassen.
+     Diese Kriterien speisen das Verifikations-Gate (§2 Flip-Bedingung, Ritual in `dtb:implement`)
    - Technische Entscheidungen: Optionen auflisten, Entscheidung kann "Offen" sein
    - **3x3-Blockung:** Nummeriere Schritte fortlaufend pro Phase (1.1, 1.2, 1.3, 1.4 ...) und setze nach jedem 3. Schritt einen `> 3x3-Block`-Hinweis. Jeder Schritt soll ein konkretes, testbares Ergebnis liefern.
-   - **Progress-Sektion (Pflicht):** Erzeuge fuer JEDEN Schritt N.M genau eine Checkbox-Zeile `- [ ] N.M Kurzname` in `## Progress`. Format gemaess `project-rules/DERIVED_STATE_RULES.md`: 1 Zeile pro Schritt, keine Prosa, SHA-Beleg kommt erst beim Abhaken dazu. Diese Sektion ist die Single Source of Truth fuer den Umsetzungsstand — es gibt KEIN separates Status-Artefakt (IMPL_STATUS_*.md ist abgeschafft).
+   - **Progress-Sektion (Pflicht):** Erzeuge fuer JEDEN Schritt N.M genau eine Checkbox-Zeile `- [ ] N.M Kurzname` in `## Progress`. Format gemaess `project-rules/DERIVED_STATE_RULES.md`: 1 Zeile pro Schritt, keine Prosa; der SHA-Beleg kommt erst beim Phasen-Ende-Commit dazu (§2 Regel 4, Ritual in `dtb:implement`). Diese Sektion ist die Single Source of Truth fuer den Umsetzungsstand — es gibt KEIN separates Status-Artefakt (IMPL_STATUS_*.md ist abgeschafft).
    - **`## Ist-Analyse` fuellen:** Uebertrage die bestaetigte/uebernommene Modul-Liste aus Schritt 3 kompakt in die Sektion (Tabelle Pfad/Ist-Befund; bei Neubau die eine „keine betroffenen Bestandsmodule (Neubau)"-Zeile). Das ist Zusatz-Info, KEINE Status-Quelle (DERIVED_STATE_RULES.md bleibt unberuehrt).
    - **Max. 500 Zeilen** — laengere Plaene verschlechtern die AI-Verarbeitung. Bei sehr grossen Features: in mehrere Phasen-Dateien aufteilen oder Details in Schritten knapp halten.
 
