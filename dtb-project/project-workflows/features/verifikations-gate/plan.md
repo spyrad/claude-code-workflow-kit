@@ -322,8 +322,8 @@ Nichts zeigt mehr auf alte Zustände; jedes Success Criterion der Spec ist beleg
 - [x] 4.3 code-review + checkpoint Verweise — `bfbfc38`
 - [x] 4.4 Abnahme-Härtung workflow-checkpoint — `bfbfc38`
 - [x] 4.5 Doku-/Übersichts-Stellen — `bfbfc38`
-- [x] 5.1 Konsistenz-Sweep
-- [x] 5.2 SC-Abgleich + Seed-Hinweis
+- [x] 5.1 Konsistenz-Sweep — `2da1cb2`
+- [x] 5.2 SC-Abgleich + Seed-Hinweis — `2da1cb2`
 
 ---
 
