@@ -9,10 +9,9 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| Verifikations-Gate | In Arbeit | 0/18 | 1.1 §2 Flip-Bedingung härten |
 | Opportunity-Map | Fertig zum Testen | 11/11 | Abnahme beim ersten realen Greenfield-Vorhaben |
 | Greenfield-Autoren-Skills | Fertig zum Testen | 14/14 | Abnahme beim ersten realen Greenfield (Entscheidung G) |
-
-Kein Feature „In Arbeit".
 
 ---
 

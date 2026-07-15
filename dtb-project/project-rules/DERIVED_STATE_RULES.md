@@ -84,7 +84,7 @@ die Ableitung nach 1.1 (plan-basiert) hat dann Vorrang, `bug.md`/`task.md` sind 
 
 ---
 
-## 2. Progress-Sektion — Format
+## 2. Progress-Sektion — Format & Verifikations-Gate
 
 Jedes `plan.md` enthaelt eine `## Progress`-Sektion (erzeugt von `dtb:impl-plan`):
 
@@ -94,20 +94,38 @@ Jedes `plan.md` enthaelt eine `## Progress`-Sektion (erzeugt von `dtb:impl-plan`
 - [ ] 1.1 Kurzname des Schritts
 - [x] 1.2 Kurzname des Schritts — `a1b2c3d`
 - [x] 1.3 Doku-Schritt ohne Commit
+- [x] 2.1 Geflippt, Phase laeuft noch (SHA folgt beim Phasen-Commit)
 ```
 
 **Regeln:**
 
 1. **Eine Zeile pro Plan-Schritt**, Nummerierung identisch zu den Schritten im Plan (N.M)
 2. **Checkbox-Syntax:** `- [ ]` offen, `- [x]` erledigt — keine anderen Marker
-3. **Commit-SHA als Beleg:** nach ` — ` als Inline-Code (`` `a1b2c3d` ``, Kurzform 7 Zeichen).
-   Optional — Schritte ohne Commit (reine Doku/Verifikation) haben keine SHA
-4. **Gebuendelte Commits:** ein Commit darf mehrere Checkboxen belegen (gleiche SHA an
+3. **Flip-Bedingung (Verifikations-Gate):** Eine Checkbox darf erst geflippt werden, wenn der
+   Schritt umgesetzt ist UND kein **Automated**-Checkpoint-Kriterium seiner Phase verletzt ist
+   (rotes Kriterium → erst fixen, dann abhaken). Checkpoint-Kriterien einer Phase sind
+   unterteilt in **Automated** (mechanisch pruefbar: Kommando, Grep, Datei-Existenz) und
+   **Manual** (menschliches Urteil, am Phasen-Ende bestaetigt — Ritual in `dtb:implement`).
+   Fehlen Kriterien oder sind sie ungeteilt (Alt-Plan): alle als Manual behandeln —
+   das Gate entfaellt nie, es wandert zum Menschen (kein Abbruch, vgl. §1.4)
+4. **Commit-SHA als Verifikations-Beleg:** nach ` — ` als Inline-Code (`` `a1b2c3d` ``,
+   Kurzform 7 Zeichen). Die SHA wird NICHT beim Abhaken gesetzt, sondern beim
+   Phasen-Ende-Commit in alle waehrend der Phase geflippten Zeilen nachgetragen —
+   sie belegt damit die verifizierte Phase, nicht nur den Commit. Eine geflippte Zeile
+   ohne SHA ist mid-phase ein gueltiger Zwischenzustand. Schritte/Phasen ohne Commit
+   (reine Doku/Verifikation, leerer Diff) bleiben dauerhaft SHA-los
+5. **Multi-Repo:** Die SHA einer Zeile stammt aus dem Repo des jeweiligen Schritts;
+   mehrere SHAs pro Phase sind zulaessig. In Multi-Repo-Projekten (mehr als ein Eintrag
+   in `config.repos`) traegt die SHA ein Repo-Praefix im Inline-Code
+   (`` `repo-name@a1b2c3d` ``); bei Single-Repo-Projekten bleibt das Format ohne Praefix
+6. **Gebuendelte Commits:** ein Commit darf mehrere Checkboxen belegen (gleiche SHA an
    mehreren Zeilen zulaessig)
-5. **Kompakt:** max ~30 Zeilen, keine Prosa — Details gehoeren in die Plan-Schritte
-6. **Manuelles Abhaken erlaubt:** auch der Mensch darf Checkboxen setzen (Artefakt = Wahrheit)
-7. **Abhaken ist Teil des Implementierungs-Loops:** nach jedem umgesetzten Schritt sofort,
-   nicht gesammelt am Session-Ende
+7. **Kompakt:** max ~30 Zeilen, keine Prosa — Details gehoeren in die Plan-Schritte
+8. **Manuelles Abhaken erlaubt:** auch der Mensch darf Checkboxen setzen (Artefakt = Wahrheit);
+   die Flip-Bedingung (Regel 3) gilt dabei genauso
+9. **Abhaken ist Teil des Implementierungs-Loops:** nach jedem umgesetzten Schritt gemaess
+   Flip-Bedingung, nicht gesammelt am Session-Ende; der SHA-Nachtrag erfolgt am Phasen-Ende
+   (Regel 4)
 
 ---
 
@@ -192,3 +210,4 @@ kein Change-Ordner existiert. Sobald `feature-discover` einen Ordner anlegt, gew
 **Eingefuehrt mit:** Feature DERIVED_STATE (`features/FEATURE_DERIVED_STATE.md`), 2026-07-06
 **Umgestellt auf Change-Folder-Modell:** Feature CHANGE_FOLDER_MODELL, 2026-07-09
 **§5 Roadmap-Ableitung ergaenzt:** Feature greenfield-autoren-skills, 2026-07-13
+**§2 gehaertet (Verifikations-Gate: Flip-Bedingung, SHA-Timing, Multi-Repo-SHA):** Feature verifikations-gate, 2026-07-15
