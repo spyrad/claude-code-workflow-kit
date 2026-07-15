@@ -148,8 +148,9 @@ Session-Log oder den Kontextblock.
 ### Handoff generieren (Schritt 4)
 
 Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:workflow-resume` liest ihn).
-- **Naechster Befehl** wird aus dem abgeleiteten Stand bestimmt: erster nicht abgehakter `## Progress`-Schritt
-  → `/dtb:feature-start` bzw. Weiterarbeit; PLAN fehlt → `/dtb:impl-plan {NAME}`; kein aktives Item → `/dtb:workflow-next`
+- **Naechster Befehl** wird aus dem abgeleiteten Stand bestimmt: Feature „Geplant" (0/Y) →
+  `/dtb:feature-start`; Feature „In Arbeit" (erster nicht abgehakter `## Progress`-Schritt) →
+  `/dtb:implement {NAME}`; PLAN fehlt → `/dtb:impl-plan {NAME}`; kein aktives Item → `/dtb:workflow-next`
 - **Fallback:** Ist kein naechster Befehl eindeutig ableitbar, KEINEN erfinden — schreibe
   `Naechster Befehl: — offen — (mit /dtb:workflow-next bestimmen)`
 - Format stabil halten (Zeilen `**Naechster Befehl:**` / `**Empfehlung:**`), damit die Empfangs-Seite es zuverlaessig liest

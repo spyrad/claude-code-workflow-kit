@@ -52,8 +52,8 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 | `spec.md` vorhanden, kein `plan.md` | Plan ausstehend | `/dtb:impl-plan [NAME]` |
 | `plan.md` Status `Entwurf` | Review ausstehend | `/dtb:plan-review [NAME]` |
 | `plan.md` Status `Reviewed`, 0/Y Checkboxen | Start ausstehend | `/dtb:feature-start` |
-| `plan.md` teilweise abgehakt (X/Y) | In Entwicklung | Schritt {erster nicht abgehakter N.M} umsetzen |
-| `plan.md` alle Checkboxen abgehakt | Fertig zum Testen | Manuell testen, dann `/dtb:archive` |
+| `plan.md` teilweise abgehakt (X/Y) | In Entwicklung | `/dtb:implement [NAME]` — Schritt {erster nicht abgehakter N.M} |
+| `plan.md` alle Checkboxen abgehakt | Fertig zum Testen | Manuell testen, Abnahme via `/dtb:workflow-checkpoint` (Beleg-Rueckfrage), dann `/dtb:archive` |
 | Ordner in `archive/<slug>/` | Abgeschlossen | — |
 
 **Bug-Pipeline** (Checkliste = `## Fix-Schritte` im Bug-Report):
@@ -114,10 +114,10 @@ Naechste Schritte:
   Feature-Spec   ✓ (YYYY-MM-DD)
   Impl-Plan      ✓ Reviewed
   Progress       X/Y Schritte (abgeleitet)
-  Build/Test     ○
+  Verifikation   ○ (SHA-Belege je Phase, `dtb:implement`)
   Abnahme        ○
 
-→ Naechster Schritt: {erster nicht abgehakter Schritt N.M aus ## Progress}
+→ Naechster Schritt: /dtb:implement [NAME] — Schritt {erster nicht abgehakter Schritt N.M aus ## Progress}
 {falls Konflikt: ⚠ BACKLOG sagt "...", Artefakte zeigen "..."}
 ```
 

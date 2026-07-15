@@ -317,13 +317,13 @@ Nichts zeigt mehr auf alte Zustände; jedes Success Criterion der Spec ist beleg
 - [x] 3.3 implement: Umsetzungs-Loop (3x3-Quelle) — `aaf55ae`
 - [x] 3.4 implement: Phasen-Ende-Ritual — `aaf55ae`
 - [x] 3.5 implement: Multi-Repo + Abschluss — `aaf55ae`
-- [x] 4.1 feature-start umbauen
-- [x] 4.2 build-check entkernen/neu positionieren
-- [x] 4.3 code-review + checkpoint Verweise
-- [x] 4.4 Abnahme-Härtung workflow-checkpoint
-- [x] 4.5 Doku-/Übersichts-Stellen
-- [ ] 5.1 Konsistenz-Sweep
-- [ ] 5.2 SC-Abgleich + Seed-Hinweis
+- [x] 4.1 feature-start umbauen — `bfbfc38`
+- [x] 4.2 build-check entkernen/neu positionieren — `bfbfc38`
+- [x] 4.3 code-review + checkpoint Verweise — `bfbfc38`
+- [x] 4.4 Abnahme-Härtung workflow-checkpoint — `bfbfc38`
+- [x] 4.5 Doku-/Übersichts-Stellen — `bfbfc38`
+- [x] 5.1 Konsistenz-Sweep
+- [x] 5.2 SC-Abgleich + Seed-Hinweis
 
 ---
 

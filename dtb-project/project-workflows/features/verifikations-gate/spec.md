@@ -109,12 +109,26 @@ die Regel begründet es).
 
 ## Offene Punkte
 
-- build-check-Restfunktionen: Multi-Repo-Sammel-Check behalten/umbenennen oder streichen?
-  Event-Konsistenz-Check als Projekt-Rule-Vorlage mitliefern oder ersatzlos streichen?
-- 3x3-Konsolidierung: Welcher Ort wird die eine Quelle (naheliegend: `implement`), und wie
-  verweisen `feature-start` und das `impl-plan`-Template darauf?
-- Ausgestaltung der Beleg-Rückfrage bei „Abgenommen": Freitext-Beleg vs. Verweis auf die
-  Manual-Kriterien der Phase?
+- ~~build-check-Restfunktionen~~ → entschieden (T1-B, plan-review 2026-07-15): Stand-alone
+  Deploy-Readiness-Check; Event-Check entfernt, als Projekt-Rule-Kandidat im Skill dokumentiert
+- ~~3x3-Konsolidierung~~ → entschieden (T2): `dtb:implement` ist die eine Quelle;
+  feature-start + impl-plan-Template verweisen
+- ~~Beleg-Rückfrage~~ → entschieden (T3): Manual-Kriterien des Plans listen + 1-Zeilen-Beleg
+  in den Session-Log; ohne Beleg bleibt „Fertig zum Testen"
+
+<!-- SC-Abgleich 2026-07-15 (Schritt 5.2, alle Belege verifiziert):
+SC1 implement existiert/treibt: skills/dtb-implement/SKILL.md Schritte 2-4; real erprobt an Phase 4+5 dieses Plans (Selbst-Test)
+SC2 §2 widerspruchsfrei: DERIVED_STATE_RULES.md §2 Regeln 3/4/5; Sweep-Grep alte Wortlaute = 0 Treffer
+SC3 Automated/Manual in impl-plan: Template Z.150/153 + Pflicht-Anweisung (>=1 Automated je Phase)
+SC4 Hard-Gate + Archiv-Weigerung: implement Schritt 1 (Archiv, ohne Escape-Hatch) + Eligibility-Gate (Redirect impl-plan)
+SC5 Randfaelle: Mismatch-Block (Schritt 3), leerer Diff (Ritual 5), Progress-Nachruestung (Schritt 2.2), dirty paths (Ritual 3), Alt-Plan-Fallback (Schritt 2.4)
+SC6 build-check entkernt/verortet: stage monitoring, after/next null, Event-Check -> Projekt-Rule-Hinweis im Skill (T1-B)
+SC7 Beleg-Rueckfrage: workflow-checkpoint Schritt 2.3 (kein stilles Durchwinken)
+SC8 Pipeline konsistent: Greps p4 (build-check nur Deploy-Kontext; implement in feature-start.next, code-review.after, Ketten, Hard-Gate-Tabelle) + Sweep p5 (workflow-next/checkpoint-Handoff)
+SC9 3x3 eine Quelle: Sweep-Grep = 1 Vollbeschreibung (implement), Rest Verweise/Autoren-Konvention
+Seed-Hinweis: Die Paragraph-2-Haertung erreicht Bestandsprojekte NICHT automatisch (Seed, Klasse B) — manuelles Update oder project-init; aktive Meldung = INBOX #22. Verteilung der Klasse-A-Artefakte (implement NEU + 8 geaenderte): /dtb:kit-sync nach Abnahme. -->
+
+Aktuell offen: — keine —
 
 ---
 
