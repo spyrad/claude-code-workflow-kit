@@ -9,7 +9,7 @@ argument-hint: "[Dateien oder 'last-commit' oder 'staged']"
 allowed-tools: Read, Glob, Grep, Bash
 pipeline:
   stage: development
-  after: [dtb:build-check]
+  after: [dtb:implement]
   next: [dtb:workflow-checkpoint]
   consumes: [project-rules/*.md, CLAUDE.md, workflow.config.yaml]  # lessons.md separat als Prior (aus Rules-Glob ausgeschlossen)
   produces: []
@@ -207,7 +207,7 @@ Bei „ja": den Text an `/dtb:lesson` uebergeben.
 ## Verwandte Skills
 
 - `/dtb:generate-rules` — Richtlinien generieren
-- `/dtb:build-check` — Build/Test-Checks (Vorgaenger)
+- `/dtb:implement` — Umsetzungs-Loop mit Phasen-Ende-Ritual (Vorgaenger)
 - `/dtb:workflow-checkpoint` — Session-Ende (Nachfolger)
 - `/dtb:project-health` — Prueft Rules-Konsistenz
 - `/dtb:lesson` — Lektion festhalten (Prior-Quelle)

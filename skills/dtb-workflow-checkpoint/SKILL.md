@@ -184,7 +184,7 @@ Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Te
 1. **Leite den Status aller aktiven Items ab:** `features/*/plan.md` `## Progress`-Checkboxen zaehlen
    (0/Y = Geplant, X/Y = In Arbeit, Y/Y = Fertig zum Testen); Bugs/Tasks ueber die
    Checkliste in `bug.md`/`task.md` (Regel-Datei §1.5). Pruefe dabei, ob Checkboxen dieser Session
-   abgehakt wurden — falls nicht, erinnere daran (Checkbox-Pflicht aus `dtb:feature-start`)
+   abgehakt wurden — falls nicht, erinnere daran (Flip-Bedingung §2, Loop in `dtb:implement`)
 2. **Synchronisiere die Anzeige-Felder** mit dem abgeleiteten Status (dieser Skill ist der
    schreibende Skill aus Regel-Datei §1.3):
    - Status-Spalte in BACKLOG.md (Abschnitte "Aktive Features"/"Aufgaben")
@@ -200,10 +200,24 @@ Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Te
 ```
 {Item-Name} ist fertig umgesetzt (alle Schritte abgehakt).
   1. Fertig zum Testen (Standard — keine Aktion noetig)
-  2. Abgenommen (getestet & freigegeben)
+  2. Abgenommen (getestet & freigegeben — Beleg-Rueckfrage folgt)
   3. Abgeschlossen → /dtb:archive
   4. Pausiert (mit Grund)
 ```
+
+   **Beleg-Rueckfrage bei „Abgenommen" (Verifikations-Gate der Abnahme):** „Abgenommen"
+   wird NICHT auf blossen Zuruf gesetzt. Bei Wahl 2:
+   1. Lies die `#### Manual`-Checkpoint-Kriterien aus `features/{slug}/plan.md` und liste
+      die offenen (Alt-Plan ohne geteilte Kriterien → alle Kriterien listen):
+      ```
+      Abnahme {Item-Name} — diese manuellen Pruefungen belegen die Abnahme:
+        - [ ] {Manual-Kriterium}
+      Bestaetigt? Kurzer Beleg (1 Zeile, z.B. "im Zielprojekt X durchgespielt"):
+      ```
+   2. Antwort des Nutzers als 1-Zeilen-Beleg in den Session-Log uebernehmen
+      (Abschnitt „Implementiert" oder „Kontext": `Abnahme {Item}: {Beleg}`)
+   3. **Keine/ausweichende Antwort → Status bleibt „Fertig zum Testen"** (kein stilles
+      Durchwinken); hat der Plan gar keine Kriterien, genuegt der Freitext-Beleg
 
 4. **Falls kein aktives Item betroffen ist**, ueberspringe diesen Schritt ohne Nachfrage.
 

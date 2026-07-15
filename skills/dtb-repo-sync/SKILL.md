@@ -85,7 +85,7 @@ Erstelle einen kompakten Report (max 60 Zeilen):
 
 ## Verwandte Commands
 
-- `/dtb:build-check` - Build/Test Verification
+- `/dtb:build-check` - Deploy-Readiness-Check (alle Repos, stand-alone)
 - `/dtb:workflow-resume` - Session-Start
 - `/dtb:workflow-checkpoint` - Session-Ende
 

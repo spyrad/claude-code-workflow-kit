@@ -1,22 +1,27 @@
 ---
 name: dtb:build-check
 description: >-
-  Use when: "Build check", "Tests laufen lassen", "Build pruefen",
-  "deploy ready". Runs structured build/test checks across all
-  configured repos and reports results.
+  Use when: "deploy ready", "deploy check", "alle Repos pruefen",
+  "Release-Check", "Build check". Stand-alone multi-repo deploy-readiness
+  check (tests + builds across all configured repos) run before a
+  deploy/release — NOT part of the per-feature loop (phase verification
+  lives in dtb:implement).
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash
 pipeline:
-  stage: development
-  after: [dtb:feature-start]
-  next: [dtb:code-review]
+  stage: monitoring
+  after: null
+  next: null
   consumes: [workflow.config.yaml]
   produces: []
 ---
 
-# DTB Build-Check
+# DTB Build-Check (Deploy-Readiness)
 
-Strukturierter Build/Test-Check ueber alle konfigurierten Repos.
+Stand-alone Sammel-Check ueber alle konfigurierten Repos — **vor Deploy/Release**, auf Zuruf.
+Er ist bewusst NICHT Teil des Feature-Loops: Die Verifikation je Phase leistet das
+Phasen-Ende-Ritual von `dtb:implement` (Verifikations-Gate, §2). Dieser Skill beantwortet
+die andere Frage: „Sind ALLE Repos zusammen gerade deploy-faehig?"
 
 ## Aufgabe
 
@@ -45,14 +50,12 @@ cd {repo.path} && {repo.build_command}
 ```
 Erfasse: Fehler, Build-Erfolg, Bundle-Groesse.
 
-### Schritt 3: Event-Konsistenz (optional)
+> **Hinweis (frueherer Event-Konsistenz-Check):** Der FastWS-spezifische Backend↔Frontend-
+> Event-Abgleich ist kein Kit-Bestandteil mehr — er war projektspezifisch (pkp). Wer ihn
+> braucht, verankert ihn als Projekt-Rule (`project-rules/`), z.B. als Checkliste
+> „Events Backend↔Frontend abgleichen vor Deploy".
 
-Falls mehrere Repos mit type "python" + "typescript" vorhanden:
-1. Lies alle Event-Namen aus Backend-Routes (Pattern: `@fastws.post("EVENT_*")`)
-2. Lies alle Events aus Frontend Event-Liste
-3. Vergleiche: Fehlende/Verwaiste Events?
-
-### Schritt 4: Report
+### Schritt 3: Report
 
 ```markdown
 # Build-Check Report
@@ -64,7 +67,6 @@ Falls mehrere Repos mit type "python" + "typescript" vorhanden:
 |------|-------|--------|---------|
 | {repo.name} | Tests | {PASS/FAIL/SKIP} | {Details} |
 | {repo.name} | Build | {PASS/FAIL/SKIP} | {Details} |
-| Cross-Repo | Events | {PASS/WARN/SKIP} | {Details} |
 
 ## Gesamt-Status: {DEPLOY-READY / NICHT READY}
 
@@ -86,10 +88,11 @@ Falls mehrere Repos mit type "python" + "typescript" vorhanden:
 
 ## Verwandte Commands
 
+- `/dtb:implement` - Verifikation je Phase (Feature-Loop — dort, nicht hier)
 - `/dtb:repo-sync` - Git-Status aller Repos
 - `/dtb:workflow-checkpoint` - Session-Ende
 - `/dtb:workflow-status` - Pipeline-Status
 
 ---
 
-Fuehre jetzt den Build-Check durch und erstelle den Report.
+Fuehre jetzt den Deploy-Readiness-Check durch und erstelle den Report.

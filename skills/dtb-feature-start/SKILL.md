@@ -11,7 +11,7 @@ allowed-tools: Read, Write, Edit
 pipeline:
   stage: implementation
   after: [dtb:plan-review, dtb:debug-plan]
-  next: [dtb:build-check]
+  next: [dtb:implement]
   consumes: [BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
   produces: [BACKLOG.md, WORKFLOW_STATUS.md, features/*/plan.md, features/*/task.md]
 ---
@@ -125,23 +125,14 @@ Nach Auswahl durch den Benutzer:
 [Falls `plan.md` vorhanden: Erste Phase aus dem Implementierungsplan mit Ziel und ersten Schritten]
 [Falls `plan.md` NICHT vorhanden: "Kein Implementierungsplan vorhanden. Erstelle einen mit /dtb:impl-plan"]
 
-## Arbeitsrhythmus: 3x3
+## Umsetzung
 
 [Falls `plan.md` vorhanden:]
-Wir arbeiten im **3x3-Rhythmus**:
-1. Ich setze max. 3 Schritte aus dem Plan um
-2. Hake erledigte Schritte in der `## Progress`-Sektion des Plans ab (Commit-SHA als Beleg)
-3. Fasse zusammen was erledigt wurde
-4. Beschreibe die naechsten 3 Schritte
-5. Warte auf dein Feedback
+Umsetzung mit `/dtb:implement {Feature-Name}` — 3x3-Rhythmus und Phasen-Ende-Ritual
+(Verifikations-Gate, SHA-Nachtrag nach §2) sind dort beschrieben (die eine Quelle).
+Erster Schritt laut `## Progress`: [erster nicht abgehakter Schritt N.M]
 
-Erster Block: Schritte [erste 3 nicht abgehakte Schritte aus `## Progress`]
-
-Bei Kontextverlust oder nach >6 Schritten:
-→ `## Progress` in `features/{slug}/plan.md` ist der Wiedereinstiegspunkt — in neuer Konversation
-  den Plan laden; der erste nicht abgehakte Schritt ist der naechste.
-
-Bereit? Sage "Los" oder stelle Fragen.
+Bereit? Starte mit `/dtb:implement {Feature-Name}` oder stelle Fragen.
 ```
 
 **Bei Bug:**
@@ -194,8 +185,8 @@ Bereit? Sage "Los" oder stelle Fragen.
 
 - **Nur startbare Items:** Features mit Status "Geplant", Bugs mit Status "Analysiert" und Aufgaben mit Status "Offen" — keine "In Arbeit" oder "Abgeschlossen"
 - **Status-Update:** BACKLOG.md und WORKFLOW_STATUS.md muessen aktualisiert werden
-- **Checkbox-Pflicht im Implementierungs-Loop:** Nach JEDEM umgesetzten Schritt sofort die Checkbox in der `## Progress`-Sektion des Plans abhaken — mit Commit-SHA als Beleg (`- [x] N.M Kurzname — \`SHA\``; SHA optional bei Schritten ohne Commit, ein Commit darf mehrere Checkboxen belegen). Nicht gesammelt am Session-Ende. Die Progress-Sektion ist die Single Source of Truth (`project-rules/DERIVED_STATE_RULES.md`) — es gibt kein IMPL_STATUS_*.md mehr
+- **Checkbox-Pflicht im Implementierungs-Loop:** Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen), SHA-Nachtrag beim Phasen-Ende-Commit — den Loop samt Ritual fuehrt `/dtb:implement`. Nicht gesammelt am Session-Ende. Die Progress-Sektion ist die Single Source of Truth (`project-rules/DERIVED_STATE_RULES.md`) — es gibt kein IMPL_STATUS_*.md mehr
 - **Feature-Spec lesen:** Immer die vollstaendige Spec lesen um den Kontext zu zeigen
-- **3x3-Rhythmus:** Wenn ein `plan.md` vorhanden ist, weise auf den Arbeitsrhythmus hin (max. 3 Schritte → Zusammenfassung → Feedback → naechste 3)
+- **Umsetzungs-Verweis:** Wenn ein `plan.md` vorhanden ist, auf `/dtb:implement` verweisen — 3x3-Rhythmus und Phasen-Ende-Ritual sind dort die eine Quelle (hier nicht duplizieren)
 - **Kompakt:** Max 40 Zeilen Output
 - **Deutsch:** Alle Texte auf Deutsch

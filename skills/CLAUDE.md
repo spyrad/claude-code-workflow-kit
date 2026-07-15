@@ -51,7 +51,7 @@ which files are present + `plan.md` `## Progress` (see `DERIVED_STATE_RULES.md`)
 | File in `features/<slug>/` | Status values (derivation source) |
 |----------------------------|-----------------------------------|
 | `spec.md` | Derived: Spezifiziert, Geplant, In Arbeit, Fertig zum Testen (from `plan.md` `## Progress` checkboxes). Explicit only: Abgenommen, Abgeschlossen, Pausiert |
-| `plan.md` | Entwurf, Reviewed (first 10 lines); progress via mandatory `## Progress` section (one checkbox per step N.M, commit SHA as evidence) |
+| `plan.md` | Entwurf, Reviewed (first 10 lines); progress via mandatory `## Progress` section (one checkbox per step N.M; flips gated by checkpoint criteria, SHA written back at phase-end commit — verification evidence, §2) |
 | `bug.md` | Derived from `## Fix-Schritte` checklist: Offen, Analysiert, In Arbeit, Behoben |
 | `task.md` | Derived from `## Schritte` checklist: Offen, In Arbeit, Erledigt |
 | `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen (maintained by idea skills) |
@@ -102,6 +102,7 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | `impl-plan` | `features/*/spec.md` | `feature-plan` (`workflow-checkpoint` nur Status-Updater) |
 | `plan-review` | `features/*/plan.md` | `impl-plan` voran, `feature-start` als Alternative |
 | `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
+| `implement` | `features/*/plan.md` | `impl-plan` (`after`-Match ueber `feature-start` hinweg: feature-start nur Status-Updater; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `greenfield-roadmap` | `project-strategy/PRD-MVP.md` | `greenfield-prd` (`after`-Match; Pfad ist kein `features/`-Slug, sondern der feste Strategie-Pfad) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
 | `archive` | archivierbare Kandidaten vorhanden | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu archivieren" (nativ in Schritt 3) |

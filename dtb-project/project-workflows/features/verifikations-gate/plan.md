@@ -312,16 +312,16 @@ Nichts zeigt mehr auf alte Zustände; jedes Success Criterion der Spec ist beleg
 - [x] 2.1 Checkpoint-Kriterien Automated/Manual — `7767a86`
 - [x] 2.2 Anweisungen: prüfbare Kriterien — `7767a86`
 - [x] 2.3 3x3-Template-Sektion → Verweis — `7767a86`
-- [x] 3.1 implement: Gerüst + Frontmatter
-- [x] 3.2 implement: Einstieg + Hard-Gate + Wiedereinstieg
-- [x] 3.3 implement: Umsetzungs-Loop (3x3-Quelle)
-- [x] 3.4 implement: Phasen-Ende-Ritual
-- [x] 3.5 implement: Multi-Repo + Abschluss
-- [ ] 4.1 feature-start umbauen
-- [ ] 4.2 build-check entkernen/neu positionieren
-- [ ] 4.3 code-review + checkpoint Verweise
-- [ ] 4.4 Abnahme-Härtung workflow-checkpoint
-- [ ] 4.5 Doku-/Übersichts-Stellen
+- [x] 3.1 implement: Gerüst + Frontmatter — `aaf55ae`
+- [x] 3.2 implement: Einstieg + Hard-Gate + Wiedereinstieg — `aaf55ae`
+- [x] 3.3 implement: Umsetzungs-Loop (3x3-Quelle) — `aaf55ae`
+- [x] 3.4 implement: Phasen-Ende-Ritual — `aaf55ae`
+- [x] 3.5 implement: Multi-Repo + Abschluss — `aaf55ae`
+- [x] 4.1 feature-start umbauen
+- [x] 4.2 build-check entkernen/neu positionieren
+- [x] 4.3 code-review + checkpoint Verweise
+- [x] 4.4 Abnahme-Härtung workflow-checkpoint
+- [x] 4.5 Doku-/Übersichts-Stellen
 - [ ] 5.1 Konsistenz-Sweep
 - [ ] 5.2 SC-Abgleich + Seed-Hinweis
 

@@ -35,7 +35,7 @@ The `/dtb:*` skills form a German-language workflow system for managing developm
 
 Skills are designed to work together in a session lifecycle:
 1. **Start/Resume**: `workflow-resume` derives the active feature from artifacts (PLAN `## Progress`) and reads `WORKFLOW_STATUS.md` for context
-2. **Work**: Use `feature-plan`, `debug-plan`, `code-review`, `build-check` during development; check off `## Progress` boxes (with commit SHA) after each implemented step
+2. **Work**: Use `feature-plan`, `debug-plan` for planning; `implement` drives the plan phase by phase (3x3 rhythm + phase-end ritual: checkbox flips are gated by checkpoint criteria, the commit SHA is written back as verification evidence); `code-review` checks against project rules
 3. **Save**: `workflow-checkpoint` writes a session log AND overwrites `WORKFLOW_STATUS.md` (status block generated from artifacts, context block manual)
 4. **Next session**: `workflow-resume` picks up where the progress checkboxes left off — even without a checkpoint
 
@@ -50,12 +50,12 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 
 - **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`, `session-summary` (read-only recap of active session / a given day / last 7 days)
 - **Idea management**: `idea` (quick capture), `idea-review` (triage)
-- **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`
+- **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`, `implement` (drives the plan phase by phase, enforces the verification gate at each phase end)
 - **Bug workflow**: `bug-report` (quick capture with severity), `debug-plan` (root-cause analysis + fix strategy)
 - **Project setup**: `project-init`, `project-health`, `project-team`
 - **Greenfield**: `opportunity-map` (Vorfeld: build/buy/complement/wait-Sichtung → `OPPORTUNITY-MAP.md`, Hand-off zu `greenfield-prd` bei „build"), `greenfield-prd` (Autor: PRD-Interview → `PRD-MVP.md`, oder Report-Modus), `greenfield-roadmap` (Autor: Stack-Besprechung → `TECH-STACK.md` + Lean-Interview → `ROADMAP.md` mit Change-IDs, oder Report-Modus)
 - **Maintenance**: `archive` (move completed/discarded items to archive), `kit-sync` (install/update installed kit copies under `~/.claude/` via lock-based drift detection — see below)
-- **Development**: `build-check`, `code-review`, `backlog-status`, `repo-sync`
+- **Development**: `code-review`, `backlog-status`, `repo-sync`, `build-check` (stand-alone deploy-readiness check across all repos — not part of the feature loop)
 - **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs), `lesson` (capture a reusable lesson append-only into `project-rules/lessons.md`, read as a prior by impl-plan/debug-plan/plan-review/code-review — replaces the dead `pitfalls.md` concept)
 - **Documentation**: `pipeline-graph` (generate interactive HTML overview of entire skill pipeline from frontmatter)
 
@@ -104,7 +104,7 @@ Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a p
 - File paths in skills use forward slashes and are relative to the target project root
 - Dates always use `YYYY-MM-DD` format, never relative terms
 - WORKFLOW_STATUS.md: 1-line summaries with links only, no detail tables — details belong in session logs or test reports; status block is generated from artifacts (fixed template, placeholders only), context block is manual
-- `plan.md` must contain a `## Progress` section (one checkbox per step N.M, commit SHA as evidence when checked) — format in `dtb-project/project-rules/DERIVED_STATE_RULES.md`
+- `plan.md` must contain a `## Progress` section (one checkbox per step N.M; flips are gated by the phase's checkpoint criteria, the commit SHA is written back at the phase-end commit as verification evidence) — format in `dtb-project/project-rules/DERIVED_STATE_RULES.md` §2
 - Status is derived, never trusted from fields: read-side skills derive from artifacts and report conflicts (artifact wins)
 - Spec size limits: `spec.md` and `plan.md` max 500 lines each (longer specs degrade AI processing quality)
 - Pipeline metadata in frontmatter: `stage`, `after`, `next`, `consumes`, `produces`

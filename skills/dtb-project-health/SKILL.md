@@ -357,7 +357,7 @@ Leere Kategorie weglassen. Falls keine Fehler/Warnungen: "✅ Alle Checks bestan
 ## Verwandte Skills
 
 - `/dtb:kit-sync` — Kit-Drift im Detail pruefen und abgleichen (check/sync/install)
-- `/dtb:build-check` — Tests und Builds ausfuehren
+- `/dtb:build-check` — Deploy-Readiness-Check (alle Repos, stand-alone)
 - `/dtb:backlog-status` — Backlog-Details
 - `/dtb:archive` — Abgeschlossene/verworfene Eintraege archivieren
 - `/dtb:workflow-resume` — Session fortsetzen

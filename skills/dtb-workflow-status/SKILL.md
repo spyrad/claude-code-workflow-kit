@@ -83,7 +83,7 @@ Fuer jedes Feature mit Status "In Arbeit" oder "Geplant" im Backlog: Pruefe welc
 | Feature-Spec | `spec.md` existiert |
 | Impl-Plan | `plan.md` existiert |
 | Plan-Review | `plan.md` Status = `Reviewed` oder `In Umsetzung` |
-| Build/Lint | Letzter `/dtb:build-check` ohne Fehler (aus WORKFLOW_STATUS.md ablesen) |
+| Verifikation | `## Progress`-Zeilen abgeschlossener Phasen tragen SHA-Beleg (Phasen-Ritual `dtb:implement`) |
 | Code-Review | `/dtb:code-review` durchgefuehrt (aus Session-Log oder WORKFLOW_STATUS.md ablesen) |
 
 **Symbole:**
@@ -173,13 +173,13 @@ flowchart LR
 | Feature-Spec (ohne Plan) | {n} | {aeltester} | `/dtb:impl-plan` |
 | Impl-Plan (Entwurf) | {n} | {aeltester} | `/dtb:plan-review` |
 | Backlog (Geplant) | {n} | {aeltester} | `/dtb:feature-start` |
-| In Arbeit | {n} | {aeltester} | `/dtb:build-check` |
+| In Arbeit | {n} | {aeltester} | `/dtb:implement` |
 | Fertig zum Testen | {n} | {aeltester} | — |
 | Abgenommen | {n} | {aeltester} | `/dtb:workflow-checkpoint` |
 | **Bug-Pipeline** | | | |
 | Bugs (Offen) | {n} | {aeltester} | `/dtb:debug-plan` |
 | Bugs (Analysiert) | {n} | {aeltester} | `/dtb:feature-start` |
-| Bugs (In Arbeit) | {n} | {aeltester} | `/dtb:build-check` |
+| Bugs (In Arbeit) | {n} | {aeltester} | `/dtb:implement` |
 | Bugs (Behoben) | {n} | {aeltester} | `/dtb:archive` |
 | **Aufgaben-Pipeline** | | | |
 | Aufgaben (Offen) | {n} | {aeltester} | `/dtb:feature-start` |
@@ -201,7 +201,7 @@ flowchart LR
 | Impl-Plan erstellen | `/dtb:impl-plan` | — |
 | Plan reviewen | `/dtb:plan-review` | Architekt, Pragmatiker, Senior Dev |
 | Feature starten | `/dtb:feature-start` | — |
-| Build/Test | `/dtb:build-check` | — |
+| Umsetzung + Verifikation | `/dtb:implement` | — |
 | Session sichern | `/dtb:workflow-checkpoint` | — |
 | Archivieren | `/dtb:archive` | — |
 

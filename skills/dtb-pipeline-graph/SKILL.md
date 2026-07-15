@@ -194,8 +194,8 @@ Wickle das Diagramm in ein `<div class="mermaid">` Element.
 Generiere die Pipeline als Textzeile:
 
 ```
-Feature: project-init → idea → idea-review → feature-discover → feature-plan → impl-plan → plan-review → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
-Bug:     bug-report → debug-plan → feature-start → build-check → code-review → workflow-checkpoint → workflow-resume
+Feature: project-init → idea → idea-review → feature-discover → feature-plan → impl-plan → plan-review → feature-start → implement → code-review → workflow-checkpoint → workflow-resume
+Bug:     bug-report → debug-plan → feature-start → implement → code-review → workflow-checkpoint → workflow-resume
 ```
 
 Zeige den typischen linearen Haupt-Durchlauf als Lesehilfe (Feature-/Bug-Pfad separat) — bewusst auf den dominanten Pfad linearisiert, **nicht** 1:1 kantenabgeleitet; die vollstaendigen Verzweigungen stehen im Flowchart (Sektion 1).
