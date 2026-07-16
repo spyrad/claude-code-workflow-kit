@@ -189,12 +189,12 @@ Der Skill ist dokumentiert, gegen echtes Material getestet und global verteilt.
 - [x] 1.1 Skill-Geruest + Frontmatter + Config-Laden — `1a161f4`
 - [x] 1.2 Repo-Root-Ermittlung (toplevel-Gruppierung) — `1a161f4`
 - [x] 1.3 Pro-Root Status-Check + Sonderzustaende — `1a161f4`
-- [x] 2.1 Red-Flag-Scan vor dem Staging
-- [x] 2.2 Staging + Message-Vorschlag (Bestaetigungs-Muster)
-- [x] 2.3 Commit mit harten Sicherheitsregeln
-- [x] 2.4 Push mit Edge Cases + Sammel-Summary
-- [ ] 3.1 Abgrenzung + Doku
-- [ ] 3.2 Selbst-Test (blinder Lauf an echtem Material)
+- [x] 2.1 Red-Flag-Scan vor dem Staging — `adffe01`
+- [x] 2.2 Staging + Message-Vorschlag (Bestaetigungs-Muster) — `adffe01`
+- [x] 2.3 Commit mit harten Sicherheitsregeln — `adffe01`
+- [x] 2.4 Push mit Edge Cases + Sammel-Summary — `adffe01`
+- [x] 3.1 Abgrenzung + Doku
+- [x] 3.2 Selbst-Test (blinder Lauf an echtem Material)
 - [ ] 3.3 Verteilung via kit-sync
 
 ---

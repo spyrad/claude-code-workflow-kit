@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-16
 **Ziel:** Ein geführter Routine-Skill, der Änderungen sicher committet und pusht — die heute unbegleitetste Stelle im Workflow.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** In Arbeit <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

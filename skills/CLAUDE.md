@@ -72,7 +72,9 @@ auf den Skill, der das Artefakt erzeugt. Vorbild: die Test-zuerst-Weigerung von 
 
 Read-only-Skills, Entry-Points (`consumes: []`) und Skills ohne zwingende Eingabe bekommen kein
 Hard-Gate. Git-Gates (Git-Zustand statt Artefakt) und Soft-Gates (nur empfohlene Eingabe) sind
-ein geplantes Folge-Feature — diese Konvention trägt sie bereits.
+ein geplantes Folge-Feature — diese Konvention trägt sie bereits. Beispiel ohne Gate:
+`commit-and-push` wirkt auf den **Git-Zustand** (kein zwingendes `features/`-Artefakt) und läuft
+sogar ohne `workflow.config.yaml` — daher kein Hard-Gate.
 
 ### Fit-Check + Redirect (Mechanik)
 

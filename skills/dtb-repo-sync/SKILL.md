@@ -85,6 +85,7 @@ Erstelle einen kompakten Report (max 60 Zeilen):
 
 ## Verwandte Commands
 
+- `/dtb:commit-and-push` - Routine-Commit+Push (read-write; repo-sync ist read-only)
 - `/dtb:build-check` - Deploy-Readiness-Check (alle Repos, stand-alone)
 - `/dtb:workflow-resume` - Session-Start
 - `/dtb:workflow-checkpoint` - Session-Ende
