@@ -193,9 +193,9 @@ Der Skill ist dokumentiert, gegen echtes Material getestet und global verteilt.
 - [x] 2.2 Staging + Message-Vorschlag (Bestaetigungs-Muster) — `adffe01`
 - [x] 2.3 Commit mit harten Sicherheitsregeln — `adffe01`
 - [x] 2.4 Push mit Edge Cases + Sammel-Summary — `adffe01`
-- [x] 3.1 Abgrenzung + Doku
-- [x] 3.2 Selbst-Test (blinder Lauf an echtem Material)
-- [ ] 3.3 Verteilung via kit-sync
+- [x] 3.1 Abgrenzung + Doku — `d428b45`
+- [x] 3.2 Selbst-Test (blinder Lauf an echtem Material) — (nicht-mutierend, kein Commit — §2 Regel 4)
+- [x] 3.3 Verteilung via kit-sync — `fc287cb`
 
 ---
 
