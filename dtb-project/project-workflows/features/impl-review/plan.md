@@ -271,18 +271,18 @@ Spec-Kriterien belegt.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Frontmatter + Eingangs-Gates
-- [x] 1.2 Scope-Aufloesung + Diff-Scope aus SHAs
-- [x] 1.3 Lessons-Prior mit Legacy-Alias
-- [x] 1.4 Sub-Agent Drift + SHA-Check
-- [x] 1.5 Sub-Agent Craft (2 Linsen-Destillate)
-- [x] 1.6 Sub-Agent Rules (still ueberspringbar)
-- [x] 1.7 Report mit 6 Verdikt-Achsen
-- [x] 1.8 review.md-Persistenz + PENDING-Schutz
-- [x] 1.9 Triage-Loop + Lektion-Anschluss
-- [ ] 2.1 implement umbiegen (2 Vorschlags-Stellen)
-- [ ] 2.2 workflow-checkpoint umbiegen (Handoff)
-- [ ] 2.3 pipeline-graph + workflow-status nachziehen
+- [x] 1.1 Frontmatter + Eingangs-Gates — `fb0310d`
+- [x] 1.2 Scope-Aufloesung + Diff-Scope aus SHAs — `fb0310d`
+- [x] 1.3 Lessons-Prior mit Legacy-Alias — `fb0310d`
+- [x] 1.4 Sub-Agent Drift + SHA-Check — `fb0310d`
+- [x] 1.5 Sub-Agent Craft (2 Linsen-Destillate) — `fb0310d`
+- [x] 1.6 Sub-Agent Rules (still ueberspringbar) — `fb0310d`
+- [x] 1.7 Report mit 6 Verdikt-Achsen — `fb0310d`
+- [x] 1.8 review.md-Persistenz + PENDING-Schutz — `fb0310d`
+- [x] 1.9 Triage-Loop + Lektion-Anschluss — `fb0310d`
+- [x] 2.1 implement umbiegen (2 Vorschlags-Stellen)
+- [x] 2.2 workflow-checkpoint umbiegen (Handoff)
+- [x] 2.3 pipeline-graph + workflow-status nachziehen
 - [ ] 3.1 lesson-Vokabular + generate-rules
 - [ ] 3.2 CLAUDE.md ×2 nachziehen
 - [ ] 3.3 DERIVED_STATE_RULES: review.md neutral

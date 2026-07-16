@@ -84,7 +84,7 @@ Fuer jedes Feature mit Status "In Arbeit" oder "Geplant" im Backlog: Pruefe welc
 | Impl-Plan | `plan.md` existiert |
 | Plan-Review | `plan.md` Status = `Reviewed` oder `In Umsetzung` |
 | Verifikation | `## Progress`-Zeilen abgeschlossener Phasen tragen SHA-Beleg (Phasen-Ritual `dtb:implement`) |
-| Code-Review | `/dtb:code-review` durchgefuehrt (aus Session-Log oder WORKFLOW_STATUS.md ablesen) |
+| Impl-Review | `/dtb:impl-review` durchgefuehrt (aus Session-Log oder `features/{slug}/review.md` ablesen) |
 
 **Symbole:**
 - `[x]` = Gate bestanden
@@ -156,7 +156,7 @@ flowchart LR
 
 ## Quality Gates (aktive Features)
 
-| Feature | Discovery | Spec | Plan | Review | Build | Code-Review |
+| Feature | Discovery | Spec | Plan | Review | Build | Impl-Review |
 |---------|-----------|------|------|--------|-------|-------------|
 | {Feature-Name} | [x] | [x] | [x] | [ ] | [ ] | [ ] |
 

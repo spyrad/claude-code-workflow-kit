@@ -12,7 +12,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 pipeline:
   stage: implementation
   after: [dtb:feature-start]
-  next: [dtb:code-review]
+  next: [dtb:impl-review]
   consumes: [features/*/plan.md, features/*/spec.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, workflow.config.yaml]
   produces: [features/*/plan.md]
 ---
@@ -186,7 +186,7 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
 11. **Naechste-Phase-Entscheidung:** Falls eine weitere Phase folgt, fragen:
     (1) direkt weiter mit Phase {N+1}, (2) Kontext klaeren — Wiedereinstiegs-Kommando
     `/dtb:implement {slug} phase {N+1}` ausgeben, in neuer Session fortsetzen,
-    (3) erst Review (`/dtb:code-review`)
+    (3) erst Review (`/dtb:impl-review`)
 
 ## Schritt 5: Multi-Repo & Abschluss
 
@@ -199,8 +199,10 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
 **Nach der letzten Phase (alle Checkboxen geflippt):**
 1. **Rest-Scan:** `## Progress` final auf offene `- [ ]`-Zeilen pruefen — Treffer einzeln
    listen und fragen (pausieren vs. bewusst offen lassen), nie still verlieren
-2. Zusammenfassung ausgeben (Phasen, Kern-Dateien) und auf `/dtb:workflow-checkpoint`
-   verweisen (Session-Log + Status-Sync; dort landet auch die letzte SHA-Rueckschreibung)
+2. Zusammenfassung ausgeben (Phasen, Kern-Dateien). **Feature-End-Review empfehlen:**
+   `/dtb:impl-review {slug}` (Plan-Drift + Craft + Rules) VOR dem Checkpoint. Danach auf
+   `/dtb:workflow-checkpoint` verweisen (Session-Log + Status-Sync; dort landet auch die
+   letzte SHA-Rueckschreibung)
 3. Der abgeleitete Status ist jetzt „Fertig zum Testen" — **„Abgenommen" vergibt NICHT
    dieser Skill**, sondern der Nutzer im Checkpoint (mit Beleg-Rueckfrage)
 
@@ -214,14 +216,14 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
   das Ritual laeuft trotzdem
 - **Nur `## Progress` mutieren** — Plan-Bloecke sind read-only (Abweichungen → Mismatch-Block)
 - **Abgrenzung:** Routine-Commits ausserhalb des Phasen-Rituals sind nicht Aufgabe dieses
-  Skills (INBOX #21 `dtb:commit-and-push`); Code-Review ist `/dtb:code-review` (Abloesung
-  durch impl-review: INBOX #20)
+  Skills (INBOX #21 `dtb:commit-and-push`); der Feature-End-Review ist `/dtb:impl-review`
+  (loest das alte code-review ab, INBOX #20 umgesetzt)
 - **Kompakt & Deutsch:** Status-Ausgaben knapp halten; alle Texte auf Deutsch
 
 ## Verwandte Skills
 
 - `/dtb:impl-plan` — erzeugt den Plan mit Automated/Manual-Kriterien (Vorgaenger)
 - `/dtb:feature-start` — aktiviert das Feature (Backlog → In Arbeit) und uebergibt hierher
-- `/dtb:code-review` — Review gegen Projekt-Rules (Nachfolger)
+- `/dtb:impl-review` — Feature-End-Review: Plan-Drift + Craft + Rules (Nachfolger)
 - `/dtb:workflow-checkpoint` — Session-Ende, Status-Sync, Abnahme mit Beleg-Rueckfrage
 - `/dtb:lesson` — Lektion festhalten (Prior-Quelle)

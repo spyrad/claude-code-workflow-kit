@@ -8,9 +8,9 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Bash
 pipeline:
   stage: session
-  after: [dtb:code-review]
+  after: [dtb:impl-review]
   next: [dtb:workflow-resume]
-  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md, ROADMAP.md]
+  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, ROADMAP.md]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md]
 ---
 
@@ -150,7 +150,10 @@ Session-Log oder den Kontextblock.
 Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:workflow-resume` liest ihn).
 - **Naechster Befehl** wird aus dem abgeleiteten Stand bestimmt: Feature „Geplant" (0/Y) →
   `/dtb:feature-start`; Feature „In Arbeit" (erster nicht abgehakter `## Progress`-Schritt) →
-  `/dtb:implement {NAME}`; PLAN fehlt → `/dtb:impl-plan {NAME}`; kein aktives Item → `/dtb:workflow-next`
+  `/dtb:implement {NAME}`; Feature „Fertig zum Testen" (Y/Y) ∧ **keine** `features/{slug}/review.md` →
+  `/dtb:impl-review {NAME}` (Feature-End-Review vor der Abnahme); existiert `features/{slug}/review.md`
+  mit Gesamt-Verdikt **REJECTED** → `/dtb:implement {NAME}` (Rueckweg zur Nacharbeit, danach frisches
+  Review); PLAN fehlt → `/dtb:impl-plan {NAME}`; kein aktives Item → `/dtb:workflow-next`
 - **Fallback:** Ist kein naechster Befehl eindeutig ableitbar, KEINEN erfinden — schreibe
   `Naechster Befehl: — offen — (mit /dtb:workflow-next bestimmen)`
 - Format stabil halten (Zeilen `**Naechster Befehl:**` / `**Empfehlung:**`), damit die Empfangs-Seite es zuverlaessig liest
