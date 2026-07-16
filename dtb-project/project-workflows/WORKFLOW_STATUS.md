@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| commit-and-push | In Discovery | — | `/dtb:feature-plan commit-and-push` |
+| commit-and-push | In Arbeit | 0/10 | `/dtb:implement commit-and-push` (Schritt 1.1) |
 | impl-review | Fertig zum Testen | 19/19 | Realeinsatz (pkp) → Abnahme; Follow-up F2 offen (review.md) |
 | Verifikations-Gate | Fertig zum Testen | 18/18 | Realeinsatz (pkp), dann Abnahme; Follow-up F2 offen |
 | Opportunity-Map | Fertig zum Testen | 11/11 | Abnahme beim ersten realen Greenfield-Vorhaben |

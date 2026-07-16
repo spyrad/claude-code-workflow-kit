@@ -16,7 +16,7 @@
 | `skills/dtb-repo-sync/SKILL.md` | Nachbar: read-only Multi-Repo-Status; Muster für `config.repos`-Iteration, commitet aber nie |
 | `skills/dtb-workflow-checkpoint/SKILL.md` | Committet Session-Logs; Abgrenzung nötig (Session-Commit ≠ Routine-Commit) |
 | `dtb-project/project-rules/DERIVED_STATE_RULES.md` | §2 (SHA-als-Verifikations-Beleg, Multi-Repo-Präfix `repo@SHA`) — commit-and-push berührt `## Progress` NICHT (Entkopplung, s.u.) |
-| `workflow.config.yaml` | `config.repos` — Multi-Repo-Fähigkeit (ein Repo wählen oder alle) |
+| `workflow.config.yaml` | `config.repos` — liefert die zu prüfenden **Pfade** (Startpunkt), nicht die Repo-Grenzen; letztere via `git rev-parse --show-toplevel`. Optional (Skill läuft auch ohne Config) |
 | `CLAUDE.md` + `skills/CLAUDE.md` | Doku/Gate-Tabelle; kit-sync-Klasse-A-Verteilung |
 | `10x-devs-3.0/.claude/commands/10x-commit-and-push.md` | Vorbild (nur Referenz): 6 Schritte, `git add -A`, Red-Flag-Scan, non-fast-forward-Handling |
 
@@ -28,11 +28,12 @@
 **Enthalten:**
 - **Form:** Skill (`skills/dtb-commit-and-push/SKILL.md`) mit `disable-model-invocation: true` — verhält sich wie ein Command, fügt sich aber ins Skill-/Pipeline-Modell ein (Frontmatter `stage`/`consumes`/`produces`) und ist aus `implement` referenzierbar
 - Ablauf: paralleler Status-Check → Red-Flag-Scan **vor** `git add` → Stagen → Message-Vorschlag im Repo-Stil → Commit (harte Sicherheitsregeln) → Push (non-fast-forward-/kein-Tracking-Branch-Handling) → kompaktes Summary
-- Multi-Repo über `config.repos`: ein Repo wählen oder alle; **pro Repo eigener Commit** (eigener Diff/Message/Push), am Ende ein Sammel-Summary
+- Multi-Repo über **echte Git-Roots**: `config.repos` liefert die zu prüfenden Pfade, die tatsächliche Repo-Grenze aber `git -C {path} rev-parse --show-toplevel`. Pfade werden nach eindeutigem toplevel **gruppiert** → **pro echtem Git-Root ein Commit** (eigener Diff/Message/Push), am Ende ein Sammel-Summary. (Verhindert bei Monorepos den kaputten Doppellauf: Sammel-Commit + Leer-Commit + zweiter Push.)
 
 **Nicht enthalten:**
 - Kein Feature-End-Review (das ist `dtb:impl-review`)
 - Kein Aufteilen heterogener Diffs (→ Hinweis „manuell aufteilen", kein Auto-Split)
+- **Kein paketweises Scoping innerhalb eines Monorepos** (`git add packages/foo` → getrennte Commits pro Paket im selben Repo): bewusster MVP-Schnitt. Der reale pkp-Workflow ist ein Commit über den ganzen Baum; Paket-Split ist später additiv nachrüstbar (optionaler Pfad-Filter), kein Umbau
 - Kein `--force`/`--no-verify`/`--amend`, kein Signing-Bypass
 - Kein Session-Log-Schreiben (bleibt `dtb:workflow-checkpoint`)
 - **Keine SHA-Rückschreibung in `## Progress`** (Entkopplung von #19 — s. Integrationspunkte)
@@ -56,7 +57,8 @@
 
 ### Einschraenkungen
 - **Shell-agnostisch** (wie `implement`): mehrzeilige Message per Bash-heredoc, in reinen PowerShell-Kontexten Here-String; kein PowerShell-`&&`-Chaining
-- **`git -C {repo.path}`** für alle Git-Aufrufe (Multi-Repo, kein `cd`)
+- **`git -C {path}`** für alle Git-Aufrufe (Multi-Repo, kein `cd`); Repo-Grenzen NICHT aus `config.repos` ableiten, sondern per `git -C {path} rev-parse --show-toplevel` bestimmen und Pfade nach eindeutigem toplevel gruppieren (git-Realität schlägt Config)
+- **Funktioniert ohne `workflow.config.yaml`:** fehlt die Config, ist die Menge der Pfade = cwd → dessen toplevel → ein Commit-Flow (deckt normale Einzel-Verzeichnisse ab)
 - **`allowed-tools`:** `Read, Glob, Grep, Bash` (kein `Edit` — keine `## Progress`-Mutation)
 - **Harte Sicherheitsregeln unverhandelbar** (identisch zu `implement:171`): nie `--force`/`--no-verify`/`--amend`, kein Signing-Bypass, nie Force-Push auf `main`/`master` — gemeinsame Formulierung mit `implement`, damit beide nicht driften
 
@@ -79,7 +81,9 @@
 
 - **Gemeinsame Sicherheits-Formulierung** mit `implement`: als geteilter Textblock/Verweis oder bewusst dupliziert? (Entscheidung in Spec/Plan.)
 - **Pipeline-Frontmatter:** `stage`/`after`/`next` — commit-and-push steht außerhalb der Feature-Pipeline (Routine-Werkzeug wie `repo-sync`). Vorschlag: `stage: monitoring`/`utility` analog `repo-sync`; in `feature-plan` schärfen.
-- **Monorepo-Scoping (OFFEN — vor Spec klären):** Der Entwurf ist mechanisch monorepo-*sicher* (`git -C {path}` + `git add -A` + ein Commit funktioniert bei einem Monorepo-Root identisch; `config.repos` hat dann einen Eintrag). Aber unser `config.repos`-Modell ist **Poly-Repo** (mehrere separate `.git`), nicht Monorepo (ein `.git`, viele Pakete). Lücke ist Monorepo-*Bewusstsein*: `git add -A` stag't den ganzen Repo inkl. unbeteiligter Pakete — der „heterogener Diff → manuell aufteilen"-Hinweis fängt das ab, wiegt im Monorepo aber schwerer. Paketweises Scoping (`git add packages/foo`) ist **nicht** MVP-Scope, wäre spätere Erweiterung (optionaler Pfad-Filter-Parameter). **Damian bringt in einer Folge-Session ein konkretes Monorepo-Projekt (anderer Rechner) als Anschauung** — danach entscheiden, ob der Scoping-Fall in den MVP muss oder Erweiterung bleibt.
+- **Monorepo-Scoping (ENTSCHIEDEN 2026-07-16 — Vorbild pkp):** Prüfstein war das reale Monorepo `pkp` (ein `.git` im Root, zwei Pakete `pkp-frontend`/`pkp-backend`, die in `config.repos` als **zwei getrennte Einträge** stehen, physisch aber **ein** Repo sind). Der ursprüngliche „pro `config.repos`-Eintrag ein Commit"-Ansatz bricht dort: `git -C pkp-frontend add -A` findet über Aufwärtssuche das Root-`.git` und stag't den ganzen Baum → Sammel-Commit, dann Leer-Commit für `pkp-backend`, zwei Pushes ans selbe Remote. Damian bedient pkp real ohnehin mit **einem** `commit` + `push` über alles.
+  - **Entscheidung:** Repo-Grenzen kommen aus git, nicht aus der Config — Pfade nach `git rev-parse --show-toplevel` gruppieren, ein Commit pro eindeutigem toplevel (siehe Scope + Einschränkungen). Fällt für Monorepo (1 Flow), Poly-Repo (n Flows), Einzel-Repo und config-loses Verzeichnis automatisch richtig aus.
+  - **Kein** Config-Schema-Change, **kein** Eingriff in `repo-sync`/`implement`. Paketweises Scoping bleibt bewusst außerhalb des MVP (s. „Nicht enthalten").
 
 ---
 
