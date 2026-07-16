@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-15
 **Ziel:** Ein Implementierungs-Review-Skill (`dtb:impl-review`) ersetzt `dtb:code-review` als Feature-End-Review — drei Dimensionen (Plan-Drift, Craft, Rules) statt reinem Rules-Check.
 **Prioritaet:** Hoch
-**Status:** Geplant <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

@@ -287,9 +287,9 @@ Spec-Kriterien belegt.
 - [x] 3.2 CLAUDE.md ×2 nachziehen — `feaede9`
 - [x] 3.3 DERIVED_STATE_RULES: review.md neutral — `feaede9`
 - [x] 3.4 code-review entfernen (git rm) — `feaede9`
-- [x] 4.1 Konsistenz-Sweep (geankert)
-- [x] 4.2 Selbst-Test auf verifikations-gate
-- [x] 4.3 SC-Abgleich + offene Punkte
+- [x] 4.1 Konsistenz-Sweep (geankert) — `6c9bc21`
+- [x] 4.2 Selbst-Test auf verifikations-gate — `6c9bc21`
+- [x] 4.3 SC-Abgleich + offene Punkte — `6c9bc21`
 
 ---
 
