@@ -172,7 +172,9 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
    Signing-Bypass. Schlaegt ein Hook fehl → Ursache fixen und NEUEN Commit erstellen.
    Shell-agnostisch: mehrzeilige Message per Bash-heredoc (`git commit -m "$(cat <<'EOF' …"`);
    in reinen PowerShell-Kontexten stattdessen Here-String (`git commit -m @'…'@`,
-   schliessendes `'@` auf Spalte 0)
+   schliessendes `'@` auf Spalte 0). Dieselben harten Regeln sind in
+   `dtb:commit-and-push` Schritt 5 dupliziert (kein Import-Mechanismus) — bei Aenderung
+   hier dort mitziehen (Kopplungs-Hinweis steht dort)
 8. **Kurz-SHA lesen:** `git rev-parse --short HEAD`
 9. **SHA-Rueckschreibung:** In JEDE waehrend der Phase geflippte Progress-Zeile die SHA
    nachtragen: `- [x] N.M Kurzname` → `` - [x] N.M Kurzname — `SHA` ``.

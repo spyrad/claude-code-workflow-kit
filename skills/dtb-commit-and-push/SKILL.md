@@ -40,7 +40,10 @@ Lies `workflow.config.yaml` im Projekt-Root.
 - **Nicht vorhanden:** kein Abbruch. Startpunkt ist das aktuelle Verzeichnis (`.`).
   Der Skill laeuft in jedem Git-Verzeichnis, auch ohne DTB-Config.
 
-Optionales Argument (Repo-Name/Pfad) → nur diesen einen Startpfad verwenden.
+Optionales Argument → nur diesen einen Startpunkt verwenden. Aufloesung: ist es ein **Pfad**
+(enthaelt `/` oder `\` bzw. existiert als Verzeichnis), direkt nutzen; ist es ein **Repo-Name**,
+in `config.repos` nach `repo.path` aufloesen. Ohne Config wird das Argument als Pfad
+interpretiert; loest ein Name mangels Config nicht auf → melden und abbrechen (nicht raten).
 
 ## Schritt 1: Repo-Roots ermitteln (git-Realitaet, nicht Config)
 
@@ -76,17 +79,17 @@ git -C {root} diff --stat
 git -C {root} log --oneline -3
 ```
 
-Werte pro Root aus und behandle die Sonderzustaende, **bevor** ein Commit-Ablauf startet:
+Werte pro Root aus. Nur **ein** Sonderfall bricht ab; der Rest ist ein einziger Pfad, in dem
+Commit und Push je fuer sich konditional sind (das deckt ahead/behind/up-to-date natuerlich mit,
+ohne Leer-Commit):
 
 | Zustand | Verhalten |
 |---------|-----------|
 | **Detached HEAD** (kein aktueller Branch) | erkennen (`git -C {root} symbolic-ref -q HEAD` leer / `branch --show-current` leer) → **abbrechen** fuer diesen Root (kein Push-Ziel), melden |
-| **Working Tree clean & up-to-date** | „nichts zu tun" — sauberer Abschluss fuer diesen Root |
-| **Working Tree clean, aber lokal ahead** | kein Leer-Commit → direkt zum **Push** (spaeterer Schritt), Commit-Teil ueberspringen |
-| **Aenderungen vorhanden** | regulaerer Ablauf (Red-Flag-Scan → Staging → Commit → Push, folgende Schritte) |
+| **sonst** | regulaerer Ablauf: Red-Flag-Scan → `add -A` → **Commit nur, wenn danach etwas gestaged ist** (sonst ueberspringen, kein Leer-Commit) → **Push nur, wenn lokal ahead ODER gerade committet**. Ist am Ende nichts zu committen und nichts zu pushen (clean & up-to-date) → „nichts zu tun" |
 
-Zeige den Status je Root knapp (Branch, Anzahl Aenderungen, ahead/behind), dann weiter
-mit dem Commit-Ablauf fuer die Roots im Zustand „Aenderungen vorhanden".
+Zeige den Status je Root knapp (Branch, Anzahl Aenderungen, ahead/behind), dann weiter mit dem
+Ablauf (Schritte 3 ff.) fuer alle nicht abgebrochenen Roots.
 
 ## Schritt 3: Red-Flag-Scan (vor dem Staging)
 
@@ -103,8 +106,11 @@ Sie ist bewusst als benannter, erweiterbarer Block gehalten:
 ```
 
 Ablauf pro Root:
-1. Untracked + modifizierte Pfade aus `git -C {root} status --short` gegen die Liste pruefen.
-   `.gitignore`-ausgeschlossene Pfade sind kein Treffer (bleiben ohnehin ungestaged).
+1. Untracked + modifizierte Pfade aus `git -C {root} status --short` gegen die Namens-Muster
+   pruefen. **Groesse** mechanisch pruefen (ein Prompt „sieht" keine Dateigroesse), z. B.
+   `git -C {root} ls-files -om --exclude-standard` → verdaechtige Pfade mit `find <pfad> -size +1M`
+   bzw. `wc -c` gegenpruefen. `.gitignore`-ausgeschlossene Pfade sind kein Treffer (bleiben
+   ohnehin ungestaged).
 2. **Treffer → STOPP & Rueckfrage** (nie automatisch mitstagen): Pfad(e) zeigen, fragen ob
    bewusst gewollt. Erst nach expliziter Bestaetigung weiter.
 3. Kein Treffer → die zu stagenden Pfade zur Sicht auflisten, dann Schritt 4.
@@ -129,8 +135,8 @@ Ablauf pro Root:
 > **Sicherheitsregeln — dupliziert aus `dtb:implement` (Ritual P7).** Kein Import-Mechanismus
 > zwischen Skills (je eigenstaendige SKILL.md); der Skill muss autark sicher sein, auch
 > config-los ohne `implement`-Kontext. **Format-Kopplung:** Aenderst du die Regeln hier,
-> die Formulierung in `dtb:implement` mitdenken (dort steht der Gegen-Hinweis nicht — beim
-> naechsten gemeinsamen Touch angleichen).
+> die Formulierung in `dtb:implement` (Ritual P7) mitziehen — dort ist der reziproke
+> Gegen-Hinweis gesetzt, die Kopplung ist von beiden Enden sichtbar.
 
 - **NIE** `--force`, `--no-verify`, `--amend` oder Signing-Bypass. **NIE** Force-Push auf
   `main`/`master`.
@@ -146,8 +152,8 @@ Ablauf pro Root:
     EOF
     )"
     ```
-  - reiner PowerShell-Kontext: Here-String (`git commit -m @'…'@`, schliessendes `'@` auf
-    Spalte 0); kein PowerShell-`&&`-Chaining.
+  - reiner PowerShell-Kontext: Here-String (`git -C {root} commit -m @'…'@`, schliessendes
+    `'@` auf Spalte 0); kein PowerShell-`&&`-Chaining.
 
 ## Schritt 6: Push + Sammel-Summary
 
@@ -155,10 +161,11 @@ Ablauf pro Root:
 ```bash
 git -C {root} rev-parse --abbrev-ref HEAD          # aktueller Branch
 git -C {root} config --get branch.<branch>.remote  # Tracking-Remote (falls vorhanden)
-git -C {root} log @{u}.. --oneline 2>/dev/null     # zu pushende Commits (falls Upstream)
+git -C {root} log @{u}.. --oneline                 # zu pushende Commits (nur bei gesetztem Upstream; fehlt er → Edge Case "kein Tracking-Branch")
 ```
-Anzeigen: Ziel-Remote + Branch + Commit-Range. **Auffaelligkeits-Stopp** nur bei
-ungewohntem/neuem Remote (z. B. anderes Remote als in den letzten Pushes) → Rueckfrage.
+Anzeigen: Ziel-Remote + Branch + Commit-Range. **Auffaelligkeits-Stopp** (git kennt keine
+abfragbare Push-Historie, daher ableitbare Trigger): mehr als ein Remote
+(`git -C {root} remote`) ODER Ziel-Remote heisst nicht `origin` → vor dem Push rueckfragen.
 
 **Push:**
 ```bash
