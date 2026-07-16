@@ -116,7 +116,7 @@ Der vollstaendige geführte Commit+Push-Ablauf je Root mit harten Sicherheitsreg
 
 #### Automated
 - [ ] Grep: Skill enthaelt `git add -A`, die Red-Flag-Muster (`.env`, `*.pem`, `id_rsa`) und `heredoc`/Here-String-Muster
-- [ ] Grep-Gegencheck: `--force`, `--no-verify`, `--amend` erscheinen im Skill **nur** in Verbots-Formulierung (jede Fundzeile enthaelt „nie"/„NICHT"/„kein")
+- [ ] Grep-Gegencheck: `--force`, `--no-verify`, `--amend` erscheinen im Skill **nur** in Verbots-Formulierung (jede Fundzeile enthaelt ein Verbotswort — sprachagnostisch: „nie"/„NICHT"/„kein"/„never"; die englische `description` zaehlt mit)
 
 #### Manual
 - [ ] Alle Randfaelle aus der Spec sind abgedeckt (non-fast-forward, kein Tracking-Branch, clean+ahead, clean+up-to-date, Detached HEAD, heterogener Diff)
@@ -186,13 +186,13 @@ Der Skill ist dokumentiert, gegen echtes Material getestet und global verteilt.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Skill-Geruest + Frontmatter + Config-Laden
-- [x] 1.2 Repo-Root-Ermittlung (toplevel-Gruppierung)
-- [x] 1.3 Pro-Root Status-Check + Sonderzustaende
-- [ ] 2.1 Red-Flag-Scan vor dem Staging
-- [ ] 2.2 Staging + Message-Vorschlag (Bestaetigungs-Muster)
-- [ ] 2.3 Commit mit harten Sicherheitsregeln
-- [ ] 2.4 Push mit Edge Cases + Sammel-Summary
+- [x] 1.1 Skill-Geruest + Frontmatter + Config-Laden — `1a161f4`
+- [x] 1.2 Repo-Root-Ermittlung (toplevel-Gruppierung) — `1a161f4`
+- [x] 1.3 Pro-Root Status-Check + Sonderzustaende — `1a161f4`
+- [x] 2.1 Red-Flag-Scan vor dem Staging
+- [x] 2.2 Staging + Message-Vorschlag (Bestaetigungs-Muster)
+- [x] 2.3 Commit mit harten Sicherheitsregeln
+- [x] 2.4 Push mit Edge Cases + Sammel-Summary
 - [ ] 3.1 Abgrenzung + Doku
 - [ ] 3.2 Selbst-Test (blinder Lauf an echtem Material)
 - [ ] 3.3 Verteilung via kit-sync
