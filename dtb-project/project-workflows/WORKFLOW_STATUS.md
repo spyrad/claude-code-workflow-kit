@@ -22,7 +22,7 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-16 (S5): `commit-and-push` (#21) 10/10 fertig, reviewt (7 Findings alle FIXED) + global verteilt (kit-sync: 40 synchron). Kern: git-toplevel statt config.repos (monorepo-fest, an pkp belegt). Fuenf Features warten auf reale Abnahme. |
+| **Notizen** | 2026-07-16 (S6): `commit-and-push` (#21) 10/10 fertig, reviewt (7 FIXED) + global verteilt (40 synchron). Erster realer Einsatz (Dogfooding, clean&ahead-Push) bestanden; voller Monorepo-Test (pkp) steht aus. Fuenf Features warten auf reale Abnahme. |
 
 ---
 
