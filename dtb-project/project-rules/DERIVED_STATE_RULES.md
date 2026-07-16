@@ -19,6 +19,7 @@ Regeln in §4) mit festen Dateinamen:
 | `plan.md` | Implementierungsplan inkl. `## Progress` (Umsetzungsstand) |
 | `bug.md` | Bug-Report inkl. `## Fix-Schritte` (statt eigenem Ordner-Change fuer Bugs) |
 | `task.md` | Aufgabe inkl. `## Schritte` |
+| `review.md` | Impl-Review-Report (`dtb:impl-review`), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1 |
 
 Ein archivierter Change ist der ganze Ordner unter `archive/<slug>/`.
 
@@ -211,3 +212,5 @@ kein Change-Ordner existiert. Sobald `feature-discover` einen Ordner anlegt, gew
 **Umgestellt auf Change-Folder-Modell:** Feature CHANGE_FOLDER_MODELL, 2026-07-09
 **§5 Roadmap-Ableitung ergaenzt:** Feature greenfield-autoren-skills, 2026-07-13
 **§2 gehaertet (Verifikations-Gate: Flip-Bedingung, SHA-Timing, Multi-Repo-SHA):** Feature verifikations-gate, 2026-07-15
+**`review.md` als status-neutrale Ordner-Datei ergaenzt:** Feature impl-review, 2026-07-16
+(Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)

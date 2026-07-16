@@ -280,13 +280,13 @@ Spec-Kriterien belegt.
 - [x] 1.7 Report mit 6 Verdikt-Achsen — `fb0310d`
 - [x] 1.8 review.md-Persistenz + PENDING-Schutz — `fb0310d`
 - [x] 1.9 Triage-Loop + Lektion-Anschluss — `fb0310d`
-- [x] 2.1 implement umbiegen (2 Vorschlags-Stellen)
-- [x] 2.2 workflow-checkpoint umbiegen (Handoff)
-- [x] 2.3 pipeline-graph + workflow-status nachziehen
-- [ ] 3.1 lesson-Vokabular + generate-rules
-- [ ] 3.2 CLAUDE.md ×2 nachziehen
-- [ ] 3.3 DERIVED_STATE_RULES: review.md neutral
-- [ ] 3.4 code-review entfernen (git rm)
+- [x] 2.1 implement umbiegen (2 Vorschlags-Stellen) — `55753a5`
+- [x] 2.2 workflow-checkpoint umbiegen (Handoff) — `55753a5`
+- [x] 2.3 pipeline-graph + workflow-status nachziehen — `55753a5`
+- [x] 3.1 lesson-Vokabular + generate-rules
+- [x] 3.2 CLAUDE.md ×2 nachziehen
+- [x] 3.3 DERIVED_STATE_RULES: review.md neutral
+- [x] 3.4 code-review entfernen (git rm)
 - [ ] 4.1 Konsistenz-Sweep (geankert)
 - [ ] 4.2 Selbst-Test auf verifikations-gate
 - [ ] 4.3 SC-Abgleich + offene Punkte

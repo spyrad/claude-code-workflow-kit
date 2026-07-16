@@ -134,7 +134,7 @@ Analysierte Quellen: {Liste}
 Naechste Schritte:
 - Rules manuell pruefen und anpassen
 - "Manuell angepasst: Nein" auf "Ja" setzen nach Review
-- /dtb:code-review nutzt diese Rules automatisch
+- /dtb:impl-review nutzt diese Rules automatisch (als Rules-Dimension)
 ```
 
 ---
@@ -150,7 +150,7 @@ Naechste Schritte:
 
 ## Verwandte Skills
 
-- `/dtb:code-review` — Prueft Code gegen diese Rules
+- `/dtb:impl-review` — Prueft Code gegen diese Rules (als eine seiner drei Review-Dimensionen)
 - `/dtb:project-init` — Erstinitialisierung (legt `project-rules/` an)
 - `/dtb:project-health` — Prueft Rules-Konsistenz (Check 10)
 

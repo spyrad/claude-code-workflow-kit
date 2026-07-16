@@ -35,7 +35,7 @@ The `/dtb:*` skills form a German-language workflow system for managing developm
 
 Skills are designed to work together in a session lifecycle:
 1. **Start/Resume**: `workflow-resume` derives the active feature from artifacts (PLAN `## Progress`) and reads `WORKFLOW_STATUS.md` for context
-2. **Work**: Use `feature-plan`, `debug-plan` for planning; `implement` drives the plan phase by phase (3x3 rhythm + phase-end ritual: checkbox flips are gated by checkpoint criteria, the commit SHA is written back as verification evidence); `code-review` checks against project rules
+2. **Work**: Use `feature-plan`, `debug-plan` for planning; `implement` drives the plan phase by phase (3x3 rhythm + phase-end ritual: checkbox flips are gated by checkpoint criteria, the commit SHA is written back as verification evidence); `impl-review` checks the result across three dimensions (plan drift, craft, rules)
 3. **Save**: `workflow-checkpoint` writes a session log AND overwrites `WORKFLOW_STATUS.md` (status block generated from artifacts, context block manual)
 4. **Next session**: `workflow-resume` picks up where the progress checkboxes left off — even without a checkpoint
 
@@ -55,8 +55,8 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 - **Project setup**: `project-init`, `project-health`, `project-team`
 - **Greenfield**: `opportunity-map` (Vorfeld: build/buy/complement/wait-Sichtung → `OPPORTUNITY-MAP.md`, Hand-off zu `greenfield-prd` bei „build"), `greenfield-prd` (Autor: PRD-Interview → `PRD-MVP.md`, oder Report-Modus), `greenfield-roadmap` (Autor: Stack-Besprechung → `TECH-STACK.md` + Lean-Interview → `ROADMAP.md` mit Change-IDs, oder Report-Modus)
 - **Maintenance**: `archive` (move completed/discarded items to archive), `kit-sync` (install/update installed kit copies under `~/.claude/` via lock-based drift detection — see below)
-- **Development**: `code-review`, `backlog-status`, `repo-sync`, `build-check` (stand-alone deploy-readiness check across all repos — not part of the feature loop)
-- **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs), `lesson` (capture a reusable lesson append-only into `project-rules/lessons.md`, read as a prior by impl-plan/debug-plan/plan-review/code-review — replaces the dead `pitfalls.md` concept)
+- **Development**: `impl-review` (feature-end review across plan drift, craft, rules — the former rules-only review, now retired), `backlog-status`, `repo-sync`, `build-check` (stand-alone deploy-readiness check across all repos — not part of the feature loop)
+- **Knowledge management**: `docs-extract` (scan input/ folder, extract facts from documents into thematic MDs), `lesson` (capture a reusable lesson append-only into `project-rules/lessons.md`, read as a prior by impl-plan/debug-plan/plan-review/impl-review — replaces the dead `pitfalls.md` concept)
 - **Documentation**: `pipeline-graph` (generate interactive HTML overview of entire skill pipeline from frontmatter)
 
 ### Agent Roles
@@ -89,7 +89,7 @@ Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a p
 - `dtb-project/project-workflows/archive/<slug>/` — Archived changes (whole folder moved via `git mv`, or filesystem move + backup in non-git projects), plus archive log
 - `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)
 - `dtb-project/project-rules/DERIVED_STATE_RULES.md` — Zentrale Statusableitungs-Regeln (Kit-Bestandteil, von project-init verteilt; einzige versionierte Datei in project-rules/)
-- `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (Laufzeit-Artefakt, angelegt von `dtb:lesson`; Prior für impl-plan/debug-plan/plan-review/code-review; keine Coding-Rule)
+- `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (Laufzeit-Artefakt, angelegt von `dtb:lesson`; Prior für impl-plan/debug-plan/plan-review/impl-review; keine Coding-Rule)
 - `dtb-project/project-infrastructure/input/` — Drop-Zone für Infra-Dokumente (PDFs, Configs, Exports)
 - `dtb-project/project-infrastructure/*.md` — Extrahierte Infra-Fakten (UPPER_SNAKE_CASE, generiert von `dtb:docs-extract`)
 - `dtb-project/project-requirements/input/` — Drop-Zone für Anforderungs-Dokumente
@@ -109,4 +109,4 @@ Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a p
 - Spec size limits: `spec.md` and `plan.md` max 500 lines each (longer specs degrade AI processing quality)
 - Pipeline metadata in frontmatter: `stage`, `after`, `next`, `consumes`, `produces`
 - `workflow-status` reads pipeline frontmatter to auto-generate the flow visualization
-- `dtb:code-review` reads rules from `{config.paths.rules}/` to validate implementations
+- `dtb:impl-review` reads rules from `{config.paths.rules}/` as one of its three review dimensions

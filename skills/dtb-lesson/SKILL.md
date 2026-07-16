@@ -19,7 +19,7 @@ pipeline:
 # Lektion erfassen
 
 Du haeltst eine nicht-offensichtliche, wiederverwendbare Erkenntnis fest — append-only in
-`lessons.md`. Spaeter lesen `impl-plan`, `debug-plan`, `plan-review` und `code-review` diese
+`lessons.md`. Spaeter lesen `impl-plan`, `debug-plan`, `plan-review` und `impl-review` diese
 Datei als **Prior** und wenden passende Lektionen an. Ziel: Schnelligkeit wie bei `dtb:idea`,
 kein Formular.
 
@@ -48,7 +48,7 @@ Welche Lektion moechtest du festhalten? (Freitext — was ist passiert, was gilt
 
 ### Zwei Eingangskanaele
 1. **Manuell:** `/dtb:lesson "..."` — der bewusste Fall.
-2. **Agent-Vorschlag:** Ein anderer Skill (impl-plan/debug-plan/code-review) hat waehrend der
+2. **Agent-Vorschlag:** Ein anderer Skill (impl-plan/debug-plan/impl-review) hat waehrend der
    Arbeit einen Lektion-Kandidaten erkannt und dich gefragt. Bei „ja" landet der vorgeschlagene
    Text hier.
 
@@ -74,8 +74,10 @@ Leite aus dem Freitext die vier Felder ab. Halte jedes Feld **knapp** (1 Satz).
 | **Applies-to** | Welche Skills sollen diese Lektion als Prior anwenden? |
 
 ### Applies-to (festes Enum)
-Erlaubte Werte: `impl-plan`, `debug-plan`, `plan-review`, `code-review`, `alle`.
-- Mehrfachnennung erlaubt (kommagetrennt), z.B. `impl-plan, code-review`
+Erlaubte Werte: `impl-plan`, `debug-plan`, `plan-review`, `impl-review`, `alle`.
+- `code-review` (Legacy) wird beim **Lesen** weiter akzeptiert, aber **nicht neu vergeben** —
+  `impl-review` ist der Nachfolger.
+- Mehrfachnennung erlaubt (kommagetrennt), z.B. `impl-plan, impl-review`
 - **Nicht ableitbar/leer → Default `alle`** (kein Reibungsverlust; kann spaeter eingegrenzt werden)
 - Nur bei echter Unklarheit **eine** kurze Rueckfrage stellen, sonst `alle` setzen
 
@@ -115,7 +117,7 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 # Lektionen (lessons.md)
 
 > Append-only Sammlung nicht-offensichtlicher, wiederverwendbarer Regeln.
-> Erfasst mit `/dtb:lesson`, gelesen als Prior von impl-plan, debug-plan, plan-review, code-review.
+> Erfasst mit `/dtb:lesson`, gelesen als Prior von impl-plan, debug-plan, plan-review, impl-review.
 > **Nicht** manuell editieren/loeschen (append-only); Kuratierung geschieht bewusst.
 > Kompakt halten — Soft-Limit ~150 Zeilen (danach aeltere, ueberholte Lektionen aussortieren).
 
