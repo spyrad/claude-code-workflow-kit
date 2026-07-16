@@ -128,11 +128,11 @@ Pipeline, Doku und Distribution entfernt.
 
 ---
 
-## Offene Punkte
+## Offene Punkte (entschieden mit Phase 4.3, 2026-07-16)
 
-- Report-Layout: Box-Drawing (10x-Stil) vs. Markdown-Tabellen (Kit-Stil) — Entscheidung im Implementierungsplan
-- Bekommt `review.md` einen Eintrag in der pipeline-Frontmatter `produces`? (Tendenz ja — final in der Spec des Plans)
-- Exakte Formulierung der beiden Linsen-Destillate (Entwuerfe aus der Discovery-Session vorhanden) — Feinschliff im Umsetzungsschritt
+- ~~Report-Layout: Box-Drawing (10x-Stil) vs. Markdown-Tabellen (Kit-Stil)~~ → **Markdown-Tabellen** (Kit-Konsistenz; Entscheidungstabelle plan.md)
+- ~~Bekommt `review.md` einen Eintrag in der pipeline-Frontmatter `produces`?~~ → **Ja** (`produces: [features/*/review.md]`; pipeline-graph/workflow-status lesen Frontmatter)
+- ~~Exakte Formulierung der beiden Linsen-Destillate~~ → **Final** in `skills/dtb-impl-review/SKILL.md` (principled + torvalds, je Kerndenken + Filter, ohne Stimme/Tonfall)
 
 ---
 

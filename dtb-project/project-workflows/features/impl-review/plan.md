@@ -283,13 +283,13 @@ Spec-Kriterien belegt.
 - [x] 2.1 implement umbiegen (2 Vorschlags-Stellen) — `55753a5`
 - [x] 2.2 workflow-checkpoint umbiegen (Handoff) — `55753a5`
 - [x] 2.3 pipeline-graph + workflow-status nachziehen — `55753a5`
-- [x] 3.1 lesson-Vokabular + generate-rules
-- [x] 3.2 CLAUDE.md ×2 nachziehen
-- [x] 3.3 DERIVED_STATE_RULES: review.md neutral
-- [x] 3.4 code-review entfernen (git rm)
-- [ ] 4.1 Konsistenz-Sweep (geankert)
-- [ ] 4.2 Selbst-Test auf verifikations-gate
-- [ ] 4.3 SC-Abgleich + offene Punkte
+- [x] 3.1 lesson-Vokabular + generate-rules — `feaede9`
+- [x] 3.2 CLAUDE.md ×2 nachziehen — `feaede9`
+- [x] 3.3 DERIVED_STATE_RULES: review.md neutral — `feaede9`
+- [x] 3.4 code-review entfernen (git rm) — `feaede9`
+- [x] 4.1 Konsistenz-Sweep (geankert)
+- [x] 4.2 Selbst-Test auf verifikations-gate
+- [x] 4.3 SC-Abgleich + offene Punkte
 
 ---
 
