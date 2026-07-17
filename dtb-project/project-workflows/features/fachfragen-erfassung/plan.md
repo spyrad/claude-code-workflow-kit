@@ -178,8 +178,8 @@ Die ausgelagerte Lese-Ansicht als konkrete Folge-Idee sichern und die Konvention
 - [x] 2.1 feature-discover anleiten — `5ab2987`
 - [x] 2.2 feature-plan anleiten — `5ab2987`
 - [x] 2.3 Konsistenz- & Rueckwaertskompat-Beleg — `5ab2987`
-- [x] 3.1 Folge-Idee in INBOX
-- [x] 3.2 Doku-Hinweis (CLAUDE.md)
+- [x] 3.1 Folge-Idee in INBOX — `96084b4`
+- [x] 3.2 Doku-Hinweis (CLAUDE.md) — `96084b4`
 
 ---
 

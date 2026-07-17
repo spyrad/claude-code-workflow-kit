@@ -93,7 +93,7 @@ Verwende folgende Struktur:
 ## Offene Punkte
 
 - [Beim Schreiben ungeklaerte Fragen — als konkrete Frage formulieren, NICHT plausibel erraten. "— keine —", wenn nichts offen ist]
-- [Gehoert eine Frage ins Fach-Meeting (nicht sofort/allein beantwortbar)? → als Checkbox mit Tag: `- [ ] [Fach] {Frage}`. Ein normaler „selbst-zu-klaeren"-Punkt bleibt untagged. Kanon/Details: `DERIVED_STATE_RULES.md` §6 — Zeile selbsterklaerend, Verweis nur Kanon-Ort]
+- [Gehoert eine Frage ins Fach-Meeting (nicht sofort/allein beantwortbar)? → als Checkbox mit Tag: `- [ ] [Fach] {Frage}`. Ein normaler „selbst-zu-klaeren"-Punkt bleibt untagged (reiner Bullet ohne Checkbox). Kanon/Details: `DERIVED_STATE_RULES.md` §6]
 
 ---
 
@@ -147,10 +147,10 @@ Verwende folgende Struktur:
    - **Nie erfinden:** Fehlt eine Information, fuelle sie NICHT mit einer plausiblen Annahme.
      Trage sie stattdessen als konkrete Frage unter `## Offene Punkte` ein. Eine ehrliche
      Luecke ist besser als ein verstecktes Rateergebnis. Kein `[TODO]`-Platzhalter mehr.
-     **Drei Faelle trennen:** (a) normaler offener Punkt = untagged Bullet, selbst zu klaeren;
-     (b) diese „nie erfinden"-Luecke = fehlende Info, oft in der Spec selbst klaerbar;
-     (c) Frage fuers Fach-Meeting (nicht sofort/allein beantwortbar) = als `- [ ] [Fach] {Frage}`
-     markieren. Nur (c) traegt den Tag (Kanon: `DERIVED_STATE_RULES.md` §6).
+     **Zwei Renderings, drei Intents:** untagged Bullet fuer (a) normaler offener Punkt und
+     (b) diese „nie erfinden"-Luecke (fehlende Info, oft in der Spec selbst klaerbar); getaggt
+     `- [ ] [Fach] {Frage}` nur fuer (c) Frage fuers Fach-Meeting (nicht sofort/allein
+     beantwortbar). Nur (c) traegt Tag und Checkbox (Kanon: `DERIVED_STATE_RULES.md` §6).
    - Fokus auf Was/Warum, nicht auf Wie (Implementierungsdetails gehoeren in `plan.md`)
    - **Max. 500 Zeilen** — laengere Specs verschlechtern die AI-Verarbeitung. Bei komplexen Features: Details in `plan.md` auslagern
 

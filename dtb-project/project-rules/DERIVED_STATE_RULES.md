@@ -227,10 +227,11 @@ Eine Fach-Frage ist eine Bullet-Zeile in `## Offene Punkte` der Form:
 - Report-Layout final klaeren            (untagged = selbst zu klaeren)
 ```
 
-- Der Tag `[Fach]` steht unmittelbar nach der Checkbox am Zeilenanfang.
+- **Kanonform:** `- [ ] [Fach] <Frage>` — je ein Leerzeichen zwischen Checkbox, Tag und Frage.
 - Die Grammatik gilt **dateiunabhaengig** fuer JEDES `## Offene Punkte` (z.B. `discovery.md`,
   `spec.md`) — nicht an eine bestimmte Datei gebunden.
-- **Checkbox = Status:** `- [ ]` offen, `- [x]` beantwortet.
+- **Nur `[Fach]`-Fragen sind statusfaehig** und tragen die Checkbox: `- [ ]` offen,
+  `- [x]` beantwortet. Ein normaler offener Punkt ist ein reiner Bullet OHNE Checkbox (siehe §6.3).
 - **Antwort-Nachtrag:** die Antwort wird als eingerueckte Fortsetzungszeile unter dem
   abgehakten Bullet nachgetragen (`→ Antwort: … (Meeting YYYY-MM-DD)`); der Eintrag bleibt
   als Beleg stehen (nicht loeschen).
@@ -245,14 +246,15 @@ Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
 
 ### 6.3 Rueckwaertskompatibilitaet & Abgrenzung
 
-- Ein Bullet **ohne** `[Fach]`-Tag ist ein normaler „selbst-zu-klaeren"-Punkt und bleibt
-  unveraendert gueltig — keine Migration bestehender `## Offene Punkte` noetig.
-- Drei Faelle sauber trennen: (a) normaler offener Punkt (untagged) = selbst klaeren;
-  (b) „nie erfinden"-Luecke (fehlende Info als Frage, oft in der Spec klaerbar);
-  (c) `[Fach]`-Frage = gehoert ins Fach-Meeting. Nur (c) traegt den Tag.
+- Ein Bullet **ohne** `[Fach]`-Tag ist ein normaler „selbst-zu-klaeren"-Punkt (reiner Bullet
+  OHNE Checkbox) und bleibt unveraendert gueltig — keine Migration bestehender `## Offene Punkte` noetig.
+- **Zwei Renderings, drei Intents:** getaggt `- [ ] [Fach] …` (Fall c: gehoert ins Fach-Meeting,
+  nicht sofort/allein beantwortbar) vs. untagged Bullet (Faelle a+b, syntaktisch identisch:
+  (a) normaler offener Punkt / (b) „nie erfinden"-Luecke). Nur (c) traegt Tag und Checkbox.
 - Die Ableitung Fach-Frage `[ ]`=offen / `[x]`=beantwortet dient ausschliesslich einer
   spaeteren rein-lesenden Agenda-Ansicht (kein schreibender Konsument in diesem Feature).
-- `[Stakeholder]` als zweite Tag-Variante ist bewusst noch nicht Teil der Konvention.
+- *Ausblick (nicht Teil der Konvention):* eine zweite Tag-Variante ist denkbar, aber bewusst
+  noch nicht spezifiziert.
 
 ---
 
