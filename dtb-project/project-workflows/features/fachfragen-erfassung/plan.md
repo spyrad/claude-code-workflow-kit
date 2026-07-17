@@ -172,12 +172,12 @@ Die ausgelagerte Lese-Ansicht als konkrete Folge-Idee sichern und die Konvention
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 §6 Regeltext (Grammatik & Antwort-Format)
-- [x] 1.2 §6 Status-Neutralitaet, Ableitung & Rueckwaertskompat
-- [x] 1.3 Fussnoten-Block ergaenzt
-- [ ] 2.1 feature-discover anleiten
-- [ ] 2.2 feature-plan anleiten
-- [ ] 2.3 Konsistenz- & Rueckwaertskompat-Beleg
+- [x] 1.1 §6 Regeltext (Grammatik & Antwort-Format) — `8dd722c`
+- [x] 1.2 §6 Status-Neutralitaet, Ableitung & Rueckwaertskompat — `8dd722c`
+- [x] 1.3 Fussnoten-Block ergaenzt — `8dd722c`
+- [x] 2.1 feature-discover anleiten
+- [x] 2.2 feature-plan anleiten
+- [x] 2.3 Konsistenz- & Rueckwaertskompat-Beleg
 - [ ] 3.1 Folge-Idee in INBOX
 - [ ] 3.2 Doku-Hinweis (CLAUDE.md)
 

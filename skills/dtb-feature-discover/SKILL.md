@@ -224,7 +224,8 @@ Schritt 3 final auf `<!-- resume: done -->`):
 
 ## Offene Punkte
 
-- [Falls waehrend der Discovery ungeklaerte Fragen aufkamen]
+- [Falls waehrend der Discovery ungeklaerte Fragen aufkamen — als konkrete Frage formulieren]
+- [Gehoert eine Frage ins Fach-Meeting (nicht sofort/allein beantwortbar)? → als Checkbox mit Tag erfassen: `- [ ] [Fach] {Frage}`. Ein normaler „selbst-zu-klaeren"-Punkt bleibt untagged. Kanon/Details: `DERIVED_STATE_RULES.md` §6 — diese Zeile ist selbsterklaerend, der Verweis nur der Kanon-Ort]
 
 ---
 
