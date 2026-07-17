@@ -16,6 +16,8 @@
 | Opportunity-Map | Fertig zum Testen | 11/11 | Abnahme beim ersten realen Greenfield-Vorhaben |
 | Greenfield-Autoren-Skills | Fertig zum Testen | 14/14 | Abnahme beim ersten realen Greenfield (Entscheidung G) |
 
+Kein Feature „In Arbeit" — Pipeline leer, sechs Features warten auf reale Abnahme.
+
 ---
 
 ## Kontext (manuell)
@@ -23,17 +25,17 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-17 (S1): `fachfragen-erfassung` (#13) 8/8 fertig — §6 Fach-Frage-Konvention (`[Fach]` in `## Offene Punkte`), reviewt (5 Findings FIXED), noch nicht verteilt. Lese-Ansicht ausgelagert (#25). Sechs Features warten auf reale Abnahme. |
+| **Notizen** | 2026-07-17 (S2): Keine Umsetzung — Ideen #26 (`/dtb:open-question`, das in #13 fehlende Eingabe-Werkzeug) + #27 (`grill-me` fuer Greenfield) erfasst. Design-Smell: §6 status-neutral, sitzt aber im Status-Regelwerk → bei #26 neu verorten. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `fachfragen-erfassung` real abnehmen (naechste feature-discovery/-plan nutzt `[Fach]`) → Abnahme, dann `/dtb:kit-sync` (feature-discover, feature-plan; §6-Seed erreicht Bestand nicht, #22)
-- [ ] `dtb:commit-and-push` real im pkp-Monorepo testen → Abnahme via `/dtb:workflow-checkpoint`
-- [ ] INBOX #25 (Fach-Agenda) + #23 (Multi-Repo-Begriff auf toplevel) triagieren
-- [ ] impl-review + Verifikations-Gate real abnehmen (pkp); Follow-up F2 (§2 Regel 3)
-- [ ] Idee-Triage fortsetzen — verbleibende Ideen (#24, #22, #18, #16, #15, #10)
+- [ ] #26 (`/dtb:open-question`) ausarbeiten — §6-Verortung + „an Feature gebunden vs. flaches Postfach" klaeren
+- [ ] #27 (`grill-me`) evaluieren — Abgrenzung zu plan-review/feature-discover, Platz im Vorfeld
+- [ ] Reale Abnahmen nicht weiter aufstauen: commit-and-push / impl-review / Verifikations-Gate (pkp), fachfragen-erfassung
+- [ ] `/dtb:kit-sync sync` fuer fachfragen-erfassung erst NACH realer Abnahme (§6-Seed erreicht Bestand nicht, #22)
+- [ ] Idee-Triage fortsetzen — offene Ideen (#25, #24, #23, #22, #18, #16, #15, #10)
 
 ---
 
@@ -41,7 +43,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-17 | fachfragen-erfassung (#13) fertig | 8/8, §6 Fach-Frage-Konvention, impl-review 5/5 FIXED, 3 Phasen-Commits | `2026-07/2026-07-17.md` (S1) |
+| 2026-07-17 | fachfragen-erfassung (#13) fertig | 8/8, §6 Fach-Frage-Konvention, impl-review 5/5 FIXED, gepusht | `2026-07/2026-07-17.md` (S1) |
 | 2026-07-16 | commit-and-push (#21) fertig | 10/10, impl-review 7/7 FIXED, gepusht + global verteilt | `2026-07/2026-07-16.md` (S5-S6) |
 | 2026-07-16 | impl-review (#20) umgesetzt + verteilt | 3-Dimensionen-Review-Skill; code-review abgeloest; 19/19 | `2026-07/2026-07-16.md` (S1-S2) |
 | 2026-07-15 | Verifikations-Gate (#19) umgesetzt | `dtb:implement` neu; §2 gehaertet; 18/18; verteilt | `2026-07/2026-07-15.md` (S2-S3) |
@@ -56,5 +58,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-next` — fachfragen-erfassung ist fertig+reviewt (kein zwingender Skill-Schritt offen; wartet auf reale Abnahme + kit-sync-Verteilung). workflow-next bestimmt den naechsten produktiven Schritt (reale Abnahme, INBOX #25/#23-Triage oder Idee-Triage).
+**Naechster Befehl:** `/dtb:workflow-next` — kein Feature in Arbeit/geplant; naechster produktiver Schritt ist entweder eine reale Abnahme (Testau abbauen) oder das Ausarbeiten von Idee #26 (`/dtb:feature-discover`). workflow-next bestimmt konkret.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
