@@ -110,3 +110,4 @@ Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a p
 - Pipeline metadata in frontmatter: `stage`, `after`, `next`, `consumes`, `produces`
 - `workflow-status` reads pipeline frontmatter to auto-generate the flow visualization
 - `dtb:impl-review` reads rules from `{config.paths.rules}/` as one of its three review dimensions
+- Fach-Fragen fürs Meeting werden als `- [ ] [Fach] {Frage}` in `## Offene Punkte` erfasst (status-neutral — zählt NICHT für die Statusableitung) — Regel: `dtb-project/project-rules/DERIVED_STATE_RULES.md` §6
