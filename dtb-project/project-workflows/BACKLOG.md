@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-16 (commit-and-push → Fertig zum Testen, 10/10, reviewt + verteilt)
+**Letzte Aktualisierung:** 2026-07-17 (Fachfragen-Erfassung → Fertig zum Testen, 8/8 + reviewt)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -17,6 +17,7 @@
 | Greenfield-Autoren-Skills | Fertig zum Testen | Hoch | features/greenfield-autoren-skills/spec.md | greenfield-prd/-roadmap werden Autoren-Skills (PRD-Interview → PRD-MVP.md, Lean-Roadmap → ROADMAP.md + TECH-STACK.md) nach 10x-Vorbild, Derived-State-konform |
 | Opportunity-Map | Fertig zum Testen | Mittel | features/opportunity-map/spec.md | Vorfeld-Skill, der wiederkehrende Reibung in eine build/buy/complement/wait-Entscheidung überführt, bevor teure PRD-/Bau-Arbeit beginnt |
 | commit-and-push | Fertig zum Testen | Mittel | features/commit-and-push/spec.md | Geführter Routine-Skill, der Änderungen sicher committet und pusht; Repo-Grenzen aus git (rev-parse --show-toplevel) statt config.repos → monorepo-, poly-repo- und einzelverzeichnis-fest |
+| Fachfragen-Erfassung | Fertig zum Testen | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
 
 ---
 
