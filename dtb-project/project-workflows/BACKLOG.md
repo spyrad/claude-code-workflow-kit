@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-17 (Fachfragen-Erfassung → Fertig zum Testen, 8/8 + reviewt)
+**Letzte Aktualisierung:** 2026-07-17 (impl-review abgeschlossen + archiviert; 5 aktive Features)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,6 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| impl-review | Fertig zum Testen | Hoch | features/impl-review/spec.md | dtb:impl-review ersetzt dtb:code-review als Feature-End-Review: 3 Sub-Agents (Plan-Drift, Craft mit 2 Linsen-Destillaten, Rules), 6 Verdikt-Achsen, Triage mit review.md-Resume |
 | Verifikations-Gate | Fertig zum Testen | Hoch | features/verifikations-gate/spec.md | Umsetzungs-Loop erhält ein echtes Verifikations-Gate: dtb:implement treibt den Plan phasenweise, Checkbox flippt erst bei grünen Checkpoint-Kriterien, SHA wird Verifikations-Beleg |
 | Greenfield-Autoren-Skills | Fertig zum Testen | Hoch | features/greenfield-autoren-skills/spec.md | greenfield-prd/-roadmap werden Autoren-Skills (PRD-Interview → PRD-MVP.md, Lean-Roadmap → ROADMAP.md + TECH-STACK.md) nach 10x-Vorbild, Derived-State-konform |
 | Opportunity-Map | Fertig zum Testen | Mittel | features/opportunity-map/spec.md | Vorfeld-Skill, der wiederkehrende Reibung in eine build/buy/complement/wait-Entscheidung überführt, bevor teure PRD-/Bau-Arbeit beginnt |
@@ -40,6 +39,7 @@
 
 | Feature | Abgeschlossen | Datei |
 |---------|---------------|-------|
+| impl-review | 2026-07-17 | `archive/impl-review/` |
 | Codebase-Research-Step | 2026-07-14 | `archive/codebase-research-step/` |
 | Derived State | 2026-07-08 | `archive/derived-state/` |
 | Kit Sync | 2026-07-08 | `archive/kit-sync/` |

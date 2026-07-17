@@ -26,3 +26,5 @@
 | 2026-07-13 | Idee | #7 "Change-Folder-Modell" | INBOX.md | Ausgearbeitet → change-folder-modell (umgesetzt) |
 | 2026-07-14 | Feature | codebase-research-step | features/codebase-research-step/ | Abgeschlossen (abgenommen 2026-07-14, pkp-praxiserprobt) |
 | 2026-07-14 | Idee | #14 "Codebase-Research-Step in impl-plan/feature-plan verankern" | INBOX.md | Ausgearbeitet → codebase-research-step (umgesetzt) |
+| 2026-07-17 | Feature | impl-review | features/impl-review/ | Abgeschlossen (19/19, 7 Findings FIXED, global verteilt; Follow-up F2 lebt in verifikations-gate/review.md) |
+| 2026-07-17 | Idee | #20 "dtb:impl-review nach 10x-Vorbild" | INBOX.md | Ausgearbeitet → impl-review (umgesetzt + archiviert) |
