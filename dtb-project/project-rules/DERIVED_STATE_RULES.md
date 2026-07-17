@@ -208,9 +208,59 @@ kein Change-Ordner existiert. Sobald `feature-discover` einen Ordner anlegt, gew
 
 ---
 
+## 6. Fach-Frage-Konvention (Offene Punkte)
+
+Fragen, die waehrend der Arbeit auftauchen und **nicht sofort/allein beantwortbar** sind
+(sie gehoeren ins Fach-Meeting), werden in der Sektion `## Offene Punkte` eines Change-Artefakts
+als **statusfaehige, getaggte Checkbox** erfasst — Derived-State-konform, ohne zweiten Speicherort.
+
+### 6.1 Grammatik (dateiunabhaengig)
+
+Eine Fach-Frage ist eine Bullet-Zeile in `## Offene Punkte` der Form:
+
+```markdown
+## Offene Punkte
+
+- [ ] [Fach] Wird Export nach SAP zwingend benoetigt?
+- [x] [Fach] Welche Rollen duerfen freigeben?
+      → Antwort: nur Teamleiter (Meeting 2026-07-17)
+- Report-Layout final klaeren            (untagged = selbst zu klaeren)
+```
+
+- Der Tag `[Fach]` steht unmittelbar nach der Checkbox am Zeilenanfang.
+- Die Grammatik gilt **dateiunabhaengig** fuer JEDES `## Offene Punkte` (z.B. `discovery.md`,
+  `spec.md`) — nicht an eine bestimmte Datei gebunden.
+- **Checkbox = Status:** `- [ ]` offen, `- [x]` beantwortet.
+- **Antwort-Nachtrag:** die Antwort wird als eingerueckte Fortsetzungszeile unter dem
+  abgehakten Bullet nachgetragen (`→ Antwort: … (Meeting YYYY-MM-DD)`); der Eintrag bleibt
+  als Beleg stehen (nicht loeschen).
+
+### 6.2 Status-Neutralitaet (Abgrenzung zu §1/§2)
+
+Fach-Frage-Checkboxen in `## Offene Punkte` sind **status-neutral** — sie zaehlen NICHT fuer
+die Feature-Statusableitung (§1) und nicht fuer das Verifikations-Gate (§2). Nur `## Progress`
+(bzw. `## Schritte`/`## Fix-Schritte`, §1.5) speisen die Ableitung. Damit verhaelt sich die
+Sektion analog zu `review.md` (status-neutrale Ordner-Datei). Der `dtb:implement`-Loop und alle
+Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
+
+### 6.3 Rueckwaertskompatibilitaet & Abgrenzung
+
+- Ein Bullet **ohne** `[Fach]`-Tag ist ein normaler „selbst-zu-klaeren"-Punkt und bleibt
+  unveraendert gueltig — keine Migration bestehender `## Offene Punkte` noetig.
+- Drei Faelle sauber trennen: (a) normaler offener Punkt (untagged) = selbst klaeren;
+  (b) „nie erfinden"-Luecke (fehlende Info als Frage, oft in der Spec klaerbar);
+  (c) `[Fach]`-Frage = gehoert ins Fach-Meeting. Nur (c) traegt den Tag.
+- Die Ableitung Fach-Frage `[ ]`=offen / `[x]`=beantwortet dient ausschliesslich einer
+  spaeteren rein-lesenden Agenda-Ansicht (kein schreibender Konsument in diesem Feature).
+- `[Stakeholder]` als zweite Tag-Variante ist bewusst noch nicht Teil der Konvention.
+
+---
+
 **Eingefuehrt mit:** Feature DERIVED_STATE (`features/FEATURE_DERIVED_STATE.md`), 2026-07-06
 **Umgestellt auf Change-Folder-Modell:** Feature CHANGE_FOLDER_MODELL, 2026-07-09
 **§5 Roadmap-Ableitung ergaenzt:** Feature greenfield-autoren-skills, 2026-07-13
 **§2 gehaertet (Verifikations-Gate: Flip-Bedingung, SHA-Timing, Multi-Repo-SHA):** Feature verifikations-gate, 2026-07-15
 **`review.md` als status-neutrale Ordner-Datei ergaenzt:** Feature impl-review, 2026-07-16
+(Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
+**§6 Fach-Frage-Konvention ergaenzt:** Feature fachfragen-erfassung, 2026-07-17
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
