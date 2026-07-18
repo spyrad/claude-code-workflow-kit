@@ -125,7 +125,7 @@ SC5 Randfaelle: Mismatch-Block (Schritt 3), leerer Diff (Ritual 5), Progress-Nac
 SC6 build-check entkernt/verortet: stage monitoring, after/next null, Event-Check -> Projekt-Rule-Hinweis im Skill (T1-B)
 SC7 Beleg-Rueckfrage: workflow-checkpoint Schritt 2.3 (kein stilles Durchwinken)
 SC8 Pipeline konsistent: Greps p4 (build-check nur Deploy-Kontext; implement in feature-start.next, code-review.after, Ketten, Hard-Gate-Tabelle) + Sweep p5 (workflow-next/checkpoint-Handoff)
-SC9 3x3 eine Quelle: Sweep-Grep = 1 Vollbeschreibung (implement), Rest Verweise/Autoren-Konvention
+SC9 3x3 eine Quelle: Sweep-Grep = 1 Vollbeschreibung (implement), Rest Verweise/Autoren-Konvention; features/-Laufzeitplaene per Scope-Entscheidung ausgenommen (historische Belegplaene, bewusst kein Churn)
 Seed-Hinweis: Die Paragraph-2-Haertung erreicht Bestandsprojekte NICHT automatisch (Seed, Klasse B) — manuelles Update oder project-init; aktive Meldung = INBOX #22. Verteilung der Klasse-A-Artefakte (implement NEU + 8 geaenderte): /dtb:kit-sync nach Abnahme. -->
 
 Aktuell offen: — keine —

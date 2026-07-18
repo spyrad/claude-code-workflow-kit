@@ -1,6 +1,7 @@
 # Review-Snapshot: verifikations-gate
 Scope: 5 Commits (`43042b5 7767a86 aaf55ae bfbfc38 2da1cb2`), 16 bewertete Dateien (4 Workflow-Artefakte ausgenommen) · Geprueft bis: `2da1cb2` · Datum: 2026-07-16
 Gesamt-Verdikt: NEEDS ATTENTION
+Aufloesung (2026-07-18): alle 3 Findings entschieden — F1/F2/F3 FIXED. Review vollstaendig abgearbeitet.
 Erzeugt von: dtb:impl-review (Selbst-Test, Phase 4.2 des Features impl-review)
 
 ## Verdikt-Achsen
@@ -23,7 +24,7 @@ Info: 4 Workflow-Artefakte im Diff (BACKLOG.md, INBOX.md, WORKFLOW_STATUS.md, pl
 `skills/dtb-implement/SKILL.md` (Frontmatter + „Lektionen als Prior lesen"-Sektion)
 Der Treiber-Skill bekam eine ungeplante Lessons-als-Prior-Sektion (`consumes` um `project-rules/lessons.md` ergaenzt); Plan-Schritt 3.1 listet das nicht. Mustertreu, aber im Plan nicht belegt.
 Fix: Plan 3.1 nachtraeglich um den Lessons-Prior ergaenzen ODER als Lektion festhalten, dass `implement` bewusst zum Prior-Kreis gehoert.
-Decision: PENDING
+Decision: FIXED (2026-07-18, Weg b) — Lektion #4 in `lessons.md` erfasst (implement liest lessons als Prior = Design-Absicht, kein Drift); Reader-Liste im lessons.md-Kopf um `implement` korrigiert. Laufzeitplan bewusst nicht retroaktiv umgeschrieben.
 
 ### F2 — Safety & Quality / Architecture — [S:Mittel × I:Mittel] — Craft (principled + torvalds)
 `dtb-project/project-rules/DERIVED_STATE_RULES.md:105-111` (§2 Regel 3)
@@ -35,4 +36,4 @@ Decision: FIXED (2026-07-18) — §2 Regel 3 um den Halbsatz aus implement 3.2 e
 `features/verifikations-gate/plan.md:335` (eigener `## 3x3 Umsetzungsrhythmus`-Block)
 Der Selbst-Beleg-Plan traegt intern noch die Alt-Zeile „Commit-SHA als Beleg" (Flip-mit-SHA), waehrend dieselbe Datei zwei Zeilen tiefer das neue §2 (SHA erst beim Phasen-Commit) verkuendet. Die SC9-Aussage „3x3 = genau eine Quelle" haelt nur, weil der Sweep-Scope `features/`-Laufzeitplaene ausklammert.
 Fix: Runtime-Plaene bewusst unangetastet lassen (kein Churn); in der SC9-Notiz (`spec.md`) 1 Halbsatz ergaenzen, dass `features/`-Laufzeitplaene per Scope-Entscheidung ausgenommen sind — dann ist die Aussage scope-unabhaengig.
-Decision: PENDING
+Decision: FIXED (2026-07-18) — SC9-Notiz in `spec.md` um den Scope-Halbsatz ergaenzt („features/-Laufzeitplaene per Scope-Entscheidung ausgenommen"); Laufzeitplan unangetastet.
