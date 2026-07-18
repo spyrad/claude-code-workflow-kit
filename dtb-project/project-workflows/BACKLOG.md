@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-18 (S2: greenfield-autoren-skills reviewt — 6 Fixed/1 Skipped; Review-Front leer; 5 aktive Features)
+**Letzte Aktualisierung:** 2026-07-18 (S4: verifikations-gate-Review vollstaendig entschieden — F1/F2/F3 FIXED; alle 5 aktiven Features reviewt & Fertig zum Testen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
