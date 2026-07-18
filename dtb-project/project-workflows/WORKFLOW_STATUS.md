@@ -24,7 +24,7 @@ Kein Feature „In Arbeit" — Pipeline leer. Review-Front vollstaendig abgearbe
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-18 (S4): verifikations-gate-Review vollstaendig entschieden — F1/F2/F3 FIXED (`36d6c1a` F2, `b28451d` F1+F3). F2 haertete §2 Regel 3 (ausstehend≠verletzt). Kein kit-sync noetig (kein Klasse-A-Artefakt beruehrt; F2 = Klasse-B-Seed). |
+| **Notizen** | 2026-07-18 (S5): Housekeeping — `lessons.md`-gitignore-Frage entschieden (bewusst lokal/fluechtig, Begruendung als `.gitignore`-Kommentar verankert); BACKLOG-Platzhalter entfernt. Feature-Status unveraendert. |
 
 ---
 
@@ -33,8 +33,7 @@ Kein Feature „In Arbeit" — Pipeline leer. Review-Front vollstaendig abgearbe
 - [ ] Reale Abnahmen abbauen — Kontext: alle 5 Features „Fertig zum Testen", brauchen realen Zielprojekt-Lauf (pkp / echter Greenfield-/build-buy-Lauf / `[Fach]`-Nutzung)
 - [ ] `[Fach]`-Strang #26 → #25 → #24 ausarbeiten — Kontext: baut auf §6, kit-intern machbar
 - [ ] Idee-Triage fortsetzen — Kontext: #27, #23, #22, #18, #16, #15, #10 offen
-- [ ] `lessons.md`-gitignore-Beobachtung festhalten — Kontext: im Kit-Repo lokal, „nicht-ausliefern"-Grund greift faktisch nicht → via `/dtb:idea`
-- [ ] Kosmetik: BACKLOG „Ideen"-Platzhalter `[Feature 1]` entfernen
+- [ ] `[Fach]`-Prio-Frage abhaken — Kontext: `features/fachfragen-erfassung/spec.md:90`, Prio „Mittel" im BACKLOG faktisch bestaetigt
 
 ---
 
@@ -58,5 +57,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-next` — kein Feature in Arbeit, Review-Front leer, alle Findings verteilt/entschieden. Die fuenf „Fertig zum Testen" brauchen reale Zielprojekt-Abnahmen (kein Kit-interner Schritt); workflow-next listet sie. Kit-intern alternativ: `[Fach]`-Strang (#26) oder Ideen-Triage.
+**Naechster Befehl:** `/dtb:workflow-next` — kein Feature in Arbeit, Review-Front leer, alle Findings verteilt/entschieden. Die fuenf „Fertig zum Testen" brauchen reale Zielprojekt-Abnahmen (kein Kit-interner Schritt); workflow-next listet sie. Kit-intern alternativ: `[Fach]`-Prio-Frage abhaken, `[Fach]`-Strang (#26) oder Ideen-Triage (`/dtb:idea-review`).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.

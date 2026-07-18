@@ -7,6 +7,10 @@ dtb-project/*
 !dtb-project/project-strategy/
 # project-rules bleibt lokal — Ausnahme: DERIVED_STATE_RULES.md ist Kit-Bestandteil
 # (zentrale Ableitungsregel, Vorlage fuer project-init)
+# lessons.md bleibt bewusst ungetrackt — auch hier im Kit-Repo selbst: es ist ein
+# entwicklungsbegleitendes Laufzeit-Artefakt, kein auszulieferndes Kit-Teil. Folge
+# (bewusst akzeptiert, Entscheidung 2026-07-18): Lessons sind klon-lokal und reisen nicht
+# ueber Arbeitsorte mit. Nicht erneut als offene Frage aufmachen.
 !dtb-project/project-rules/
 dtb-project/project-rules/*
 !dtb-project/project-rules/DERIVED_STATE_RULES.md

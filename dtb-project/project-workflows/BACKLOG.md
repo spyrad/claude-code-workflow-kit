@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-18 (S4: verifikations-gate-Review vollstaendig entschieden — F1/F2/F3 FIXED; alle 5 aktiven Features reviewt & Fertig zum Testen)
+**Letzte Aktualisierung:** 2026-07-18 (S5: Housekeeping — Platzhalter-Zeile entfernt; alle 5 aktiven Features weiterhin Fertig zum Testen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -31,7 +31,6 @@
 
 | Feature | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| [Feature 1] | Idee | [Prio] | - | [Kurzbeschreibung] |
 
 ---
 
