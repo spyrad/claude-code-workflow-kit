@@ -29,7 +29,7 @@ Decision: PENDING
 `dtb-project/project-rules/DERIVED_STATE_RULES.md:105-111` (§2 Regel 3)
 Die Flip-Bedingung nennt nur „kein Automated-Kriterium verletzt". Die fuer das Mid-Phase-Flip tragende Unterscheidung „verletzt vs. ausstehend (liefert ein spaeterer Schritt)" steht ausschliesslich in `dtb-implement/SKILL.md:102-104` — nicht in §2, obwohl §2 die deklarierte Single Source ist und laut Regel 8 auch fuers manuelle Abhaken gilt. Ein Mensch, der nur §2 liest, koennte ein noch ausstehendes Automated-Kriterium als „rot" fehldeuten und faelschlich nicht flippen. (Deckt sich mit Lektion #1 — dort als Lesson erfasst, aber der Regeltext selbst traegt die Nuance nicht.)
 Fix: §2 Regel 3 um den Halbsatz aus implement 3.2 ergaenzen — „Kriterien, die erst spaetere Schritte derselben Phase liefern, gelten als ausstehend, nicht als verletzt" (wortgleich, damit beide Orte identisch formulieren).
-Decision: SKIPPED — verifikations-gate-Scope, nicht impl-review; als Lektion #1 bereits erfasst. Follow-up.
+Decision: FIXED (2026-07-18) — §2 Regel 3 um den Halbsatz aus implement 3.2 ergaenzt (wortgleich: „Kriterien, die erst spaetere Schritte der Phase liefern, gelten als ausstehend, nicht verletzt."). Beide Orte formulieren jetzt identisch.
 
 ### F3 — Pattern Consistency — [S:Niedrig × I:Niedrig] — Craft (principled, nit)
 `features/verifikations-gate/plan.md:335` (eigener `## 3x3 Umsetzungsrhythmus`-Block)

@@ -104,7 +104,8 @@ Jedes `plan.md` enthaelt eine `## Progress`-Sektion (erzeugt von `dtb:impl-plan`
 2. **Checkbox-Syntax:** `- [ ]` offen, `- [x]` erledigt — keine anderen Marker
 3. **Flip-Bedingung (Verifikations-Gate):** Eine Checkbox darf erst geflippt werden, wenn der
    Schritt umgesetzt ist UND kein **Automated**-Checkpoint-Kriterium seiner Phase verletzt ist
-   (rotes Kriterium → erst fixen, dann abhaken). Checkpoint-Kriterien einer Phase sind
+   (rotes Kriterium → erst fixen, dann abhaken). Kriterien, die erst spaetere Schritte der
+   Phase liefern, gelten als ausstehend, nicht verletzt. Checkpoint-Kriterien einer Phase sind
    unterteilt in **Automated** (mechanisch pruefbar: Kommando, Grep, Datei-Existenz) und
    **Manual** (menschliches Urteil, am Phasen-Ende bestaetigt — Ritual in `dtb:implement`).
    Fehlen Kriterien oder sind sie ungeteilt (Alt-Plan): alle als Manual behandeln —
