@@ -87,9 +87,68 @@ Das ermittelte Ziel-Feature (Slug) geht in Schritt 3.
 
 ---
 
-> **In Umsetzung (Phase 2 dieses Plans):** Ziel-Datei-Wahl, Variante-B-Bestaetigung,
-> §6-konformes Schreiben in `## Offene Punkte`, Duplikat-Schutz und Abschluss-Bestaetigung
-> folgen als Schritt 3–5.
+## Schritt 3: Ziel-Datei waehlen
+
+Im Ziel-Feature-Ordner wird die **am weitesten fortgeschrittene** Datei mit `## Offene Punkte`
+beschrieben:
+
+1. `spec.md` vorhanden → **`spec.md`**
+2. sonst `discovery.md` vorhanden → **`discovery.md`**
+3. sonst (nur `plan.md`/`bug.md`/`task.md`) → **abbrechen** — `## Offene Punkte` gehoert nicht in
+   diese Dateien (MVP-Schnitt, Feature `fachfragen-erfassung` #13):
+   ```
+   Feature „<slug>" hat weder spec.md noch discovery.md — kein Ablage-Ort fuer die Fach-Frage.
+   Lege zuerst eine Spec an:  /dtb:feature-plan <Feature-Name>
+   ```
+
+---
+
+## Schritt 4: Zeile formatieren, Duplikat pruefen, Ziel bestaetigen (Variante B)
+
+1. **§6-Kanonform bilden** (nur diese Form matcht die spaetere Agenda-Ansicht exakt):
+   `- [ ] [Fach] <normalisierte Frage>` — genau ein Leerzeichen zwischen Checkbox, Tag und Frage.
+
+2. **Duplikat-Schutz (exakter Textvergleich):** Lies die `## Offene Punkte`-Sektion der Zieldatei.
+   Steht dort bereits eine **offene** `- [ ] [Fach] …`-Zeile mit identischem Fragetext (nach
+   derselben Normalisierung) → **warnen und ueberspringen**, nicht doppelt schreiben:
+   ```
+   Diese Fach-Frage steht schon offen in features/<slug>/<datei>:
+     - [ ] [Fach] <Frage>
+   Nichts geschrieben.
+   ```
+   (Nur exakter Vergleich — kein Fuzzy-Matching.)
+
+3. **Ziel bestaetigen (Variante B — immer):** Ziel + formatierte Zeile anzeigen, auf kurze Freigabe
+   warten. Erst nach Freigabe zu Schritt 5:
+   ```
+   → Schreibe nach features/<slug>/<datei> (## Offene Punkte):
+     - [ ] [Fach] <Frage>
+   Passt das? (ok / abbrechen)
+   ```
+
+---
+
+## Schritt 5: Schreiben + Abschluss
+
+1. **Platzierung (robust, footer-entkoppelt):** Fuege die Zeile **ans Ende des Textblocks der
+   bestehenden `## Offene Punkte`-Sektion** ein — nach deren letzter Inhaltszeile, vor der naechsten
+   `##`-Ueberschrift. Der `**Erstellt mit:**`-Footer dient nur als Fallback-Anker, falls
+   `## Offene Punkte` die letzte Sektion im Dokument ist.
+2. **Fehlt die Sektion** → `## Offene Punkte` neu anlegen (Header + Leerzeile + Zeile), unmittelbar
+   **vor** dem `**Erstellt mit:**`-Footer; fehlt auch der Footer, ans Dateiende.
+3. **Bestehende Eintraege unangetastet:** beantwortete `- [x] [Fach] …`-Zeilen und eingerueckte
+   `→ Antwort: …`-Fortsetzungszeilen bleiben an Ort und Stelle — **nur anhaengen, nie umsortieren
+   oder verschieben**.
+4. **Status-Neutralitaet (Invariante):** ausschliesslich `## Offene Punkte` schreiben. **Nie**
+   `## Progress`, dortige Checkboxen oder Statusfelder beruehren — das Erfassen aendert den
+   abgeleiteten Feature-Status nicht (§6.2).
+5. **Abschluss-Bestaetigung (kompakt):**
+   ```
+   Fach-Frage erfasst → features/<slug>/<datei>:
+     - [ ] [Fach] <Frage>
+
+   Sammelansicht spaeter via /dtb:workflow-next (bzw. der geplanten Fach-Agenda #25).
+   ```
 
 ---
 
