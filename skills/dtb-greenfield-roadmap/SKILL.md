@@ -40,6 +40,9 @@ Roadmap = `dtb-project/project-strategy/ROADMAP.md`.
 
 ## Schritt 1: Eligibility-Gate (PRD-MVP.md)
 
+**Vorab:** existiert bereits `dtb-project/project-strategy/ROADMAP.md` (→ Report-/Resume-Modus,
+Schritt 2), ueberspringe dieses Gate — es schuetzt nur die Neuerzeugung im Autoren-Modus.
+
 Die Roadmap wird aus dem PRD abgeleitet — ohne PRD ist sie sinnlos. Pruefe, ob
 `dtb-project/project-strategy/PRD-MVP.md` existiert. Fehlt es → Hard-Gate, **nicht**
 weiterarbeiten, bis der Nutzer die Escape-Hatch bestaetigt:
@@ -78,7 +81,7 @@ Pruefe, ob `ROADMAP.md` existiert, und lies bei Existenz die Zeile nach dem Head
 Bevor die Roadmap entsteht, pruefe mechanisch, ob das PRD tragfaehig ist —
 **4 Signale, je 1 Punkt** (Entscheidung C):
 
-1. **Vision nicht-trivial** — `## Produkt-Vision` hat mehr als eine Platzhalter-/Leerzeile
+1. **Vision nicht-trivial** — `## Produkt-Vision`-Inhalt ist nicht-leer UND nicht nur der `[…]`-Platzhalter
 2. **≥ 1 User Story** — `## User Stories` enthaelt mindestens eine „Als … moechte ich …"
 3. **≥ 1 Must-Have-Feature** — `## Features` fuehrt mindestens ein Must-Have
 4. **Out of Scope befuellt** — `## Out of Scope` ist nicht leer
@@ -179,12 +182,15 @@ Das erzeugte `ROADMAP.md` ist **deutsch** (Statuswerte englisch) und folgt diese
 Status-Vokabular einheitlich **englisch** `proposed / ready / blocked / in-progress / done`
 (konsistent zu den `S-NN`/`F-NN`-IDs); die deutsche Erklaerung steht **einmal** in der
 Legenden-Zeile. Keine `Zeitraum`-Felder, keine Ressourcen-/Kapazitaetstabelle.
+**Doc-Status je Item beim Schreiben setzen** (nur solange kein Change-Ordner existiert —
+danach gilt die Ableitung §5.1): Slice ohne offene Prerequisites → `ready`, mit
+unerfuellten → `blocked`, sonst `proposed`.
 
-> **Format-Kopplung (Gegen-Hinweis):** Die `PRD-Bezug`-Zeilen und die Slice-Ableitung
-> lesen die Sektionsnamen aus `PRD-MVP.md` (`## Produkt-Vision`, `## Features`,
-> `## User Stories`, `## Out of Scope`). Aenderst du das PRD-Template in
-> `dtb:greenfield-prd`, diese Roadmap-Ableitung mitdenken (L5-Muster) — dort steht der
-> Gegen-Hinweis in Gegenrichtung.
+> **Format-Kopplung (Gegen-Hinweis):** Die `PRD-Bezug`-Zeilen, das Lean-Interview und die
+> Slice-Ableitung lesen die Sektionsnamen aus `PRD-MVP.md` (`## Produkt-Vision`,
+> `## Features`, `## User Stories`, `## Out of Scope`, `## Risiken`, `## Abhaengigkeiten`).
+> Aenderst du das PRD-Template in `dtb:greenfield-prd`, diese Roadmap-Ableitung mitdenken
+> (L5-Muster) — dort steht der Gegen-Hinweis in Gegenrichtung.
 
 ### Schritt 7: Selbst-Review VOR dem Schreiben
 

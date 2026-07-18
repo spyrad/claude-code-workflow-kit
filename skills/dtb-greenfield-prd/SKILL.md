@@ -51,7 +51,8 @@ auf einen Resume-Marker `<!-- resume: {Kategorie} -->`.
 
 1. **PRD existiert MIT `<!-- resume: {K} -->`-Marker ≠ `done`**
    → **Autoren-Modus fortsetzen** ab der Kategorie *nach* `{K}` (Schritt 2).
-   Bereits beantwortete Kategorien nicht erneut fragen.
+   Bereits beantwortete Kategorien nicht erneut fragen. Ist `{K}` die letzte Kategorie (f),
+   gibt es keine Folge-Kategorie → direkt zu Selbst-Review + Write (Schritt 4/5).
 2. **PRD existiert (kein Marker oder Marker = `done`)**
    → **Report-Modus** (Schritt R). Eine Neuerzeugung erfolgt nur auf **expliziten
    Wunsch** des Nutzers und dann ueber den Kollisions-Dialog (Schritt 4).
@@ -182,9 +183,10 @@ Sektionsstruktur (kompatibel zum Report-Modus):
 ```
 
 > **Format-Kopplung (Gegen-Hinweis):** Die Sektionsnamen dieses Templates
-> (`## Produkt-Vision`, `## Zielgruppen`, `## Features`, `## User Stories`,
-> `## Out of Scope`) werden von `dtb:greenfield-roadmap` geparst (Readiness-Check +
-> Slice-Ableitung). Aenderst du die Sektionsnamen, den Parser dort mitdenken (L5-Muster).
+> (`## Produkt-Vision`, `## Features`, `## User Stories`, `## Out of Scope`,
+> `## Risiken`, `## Abhaengigkeiten`) werden von `dtb:greenfield-roadmap` geparst
+> (Readiness-Check + Lean-Interview + Slice-Ableitung). Aenderst du die Sektionsnamen,
+> den Parser dort mitdenken (L5-Muster).
 
 **„Nie erfinden"-Hard-Rule:** Fehlt eine Information, fuelle sie **nicht** mit einer
 plausiblen Annahme. Trage sie stattdessen **woertlich** als nummerierte Frage unter

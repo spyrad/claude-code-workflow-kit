@@ -221,8 +221,8 @@ Konsistentes Umfeld, belegte Success Criteria (statisch + blinde Fixtures); Absc
 - [x] 3.2 workflow-checkpoint ROADMAP-Sync — `b95aa45`
 - [x] 4.1 pipeline-graph + README/CLAUDE.md — `357d35e`
 - [x] 4.2 Statische Selbstprüfung — `357d35e` (SC9: 208/193 Z., Frontmatter, Gegen-Hinweise beidseitig — alle PASS)
-- [x] 4.3 Blinde Fixture-Läufe SC1-SC8 — 8 blinde Agenten, 8 Fixtures, alle PASS (Details unten)
-- [x] 4.4 kit-sync + SC-Abschluss (zweistufige Abnahme) — `6bb2a9b` gepusht + global synchron (36/37 + pitch-coach gehalten), SC1-9 in spec.md belegt
+- [x] 4.3 Blinde Fixture-Läufe SC1-SC8 — 8 blinde Agenten, 8 Fixtures, alle PASS (Details unten) — `6bb2a9b`
+- [x] 4.4 kit-sync + SC-Abschluss (zweistufige Abnahme) — `9ade135` gepusht + global synchron (36/37 + pitch-coach gehalten), SC1-9 in spec.md belegt
 
 ---
 
