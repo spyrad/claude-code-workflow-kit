@@ -180,7 +180,7 @@ Der Nudge macht build/buy sichtbar, ohne die verifizierte Greenfield-Logik zu be
 - [x] 2.4 Websuche-Sonderbehandlung (SC4) — statisch + Positiv-Lauf (WebSearch bei Nische, Funde untrusted gekennzeichnet) + Fallback-Lauf (sichtbare Degradation, kein Fehler) — alle PASS (Verifikation, kein Commit; plan.md-Stand fließt in 3.x)
 - [x] 3.1 Eingangs-Nudge in greenfield-prd — Schritt 2·0 (nur Zweig 3, kein Resume/Report), L5-Gegenrichtung — `91bedac`
 - [x] 3.2 Nudge-Verifikation (SC8) — 4 Blindläufe: Nudge nur Zweig 3 ohne Map; kein Nudge bei Map/Resume/Report; Greenfield-SC1-3 nicht regressiert; Brücke bestätigt — `91bedac`
-- [x] 3.3 kit-sync + SC-Abschluss — Bündel 1 verteilt (opportunity-map neu, greenfield-prd/pipeline-graph Update; pitch-coach bewusst gehalten), Lock `sourceCommit 1ca6493`; SC1–9 in spec.md mit Belegen abgehakt
+- [x] 3.3 kit-sync + SC-Abschluss — Bündel 1 verteilt (opportunity-map neu, greenfield-prd/pipeline-graph Update; pitch-coach bewusst gehalten), Lock `sourceCommit 1ca6493`; SC1–9 in spec.md mit Belegen abgehakt — `c0b0c0f`
 
 ---
 
