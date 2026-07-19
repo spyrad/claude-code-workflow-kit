@@ -186,9 +186,9 @@ Der Skill ist dokumentiert, global verteilt und end-to-end an einem echten Featu
 - [x] 2.1 Ziel-Datei waehlen — `ddde4e9`
 - [x] 2.2 Formatieren, Bestaetigen (B), Duplikat-Schutz — `ddde4e9`
 - [x] 2.3 Schreiben + Bestaetigung + Status-Neutralitaet — `ddde4e9`
-- [x] 3.1 CLAUDE.md-Katalog + Kopplungs-Hinweis
-- [ ] 3.2 Distribution via kit-sync
-- [ ] 3.3 End-to-End-Verifikation
+- [x] 3.1 CLAUDE.md-Katalog + Kopplungs-Hinweis — `edc1de4`
+- [x] 3.2 Distribution via kit-sync
+- [x] 3.3 End-to-End-Verifikation
 
 ---
 

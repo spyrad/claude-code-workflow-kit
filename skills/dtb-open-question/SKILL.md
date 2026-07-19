@@ -7,7 +7,7 @@ description: >-
   active feature's `## Offene Punkte` — quick, without interrupting the work.
 disable-model-invocation: true
 argument-hint: "[<feature-slug>] <Fach-Frage>"
-allowed-tools: Read, Glob, Grep, Edit, Write
+allowed-tools: Read, Glob, Grep, Edit
 pipeline:
   stage: capture
   after: null
@@ -20,13 +20,13 @@ pipeline:
 
 Du erfasst eine waehrend der Arbeit auftauchende **Fach-Frage** (gehoert ins Meeting, nicht
 sofort/allein beantwortbar) direkt im aktiven Feature-Artefakt — als statusfaehige, getaggte
-Checkbox nach der Fach-Frage-Konvention (`DERIVED_STATE_RULES.md` §6). Reibungslos wie
+Checkbox nach der Fach-Frage-Konvention (`{config.paths.rules}/DERIVED_STATE_RULES.md` §6). Reibungslos wie
 `/dtb:idea`, aber mit kurzer Ziel-Bestaetigung vor dem Schreiben.
 
 > **Wartungs-Hinweis (Format-Kopplung):** open-question ist — neben `dtb:feature-discover`
 > (schreibt `## Offene Punkte` in `discovery.md`) und `dtb:feature-plan` (in `spec.md`) — der
 > **dritte Schreiber** der `## Offene Punkte`-Sektion. Alle drei muessen dieselbe §6-Kanonform
-> (`- [ ] [Fach] {Frage}`) erzeugen. Single Source der Grammatik ist `DERIVED_STATE_RULES.md` §6 —
+> (`- [ ] [Fach] {Frage}`) erzeugen. Single Source der Grammatik ist `{config.paths.rules}/DERIVED_STATE_RULES.md` §6 —
 > aenderst du sie dort, ziehe alle drei Schreiber mit.
 
 ## Schritt 0: Config laden
@@ -54,23 +54,21 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 ---
 
-## Schritt 2: Ziel-Feature ermitteln (Variante c)
+## Schritt 2: Ziel-Feature ermitteln (Ableiten oder Slug-Override)
 
 Die Frage wird im `## Offene Punkte` **eines** Feature-Ordners abgelegt. Das Ziel wird so bestimmt:
 
 ### a) Expliziter Slug-Override
-Entspricht das **erste Token** des Arguments exakt einem vorhandenen Ordner
-`{config.paths.workflows}/features/<slug>/`, ist das das Ziel; der Rest des Arguments ist die Frage.
-- Ordner fehlt oder ist leer → **abbrechen** (kein Auto-Anlegen — das ist `feature-discover`s Job):
-  ```
-  Feature „<slug>" nicht gefunden. Vorhandene Feature-Ordner:
-    - <slug-1>
-    - <slug-2>
-  Nutzung:  /dtb:open-question <slug> "<Frage>"
-  ```
+Matcht das **erste Token** des Arguments **exakt einen vorhandenen, nicht-leeren** Ordner
+`{config.paths.workflows}/features/<slug>/`, gilt es als Slug-Override: dieser Ordner ist das Ziel,
+der Rest des Arguments ist die Frage.
+**Andernfalls liegt KEIN Override vor** — das **gesamte** Argument ist die Frage, weiter zu (b).
+Ein absichtlich gemeinter, aber ungueltiger Slug wird so zunaechst zur Frage; die
+Variante-B-Bestaetigung (Schritt 4.3) macht das ermittelte Ziel sichtbar, bevor geschrieben wird,
+und ein Ziel ohne `spec.md`/`discovery.md` landet ueber Schritt 3 im definierten Abbruch.
 
 ### b) Kein Slug → aktives Feature ableiten
-Ableitung nach `DERIVED_STATE_RULES.md` §1.1: scanne
+Ableitung nach `{config.paths.rules}/DERIVED_STATE_RULES.md` §1.1: scanne
 `{config.paths.workflows}/features/*/plan.md` und zaehle in `## Progress` die Checkboxen —
 ein Feature ist **„In Arbeit"**, wenn `0 < abgehakt < gesamt`.
 
@@ -107,16 +105,22 @@ beschrieben:
    Lege zuerst eine Spec an:  /dtb:feature-plan <Feature-Name>
    ```
 
+> **Kein formales Eligibility-Gate (bewusst):** open-question ist ein Capture-Tool wie `/dtb:idea`
+> (`disable-model-invocation: true`). Der Abbruch oben ist ein **weicher Redirect**, kein Hard-Gate
+> nach `skills/CLAUDE.md` — der Ablage-Ort ist nicht erzwingbar, es gibt keine Escape-Hatch.
+
 ---
 
-## Schritt 4: Zeile formatieren, Duplikat pruefen, Ziel bestaetigen (Variante B)
+## Schritt 4: Zeile formatieren, Duplikat pruefen, Ziel bestaetigen
 
 1. **§6-Kanonform bilden** (nur diese Form matcht die spaetere Agenda-Ansicht exakt):
    `- [ ] [Fach] <normalisierte Frage>` — genau ein Leerzeichen zwischen Checkbox, Tag und Frage.
 
-2. **Duplikat-Schutz (exakter Textvergleich):** Lies die `## Offene Punkte`-Sektion der Zieldatei.
-   Steht dort bereits eine **offene** `- [ ] [Fach] …`-Zeile mit identischem Fragetext (nach
-   derselben Normalisierung) → **warnen und ueberspringen**, nicht doppelt schreiben:
+2. **Duplikat-Schutz (exakter Textvergleich):** Lies die `## Offene Punkte`-Sektion **beider**
+   vorhandenen Dateien des Feature-Ordners (`spec.md` **und** `discovery.md`) — die Fach-Frage-
+   Konvention ist dateiunabhaengig (§6.3). Steht in einer davon bereits eine **offene**
+   `- [ ] [Fach] …`-Zeile mit identischem Fragetext (nach derselben Normalisierung) → **warnen und
+   ueberspringen**, nicht doppelt schreiben:
    ```
    Diese Fach-Frage steht schon offen in features/<slug>/<datei>:
      - [ ] [Fach] <Frage>
@@ -125,10 +129,12 @@ beschrieben:
    (Nur exakter Vergleich — kein Fuzzy-Matching.)
 
 3. **Ziel bestaetigen (Variante B — immer):** Ziel + formatierte Zeile anzeigen, auf kurze Freigabe
-   warten. Erst nach Freigabe zu Schritt 5:
+   warten. Kam das Ziel aus einem Slug-Override (2a), die Herkunft ausweisen — so faellt eine
+   Fehl-Trennung (Fragewort als Slug interpretiert) vor dem Schreiben auf. Erst nach Freigabe zu Schritt 5:
    ```
    → Schreibe nach features/<slug>/<datei> (## Offene Punkte):
      - [ ] [Fach] <Frage>
+   [nur bei Slug-Override] Ziel-Slug: <slug> (aus 1. Token uebernommen)
    Passt das? (ok / abbrechen)
    ```
 
@@ -136,12 +142,14 @@ beschrieben:
 
 ## Schritt 5: Schreiben + Abschluss
 
-1. **Platzierung (robust, footer-entkoppelt):** Fuege die Zeile **ans Ende des Textblocks der
-   bestehenden `## Offene Punkte`-Sektion** ein — nach deren letzter Inhaltszeile, vor der naechsten
-   `##`-Ueberschrift. Der `**Erstellt mit:**`-Footer dient nur als Fallback-Anker, falls
-   `## Offene Punkte` die letzte Sektion im Dokument ist.
-2. **Fehlt die Sektion** → `## Offene Punkte` neu anlegen (Header + Leerzeile + Zeile), unmittelbar
-   **vor** dem `**Erstellt mit:**`-Footer; fehlt auch der Footer, ans Dateiende.
+1. **Platzierung (robust):** Bestimme das **Ende des Textblocks** der `## Offene Punkte`-Sektion =
+   die **letzte echte Inhaltszeile** (letzter Bullet) der Sektion. Die naechste `##`-Ueberschrift,
+   ein abschliessender `---`-Separator, der `**Erstellt mit:**`-Footer und das Dateiende sind nur
+   **End-Grenzen** der Sektion — **nie** der Einfuegepunkt. Fuege die neue Zeile **direkt nach der
+   letzten Inhaltszeile** ein, oberhalb evtl. folgender Leerzeilen/`---`/Footer.
+2. **Fehlt die Sektion** → `## Offene Punkte` neu anlegen (Header + Leerzeile + Zeile). Platziere den
+   Block **nach der letzten Inhaltssektion**, oberhalb eines abschliessenden `---`/`**Erstellt mit:**`-
+   Footers; fehlt beides, ans Dateiende.
 3. **Bestehende Eintraege unangetastet:** beantwortete `- [x] [Fach] …`-Zeilen und eingerueckte
    `→ Antwort: …`-Fortsetzungszeilen bleiben an Ort und Stelle — **nur anhaengen, nie umsortieren
    oder verschieben**.
@@ -153,7 +161,7 @@ beschrieben:
    Fach-Frage erfasst → features/<slug>/<datei>:
      - [ ] [Fach] <Frage>
 
-   Sammelansicht spaeter via /dtb:workflow-next (bzw. der geplanten Fach-Agenda #25).
+   Sammelansicht spaeter via /dtb:workflow-next (bzw. der geplanten Fach-Agenda).
    ```
 
 ---
