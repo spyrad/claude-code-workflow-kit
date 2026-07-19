@@ -9,13 +9,14 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| **open-question** | In Arbeit | 0/9 | Umsetzung starten → `/dtb:implement open-question` (Schritt 1.1) |
 | Verifikations-Gate | Fertig zum Testen | 18/18 | Real abnehmen (pkp) → `/dtb:workflow-checkpoint` |
 | commit-and-push | Fertig zum Testen | 10/10 | Real abnehmen (pkp) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
 | Opportunity-Map | Fertig zum Testen | 11/11 | Real abnehmen (Map in echtem build/buy-Flow nutzen) → `/dtb:workflow-checkpoint` |
 | Greenfield-Autoren-Skills | Fertig zum Testen | 14/14 | Real abnehmen (erster realer Greenfield-Lauf, zweistufig) → `/dtb:workflow-checkpoint` |
 
-Kein Feature „In Arbeit" — Pipeline leer. Review-Front vollstaendig abgearbeitet (alle 5 Features reviewt, alle Findings FIXED); es bleiben nur reale Abnahmen im Zielprojekt.
+**open-question (#26)** ist neu gestartet (Discovery → Spec → Plan → plan-review REVISE, alle 3 WARNs im Plan behoben; 0/9, naechster Schritt 1.1). Die 5 anderen Features stehen auf „Fertig zum Testen" (reale Abnahmen offen).
 
 ---
 
@@ -57,5 +58,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-next` — kein Feature in Arbeit, Review-Front leer, alle Findings verteilt/entschieden. Die fuenf „Fertig zum Testen" brauchen reale Zielprojekt-Abnahmen (kein Kit-interner Schritt); workflow-next listet sie. Kit-intern alternativ: `[Fach]`-Prio-Frage abhaken, `[Fach]`-Strang (#26) oder Ideen-Triage (`/dtb:idea-review`).
-**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
+**Naechster Befehl:** `/dtb:implement open-question` — treibt Phase 1 (Skill-Geruest + Ziel-Routing) ab Schritt 1.1 mit 3x3-Rhythmus und Verifikations-Gate.
+**Empfehlung:** Vor laengerer Pause `/dtb:workflow-checkpoint` (sichert Session-Log + synchronisiert die Status-Anzeigen).
