@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-18
 **Ziel:** Ein aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Text-Argument §6-konform als `- [ ] [Fach] {Frage}` in die `## Offene Punkte` des aktiven Feature-Artefakts schreibt — das Eingabe-Werkzeug, das die Fachfragen-Konvention (#13) bisher offenliess.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

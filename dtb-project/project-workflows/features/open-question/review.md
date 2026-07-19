@@ -1,8 +1,8 @@
 # Review-Snapshot: open-question
 Scope: skills/dtb-open-question/SKILL.md, CLAUDE.md · Geprueft bis: `edc1de4` · Datum: 2026-07-19
-Gesamt-Verdikt: REJECTED
-Aufloesung 2026-07-19: alle 9 Findings FIXED (Triage 9 Fixed · 0 Lesson · 0 Skipped).
-Re-Distribution via kit-sync ausstehend — F1 war blocking im bereits verteilten Skill.
+Gesamt-Verdikt: REJECTED (aufgeloest — alle Findings entschieden)
+Aufloesung 2026-07-19: alle 9 Findings FIXED (Triage 9 Fixed · 0 Lesson · 0 Skipped), committet `b7c0e0b`.
+Re-Distribution via kit-sync erledigt (b7c0e0b → ~/.claude, Hash d399be8).
 
 ## Findings
 
