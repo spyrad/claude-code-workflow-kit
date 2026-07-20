@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-19 (open-question #26 umgesetzt+reviewt → Fertig zum Testen)
+**Letzte Aktualisierung:** 2026-07-20 (Verifikations-Gate #19 real abgenommen — pkp-Lauf `f39af15`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Verifikations-Gate | Fertig zum Testen | Hoch | features/verifikations-gate/spec.md | Umsetzungs-Loop erhält ein echtes Verifikations-Gate: dtb:implement treibt den Plan phasenweise, Checkbox flippt erst bei grünen Checkpoint-Kriterien, SHA wird Verifikations-Beleg |
+| Verifikations-Gate | Abgenommen | Hoch | features/verifikations-gate/spec.md | Umsetzungs-Loop erhält ein echtes Verifikations-Gate: dtb:implement treibt den Plan phasenweise, Checkbox flippt erst bei grünen Checkpoint-Kriterien, SHA wird Verifikations-Beleg |
 | Greenfield-Autoren-Skills | Fertig zum Testen | Hoch | features/greenfield-autoren-skills/spec.md | greenfield-prd/-roadmap werden Autoren-Skills (PRD-Interview → PRD-MVP.md, Lean-Roadmap → ROADMAP.md + TECH-STACK.md) nach 10x-Vorbild, Derived-State-konform |
 | Opportunity-Map | Fertig zum Testen | Mittel | features/opportunity-map/spec.md | Vorfeld-Skill, der wiederkehrende Reibung in eine build/buy/complement/wait-Entscheidung überführt, bevor teure PRD-/Bau-Arbeit beginnt |
 | commit-and-push | Fertig zum Testen | Mittel | features/commit-and-push/spec.md | Geführter Routine-Skill, der Änderungen sicher committet und pusht; Repo-Grenzen aus git (rev-parse --show-toplevel) statt config.repos → monorepo-, poly-repo- und einzelverzeichnis-fest |
