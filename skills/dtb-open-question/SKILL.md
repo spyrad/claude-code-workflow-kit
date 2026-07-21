@@ -168,4 +168,4 @@ beschrieben:
 
 ---
 
-**Erstellt mit:** `/dtb:impl-plan` → `/dtb:implement`
+**Erstellt mit:** `/dtb:open-question`

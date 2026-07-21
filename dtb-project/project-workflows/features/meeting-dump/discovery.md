@@ -1,9 +1,10 @@
-# Discovery: Meeting-Nachbereitung (Antwort-Rückfluss)
-<!-- resume: 3b -->
+# Discovery: meeting-dump (Meeting-Nachbereitung / Antwort-Rückfluss)
+<!-- resume: done -->
 
 **Erstellt:** 2026-07-20
+**Feature-Name:** meeting-dump (Skill `/dtb:meeting-dump`) — Ordner-Slug = Skill-Name (wie open-question)
 **Idee-Referenz:** Inbox #24 — "Skill für Besprechungs-Nachbereitung: Punkte/Antworten/Input aus der letzten Projekt-Besprechung eingeben und gegen die offenen Fragen der Features prüfen. Abgleich Meeting-Ergebnisse ↔ offene Punkte in `features/*/{discovery,spec,plan}.md`; beantwortete Fragen zuordnen/nachtragen, unbeantwortete/neue Punkte sichtbar machen."
-**Status:** In Bearbeitung
+**Status:** Abgeschlossen
 
 ---
 
@@ -11,7 +12,7 @@
 
 | Pfad | Beschreibung |
 |------|-------------|
-| skills/dtb-<neuer-slug>/SKILL.md | Neuer Skill (falls Träger = eigener Skill; Träger-Frage offen) |
+| skills/dtb-meeting-dump/SKILL.md | Neuer Skill (Träger entschieden: eigener Skill `/dtb:meeting-dump`) |
 | dtb-project/project-rules/DERIVED_STATE_RULES.md §6 | Kanon: Antwort-Nachtrag-Grammatik (§6.1) bereits definiert; #24 wird erster schreibender Konsument → §6.3-Satz („kein schreibender Konsument") anpassen |
 | skills/dtb-open-question/SKILL.md | Nächster Verwandter: Platzierungs-/Duplikat-/Normalisierungs-Logik für `## Offene Punkte` wiederverwendbar; Wartungs-Hinweis „drei Schreiber" → „vier Schreiber" |
 | skills/dtb-feature-discover/SKILL.md | Schreiber #1 der `## Offene Punkte` (discovery.md) — Format-Kopplung |
@@ -80,7 +81,7 @@ offenen `- [ ] [Fach]`-Fragen selbst mitbringen.
   oft am Folgetag — stilles „heute" waere falsch)
 - Markdown/Sonderzeichen im Dump → 1:1 uebernehmen, nichts escapen (wie `open-question`)
 
-**Beleg-Datei (Block 3 — VORSCHLAG, noch nicht bestaetigt):**
+**Beleg-Datei (Block 3 — entschieden):**
 - Ablage-Ort: `dtb-project/project-meetings/YYYY-MM-DD.md` (flach, Datum als Name;
   Rueckverfolgung `(Meeting YYYY-MM-DD)` ↔ Dateiname) — Alternativen verworfen:
   `project-requirements/input/` (semantisch falsch, docs-extract-Drop-Zone),
@@ -92,25 +93,76 @@ offenen `- [ ] [Fach]`-Fragen selbst mitbringen.
 - Doppel-Lauf mit identischem Dump → vor Anhaengen pruefen, warnen, nicht doppelt anhaengen
 
 ### Einschraenkungen
-- [ausstehend — 3d]
+- **Status-Neutralitaet (§6.2, Invariante):** Skill schreibt nur `## Offene Punkte` +
+  Beleg-Datei; nie `## Progress`, Statusfelder oder Eintrags-Reihenfolge (nur Checkbox
+  flippen + Zeile einruecken; beantwortete Eintraege bleiben als Beleg stehen). Ein Meeting
+  aendert den Feature-Status nie — der Skill bleibt komplett aus der Gate-Mechanik raus
+- **Exakte Kanonform beim Scan:** nur `- [ ] [Fach] …` in `## Offene Punkte` matcht
+  (kein Fuzzy auf der Lese-Seite, untagged Bullets ignoriert); `archive/` wird nicht
+  gescannt (Antwort auf archivierte Frage → „Nicht zugeordnet"). Symmetrie-Garantie:
+  Lese-Grammatik = Schreib-Grammatik, Single Source §6 (Wartungs-Hinweis-Muster)
+- **Scan-Reichweite:** „liest, wo die §6-Schreiber schreiben" — aktuell
+  `features/*/{discovery,spec}.md` (#13-MVP-Schnitt; Idee-Text nannte noch plan.md —
+  vor dem Schnitt formuliert). Keine harte Dateiliste im Skill, Reichweite wandert mit
+  der Konvention mit
+- **Kit-Sync:** Klasse A automatisch (`skills/dtb-*/SKILL.md`-Muster).
+  `allowed-tools: Read, Glob, Grep, Edit, Write` (Write fuer Beleg-Datei/Ordner —
+  Unterschied zu open-question), `disable-model-invocation: true` (Capture-Werkzeug)
+- **Seed-Skew (§6.1-Erweiterung, entschieden: hinnehmen):** `→ Zwischenstand:` aendert
+  die Klasse-B-Seed-Datei `DERIVED_STATE_RULES.md` — Bestandsprojekte erben das nicht.
+  Rein additiv, kein Lese-Skill bricht; Standard-Vermerk in der Regel-Datei
+  („Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22").
+  #22 bleibt eigenstaendig in der Triage (nicht als Abhaengigkeit vorgezogen)
+- Fachliche Constraints: keine (Meeting-Inhalte bleiben lokal im Projekt)
 
 ### Integrationspunkte
-- [ausstehend — 3e]
+- **Kanon-Update `DERIVED_STATE_RULES.md` §6 (Pflichtteil, gleicher Commit-Zug):**
+  - §6.1: zweite Fortsetzungszeilen-Form ergaenzen — `→ Antwort:` nur unter `[x]`,
+    `→ Zwischenstand:` nur unter `[ ]` (mehrere Zwischenstaende ueber die Zeit erlaubt,
+    je Meeting einer; erst haken, wenn echte Antwort da). + Seed-Vermerk im Fussblock
+  - §6.3: Satz „kein schreibender Konsument in diesem Feature" ersetzen — zwei Konsumenten:
+    lesend die Agenda-Ansicht (#25, offen), schreibend der Rueckfluss `dtb:meeting-dump`
+    (nur Checkbox-Flip + Fortsetzungszeile)
+- **Wartungs-Hinweis-Kette:** `open-question`-Hinweis von „drei Schreiber" auf „vier Akteure"
+  erweitern (drei Erzeuger + ein **Mutator** meeting-dump — legt keine neuen `[Fach]`-Fragen
+  an, mutiert bestehende). Reziproken Gegen-Hinweis im neuen Skill setzen (Muster
+  implement ↔ commit-and-push). `open-question` bleibt zentraler Kopplungs-Knoten
+  (Hinweis nicht in feature-discover/-plan streuen)
+- **Pipeline-Frontmatter (analog open-question):** `stage: capture`, `after: null`
+  (eigener Einstieg; spaeter `after: dtb:fach-agenda` denkbar, wenn #25 existiert),
+  `next: [dtb:workflow-next]`,
+  `consumes: [workflow.config.yaml, features/*/spec.md, features/*/discovery.md]`,
+  `produces: [features/*/spec.md, features/*/discovery.md, project-meetings/*.md]`.
+  Bewusste Nebenwirkung: `project-meetings/` erscheint neu in pipeline-graph/workflow-status
+  (gewollt — Beleg ist produziertes Artefakt, bricht nichts)
+- **Kein Eligibility-Hard-Gate:** keine zwingende Eingabe (0 offene Fragen = definierter Pfad;
+  laeuft config-los mit Fallback). Reiht sich bei open-question/idea/commit-and-push ein
+  (weicher Redirect: leerer Aufruf → nachfragen). **Kein** neuer Eintrag in der
+  Hard-Gate-Tabelle von `skills/CLAUDE.md`
+- **Bewusst KEINE Integration:** project-init legt `project-meetings/` NICHT vorab an
+  (Skill erstellt Ordner bei Bedarf — kein leerer Ordner je Projekt). Keine externen
+  Abhaengigkeiten
 
 ---
 
 ## Abhaengigkeiten
 
-- [ausstehend — Schritt 4]
+- **Konflikte:** keine. **Ueberschneidungen:** keine.
+- Ketten-Nachbarn grenzen #24 explizit aus und verweisen namentlich darauf:
+  - fachfragen-erfassung (#13): „Antwort-Rueckfluss aus einem Meeting" unter „Nicht enthalten"
+  - open-question (#26): Kette Format (#13) → Erfassung (#26) → Lese-Agenda (#25) →
+    **Antwort-Rueckfluss (#24)** — #24 ist das vorgesehene naechste Glied
+- Einziger Beruehrungspunkt: gemeinsame §6-Grammatik → als Pflicht-Update in
+  „Integrationspunkte" (Punkt 1+2) verankert, keine Kollision
+- #25 (fach-agenda) nicht gebaut → keine Gegenrichtungs-Abhaengigkeit, nur spaeterer
+  `after:`-Anschluss
 
 ---
 
 ## Offene Punkte
 
-- 3c Block 3 (Beleg-Datei): Vorschlag liegt vor (siehe Randfaelle), Bestaetigung des
-  Ablage-Orts `project-meetings/` steht aus
-- Kategorien 3d (Einschraenkungen) und 3e (Integrationspunkte) sowie Schritt 4
-  (Abhaengigkeits-Check), Schritt 5 (Name/Slug final) noch offen
+- — keine — (Discovery abgeschlossen; alle Kategorien 3a-3e + Abhaengigkeits-Check +
+  Name/Slug entschieden)
 
 ---
 

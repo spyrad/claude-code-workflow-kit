@@ -13,7 +13,7 @@ pipeline:
   stage: capture
   after: null
   next: [dtb:workflow-next]
-  consumes: [workflow.config.yaml, features/*/spec.md, features/*/discovery.md]
+  consumes: [workflow.config.yaml, features/*/spec.md, features/*/discovery.md, project-meetings/*.md]
   produces: [features/*/spec.md, features/*/discovery.md, project-meetings/*.md]
 ---
 
@@ -34,6 +34,12 @@ Zwischenstand ergaenzt. Der Rueckfluss-Schritt der Fachfragen-Kette: Format (#13
 > Single Source der Grammatik ist `{config.paths.rules}/DERIVED_STATE_RULES.md` §6 (Nachtrag-Formen: §6.1,
 > Status-Neutralitaet: §6.2) — aenderst du sie dort, ziehe alle vier Akteure mit. Der reziproke
 > Hinweis steht in `dtb:open-question` (Kopplungs-Knoten).
+
+> **Kein formales Eligibility-Gate (bewusst):** meeting-dump ist ein Capture-Werkzeug wie
+> `/dtb:idea`/`/dtb:open-question` (`disable-model-invocation: true`) und hat **keine zwingende
+> Eingabe** — 0 offene Fach-Fragen ist ein definierter Pfad (Schritt 3: Beleg wird trotzdem
+> gespeichert, alles → „Nicht zugeordnet"), und der Skill laeuft config-los. Daher **kein
+> Hard-Gate** nach `skills/CLAUDE.md` und **kein** Eintrag in dessen Hard-Gate-Tabelle.
 
 ## Schritt 0: Config laden
 
@@ -164,6 +170,11 @@ Nur die **freigegebenen** Zuordnungen, ausschliesslich in `## Offene Punkte`.
 3. **Zwischenstand (Teilantwort):** Checkbox bleibt `- [ ]`; `→ Zwischenstand: <Info> (Meeting {Datum})`
    als Fortsetzungszeile **akkumulierend** anhaengen (bestehende `→ Zwischenstand:`-Zeilen bleiben
    stehen — Verlauf, §6.1). Eine spaetere Vollantwort tritt als letzte Zeile hinzu.
+   **Duplikat-Schutz (§6.1 „je Meeting einer"):** Steht im Block **dieser** Frage bereits eine
+   `→ Zwischenstand:`-Zeile mit demselben `(Meeting {Datum})`-Marker → **nicht erneut anhaengen**
+   (warnen, uebergehen). Zwischenstand-Fragen bleiben `- [ ]` und wuerden sonst bei einem
+   Doppel-Lauf am selben Tag eine zweite identische Zeile erzeugen — der Beleg-Doppel-Lauf-Schutz
+   (Schritt 2) deckt den Schreib-Pfad nicht ab (analog `dtb:open-question` Schritt 4.2).
 4. **Status-Neutralitaet (Invariante, §6.2):** **NIE** `## Progress`, dortige Checkboxen oder
    Statusfelder beruehren; bestehende Eintraege/Reihenfolge unangetastet lassen — **nur** die
    gematchte Checkbox kippen und Fortsetzungszeilen anhaengen. Das Erfassen aendert den

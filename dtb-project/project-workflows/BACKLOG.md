@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-20 (Discovery #24 Meeting-Nachbereitung gestartet)
+**Letzte Aktualisierung:** 2026-07-21 (meeting-dump #24 umgesetzt + reviewt → Fertig zum Testen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Meeting-Nachbereitung | In Discovery | Mittel | features/meeting-nachbereitung/discovery.md | Skill `/dtb:meeting-dump` (Arbeitsname): Meeting-Input als Beleg persistieren + gegen offene `[Fach]`-Fragen abgleichen — Antwort-Rückfluss der Fachfragen-Kette (#13→#26→#24) |
+| meeting-dump | Fertig zum Testen | Mittel | features/meeting-dump/spec.md | Skill `/dtb:meeting-dump`: Meeting-Input als Beleg persistieren + gegen offene `[Fach]`-Fragen abgleichen — Antwort-Rückfluss der Fachfragen-Kette (#13→#26→#24) |
 | Verifikations-Gate | Abgenommen | Hoch | features/verifikations-gate/spec.md | Umsetzungs-Loop erhält ein echtes Verifikations-Gate: dtb:implement treibt den Plan phasenweise, Checkbox flippt erst bei grünen Checkpoint-Kriterien, SHA wird Verifikations-Beleg |
 | Greenfield-Autoren-Skills | Fertig zum Testen | Hoch | features/greenfield-autoren-skills/spec.md | greenfield-prd/-roadmap werden Autoren-Skills (PRD-Interview → PRD-MVP.md, Lean-Roadmap → ROADMAP.md + TECH-STACK.md) nach 10x-Vorbild, Derived-State-konform |
 | Opportunity-Map | Fertig zum Testen | Mittel | features/opportunity-map/spec.md | Vorfeld-Skill, der wiederkehrende Reibung in eine build/buy/complement/wait-Entscheidung überführt, bevor teure PRD-/Bau-Arbeit beginnt |

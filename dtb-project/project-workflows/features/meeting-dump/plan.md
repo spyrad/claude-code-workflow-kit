@@ -246,10 +246,10 @@ Der eigentliche Rueckfluss: offene `[Fach]`-Fragen finden, Abgleich-Vorschlag mi
 - [x] 2.1 Frontmatter + Kopf + reziproker Hinweis — `757cb7f`
 - [x] 2.2 Config + Dump-Eingabe — `757cb7f`
 - [x] 2.3 Beleg-Ablage project-meetings/ — `757cb7f`
-- [x] 3.1 Scan offener [Fach]-Fragen
-- [x] 3.2 Abgleich-Vorschlag + Freigabe + Konflikte
-- [x] 3.3 Rueckschreiben §6-konform (status-neutral)
-- [x] 3.4 Rest-Input + Summary
+- [x] 3.1 Scan offener [Fach]-Fragen — `05c1ca7`
+- [x] 3.2 Abgleich-Vorschlag + Freigabe + Konflikte — `05c1ca7`
+- [x] 3.3 Rueckschreiben §6-konform (status-neutral) — `05c1ca7`
+- [x] 3.4 Rest-Input + Summary — `05c1ca7`
 
 ---
 
