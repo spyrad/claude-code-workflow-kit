@@ -223,6 +223,7 @@ Eine Fach-Frage ist eine Bullet-Zeile in `## Offene Punkte` der Form:
 ## Offene Punkte
 
 - [ ] [Fach] Wird Export nach SAP zwingend benoetigt?
+      → Zwischenstand: Entscheidung vertagt auf Q4 (Meeting 2026-07-20)
 - [x] [Fach] Welche Rollen duerfen freigeben?
       → Antwort: nur Teamleiter (Meeting 2026-07-17)
 - Report-Layout final klaeren            (untagged = selbst zu klaeren)
@@ -233,9 +234,16 @@ Eine Fach-Frage ist eine Bullet-Zeile in `## Offene Punkte` der Form:
   `spec.md`) — nicht an eine bestimmte Datei gebunden.
 - **Nur `[Fach]`-Fragen sind statusfaehig** und tragen die Checkbox: `- [ ]` offen,
   `- [x]` beantwortet. Ein normaler offener Punkt ist ein reiner Bullet OHNE Checkbox (siehe §6.3).
-- **Antwort-Nachtrag:** die Antwort wird als eingerueckte Fortsetzungszeile unter dem
-  abgehakten Bullet nachgetragen (`→ Antwort: … (Meeting YYYY-MM-DD)`); der Eintrag bleibt
-  als Beleg stehen (nicht loeschen).
+- **Nachtrag aus dem Meeting — zwei Fortsetzungsformen** (je eine eingerueckte Zeile unter dem
+  Bullet, Eintrag bleibt als Beleg stehen, nicht loeschen):
+  - **Vollantwort:** Frage wird abgehakt (`- [ ]` → `- [x]`), Antwort als
+    `→ Antwort: … (Meeting YYYY-MM-DD)` **nur unter dem abgehakten Bullet**.
+  - **Teilantwort/Zwischenstand:** Frage bleibt **offen** (`- [ ]`), Zwischeninfo als
+    `→ Zwischenstand: … (Meeting YYYY-MM-DD)` **nur unter dem offenen Bullet**. Mehrere
+    Zwischenstaende ueber die Zeit sind erlaubt (je Meeting einer, **akkumulierend** — Verlauf);
+    erst haken, wenn eine echte Antwort vorliegt. Eine spaetere `→ Antwort:` tritt als letzte
+    Zeile hinzu, die Zwischenstaende bleiben stehen.
+  - Schreibender Konsument beider Formen ist `dtb:meeting-dump` (§6.3).
 
 ### 6.2 Status-Neutralitaet (Abgrenzung zu §1/§2)
 
@@ -252,8 +260,12 @@ Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
 - **Zwei Renderings, drei Intents:** getaggt `- [ ] [Fach] …` (Fall c: gehoert ins Fach-Meeting,
   nicht sofort/allein beantwortbar) vs. untagged Bullet (Faelle a+b, syntaktisch identisch:
   (a) normaler offener Punkt / (b) „nie erfinden"-Luecke). Nur (c) traegt Tag und Checkbox.
-- Die Ableitung Fach-Frage `[ ]`=offen / `[x]`=beantwortet dient ausschliesslich einer
-  spaeteren rein-lesenden Agenda-Ansicht (kein schreibender Konsument in diesem Feature).
+- Die Ableitung Fach-Frage `[ ]`=offen / `[x]`=beantwortet hat zwei Konsumenten: **lesend**
+  eine kuenftige rein-lesende Agenda-Ansicht (#25, noch offen); **schreibend** der
+  Meeting-Rueckfluss `dtb:meeting-dump` (#24), der nach einem Meeting Vollantworten (`[x]` +
+  `→ Antwort:`) bzw. Zwischenstaende (`[ ]` + `→ Zwischenstand:`, §6.1) nachtraegt — er kippt
+  nur die Checkbox und haengt die Fortsetzungszeile an, status-neutral (§6.2), legt aber nie
+  neue `[Fach]`-Fragen an (das tut `dtb:open-question`).
 - *Ausblick (nicht Teil der Konvention):* eine zweite Tag-Variante ist denkbar, aber bewusst
   noch nicht spezifiziert.
 
@@ -266,4 +278,6 @@ Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
 **`review.md` als status-neutrale Ordner-Datei ergaenzt:** Feature impl-review, 2026-07-16
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
 **§6 Fach-Frage-Konvention ergaenzt:** Feature fachfragen-erfassung, 2026-07-17
+(Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
+**§6.1 `→ Zwischenstand:`-Form + §6.3 schreibender Konsument ergaenzt:** Feature meeting-dump, 2026-07-21
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)

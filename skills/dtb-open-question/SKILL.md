@@ -23,11 +23,13 @@ sofort/allein beantwortbar) direkt im aktiven Feature-Artefakt — als statusfae
 Checkbox nach der Fach-Frage-Konvention (`{config.paths.rules}/DERIVED_STATE_RULES.md` §6). Reibungslos wie
 `/dtb:idea`, aber mit kurzer Ziel-Bestaetigung vor dem Schreiben.
 
-> **Wartungs-Hinweis (Format-Kopplung):** open-question ist — neben `dtb:feature-discover`
-> (schreibt `## Offene Punkte` in `discovery.md`) und `dtb:feature-plan` (in `spec.md`) — der
-> **dritte Schreiber** der `## Offene Punkte`-Sektion. Alle drei muessen dieselbe §6-Kanonform
-> (`- [ ] [Fach] {Frage}`) erzeugen. Single Source der Grammatik ist `{config.paths.rules}/DERIVED_STATE_RULES.md` §6 —
-> aenderst du sie dort, ziehe alle drei Schreiber mit.
+> **Wartungs-Hinweis (Format-Kopplung):** Die `## Offene Punkte`-Sektion hat **vier Akteure**
+> auf derselben §6-Kanonform (`- [ ] [Fach] {Frage}`): drei **Erzeuger** — `dtb:feature-discover`
+> (schreibt in `discovery.md`), `dtb:feature-plan` (in `spec.md`) und open-question (in beide) —
+> plus einen **Mutator**, `dtb:meeting-dump` (Meeting-Rueckfluss #24: legt keine neuen
+> `[Fach]`-Fragen an, sondern kippt die Checkbox und haengt `→ Antwort:`/`→ Zwischenstand:`
+> an bestehende an). Single Source der Grammatik ist `{config.paths.rules}/DERIVED_STATE_RULES.md` §6 —
+> aenderst du sie dort, ziehe alle vier Akteure mit.
 
 ## Schritt 0: Config laden
 
