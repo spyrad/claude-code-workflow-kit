@@ -240,12 +240,12 @@ Der eigentliche Rueckfluss: offene `[Fach]`-Fragen finden, Abgleich-Vorschlag mi
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 §6.1 `→ Zwischenstand:`-Form
-- [x] 1.2 §6.3 schreibender Konsument
-- [x] 1.3 open-question Hinweis „vier Akteure"
-- [ ] 2.1 Frontmatter + Kopf + reziproker Hinweis
-- [ ] 2.2 Config + Dump-Eingabe
-- [ ] 2.3 Beleg-Ablage project-meetings/
+- [x] 1.1 §6.1 `→ Zwischenstand:`-Form — `317a959`
+- [x] 1.2 §6.3 schreibender Konsument — `317a959`
+- [x] 1.3 open-question Hinweis „vier Akteure" — `317a959`
+- [x] 2.1 Frontmatter + Kopf + reziproker Hinweis
+- [x] 2.2 Config + Dump-Eingabe
+- [x] 2.3 Beleg-Ablage project-meetings/
 - [ ] 3.1 Scan offener [Fach]-Fragen
 - [ ] 3.2 Abgleich-Vorschlag + Freigabe + Konflikte
 - [ ] 3.3 Rueckschreiben §6-konform (status-neutral)
