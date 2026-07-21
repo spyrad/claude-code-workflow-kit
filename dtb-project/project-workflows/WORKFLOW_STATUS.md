@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-21
+**Letztes Update:** 2026-07-21 (Session 2)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-21.md`
 
 ---
@@ -26,15 +26,13 @@ meeting-dump reviewt (impl-review 4 Fixed, blocking behoben) — review.md-Verdi
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-21: meeting-dump (#24) end-to-end gebaut (P1 `317a959`/P2 `757cb7f`/P3 `05c1ca7`) + impl-review (4 Fixed). Fixes + review.md + Pipeline-Dateien noch uncommittet. Fachfragen-Kette #13→#26→#24 fertig, #25 offen. |
+| **Notizen** | 2026-07-21: meeting-dump (#24) end-to-end gebaut, committet+gepusht (`6def5a7`) und via kit-sync global verteilt (42 Artefakte, Lock `6def5a7`). `/dtb:meeting-dump` maschinenweit verfügbar. Fachfragen-Kette #13→#26→#24 fertig, #25 offen. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] Uncommitteten Stand sichern: `/dtb:commit-and-push` (Skill-Fixes, review.md, spec.md, discovery.md, plan.md-SHA P3, Status-Dateien)
-- [ ] `/dtb:kit-sync`: meeting-dump (Klasse A) global installieren → `/dtb:meeting-dump` verfuegbar
-- [ ] meeting-dump real abnehmen (echtes Meeting im Zielprojekt; bislang nur Fixture + Self-Review)
+- [ ] meeting-dump real abnehmen (echtes Meeting im Zielprojekt; bislang nur Fixture + Self-Review) → Checkpoint mit Abnahme-Beleg
 - [ ] commit-and-push voll abnehmen: pkp-Multi-Repo-Lauf (Toplevel-Gruppierung) + #23-Kontrast
 - [ ] #23 (Multi-Repo-Begriff auf Git-toplevel) ausarbeiten — hart belegt → `/dtb:feature-discover 23`
 - [ ] pkp aufraeumen: SHA-Rueckschreibung in `ws-status-fallthrough/plan.md` noch uncommitted
@@ -62,5 +60,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — der komplette meeting-dump-Stand (Triage-Fixes, review.md, spec.md, discovery.md-Inhalt, P3-SHA-Rueckschreibung, Status-Dateien) liegt uncommittet. Danach `/dtb:kit-sync`, um den Skill global verfuegbar zu machen. (Alle 10 Progress-Schritte tragen SHAs, review.md alle Findings FIXED → kein `/dtb:implement`-Rueckweg noetig.)
+**Naechster Befehl:** `/dtb:feature-discover 23` — kein Feature „In Arbeit"; #23 (Multi-Repo-Begriff auf Git-toplevel) ist hart belegt und nimmt beim zugehoerigen pkp-Multi-Repo-Lauf zugleich commit-and-push voll ab. Parallele manuelle Spur (kein Befehl): meeting-dump in einem echten Meeting im Zielprojekt durchspielen → danach `/dtb:workflow-checkpoint` mit Abnahme-Beleg. Alternativ Ideen-Triage (`/dtb:idea-review`).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
