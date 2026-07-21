@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-21 (Session 2)
+**Letztes Update:** 2026-07-21 (Session 3)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-21.md`
 
 ---
@@ -26,17 +26,18 @@ meeting-dump reviewt (impl-review 4 Fixed, blocking behoben) — review.md-Verdi
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-21: meeting-dump (#24) end-to-end gebaut, committet+gepusht (`6def5a7`) und via kit-sync global verteilt (42 Artefakte, Lock `6def5a7`). `/dtb:meeting-dump` maschinenweit verfügbar. Fachfragen-Kette #13→#26→#24 fertig, #25 offen. |
+| **Notizen** | 2026-07-21 (S3): Neue Idee #29 erfasst — „Session-Hygiene-/No-Loss-Gate" (eigener Skill, Vorstufe zu workflow-checkpoint), Traeger entschieden, Discovery-Punkte notiert. idea-review mitten drin (9 offene Ideen, noch nicht einzeln durch). — S1/S2: meeting-dump (#24) gebaut, committet+gepusht (`6def5a7`), via kit-sync global verteilt (42 Artefakte). |
 
 ---
 
 ## Offene Aufgaben
 
+- [ ] `/dtb:idea-review` fortsetzen — 9 offene Ideen einzeln durchgehen (#29 überspringen, frisch erfasst)
 - [ ] meeting-dump real abnehmen (echtes Meeting im Zielprojekt; bislang nur Fixture + Self-Review) → Checkpoint mit Abnahme-Beleg
 - [ ] commit-and-push voll abnehmen: pkp-Multi-Repo-Lauf (Toplevel-Gruppierung) + #23-Kontrast
 - [ ] #23 (Multi-Repo-Begriff auf Git-toplevel) ausarbeiten — hart belegt → `/dtb:feature-discover 23`
 - [ ] pkp aufraeumen: SHA-Rueckschreibung in `ws-status-fallthrough/plan.md` noch uncommitted
-- [ ] Ideen-Triage fortsetzen — #28, #27, #25, #22, #18, #17, #16, #15, #10
+- [ ] Ideen-Triage (Rest offen): #29, #28, #27, #25, #22, #18, #16, #15, #10
 
 ---
 
@@ -60,5 +61,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:feature-discover 23` — kein Feature „In Arbeit"; #23 (Multi-Repo-Begriff auf Git-toplevel) ist hart belegt und nimmt beim zugehoerigen pkp-Multi-Repo-Lauf zugleich commit-and-push voll ab. Parallele manuelle Spur (kein Befehl): meeting-dump in einem echten Meeting im Zielprojekt durchspielen → danach `/dtb:workflow-checkpoint` mit Abnahme-Beleg. Alternativ Ideen-Triage (`/dtb:idea-review`).
+**Naechster Befehl:** `/dtb:idea-review` — Triage ist mitten im Lauf (9 offene Ideen gesichtet, noch nicht einzeln entschieden); natuerlicher Wiedereinstieg. Danach abgeleitet: kein Feature „In Arbeit" → `/dtb:feature-discover 23` (Multi-Repo-Begriff, hart belegt, nimmt beim pkp-Multi-Repo-Lauf zugleich commit-and-push voll ab). Parallele manuelle Spur (kein Befehl): meeting-dump in einem echten Meeting durchspielen → dann `/dtb:workflow-checkpoint` mit Abnahme-Beleg.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
