@@ -243,13 +243,13 @@ Der eigentliche Rueckfluss: offene `[Fach]`-Fragen finden, Abgleich-Vorschlag mi
 - [x] 1.1 §6.1 `→ Zwischenstand:`-Form — `317a959`
 - [x] 1.2 §6.3 schreibender Konsument — `317a959`
 - [x] 1.3 open-question Hinweis „vier Akteure" — `317a959`
-- [x] 2.1 Frontmatter + Kopf + reziproker Hinweis
-- [x] 2.2 Config + Dump-Eingabe
-- [x] 2.3 Beleg-Ablage project-meetings/
-- [ ] 3.1 Scan offener [Fach]-Fragen
-- [ ] 3.2 Abgleich-Vorschlag + Freigabe + Konflikte
-- [ ] 3.3 Rueckschreiben §6-konform (status-neutral)
-- [ ] 3.4 Rest-Input + Summary
+- [x] 2.1 Frontmatter + Kopf + reziproker Hinweis — `757cb7f`
+- [x] 2.2 Config + Dump-Eingabe — `757cb7f`
+- [x] 2.3 Beleg-Ablage project-meetings/ — `757cb7f`
+- [x] 3.1 Scan offener [Fach]-Fragen
+- [x] 3.2 Abgleich-Vorschlag + Freigabe + Konflikte
+- [x] 3.3 Rueckschreiben §6-konform (status-neutral)
+- [x] 3.4 Rest-Input + Summary
 
 ---
 

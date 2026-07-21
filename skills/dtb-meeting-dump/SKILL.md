@@ -99,7 +99,107 @@ Der Roh-Dump wird als **Quelle/Beleg** abgelegt — unveraendert, ohne Abgleich-
 
 ---
 
-<!-- Ab hier folgt die Kern-Logik (Scan, Abgleich+Freigabe, Rueckschreiben, Rest-Input) —
-     Umsetzung in Phase 3 des Implementierungsplans (features/meeting-dump/plan.md). -->
+## Schritt 3: Offene Fach-Fragen scannen
+
+Finde die Abgleich-Basis **deterministisch** — die exakte §6-Kanonform, nicht per Fuzzy-Suche:
+
+1. **Wo:** die Dateien, in die die §6-Schreiber schreiben — `{config.paths.workflows}/features/*/spec.md`
+   **und** `.../features/*/discovery.md`. **`archive/` wird NICHT gescannt** (archivierte Changes
+   haben keine aktiven Fragen mehr).
+2. **Was:** in der Sektion `## Offene Punkte` jede Zeile der exakten Form `- [ ] [Fach] <Frage>`
+   (offen). Nur diese Kanonform matcht — untagged Bullets (normale offene Punkte, „nie erfinden"-
+   Luecken) und bereits beantwortete `- [x] [Fach] …` werden **nicht** als offene Frage gezaehlt
+   (letztere nur fuer den Konflikt-Check in Schritt 4 herangezogen).
+3. **Merke pro Treffer:** Feature-Slug, Datei, Zeilentext, ob unter der Zeile schon
+   `→ Zwischenstand:`-Fortsetzungszeilen stehen (fuer Platzierung + Akkumulation in Schritt 5).
+4. **0 offene Fragen** → kein Abbruch: der Beleg (Schritt 2) ist bereits gespeichert; melde
+   „0 offene Fach-Fragen — nichts abzugleichen" und behandle den **gesamten** Dump als
+   „Nicht zugeordnet" (Schritt 6).
+
+---
+
+## Schritt 4: Abgleich-Vorschlag + Freigabe (Variante B)
+
+Der Abgleich Dump↔Frage ist **Interpretation** — deshalb wird **nichts** ohne deine Freigabe
+geschrieben (eine Fehlzuordnung schriebe eine falsche Antwort als Beleg fest).
+
+1. **Vorschlag als Tabelle** (keine Konfidenz-Spalte — die Freigabe IST das Urteil):
+   ```
+   Abgleich-Vorschlag ({T} Treffer, {O} offen geblieben):
+
+   | # | Frage (Feature/Datei) | Antwort aus dem Dump | Art |
+   |---|-----------------------|----------------------|-----|
+   | 1 | [Fach] … (slug/spec.md) | „…" | Vollantwort |
+   | 2 | [Fach] … (slug/discovery.md) | „…" | Zwischenstand |
+   ```
+   **Art** = Vollantwort (Frage ist beantwortet → `[x]`) oder Zwischenstand (nur Teilinfo →
+   bleibt `[ ]`).
+2. **Konflikte ausweisen statt still handeln** — als markierte Zeilen im selben Vorschlag,
+   nie automatisch geschrieben:
+   - **Mehrfach-Match:** eine Dump-Aussage passt auf mehrere offene Fragen → alle betroffenen
+     Zeilen zeigen, als Konflikt markiert; du entscheidest je Zeile.
+   - **Dump-Widerspruch:** zwei Stellen im Dump beantworten dieselbe Frage unterschiedlich →
+     beide zeigen, markiert.
+   - **Bereits `[x]` beantwortet:** der Dump liefert eine abweichende Antwort auf eine schon
+     abgehakte Frage → **nicht ueberschreiben** (Beleg bleibt); als Konflikt melden
+     („beantwortet am …, Meeting sagt jetzt X"), Behandlung manuell.
+3. **Freigabe abwarten:** `alle` / einzelne `Nummern` / `abbrechen`. Erst nach Freigabe zu
+   Schritt 5. Konflikt-markierte Zeilen nur schreiben, wenn du sie ausdruecklich freigibst.
+
+---
+
+## Schritt 5: Rueckschreiben (§6-konform, status-neutral)
+
+Nur die **freigegebenen** Zuordnungen, ausschliesslich in `## Offene Punkte`.
+
+1. **Platzierungs-Mechanik (eigene Logik — NICHT das open-question-Endanhaenge-Muster):**
+   `dtb:open-question` haengt neue Bullets ans **Sektionsende** — das ist hier **falsch**. Eine
+   Fortsetzungszeile gehoert **in den Block ihrer Frage**:
+   - Einfuegepunkt = unmittelbar **nach der gematchten `- [ ] [Fach] …`-Zeile** UND nach allen
+     bereits vorhandenen eingerueckten `→`-Fortsetzungszeilen, die schon zu **dieser** Frage
+     gehoeren (der Frage-Block endet an der naechsten Bullet-Zeile, Ueberschrift oder Leerzeile).
+   - Einrueckung konsistent zum §6.1-Beispiel (die Fortsetzungszeile unter dem Bullet eingerueckt).
+2. **Vollantwort:** die Checkbox **derselben** Zeile `- [ ]` → `- [x]` kippen und
+   `→ Antwort: <Antwort> (Meeting {Datum})` als Fortsetzungszeile einfuegen (Platzierung wie 1).
+3. **Zwischenstand (Teilantwort):** Checkbox bleibt `- [ ]`; `→ Zwischenstand: <Info> (Meeting {Datum})`
+   als Fortsetzungszeile **akkumulierend** anhaengen (bestehende `→ Zwischenstand:`-Zeilen bleiben
+   stehen — Verlauf, §6.1). Eine spaetere Vollantwort tritt als letzte Zeile hinzu.
+4. **Status-Neutralitaet (Invariante, §6.2):** **NIE** `## Progress`, dortige Checkboxen oder
+   Statusfelder beruehren; bestehende Eintraege/Reihenfolge unangetastet lassen — **nur** die
+   gematchte Checkbox kippen und Fortsetzungszeilen anhaengen. Das Erfassen aendert den
+   abgeleiteten Feature-Status nicht.
+5. **Beleg unberuehrt:** die Datei aus Schritt 2 wird nicht nachtraeglich mit Ergebnissen
+   angereichert (Antworten leben in den Features, nicht im Beleg).
+
+---
+
+## Schritt 6: Rest-Input ausweisen + Abschluss-Summary
+
+Was im Dump zu **keiner** offenen Frage passt, geht nicht verloren — es wird ausgewiesen, aber
+**nicht** aktiv weitergereicht (keine Duplikation der Erfassungs-Logik anderer Skills; der Beleg
+aus Schritt 2 haelt ohnehin alles fest).
+
+1. **„Nicht zugeordnet"-Block** — die uebrigen Dump-Anteile auflisten, je mit Werkzeug-Hinweis,
+   wohin sie gehoeren koennten (du entscheidest, ob/wann):
+   ```
+   Nicht zugeordnet (im Beleg erhalten):
+     - „{neue offene Frage}"      → Kandidat fuer /dtb:open-question <slug> "…"
+     - „{neue Idee/Aufgabe}"      → Kandidat fuer /dtb:idea
+     - „{Kontext/Rauschen}"       → bleibt nur im Beleg
+   ```
+   Rein technische Notizen ohne Handlungsbedarf werden nicht einzeln aufgefuehrt (nur im Beleg).
+2. **Abschluss-Summary (kompakt):**
+   ```
+   Meeting-Nachbereitung {Datum} abgeschlossen:
+     Beleg:          project-meetings/{Datum}.md
+     Vollantworten:  {N}  (Fragen abgehakt + → Antwort:)
+     Zwischenstaende: {M} (Fragen offen + → Zwischenstand:)
+     Konflikte:      {K}  (ausgewiesen, nicht automatisch geschrieben)
+     Nicht zugeordnet: {R}
+
+   Offene Fach-Fragen spaeter via /dtb:workflow-next (bzw. der geplanten Fach-Agenda #25).
+   ```
+
+---
 
 **Erstellt mit:** `/dtb:meeting-dump`
