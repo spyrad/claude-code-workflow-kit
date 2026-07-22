@@ -14,8 +14,8 @@
 | commit-and-push | Fertig zum Testen | 10/10 | Multi-Repo-Zweig in pkp abnehmen (Kern via `791027d` belegt) → `/dtb:workflow-checkpoint` |
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
-| Opportunity-Map | Fertig zum Testen | 11/11 | Real abnehmen (Map in echtem build/buy-Flow) → `/dtb:workflow-checkpoint` |
-| Greenfield-Autoren-Skills | Fertig zum Testen | 14/14 | Real abnehmen (erster realer Greenfield-Lauf) → `/dtb:workflow-checkpoint` |
+| Opportunity-Map | Abgenommen | 11/11 | Abgeschlossen → `/dtb:archive` (optional) |
+| Greenfield-Autoren-Skills | Abgenommen | 14/14 | Abgeschlossen → `/dtb:archive` (optional) |
 
 Kein Feature „In Arbeit" (alle `## Progress` vollstaendig). Diese Session: Konventions-/Doku-Aenderung ausserhalb der Feature-Kette (kein Change-Ordner).
 

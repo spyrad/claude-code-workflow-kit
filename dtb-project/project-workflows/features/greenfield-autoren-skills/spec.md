@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-13
 **Ziel:** `greenfield-prd` und `greenfield-roadmap` werden von read-only-Reports zu Autoren-Skills, die `PRD-MVP.md`, `TECH-STACK.md` und `ROADMAP.md` im Dialog erzeugen — Greenfield-Projekte bekommen damit einen echten Einstiegspfad ins Kit.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige (alle Progress-Boxen abgehakt). Zweistufige Abnahme (Entscheidung G): echte Abnahme erst beim ersten realen Greenfield-Vorhaben (PRD-Interview → TECH-STACK → ROADMAP an echtem Projekt); bis dahin unabgenommen. Sync: dtb:workflow-checkpoint (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- explizit abgenommen per Nutzer-Entscheidung 2026-07-22; Entscheidung G (echte Abnahme erst am ersten realen Greenfield-Lauf) dabei bewusst uebersprungen. Sync: dtb:workflow-checkpoint (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
