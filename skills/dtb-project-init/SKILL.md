@@ -122,6 +122,7 @@ dtb-project/
 ├── project-strategy/
 │   └── input/
 ├── project-testing/
+├── project-design/
 ├── project-infrastructure/
 │   └── input/
 ├── project-requirements/
@@ -151,6 +152,24 @@ integrations/
 ```
 
 Verzeichnis `vendor-x/` umbenennen oder als Vorlage nutzen.
+```
+
+Lege in `project-design/` eine `README.md` an (hält das leere Verzeichnis im Git und erklaert die Konvention):
+
+```markdown
+# Project Design
+
+Importierbare Design-Assets dieses Projekts — z.B. Design-Tokens (`*.css`, `*.json`),
+die der Frontend-Code importiert.
+
+## Konvention
+
+- Die **Design-Guideline** (visuelle Sprache, Regeln, Do's/Don'ts) lebt als
+  `project-rules/UI.md` — dort prueft `dtb:impl-review` sie gegen die Umsetzung.
+- **Hier** liegen die zugehoerigen **Assets** (Tokens etc.), die `UI.md` referenziert.
+  Assets, keine Regeln — daher eigener Bucket, nicht `project-rules/`.
+
+Leer lassen, falls das Projekt keine geteilten Design-Assets hat.
 ```
 
 ### CLAUDE.md mit Sentinel-Markern
