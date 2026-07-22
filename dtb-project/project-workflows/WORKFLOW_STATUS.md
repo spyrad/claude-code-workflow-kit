@@ -10,12 +10,9 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 | meeting-dump (#24) | Fertig zum Testen | 10/10 | Real abnehmen (echtes Meeting im Zielprojekt) → `/dtb:workflow-checkpoint` |
-| Verifikations-Gate | Abgenommen | 18/18 | Abgeschlossen → `/dtb:archive` (optional) |
 | commit-and-push | Fertig zum Testen | 10/10 | Multi-Repo-Zweig in pkp abnehmen (Kern via `791027d` belegt) → `/dtb:workflow-checkpoint` |
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
-| Opportunity-Map | Abgenommen | 11/11 | Abgeschlossen → `/dtb:archive` (optional) |
-| Greenfield-Autoren-Skills | Abgenommen | 14/14 | Abgeschlossen → `/dtb:archive` (optional) |
 
 Kein Feature „In Arbeit" (alle `## Progress` vollstaendig). Diese Session: Konventions-/Doku-Aenderung ausserhalb der Feature-Kette (kein Change-Ordner).
 

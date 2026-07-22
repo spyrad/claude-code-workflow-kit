@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-15
 **Ziel:** Der Umsetzungs-Loop erhält ein echtes Verifikations-Gate — eine Progress-Checkbox darf erst flippen, wenn die Checkpoint-Kriterien der Phase grün sind, und die Commit-SHA wird damit vom Commit-Beleg zum Verifikations-Beleg.
 **Prioritaet:** Hoch
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- archiviert 2026-07-22 via dtb:archive; zuvor Abgenommen (real in pkp f39af15, Gate biss bei 1.2). -->
 
 ---
 

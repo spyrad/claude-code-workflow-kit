@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-14
 **Ziel:** Ein eigenständiger Vorfeld-Skill `dtb-opportunity-map`, der wiederkehrende Reibung in eine build/buy/complement/wait-Entscheidung überführt, bevor teure PRD-/Bau-Arbeit beginnt.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- explizit abgenommen per Nutzer-Entscheidung 2026-07-22 (11/11 Progress abgehakt). Sync: dtb:workflow-checkpoint (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- archiviert 2026-07-22 via dtb:archive; zuvor Abgenommen (Nutzer-Entscheidung 2026-07-22). -->
 
 ---
 
