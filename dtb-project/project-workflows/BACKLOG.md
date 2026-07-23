@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-22 (S2: Opportunity-Map + Greenfield-Autoren-Skills abgenommen, 3 Features archiviert)
+**Letzte Aktualisierung:** 2026-07-23 (S1: Status unveraendert — 4 Features Fertig zum Testen; Arbeit lag auf Kit-Struktur + Ideen-Triage)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`

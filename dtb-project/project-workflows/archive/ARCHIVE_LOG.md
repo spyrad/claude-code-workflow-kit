@@ -34,3 +34,4 @@
 | 2026-07-22 | Idee | #19 "Verifikations-Gate im Umsetzungs-Loop" | INBOX.md | Ausgearbeitet → verifikations-gate (umgesetzt + archiviert) |
 | 2026-07-22 | Idee | #17 "10x-opportunity-map-Pendant" | INBOX.md | Ausgearbeitet → opportunity-map (umgesetzt + archiviert) |
 | 2026-07-22 | Idee | #11 "Greenfield-Strang neu konzipieren" | INBOX.md | Ausgearbeitet → greenfield-autoren-skills (umgesetzt + archiviert) |
+| 2026-07-23 | Idee | #10 "kit-sync pinned/hold-Zustand" | INBOX.md | Verworfen — Ausloeser entfallen (pitch-coach aus dem Kit entfernt, `7c3272a`); Lock zeigt 41x synced, kein bewusst abweichendes Artefakt |
