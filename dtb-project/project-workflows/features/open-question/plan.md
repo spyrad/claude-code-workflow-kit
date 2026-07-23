@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-18
 **Feature-Spec:** `features/open-question/spec.md`
 **Geschaetzte Dauer:** ~2.5 h
-**Status:** Entwurf
+**Status:** Reviewed (plan-review 2026-07-19: REVISE → 3 WARNs behoben)
 
 ---
 
