@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-22 (Session 1)
+**Letztes Update:** 2026-07-22 (Session 2)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-22.md`
 
 ---
@@ -14,7 +14,7 @@
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
 
-Kein Feature „In Arbeit" (alle `## Progress` vollstaendig). Diese Session: Konventions-/Doku-Aenderung ausserhalb der Feature-Kette (kein Change-Ordner).
+Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Diese Session: 2 Features abgenommen + 3 archiviert (kein neuer Change-Ordner).
 
 ---
 
@@ -23,17 +23,17 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig). Diese Session: Kon
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-22 (S1): DtB-Designsprache aus pkp extrahiert (antd v6, IBCS-Charts, Inter, 4/8-Raster) → Artefakte **intern in pkp** (`project-rules/UI.md` + `project-design/`-Tokens). Kit erhielt nur die **leere Konvention** (`project-design`-Bucket in project-init + Doku), keine Werte. Kit + pkp uncommitted. |
+| **Notizen** | 2026-07-22 (S2): Stale-Klon (07-19) auf `origin/master` (07-22) synchronisiert, verwaisten Commit `40f6ac4` verlustfrei verworfen. Opportunity-Map + Greenfield-Autoren-Skills abgenommen; 3 Abgenommene archiviert → aktiver Backlog 7→4. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] Kit-Aenderung committen: `docs(project-init): project-design-Bucket + UI.md-Konvention`
-- [ ] pkp committen (intern): `UI.md` + `project-design/`-Tokens → `/dtb:commit-and-push`
-- [ ] Folge-Idee: `generate-rules ui` koennte Tokens nach `project-design/` emittieren/referenzieren (ggf. `/dtb:idea`)
-- [ ] `/dtb:idea-review` fortsetzen — 9 offene Ideen (zweimal unterbrochen)
-- [ ] meeting-dump real abnehmen; commit-and-push-Vollabnahme (pkp Multi-Repo); #23 (Multi-Repo-Begriff)
+- [ ] `/dtb:idea-review` fortsetzen — 10 offene Ideen (Kandidat #25 Fach-Agenda)
+- [ ] Reale Abnahmen der 4 „Fertig zum Testen"-Features abbauen
+- [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
+- [ ] `[Fach]`-Strang: #25 (Fach-Agenda, liest open-question-Output) → #24-Rückfluss (meeting-dump)
+- [ ] #23 (Multi-Repo-Begriff auf git-toplevel vereinheitlichen)
 
 ---
 
@@ -41,11 +41,11 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig). Diese Session: Kon
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-22 | DtB-Designsprache aus pkp extrahiert + Kit-Konvention | pkp: `UI.md`+Tokens (intern); Kit: `project-design`-Bucket + Doku | `2026-07/2026-07-22.md` |
-| 2026-07-21 | meeting-dump (#24) gebaut + reviewt | 10/10, impl-review 4 Fixed, P1–P3 `317a959`/`757cb7f`/`05c1ca7` | `features/meeting-dump/review.md` |
-| 2026-07-20 | commit-and-push Kern-Routine abgenommen (Single-Repo) | via `791027d`, Multi-Repo offen | `2026-07/2026-07-20.md` (S2) |
-| 2026-07-20 | Verifikations-Gate (#19) real abgenommen | pkp-Lauf `f39af15`, Gate biss bei 1.2 | `2026-07/2026-07-20.md` (S1) |
-| 2026-07-19 | open-question (#26) gebaut + reviewt + verteilt | 9/9, impl-review 9 Fixed, live `b7c0e0b`/`d399be8` | `features/open-question/review.md` |
+| 2026-07-22 | 3 Features archiviert (S2) | verifikations-gate, greenfield-autoren-skills, opportunity-map | `1ad8c6e`, `archive/ARCHIVE_LOG.md` |
+| 2026-07-22 | Opportunity-Map + Greenfield-Autoren-Skills abgenommen (S2) | Nutzer-Entscheidung; `8debb8c` | `2026-07/2026-07-22.md` |
+| 2026-07-22 | DtB-Designsprache aus pkp extrahiert + Kit-Konvention (S1) | pkp intern `UI.md`+Tokens; Kit `project-design`-Bucket | `2026-07/2026-07-22.md` |
+| 2026-07-21 | meeting-dump (#24) gebaut + reviewt | 10/10, impl-review 4 Fixed | `features/meeting-dump/review.md` |
+| 2026-07-20 | Verifikations-Gate (#19) real abgenommen | pkp-Lauf `f39af15`, Gate biss bei 1.2 | `archive/verifikations-gate/` |
 
 ---
 
@@ -57,5 +57,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — konkrete uncommittete Design-Arbeit in **zwei** Repos sichern (Kit: `CLAUDE.md` + `project-init`; pkp intern: `UI.md` + `project-design/`). Danach kein Feature „In Arbeit" → offener Faden `/dtb:idea-review` (9 Ideen, zweimal unterbrochen) bzw. `/dtb:workflow-next`. Parallele manuelle Spur: meeting-dump in echtem Meeting durchspielen → Checkpoint mit Abnahme-Beleg.
+**Naechster Befehl:** `/dtb:idea-review` — kein Feature „In Arbeit"; die 4 aktiven sind Fertig zum Testen (reviewt, warten auf reale Abnahme = kein Kit-interner Schritt). Offener Kit-interner Faden: 10 INBOX-Ideen (Kandidat #25 Fach-Agenda). Alternativ `/dtb:workflow-next`.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
