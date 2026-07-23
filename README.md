@@ -7,10 +7,8 @@
 
 - **Skills** (`/dtb:*`) — German-language workflow system for session management,
   project documentation, feature planning, idea capture, and code review
-- **Agent Roles** — Reusable agent definitions (Architekt, Pragmatiker, Senior Dev) for structured reviews
-- **Personas** — Reusable persona definitions (e.g. `dtb-stakeholder-pitch-coach`) that adopt a
-  role to work *with the human over an event* rather than on a code artifact
-- **Commands** — Slash-command definitions that activate personas or shortcuts (e.g. `/dtb-pitch-coach`)
+- **Agent Roles** — Reusable agent definitions (Architekt, Pragmatiker, Senior Dev, Betriebs-Waechter) for structured reviews
+- **Commands** — Slash-command definitions for workflow shortcuts (none shipped currently)
 - **Project Settings** — Pre-configured permissions and plugin setup
 
 ## Installation
@@ -98,28 +96,23 @@ cd <dein-projekt>
 | `/dtb:lesson` | Capture a reusable lesson append-only into `lessons.md`, read as a prior by plan/review skills |
 | `/dtb:pipeline-graph` | Generate interactive HTML overview of entire skill pipeline |
 
-## Personas & Commands
+## Commands
 
-**Personas** (`personas/`) are role definitions Claude adopts to work *with the human over an
-event* (a pitch, a kick-off), as opposed to **agent roles** (`agents/`), which work *on a code
-artifact* (a review). Each persona lives in its own directory with a `COGNITIVE.md` (core
-thinking, voice, filters, risks) and a `README.md` (when to use, activation examples).
+**Commands** (`commands/`) are slash-command definitions for workflow shortcuts. They use YAML
+frontmatter (`description`) and may pull files into context via `@`-references.
 
-| Persona | Purpose |
-|---------|---------|
-| `dtb-stakeholder-pitch-coach` | Coaching for business-stakeholder pitches with a commitment goal (pilot, beta, budget). Coach-only — delivers structure and talking points, never read-aloud scripts. |
+The kit currently ships **no command**. The `commands/dtb-*.md` class-A pattern stays registered in
+`dtb:kit-sync`, so a newly added command is picked up and distributed without further setup.
 
-**Commands** (`commands/`) are slash-command definitions that activate a persona or workflow
-shortcut. They use `@`-references to pull persona files into context.
+**Personas are not part of this kit.** Role definitions that work *with the human over an event*
+(a pitch, a kick-off) — as opposed to agent roles, which work *on a code artifact* — live in the
+separate `oma-personas` repository. The kit carries only **distillates** of them: `dtb:impl-review`
+embeds the `principled` and `torvalds` reviewer lenses inline as evaluation criteria, without voice
+or persona identity.
 
-| Command | Activates |
-|---------|-----------|
-| `/dtb-pitch-coach` | `dtb-stakeholder-pitch-coach` persona (coach-only) |
-
-Install by copying into the target project's `.claude/` directory:
+Install commands by copying into the target project's `.claude/` directory:
 
 ```bash
-cp -r personas/ <dein-projekt>/.claude/personas/
 cp -r commands/* <dein-projekt>/.claude/commands/
 ```
 
@@ -128,8 +121,7 @@ cp -r commands/* <dein-projekt>/.claude/commands/
 ```
 skills/                # Skill definitions (primary — auto-detected by Claude Code)
 agents/                # Reusable agent role definitions (work on code artifacts)
-personas/              # Reusable persona definitions (work with the human over an event)
-commands/              # Slash-command definitions (activate personas / shortcuts)
+commands/              # Slash-command definitions (workflow shortcuts — none shipped currently)
 workflow.config.yaml   # Project-specific config (template — filled by /dtb:project-init)
 settings.json          # Claude Code project settings
 CLAUDE.md              # Project instructions for Claude Code

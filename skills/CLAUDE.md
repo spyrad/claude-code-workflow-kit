@@ -131,7 +131,8 @@ A lock file `~/.claude/dtb-lock.json` records source, ref, and a content hash pe
   `commands/dtb-*.md` — a NEW skill is covered automatically by the pattern, no registration needed
 - **Class B (`mode: seed`, copied once, never drift-checked):** `frameworks/` templates,
   `settings.json`, `DERIVED_STATE_RULES.md` (distributed per project by `dtb:project-init`)
-- Not distributed in v1: `personas/` (source cleanup pending, see INBOX #8)
+- Personas are not part of the kit (removed 2026-07-23) — they live in the separate
+  `oma-personas` repository; the kit carries only inline distillates (see root `CLAUDE.md`)
 
 Lock schema and fixed command sequences live in `skills/dtb-kit-sync/SKILL.md` — do not
 duplicate that logic in other skills; reference it (like `dtb:project-health` check 11 does).

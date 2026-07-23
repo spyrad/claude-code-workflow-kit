@@ -76,8 +76,9 @@ Drei-Punkte-Vergleichs: **Repo ↔ Lock ↔ installierte Kopie**.
 | A | `commands/dtb-*.md` | `~/.claude/commands/dtb-*.md` | synced | ja |
 | B | `settings.json` | projektlokal (via project-init) | seed | nein — nie als Drift melden |
 
-Nicht in v1: `personas/` (Quellen-Klaerung offen), projektlokale Ziele,
-`DERIVED_STATE_RULES.md` (Seed via project-init).
+Nicht Teil des Kits: `personas/` (2026-07-23 entfernt — Personas leben im separaten
+`oma-personas`-Repo). Nicht in v1: projektlokale Ziele, `DERIVED_STATE_RULES.md`
+(Seed via project-init).
 
 ---
 

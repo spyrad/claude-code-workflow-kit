@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Repository Is
 
-This is a **Claude Code workflow toolkit** — a collection of skills, agent roles, personas, and templates that extend Claude Code's capabilities for structured development workflows. It is not a runnable application; it contains markdown-based prompts and configuration files.
+This is a **Claude Code workflow toolkit** — a collection of skills, agent roles, and templates that extend Claude Code's capabilities for structured development workflows. It is not a runnable application; it contains markdown-based prompts and configuration files.
 
 The primary language for skills and documentation is **German**. Code, file names, and technical terms remain in English.
 
@@ -13,7 +13,6 @@ The primary language for skills and documentation is **German**. Code, file name
 This is a **distribution repository**, not a standalone project. Users copy parts into their own projects:
 - `skills/` → target project's `.claude/skills/`
 - `agents/` → target project root
-- `personas/` → target project's `.claude/personas/`
 - `commands/` → target project's `.claude/commands/`
 - `settings.json` → target project's `.claude/settings.json`
 
@@ -66,19 +65,20 @@ Reusable agent definitions in `agents/` are referenced by skills (e.g. `dtb:plan
 - `pragmatiker.md` — Scope guardian (MVP cut, effort-value, prioritization)
 - `senior-dev.md` — Implementation reviewer (time estimates, test strategy, code-level feasibility)
 
-### Personas
+### Personas — not hosted here
 
-Personas in `personas/` differ from agent roles: agent roles work **on a code artifact** (a review), personas work **with the human over an event** (a pitch, a kick-off). Each persona lives in its own directory (`personas/dtb-<name>/`) with:
-- `COGNITIVE.md` — core thinking, voice, decision filters, known risks
-- `README.md` — when to use / when not to use, activation examples, relationship to other personas
-- `cognitive/` — optional context overlays (planned)
-- `input/` — optional source documents (empty if the persona was constructed in dialogue)
-
-Current persona: `dtb-stakeholder-pitch-coach` — coaching for business-stakeholder pitches with a commitment goal (pilot, beta, budget). **Coach-only by design**: delivers structure, talking points, and rationale — never read-aloud scripts.
+The kit does **not** host personas. Personas (role definitions that work *with the human over an
+event* — a pitch, a kick-off — as opposed to agent roles, which work *on a code artifact*) live in
+the dedicated `oma-personas` repository. What the kit carries instead are **distillates**: e.g.
+`dtb:impl-review` embeds the `principled` and `torvalds` reviewer lenses inline in its Craft
+sub-agent prompt, as evaluation criteria without voice or persona identity.
 
 ### Commands
 
-Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a persona or workflow shortcut. They use YAML frontmatter (`description`) and `@`-references to pull persona files into context. Example: `/dtb-pitch-coach` activates the `dtb-stakeholder-pitch-coach` persona with its hard coach-only rule.
+Slash-command definitions in `commands/` (`commands/dtb-<name>.md`) activate a workflow shortcut.
+They use YAML frontmatter (`description`) and may pull files into context via `@`-references.
+Currently the kit ships no command — the directory and the `commands/dtb-*.md` class-A pattern in
+`dtb:kit-sync` remain in place, so a newly added command is distributed automatically.
 
 ### Output Locations (in target project)
 
