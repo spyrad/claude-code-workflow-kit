@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-23 (Session 1)
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-23.md`
+**Letztes Update:** 2026-07-27 (Session 1)
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-27.md`
 
 ---
 
@@ -14,7 +14,7 @@
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
 
-Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Diese Session: kein Progress-Flip — Arbeit lag auf Kit-Struktur, Distribution und Ideen-Triage.
+Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt — beide REJECTED-Verdikte aufgeloest). Diese Session: kein Progress-Flip — Arbeit lag auf Ideen-Review und Abgrenzungs-Analyse. Ideen-Ebene: **#15 auf „In Arbeit"** (wartet auf `/dtb:feature-discover`).
 
 ---
 
@@ -23,15 +23,17 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Dies
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-23 (S1): Personas + pitch-coach-Command aus dem Kit entfernt (`7c3272a`) — Quelle liegt byte-identisch in `oma-personas`; Kit traegt Personas nur als Destillate. kit-sync auf `7c3272a`, 41 Artefakte, 0 Abweichung; meeting-dump erstmals global. INBOX 11 offen (#30/#31 neu, #10 verworfen+archiviert). |
+| **Notizen** | 2026-07-27 (S1): #15 vorgeprüft — Überschneidung `project-health` ↔ `10x-health-check` ist null; Verdikt gegen das 1:1-Pendant, Gegenvorschlag schlanker Brownfield-Check an `project-init`; Naming-Blocker (`dtb:project-health` belegt den Namen). `dtb:build-check` als totes Gleis belegt: 0 Läufe, keine Pipeline-Kante, im Kit nicht lauffähig. INBOX 10 offen. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:idea-review` fortsetzen — 11 offene Ideen (Kandidat #25 Fach-Agenda)
+- [ ] `/dtb:feature-discover 15` — Zuschnitt, Träger und Naming entscheiden; Startkontext ist der Log vom 2026-07-27
+- [ ] build-check entscheiden: streichen (Option A von 2026-07-15 nachholen) oder behalten — braucht den pkp-Nutzungsbeleg
+- [ ] `/dtb:idea-review` fortsetzen — 10 offene Ideen (Kandidaten: #25 Fach-Agenda, #16 als 10x-Pendant-Nachbar von #15)
 - [ ] Reale Abnahmen der 4 „Fertig zum Testen"-Features abbauen
-- [ ] #31 entscheiden: `skills/CLAUDE.md` als Klasse A aufnehmen oder aus dem Lock streichen — Kontext: installierte Kopie haengt am alten Stand, kein check meldet es
+- [ ] #31 entscheiden: `skills/CLAUDE.md` als Klasse A aufnehmen oder aus dem Lock streichen
 - [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
 - [ ] `[Fach]`-Strang: #25 (Fach-Agenda, liest open-question-Output) → #24-Rückfluss (meeting-dump)
 - [ ] #23 (Multi-Repo-Begriff auf git-toplevel vereinheitlichen)
@@ -42,6 +44,7 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Dies
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-27 | #15 vorgeprüft + build-check-Befund (S1) | Abgrenzung belegt, Verdikt gefasst, build-check als ungenutzt nachgewiesen | `2026-07/2026-07-27.md` |
 | 2026-07-23 | Personas aus dem Kit entfernt (S1) | Halbzustand aufgeloest; Doku + tote #8-Verweise bereinigt | `7c3272a` |
 | 2026-07-23 | kit-sync auf 7c3272a (S1) | 4 uebernommen, 1 verwaist entfernt, 0 Abweichung | `2026-07/2026-07-23.md` |
 | 2026-07-22 | 3 Features archiviert (S2) | verifikations-gate, greenfield-autoren-skills, opportunity-map | `1ad8c6e`, `archive/ARCHIVE_LOG.md` |
@@ -58,5 +61,5 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — 3 uncommittete Dateien aus dieser Session (Session-Log, `WORKFLOW_STATUS.md`, `INBOX.md`+`ARCHIVE_LOG.md`). Danach `/dtb:idea-review` fortsetzen: kein Feature „In Arbeit", die 4 aktiven sind reviewt und warten auf reale Abnahme (kein Kit-interner Schritt); offener Kit-Faden sind die 11 INBOX-Ideen (Kandidat #25 Fach-Agenda).
+**Naechster Befehl:** `/dtb:feature-discover 15` — Idee #15 steht auf „In Arbeit" und wartet auf die Ausarbeitung. Die Vorprüfung, die der Idee-Text noch verlangt („VOR dem Bau gegen `project-health` prüfen"), ist erledigt und liegt im Session-Log vom 2026-07-27; ohne diesen Kontext beginnt die Discovery bei Null. Drei Entscheidungen dort: Zuschnitt (1:1-Pendant vs. schlanker Brownfield-Check), Träger (eigener Skill vs. `project-init` vs. `build-check` — Letzteres waere Wiederbelebung eines ungenutzten Skills), Naming (`dtb:project-health` belegt den Namen).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.

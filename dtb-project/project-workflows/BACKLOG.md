@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-23 (S1: Status unveraendert — 4 Features Fertig zum Testen; Arbeit lag auf Kit-Struktur + Ideen-Triage)
+**Letzte Aktualisierung:** 2026-07-27 (S1: Status unveraendert — 4 Features Fertig zum Testen; Arbeit lag auf Ideen-Review #15 + Abgrenzungs-Analyse)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
