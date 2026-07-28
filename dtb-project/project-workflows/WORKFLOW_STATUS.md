@@ -32,7 +32,7 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Beid
 - [ ] `workflow-resume` um Remote-Divergenz-Check erweitern (`git fetch` + `rev-list --left-right --count`) — prueft heute nur lokal, Parallelarbeit an zwei Rechnern faellt erst beim Commit auf (Lehre 2026-07-28)
 - [ ] `/dtb:idea-review` fortsetzen — 10 offene Ideen ohne #15; naechstliegend #27 (`grill-me` schon installiert, ohne Bau entscheidbar) und #25 (Fach-Agenda, fehlendes Glied der Kette #13→#26→#25→#24)
 - [ ] `opportunity-map` `stage: greenfield` entscheiden — widerspricht dem eigenen Brownfield-Hinweis; `workflow-status` liest die Stage
-- [ ] Checkpoint committen (`/dtb:commit-and-push`)
+- [ ] `git stash drop stash@{0}` — Sicherungsnetz der Zusammenfuehrung, seit `54fbade` gegenstandslos; `stash@{1}` (`ac81265`) ist aelter und bleibt
 - [ ] build-check entscheiden: streichen (Option A von 2026-07-15 nachholen) oder behalten — braucht den pkp-Nutzungsbeleg
 - [ ] Reale Abnahmen der 4 „Fertig zum Testen"-Features abbauen
 - [ ] #31 entscheiden: `skills/CLAUDE.md` als Klasse A aufnehmen oder aus dem Lock streichen
@@ -45,7 +45,7 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Beid
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-28 | #32 erfasst + #15 vertagt (S2) | `feature-discover`-Schwachpunkt mit 4-von-20-Bestandsbefund belegt; #15 als Ast-Entscheidung erkannt, Kontext verankert | `2026-07/2026-07-28.md` |
+| 2026-07-28 | #32 erfasst + #15 vertagt (S2) | `feature-discover`-Schwachpunkt mit 4-von-20-Bestandsbefund belegt; #15 als Ast-Entscheidung erkannt, Kontext verankert | `54fbade` |
 | 2026-07-28 | #16 verworfen + Backlog-Sichtung (S1) | Mom-Test-Substanz in `opportunity-map` belegt; Umsetzungsseite des Backlogs leer | `2026-07/2026-07-28.md` |
 | 2026-07-27 | #15 vorgeprueft + build-check-Befund (S1) | Abgrenzung belegt, Verdikt gefasst, build-check als ungenutzt nachgewiesen | `2026-07/2026-07-27.md` |
 | 2026-07-23 | Personas aus dem Kit entfernt (S1) | Halbzustand aufgeloest; Doku + tote #8-Verweise bereinigt | `7c3272a` |

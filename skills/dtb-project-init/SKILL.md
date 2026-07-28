@@ -245,7 +245,18 @@ Der Block zwischen den Markern ist der **DTB-Block** — beim Anhaengen an beste
 CLAUDE.md (Fall 3) nur diesen Block inkl. Marker verwenden, `{paths.*}` aus der
 workflow.config.yaml einsetzen.
 
-Erstelle eine leere `WORKFLOW_STATUS.md` und `BACKLOG.md` falls sie nicht existieren.
+**Status-Dateien anlegen:** Erstelle `{config.paths.workflows}/WORKFLOW_STATUS.md` und
+`{config.paths.workflows}/BACKLOG.md` mit den Vorlagen weiter unten, falls sie nicht existieren.
+**Nicht** in den Projekt-Root schreiben — dort liegen nur `workflow.config.yaml` (Schritt 3)
+und `CLAUDE.md`. Verzeichnis vorher sicherstellen:
+
+```bash
+mkdir -p "{config.paths.workflows}"   # konkreten Pfad aus der Config einsetzen
+```
+
+Genau dort erwarten sie alle Lese-Skills (`workflow-resume`, `workflow-next`, `workflow-status`,
+`backlog-status`, `project-health`, `feature-start`, `archive`) und `workflow-checkpoint`. Eine
+Kopie im Projekt-Root wird von keinem Skill gelesen und veraltet still.
 
 **Regel-Datei verteilen (Seed):** `DERIVED_STATE_RULES.md` (zentrale Statusableitungs-Regeln)
 nach `{config.paths.rules}/DERIVED_STATE_RULES.md` im Zielprojekt **kopieren** — die Lese-Skills
@@ -284,7 +295,7 @@ fi
 Fehlt der Lock ganz (Schritt 0 hat bereits gewarnt), diesen Seed überspringen und den Nutzer auf
 `/dtb:kit-sync install` + manuelles Kopieren hinweisen — die Regel-Datei nie improvisieren.
 
-**WORKFLOW_STATUS.md:**
+**WORKFLOW_STATUS.md** → Zielpfad `{config.paths.workflows}/WORKFLOW_STATUS.md`:
 ```markdown
 # Workflow-Status: {project_name}
 
@@ -313,7 +324,7 @@ Kein aktives Feature.
 Fuer neue Session: `/dtb:workflow-resume`
 ```
 
-**BACKLOG.md:**
+**BACKLOG.md** → Zielpfad `{config.paths.workflows}/BACKLOG.md`:
 ```markdown
 # Feature Backlog
 

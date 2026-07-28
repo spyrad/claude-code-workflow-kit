@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-28 (S1+S2: Status unveraendert — 4 Features Fertig zum Testen, keine Abnahme; Arbeit lag auf Ideen-Ebene: #16 verworfen, #32 erfasst, #15 vertagt)
+**Letzte Aktualisierung:** 2026-07-28 (S2: Bug `project-init-status-pfad` erfasst (Mittel); 4 Features unveraendert Fertig zum Testen, keine Abnahme; Ideen-Ebene: #16 verworfen, #32 erfasst, #15 vertagt)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -16,6 +16,7 @@
 | commit-and-push | Fertig zum Testen | Mittel | features/commit-and-push/spec.md | Geführter Routine-Skill, der Änderungen sicher committet und pusht; Repo-Grenzen aus git (rev-parse --show-toplevel) statt config.repos → monorepo-, poly-repo- und einzelverzeichnis-fest |
 | Fachfragen-Erfassung | Fertig zum Testen | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
 | open-question | Fertig zum Testen | Mittel | features/open-question/spec.md | Aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Argument §6-konform als `- [ ] [Fach] {Frage}` ins aktive Feature-Artefakt schreibt — das Eingabe-Werkzeug der Fachfragen-Kette (#13→#26→#25→#24) |
+| Bug: project-init legt Statusdateien im Projekt-Root an | Offen | Mittel | features/project-init-status-pfad/bug.md | `project-init` schreibt `WORKFLOW_STATUS.md`/`BACKLOG.md` in den Projekt-Root (`SKILL.md:248` ohne Pfadangabe), alle Lese-Skills erwarten sie unter `{config.paths.workflows}/` — jedes neue Projekt startet mit totem Artefakt im Root |
 
 ---
 
