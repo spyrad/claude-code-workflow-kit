@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-28 (Session 1)
+**Letztes Update:** 2026-07-28 (Session 2)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-28.md`
 
 ---
@@ -14,7 +14,7 @@
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
 
-Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Diese Session: kein Progress-Flip — Arbeit lag auf Ideen-Review und Abgrenzungs-Analyse. Ideen-Ebene: **#15 auf „In Arbeit"** (wartet auf `/dtb:feature-discover`), **#16 verworfen**.
+Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Beide Sessions heute: kein Progress-Flip — Arbeit lag auf Ideen-Ebene. Abnahme-Abfrage: keines der vier Features abgenommen. Ideen-Ebene: **kein Eintrag auf „In Arbeit"** (#15 zurueckgesetzt und vertagt, #16 verworfen, #32 neu).
 
 ---
 
@@ -23,19 +23,20 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Dies
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-28 (S1): #16 (`10x-mom-test`-Pendant) verworfen — Substanz sitzt bereits in `dtb:opportunity-map` (`SKILL.md:78`/`:83`/`:145-157`); Abgrenzung: Selbstauskunft (opportunity-map) vs. Gespraeche mit Dritten (Mom-Test), ohne Nutzer-Interviews liefe der Leitfaden leer. Backlog-Umsetzungsseite leer (0 in Arbeit, 0 geplant, 0 Bugs/Tasks). INBOX 9 offen. `grill-me`/#27 global bereits installiert, nie abgegrenzt. |
+| **Notizen** | 2026-07-28: Zwei Parallel-Sessions an zwei Rechnern (S1 zuhause `df7232c`, S2 am Arbeitsplatz) — #16 doppelt bearbeitet, per Stash + `pull --ff-only` zusammengefuehrt, staerker belegter S1-Text behalten. S1: #16 verworfen (Substanz sitzt in `opportunity-map` `SKILL.md:78`/`:83`/`:145-157`); `grill-me`/#27 global bereits installiert. S2: #32 erfasst (`feature-discover` ohne Aufnahmekriterium, 4 von 20 `discovery.md` mit Fremdpfaden), #15 vertagt (Vorbild ist Kettenglied, Brownfield-Ast fehlt im Kit). INBOX 11 offen, 4 ausgearbeitet, 1 verworfen. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:feature-discover 15` — Zuschnitt, Traeger und Naming entscheiden; Startkontext ist der Log vom 2026-07-27
-- [ ] `/dtb:idea-review` fortsetzen — 9 offene Ideen (naechstliegend: #27 `grill-me` schon installiert, #25 Fach-Agenda)
+- [ ] `workflow-resume` um Remote-Divergenz-Check erweitern (`git fetch` + `rev-list --left-right --count`) — prueft heute nur lokal, Parallelarbeit an zwei Rechnern faellt erst beim Commit auf (Lehre 2026-07-28)
+- [ ] `/dtb:idea-review` fortsetzen — 10 offene Ideen ohne #15; naechstliegend #27 (`grill-me` schon installiert, ohne Bau entscheidbar) und #25 (Fach-Agenda, fehlendes Glied der Kette #13→#26→#25→#24)
+- [ ] `opportunity-map` `stage: greenfield` entscheiden — widerspricht dem eigenen Brownfield-Hinweis; `workflow-status` liest die Stage
+- [ ] Checkpoint committen (`/dtb:commit-and-push`)
 - [ ] build-check entscheiden: streichen (Option A von 2026-07-15 nachholen) oder behalten — braucht den pkp-Nutzungsbeleg
 - [ ] Reale Abnahmen der 4 „Fertig zum Testen"-Features abbauen
 - [ ] #31 entscheiden: `skills/CLAUDE.md` als Klasse A aufnehmen oder aus dem Lock streichen
 - [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
-- [ ] `[Fach]`-Strang: #25 (Fach-Agenda, liest open-question-Output) → #24-Rueckfluss (meeting-dump)
 - [ ] #23 (Multi-Repo-Begriff auf git-toplevel vereinheitlichen)
 
 ---
@@ -44,22 +45,25 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Dies
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-07-28 | #32 erfasst + #15 vertagt (S2) | `feature-discover`-Schwachpunkt mit 4-von-20-Bestandsbefund belegt; #15 als Ast-Entscheidung erkannt, Kontext verankert | `2026-07/2026-07-28.md` |
 | 2026-07-28 | #16 verworfen + Backlog-Sichtung (S1) | Mom-Test-Substanz in `opportunity-map` belegt; Umsetzungsseite des Backlogs leer | `2026-07/2026-07-28.md` |
 | 2026-07-27 | #15 vorgeprueft + build-check-Befund (S1) | Abgrenzung belegt, Verdikt gefasst, build-check als ungenutzt nachgewiesen | `2026-07/2026-07-27.md` |
 | 2026-07-23 | Personas aus dem Kit entfernt (S1) | Halbzustand aufgeloest; Doku + tote #8-Verweise bereinigt | `7c3272a` |
 | 2026-07-23 | kit-sync auf 7c3272a (S1) | 4 uebernommen, 1 verwaist entfernt, 0 Abweichung | `2026-07/2026-07-23.md` |
 | 2026-07-22 | 3 Features archiviert (S2) | verifikations-gate, greenfield-autoren-skills, opportunity-map | `1ad8c6e`, `archive/ARCHIVE_LOG.md` |
-| 2026-07-22 | Opportunity-Map + Greenfield-Autoren-Skills abgenommen (S2) | Nutzer-Entscheidung; `8debb8c` | `2026-07/2026-07-22.md` |
 
 ---
 
 ## Pausierte Themen
 
-Keine.
+### Idee #15: `10x-health-check`-Pendant
+
+**Status:** Bewusst vertagt (2026-07-28, S2) — braucht zusammenhaengenden Fokus, nicht einen Rest-Slot. Nach dem Kettenbefund ist es keine Skill-Frage, sondern eine **Ast-Entscheidung** (Brownfield-Zweig im Kit: ja/nein, in welcher Reihenfolge).
+**Details:** Kontext vollstaendig im Idee-Text (`INBOX.md` #15) — sechs benannte Entscheidungen; Analyse in `2026-07/2026-07-27.md` (S1) und `2026-07/2026-07-28.md` (S2)
 
 ---
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:feature-discover 15` — unveraendert aus der Vorsession: Idee #15 steht auf „In Arbeit" und wartet auf die Ausarbeitung. Die Vorpruefung, die der Idee-Text noch verlangt („VOR dem Bau gegen `project-health` pruefen"), ist erledigt und liegt im Session-Log vom 2026-07-27; ohne diesen Kontext beginnt die Discovery bei Null. Drei Entscheidungen dort: Zuschnitt (1:1-Pendant vs. schlanker Brownfield-Check), Traeger (eigener Skill vs. `project-init` vs. `build-check` — Letzteres waere Wiederbelebung eines ungenutzten Skills), Naming (`dtb:project-health` belegt den Namen). Alternative ohne Zielprojekt-Abhaengigkeit: `/dtb:idea-review` fortsetzen (9 offen, #27 ist ohne Bau entscheidbar).
-**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
+**Naechster Befehl:** `/dtb:idea-review` — der Lauf wurde nach #16 unterbrochen, 10 offene Ideen sind noch nicht durchgegangen (#15 dabei ueberspringen, ist vertagt). Kein Feature-Befehl ableitbar: alle vier Items sind `Y/Y`, reviewt und warten auf reale Abnahme im Zielprojekt pkp — von hier aus nicht moeglich. Der frueher hier stehende `/dtb:feature-discover 15` ist **nicht** mehr gueltig (Idee vertagt).
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl. **Bei Rechnerwechsel vorher `git fetch` + Divergenz pruefen** — heute entstand so Doppelarbeit an #16.
