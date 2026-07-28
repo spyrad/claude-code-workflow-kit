@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-28 (Session 2)
+**Letztes Update:** 2026-07-28 (Session 3)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-28.md`
 
 ---
@@ -9,12 +9,13 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| Bug: project-init-status-pfad | Behoben | 5/5 | Fix wirksam (`kit-sync` Lauf 2, Lock `9e2e9e3`) — optional `/dtb:archive` |
 | meeting-dump (#24) | Fertig zum Testen | 10/10 | Real abnehmen (echtes Meeting im Zielprojekt) → `/dtb:workflow-checkpoint` |
 | commit-and-push | Fertig zum Testen | 10/10 | Multi-Repo-Zweig in pkp abnehmen (Kern via `791027d` belegt) → `/dtb:workflow-checkpoint` |
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
 
-Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Beide Sessions heute: kein Progress-Flip — Arbeit lag auf Ideen-Ebene. Abnahme-Abfrage: keines der vier Features abgenommen. Ideen-Ebene: **kein Eintrag auf „In Arbeit"** (#15 zurueckgesetzt und vertagt, #16 verworfen, #32 neu).
+Kein Feature „In Arbeit". Diese Session: Bug-Zyklus vollstaendig durchlaufen (Erfassung → Analyse → Fix → blinde Abnahme → Commit `9e2e9e3`); Fix-Schritte 5/5 abgehakt. Keine Abnahme bei den vier Features.
 
 ---
 
@@ -23,21 +24,24 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Beid
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-28: Zwei Parallel-Sessions an zwei Rechnern (S1 zuhause `df7232c`, S2 am Arbeitsplatz) — #16 doppelt bearbeitet, per Stash + `pull --ff-only` zusammengefuehrt, staerker belegter S1-Text behalten. S1: #16 verworfen (Substanz sitzt in `opportunity-map` `SKILL.md:78`/`:83`/`:145-157`); `grill-me`/#27 global bereits installiert. S2: #32 erfasst (`feature-discover` ohne Aufnahmekriterium, 4 von 20 `discovery.md` mit Fremdpfaden), #15 vertagt (Vorbild ist Kettenglied, Brownfield-Ast fehlt im Kit). INBOX 11 offen, 4 ausgearbeitet, 1 verworfen. |
+| **Notizen** | 2026-07-28 (S3): Kit-Bug aus einem Zielprojekt behoben — `project-init` legte `WORKFLOW_STATUS.md`/`BACKLOG.md` im Projekt-Root an (`SKILL.md:248` ohne Zielverzeichnis). Jede Pruefstufe korrigierte die vorherige: die Analyse widerlegte die `produces`-Hypothese der Erfassung, die blinde Abnahme fand einen Fehler im Fix (`CLAUDE.md` faelschlich aus dem Root ausgeschlossen). L10 erfasst (erste Lektion mit `Applies-to: alle`). kit-sync Lauf 1: 2 Updates + verwaiste `dtb-pitch-coach.md` entfernt, Lock 42 → 41. Drei neue Befunde aus dem blinden Lauf offen (s. Aufgaben). |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `workflow-resume` um Remote-Divergenz-Check erweitern (`git fetch` + `rev-list --left-right --count`) — prueft heute nur lokal, Parallelarbeit an zwei Rechnern faellt erst beim Commit auf (Lehre 2026-07-28)
-- [ ] `/dtb:idea-review` fortsetzen — 10 offene Ideen ohne #15; naechstliegend #27 (`grill-me` schon installiert, ohne Bau entscheidbar) und #25 (Fach-Agenda, fehlendes Glied der Kette #13→#26→#25→#24)
-- [ ] `opportunity-map` `stage: greenfield` entscheiden — widerspricht dem eigenen Brownfield-Hinweis; `workflow-status` liest die Stage
-- [ ] `git stash drop stash@{0}` — Sicherungsnetz der Zusammenfuehrung, seit `54fbade` gegenstandslos; `stash@{1}` (`ac81265`) ist aelter und bleibt
-- [ ] build-check entscheiden: streichen (Option A von 2026-07-15 nachholen) oder behalten — braucht den pkp-Nutzungsbeleg
-- [ ] Reale Abnahmen der 4 „Fertig zum Testen"-Features abbauen
+- [ ] Bug archivieren? `features/project-init-status-pfad/` ist behoben und wirksam, also archivreif — sein `bug.md` traegt aber die Analyse zu den drei Folgebefunden unten
+- [ ] Zweiten Bug erfassen: `settings.json` wird von `project-init` nicht verteilt — steht nicht im Body und nicht in `produces`, widerspricht dem Kit-CLAUDE.md (Befund des blinden Laufs)
+- [ ] `CLAUDE.md` hat im `project-init`-Skill keinen Zielort — selber Defekt-Typ wie der behobene, harmloser
+- [ ] `.gitkeep` nur in `input/`-Ordnern — `project-changelog/`, `project-testing/`, `features/` bleiben unversioniert; Skill sagt dazu nichts
+- [ ] `project-health`-Check „Artefakt am falschen Ort" erwaegen — deckt die Bestandsbereinigung ab, die bewusst nicht Teil des Bugfixes war
+- [ ] Applies-to-Luecke im Lektionen-Prior — `debug-plan` sah bis L10 nie eine Lektion; L4/L5/L7 tragen Legacy-`code-review`
+- [ ] `/dtb:idea-review` fortsetzen — 10 offene Ideen ohne #15 (naechstliegend #27, #25)
+- [ ] `workflow-resume` um Remote-Divergenz-Check erweitern (Lehre aus der Parallelarbeit, S2)
+- [ ] `git stash drop stash@{0}` — Sicherungsnetz gegenstandslos; `stash@{1}` (`ac81265`) bleibt
+- [ ] Reale Abnahmen der 4 „Fertig zum Testen"-Features abbauen (haengt am Zielprojekt pkp)
 - [ ] #31 entscheiden: `skills/CLAUDE.md` als Klasse A aufnehmen oder aus dem Lock streichen
 - [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
-- [ ] #23 (Multi-Repo-Begriff auf git-toplevel vereinheitlichen)
 
 ---
 
@@ -45,12 +49,12 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Beid
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-28 | #32 erfasst + #15 vertagt (S2) | `feature-discover`-Schwachpunkt mit 4-von-20-Bestandsbefund belegt; #15 als Ast-Entscheidung erkannt, Kontext verankert | `54fbade` |
-| 2026-07-28 | #16 verworfen + Backlog-Sichtung (S1) | Mom-Test-Substanz in `opportunity-map` belegt; Umsetzungsseite des Backlogs leer | `2026-07/2026-07-28.md` |
-| 2026-07-27 | #15 vorgeprueft + build-check-Befund (S1) | Abgrenzung belegt, Verdikt gefasst, build-check als ungenutzt nachgewiesen | `2026-07/2026-07-27.md` |
+| 2026-07-28 | Kit-Bug `project-init-status-pfad` behoben (S3) | Statusdateien landen am Zielort; blinde Abnahme bestanden und fand zusaetzlich einen Fehler im Fix selbst | `9e2e9e3` |
+| 2026-07-28 | kit-sync Lauf 1 + Lektion L10 (S3) | 2 Updates uebernommen, verwaiste `dtb-pitch-coach.md` entfernt (Lock 42 → 41); L10 als erste `alle`-Lektion | `2026-07/2026-07-28.md` |
+| 2026-07-28 | #32 erfasst + #15 vertagt (S2) | `feature-discover`-Schwachpunkt mit 4-von-20-Bestandsbefund belegt; #15 als Ast-Entscheidung erkannt | `54fbade` |
+| 2026-07-28 | #16 verworfen + Backlog-Sichtung (S1) | Mom-Test-Substanz in `opportunity-map` belegt | `df7232c` |
+| 2026-07-27 | #15 vorgeprueft + build-check-Befund (S1) | Abgrenzung belegt, build-check als ungenutzt nachgewiesen | `2026-07/2026-07-27.md` |
 | 2026-07-23 | Personas aus dem Kit entfernt (S1) | Halbzustand aufgeloest; Doku + tote #8-Verweise bereinigt | `7c3272a` |
-| 2026-07-23 | kit-sync auf 7c3272a (S1) | 4 uebernommen, 1 verwaist entfernt, 0 Abweichung | `2026-07/2026-07-23.md` |
-| 2026-07-22 | 3 Features archiviert (S2) | verifikations-gate, greenfield-autoren-skills, opportunity-map | `1ad8c6e`, `archive/ARCHIVE_LOG.md` |
 
 ---
 
@@ -58,12 +62,12 @@ Kein Feature „In Arbeit" (alle `## Progress` vollstaendig, alle reviewt). Beid
 
 ### Idee #15: `10x-health-check`-Pendant
 
-**Status:** Bewusst vertagt (2026-07-28, S2) — braucht zusammenhaengenden Fokus, nicht einen Rest-Slot. Nach dem Kettenbefund ist es keine Skill-Frage, sondern eine **Ast-Entscheidung** (Brownfield-Zweig im Kit: ja/nein, in welcher Reihenfolge).
-**Details:** Kontext vollstaendig im Idee-Text (`INBOX.md` #15) — sechs benannte Entscheidungen; Analyse in `2026-07/2026-07-27.md` (S1) und `2026-07/2026-07-28.md` (S2)
+**Status:** Bewusst vertagt (2026-07-28, S2) — braucht zusammenhaengenden Fokus. Nach dem Kettenbefund keine Skill-Frage, sondern eine **Ast-Entscheidung** (Brownfield-Zweig im Kit: ja/nein, in welcher Reihenfolge).
+**Details:** Kontext vollstaendig im Idee-Text (`INBOX.md` #15); Analyse in `2026-07/2026-07-27.md` (S1) und `2026-07/2026-07-28.md` (S2)
 
 ---
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:idea-review` — der Lauf wurde nach #16 unterbrochen, 10 offene Ideen sind noch nicht durchgegangen (#15 dabei ueberspringen, ist vertagt). Kein Feature-Befehl ableitbar: alle vier Items sind `Y/Y`, reviewt und warten auf reale Abnahme im Zielprojekt pkp — von hier aus nicht moeglich. Der frueher hier stehende `/dtb:feature-discover 15` ist **nicht** mehr gueltig (Idee vertagt).
-**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl. **Bei Rechnerwechsel vorher `git fetch` + Divergenz pruefen** — heute entstand so Doppelarbeit an #16.
+**Naechster Befehl:** `/dtb:idea-review` — 10 offene Ideen sind nicht durchgegangen (#15 dabei ueberspringen, ist vertagt); naechstliegend **#27** (`grill-me` global bereits installiert, ohne Bau entscheidbar) und **#25** (Fach-Agenda, fehlendes Glied der Kette #13→#26→#25→#24). Kein Feature-Befehl ableitbar: alle vier Items `Y/Y`, reviewt, warten auf reale Abnahme in pkp — von dieser Maschine nicht moeglich. Der Bug-Zyklus ist abgeschlossen (Fix wirksam, Lock `9e2e9e3`); `/dtb:archive` waere reine Hygiene, kein offener Schritt.
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl. **Bei Rechnerwechsel vorher `git fetch` + Divergenz pruefen** — am 2026-07-28 entstand so Doppelarbeit an #16.
