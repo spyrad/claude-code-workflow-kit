@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-28 (S4: Bug `project-init-settings-seed` erfasst (Offen, Mittel) — Folgebefund der blinden Abnahme aus S3; 4 Features unveraendert Fertig zum Testen)
+**Letzte Aktualisierung:** 2026-07-29 (S1: Bug `project-init-settings-seed` erfasst, analysiert und behoben (7/7, `41ebf97`); 4 Features unveraendert Fertig zum Testen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
