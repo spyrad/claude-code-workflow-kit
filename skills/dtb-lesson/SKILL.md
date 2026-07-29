@@ -140,6 +140,18 @@ Hinweis: lessons.md hat jetzt {N} Zeilen (Soft-Limit ~150). Erwaege, ueberholte
 Lektionen bei Gelegenheit auszusortieren, damit der Prior kompakt bleibt.
 ```
 
+### Hebe-Hinweis bei `Applies-to: alle`
+Ist `Applies-to` = `alle` **und** beschreibt die `Rule` eine dauerhafte Autoring-/Projekt-Konvention
+(keinen Einzelfall), zusaetzlich diesen Hinweis ausgeben (**nicht** blocken, keine Rueckfrage):
+```
+Hinweis: Applies-to = "alle" — dauerhafte Konvention? Dann die Regel zusaetzlich in eine
+versionierte Regel-Datei heben (Kit-Repo: skills/CLAUDE.md; Projekt: {config.paths.rules}/<BEREICH>.md).
+lessons.md kann per .gitignore lokal sein und reist dann nicht ueber Klone/Arbeitsorte mit.
+```
+Grund (Praxisfall 2026-07-29): der Lektionen-Prior lief auf **0 Treffer**, obwohl eine passende
+`alle`-Lektion existierte — sie lag auf einer anderen Maschine. `lessons.md` bleibt die
+append-only Historie; die verbindliche Fassung gehoert in die versionierte Regel-Datei.
+
 ---
 
 ## Schritt 5: Bestaetigung

@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-29 (Session 3)
+**Letztes Update:** 2026-07-29 (Session 4)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-29.md`
 
 ---
@@ -25,6 +25,7 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
+| **Entschieden** | **`lessons.md` bleibt ungetrackt** — entschieden 2026-07-18 (S5), Begruendung in `.gitignore:10-13`, ausdruecklich „nicht erneut als offene Frage aufmachen". Stand trotzdem in S1-S3 des 2026-07-29 wieder auf der Liste, weil kein Lese-Skill in `.gitignore` schaut. **Diese Zeile ist der Wiedervorlage-Schutz — nicht streichen.** Der reale Restschmerz (Prior 0 Treffer trotz passendem L10) ist am 2026-07-29 (S4) anders geloest: die drei `Applies-to: alle`-Lektionen L8/L10/L11 sind als Autoring-Regeln in `skills/CLAUDE.md` verankert (versioniert, reisen ueber Git mit) |
 | **Notizen** | 2026-07-29 (S3): Blinde Abnahme von `41ebf97` **nicht bestanden** — fand B1 (`$KIT` ueberlebt den Blockwechsel nicht, jeder Bash-Aufruf ist eine eigene Shell). Regression, belegt gegen `4ab0069`: vor dem Fix stand die Aufloesung im selben Block wie das `cp`, der Fix hat den vorher funktionierenden Regel-Seed mit gebrochen. Behoben als Fix-Schritt 8 (+ B3/B11), `88d6087` gepusht, `kit-sync sync` → 41/41. **Merksatz:** der Testplan war 5/6 gruen, weil er die Bash-Bloecke **gebuendelt** ausfuehrte — der Defekt sass an der **Naht zwischen** den Bloecken. Bloecke, die Variablen teilen, einzeln in frischer Shell pruefen. |
 
 ---
@@ -35,7 +36,6 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 - [ ] Kopfzeile `project-init-status-pfad/bug.md` korrigieren — Kontext: behauptet weiter „Fix nicht installiert"; Schwester-Datei ist erledigt
 - [ ] `/dtb:idea-review` fortsetzen — Kontext: 11 Eintraege `Offen`; Vorschlag #30, dann #32
 - [ ] Beide behobenen Bugs archivieren? — Kontext: archivreif, aber ihre `bug.md` tragen die Analysen
-- [ ] `lessons.md` versionieren oder bewusst lokal lassen — Kontext: `.gitignore:15`, die neue Lektion waere sofort betroffen
 - [ ] #28 um den CRLF-Beleg ergaenzen; #31 auf den generischen Teil reduzieren
 - [ ] `project-health`-Check „Artefakt am falschen Ort" erwaegen — Kontext: aus S3 2026-07-28
 - [ ] B4/B8/B9 zusammenfassen? — Kontext: Platzhalter-/Namensregeln in `project-init`; erst bei einem dritten Fall
@@ -68,13 +68,15 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 
 ## Handoff
 
-**Naechster Befehl:** — offen — (mit `/dtb:workflow-next` bestimmen). Kein Befehl ableitbar: alle
-vier Features `Y/Y` mit vorliegendem `review.md`, beide Bugs `Behoben`, B2 direkt gefixt statt als
-Vorgang erfasst. Die drei naechstliegenden Handlungen sind **keine** Skill-Befehle, sondern
-Entscheidungen: `lessons.md` versionieren oder lokal lassen; die beiden behobenen Bugs archivieren
-oder ihre Analysen liegen lassen; `/dtb:idea-review` mit Kopf fortsetzen (11 Eintraege `Offen`).
+**Naechster Befehl:** `/dtb:commit-and-push` (Aenderungen aus S4 liegen uncommittet vor:
+`skills/CLAUDE.md` + diese Datei). Danach kein Befehl ableitbar: alle vier Features `Y/Y` mit
+vorliegendem `review.md`, beide Bugs `Behoben`. Die zwei verbliebenen naechstliegenden Handlungen
+sind **keine** Skill-Befehle, sondern Entscheidungen: die beiden behobenen Bugs archivieren oder
+ihre Analysen liegen lassen; `/dtb:idea-review` mit Kopf fortsetzen (11 Eintraege `Offen`).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her),
-danach obigen Befehl. Beachten: die Blocknaht-Lehre ist als **L11** erfasst, `lessons.md` ist aber
-per `.gitignore:15` **rechnerlokal** — L11 existiert nur auf dieser Maschine, solange die
-Versionierungsfrage offen ist. Der Resume-Lauf prueft die **Git**-Seite selbst; die
-**Distributions**-Seite braucht bei Rechnerwechsel zusaetzlich `/dtb:kit-sync check`.
+danach obigen Befehl. Beachten: die Blocknaht-Lehre steht seit S4 **versioniert** in
+`skills/CLAUDE.md` („Bash-Bloecke sind eigene Shells") und reist damit ueber Git mit; `lessons.md`
+selbst bleibt per `.gitignore:10-13` bewusst rechnerlokal (entschieden 2026-07-18 — siehe
+Kontext-Zeile „Entschieden", nicht erneut aufmachen). Der Resume-Lauf prueft die **Git**-Seite
+selbst; die **Distributions**-Seite braucht bei Rechnerwechsel zusaetzlich `/dtb:kit-sync check` —
+`skills/CLAUDE.md` ist allerdings **nicht** Klasse A und wird von `kit-sync` nicht verteilt.

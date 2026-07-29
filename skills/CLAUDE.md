@@ -121,6 +121,50 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 - `project-rules/` files use UPPER_SNAKE_CASE (e.g. `FRONTEND.md`, `BACKEND.md`)
 - **Change folders:** `features/<slug>/` with kebab-case slug (derived from the feature name, no running numbers) and fixed filenames `discovery.md`/`spec.md`/`plan.md`/`bug.md`/`task.md` — slug rules in `DERIVED_STATE_RULES.md` §4
 
+## Mechanik-Regeln (aus Praxisfehlern)
+
+Diese Regeln entstanden aus konkreten Defekten in diesem Kit und gelten fuer **alle** Skills, nicht
+nur den anlassgebenden. Die Analysen liegen unter dem genannten Datum in
+`dtb-project/project-changelog/`.
+
+### Bash-Bloecke sind eigene Shells
+
+Jeder Bash-Aufruf eines Skills laeuft in einer **eigenen Shell** — Variablen ueberleben den
+Blockwechsel nicht.
+
+- **Jeden Block selbststaendig halten:** gemeinsames Setup (Pfad-/Lock-Aufloesung) im Block
+  wiederholen, statt es in einen Vor-Block zu ziehen. „Einmal aufloesen, mehrfach nutzen" ist hier
+  der Fehler, nicht die Optimierung.
+- Ein Vor-Block darf nur **Gate oder Diagnose** sein — nie Zustand aufbauen, den Folgebloecke brauchen.
+- Wird Setup dennoch geteilt, die Wiederholung im Text **als Absicht kennzeichnen**, damit sie
+  niemand als Redundanz wieder herauskuerzt.
+- **Testen:** jeden Block **einzeln in frischer Shell** ausfuehren, nie gebuendelt. Wer die Bloecke
+  extrahiert und zusammen ausfuehrt, laesst die **Naht zwischen** ihnen ungetestet — genau dort
+  sitzt dieser Defekt.
+
+Praxisfall 2026-07-29 (`project-init`, Seed-Mechanik): `$KIT` wurde in einen Vor-Block gezogen und
+war in den Folgebloecken leer — beide Seeds meldeten „nicht gefunden" bei vorhandenem, korrektem
+Kit. Der Testplan war 5/6 gruen, weil er die Bloecke gebuendelt ausfuehrte.
+
+### Datei-Erzeugung: Nachbarschaft mitpruefen
+
+Wird eine Datei-Erzeugung in einem Skill gehaertet (Zielpfad, `mkdir -p`, Hash-Verifikation), immer
+**alle benachbarten Erzeugungs-Anweisungen im selben Abschnitt** mitpruefen — nie nur die
+anlassgebende Zeile.
+
+Praxisfall 2026-07-28 (`project-init`): eine Haertung am Seed-Absatz liess zwei Zeilen darueber
+`WORKFLOW_STATUS.md`/`BACKLOG.md` ohne Zielpfad und ohne `mkdir` — 18 Tage lang landeten sie im
+Projekt-Root. Dieselbe Klasse, im selben Blickfeld, nicht mitgeprueft.
+
+### Multi-Root: `git -C` in jeder Variante
+
+In Skills, die ueber mehrere Git-Roots operieren, jedes git-Kommando explizit mit `git -C {root}`
+schreiben — **inklusive aller alternativen Shell-Varianten** (Bash-heredoc *und*
+PowerShell-Here-String), nie nur der primaeren.
+
+Praxisfall 2026-07-16: eine Here-String-Variante ohne `git -C` haette im Multi-Root-Fall ins
+falsche Repo committet; sie blieb unsichtbar, weil die primaere Variante korrekt war.
+
 ## Distribution (kit-sync)
 
 Skills are distributed to `~/.claude/skills/` by `dtb:kit-sync` (modes: check/sync/install).
