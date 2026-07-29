@@ -45,12 +45,34 @@ WORKFLOW_STATUS.md nicht gefunden.
 Empfehlung: Am Ende dieser Session /dtb:workflow-checkpoint ausfuehren.
 ```
 
-### Schritt 3: Git-Status pruefen
+### Schritt 3: Git-Status pruefen (inkl. Remote-Stand)
 
-Fuer jeden Eintrag in `config.repos`:
+Fuer jeden Eintrag in `config.repos` zuerst den lokalen Stand:
 ```bash
 git -C {repo.path} branch --show-current && git -C {repo.path} log --oneline -3 && git -C {repo.path} status --short
 ```
+
+Dann **immer** den Remote-Stand holen — bei Parallelarbeit ist ungepullte Fremdarbeit die
+haeufigste Ursache fuer Doppelarbeit, und der lokale Stand allein zeigt sie nicht:
+```bash
+git -C {repo.path} fetch --all --prune
+git -C {repo.path} rev-list --left-right --count HEAD...@{u}
+git -C {repo.path} log --oneline HEAD..@{u}
+```
+`fetch` ist lesend (aendert Arbeitsbaum und Branches nicht) und daher hier erlaubt.
+**Niemals selbst `git pull`, `merge`, `stash`, `reset` oder `checkout`** — dieser Skill ist
+read-only, Zusammenfuehren entscheidet der Benutzer.
+
+Auswertung:
+- Kein Upstream (`@{u}` schlaegt fehl) oder `fetch` scheitert (offline/kein Zugang) →
+  1 Hinweiszeile im Report („Remote nicht erreichbar, Stand nur lokal"), sonst weiter wie bisher
+- **Behind > 0** → im Report unter `## Git` die neuen Commits mit `--oneline` auflisten und die
+  betroffenen Dateien nennen (`git -C {repo.path} diff --stat HEAD..@{u}`, gekuerzt).
+  Zusaetzlich pruefen, ob ungepullte Commits **dieselben** Dateien anfassen wie uncommittete
+  lokale Aenderungen (`git status --short` gegen die Diff-Liste) → wenn ja, als
+  ⚠ Kollisionsrisiko melden, inkl. Empfehlung: lokale Aenderungen erst committen/stashen,
+  dann zusammenfuehren
+- **Ahead > 0** → 1 Zeile („X lokale Commits nicht gepusht")
 
 ### Schritt 4: Feature-Kontext bestimmen (abgeleitet)
 
@@ -66,6 +88,12 @@ verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
 3. Fallbacks (Regel-Datei §1.4): `plan.md` ohne `## Progress` → "Fortschritt unbekannt" +
    Nachruestung anbieten; flache Alt-Dateien/`IMPL_STATUS_*.md` (Altbestand) → ignorieren, Migrations-Hinweis;
    explizit "Pausiert" markierte Features → nicht als aktiv zeigen
+4. **Bei Behind > 0 aus Schritt 3:** Die Ableitung liest die Artefakte im **Arbeitsbaum**, ist
+   also nur so aktuell wie der letzte Pull. Betreffen die ungepullten Commits Dateien unter
+   `{config.paths.workflows}/` (Plan/Spec/Backlog/Status/`archive/`), dann den abgeleiteten Stand
+   gegen den Remote-Stand gegenpruefen (`git show @{u}:<pfad>`) und Abweichungen als ⚠ Zeile
+   melden — Fortschritt und `## Naechster Schritt` nach dem **Remote**-Stand angeben, denn der
+   Handoff-Befehl kann dort schon erledigt sein
 
 **Fall A: Feature "In Arbeit" erkannt (abgeleitet)**
 - Lies die zugehoerige Feature-Spec (`features/{slug}/spec.md`)
@@ -106,6 +134,10 @@ Halte den Report **kompakt** (max 60 Zeilen Output). Fokus auf Actionable Info.
 ## Git
 
 {repo.name}: `{branch}` — {letzter Commit} {uncommitted: "X Aenderungen"}
+{Falls behind: "⚠ X ungepullte Commits auf {upstream}:" + `--oneline`-Liste + betroffene Dateien}
+{Falls ahead: "X lokale Commits nicht gepusht"}
+{Falls Kollisionsrisiko: "⚠ Ungepullte Commits fassen dieselben Dateien an wie lokale Aenderungen: {Dateien}"}
+{Falls Remote nicht erreichbar: "Remote nicht erreichbar — Stand nur lokal"}
 
 ## Naechster Schritt
 
@@ -130,6 +162,10 @@ Bereit? Sage "Los" oder stelle Fragen.
 ## Git
 
 {repo.name}: `{branch}` — {letzter Commit} {uncommitted: "X Aenderungen"}
+{Falls behind: "⚠ X ungepullte Commits auf {upstream}:" + `--oneline`-Liste + betroffene Dateien}
+{Falls ahead: "X lokale Commits nicht gepusht"}
+{Falls Kollisionsrisiko: "⚠ Ungepullte Commits fassen dieselben Dateien an wie lokale Aenderungen: {Dateien}"}
+{Falls Remote nicht erreichbar: "Remote nicht erreichbar — Stand nur lokal"}
 
 ## Feature fortsetzen
 
@@ -160,6 +196,10 @@ Welches Feature moechtest du fortsetzen?
 ## Git
 
 {repo.name}: `{branch}` — {letzter Commit} {uncommitted: "X Aenderungen"}
+{Falls behind: "⚠ X ungepullte Commits auf {upstream}:" + `--oneline`-Liste + betroffene Dateien}
+{Falls ahead: "X lokale Commits nicht gepusht"}
+{Falls Kollisionsrisiko: "⚠ Ungepullte Commits fassen dieselben Dateien an wie lokale Aenderungen: {Dateien}"}
+{Falls Remote nicht erreichbar: "Remote nicht erreichbar — Stand nur lokal"}
 
 ---
 
@@ -175,4 +215,7 @@ Kein aktives Feature. Starte eines mit `/dtb:feature-start`.
 - **Feature-Kontext:** Bei aktivem Feature die Spec lesen und relevante Phase zeigen
 - **Deutsch:** Alle Texte auf Deutsch
 - **Handoff:** Den `**Naechster Befehl:**` aus dem Handoff-Block als naechsten Schritt bevorzugen; bei Widerspruch zur Artefakt-Ableitung gewinnt die Ableitung (Konflikt als 1 Zeile melden)
+- **Remote zuerst:** `git fetch` gehoert zu jedem Resume. Ungepullte Fremdarbeit kann den
+  Handoff-Befehl bereits erledigt haben — dann ist er kein naechster Schritt, sondern eine
+  Zusammenfuehrungs-Aufgabe. Nie `pull`/`merge` selbst ausfuehren, nur melden und empfehlen
 - Am Ende immer fragen ob Benutzer starten oder Fragen hat
