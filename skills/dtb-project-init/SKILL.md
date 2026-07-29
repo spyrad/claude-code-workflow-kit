@@ -147,7 +147,10 @@ Lege eine `.gitkeep`-Datei an in **jedem `input/`-Ordner** sowie in `project-cha
 Initialisierung leer und waeren in Git sonst unversioniert. (`project-design/` bekommt
 stattdessen eine README, s.u.; `.claude/` erhaelt mit `settings.json` sofort Inhalt.)
 
-Lege in `integrations/vendor-x/input/` zusaetzlich eine `README.md` an:
+Lege in `integrations/` eine `README.md` an — **nicht** in `vendor-x/input/`: der Text erklaert die
+Konvention fuer *alle* Vendor-Ordner und gehoert auf deren Ebene, waehrend `input/` die Drop-Zone
+fuer Rohdokumente ist, die `dtb:docs-extract` scannt (`vendor-x/input/` bleibt durch die `.gitkeep`
+oben in Git):
 
 ````markdown
 # Integrations

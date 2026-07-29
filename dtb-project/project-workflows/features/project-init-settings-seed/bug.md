@@ -190,9 +190,12 @@ immer **einzeln in frischer Shell** pruefen.
 ### Zurueckgestellte Nebenbefunde des Laufs (eigene Vorgaenge, nicht Teil dieses Bugs)
 
 - **B2 — Integrations-README am falschen Ort (`:150`):** Inhalt heisst `# Integrations`, beschreibt
-  die Struktur *von* `integrations/` und endet mit „Verzeichnis `vendor-x/` umbenennen" — landet
+  die Struktur *von* `integrations/` und endet mit „Verzeichnis `vendor-x/` umbenennen" — landete
   aber in `vendor-x/input/`, der Drop-Zone, die `dtb:docs-extract` nach Rohdokumenten scannt.
-  **Bewusst nicht mitgefixt:** verschiebt einen Zielpfad, gehoert nicht in einen Seed-Bugfix
+  **Nachtraeglich direkt gefixt** (2026-07-29, noch in S3): Zielort auf `integrations/` korrigiert,
+  mit Begruendung im Text und Hinweis, dass `vendor-x/input/` durch die `.gitkeep` in Git bleibt.
+  **Kein eigener Vorgang** — Ursache, Auswirkung und Fix stehen vollstaendig hier; ein `bug.md`
+  haette sie nur umkopiert (dieselbe Schwelle wie bei B4/B8/B9)
 - **B4 — Repo-`name` wird nie erfragt:** Interview (`:74`) fragt Pfad/Typ/Test/Build, das
   Config-Format (`:97`) verlangt `name`, Schritt 5 gibt ihn aus. Der Subagent nahm den Namespace — geraten
 - **B8/B9 — Platzhalter-Regeln offen:** `{paths.*}` aufloesen ist nur fuer **Fall 3** gefordert

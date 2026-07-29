@@ -31,7 +31,6 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 
 ## Offene Aufgaben
 
-- [ ] B2 als eigenen Bug erfassen — Kontext: Integrations-README landet in `vendor-x/input/`, der `docs-extract`-Drop-Zone
 - [ ] Zweiter blinder Lauf gegen die Fassung nach Schritt 8 — Kontext: bewusst offen, B1 selbst ist haerter belegt
 - [ ] Kopfzeile `project-init-status-pfad/bug.md` korrigieren — Kontext: behauptet weiter „Fix nicht installiert"; Schwester-Datei ist erledigt
 - [ ] `/dtb:idea-review` fortsetzen — Kontext: 11 Eintraege `Offen`; Vorschlag #30, dann #32
@@ -69,10 +68,11 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:bug-report` — Befund B2 erfassen (Integrations-README landet in
-`vendor-x/input/`, der `docs-extract`-Drop-Zone, obwohl ihr Inhalt `integrations/` beschreibt;
-`project-init/SKILL.md:150`). Kein Feature-Befehl ableitbar: alle vier Features `Y/Y` mit
-vorliegendem `review.md`, beide Bugs `Behoben`.
+**Naechster Befehl:** — offen — (mit `/dtb:workflow-next` bestimmen). Kein Befehl ableitbar: alle
+vier Features `Y/Y` mit vorliegendem `review.md`, beide Bugs `Behoben`, B2 direkt gefixt statt als
+Vorgang erfasst. Die drei naechstliegenden Handlungen sind **keine** Skill-Befehle, sondern
+Entscheidungen: `lessons.md` versionieren oder lokal lassen; die beiden behobenen Bugs archivieren
+oder ihre Analysen liegen lassen; `/dtb:idea-review` mit Kopf fortsetzen (11 Eintraege `Offen`).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her),
 danach obigen Befehl. Beachten: die Blocknaht-Lehre ist als **L11** erfasst, `lessons.md` ist aber
 per `.gitignore:15` **rechnerlokal** — L11 existiert nur auf dieser Maschine, solange die
