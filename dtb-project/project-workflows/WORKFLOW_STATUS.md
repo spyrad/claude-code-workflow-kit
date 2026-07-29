@@ -31,7 +31,6 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 
 ## Offene Aufgaben
 
-- [ ] Lektion erfassen (`/dtb:lesson`) — Kontext: Blocknaht-Regel, `Applies-to: alle`; belastbarster Ertrag von S3
 - [ ] B2 als eigenen Bug erfassen — Kontext: Integrations-README landet in `vendor-x/input/`, der `docs-extract`-Drop-Zone
 - [ ] Zweiter blinder Lauf gegen die Fassung nach Schritt 8 — Kontext: bewusst offen, B1 selbst ist haerter belegt
 - [ ] Kopfzeile `project-init-status-pfad/bug.md` korrigieren — Kontext: behauptet weiter „Fix nicht installiert"; Schwester-Datei ist erledigt
@@ -70,11 +69,12 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:lesson` — die Blocknaht-Lehre aus S3 erfassen (`Applies-to: alle`,
-betrifft jeden kuenftigen Skill-Testplan). Kein Feature-Befehl ableitbar: alle vier Features `Y/Y`
-mit vorliegendem `review.md`, beide Bugs `Behoben`.
+**Naechster Befehl:** `/dtb:bug-report` — Befund B2 erfassen (Integrations-README landet in
+`vendor-x/input/`, der `docs-extract`-Drop-Zone, obwohl ihr Inhalt `integrations/` beschreibt;
+`project-init/SKILL.md:150`). Kein Feature-Befehl ableitbar: alle vier Features `Y/Y` mit
+vorliegendem `review.md`, beide Bugs `Behoben`.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her),
-danach obigen Befehl. Beachten: `lessons.md` ist per `.gitignore:15` **rechnerlokal** — die Lektion
-existiert nach dem Erfassen nur auf dieser Maschine, solange die Versionierungsfrage offen ist.
-Der Resume-Lauf prueft die **Git**-Seite selbst; die **Distributions**-Seite braucht bei
-Rechnerwechsel zusaetzlich `/dtb:kit-sync check`.
+danach obigen Befehl. Beachten: die Blocknaht-Lehre ist als **L11** erfasst, `lessons.md` ist aber
+per `.gitignore:15` **rechnerlokal** — L11 existiert nur auf dieser Maschine, solange die
+Versionierungsfrage offen ist. Der Resume-Lauf prueft die **Git**-Seite selbst; die
+**Distributions**-Seite braucht bei Rechnerwechsel zusaetzlich `/dtb:kit-sync check`.
