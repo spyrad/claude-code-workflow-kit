@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-07-29 (Session 2)
+**Letztes Update:** 2026-07-29 (Session 3)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-07/2026-07-29.md`
 
 ---
@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Bug: project-init-settings-seed | Behoben | 7/7 | Blinde Abnahme (Fix ist hier installiert, 41/41 synchron) |
+| Bug: project-init-settings-seed | Behoben | 8/8 | Blinde Abnahme durchgefuehrt (fand B1, behoben) — optional `/dtb:archive` |
 | Bug: project-init-status-pfad | Behoben | 5/5 | Fix wirksam und installiert — optional `/dtb:archive` |
 | meeting-dump (#24) | Fertig zum Testen | 10/10 | Real abnehmen (echtes Meeting im Zielprojekt) |
 | commit-and-push | Fertig zum Testen | 10/10 | Multi-Repo-Zweig in pkp abnehmen (Kern via `791027d` belegt) |
@@ -25,21 +25,22 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-07-29 (S2): Aufraeum-Session ohne Feature-Fortschritt. Der S1-Handoff beschrieb einen Maschinenstand, der nicht zutraf — Lock steht hier auf `7b6ba14` **mit** `localPath`, `project-init` ist byte-identisch installiert, `lessons.md` vollstaendig (L1-L10). Drei offene Punkte damit ohne Arbeit erledigt. `0130f2b` (Remote-Divergenz-Check in `workflow-resume`) gepusht; `kit-sync sync` hat einen „Lock veraltet"-Eintrag bereinigt → **41/41 synchron**. Merksatz: der neue Remote-Check deckt die **Git**-Seite ab, die **Distributions**-Seite (Lock, installierte Kopien) bleibt Sache eines `kit-sync check`. |
+| **Notizen** | 2026-07-29 (S3): Blinde Abnahme von `41ebf97` **nicht bestanden** — fand B1 (`$KIT` ueberlebt den Blockwechsel nicht, jeder Bash-Aufruf ist eine eigene Shell). Regression, belegt gegen `4ab0069`: vor dem Fix stand die Aufloesung im selben Block wie das `cp`, der Fix hat den vorher funktionierenden Regel-Seed mit gebrochen. Behoben als Fix-Schritt 8 (+ B3/B11), `88d6087` gepusht, `kit-sync sync` → 41/41. **Merksatz:** der Testplan war 5/6 gruen, weil er die Bash-Bloecke **gebuendelt** ausfuehrte — der Defekt sass an der **Naht zwischen** den Bloecken. Bloecke, die Variablen teilen, einzeln in frischer Shell pruefen. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] Blinde Abnahme des settings-seed-Fixes — Kontext: fand beim Vorgaenger-Bug einen Fehler im Fix; braucht Subagent-Freigabe
-- [ ] Zwei `bug.md`-Kopfzeilen korrigieren — Kontext: behaupten „Fix noch nicht installiert", hier widerlegt; kein Skill pflegt diese Prosa
-- [ ] `/dtb:idea-review` fortsetzen — Kontext: 11 Eintraege `Offen`, ohne Entscheidung abgebrochen; Vorschlag #30, dann #32
+- [ ] Lektion erfassen (`/dtb:lesson`) — Kontext: Blocknaht-Regel, `Applies-to: alle`; belastbarster Ertrag von S3
+- [ ] B2 als eigenen Bug erfassen — Kontext: Integrations-README landet in `vendor-x/input/`, der `docs-extract`-Drop-Zone
+- [ ] Zweiter blinder Lauf gegen die Fassung nach Schritt 8 — Kontext: bewusst offen, B1 selbst ist haerter belegt
+- [ ] Kopfzeile `project-init-status-pfad/bug.md` korrigieren — Kontext: behauptet weiter „Fix nicht installiert"; Schwester-Datei ist erledigt
+- [ ] `/dtb:idea-review` fortsetzen — Kontext: 11 Eintraege `Offen`; Vorschlag #30, dann #32
 - [ ] Beide behobenen Bugs archivieren? — Kontext: archivreif, aber ihre `bug.md` tragen die Analysen
-- [ ] `lessons.md` versionieren oder bewusst lokal lassen — Kontext: hier L1-L10, per `.gitignore:15` aber rechnerlokal
-- [ ] #28 um den CRLF-Beleg ergaenzen — Kontext: 0 vs. 221 CRLF-Zeilen bei gleichen Blob-Hashes
-- [ ] #31 auf den generischen Teil reduzieren — Kontext: `skills/CLAUDE.md` steht nicht mehr im Lock
-- [ ] `project-health`-Check „Artefakt am falschen Ort" erwaegen — Kontext: deckt die Bestandsbereinigung ab
-- [ ] Erfassen? `feature-start` setzt `bug.md`-Header auf „In Arbeit", §1.5 laesst dort nur *Pausiert* gelten
+- [ ] `lessons.md` versionieren oder bewusst lokal lassen — Kontext: `.gitignore:15`, die neue Lektion waere sofort betroffen
+- [ ] #28 um den CRLF-Beleg ergaenzen; #31 auf den generischen Teil reduzieren
+- [ ] `project-health`-Check „Artefakt am falschen Ort" erwaegen — Kontext: aus S3 2026-07-28
+- [ ] B4/B8/B9 zusammenfassen? — Kontext: Platzhalter-/Namensregeln in `project-init`; erst bei einem dritten Fall
 - [ ] Reale Abnahmen der 4 „Fertig zum Testen"-Features — Kontext: haengt am Zielprojekt pkp
 - [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
 
@@ -49,10 +50,10 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-07-29 | Remote-Divergenz-Check in `workflow-resume` (S2) | Schritt 3 prueft `fetch` + ahead/behind + Kollisionsrisiko; offener Punkt seit 2026-07-28 geschlossen | `0130f2b` |
-| 2026-07-29 | Kit-Distribution bereinigt (S2) | „Lock veraltet" (Kopie am Skill vorbei aktualisiert) nachgezogen → 41/41 synchron | `2026-07/2026-07-29.md` |
-| 2026-07-29 | Kit-Bug `project-init-settings-seed` behoben (S1) | Seed-Mechanik auf Klasse umgestellt, Existenz-Gate gegen Ueberschreiben, 5/6 Tests gruen | `41ebf97` |
-| 2026-07-29 | Drei S3-Folgebefunde sortiert (S1) | Nur einer war ein Bug; `CLAUDE.md`-Zielort war durch `9e2e9e3` bereits erledigt | `2026-07/2026-07-29.md` |
+| 2026-07-29 | Blinde Abnahme `41ebf97` + Fix-Schritt 8 (S3) | Regression B1 gefunden und behoben; Lehre: Bash-Bloecke an der Naht testen, nicht gebuendelt | `88d6087` |
+| 2026-07-29 | Remote-Divergenz-Check in `workflow-resume` (S2) | Schritt 3 prueft `fetch` + ahead/behind + Kollisionsrisiko | `0130f2b` |
+| 2026-07-29 | Kit-Distribution bereinigt (S2) | „Lock veraltet" nachgezogen → 41/41 synchron | `2026-07/2026-07-29.md` |
+| 2026-07-29 | Kit-Bug `project-init-settings-seed` behoben (S1) | Seed-Mechanik auf Klasse umgestellt, Existenz-Gate gegen Ueberschreiben | `41ebf97` |
 | 2026-07-28 | Kit-Bug `project-init-status-pfad` behoben (S3) | Statusdateien landen am Zielort; blinde Abnahme fand einen Fehler im Fix selbst | `9e2e9e3` |
 
 ---
@@ -69,12 +70,11 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 
 ## Handoff
 
-**Naechster Befehl:** — offen — (mit `/dtb:workflow-next` bestimmen). Kein Skill-Befehl ableitbar:
-alle vier Features `Y/Y` mit vorliegendem `review.md` (beide `REJECTED`-Verdikte im Dokument
-aufgeloest), beide Bugs `Behoben`. Die konkret naechste Handlung ist **kein Skill**, sondern die
-**blinde Abnahme von `41ebf97`** (Subagent, leeres Verzeichnis, nur die SKILL.md als Quelle,
-Freigabe noetig) — beim Vorgaenger-Bug fand genau dieser Schritt einen Fehler im Fix.
+**Naechster Befehl:** `/dtb:lesson` — die Blocknaht-Lehre aus S3 erfassen (`Applies-to: alle`,
+betrifft jeden kuenftigen Skill-Testplan). Kein Feature-Befehl ableitbar: alle vier Features `Y/Y`
+mit vorliegendem `review.md`, beide Bugs `Behoben`.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her),
-danach obige Abnahme. Der Resume-Lauf prueft ab jetzt selbst den Remote-Stand (`0130f2b`); die
-**Distributions**-Seite deckt er nicht ab — bei Rechnerwechsel zusaetzlich `/dtb:kit-sync check`,
-und daran denken, dass `lessons.md` und das Lock **nicht** mitwandern.
+danach obigen Befehl. Beachten: `lessons.md` ist per `.gitignore:15` **rechnerlokal** — die Lektion
+existiert nach dem Erfassen nur auf dieser Maschine, solange die Versionierungsfrage offen ist.
+Der Resume-Lauf prueft die **Git**-Seite selbst; die **Distributions**-Seite braucht bei
+Rechnerwechsel zusaetzlich `/dtb:kit-sync check`.
