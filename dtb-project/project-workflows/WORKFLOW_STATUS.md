@@ -14,8 +14,9 @@
 | commit-and-push | Fertig zum Testen | 10/10 | Multi-Repo-Zweig in pkp abnehmen (Kern via `791027d` belegt) → `/dtb:workflow-checkpoint` |
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) → `/dtb:workflow-checkpoint` |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) → `/dtb:workflow-checkpoint` |
+| Bug: project-init-settings-seed | Behoben | 7/7 | Blinde Abnahme (Subagent) → dann committen + `/dtb:kit-sync sync` |
 
-Kein Feature „In Arbeit". Diese Session: Bug-Zyklus vollstaendig durchlaufen (Erfassung → Analyse → Fix → blinde Abnahme → Commit `9e2e9e3`); Fix-Schritte 5/5 abgehakt. Keine Abnahme bei den vier Features.
+**Laufende Arbeit:** Bug-Fix `project-init-settings-seed` umgesetzt (2026-07-29, S4) — `settings.json` wird jetzt nach `.claude/settings.json` verteilt, Seed-Mechanik von Einzelfall auf Klasse umgestellt (gemeinsame Quellenaufloesung + zwei Seeds), Existenz-Gate gegen Ueberschreiben. 5/6 Testschritte gruen (Bloecke aus der SKILL.md extrahiert und ausgefuehrt); offen: blinde Abnahme, Commit, `kit-sync`. Die vier Features bleiben unveraendert „Fertig zum Testen" (Abnahme haengt am Zielprojekt pkp).
 
 ---
 

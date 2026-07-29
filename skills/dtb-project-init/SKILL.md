@@ -11,7 +11,7 @@ pipeline:
   after: null
   next: [dtb:generate-rules, dtb:project-team, dtb:workflow-resume]
   consumes: []
-  produces: [workflow.config.yaml, CLAUDE.md, WORKFLOW_STATUS.md, BACKLOG.md, project-rules/DERIVED_STATE_RULES.md]
+  produces: [workflow.config.yaml, CLAUDE.md, WORKFLOW_STATUS.md, BACKLOG.md, project-rules/DERIVED_STATE_RULES.md, .claude/settings.json]
 ---
 
 # DTB Projekt-Initialisierung
@@ -132,7 +132,20 @@ dtb-project/
         └── input/
 ```
 
-Lege in jedem `input/`-Ordner eine `.gitkeep`-Datei an damit die Verzeichnisse im Git versioniert werden.
+**Zusaetzlich auf Projektwurzel-Ebene** (NICHT unter `dtb-project/`):
+
+```
+.claude/          ← Ziel des settings.json-Seeds (Schritt 4, Abschnitt „Seeds verteilen")
+```
+
+```bash
+mkdir -p .claude
+```
+
+Lege eine `.gitkeep`-Datei an in **jedem `input/`-Ordner** sowie in `project-changelog/`,
+`project-testing/` und `project-workflows/features/` — diese drei bleiben nach der
+Initialisierung leer und waeren in Git sonst unversioniert. (`project-design/` bekommt
+stattdessen eine README, s.u.; `.claude/` erhaelt mit `settings.json` sofort Inhalt.)
 
 Lege in `integrations/vendor-x/input/` zusaetzlich eine `README.md` an:
 
@@ -173,6 +186,9 @@ Leer lassen, falls das Projekt keine geteilten Design-Assets hat.
 ```
 
 ### CLAUDE.md mit Sentinel-Markern
+
+**Zielort:** `CLAUDE.md` im **Projekt-Root** (neben `workflow.config.yaml`) — dort erwartet
+Claude Code die Projekt-Anweisungen.
 
 Der DTB-Abschnitt in der Ziel-CLAUDE.md steht zwischen **Sentinel-Markern** —
 nur dieser Block gehoert dem Kit und darf bei spaeteren project-init-Laeufen oder
@@ -258,25 +274,59 @@ Genau dort erwarten sie alle Lese-Skills (`workflow-resume`, `workflow-next`, `w
 `backlog-status`, `project-health`, `feature-start`, `archive`) und `workflow-checkpoint`. Eine
 Kopie im Projekt-Root wird von keinem Skill gelesen und veraltet still.
 
-**Regel-Datei verteilen (Seed):** `DERIVED_STATE_RULES.md` (zentrale Statusableitungs-Regeln)
-nach `{config.paths.rules}/DERIVED_STATE_RULES.md` im Zielprojekt **kopieren** — die Lese-Skills
-(workflow-next/-status/-resume, backlog-status) und workflow-checkpoint referenzieren sie.
-Die Datei ist ein **Seed** (Klasse B im Sinne von `dtb:kit-sync`): projektlokal,
-nicht vom globalen Drift-Check erfasst.
+### Seeds verteilen (Klasse B)
+
+Klasse-B-Seeds sind projektlokal und werden **nicht** vom globalen Drift-Check erfasst;
+`dtb:kit-sync` kopiert sie ausdrücklich NICHT (dort Abschnitt „Artefakt-Klassen": `settings.json`
+als Klasse B „projektlokal (via project-init)", `DERIVED_STATE_RULES.md` als „Seed via
+project-init") — sie sind Sache dieses Skills. **Alle** Seeds der Klasse verteilen, nicht nur den erstbesten:
+
+| Seed | Quelle im Kit-Repo | Ziel im Projekt | Bei bereits vorhandener Datei |
+|------|--------------------|-----------------|-------------------------------|
+| `DERIVED_STATE_RULES.md` | `dtb-project/project-rules/DERIVED_STATE_RULES.md` | `{config.paths.rules}/DERIVED_STATE_RULES.md` | **überschreiben** — zentrale Regel, muss aktuell sein |
+| `settings.json` | `settings.json` (Repo-Root) | `.claude/settings.json` | **NIE überschreiben** — trägt projekteigene permissions/hooks |
 
 > ⚠ **Mechanisch kopieren, nie aus dem Gedächtnis rekonstruieren.** In einer Zielprojekt-Session
 > ist das Kit-Repo nicht der cwd — ein relativer Pfad ist nicht auflösbar. Die Quelle deshalb
 > **absolut** über `~/.claude/dtb-lock.json` → `localPath` bestimmen und per `cp` byte-genau kopieren.
-> Wird die Quelle nicht gefunden, **abbrechen** (ehrliche Meldung), statt die Datei aus dem Gedächtnis
-> nachzuschreiben (führt sonst zu einer veralteten Regel-Datei).
+> Wird die Quelle nicht gefunden, den betroffenen Seed **überspringen** (ehrliche Meldung), statt
+> die Datei aus dem Gedächtnis nachzuschreiben (führt sonst zu einer veralteten Regel-Datei bzw.
+> einer erfundenen Settings-Datei).
+
+**Schritt A — Quelle einmal auflösen (gilt für beide Seeds):**
 
 ```bash
 LOCK="$HOME/.claude/dtb-lock.json"
 KIT="$(grep -o '"localPath"[[:space:]]*:[[:space:]]*"[^"]*"' "$LOCK" 2>/dev/null | sed -E 's/.*"localPath"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')"
+
+if [ ! -f "$LOCK" ]; then
+  echo "FEHLER: Kein Lock unter $LOCK — Kit-Quelle unbekannt."
+  echo "        → einmalig /dtb:kit-sync install ausfuehren, danach project-init erneut."
+  echo "        Beide Seeds werden uebersprungen (nichts erfinden)."
+elif [ -z "$KIT" ]; then
+  echo "FEHLER: Lock vorhanden, aber ohne 'localPath' — der Pfad zum Kit-Klon fehlt."
+  echo "        → Kit-Repo-Pfad beim Nutzer erfragen und hier als KIT einsetzen,"
+  echo "          oder localPath im Lock nachtragen. Beide Seeds bis dahin uebersprungen."
+elif [ ! -d "$KIT" ]; then
+  echo "FEHLER: localPath zeigt auf ein nicht vorhandenes Verzeichnis: $KIT"
+  echo "        (typisch nach Rechnerwechsel — der Lock stammt von einer anderen Maschine)"
+  echo "        → korrekten Pfad erfragen oder /dtb:kit-sync install erneut ausfuehren."
+else
+  echo "Seed-Quelle: $KIT"
+fi
+```
+
+Nur wenn `$KIT` ein existierendes Verzeichnis ist, weiter mit B und C — sonst beide Seeds
+überspringen und den Nutzer auf manuelles Kopieren hinweisen. Nie improvisieren.
+
+**Schritt B — Seed 1: `DERIVED_STATE_RULES.md`** (die Lese-Skills workflow-next/-status/-resume,
+backlog-status und workflow-checkpoint referenzieren sie):
+
+```bash
 SRC="$KIT/dtb-project/project-rules/DERIVED_STATE_RULES.md"
 DST="{config.paths.rules}/DERIVED_STATE_RULES.md"   # konkreten Pfad aus der Config einsetzen
 
-if [ -n "$KIT" ] && [ -f "$SRC" ]; then
+if [ -f "$SRC" ]; then
   mkdir -p "$(dirname "$DST")"
   cp "$SRC" "$DST"
   # Hash-Verifikation Quelle <-> Ziel
@@ -286,14 +336,44 @@ if [ -n "$KIT" ] && [ -f "$SRC" ]; then
     echo "WARN: Seed kopiert, aber Hash weicht ab — Quelle/Ziel pruefen: $SRC"
   fi
 else
-  echo "FEHLER: Kit-Quelle nicht auflösbar (Lock/localPath fehlt oder Datei nicht gefunden)."
-  echo "        Erwartet: $SRC"
-  echo "        → DERIVED_STATE_RULES.md manuell aus dem Kit-Repo kopieren; NICHT aus dem Gedächtnis erzeugen."
+  echo "FEHLER: Regel-Datei nicht gefunden. Erwartet: $SRC"
+  echo "        → manuell aus dem Kit-Repo kopieren; NICHT aus dem Gedaechtnis erzeugen."
 fi
 ```
 
-Fehlt der Lock ganz (Schritt 0 hat bereits gewarnt), diesen Seed überspringen und den Nutzer auf
-`/dtb:kit-sync install` + manuelles Kopieren hinweisen — die Regel-Datei nie improvisieren.
+**Schritt C — Seed 2: `settings.json`** → `.claude/settings.json` (Permissions inkl.
+Deny-Liste für `.env`/`secrets/**`, aktivierte Plugins, `effortLevel`):
+
+> ⚠ **Existierende Datei niemals überschreiben.** Anders als die Regel-Datei ist
+> `.claude/settings.json` im Zielprojekt oft **schon vorhanden und projekteigen** (permissions,
+> hooks, env). Ein `cp` darüber zerstört die Projekt-Konfiguration. Deshalb: nur anlegen, wenn
+> sie fehlt — sonst melden und den Nutzer entscheiden lassen.
+
+```bash
+SRC="$KIT/settings.json"
+DST=".claude/settings.json"
+
+if [ ! -f "$SRC" ]; then
+  echo "FEHLER: Settings-Seed nicht gefunden. Erwartet: $SRC"
+elif [ -f "$DST" ]; then
+  echo "UEBERSPRUNGEN: $DST existiert bereits — projekteigene Konfiguration bleibt unangetastet."
+  echo "               Kit-Vorlage zum Vergleich: $SRC"
+  diff "$SRC" "$DST" || true    # nur Anzeige; NICHT automatisch mergen
+else
+  mkdir -p .claude
+  cp "$SRC" "$DST"
+  if [ "$(git hash-object "$SRC")" = "$(git hash-object "$DST")" ]; then
+    echo "Seed OK: settings.json kopiert (hashgleich zur Kit-Quelle)."
+  else
+    echo "WARN: Seed kopiert, aber Hash weicht ab — Quelle/Ziel pruefen: $SRC"
+  fi
+fi
+```
+
+Bei Unterschieden zu einer bestehenden Datei: den Diff zeigen und fragen, ob einzelne Blöcke
+übernommen werden sollen — **nie automatisch mergen**. Der Seed ist ein Startpunkt, kein Zwang:
+er aktiviert u.a. das `context7`-Plugin und setzt `effortLevel` — beides darf das Projekt
+anders entscheiden.
 
 **WORKFLOW_STATUS.md** → Zielpfad `{config.paths.workflows}/WORKFLOW_STATUS.md`:
 ```markdown
