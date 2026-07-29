@@ -67,7 +67,9 @@ Auswertung:
 - Kein Upstream (`@{u}` schlaegt fehl) oder `fetch` scheitert (offline/kein Zugang) →
   1 Hinweiszeile im Report („Remote nicht erreichbar, Stand nur lokal"), sonst weiter wie bisher
 - **Behind > 0** → im Report unter `## Git` die neuen Commits mit `--oneline` auflisten und die
-  betroffenen Dateien nennen (`git -C {repo.path} diff --stat HEAD..@{u}`, gekuerzt).
+  betroffenen Dateien nennen (`git -C {repo.path} diff --stat HEAD...@{u}` — **drei** Punkte,
+  diffed gegen den Merge-Base und zeigt nur die fremde Seite; mit zwei Punkten erscheinen bei
+  divergierten Branches die eigenen ungepushten Commits als Loeschungen).
   Zusaetzlich pruefen, ob ungepullte Commits **dieselben** Dateien anfassen wie uncommittete
   lokale Aenderungen (`git status --short` gegen die Diff-Liste) → wenn ja, als
   ⚠ Kollisionsrisiko melden, inkl. Empfehlung: lokale Aenderungen erst committen/stashen,
