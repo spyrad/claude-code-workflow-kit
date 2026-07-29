@@ -2,7 +2,9 @@
 
 **Erstellt:** 2026-07-28
 **Severity:** Mittel
-**Status:** Behoben (7/7 Fix-Schritte; blinde Abnahme steht aus, Fix noch nicht per `kit-sync` installiert)
+**Status:** Behoben (8/8 Fix-Schritte). Blinde Abnahme am 2026-07-29 **durchgefuehrt** — sie fand eine
+vom Fix selbst eingeschleppte Regression (B1, s.u.), die in Fix-Schritt 8 behoben und verifiziert wurde.
+`41ebf97` ist auf dieser Maschine installiert; der Nachtrag aus Schritt 8 braucht einen erneuten `/dtb:kit-sync sync`.
 **Betroffene Komponente:** `skills/dtb-project-init/SKILL.md` (Body + `produces:` `:14`)
 
 ---
@@ -124,6 +126,7 @@ gesetzt ist — hier ist der Lock von `7c3272a` / 2026-07-23.
 - [x] Gegenprobe: Kit-`CLAUDE.md` und `skills/CLAUDE.md` decken sich jetzt mit dem Skill. **Befund dabei:** die kit-sync-Klassen-Tabelle ist NICHT unvollstaendig — `DERIVED_STATE_RULES.md` ist dort bewusst als „nicht in v1" ausgeklammert (`kit-sync:80-81`). Der Verweis im Fix wurde entsprechend praezisiert statt kit-sync zu aendern
 - [x] **Mitnahme 1:** `CLAUDE.md` hat jetzt an ihrer eigenen Anweisung einen Zielort („**Zielort:** `CLAUDE.md` im **Projekt-Root** (neben `workflow.config.yaml`)")
 - [x] **Mitnahme 2:** `.gitkeep` jetzt auch fuer `project-changelog/`, `project-testing/` und `project-workflows/features/`, mit Begruendung („bleiben leer und waeren in Git sonst unversioniert") und Abgrenzung zu `project-design/` (README) und `.claude/` (hat sofort Inhalt)
+- [x] **Schritt 8 (aus der blinden Abnahme, 2026-07-29):** Bloecke B und C **selbstaendig** gemacht — die `LOCK`/`KIT`-Aufloesung steht jetzt in jedem der drei Bloecke, plus `[ ! -d "$KIT" ]`-Guard mit ehrlicher Meldung („Kit-Quelle nicht aufloesbar — Diagnose siehe Schritt A") statt der irrefuehrenden „Datei nicht gefunden: /settings.json". Warnblock nach Schritt A ergaenzt, der die Wiederholung als Absicht kennzeichnet. **Mitnahme B3:** aeusseren Code-Fence der Integrations-README auf 4 Backticks (der innere ```` ``` ````-Fence beendete formal den aeusseren). **Mitnahme B11:** `|| true` an den `ls`-Block `:52` (Exit 2 im leeren Projekt — genau dem Normalfall fuer project-init)
 
 **Regressionsrisiko:**
 - **Hoechstes Risiko: Datenverlust durch Ueberschreiben.** Viele Projekte haben eine eigene `.claude/settings.json` (permissions, hooks, env). Der Vorlage-Block `:281` macht `cp` **ohne Existenzpruefung** — 1:1 uebernommen zerstoert das die Projekt-Config. Das Existenz-Gate ist deshalb nicht optional
@@ -141,7 +144,72 @@ unveraendert ausgefuehrt — getestet ist also der Text, der im Skill steht, kei
 - [x] Regression Quellenaufloesung: Block A gegen den **echten** Lock dieser Maschine → „FEHLER: Lock vorhanden, aber ohne 'localPath'" mit konkretem Handlungshinweis; nichts wurde erfunden
 - [x] Regression Regel-Seed: Block B unveraendert lauffaehig, `DERIVED_STATE_RULES.md` hashgleich kopiert (Syntax-Check + Lauf)
 - [x] `produces`-Fehlalarm ausgeschlossen: `grep -rn "consumes:.*settings" skills/` → 0 Treffer
-- [ ] **Blinde Abnahme** wie beim Vorgaenger-Bug (Subagent, leeres Verzeichnis, nur die SKILL.md als Quelle, kein Chat-Kontext) — dort fand genau dieser Schritt einen Fehler *im Fix selbst*. **Noch offen** (braucht Freigabe fuer einen Subagenten)
+- [x] **Blinde Abnahme** (Subagent, leeres git-Verzeichnis, nur die SKILL.md als Quelle, kein Chat-Kontext) — **2026-07-29 durchgefuehrt, NICHT bestanden.** Befund B1 s.u.; nach Fix-Schritt 8 nachverifiziert
+- [x] Nachverifikation B1: Bloecke B und C per `awk` aus der SKILL.md extrahiert und **jeder in einer eigenen, frischen Shell** ausgefuehrt (`$KIT` beweisbar leer beim Start) → beide `Seed OK: … hashgleich`, `.claude/settings.json` wieder `67a06f4c…`
+- [x] Nachverifikation Ueberschreib-Schutz nach Schritt 8: eigene `.claude/settings.json` → `UEBERSPRUNGEN`, Hash `8ecec192…` vorher = nachher
+- [x] Nachverifikation neuer Guard: Block C mit `HOME` auf ein lock-freies Verzeichnis → „FEHLER: Kit-Quelle nicht aufloesbar", **nichts angelegt** (Zielverzeichnis leer)
+- [x] Nachverifikation B11: `ls`-Block im leeren Projekt → `exit=0` (vorher 2)
+- [x] Vorab-Sonde: `git hash-object` funktioniert **ausserhalb** eines Git-Repos (exit 0) — die Hash-Verifikation beider Seeds traegt auch in Nicht-Git-Projekten (relevant fuer `dtb-assistant`)
+
+## Blinde Abnahme 2026-07-29 — nicht bestanden
+
+Aufbau: Subagent, leeres `git init`-Verzeichnis, **einzige** Wissensquelle die SKILL.md (Lesen von
+`features/**`, Changelogs und anderen Skills ausdruecklich untersagt), Interview-Antworten vorgegeben,
+harte Schreibgrenze auf das Testverzeichnis. Der Lauf **gelang** — aber nur, weil der Subagent
+improvisierte und die Abweichung selbst berichtete.
+
+### B1 — `$KIT` ueberlebt den Blockwechsel nicht (Regression aus diesem Fix)
+
+Schritt A loest `$KIT` auf, B und C benutzen es — aber jeder Bash-Aufruf ist eine eigene Shell.
+Selbst nachgestellt, zwei getrennte Aufrufe:
+
+```
+Block A hat aufgeloest: KIT=C:/Users/SpyraD/Desktop/Projekte/claude-code-workflow-kit
+Block B sieht:          KIT=[]
+SRC=[/dtb-project/project-rules/DERIVED_STATE_RULES.md]
+-> FEHLER-Zweig: Regel-Datei nicht gefunden
+```
+
+**Auswirkung:** woertlich ausgefuehrt melden **beide** Seeds „nicht gefunden" und werden
+uebersprungen — bei vorhandenem, korrektem Kit. Das Zielprojekt bekommt weder
+`DERIVED_STATE_RULES.md` noch `.claude/settings.json`, und die Fehlermeldung ist sachlich falsch.
+
+**Es ist eine Regression, keine Alt-Last** — belegt per `git show 4ab0069:skills/dtb-project-init/SKILL.md`:
+vor dem Fix stand die `LOCK`/`KIT`-Aufloesung **im selben Block** wie `SRC`/`cp`, der Block war
+selbstaendig. Fix-Schritt 3 („Quellenaufloesung vor beide Seeds gezogen") hat ihn aufgeteilt und
+damit den vorher **funktionierenden** Regel-Seed mit gebrochen — genau das Risiko, das der
+Regressionsrisiko-Abschnitt oben als Punkt 3 benannt hatte, ohne dass ein Test es abdeckte.
+
+**Warum 5/6 gruene Tests das nicht sahen — die eigentliche Lehre:** der Testplan extrahierte die
+Bloecke per `awk` und fuehrte sie **gebuendelt** aus. In einer Shell funktioniert es; der Defekt
+existiert nur an der **Naht zwischen** den Bloecken. Die Methode „getestet ist der Text, der im
+Skill steht" war richtig, aber unvollstaendig: sie testete den Text, nicht seine
+**Ausfuehrungsgrenzen**. Konsequenz fuer kuenftige Skill-Tests: Bash-Bloecke, die Variablen teilen,
+immer **einzeln in frischer Shell** pruefen.
+
+### Zurueckgestellte Nebenbefunde des Laufs (eigene Vorgaenge, nicht Teil dieses Bugs)
+
+- **B2 — Integrations-README am falschen Ort (`:150`):** Inhalt heisst `# Integrations`, beschreibt
+  die Struktur *von* `integrations/` und endet mit „Verzeichnis `vendor-x/` umbenennen" — landet
+  aber in `vendor-x/input/`, der Drop-Zone, die `dtb:docs-extract` nach Rohdokumenten scannt.
+  **Bewusst nicht mitgefixt:** verschiebt einen Zielpfad, gehoert nicht in einen Seed-Bugfix
+- **B4 — Repo-`name` wird nie erfragt:** Interview (`:74`) fragt Pfad/Typ/Test/Build, das
+  Config-Format (`:97`) verlangt `name`, Schritt 5 gibt ihn aus. Der Subagent nahm den Namespace — geraten
+- **B8/B9 — Platzhalter-Regeln offen:** `{paths.*}` aufloesen ist nur fuer **Fall 3** gefordert
+  (`:261`), fuer die Neuanlage nicht; ebenso ungeregelt, ob die `[…]`-Bloecke des CLAUDE.md-Templates
+  und `[YYYY-MM-DD]` gefuellt werden. Der Subagent handelte inkonsistent (fuellte
+  `## Development Commands`, liess den Rest)
+- **B5/B6/B7 — kosmetisch:** „Status-Dateien anlegen" (`:264`) ist durch den kompletten
+  Seeds-Abschnitt von seinen Vorlagen (`:378`) getrennt; `mkdir -p .claude` steht zweimal;
+  `mkdir -p "{workflows}"` ist ein No-Op; `vendor-x/input/` bekommt `.gitkeep` **und** README
+- **B12** — keine `.gitignore`-Behandlung (reine Beobachtung, war nie im Auftrag)
+
+**Nicht gemacht:** ein **zweiter** blinder Lauf gegen die Fassung nach Schritt 8. B1 selbst ist
+staerker belegt als ein blinder Lauf es koennte (die Bloecke wurden einzeln in frischer Shell
+ausgefuehrt), aber ein erneuter Lauf koennte weitere Befunde derselben Klasse finden. Bewusst
+offengelassen, nicht vergessen.
+
+---
 
 ### Nebenbefunde (nicht Teil dieses Bugs)
 

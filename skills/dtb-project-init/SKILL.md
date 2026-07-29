@@ -49,7 +49,7 @@ Sammle zuerst automatisch was du kannst:
 ```bash
 # Repository-Infos
 git remote -v 2>/dev/null
-ls package.json pyproject.toml requirements.txt go.mod Cargo.toml Makefile docker-compose.yml 2>/dev/null
+ls package.json pyproject.toml requirements.txt go.mod Cargo.toml Makefile docker-compose.yml 2>/dev/null || true
 ```
 
 Lies vorhandene Konfig-Dateien (package.json, pyproject.toml, etc.) um Tech-Stack abzuleiten.
@@ -149,7 +149,7 @@ stattdessen eine README, s.u.; `.claude/` erhaelt mit `settings.json` sofort Inh
 
 Lege in `integrations/vendor-x/input/` zusaetzlich eine `README.md` an:
 
-```markdown
+````markdown
 # Integrations
 
 Dieses Verzeichnis enthaelt Dokumente zu externen Integrationen und Vendor-APIs.
@@ -165,7 +165,7 @@ integrations/
 ```
 
 Verzeichnis `vendor-x/` umbenennen oder als Vorlage nutzen.
-```
+````
 
 Lege in `project-design/` eine `README.md` an (hält das leere Verzeichnis im Git und erklaert die Konvention):
 
@@ -319,14 +319,26 @@ fi
 Nur wenn `$KIT` ein existierendes Verzeichnis ist, weiter mit B und C — sonst beide Seeds
 überspringen und den Nutzer auf manuelles Kopieren hinweisen. Nie improvisieren.
 
+> ⚠ **Jeder Bash-Block ist eine eigene Shell — `$KIT` überlebt den Blockwechsel NICHT.** Schritt A
+> ist ausschliesslich das **Gate** (Abbruch-Entscheidung + Diagnosemeldung); B und C lösen die
+> Quelle deshalb jeweils **selbst erneut auf**. Die Wiederholung der zwei Zeilen ist Absicht, keine
+> Redundanz: verlässt man sich auf das `$KIT` aus Block A, ist es in B und C leer, `$SRC` wird zu
+> `/settings.json`, und **beide** Seeds melden „nicht gefunden" — bei vorhandenem, korrektem Kit.
+
 **Schritt B — Seed 1: `DERIVED_STATE_RULES.md`** (die Lese-Skills workflow-next/-status/-resume,
 backlog-status und workflow-checkpoint referenzieren sie):
 
 ```bash
+# Quelle erneut aufloesen — eigener Bash-Aufruf, eigene Shell (siehe Hinweis oben)
+LOCK="$HOME/.claude/dtb-lock.json"
+KIT="$(grep -o '"localPath"[[:space:]]*:[[:space:]]*"[^"]*"' "$LOCK" 2>/dev/null | sed -E 's/.*"localPath"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')"
+
 SRC="$KIT/dtb-project/project-rules/DERIVED_STATE_RULES.md"
 DST="{config.paths.rules}/DERIVED_STATE_RULES.md"   # konkreten Pfad aus der Config einsetzen
 
-if [ -f "$SRC" ]; then
+if [ ! -d "$KIT" ]; then
+  echo "FEHLER: Kit-Quelle nicht aufloesbar — Diagnose siehe Schritt A. Seed uebersprungen."
+elif [ -f "$SRC" ]; then
   mkdir -p "$(dirname "$DST")"
   cp "$SRC" "$DST"
   # Hash-Verifikation Quelle <-> Ziel
@@ -350,10 +362,16 @@ Deny-Liste für `.env`/`secrets/**`, aktivierte Plugins, `effortLevel`):
 > sie fehlt — sonst melden und den Nutzer entscheiden lassen.
 
 ```bash
+# Quelle erneut aufloesen — eigener Bash-Aufruf, eigene Shell (siehe Hinweis oben)
+LOCK="$HOME/.claude/dtb-lock.json"
+KIT="$(grep -o '"localPath"[[:space:]]*:[[:space:]]*"[^"]*"' "$LOCK" 2>/dev/null | sed -E 's/.*"localPath"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')"
+
 SRC="$KIT/settings.json"
 DST=".claude/settings.json"
 
-if [ ! -f "$SRC" ]; then
+if [ ! -d "$KIT" ]; then
+  echo "FEHLER: Kit-Quelle nicht aufloesbar — Diagnose siehe Schritt A. Seed uebersprungen."
+elif [ ! -f "$SRC" ]; then
   echo "FEHLER: Settings-Seed nicht gefunden. Erwartet: $SRC"
 elif [ -f "$DST" ]; then
   echo "UEBERSPRUNGEN: $DST existiert bereits — projekteigene Konfiguration bleibt unangetastet."
