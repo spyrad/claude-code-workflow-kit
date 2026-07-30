@@ -9,8 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Bug: project-init-settings-seed | Behoben | 8/8 | Blinde Abnahme durchgefuehrt (fand B1, behoben) — optional `/dtb:archive` |
-| Bug: project-init-status-pfad | Behoben | 5/5 | Fix wirksam und installiert — optional `/dtb:archive` |
 | meeting-dump (#24) | Fertig zum Testen | 10/10 | Real abnehmen (echtes Meeting im Zielprojekt) |
 | commit-and-push | Fertig zum Testen | 10/10 | Multi-Repo-Zweig in pkp abnehmen |
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) |
@@ -36,9 +34,7 @@ Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung
 - [ ] Lektion erfassen: Werkzeug-Fehlschlag ist kein Datenbefund (jetzt mit Praxisbeleg aus S5) + verbindliche Sequenzen nicht improvisieren + Shell-Syntax nicht ueber Werkzeuggrenzen mischen
 - [ ] `workflow.config.yaml`/`ROADMAP.md` im Kit-Repo ausfuellen oder als Vorlage belassen? — Kontext: beide unausgefuellte Templates; betrifft jede `{config.project_name}`-Ausgabe, §5-Sync gegenstandslos
 - [ ] Zweiter blinder Lauf gegen die `project-init`-Fassung nach Schritt 8 — bewusst offen
-- [ ] Kopfzeile `project-init-status-pfad/bug.md` korrigieren — behauptet weiter „Fix nicht installiert"
 - [ ] `/dtb:idea-review` fortsetzen — Kontext: 11 Eintraege `Offen`; Vorschlag #30, dann #32
-- [ ] Beide behobenen Bugs archivieren? — Kontext: archivreif, aber ihre `bug.md` tragen die Analysen
 - [ ] #28 um den CRLF-Beleg ergaenzen; #31 auf den generischen Teil reduzieren
 - [ ] `project-health`-Check „Artefakt am falschen Ort" erwaegen — Kontext: aus S3 2026-07-28
 - [ ] B4/B8/B9 zusammenfassen? — Kontext: Platzhalter-/Namensregeln in `project-init`; erst bei einem dritten Fall

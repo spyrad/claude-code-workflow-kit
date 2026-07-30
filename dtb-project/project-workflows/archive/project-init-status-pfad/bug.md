@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-07-28
 **Severity:** Mittel
-**Status:** Behoben im Kit-Repo (alle Fix-Schritte abgehakt, blinde Abnahme bestanden) — die global installierte Kopie traegt den Fix erst nach `/dtb:kit-sync sync`
+**Status:** Behoben (alle Fix-Schritte abgehakt, blinde Abnahme bestanden); Fix per `/dtb:kit-sync sync` distribuiert — 41/41 synchron auf beiden Maschinen (Stand 2026-07-30)
 **Betroffene Komponente:** `skills/dtb-project-init/SKILL.md:248` (Erzeugung — einzige Ursache; `:14` `produces` wurde in der Analyse als Ursache widerlegt)
 
 ---

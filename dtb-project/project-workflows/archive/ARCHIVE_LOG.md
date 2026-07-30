@@ -35,3 +35,6 @@
 | 2026-07-22 | Idee | #17 "10x-opportunity-map-Pendant" | INBOX.md | Ausgearbeitet → opportunity-map (umgesetzt + archiviert) |
 | 2026-07-22 | Idee | #11 "Greenfield-Strang neu konzipieren" | INBOX.md | Ausgearbeitet → greenfield-autoren-skills (umgesetzt + archiviert) |
 | 2026-07-23 | Idee | #10 "kit-sync pinned/hold-Zustand" | INBOX.md | Verworfen — Ausloeser entfallen (pitch-coach aus dem Kit entfernt, `7c3272a`); Lock zeigt 41x synced, kein bewusst abweichendes Artefakt |
+| 2026-07-30 | Bug | project-init-status-pfad | features/project-init-status-pfad/bug.md | Behoben (5/5, Fix `9e2e9e3`, blinde Abnahme bestanden; distribuiert 41/41 auf beiden Maschinen) |
+| 2026-07-30 | Bug | project-init-settings-seed | features/project-init-settings-seed/bug.md | Behoben (8/8 inkl. Schritt 8 nach blinder Abnahme; Fixes `41ebf97`/`88d6087`/`f23140c`; distribuiert 41/41 auf beiden Maschinen) |
+| 2026-07-30 | Idee | #16 "10x-mom-test-Pendant" | INBOX.md | Verworfen (2026-07-28) — Substanz bereits in `dtb:opportunity-map` eingebaut (verhaltensbasierte Signale `:78`, Schmerz-von-Loesung-Trennung `:83`, Go/No-Go `:145-157`); Mom-Test adressiert Interviews mit Dritten, die im Ein-Personen-Setting leerlaufen. Wiedereinstieg: falls echte Nutzer-Interviews anstehen. Analyse: Changelog 2026-07-28 |

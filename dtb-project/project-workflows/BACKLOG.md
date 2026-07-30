@@ -16,8 +16,6 @@
 | commit-and-push | Fertig zum Testen | Mittel | features/commit-and-push/spec.md | Geführter Routine-Skill, der Änderungen sicher committet und pusht; Repo-Grenzen aus git (rev-parse --show-toplevel) statt config.repos → monorepo-, poly-repo- und einzelverzeichnis-fest |
 | Fachfragen-Erfassung | Fertig zum Testen | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
 | open-question | Fertig zum Testen | Mittel | features/open-question/spec.md | Aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Argument §6-konform als `- [ ] [Fach] {Frage}` ins aktive Feature-Artefakt schreibt — das Eingabe-Werkzeug der Fachfragen-Kette (#13→#26→#25→#24) |
-| Bug: project-init legt Statusdateien im Projekt-Root an | Behoben | Mittel | features/project-init-status-pfad/bug.md | `project-init` schreibt `WORKFLOW_STATUS.md`/`BACKLOG.md` in den Projekt-Root (`SKILL.md:248` ohne Pfadangabe), alle Lese-Skills erwarten sie unter `{config.paths.workflows}/` — jedes neue Projekt startet mit totem Artefakt im Root |
-| Bug: project-init verteilt settings.json nicht | Behoben | Mittel | features/project-init-settings-seed/bug.md | `settings.json` wird nicht nach `.claude/settings.json` kopiert — null Treffer im ganzen Skill, fehlt auch in `produces:` (`:14`), obwohl Kit-CLAUDE.md und skills/CLAUDE.md sie als Klasse-B-Seed führen; Zielprojekte starten ohne Secret-Deny-Liste (`.env`, `secrets/**`) |
 
 ---
 
@@ -39,6 +37,8 @@
 
 | Feature | Abgeschlossen | Datei |
 |---------|---------------|-------|
+| Bug: project-init-status-pfad | 2026-07-30 | `archive/project-init-status-pfad/` |
+| Bug: project-init-settings-seed | 2026-07-30 | `archive/project-init-settings-seed/` |
 | Verifikations-Gate | 2026-07-22 | `archive/verifikations-gate/` |
 | Greenfield-Autoren-Skills | 2026-07-22 | `archive/greenfield-autoren-skills/` |
 | Opportunity-Map | 2026-07-22 | `archive/opportunity-map/` |
