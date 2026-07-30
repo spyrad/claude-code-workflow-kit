@@ -46,8 +46,13 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 
 **spec.md + plan.md** (`{config.paths.workflows}/features/*/`) — Kern der Ableitung:
 - `spec.md` ohne `plan.md` → Stufe "Spezifiziert" (= Feature-Spec ohne Plan)
-- `plan.md` Status `Entwurf` (erste 10 Zeilen) → wartend auf Review
-- `plan.md` Status `Reviewed`, `## Progress` 0/Y abgehakt → bereit fuer Start ("Geplant")
+- `plan.md` Kopf-Statusfeld `Entwurf` **und** `## Progress` 0/Y → wartend auf Review
+  (Checkbox-Guard §7.3: bei abgehaktem Progress gewinnen die Progress-Zeilen unten)
+- `plan.md` Kopf-Statusfeld `Reviewed`, `## Progress` 0/Y abgehakt → bereit fuer Start ("Geplant")
+- **Kopf-Statusfeld lesen (Regel-Datei §7):** nur die `**Status:**`-Zeile in den ersten 10 Zeilen
+  (Definitionsfenster §7.1). Lese-Toleranz §7.3: Feld fehlt oder liegt ausserhalb → wie `Entwurf`,
+  still; Altwerte `In Umsetzung`/`Abgeschlossen` → wie `Reviewed`, still; unbekannter Wert →
+  wie fehlend + 1 Hinweiszeile
 - `plan.md` `## Progress` teilweise abgehakt (X/Y) → "In Arbeit"
 - `plan.md` `## Progress` vollstaendig abgehakt → "Fertig zum Testen"
 - Fallbacks (Regel-Datei §1.4): `plan.md` ohne Progress-Sektion → "Fortschritt unbekannt"
@@ -82,7 +87,7 @@ Fuer jedes Feature mit Status "In Arbeit" oder "Geplant" im Backlog: Pruefe welc
 | Discovery | `discovery.md` existiert mit Status `Abgeschlossen` |
 | Feature-Spec | `spec.md` existiert |
 | Impl-Plan | `plan.md` existiert |
-| Plan-Review | `plan.md` Status = `Reviewed` oder `In Umsetzung` |
+| Plan-Review | Kopf-Statusfeld gilt als `Reviewed` (inkl. Altwert-Toleranz §7.3) |
 | Verifikation | `## Progress`-Zeilen abgeschlossener Phasen tragen SHA-Beleg (Phasen-Ritual `dtb:implement`) |
 | Impl-Review | `/dtb:impl-review` durchgefuehrt (aus Session-Log oder `features/{slug}/review.md` ablesen) |
 
@@ -119,6 +124,11 @@ Identifiziere wo sich Items stauen:
 Melde vorgemerkte Konflikte (Regel-Datei §1.3): pro Widerspruch 1 Hinweiszeile
 (`⚠ {Quelle} sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`) — das Artefakt gewinnt,
 Felder werden NICHT korrigiert (read-only).
+
+Gleiches gilt fuer den **Feld-Konflikt am `plan.md`-Kopf** (§7.3): widerspricht das
+Kopf-Statusfeld dem `## Progress`-Stand, 1 Hinweiszeile
+`⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"` — Pfleger ist `dtb:plan-review` (§7.2),
+dieser Skill korrigiert nichts.
 
 ## Output-Format
 
@@ -171,7 +181,7 @@ flowchart LR
 | Inbox (In Arbeit) | {n} | {aeltester} | `/dtb:feature-discover` |
 | Discovery | {n} | {aeltester} | `/dtb:feature-plan` |
 | Feature-Spec (ohne Plan) | {n} | {aeltester} | `/dtb:impl-plan` |
-| Impl-Plan (Entwurf) | {n} | {aeltester} | `/dtb:plan-review` |
+| Impl-Plan (Entwurf, 0/Y) | {n} | {aeltester} | `/dtb:plan-review` |
 | Backlog (Geplant) | {n} | {aeltester} | `/dtb:feature-start` |
 | In Arbeit | {n} | {aeltester} | `/dtb:implement` |
 | Fertig zum Testen | {n} | {aeltester} | — |

@@ -37,7 +37,12 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 - `{config.paths.workflows}/INBOX.md` — Eintraege mit Status `In Arbeit`
 - `{config.paths.workflows}/features/*/discovery.md` — Discovery-Dokumente
 - `{config.paths.workflows}/features/*/spec.md` — Feature-Specs
-- `{config.paths.workflows}/features/*/plan.md` — Implementierungsplaene: `## Progress`-Checkboxen zaehlen (X von Y abgehakt); Plan-Status (`Entwurf`/`Reviewed`) aus den ersten 10 Zeilen
+- `{config.paths.workflows}/features/*/plan.md` — Implementierungsplaene: `## Progress`-Checkboxen zaehlen (X von Y abgehakt); Kopf-Statusfeld (`Entwurf`/`Reviewed`) = die `**Status:**`-Zeile in den **ersten 10 Zeilen** (Definitionsfenster, Regel-Datei §7.1 — Zeilen ausserhalb zaehlen nicht). Lese-Toleranz nach §7.3:
+  | Gelesener Zustand | Behandlung |
+  |---|---|
+  | Feld fehlt / liegt ausserhalb des Fensters | wie `Entwurf`, **still** (fehlende Info ist kein Konflikt) |
+  | Altwerte `In Umsetzung`/`Abgeschlossen` | wie `Reviewed`, **still** |
+  | unbekannter Wert | wie fehlend + 1 Hinweiszeile „unbekannter Statuswert {X}" |
 - `{config.paths.workflows}/features/*/bug.md`, `task.md` — Checkliste in der Datei zaehlen (`## Fix-Schritte` bzw. `## Schritte`)
 - `{config.paths.workflows}/BACKLOG.md` — NUR fuer Konflikterkennung und Prio
 
@@ -50,11 +55,16 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 | INBOX `In Arbeit`, kein Change-Ordner | Discovery ausstehend | `/dtb:feature-discover` |
 | `discovery.md` vorhanden, kein `spec.md` | Spec ausstehend | `/dtb:feature-plan [NAME]` |
 | `spec.md` vorhanden, kein `plan.md` | Plan ausstehend | `/dtb:impl-plan [NAME]` |
-| `plan.md` Status `Entwurf` | Review ausstehend | `/dtb:plan-review [NAME]` |
+| `plan.md` Status `Entwurf`, **0/Y Checkboxen** | Review ausstehend | `/dtb:plan-review [NAME]` |
 | `plan.md` Status `Reviewed`, 0/Y Checkboxen | Start ausstehend | `/dtb:feature-start` |
 | `plan.md` teilweise abgehakt (X/Y) | In Entwicklung | `/dtb:implement [NAME]` — Schritt {erster nicht abgehakter N.M} |
 | `plan.md` alle Checkboxen abgehakt | Fertig zum Testen | Manuell testen, Abnahme via `/dtb:workflow-checkpoint` (Beleg-Rueckfrage), dann `/dtb:archive` |
 | Ordner in `archive/<slug>/` | Abgeschlossen | — |
+
+> **Checkbox-Guard (Regel-Datei §7.3):** Die `Entwurf`-Zeile greift NUR bei 0/Y Checkboxen.
+> Bei teilweise oder vollstaendig abgehaktem Progress gewinnt die Progress-Zeile (`In Entwicklung`
+> bzw. `Fertig zum Testen`) — ein plan-review-Vorschlag waere dort falsch, weil laengst
+> implementiert wird. Zusaetzlich greift dann die Feld-Konfliktmeldung aus Schritt 3.
 
 **Bug-Pipeline** (Checkliste = `## Fix-Schritte` im Bug-Report):
 
@@ -85,6 +95,12 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 Zustand ab, gewinnt das Artefakt. Den Widerspruch mit 1 Hinweiszeile melden
 (`⚠ BACKLOG sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`), NICHT selbst korrigieren (read-only).
 
+**Feld-Konflikt `plan.md`-Kopf (Regel-Datei §7.3, gleiche Logik):** Widerspricht das
+Kopf-Statusfeld dem `## Progress`-Stand — `Entwurf` trotz abgehakter Schritte oder `Reviewed`
+bei 0/Y ohne je gelaufenes Review —, gewinnt ebenfalls das Artefakt. Eine Hinweiszeile:
+`⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"`. Auch hier NICHT selbst korrigieren:
+Pfleger des Felds ist `dtb:plan-review` (§7.2).
+
 - Abgeleitet "In Entwicklung" zuerst — die sind am weitesten
 - Dann nach Pipeline-Position absteigend (weiter fortgeschritten = hoehere Prio)
 - Falls ein Argument uebergeben wurde: Nur dieses Feature zeigen
@@ -112,13 +128,14 @@ Naechste Schritte:
   Inbox          ✓
   Discovery      ✓ (YYYY-MM-DD)
   Feature-Spec   ✓ (YYYY-MM-DD)
-  Impl-Plan      ✓ Reviewed
+  Impl-Plan      ✓ Reviewed          (Kopf-Statusfeld; „—" wenn Feld fehlt/Entwurf)
   Progress       X/Y Schritte (abgeleitet)
   Verifikation   ○ (SHA-Belege je Phase, `dtb:implement`)
   Abnahme        ○
 
 → Naechster Schritt: /dtb:implement [NAME] — Schritt {erster nicht abgehakter Schritt N.M aus ## Progress}
 {falls Konflikt: ⚠ BACKLOG sagt "...", Artefakte zeigen "..."}
+{falls Feld-Konflikt: ⚠ plan.md-Kopf sagt "...", ## Progress zeigt "X/Y"}
 ```
 
 ## Richtlinien

@@ -259,13 +259,13 @@ Querbezuege eingeloest, Aenderungen auf beiden Maschinen verteilt.
 - [x] 1.1 Kanonisierung DERIVED_STATE_RULES.md — `bdb412e`
 - [x] 1.2 impl-plan-Template straffen — `bdb412e`
 - [x] 1.3 skills/CLAUDE.md nachziehen — `bdb412e`
-- [x] 2.1 Schreibschritt mit Wertematrix
-- [x] 2.2 Randfall-Verhalten des Schreibers
-- [x] 2.3 Report-Ausweis + Konsistenz-Sweep
-- [ ] 3.1 workflow-next haerten
-- [ ] 3.2 workflow-status haerten
-- [ ] 3.3 Trockenlauf Testkoepfe
-- [ ] 3.4 Smoke-Test am echten Bestand
+- [x] 2.1 Schreibschritt mit Wertematrix — `4dd8671`
+- [x] 2.2 Randfall-Verhalten des Schreibers — `4dd8671`
+- [x] 2.3 Report-Ausweis + Konsistenz-Sweep — `4dd8671`
+- [x] 3.1 workflow-next haerten
+- [x] 3.2 workflow-status haerten
+- [x] 3.3 Trockenlauf Testkoepfe
+- [x] 3.4 Smoke-Test am echten Bestand
 - [ ] 4.1 INBOX #22 Seed-Skew-Beleg
 - [ ] 4.2 kit-sync Distribution + Verifikation
 
