@@ -5,14 +5,14 @@ description: >-
   "Plan pruefen". Conducts a structured review of an implementation plan
   with three agent perspectives (Architekt, Pragmatiker, Senior Dev).
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Write
+allowed-tools: Read, Glob, Grep, Write, Edit
 argument-hint: "[Feature-Name]"
 pipeline:
   stage: planning
   after: [dtb:impl-plan]
   next: [dtb:feature-start]
   consumes: [features/*/plan.md, features/*/spec.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
-  produces: []
+  produces: [features/*/plan.md]
 ---
 
 # Plan Review Discussion
@@ -185,6 +185,54 @@ der Dimension — bei belegtem schwerwiegendem Fall wie FAIL.
 
 Frage Damian ob Anpassungen am Implementierungsplan vorgenommen werden sollen.
 
+## Schritt 6: Kopf-Statusfeld setzen (Pfleger-Pflicht)
+
+Dieser Skill ist der **einzige Pfleger** des `plan.md`-Kopf-Statusfelds
+(Kanon: `{config.paths.rules}/DERIVED_STATE_RULES.md` §7). Der Schritt laeuft **immer** — auch
+bei negativem Verdikt und auch dann, wenn in Schritt 5 keine Anpassung gewuenscht war. Ein
+Review, das das Feld nicht anfasst, laesst es stillschweigend veralten; genau das ist der
+Grund fuer die Pfleger-Regel.
+
+**Still schreiben, nicht nachfragen:** Kein Bestaetigungs-Dialog — eine versionierte Zeile im
+eigenen Arbeitsbaum ist trivial rueckholbar, und eine Pflicht-Interaktion an dieser Stelle
+waere Reibung ohne Schutzwert. Die Aenderung wird stattdessen im Report ausgewiesen (unten).
+
+### 6.1 Wert bestimmen (Wertematrix)
+
+| Ausgang | Neuer Feldwert |
+|---------|----------------|
+| Gesamt-Verdikt SOUND | `Reviewed (plan-review {YYYY-MM-DD}: SOUND)` |
+| REVISE, Findings in Schritt 5 vollstaendig eingearbeitet | `Reviewed (plan-review {YYYY-MM-DD}: REVISE → {N} WARNs behoben)` |
+| REVISE, Findings offen (abgelehnt, vertagt oder nur teilweise uebernommen) | `Entwurf (plan-review {YYYY-MM-DD}: REVISE — Findings offen)` |
+| Gesamt-Verdikt RETHINK | `Entwurf (plan-review {YYYY-MM-DD}: RETHINK)` |
+
+**Harte „behoben"-Bedingung (binaer, kein Ermessen):** `Reviewed` nur, wenn **alle**
+WARN-getriebenen Anpassungen tatsaechlich in `plan.md` geschrieben wurden. Teilannahme,
+Vertagung oder Ablehnung ergeben `Entwurf (… Findings offen)`. Grund (asymmetrisches Risiko):
+`Reviewed` schaltet in `dtb:workflow-next` „Start ausstehend" frei — ein zu frueh gesetztes
+`Reviewed` schickt jemanden mit bekannten, unbehobenen Schwaechen in die Umsetzung; der
+umgekehrte Fehler kostet nur einen weiteren, billigen Review-Lauf.
+
+### 6.2 Zielzeile finden und schreiben (Randfaelle)
+
+1. **Nur im Definitionsfenster suchen:** Die Zielzeile ist die erste `**Status:**`-Zeile
+   **innerhalb der ersten 10 Zeilen** von `plan.md` (§7.1). `**Status:**`-Zeilen ausserhalb
+   dieses Fensters bleiben **unangetastet** — sie sind kein Kopf-Statusfeld (schuetzt zitierte
+   Bloecke, Template-Beispiele und Phasen-Tabellen im Fliesstext).
+2. **Fehlt die Zeile im Fenster:** an der Kopfposition einfuegen — direkt unter
+   `**Geschaetzte Dauer:**` bzw., falls es die Zeile nicht gibt, als letzte Zeile des
+   Kopfblocks vor dem ersten `---`. Damit heilt der Pfleger nebenbei Plaene ohne Feld.
+3. **Altwerte normalisieren:** Traegt die Zeile einen abgeschafften Wert (Umsetzungs- oder
+   Abschluss-Stufe) oder einen unbekannten Wert, wird sie durch den Wert aus 6.1 **ersetzt** —
+   kein Anhaengen, keine zweite Statuszeile.
+4. **Genau eine Zeile aendern** (Edit), sonst nichts am Plan.
+
+### 6.3 Im Report ausweisen
+
+Der Abschluss-Report traegt genau eine zusaetzliche Zeile (Format im Output-Block unten):
+`📝 Kopf-Statusfeld → {neuer Wert}`. Sie macht die stille Aenderung sichtbar und belegt, dass
+der Pfleger gelaufen ist.
+
 ---
 
 ## Output-Format
@@ -277,7 +325,12 @@ Gib die Diskussion in folgendem Format aus:
 ---
 
 Moechtest du Anpassungen am Implementierungsplan vornehmen? (Ja/Nein)
+
+📝 Kopf-Statusfeld → [neuer Wert aus Schritt 6.1]
 ```
+
+Die `📝`-Zeile steht bewusst am Schluss: Der Feldwert haengt am Ausgang von Schritt 5 (wurden
+die Findings eingearbeitet?) und kann daher erst nach der Anpassungs-Runde bestimmt werden.
 
 ---
 
@@ -291,6 +344,7 @@ Moechtest du Anpassungen am Implementierungsplan vornehmen? (Ja/Nein)
 - **Fragen muessen entscheidungsrelevant sein:** Nur Fragen stellen, deren Antwort den Plan tatsaechlich aendert
 - **Max 3 Fragen pro Agent** in Runde 4 — Qualitaet vor Quantitaet
 - **Deutsch:** Alle Texte auf Deutsch
-- **Keine Datei-Erstellung:** Die Diskussion wird nur in der Konsole ausgegeben (Write dient
-  ausschliesslich Plan-Anpassungen nach Zustimmung in Schritt 5)
+- **Keine Datei-Erstellung:** Die Diskussion wird nur in der Konsole ausgegeben. Geschrieben wird
+  ausschliesslich in `features/{slug}/plan.md`, und nur an zwei Stellen: Plan-Anpassungen nach
+  Zustimmung in Schritt 5 und das Kopf-Statusfeld in Schritt 6 (Pfleger-Pflicht, still)
 - **Bei "Ja" zu Anpassungen:** Konkrete Aenderungen am Implementierungsplan vorschlagen und nach Bestaetigung umsetzen

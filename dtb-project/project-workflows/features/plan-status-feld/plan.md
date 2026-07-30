@@ -256,12 +256,12 @@ Querbezuege eingeloest, Aenderungen auf beiden Maschinen verteilt.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Kanonisierung DERIVED_STATE_RULES.md
-- [x] 1.2 impl-plan-Template straffen
-- [x] 1.3 skills/CLAUDE.md nachziehen
-- [ ] 2.1 Schreibschritt mit Wertematrix
-- [ ] 2.2 Randfall-Verhalten des Schreibers
-- [ ] 2.3 Report-Ausweis + Konsistenz-Sweep
+- [x] 1.1 Kanonisierung DERIVED_STATE_RULES.md — `bdb412e`
+- [x] 1.2 impl-plan-Template straffen — `bdb412e`
+- [x] 1.3 skills/CLAUDE.md nachziehen — `bdb412e`
+- [x] 2.1 Schreibschritt mit Wertematrix
+- [x] 2.2 Randfall-Verhalten des Schreibers
+- [x] 2.3 Report-Ausweis + Konsistenz-Sweep
 - [ ] 3.1 workflow-next haerten
 - [ ] 3.2 workflow-status haerten
 - [ ] 3.3 Trockenlauf Testkoepfe
