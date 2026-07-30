@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-30
 **Ziel:** Das plan.md-Kopf-Statusfeld bekommt genau einen definierten Pfleger (plan-review), die lesenden Skills werden gegen Feld-Drift gehaertet, und Feld-Semantik samt Randfaellen wird in DERIVED_STATE_RULES.md kanonisiert.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

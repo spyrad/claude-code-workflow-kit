@@ -289,6 +289,11 @@ ob der Plan ein `dtb:plan-review` bestanden hat und damit startklar ist.
 - **Vermerkform:** `{Wert} ({Urheber} {YYYY-MM-DD}: {Kurzbegruendung})` — das erste Wort in der
   Klammer nennt den **Urheber**, z.B. `Reviewed (plan-review 2026-07-19: REVISE → 3 WARNs behoben)`
   oder `Entwurf (plan-review 2026-07-30: RETHINK)`.
+- **Parse-Regel (verbindlich):** Gelesen wird ausschliesslich das **erste Wort** nach
+  `**Status:**`. Alles danach ist **Annotation** und wird ignoriert — sowohl der Klammer-Vermerk
+  als auch ein HTML-Kommentar (`<!-- … -->`, so erzeugt vom `dtb:impl-plan`-Template). Eine
+  Annotation macht den Wert nie zu einem „unbekannten Wert" nach §7.3; unbekannt ist nur ein
+  **erstes Wort**, das in keiner Zeile der Matrix in §7.3 vorkommt.
 
 ### 7.2 Pfleger & Wertematrix (genau ein Schreiber)
 
@@ -298,10 +303,10 @@ stillschweigend veraltet. Fehlt die Feld-Zeile, wird sie an der Kopfposition ein
 
 | Review-Ausgang | Feld danach |
 |----------------|-------------|
-| SOUND | `Reviewed (plan-review {Datum}: SOUND)` |
-| REVISE, Findings im selben Zug behoben | `Reviewed (plan-review {Datum}: REVISE → {N} WARNs behoben)` |
-| REVISE, Findings offen | `Entwurf (plan-review {Datum}: REVISE — Findings offen)` |
-| RETHINK | `Entwurf (plan-review {Datum}: RETHINK)` |
+| SOUND | `Reviewed (plan-review {YYYY-MM-DD}: SOUND)` |
+| REVISE, Findings im selben Zug behoben | `Reviewed (plan-review {YYYY-MM-DD}: REVISE → {N} WARNs behoben)` |
+| REVISE, Findings offen | `Entwurf (plan-review {YYYY-MM-DD}: REVISE — Findings offen)` |
+| RETHINK | `Entwurf (plan-review {YYYY-MM-DD}: RETHINK)` |
 
 **Harte „behoben"-Bedingung (binaer, kein Ermessen):** `Reviewed` nur, wenn ALLE
 WARN-getriebenen Anpassungen tatsaechlich in `plan.md` geschrieben wurden; Teilannahme,
@@ -309,19 +314,30 @@ Vertagung oder Ablehnung ergeben `Entwurf (… Findings offen)`. Grund (asymmetr
 `Reviewed` schaltet in `dtb:workflow-next` „Start ausstehend" frei — ein zu frueh gesetztes
 `Reviewed` schickt jemanden mit bekannten, unbehobenen Schwaechen in die Umsetzung.
 
+> **Wartungs-Hinweis (Format-Kopplung):** Diese Wertematrix ist woertlich gespiegelt in
+> `dtb:plan-review` Schritt 6.1 (der Skill muss autark funktionieren — die Regel-Datei ist
+> Klasse-B-Seed und erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22). Aenderst du
+> die Matrix hier, ziehe sie dort mit; der Gegen-Hinweis steht im Skill.
+
 **Kein zweiter Schreiber:** `dtb:workflow-checkpoint` synchronisiert dieses Feld ausdruecklich
 NICHT (seine Sync-Ziele bleiben BACKLOG-Spalte, `spec.md`/`task.md`, ggf. ROADMAP nach §5) —
 zwei Schreiber mit unterschiedlicher Logik waeren die naechste Drift-Quelle.
 
 **Manueller Flip = dokumentierte Ausnahme:** Der Mensch darf das Feld setzen (Artefakt =
 Wahrheit, analog §2 Regel 8), dann aber mit Urheber-Vermerk:
-`Reviewed (manuell {Datum}: {Grund})`. Ein manueller Flip gibt sich nie als Review-Ergebnis aus.
+`Reviewed (manuell {YYYY-MM-DD}: {Grund})`. Ein manueller Flip gibt sich nie als Review-Ergebnis aus.
 Normalweg nach spaeter eingearbeiteten Findings bleibt ein erneuter `plan-review`-Lauf — nur er
 prueft, ob die Einarbeitung die WARNs wirklich behebt.
 
 ### 7.3 Lese-Regeln (Toleranz & Konfliktmeldung)
 
 Lesende Skills (`dtb:workflow-next`, `dtb:workflow-status`) wenden diese Matrix an:
+
+> **Wartungs-Hinweis (Format-Kopplung):** Diese Toleranz-Matrix ist gespiegelt in
+> `dtb:workflow-next` (Quellen-Abschnitt) und `dtb:workflow-status` (Ableitungs-Abschnitt) —
+> aus demselben Autarkie-Grund wie in §7.2. Aenderung hier → beide Skills mitziehen.
+> `dtb:backlog-status` liest das Feld bewusst NICHT mehr (§7.4 status-neutral) und braucht
+> keine Kopie.
 
 | Gelesener Zustand | Behandlung |
 |-------------------|------------|
@@ -337,6 +353,11 @@ Lesende Skills (`dtb:workflow-next`, `dtb:workflow-status`) wenden diese Matrix 
 - **Konfliktmeldung (§1.3 analog):** Widerspricht das Feld dem `## Progress`-Stand, gewinnt das
   Artefakt und der Widerspruch wird mit 1 Zeile gemeldet, nicht selbst korrigiert (read-only):
   `⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"`.
+  **Vorrang der Still-Regel:** Die Konfliktmeldung gilt nur fuer ein **physisch vorhandenes**
+  Feld mit bekanntem Wert. Als `Entwurf` behandelte Leerstellen (Feld fehlt oder liegt ausserhalb
+  des Fensters) bleiben still — auch bei teilweise abgehaktem Progress. Sonst wuerde der
+  haeufigste Altbestand (Plan ohne Feld, laufende Umsetzung) dauerhaft eine ⚠-Zeile erzeugen,
+  obwohl gar keine widerspruechliche Aussage existiert.
 - **Selbstheilung statt Migration:** Altwerte und fehlende Felder werden beim naechsten
   `plan-review`-Lauf normalisiert (7.2 schreibt immer) — eine Bestandsmigration ist nicht noetig.
 

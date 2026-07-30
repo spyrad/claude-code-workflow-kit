@@ -43,6 +43,13 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
   | Feld fehlt / liegt ausserhalb des Fensters | wie `Entwurf`, **still** (fehlende Info ist kein Konflikt) |
   | Altwerte `In Umsetzung`/`Abgeschlossen` | wie `Reviewed`, **still** |
   | unbekannter Wert | wie fehlend + 1 Hinweiszeile „unbekannter Statuswert {X}" |
+
+  Gelesen wird nur das **erste Wort** nach `**Status:**` (§7.1 Parse-Regel) — Klammer-Vermerk
+  und HTML-Kommentar dahinter sind Annotation. In der Detail-Ausgabe erscheint der Wert hinter
+  `Impl-Plan`; ein toleriert gelesener Altwert wird dort als `✓ Reviewed` angezeigt.
+  **Wartungs-Hinweis (Format-Kopplung):** Diese Matrix spiegelt `DERIVED_STATE_RULES.md` §7.3
+  (Kopie ist Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22);
+  Aenderung dort → hier mitziehen.
 - `{config.paths.workflows}/features/*/bug.md`, `task.md` — Checkliste in der Datei zaehlen (`## Fix-Schritte` bzw. `## Schritte`)
 - `{config.paths.workflows}/BACKLOG.md` — NUR fuer Konflikterkennung und Prio
 
@@ -96,8 +103,8 @@ Zustand ab, gewinnt das Artefakt. Den Widerspruch mit 1 Hinweiszeile melden
 (`⚠ BACKLOG sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`), NICHT selbst korrigieren (read-only).
 
 **Feld-Konflikt `plan.md`-Kopf (Regel-Datei §7.3, gleiche Logik):** Widerspricht das
-Kopf-Statusfeld dem `## Progress`-Stand — `Entwurf` trotz abgehakter Schritte oder `Reviewed`
-bei 0/Y ohne je gelaufenes Review —, gewinnt ebenfalls das Artefakt. Eine Hinweiszeile:
+Kopf-Statusfeld dem `## Progress`-Stand — `Entwurf` trotz abgehakter Schritte —, gewinnt
+ebenfalls das Artefakt. Eine Hinweiszeile:
 `⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"`. Auch hier NICHT selbst korrigieren:
 Pfleger des Felds ist `dtb:plan-review` (§7.2).
 
@@ -128,7 +135,7 @@ Naechste Schritte:
   Inbox          ✓
   Discovery      ✓ (YYYY-MM-DD)
   Feature-Spec   ✓ (YYYY-MM-DD)
-  Impl-Plan      ✓ Reviewed          (Kopf-Statusfeld; „—" wenn Feld fehlt/Entwurf)
+  Impl-Plan      {✓ Reviewed | ✓ Entwurf (Review ausstehend)}
   Progress       X/Y Schritte (abgeleitet)
   Verifikation   ○ (SHA-Belege je Phase, `dtb:implement`)
   Abnahme        ○

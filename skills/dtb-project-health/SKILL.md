@@ -115,8 +115,11 @@ Grundlage: `{config.paths.rules}/DERIVED_STATE_RULES.md` (Fallback:
 den Artefakten ab (Artefakt-Existenz + `## Progress`-Checkboxen) und pruefe:
 
 **Anzeige-Drift (WARNUNG, kein FEHLER — Anzeige-Felder sind nachlaufend):**
-- BACKLOG-Status-Spalte oder `**Status:**`-Zeile weicht vom abgeleiteten Status ab
-  → WARNUNG mit Fix-Hinweis: `/dtb:workflow-checkpoint` synchronisiert die Anzeige
+- BACKLOG-Status-Spalte oder `**Status:**`-Zeile in `spec.md`/`task.md` weicht vom abgeleiteten
+  Status ab → WARNUNG mit Fix-Hinweis: `/dtb:workflow-checkpoint` synchronisiert die Anzeige
+  - **Nicht pruefen:** das Kopf-Statusfeld in `plan.md` — es ist ein Review-Nachweis und
+    **status-neutral** (Regel-Datei §7.4), gehoert also nie gegen den abgeleiteten Status
+    gehalten; sein Pfleger ist `dtb:plan-review`, NICHT `workflow-checkpoint` (§7.2)
 - WORKFLOW_STATUS "Status (generiert)"-Block widerspricht der Ableitung → WARNUNG (veraltet)
 
 **Unvollstaendige Change-Ordner (FEHLER):**

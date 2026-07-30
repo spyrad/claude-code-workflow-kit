@@ -199,6 +199,11 @@ waere Reibung ohne Schutzwert. Die Aenderung wird stattdessen im Report ausgewie
 
 ### 6.1 Wert bestimmen (Wertematrix)
 
+> **Wartungs-Hinweis (Format-Kopplung):** Diese Matrix ist woertlich gespiegelt in
+> `DERIVED_STATE_RULES.md` §7.2. Die Kopie ist Absicht — die Regel-Datei ist Klasse-B-Seed und
+> erreicht Bestandsprojekte nicht automatisch (INBOX #22), dieser Skill muss autark bleiben.
+> Aenderst du die Matrix hier, ziehe §7.2 mit; der Gegen-Hinweis steht dort.
+
 | Ausgang | Neuer Feldwert |
 |---------|----------------|
 | Gesamt-Verdikt SOUND | `Reviewed (plan-review {YYYY-MM-DD}: SOUND)` |

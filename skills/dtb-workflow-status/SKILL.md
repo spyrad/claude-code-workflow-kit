@@ -50,9 +50,12 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
   (Checkbox-Guard §7.3: bei abgehaktem Progress gewinnen die Progress-Zeilen unten)
 - `plan.md` Kopf-Statusfeld `Reviewed`, `## Progress` 0/Y abgehakt → bereit fuer Start ("Geplant")
 - **Kopf-Statusfeld lesen (Regel-Datei §7):** nur die `**Status:**`-Zeile in den ersten 10 Zeilen
-  (Definitionsfenster §7.1). Lese-Toleranz §7.3: Feld fehlt oder liegt ausserhalb → wie `Entwurf`,
-  still; Altwerte `In Umsetzung`/`Abgeschlossen` → wie `Reviewed`, still; unbekannter Wert →
-  wie fehlend + 1 Hinweiszeile
+  (Definitionsfenster §7.1), davon nur das **erste Wort** (Parse-Regel §7.1 — Klammer-Vermerk
+  und HTML-Kommentar sind Annotation). Lese-Toleranz §7.3: Feld fehlt oder liegt ausserhalb →
+  wie `Entwurf`, still; Altwerte `In Umsetzung`/`Abgeschlossen` → wie `Reviewed`, still;
+  unbekannter Wert → wie fehlend + 1 Hinweiszeile.
+  **Wartungs-Hinweis (Format-Kopplung):** spiegelt §7.3 (Kopie ist Absicht, INBOX #22) —
+  Aenderung dort hier mitziehen
 - `plan.md` `## Progress` teilweise abgehakt (X/Y) → "In Arbeit"
 - `plan.md` `## Progress` vollstaendig abgehakt → "Fertig zum Testen"
 - Fallbacks (Regel-Datei §1.4): `plan.md` ohne Progress-Sektion → "Fortschritt unbekannt"

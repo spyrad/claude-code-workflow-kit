@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-29 (S5: keine Statusaenderung — 2 Bugs Behoben, 4 Features Fertig zum Testen; Session ohne Feature-Arbeit: Drei-Punkt-Diff-Fix in `dtb:workflow-resume` nach externem Befund, `07d5107` gepusht, Kit-Distribution 41/41)
+**Letzte Aktualisierung:** 2026-07-30 (plan-status-feld 12/12 umgesetzt + impl-review mit Triage — Idee #30 vollstaendig durch die Pipeline; zuvor: beide project-init-Bugs + Idee #16 archiviert `4641956`; commit-and-push-Nacharbeit `eda0ed1`; 4 Features Fertig zum Testen, Distribution 41/41 auf beiden Maschinen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -16,6 +16,7 @@
 | commit-and-push | Fertig zum Testen | Mittel | features/commit-and-push/spec.md | Geführter Routine-Skill, der Änderungen sicher committet und pusht; Repo-Grenzen aus git (rev-parse --show-toplevel) statt config.repos → monorepo-, poly-repo- und einzelverzeichnis-fest |
 | Fachfragen-Erfassung | Fertig zum Testen | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
 | open-question | Fertig zum Testen | Mittel | features/open-question/spec.md | Aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Argument §6-konform als `- [ ] [Fach] {Frage}` ins aktive Feature-Artefakt schreibt — das Eingabe-Werkzeug der Fachfragen-Kette (#13→#26→#25→#24) |
+| plan-status-feld | Fertig zum Testen | Hoch | features/plan-status-feld/spec.md | plan.md-Kopf-Statusfeld bekommt genau einen Pfleger (plan-review schreibt bei jedem Verdikt den letzten Review-Stand), Leser gehaertet (Checkbox-Guard, ⚠-Konfliktmeldung, Toleranz-Matrix) + Kanonisierung in DERIVED_STATE_RULES.md |
 
 ---
 

@@ -40,7 +40,7 @@ Manuell gepflegt (und damit verbindlich) sind nur Prio und Ziel.
 Finde alle Change-Ordner `{config.paths.workflows}/features/*/` und lies deren `spec.md`,
 `plan.md`, `bug.md`, `task.md`; leite den Status pro Item ab:
 
-- **Features:** `spec.md` ohne `plan.md` → Spezifiziert; `plan.md` `Entwurf`/`Reviewed` + 0 Checkboxen → Geplant;
+- **Features:** `spec.md` ohne `plan.md` → Spezifiziert; `plan.md` vorhanden + 0 Checkboxen → Geplant (das Kopf-Statusfeld ist status-neutral und wird hier NICHT gelesen — Regel-Datei §7.4);
   `## Progress` teilweise abgehakt → In Arbeit (X/Y); vollstaendig → Fertig zum Testen
 - **Bugs:** `bug.md` Analyse-Abschnitt + `## Fix-Schritte`-Checkliste zaehlen (Offen/Analysiert/In Arbeit/Behoben)
 - **Tasks:** `task.md` `## Schritte`-Checkliste zaehlen (Offen/In Arbeit/Erledigt)
