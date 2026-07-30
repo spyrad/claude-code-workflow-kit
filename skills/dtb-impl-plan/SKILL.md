@@ -99,7 +99,7 @@ Verwende folgende Struktur:
 **Erstellt:** [Datum]
 **Feature-Spec:** `features/{slug}/spec.md`
 **Geschaetzte Dauer:** [Gesamt]
-**Status:** Entwurf / Reviewed / In Umsetzung / Abgeschlossen
+**Status:** Entwurf <!-- Review-Nachweis (nicht Umsetzungsstand); einziger Pfleger ist dtb:plan-review — Kanon: project-rules/DERIVED_STATE_RULES.md §7 -->
 
 ---
 
@@ -230,6 +230,12 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
      Diese Kriterien speisen das Verifikations-Gate (§2 Flip-Bedingung, Ritual in `dtb:implement`)
    - Technische Entscheidungen: Optionen auflisten, Entscheidung kann "Offen" sein
    - **3x3-Blockung:** Nummeriere Schritte fortlaufend pro Phase (1.1, 1.2, 1.3, 1.4 ...) und setze nach jedem 3. Schritt einen `> 3x3-Block`-Hinweis. Jeder Schritt soll ein konkretes, testbares Ergebnis liefern.
+   - **Kopf-Statusfeld:** Immer mit `Entwurf` anlegen (die `**Status:**`-Zeile gehoert in die
+     ersten 10 Zeilen — das ist ihr Definitionsfenster). Es ist ein **Review-Nachweis**, kein
+     Umsetzungsstand, und wird ab hier ausschliesslich von `dtb:plan-review` gepflegt; die
+     frueheren Zusatzwerte (Umsetzungs- und Abschluss-Stufe) sind abgeschafft — den
+     Umsetzungsstand liefert allein `## Progress`.
+     Kanon inkl. Wertematrix: `{config.paths.rules}/DERIVED_STATE_RULES.md` §7
    - **Progress-Sektion (Pflicht):** Erzeuge fuer JEDEN Schritt N.M genau eine Checkbox-Zeile `- [ ] N.M Kurzname` in `## Progress`. Format gemaess `project-rules/DERIVED_STATE_RULES.md`: 1 Zeile pro Schritt, keine Prosa; der SHA-Beleg kommt erst beim Phasen-Ende-Commit dazu (§2 Regel 4, Ritual in `dtb:implement`). Diese Sektion ist die Single Source of Truth fuer den Umsetzungsstand — es gibt KEIN separates Status-Artefakt (IMPL_STATUS_*.md ist abgeschafft).
    - **`## Ist-Analyse` fuellen:** Uebertrage die bestaetigte/uebernommene Modul-Liste aus Schritt 3 kompakt in die Sektion (Tabelle Pfad/Ist-Befund; bei Neubau die eine „keine betroffenen Bestandsmodule (Neubau)"-Zeile). Das ist Zusatz-Info, KEINE Status-Quelle (DERIVED_STATE_RULES.md bleibt unberuehrt).
    - **Max. 500 Zeilen** — laengere Plaene verschlechtern die AI-Verarbeitung. Bei sehr grossen Features: in mehrere Phasen-Dateien aufteilen oder Details in Schritten knapp halten.

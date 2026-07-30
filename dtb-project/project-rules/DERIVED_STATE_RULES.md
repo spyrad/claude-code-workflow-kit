@@ -271,6 +271,84 @@ Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
 
 ---
 
+## 7. Plan-Kopf-Statusfeld (Review-Nachweis)
+
+Das `plan.md` traegt im Kopf ein `**Status:**`-Feld. Es ist **kein** Umsetzungs-Status (den
+liefert ausschliesslich `## Progress`, §2), sondern ein **reiner Review-Nachweis**: Es sagt aus,
+ob der Plan ein `dtb:plan-review` bestanden hat und damit startklar ist.
+
+### 7.1 Definitionsfenster, Wertemenge & Vermerkform
+
+- **Definitionsfenster (verbindlich):** Das Kopf-Statusfeld IST die `**Status:**`-Zeile
+  **innerhalb der ersten 10 Zeilen** von `plan.md`. Eine `**Status:**`-Zeile ausserhalb dieses
+  Fensters ist KEIN Kopf-Statusfeld — sie wird weder gelesen noch von einem Pfleger angefasst
+  (schuetzt zitierte Bloecke und Template-Beispiele im Fliesstext vor Fehlgriffen).
+- **Wertemenge:** genau zwei Werte — `Entwurf` (kein bestandenes Review) und `Reviewed`
+  (Review bestanden, Plan startklar). Die frueheren Werte `In Umsetzung`/`Abgeschlossen` sind
+  **abgeschafft** (der Umsetzungsstand kommt aus `## Progress`); zur Lese-Toleranz siehe 7.3.
+- **Vermerkform:** `{Wert} ({Urheber} {YYYY-MM-DD}: {Kurzbegruendung})` — das erste Wort in der
+  Klammer nennt den **Urheber**, z.B. `Reviewed (plan-review 2026-07-19: REVISE → 3 WARNs behoben)`
+  oder `Entwurf (plan-review 2026-07-30: RETHINK)`.
+
+### 7.2 Pfleger & Wertematrix (genau ein Schreiber)
+
+Pfleger des Felds ist **ausschliesslich `dtb:plan-review`**. Es schreibt bei JEDEM Verdikt —
+auch bei negativem —, damit das Feld immer den letzten Review-Stand dokumentiert und nie
+stillschweigend veraltet. Fehlt die Feld-Zeile, wird sie an der Kopfposition eingefuegt.
+
+| Review-Ausgang | Feld danach |
+|----------------|-------------|
+| SOUND | `Reviewed (plan-review {Datum}: SOUND)` |
+| REVISE, Findings im selben Zug behoben | `Reviewed (plan-review {Datum}: REVISE → {N} WARNs behoben)` |
+| REVISE, Findings offen | `Entwurf (plan-review {Datum}: REVISE — Findings offen)` |
+| RETHINK | `Entwurf (plan-review {Datum}: RETHINK)` |
+
+**Harte „behoben"-Bedingung (binaer, kein Ermessen):** `Reviewed` nur, wenn ALLE
+WARN-getriebenen Anpassungen tatsaechlich in `plan.md` geschrieben wurden; Teilannahme,
+Vertagung oder Ablehnung ergeben `Entwurf (… Findings offen)`. Grund (asymmetrisches Risiko):
+`Reviewed` schaltet in `dtb:workflow-next` „Start ausstehend" frei — ein zu frueh gesetztes
+`Reviewed` schickt jemanden mit bekannten, unbehobenen Schwaechen in die Umsetzung.
+
+**Kein zweiter Schreiber:** `dtb:workflow-checkpoint` synchronisiert dieses Feld ausdruecklich
+NICHT (seine Sync-Ziele bleiben BACKLOG-Spalte, `spec.md`/`task.md`, ggf. ROADMAP nach §5) —
+zwei Schreiber mit unterschiedlicher Logik waeren die naechste Drift-Quelle.
+
+**Manueller Flip = dokumentierte Ausnahme:** Der Mensch darf das Feld setzen (Artefakt =
+Wahrheit, analog §2 Regel 8), dann aber mit Urheber-Vermerk:
+`Reviewed (manuell {Datum}: {Grund})`. Ein manueller Flip gibt sich nie als Review-Ergebnis aus.
+Normalweg nach spaeter eingearbeiteten Findings bleibt ein erneuter `plan-review`-Lauf — nur er
+prueft, ob die Einarbeitung die WARNs wirklich behebt.
+
+### 7.3 Lese-Regeln (Toleranz & Konfliktmeldung)
+
+Lesende Skills (`dtb:workflow-next`, `dtb:workflow-status`) wenden diese Matrix an:
+
+| Gelesener Zustand | Behandlung |
+|-------------------|------------|
+| `Reviewed` | Review bestanden |
+| `Entwurf` | Review ausstehend |
+| Feld fehlt / liegt ausserhalb des Fensters (7.1) | wie `Entwurf`, **still** (fehlende Information ist kein Konflikt) |
+| Altwerte `In Umsetzung` / `Abgeschlossen` | wie `Reviewed`, **still** (setzen logisch ein bestandenes Review voraus) |
+| unbekannter Wert (Tippfehler/Freitext) | wie fehlend + **1 Hinweiszeile** „unbekannter Statuswert {X}" |
+
+- **Guard-Pflicht:** Ein Vorschlag „Review ausstehend" darf nur bei **0/Y** abgehakten
+  `## Progress`-Checkboxen ausgegeben werden. Bei teilweise oder vollstaendig abgehaktem
+  Progress ist ein plan-review-Vorschlag falsch — dort gelten die Ableitungen nach §1.1.
+- **Konfliktmeldung (§1.3 analog):** Widerspricht das Feld dem `## Progress`-Stand, gewinnt das
+  Artefakt und der Widerspruch wird mit 1 Zeile gemeldet, nicht selbst korrigiert (read-only):
+  `⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"`.
+- **Selbstheilung statt Migration:** Altwerte und fehlende Felder werden beim naechsten
+  `plan-review`-Lauf normalisiert (7.2 schreibt immer) — eine Bestandsmigration ist nicht noetig.
+
+### 7.4 Status-Neutralitaet (Abgrenzung zu §1/§2)
+
+Das Kopf-Statusfeld ist **status-neutral** — es speist weder die Feature-Statusableitung (§1)
+noch das Verifikations-Gate (§2). Es beantwortet ausschliesslich die Frage „hat dieser Plan ein
+Review bestanden?" und dient damit dem Pipeline-Gate „Plan-Review" in den Uebersichts-Skills.
+Der `dtb:implement`-Loop bleibt gegen dieses Feld blind.
+
+---
+
 **Eingefuehrt mit:** Feature DERIVED_STATE (`features/FEATURE_DERIVED_STATE.md`), 2026-07-06
 **Umgestellt auf Change-Folder-Modell:** Feature CHANGE_FOLDER_MODELL, 2026-07-09
 **§5 Roadmap-Ableitung ergaenzt:** Feature greenfield-autoren-skills, 2026-07-13
@@ -280,4 +358,6 @@ Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
 **§6 Fach-Frage-Konvention ergaenzt:** Feature fachfragen-erfassung, 2026-07-17
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
 **§6.1 `→ Zwischenstand:`-Form + §6.3 schreibender Konsument ergaenzt:** Feature meeting-dump, 2026-07-21
+(Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
+**§7 Plan-Kopf-Statusfeld (Review-Nachweis) ergaenzt:** Feature plan-status-feld, 2026-07-30
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
