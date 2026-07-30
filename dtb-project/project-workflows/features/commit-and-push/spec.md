@@ -22,7 +22,7 @@ Das Kit hat keinen Skill, der Commits autorisiert: `repo-sync` ist read-only, `i
 - **Repo-Grenzen aus git, nicht aus Config:** `config.repos` liefert nur die zu prüfenden **Pfade** (Startpunkt). Die tatsächliche Repo-Grenze bestimmt `git -C {path} rev-parse --show-toplevel`; Pfade werden nach eindeutigem toplevel **gruppiert**. Pro eindeutigem toplevel läuft **ein** Commit-Flow (eigener Diff/Message/Push), am Ende ein Sammel-Summary.
 - **Läuft ohne `workflow.config.yaml`:** fehlt die Config, ist die Pfadmenge = aktuelles Verzeichnis → dessen toplevel → ein Commit-Flow (deckt normale Einzel-Verzeichnisse ab).
 - **Default-Staging `git add -A`** (Routine-Charakter), aber der Red-Flag-Scan läuft zwingend davor und listet die zu stagenden Pfade zur Bestätigung.
-- **Bestätigungs-Muster aus `implement`:** Message vorschlagen → „passt"/Korrektur → erst dann Commit.
+- **Bestätigungs-Muster aus `implement`:** Message vorschlagen → Bestätigung als blockierende Auswahlfrage (AskUserQuestion statt Freitext-„passt" — der Freitext-Prompt wurde übersehen, Läufe versandeten still und Arbeit blieb ungepusht; Abnahme-Befund 2026-07-30) → erst dann Commit.
 - **Harte Sicherheitsregeln** (identisch zu `implement`): nie `--force`/`--no-verify`/`--amend`, kein Signing-Bypass, nie Force-Push auf `main`/`master`.
 - **Randfall-Behandlung** (siehe Success Criteria): fehlgeschlagener Hook, non-fast-forward-Push, fehlender Tracking-Branch, nichts-zu-committen-aber-ahead, sauberer Working Tree, Detached HEAD.
 

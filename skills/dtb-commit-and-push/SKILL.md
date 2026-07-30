@@ -8,7 +8,7 @@ description: >-
   (never --force/--no-verify/--amend) and pushes with edge-case handling.
 disable-model-invocation: true
 argument-hint: "[optional: Repo-Name oder Pfad]"
-allowed-tools: Read, Glob, Grep, Bash
+allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
 pipeline:
   stage: monitoring
   after: null
@@ -127,8 +127,13 @@ Ablauf pro Root:
    (Sprache, Conventional-Commits-Praefix o. ä.). Format:
    - Titel: imperativ, knapp, ohne Punkt am Ende, kein Emoji
    - optionaler Body: 2-5 Bullets „was + warum", nur wenn der Titel nicht reicht
-3. **Bestaetigungs-Muster** (wie `dtb:implement`): Vorschlag zeigen → Nutzer bestaetigt
-   („passt") oder korrigiert → **erst dann** committen. Kein Commit ohne Bestaetigung.
+3. **Bestaetigungs-Muster** (wie `dtb:implement`, Medium hier gehaertet): Vorschlag zeigen, dann
+   die Bestaetigung als **blockierende Auswahlfrage** einholen (AskUserQuestion-Tool; Optionen:
+   `Committen & pushen` / `Message anpassen` / `Abbrechen`) — NICHT als Freitext-Aufforderung
+   („passt") im Chat: eine Freitext-Bestaetigung wird uebersehen, der Lauf versandet still und
+   die Arbeit bleibt ungesichert — genau das Risiko, das dieser Skill beseitigen soll
+   (Abnahme-Befund 2026-07-30). Bei `Message anpassen`: Korrektur uebernehmen, erneut fragen.
+   **Erst nach Bestaetigung** committen. Kein Commit ohne Bestaetigung.
 
 ## Schritt 5: Commit (harte Sicherheitsregeln)
 
