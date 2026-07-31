@@ -227,6 +227,10 @@ umgekehrte Fehler kostet nur einen weiteren, billigen Review-Lauf.
 2. **Fehlt die Zeile im Fenster:** an der Kopfposition einfuegen — direkt unter
    `**Geschaetzte Dauer:**` bzw., falls es die Zeile nicht gibt, als letzte Zeile des
    Kopfblocks vor dem ersten `---`. Damit heilt der Pfleger nebenbei Plaene ohne Feld.
+   **Fenster-Grenze (verbindlich):** Die eingefuegte Zeile muss selbst **innerhalb der ersten
+   10 Zeilen** liegen. Laege die Kopfposition darunter (langer Kopfblock), stattdessen direkt
+   nach der Titelzeile einfuegen — sonst waere die neue Zeile per §7.1 kein Kopf-Statusfeld,
+   kein Leser saehe sie, und der naechste Lauf fuegte eine zweite ein.
 3. **Altwerte normalisieren:** Traegt die Zeile einen abgeschafften Wert (Umsetzungs- oder
    Abschluss-Stufe) oder einen unbekannten Wert, wird sie durch den Wert aus 6.1 **ersetzt** —
    kein Anhaengen, keine zweite Statuszeile.
@@ -234,9 +238,10 @@ umgekehrte Fehler kostet nur einen weiteren, billigen Review-Lauf.
 
 ### 6.3 Im Report ausweisen
 
-Der Abschluss-Report traegt genau eine zusaetzliche Zeile (Format im Output-Block unten):
-`📝 Kopf-Statusfeld → {neuer Wert}`. Sie macht die stille Aenderung sichtbar und belegt, dass
-der Pfleger gelaufen ist.
+Nach der Anpassungs-Runde aus Schritt 5 — und erst dann — wird genau eine zusaetzliche Zeile
+ausgegeben: `📝 Kopf-Statusfeld → {neuer Wert}`. Sie steht **ausserhalb** des Output-Blocks
+unten (dessen letzte Zeile die noch unbeantwortete Anpassungs-Frage ist), macht die stille
+Aenderung sichtbar und belegt, dass der Pfleger gelaufen ist.
 
 ---
 
@@ -330,12 +335,13 @@ Gib die Diskussion in folgendem Format aus:
 ---
 
 Moechtest du Anpassungen am Implementierungsplan vornehmen? (Ja/Nein)
-
-📝 Kopf-Statusfeld → [neuer Wert aus Schritt 6.1]
 ```
 
-Die `📝`-Zeile steht bewusst am Schluss: Der Feldwert haengt am Ausgang von Schritt 5 (wurden
-die Findings eingearbeitet?) und kann daher erst nach der Anpassungs-Runde bestimmt werden.
+Die Zeile `📝 Kopf-Statusfeld → {Wert}` gehoert bewusst **NICHT** in diesen Block: Der Feldwert
+haengt am Ausgang von Schritt 5 (wurden die Findings eingearbeitet?) und ist erst nach der
+Anpassungs-Runde bestimmbar. Der Block oben endet mit der noch unbeantworteten Frage; die
+📝-Zeile folgt danach als eigene Ausgabe (Schritt 6.3). Sie hier einzusetzen wuerde den Wert
+festlegen, bevor die Antwort vorliegt — und damit die harte „behoben"-Bedingung aus 6.1 aushebeln.
 
 ---
 

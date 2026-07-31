@@ -122,6 +122,15 @@ ist geschlossen.
 - **Input:** Abschluss-Report-Format von plan-review
 - **Output:** Eine Report-Zeile „Kopf-Statusfeld → {Wert}"; repo-weiter Grep nach `Entwurf`/`Reviewed`/`In Umsetzung`/`plan-review` bestaetigt: keine weitere Stelle referenziert die alte 4-Werte-Menge oder widerspricht der Pfleger-Regel (Befunde → im Plan nachtragen)
 
+> **Sweep-Nachweis (nachgeholt 2026-07-31, impl-review F5):** Der repo-weite Sweep war beim
+> Phasen-Ende nicht belegt und uebersah zwei Querbezuege (`project-health`, `backlog-status`),
+> die erst dem impl-review auffielen. Nachgeholtes Ergebnis: `In Umsetzung`/`Abgeschlossen`
+> kommen ausserhalb von Changelog/Archiv **4-mal** vor — alle legitim (Toleranz-Matrix in
+> `workflow-next:44` und `workflow-status:55`, Abschaffungs-Notiz und Toleranz-Zeile in
+> `DERIVED_STATE_RULES.md:287/347`). Das Feld wird von genau **7 Dateien** referenziert
+> (`DERIVED_STATE_RULES.md`, `plan-review`, `impl-plan`, `workflow-next`, `workflow-status`,
+> `project-health`, `backlog-status`) — die vollstaendige bekannte Menge. **0 neue Befunde.**
+
 > **3x3-Block:** Nach Schritt 2.3 → Zusammenfassung + Feedback einholen
 
 ### Deliverables
@@ -193,7 +202,11 @@ werden tolerant behandelt.
 
 #### Automated
 - [ ] Die Guard-Zeile (`Entwurf` → „Review ausstehend") in `skills/dtb-workflow-next/SKILL.md` enthaelt `0/Y` in derselben Tabellenzeile (Anker: Tabellenkontext, nicht Zeilennummer — Lektion L2)
-- [ ] `grep -c "In Umsetzung" skills/dtb-workflow-status/SKILL.md` = 0
+- [ ] `grep -n "In Umsetzung" skills/dtb-workflow-status/SKILL.md` trifft **nur** in der
+      Toleranz-Matrix-Zeile (die Altwert-Nennung ist dort erforderlich, §7.3) — **kein** Treffer
+      in der Gate-Definition „Plan-Review". Anker auf die Wirkstelle statt `grep -c … = 0` ueber
+      die ganze Datei: das urspruengliche Kriterium widersprach dem eigenen Schritt-Output
+      (korrigiert 2026-07-31 nach impl-review F4, Lektion L8)
 - [ ] `grep -n "plan.md-Kopf" skills/dtb-workflow-next/SKILL.md skills/dtb-workflow-status/SKILL.md` ≥ je 1 Treffer (Anker auf den neuen Konfliktzeilen-Wortlaut — ein Grep auf bloss `⚠` waere ein False Positive: das Zeichen steht bereits fuer BACKLOG-Konflikte in beiden Skills, verifiziert 2026-07-30)
 - [ ] Smoke-Test 3.4: realer `/dtb:workflow-next`-Lauf erfuellt alle drei Erwartungen (insb. 0 ⚠-Zeilen)
 

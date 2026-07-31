@@ -102,11 +102,15 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 Zustand ab, gewinnt das Artefakt. Den Widerspruch mit 1 Hinweiszeile melden
 (`⚠ BACKLOG sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`), NICHT selbst korrigieren (read-only).
 
-**Feld-Konflikt `plan.md`-Kopf (Regel-Datei §7.3, gleiche Logik):** Widerspricht das
-Kopf-Statusfeld dem `## Progress`-Stand — `Entwurf` trotz abgehakter Schritte —, gewinnt
-ebenfalls das Artefakt. Eine Hinweiszeile:
+**Feld-Konflikt `plan.md`-Kopf (Regel-Datei §7.3, gleiche Logik):** **Konflikt ist genau eine
+Kombination:** ein physisch vorhandenes Feld, das als `Entwurf` gilt, UND ≥1 abgehakte
+`## Progress`-Checkbox. Dann gewinnt ebenfalls das Artefakt, eine Hinweiszeile:
 `⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"`. Auch hier NICHT selbst korrigieren:
 Pfleger des Felds ist `dtb:plan-review` (§7.2).
+**Vorrang der Still-Regel:** Als `Entwurf` behandelte Leerstellen (Feld fehlt oder liegt
+ausserhalb des Fensters) bleiben **still** — auch bei teilweise abgehaktem Progress; ebenso
+`Reviewed`/tolerierte Altwerte bei beliebigem Progress (das Feld sagt nichts ueber den
+Umsetzungsstand). Sonst erzeugte der haeufigste Altbestand dauerhaft eine ⚠-Zeile.
 
 - Abgeleitet "In Entwicklung" zuerst — die sind am weitesten
 - Dann nach Pipeline-Position absteigend (weiter fortgeschritten = hoehere Prio)

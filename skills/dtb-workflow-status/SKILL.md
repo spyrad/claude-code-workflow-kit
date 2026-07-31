@@ -30,8 +30,10 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 **Ableitungsregel:** Alle Stufen-Zaehlungen werden aus Artefakten ABGELEITET, nicht aus
 Statusfeldern uebernommen — verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
 (Fallback: `dtb-project/project-rules/DERIVED_STATE_RULES.md`). Lies diese Datei zuerst.
-Statusfelder (BACKLOG.md, `**Status:**`-Zeilen) dienen nur der Konflikterkennung;
-Ausnahme: explizite Zustaende `Pausiert`/`Abgenommen` (Regel-Datei §1.2).
+Statusfelder in BACKLOG.md und `spec.md`/`task.md` dienen nur der Konflikterkennung;
+Ausnahme: explizite Zustaende `Pausiert`/`Abgenommen` (Regel-Datei §1.2). Ebenfalls ausgenommen
+ist das `plan.md`-Kopf-Statusfeld: es ist zwar status-neutral fuer §1/§2 (§7.4), aber die
+**Quelle des Gates „Plan-Review"** (Schritt 2) — es wird also gelesen, nicht nur abgeglichen.
 
 Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 
@@ -128,10 +130,15 @@ Melde vorgemerkte Konflikte (Regel-Datei §1.3): pro Widerspruch 1 Hinweiszeile
 (`⚠ {Quelle} sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`) — das Artefakt gewinnt,
 Felder werden NICHT korrigiert (read-only).
 
-Gleiches gilt fuer den **Feld-Konflikt am `plan.md`-Kopf** (§7.3): widerspricht das
-Kopf-Statusfeld dem `## Progress`-Stand, 1 Hinweiszeile
+Gleiches gilt fuer den **Feld-Konflikt am `plan.md`-Kopf** (§7.3). **Konflikt ist genau eine
+Kombination:** ein physisch vorhandenes Feld, das als `Entwurf` gilt, UND ≥1 abgehakte
+`## Progress`-Checkbox → 1 Hinweiszeile
 `⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"` — Pfleger ist `dtb:plan-review` (§7.2),
 dieser Skill korrigiert nichts.
+**Vorrang der Still-Regel:** Als `Entwurf` behandelte Leerstellen (Feld fehlt oder liegt
+ausserhalb des Fensters) bleiben **still** — auch bei teilweise abgehaktem Progress; ebenso
+`Reviewed`/tolerierte Altwerte bei beliebigem Progress (das Feld sagt nichts ueber den
+Umsetzungsstand). Sonst erzeugte der haeufigste Altbestand dauerhaft eine ⚠-Zeile.
 
 ## Output-Format
 
@@ -169,8 +176,8 @@ flowchart LR
 
 ## Quality Gates (aktive Features)
 
-| Feature | Discovery | Spec | Plan | Review | Build | Impl-Review |
-|---------|-----------|------|------|--------|-------|-------------|
+| Feature | Discovery | Spec | Plan | Review | Verifikation | Impl-Review |
+|---------|-----------|------|------|--------|--------------|-------------|
 | {Feature-Name} | [x] | [x] | [x] | [ ] | [ ] | [ ] |
 
 {Falls kein Gate offen: "Alle Gates bestanden — bereit fuer Abnahme."}

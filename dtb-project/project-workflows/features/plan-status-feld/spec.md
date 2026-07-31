@@ -56,7 +56,12 @@ Ableitungs-Kanons.
 ### Nicht enthalten
 - Bestandsmigration archivierter Plaene (`archive/*/plan.md`) — Selbstheilung genuegt
 - Automatische Rueck-Stufung `Reviewed` → `Entwurf` bei Plan-Aenderungen nach dem Review
-- Aenderungen an `dtb:backlog-status` (liest das Feld nicht unterscheidend)
+- ~~Aenderungen an `dtb:backlog-status` (liest das Feld nicht unterscheidend)~~ —
+  **nachtraeglich in Scope genommen** (impl-review-Triage 2026-07-30, `8f3c3da`): Der Skill las
+  das Feld doch, was §7.4 (Status-Neutralitaet) widerspricht; er ist jetzt davon entkoppelt.
+  Aus demselben Grund ebenfalls nachtraeglich in Scope: `dtb:project-health` — dessen
+  Anzeige-Drift-Check pruefte den `plan.md`-Kopf gegen den abgeleiteten Status und haette nach
+  §7.4 Dauerwarnungen erzeugt; er ist jetzt auf `spec.md`/`task.md` eingeschraenkt
 - Aufnahme des Felds in die Sync-Ziele von `dtb:workflow-checkpoint` — **expliziter
   Nicht-Integrationspunkt:** ein Feld, ein Pfleger; ein zweiter Schreiber mit anderer Logik
   waere die naechste Drift-Quelle

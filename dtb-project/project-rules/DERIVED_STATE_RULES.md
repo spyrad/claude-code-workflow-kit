@@ -350,8 +350,12 @@ Lesende Skills (`dtb:workflow-next`, `dtb:workflow-status`) wenden diese Matrix 
 - **Guard-Pflicht:** Ein Vorschlag „Review ausstehend" darf nur bei **0/Y** abgehakten
   `## Progress`-Checkboxen ausgegeben werden. Bei teilweise oder vollstaendig abgehaktem
   Progress ist ein plan-review-Vorschlag falsch — dort gelten die Ableitungen nach §1.1.
-- **Konfliktmeldung (§1.3 analog):** Widerspricht das Feld dem `## Progress`-Stand, gewinnt das
-  Artefakt und der Widerspruch wird mit 1 Zeile gemeldet, nicht selbst korrigiert (read-only):
+- **Konfliktmeldung (§1.3 analog):** **Konflikt ist genau eine Kombination:** ein physisch
+  vorhandenes Feld, das als `Entwurf` gilt, UND ≥1 abgehakte `## Progress`-Checkbox. Jede andere
+  Kombination ist **kein** Konflikt — insbesondere `Reviewed` oder ein tolerierter Altwert bei
+  beliebigem Progress, denn das Feld sagt nichts ueber den Umsetzungsstand (§7.4).
+  Im Konfliktfall gewinnt das Artefakt und der Widerspruch wird mit 1 Zeile gemeldet, nicht
+  selbst korrigiert (read-only):
   `⚠ plan.md-Kopf sagt "{Wert}", ## Progress zeigt "{X/Y}"`.
   **Vorrang der Still-Regel:** Die Konfliktmeldung gilt nur fuer ein **physisch vorhandenes**
   Feld mit bekanntem Wert. Als `Entwurf` behandelte Leerstellen (Feld fehlt oder liegt ausserhalb

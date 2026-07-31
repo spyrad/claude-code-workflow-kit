@@ -13,8 +13,8 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Glob, Grep, Bash   # subset as needed
 pipeline:
   stage: idea | planning | implementation | development | session | monitoring | setup | greenfield
-  after: dtb:<predecessor>    # or null
-  next: dtb:<successor>       # or null
+  after: [dtb:<predecessor>]  # list, or null if entry point
+  next: [dtb:<successor>]     # list, or null if terminal
   consumes: [features/*/spec.md]   # artifacts read by this skill (features/*/{spec,plan,bug,task}.md, etc.)
   produces: [features/*/plan.md]   # artifacts written by this skill
 ---
@@ -33,8 +33,8 @@ pipeline:
 | Field | Type | Description |
 |-------|------|-------------|
 | `stage` | enum | Workflow phase: `idea`, `planning`, `implementation`, `development`, `session`, `monitoring`, `setup`, `greenfield` |
-| `after` | string/null | Predecessor skill (`dtb:<name>`) or `null` if entry point |
-| `next` | string/null | Successor skill (`dtb:<name>`) or `null` if terminal |
+| `after` | list/null | Predecessor skills (`[dtb:<name>, …]`) or `null` if entry point — a **list** even with a single element (`dtb:project-health` lints every element) |
+| `next` | list/null | Successor skills (`[dtb:<name>, …]`) or `null` if terminal — same list rule |
 | `consumes` | list | Artifact patterns this skill reads (e.g. `features/*/spec.md`, `INBOX.md`) |
 | `produces` | list | Artifact patterns this skill writes (e.g. `features/*/plan.md`) |
 
