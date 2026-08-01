@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-08-01 (Status unveraendert — alle 5 Features Y/Y „Fertig zum Testen", Abnahme haengt am Zielprojekt pkp; zweiter impl-review-Lauf fuer plan-status-feld am 2026-07-31 mit 10 Findings vollstaendig trianguliert `5b29f81`; Distribution auf dieser Maschine 41/41 @ `5b29f81`, andere Maschine steht auf `07d5107`)
+**Letzte Aktualisierung:** 2026-08-01 (feature-fast neu aufgenommen: Spezifiziert/Hoch, aus Idee #37; Bestand unveraendert — alle 5 Features Y/Y „Fertig zum Testen", Abnahme haengt am Zielprojekt pkp; Distribution auf dieser Maschine 41/41 @ `5b29f81`, andere Maschine steht auf `07d5107`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -17,6 +17,7 @@
 | Fachfragen-Erfassung | Fertig zum Testen | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
 | open-question | Fertig zum Testen | Mittel | features/open-question/spec.md | Aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Argument §6-konform als `- [ ] [Fach] {Frage}` ins aktive Feature-Artefakt schreibt — das Eingabe-Werkzeug der Fachfragen-Kette (#13→#26→#25→#24) |
 | plan-status-feld | Fertig zum Testen | Hoch | features/plan-status-feld/spec.md | plan.md-Kopf-Statusfeld bekommt genau einen Pfleger (plan-review schreibt bei jedem Verdikt den letzten Review-Stand), Leser gehaertet (Checkbox-Guard, ⚠-Konfliktmeldung, Toleranz-Matrix) + Kanonisierung in DERIVED_STATE_RULES.md |
+| feature-fast | Spezifiziert | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 
 ---
 
