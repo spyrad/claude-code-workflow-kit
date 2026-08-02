@@ -9,7 +9,7 @@ allowed-tools: Read, Write
 pipeline:
   stage: idea
   after: [dtb:idea]
-  next: [dtb:feature-discover]
+  next: [dtb:feature-discover, dtb:feature-fast, dtb:task]
   consumes: [INBOX.md]
   produces: [INBOX.md]
 ---
@@ -69,7 +69,7 @@ Idee #{N} ({Datum}):
 
 Aktion?
   1. Behalten (bleibt Offen)
-  2. Ausarbeiten → startet /dtb:feature-discover mit dieser Idee
+  2. Ausarbeiten → Groesseneinschaetzung, dann Task / Fast-Track / Voll-Schiene
   3. Verwerfen
   4. Zusammenlegen mit anderer Idee (Nummer angeben)
 ```
@@ -78,13 +78,30 @@ Aktion?
 
 **Behalten (1):** Keine Aenderung, weiter zur naechsten Idee.
 
-**Ausarbeiten (2):**
+**Ausarbeiten (2) — Dreier-Weiche (Groesseneinschaetzung):**
+
+Schaetze die Idee in einem Satz mit Begruendung ein und schlage die passende Schiene vor —
+immer Vorschlag + Bestaetigung, nie automatisch:
+
+| Einstufung | Heuristik | Schiene |
+|------------|-----------|---------|
+| Operative Aufgabe | kein Spec-wuerdiges Feature: Wartung, Config, einmalige Handgriffe | `/dtb:task` |
+| Kleines Feature | wenige Module, absehbar max. 2 Plan-Phasen, keine neuen Konzepte | `/dtb:feature-fast` |
+| Sonst | alles andere — bei Unsicherheit ist die Voll-Schiene der sichere Default | `/dtb:feature-discover` |
+
+```
+Einschaetzung: {1 Satz mit Begruendung}
+Vorschlag: {Task | Fast-Track | Voll-Schiene} ({Skill-Befehl})
+Uebernehmen? (Ja / lieber {Alternative 1} / lieber {Alternative 2})
+```
+
+Nach der Bestaetigung:
 - Setze Status auf `In Arbeit`
 - Beende den Review
-- Weise darauf hin: `/dtb:feature-discover` als naechsten Schritt ausfuehren
+- Weise auf den gewaehlten Skill als naechsten Schritt hin
 ```
 Idee #{N} auf "In Arbeit" gesetzt.
-Naechster Schritt: /dtb:feature-discover
+Naechster Schritt: {/dtb:task | /dtb:feature-fast | /dtb:feature-discover}
 ```
 
 **Verwerfen (3):**

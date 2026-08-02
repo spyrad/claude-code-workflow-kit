@@ -248,14 +248,14 @@ der Sonderpfade (Weichen-Routing, Wiederaufnahme, Eskalation).
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Skill-Geruest + Eingangs-Gate
-- [x] 1.2 Struktur-Check Template-Quellen
-- [x] 1.3 Erhebungs-Kern (Defaults + Kernfragen)
-- [x] 1.4 Sammelvorlage + Veto + Zwischenspeicher
-- [x] 1.5 Schreibphase + Eskalation
-- [ ] 2.1 idea-review Dreier-Weiche
-- [ ] 2.2 feature-discover Umleitung
-- [ ] 2.3 Wartungs-Hinweise Quell-Skills
+- [x] 1.1 Skill-Geruest + Eingangs-Gate — `eea3d67`
+- [x] 1.2 Struktur-Check Template-Quellen — `eea3d67`
+- [x] 1.3 Erhebungs-Kern (Defaults + Kernfragen) — `eea3d67`
+- [x] 1.4 Sammelvorlage + Veto + Zwischenspeicher — `eea3d67`
+- [x] 1.5 Schreibphase + Eskalation — `eea3d67`
+- [x] 2.1 idea-review Dreier-Weiche
+- [x] 2.2 feature-discover Umleitung
+- [x] 2.3 Wartungs-Hinweise Quell-Skills
 - [ ] 3.1 CLAUDE.md ergaenzen
 - [ ] 3.2 Distribution (kit-sync)
 - [ ] 3.3 E2E-Probelauf (#28/#25/#35) + Gesundheitscheck

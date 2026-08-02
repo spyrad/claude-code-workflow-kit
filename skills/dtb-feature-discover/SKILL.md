@@ -47,6 +47,17 @@ Zeige die gefundene Idee:
 Discovery fuer Idee #{N}: "{Idee-Text}"
 ```
 
+**Kleinfall-Weiche:** Wirkt die geladene Idee klein (wenige Module, absehbar max. 2
+Plan-Phasen, keine neuen Konzepte), biete VOR dem Codebase-Scan die Umleitung an —
+Vorschlag + Bestaetigung, kein Automatismus:
+
+```
+Diese Idee wirkt klein ({1-Satz-Begruendung}).
+Fast-Track nehmen? /dtb:feature-fast {Nummer} — buendelt discover/spec/plan zu einem
+Durchgang mit Default-Annahmen und einer vetobaren Sammelvorlage.
+(Nein → Discovery laeuft hier normal weiter)
+```
+
 ---
 
 ## Schritt 2: Codebase-Scan
@@ -170,6 +181,10 @@ Auswahlpunkte; die offenen Klaerungsfragen (3a-3e) bleiben Freitext ohne Options
 ---
 
 ## Schritt 6: discovery.md speichern
+
+> **Wartungs-Hinweis (Struktur-Anker):** Diese Sektion samt Template wird von
+> `dtb:feature-fast` als Struktur-Anker referenziert (Grep auf `## Schritt 6`). Bei
+> Umbenennung oder Umbau der Sektion den Struktur-Check dort mitziehen.
 
 Lege bei Bedarf den Ordner `{config.paths.workflows}/features/{slug}/` an und speichere in
 `{config.paths.workflows}/features/{slug}/discovery.md` (setzt den Resume-Marker aus
