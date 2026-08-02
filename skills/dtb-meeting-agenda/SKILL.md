@@ -69,12 +69,21 @@ Ein anderes Argument → wie Standard behandeln, plus Hinweiszeile:
 > auf die Zeilenform prueft, sammelt diese Doku-Zeilen als vermeintliche Fragen ein.
 > Beide Bedingungen zusammen schliessen das aus.
 
-**Fortsetzungszeilen (§6.1):** Eingerueckte Zeilen unmittelbar unter einem Frage-Bullet
-gehoeren zu dieser Frage:
+**Fortsetzungszeilen:** Eingerueckte Zeilen unmittelbar unter einem Frage-Bullet gehoeren
+zu dieser Frage. Es gibt **drei** Formen — die ersten beiden sind Meeting-Nachtraege (§6.1),
+die dritte ist blosser Zeilenumbruch:
 
 - `→ Zwischenstand: … (Meeting YYYY-MM-DD)` — Frage bleibt offen, mehrere sind erlaubt
   und akkumulieren
 - `→ Antwort: … (Meeting YYYY-MM-DD)` — steht unter einer abgehakten Frage
+- **eingerueckte Zeile ohne `→`-Praefix** — Umbruch des Fragetexts: an den Fragetext
+  anfuegen (mit einem Leerzeichen verbunden), nicht als eigener Eintrag behandeln
+
+> **Umbrueche sind der Normalfall, nicht die Ausnahme** (Befund Probelauf 2026-08-02):
+> Lange Fragen werden beim Erfassen umgebrochen. Wer nur die erste Zeile nimmt,
+> schneidet sie mitten im Satz ab — im Bestand traf das die einzige echte Frage, deren
+> zweite Zeile die Einschraenkung „aber selbst kein Blocker" traegt. Das Abschneiden
+> wuerde der Richtlinie „Fragen woertlich uebernehmen" widersprechen.
 
 **Nicht aufnehmen:** untagged Bullets (normale offene Punkte, §6.3), Zeilen ausserhalb
 von `## Offene Punkte`, alles unter `archive/`.
@@ -124,6 +133,11 @@ Datei-Reihenfolge), und am Ende:
 - [x] {Frage}
       → Antwort: {Text} (Meeting {YYYY-MM-DD})
 ```
+
+**Keine beantworteten Fragen im Bestand:** Der Abschnitt erscheint trotzdem, mit der Zeile
+`_(keine beantworteten [Fach]-Fragen im Bestand)_`. Er wird **nicht** stillschweigend
+weggelassen — sonst sieht der `alle`-Modus aus wie der Standard-Modus, und der Nutzer
+weiss nicht, ob sein Argument gewirkt hat.
 
 ### Leer-Fall (keine offene Frage gefunden)
 
