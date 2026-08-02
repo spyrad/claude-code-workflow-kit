@@ -248,11 +248,11 @@ der Sonderpfade (Weichen-Routing, Wiederaufnahme, Eskalation).
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [ ] 1.1 Skill-Geruest + Eingangs-Gate
-- [ ] 1.2 Struktur-Check Template-Quellen
-- [ ] 1.3 Erhebungs-Kern (Defaults + Kernfragen)
-- [ ] 1.4 Sammelvorlage + Veto + Zwischenspeicher
-- [ ] 1.5 Schreibphase + Eskalation
+- [x] 1.1 Skill-Geruest + Eingangs-Gate
+- [x] 1.2 Struktur-Check Template-Quellen
+- [x] 1.3 Erhebungs-Kern (Defaults + Kernfragen)
+- [x] 1.4 Sammelvorlage + Veto + Zwischenspeicher
+- [x] 1.5 Schreibphase + Eskalation
 - [ ] 2.1 idea-review Dreier-Weiche
 - [ ] 2.2 feature-discover Umleitung
 - [ ] 2.3 Wartungs-Hinweise Quell-Skills
