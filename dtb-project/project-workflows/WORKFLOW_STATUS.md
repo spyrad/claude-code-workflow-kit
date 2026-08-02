@@ -9,13 +9,14 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| feature-fast (#37) | In Arbeit | 0/11 | `/dtb:implement feature-fast` — Phase 1 (zuerst project-health-Baseline, dann 1.1); plan.md Reviewed (plan-review 2026-08-01: REVISE → 3 WARNs behoben) |
 | plan-status-feld (#30) | Fertig zum Testen | 12/12 | Reale Abnahme; Verdikt-Nachzug aufgeschoben (Entscheidung 2026-08-01) |
 | meeting-dump (#24) | Fertig zum Testen | 10/10 | Real abnehmen (echtes Meeting im Zielprojekt) |
 | commit-and-push | Fertig zum Testen | 10/10 | Real abnehmen — am 2026-07-30 zweimal produktiv gelaufen (`eda0ed1`, `8f3c3da`) |
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) |
 
-Kein Feature „In Arbeit". Keine Konflikte zwischen Statusfeldern und Ableitung.
+Laufende Arbeit: **feature-fast** (gestartet 2026-08-01 via feature-start). Keine Konflikte zwischen Statusfeldern und Ableitung.
 `plan-status-feld/review.md`: Verdikt REJECTED = Stand des Reviews vom 2026-07-31, nicht des
 Artefakts (Triage 10 Fixed · 0 PENDING, committet `5b29f81`).
 

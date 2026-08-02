@@ -17,7 +17,7 @@
 | Fachfragen-Erfassung | Fertig zum Testen | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
 | open-question | Fertig zum Testen | Mittel | features/open-question/spec.md | Aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Argument §6-konform als `- [ ] [Fach] {Frage}` ins aktive Feature-Artefakt schreibt — das Eingabe-Werkzeug der Fachfragen-Kette (#13→#26→#25→#24) |
 | plan-status-feld | Fertig zum Testen | Hoch | features/plan-status-feld/spec.md | plan.md-Kopf-Statusfeld bekommt genau einen Pfleger (plan-review schreibt bei jedem Verdikt den letzten Review-Stand), Leser gehaertet (Checkbox-Guard, ⚠-Konfliktmeldung, Toleranz-Matrix) + Kanonisierung in DERIVED_STATE_RULES.md |
-| feature-fast | Spezifiziert | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
+| feature-fast | In Arbeit | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 
 ---
 
