@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-08-02 (meeting-agenda neu: Geplant/Mittel, aus Idee #25 via Fast-Track-E2E; feature-fast In Arbeit 10/11; Bestand unveraendert — 5 Features Y/Y „Fertig zum Testen", Abnahme haengt am Zielprojekt pkp; Distribution diese Maschine 42 Artefakte @ `eb0cbaf`, andere Maschine steht auf `07d5107`)
+**Letzte Aktualisierung:** 2026-08-02 (Checkpoint: feature-fast 11/11 Fertig zum Testen, Triage 10/10 Fixed `1eec2ea`; meeting-agenda Geplant/Mittel aus Idee #25 via Fast-Track-E2E; Bestand unveraendert — 5 Features Y/Y, Abnahme haengt am Zielprojekt pkp; Distribution diese Maschine 42 @ `1eec2ea`, andere Maschine `07d5107`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -18,7 +18,7 @@
 | open-question | Fertig zum Testen | Mittel | features/open-question/spec.md | Aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Argument §6-konform als `- [ ] [Fach] {Frage}` ins aktive Feature-Artefakt schreibt — das Eingabe-Werkzeug der Fachfragen-Kette (#13→#26→#25→#24) |
 | plan-status-feld | Fertig zum Testen | Hoch | features/plan-status-feld/spec.md | plan.md-Kopf-Statusfeld bekommt genau einen Pfleger (plan-review schreibt bei jedem Verdikt den letzten Review-Stand), Leser gehaertet (Checkbox-Guard, ⚠-Konfliktmeldung, Toleranz-Matrix) + Kanonisierung in DERIVED_STATE_RULES.md |
 | meeting-agenda | Geplant | Mittel | features/meeting-agenda/spec.md | Rein lesende Agenda-Sicht: sammelt offene `[Fach]`-Fragen aus features/*/{discovery,spec,plan}.md, gruppiert nach Feature — die fehlende Lese-Ansicht der Fachfragen-Kette (#13→#26→#25→#24); via Fast-Track geplant |
-| feature-fast | In Arbeit | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
+| feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 
 ---
 

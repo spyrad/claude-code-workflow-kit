@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-02
 **Ziel:** Vor dem Fach-Meeting eine fertige Agenda aller offenen [Fach]-Fragen ohne Handarbeit — die fehlende Lese-Ansicht der Fachfragen-Kette.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Geplant <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
