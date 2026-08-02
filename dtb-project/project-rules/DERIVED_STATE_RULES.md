@@ -20,6 +20,7 @@ Regeln in §4) mit festen Dateinamen:
 | `bug.md` | Bug-Report inkl. `## Fix-Schritte` (statt eigenem Ordner-Change fuer Bugs) |
 | `task.md` | Aufgabe inkl. `## Schritte` |
 | `review.md` | Impl-Review-Report (`dtb:impl-review`), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1 |
+| `fast-draft.md` | Fast-Track-Zwischenspeicher (`dtb:feature-fast`, unbestaetigte Sammelvorlage), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1; ein Ordner NUR mit fast-draft.md gilt als "Idee in Erhebung" (kein ableitbarer Feature-Status) |
 
 Ein archivierter Change ist der ganze Ordner unter `archive/<slug>/`.
 
@@ -385,4 +386,6 @@ Der `dtb:implement`-Loop bleibt gegen dieses Feld blind.
 **§6.1 `→ Zwischenstand:`-Form + §6.3 schreibender Konsument ergaenzt:** Feature meeting-dump, 2026-07-21
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
 **§7 Plan-Kopf-Statusfeld (Review-Nachweis) ergaenzt:** Feature plan-status-feld, 2026-07-30
+(Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
+**`fast-draft.md` als status-neutrale Ordner-Datei ergaenzt:** Feature feature-fast, 2026-08-02
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)

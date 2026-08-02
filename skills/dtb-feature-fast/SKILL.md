@@ -9,13 +9,13 @@ description: >-
   approval — derived state, gates and reviews stay unchanged.
 disable-model-invocation: true
 argument-hint: "[INBOX-Nummer oder Stichwort]"
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Glob, Grep, Bash
 pipeline:
   stage: planning
-  after: [dtb:idea-review]
+  after: [dtb:idea-review, dtb:feature-discover]
   next: [dtb:plan-review]
-  consumes: [INBOX.md, workflow.config.yaml, features/*/discovery.md, features/*/spec.md, features/*/plan.md]
-  produces: [features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/fast-draft.md]
+  consumes: [INBOX.md, workflow.config.yaml, features/*/discovery.md, features/*/spec.md, features/*/plan.md, project-rules/lessons.md]
+  produces: [features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/fast-draft.md, INBOX.md, BACKLOG.md]
 ---
 
 # Fast-Track: kleines Feature in einem Durchgang
@@ -35,6 +35,19 @@ gelten unveraendert.
 Lies `workflow.config.yaml` im Projekt-Root.
 
 Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
+
+## Lektionen als Prior lesen
+
+Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`).
+
+- Fehlt die Datei oder ist sie leer (keine Datenzeile unter der `|---|`-Trennzeile) →
+  diesen Schritt still ueberspringen (kein Abbruch)
+- Sonst: filtere Eintraege, deren `Applies-to` `feature-fast`, `impl-plan` (der Fast-Track
+  ersetzt dessen Planerstellung) oder `alle` enthaelt
+- Wende die passenden `Rule`-Aussagen bei Erhebung und Artefakt-Erzeugung still an
+- Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
+- **Konflikt** (zwei behaltene Lektionen mit gegensaetzlicher `Rule`): beide zeigen und
+  den Widerspruch melden — nicht selbst aufloesen
 
 ---
 
@@ -81,17 +94,31 @@ Source. Vor jeder Erhebung pruefst du per Grep, ob die erwarteten Anker-Sektione
 | `~/.claude/skills/dtb-feature-plan/SKILL.md` | `## Template fuer spec.md` |
 | `~/.claude/skills/dtb-impl-plan/SKILL.md` | `## Template fuer plan.md` |
 
+**Aufloesung je Quelle** (Muster wie `dtb:plan-review` Schritt 2): zuerst die installierte
+Kopie `~/.claude/skills/dtb-*/SKILL.md`, sonst Fallback auf `skills/dtb-*/SKILL.md` im
+Projekt-Root (Kit-Repo-Fall).
+
 **Alle drei Anker gefunden** → eine Statuszeile ausgeben und weiter:
 `🧩 Struktur-Check: 3/3 Template-Anker gefunden`
 
-**Ein Anker fehlt** → Warnung und STOPP (kein Weiterarbeiten auf veralteter Basis):
+**Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift):
 
-```
-⚠ Struktur-Check fehlgeschlagen: {Quelle} — Anker "{Anker}" nicht gefunden.
-   Die Template-Quelle hat sich strukturell geaendert; ich buendele NICHT auf veralteter
-   Basis. → dtb:feature-fast an die neue Struktur anpassen (die Wartungs-Hinweise an den
-   Quell-Templates nennen diese Kopplung). Voll-Schiene als Ausweich: /dtb:feature-discover
-```
+1. **Datei in beiden Quellen nicht gefunden** → Installations-Problem, kein Drift:
+
+   ```
+   ⚠ Template-Quelle {Skill} weder global (~/.claude/skills/) noch im Projekt gefunden.
+      → /dtb:kit-sync sync ausfuehren (bzw. install), dann feature-fast erneut starten.
+   ```
+
+2. **Datei vorhanden, Anker fehlt** → Struktur-Drift, STOPP (kein Weiterarbeiten auf
+   veralteter Basis):
+
+   ```
+   ⚠ Struktur-Check fehlgeschlagen: {Quelle} — Anker "{Anker}" nicht gefunden.
+      Die Template-Quelle hat sich strukturell geaendert; ich buendele NICHT auf veralteter
+      Basis. → dtb:feature-fast an die neue Struktur anpassen (die Wartungs-Hinweise an den
+      Quell-Templates nennen diese Kopplung). Voll-Schiene als Ausweich: /dtb:feature-discover
+   ```
 
 > **Benanntes Restrisiko:** Der Check prueft Anker-EXISTENZ, nicht Template-INHALT. Gegen
 > inhaltliche Drift verteidigen die Wartungs-Hinweise an den drei Quell-Templates — bei
@@ -179,7 +206,8 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
   Wiederaufnahme-Punkt), kein Artefakt wird geschrieben.
 - **Wiederaufnahme** (Einstieg aus Schritt 1.4): Existiert beim Start eine `fast-draft.md`,
   biete an: (1) fortsetzen — Vorlage aus der Datei erneut zeigen, Vetos aufnehmen;
-  (2) verwerfen — Datei loeschen und neu erheben. Nie stillschweigend neu erheben.
+  (2) verwerfen — Datei loeschen (`rm .../fast-draft.md`, Bash) und neu erheben.
+  Nie stillschweigend neu erheben.
 
 ---
 
@@ -197,7 +225,14 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
    Manual-Checkpoint-Kriterien Pflicht, `## Progress` mit genau einer Zeile pro Schritt
    (§2), Kopfzeile `**Status:** Entwurf` im 10-Zeilen-Fenster (§7 — Pfleger ist und
    bleibt `dtb:plan-review`; dieser Skill fasst das Feld nach der Anlage NIE wieder an).
-5. **Zwischenspeicher aufraeumen:** `fast-draft.md` loeschen — ihr Zweck ist erfuellt.
+5. **Zwischenspeicher aufraeumen:** `fast-draft.md` loeschen — ihr Zweck ist erfuellt:
+   `rm {config.paths.workflows}/features/{slug}/fast-draft.md` (Bash; Write kann nicht loeschen).
+   **Keine A-IDs in den Artefakten:** Annahmen-Nummern (A1, A2, ...) leben nur in Vorlage
+   und fast-draft.md — in den finalen Artefakten wird die Begruendung ausgeschrieben
+   ("per Veto-Vorlage bestaetigt {Datum}"), sonst zeigen Belege nach dem Loeschen ins Leere.
+   **Provenienz-Fusszeile (verbindlich):** Jedes der drei Artefakte endet auf
+   `**Erstellt mit:** /dtb:feature-fast (Fast-Track, Sammelvorlage bestaetigt {Datum})` —
+   die bewusste Ausnahme von der Ununterscheidbarkeit (siehe "Wichtig").
 6. **INBOX aktualisieren:** Idee auf `Ausgearbeitet`, Links anhaengen:
    `→ features/{slug}/discovery.md → features/{slug}/spec.md`
 7. **BACKLOG anbieten** (analog feature-plan Schritt 10). Bei Ja: Status-Spalte mit dem
@@ -217,8 +252,9 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
 ## Wichtig
 
 - **Erhebung verkuerzen, Absicherung nie:** Derived State, Hard-Gates, plan-review und
-  impl-review gelten unveraendert; die erzeugten Artefakte muessen von Voll-Schienen-
-  Artefakten ununterscheidbar sein
+  impl-review gelten unveraendert; die erzeugten Artefakte muessen fuer die nachgelagerte
+  Kette und die Statusableitung von Voll-Schienen-Artefakten ununterscheidbar sein —
+  einzige bewusste Ausnahme ist die Provenienz-Fusszeile (Schritt 5.5)
 - **INBOX ist Pflicht-Vorstufe** — kein Ad-hoc-Einstieg (Gate in Schritt 1)
 - **Vor der Sammelvorlage hoechstens 3 Kernfragen**, danach entscheidet der Nutzer per
   Freitext-Veto — keine weiteren Interview-Runden

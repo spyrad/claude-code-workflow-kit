@@ -11,7 +11,7 @@ allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: planning
   after: [dtb:idea-review]
-  next: [dtb:feature-plan]
+  next: [dtb:feature-plan, dtb:feature-fast]
   consumes: [INBOX.md, workflow.config.yaml]
   produces: [features/*/discovery.md, INBOX.md]
 ---

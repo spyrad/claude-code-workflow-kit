@@ -84,7 +84,7 @@ Currently the kit ships no command — the directory and the `commands/dtb-*.md`
 
 - `dtb-project/project-changelog/YYYY-MM/YYYY-MM-DD.md` — Session logs (appended per session)
 - `dtb-project/project-workflows/WORKFLOW_STATUS.md` — Status dashboard (overwritten each update, max 60-80 lines)
-- `dtb-project/project-workflows/features/<slug>/` — **Change-Folder-Modell:** one folder per change (kebab-case slug), fixed filenames inside — `discovery.md`, `spec.md`, `plan.md`, optional `bug.md`/`task.md`. Replaces the former flat `FEATURE_*.md`/`PLAN_*.md`/`DISCOVERY_*.md`/`BUG_*.md`/`TASK_*.md` files paired by name. Status is derived from files present in the folder + `## Progress` in `plan.md` (see `DERIVED_STATE_RULES.md`)
+- `dtb-project/project-workflows/features/<slug>/` — **Change-Folder-Modell:** one folder per change (kebab-case slug), fixed filenames inside — `discovery.md`, `spec.md`, `plan.md`, optional `bug.md`/`task.md` (plus the status-neutral `review.md` from `dtb:impl-review` and the transient `fast-draft.md` from `dtb:feature-fast`). Replaces the former flat `FEATURE_*.md`/`PLAN_*.md`/`DISCOVERY_*.md`/`BUG_*.md`/`TASK_*.md` files paired by name. Status is derived from files present in the folder + `## Progress` in `plan.md` (see `DERIVED_STATE_RULES.md`)
 - `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`); stays a flat per-project file (not a change folder)
 - `dtb-project/project-workflows/archive/<slug>/` — Archived changes (whole folder moved via `git mv`, or filesystem move + backup in non-git projects), plus archive log
 - `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)

@@ -91,10 +91,10 @@ eine echte Agenda erzeugt.
 
 | Thema | Optionen | Entscheidung | Begruendung |
 |-------|----------|-------------|-------------|
-| Beantwortete `[x]`-Fragen | immer zeigen / nie / per Argument | per Argument (Standard: ausgeblendet) | Agenda kurz halten; Antworten stehen im Artefakt (Fast-Track A3, bestaetigt) |
-| Zwischenstaende §6.1 | ausblenden / markiert zeigen | markiert "in Klaerung" | offen = meeting-relevant (A4, bestaetigt) |
-| Scan-Reichweite | inkl. archive/ / nur features/ | nur features/ | abgeschlossene Changes gehoeren nicht auf die Agenda (A5, bestaetigt) |
-| Pipeline-Einordnung | stage session / monitoring | monitoring, after open-question, next meeting-dump | Kette im Graph sichtbar (A7, bestaetigt) |
+| Beantwortete `[x]`-Fragen | immer zeigen / nie / per Argument | per Argument (Standard: ausgeblendet) | Agenda kurz halten; Antworten stehen im Artefakt (per Veto-Vorlage bestaetigt 2026-08-02) |
+| Zwischenstaende §6.1 | ausblenden / markiert zeigen | markiert "in Klaerung" | offen = meeting-relevant (per Veto-Vorlage bestaetigt 2026-08-02) |
+| Scan-Reichweite | inkl. archive/ / nur features/ | nur features/ | abgeschlossene Changes gehoeren nicht auf die Agenda (per Veto-Vorlage bestaetigt 2026-08-02) |
+| Pipeline-Einordnung | stage session / monitoring | monitoring, after open-question, next meeting-dump | Kette im Graph sichtbar (per Veto-Vorlage bestaetigt 2026-08-02) |
 
 ---
 

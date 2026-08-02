@@ -256,9 +256,9 @@ der Sonderpfade (Weichen-Routing, Wiederaufnahme, Eskalation).
 - [x] 2.1 idea-review Dreier-Weiche — `eb0cbaf`
 - [x] 2.2 feature-discover Umleitung — `eb0cbaf`
 - [x] 2.3 Wartungs-Hinweise Quell-Skills — `eb0cbaf`
-- [x] 3.1 CLAUDE.md ergaenzen
-- [x] 3.2 Distribution (kit-sync)
-- [x] 3.3 E2E-Probelauf (#28/#25/#35) + Gesundheitscheck
+- [x] 3.1 CLAUDE.md ergaenzen — `8c095a0`
+- [x] 3.2 Distribution (kit-sync) — `8c095a0`
+- [x] 3.3 E2E-Probelauf (#28/#25/#35) + Gesundheitscheck — `8c095a0`
 
 ---
 

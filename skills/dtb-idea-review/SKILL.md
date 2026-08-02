@@ -96,11 +96,16 @@ Uebernehmen? (Ja / lieber {Alternative 1} / lieber {Alternative 2})
 ```
 
 Nach der Bestaetigung:
-- Setze Status auf `In Arbeit`
+- **Task-Lane:** Setze Status direkt auf `Ausgearbeitet` mit Vermerk
+  `→ als Aufgabe geroutet ({Datum}); task.md-Link ergaenzt /dtb:task` — KEIN `In Arbeit`.
+  Grund: dtb:task schliesst die Erfassung einschrittig ab; ein dauerhaftes "In Arbeit"
+  wuerde von argumentlosen feature-fast-/feature-discover-Laeufen automatisch geladen
+  (impl-review F2, 2026-08-02)
+- **Fast-Track- oder Voll-Schiene:** Setze Status auf `In Arbeit`
 - Beende den Review
 - Weise auf den gewaehlten Skill als naechsten Schritt hin
 ```
-Idee #{N} auf "In Arbeit" gesetzt.
+Idee #{N} auf "{Ausgearbeitet | In Arbeit}" gesetzt.
 Naechster Schritt: {/dtb:task | /dtb:feature-fast | /dtb:feature-discover}
 ```
 
