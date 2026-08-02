@@ -2,8 +2,8 @@
 
 **Erstellt:** 2026-08-01
 **Feature-Spec:** `features/feature-fast/spec.md`
-**Geschaetzte Dauer:** 4-5h (3 Phasen)
-**Status:** Entwurf <!-- Review-Nachweis (nicht Umsetzungsstand); einziger Pfleger ist dtb:plan-review — Kanon: project-rules/DERIVED_STATE_RULES.md §7 -->
+**Geschaetzte Dauer:** 4.5-5.5h (3 Phasen)
+**Status:** Reviewed (plan-review 2026-08-01: REVISE → 3 WARNs behoben) <!-- Review-Nachweis (nicht Umsetzungsstand); einziger Pfleger ist dtb:plan-review — Kanon: project-rules/DERIVED_STATE_RULES.md §7 -->
 
 ---
 
@@ -13,7 +13,7 @@
 |-------|-------------|-------|--------|
 | Phase 1 | Orchestrator-Skill `dtb:feature-fast` bauen | 2-3h | Geplant |
 | Phase 2 | Weichen (idea-review, feature-discover) + Kopplungs-Hinweise | 1h | Geplant |
-| Phase 3 | Doku + E2E-Probelauf + Distribution | 1h | Geplant |
+| Phase 3 | Doku + Distribution + E2E-Probelauf | 1.5h | Geplant |
 
 ---
 
@@ -47,8 +47,10 @@ Defaults, Sammelvorlage mit Veto-Mechanik, Schreibphase, Eskalation, Wiederaufna
 - **Output:** Frontmatter (`name: dtb:feature-fast`, `disable-model-invocation: true`,
   `allowed-tools: Read, Write, Glob, Grep`, pipeline `stage: planning`,
   `after: [dtb:idea-review]`, `next: [dtb:plan-review]`, `consumes: [INBOX.md,
-  workflow.config.yaml]`, `produces: [features/*/discovery.md, features/*/spec.md,
-  features/*/plan.md]`); Schritt 0 Config; Gate: INBOX-Eintrag laden (Argument oder
+  workflow.config.yaml, features/*/discovery.md, features/*/spec.md, features/*/plan.md]`
+  (Bestandsaufnahme liest vorhandene Artefakte — plan-review Befund 3), `produces:
+  [features/*/discovery.md, features/*/spec.md, features/*/plan.md,
+  features/*/fast-draft.md]`); Schritt 0 Config; Gate: INBOX-Eintrag laden (Argument oder
   In-Arbeit-Filter), fehlt er → Weigerung + Redirect `/dtb:idea`; Slug nach §4 inkl.
   Kollisionsregel; Bestandsaufnahme des Change-Ordners (vorhandene Artefakte uebernehmen,
   nur fehlende vorbefuellen)
@@ -60,7 +62,9 @@ Defaults, Sammelvorlage mit Veto-Mechanik, Schreibphase, Eskalation, Wiederaufna
 - **Output:** Check-Sektion: prueft in den installierten Kopien unter `~/.claude/skills/`
   die drei Anker — feature-discover `## Schritt 6` (Discovery-Template), feature-plan
   `## Template fuer spec.md`, impl-plan `## Template fuer plan.md` (inkl. `## Progress`-Block);
-  fehlt ein Anker → benannte Warnmeldung + Stopp (kein Weiterarbeiten)
+  fehlt ein Anker → benannte Warnmeldung + Stopp (kein Weiterarbeiten). **Benanntes
+  Restrisiko** (plan-review Pre-Mortem): der Check prueft Anker-EXISTENZ, nicht
+  Template-INHALT — die inhaltliche Verteidigung sind die Wartungs-Hinweise aus 2.3
 
 #### Schritt 1.3: Erhebungs-Kern (Defaults + Kernfragen)
 - **Zweck:** Die eigentliche Buendelung — Interviews durch begruendete Annahmen ersetzen
@@ -80,9 +84,10 @@ Defaults, Sammelvorlage mit Veto-Mechanik, Schreibphase, Eskalation, Wiederaufna
 - **Output:** Vorlagen-Format: Kurzfassung je Artefakt (nicht voller Wortlaut) +
   Annahmen-Block (max. ~10, nummeriert); Veto-Verarbeitung: Freitext-Korrekturen
   ("A2: stattdessen ..."), Unkommentiertes gilt als angenommen; Zwischenspeicher
-  `features/{slug}/fast-draft.md` (geschrieben vor dem Ok bzw. bei Abbruch, geloescht
-  nach erfolgreichem Artefakt-Schreiben); Wiederaufnahme: existiert fast-draft.md beim
-  Start → anbieten statt neu zu erheben
+  `features/{slug}/fast-draft.md` (geschrieben vor dem Ok bzw. bei Abbruch; wird
+  committet/gepusht — Wiederaufnahme auf beiden Maschinen, Entscheid plan-review
+  2026-08-01; geloescht nach erfolgreichem Artefakt-Schreiben); Wiederaufnahme:
+  existiert fast-draft.md beim Start → anbieten statt neu zu erheben
 
 #### Schritt 1.5: Schreibphase + Eskalation
 - **Zweck:** Konventionskonforme Artefakte; geordneter Ausstieg nach oben (Spec-Risiken 4/5)
@@ -102,6 +107,7 @@ Defaults, Sammelvorlage mit Veto-Mechanik, Schreibphase, Eskalation, Wiederaufna
 ### Checkpoint-Kriterien
 
 #### Automated
+- [ ] Baseline: `/dtb:project-health` VOR Schritt 1.1 einmal ausgefuehrt, Stand im Session-Log festgehalten (Vergleichswert fuer das Phase-3-Kriterium)
 - [ ] Datei existiert: `skills/dtb-feature-fast/SKILL.md`
 - [ ] Grep Frontmatter (Zeilen 1-20): `name: dtb:feature-fast`, `disable-model-invocation: true`, `next: [dtb:plan-review]`
 - [ ] Grep Struktur-Check-Sektion: alle drei Anker-Strings woertlich benannt (`## Schritt 6`, `## Template fuer spec.md`, `## Template fuer plan.md`)
@@ -164,10 +170,11 @@ Kopplung an die drei Quell-Skills ist an Ort und Stelle dokumentiert.
 
 ---
 
-## Phase 3: Doku + E2E-Probelauf + Distribution
+## Phase 3: Doku + Distribution + E2E-Probelauf
 
 ### Ziel
-Der Skill ist dokumentiert, einmal real durchlaufen und global verteilt.
+Der Skill ist dokumentiert, verteilt und einmal komplett real durchlaufen — inklusive
+der Sonderpfade (Weichen-Routing, Wiederaufnahme, Eskalation).
 
 ### Schritte
 
@@ -178,37 +185,47 @@ Der Skill ist dokumentiert, einmal real durchlaufen und global verteilt.
 - **Output:** feature-fast in der "Feature workflow"-Zeile + 1-Satz-Beschreibung im
   Lifecycle-Absatz (Fast-Track als Alternative ab reviewtem Kleinfall)
 
-#### Schritt 3.2: E2E-Probelauf mit echter Idee
-- **Zweck:** Beweis am lebenden Objekt statt Trockenuebung
-- **Dateien:** dtb-project/project-workflows/features/gitattributes/ (oder gewaehlter Slug), INBOX.md
-- **Input:** Inbox #28 (.gitattributes — kleiner, echter Kandidat)
-- **Output:** Kompletter Fast-Track-Lauf: Weiche → max. 3 Kernfragen → Sammelvorlage →
-  Ok → drei Artefakte; Verifikation: impl-plan-Gate-Bedingung erfuellt (spec.md existiert),
-  plan.md-Kopf `Status: Entwurf` in Zeile ≤10, `## Progress` §2-konform; Befunde fliessen
-  als Korrekturen in den Skill zurueck
-
-#### Schritt 3.3: Distribution + Gesundheitscheck
-- **Zweck:** Skill auf beide Maschinen bringen; keine Regression im Kit
+#### Schritt 3.2: Distribution (vorgezogen)
+- **Zweck:** Der Probelauf ruft die INSTALLIERTE Kopie auf — Distribution muss davor
+  liegen (plan-review Befund 2); Skill auf beide Maschinen bringen
 - **Dateien:** ~/.claude/skills/dtb-feature-fast/SKILL.md, ~/.claude/dtb-lock.json
 - **Input:** dtb:kit-sync (Klasse-A-Muster erfasst den Skill automatisch)
 - **Output:** `/dtb:kit-sync sync` gelaufen (Lock-Eintrag vorhanden, kein Drift);
-  `/dtb:project-health` ohne neue Befunde
+  Hinweis: fuer die Aufrufbarkeit der frisch installierten Kopie ggf. frische Session
+  starten (Verfuegbarkeits-Verhalten ist unbekannt — Senior-Dev Unknown Unknown 3)
+
+#### Schritt 3.3: E2E-Probelauf (zweiteilig + Provokationen) + Gesundheitscheck
+- **Zweck:** Beide neuen Mechaniken an echten Backlog-Items beweisen; Sonderpfade nicht
+  dem Erstgebrauch ueberlassen (Entscheid plan-review 2026-08-01)
+- **Dateien:** dtb-project/project-workflows/features/fach-agenda/ (entsteht im Lauf), INBOX.md
+- **Input:** Inbox #28 (Weichen-Test), #25 (Fast-Track-Pilot), #35 (Eskalations-Kandidat)
+- **Output:** (a) **Weichen-Test:** #28 durch die Dreier-Weiche — erwartet: Task-Routing-
+  Vorschlag (`dtb:task`), Weiche trifft die ehrliche Einstufung; (b) **Fast-Track-Pilot:**
+  #25 (fach-agenda) komplett: Weiche → max. 3 Kernfragen → Sammelvorlage → Ok → drei
+  Artefakte; dabei einmal absichtlich VOR dem Ok abbrechen → Wiederaufnahme ueber
+  fast-draft.md pruefen, dann fortsetzen; Verifikation: impl-plan-Gate-Bedingung erfuellt,
+  plan.md-Kopf `Status: Entwurf` in Zeile ≤10, `## Progress` §2-konform; (c) **Eskalations-
+  Provokation:** Lauf mit #35 — erwartet: Empfehlung Voll-Schiene an den benannten
+  Schwellen, Abbruch ohne Artefakte; (d) `/dtb:project-health` gegen die Phase-1-Baseline;
+  Befunde fliessen als Skill-Korrekturen zurueck (danach erneut kit-sync)
 
 > **3x3-Block:** Nach Schritt 3.3 → Zusammenfassung + Feedback einholen
 
 ### Deliverables
-- [ ] CLAUDE.md aktuell, ein realer Fast-Track-Lauf dokumentiert, Skill verteilt
+- [ ] CLAUDE.md aktuell, Skill verteilt, Weichen-Test + kompletter Fast-Track-Lauf + beide Sonderpfade dokumentiert
 
 ### Checkpoint-Kriterien
 
 #### Automated
 - [ ] Grep CLAUDE.md: `feature-fast` in der Feature-workflow-Zeile
-- [ ] Probelauf-Ordner enthaelt discovery.md + spec.md + plan.md; Grep plan.md: `**Status:** Entwurf` innerhalb der ersten 10 Zeilen; `## Progress` vorhanden
 - [ ] `/dtb:kit-sync check`: dtb-feature-fast im Lock, Status synced (kein Drift)
-- [ ] `/dtb:project-health`: keine neuen Befunde gegenueber dem Lauf vor Phase 1
+- [ ] `features/fach-agenda/` enthaelt discovery.md + spec.md + plan.md und KEIN fast-draft.md mehr; Grep plan.md: `**Status:** Entwurf` innerhalb der ersten 10 Zeilen; `## Progress` vorhanden
+- [ ] `/dtb:project-health`: keine neuen Befunde gegenueber der Phase-1-Baseline
 
 #### Manual
-- [ ] Sammelvorlage-UX im Probelauf: als Nutzer akzeptiert (Vetos praktikabel, nichts Wichtiges verdeckt)
+- [ ] Weichen-Test #28: Task-Routing wurde vorgeschlagen und war nachvollziehbar begruendet
+- [ ] Sonderpfade: Wiederaufnahme nach Abbruch wurde angeboten; Eskalations-Empfehlung bei #35 kam an den benannten Schwellen
+- [ ] Sammelvorlage-UX im #25-Lauf: als Nutzer akzeptiert (Vetos praktikabel, nichts Wichtiges verdeckt)
 
 ---
 
@@ -216,11 +233,11 @@ Der Skill ist dokumentiert, einmal real durchlaufen und global verteilt.
 
 | Thema | Optionen | Entscheidung | Begruendung |
 |-------|----------|-------------|-------------|
-| Zwischenspeicher-Ablage | a) `features/{slug}/fast-draft.md`, b) Scratchpad ausserhalb, c) Marker in discovery.md | a | Reist mit dem Change-Ordner (Zwei-Maschinen-Setup), wird nach Ok geloescht; kein bekannter Artefakt-Typ der Statusableitung → beeinflusst Derived State nicht (plan-review soll das gegenpruefen) |
+| Zwischenspeicher-Ablage | a) `features/{slug}/fast-draft.md`, b) Scratchpad ausserhalb, c) Marker in discovery.md | a, committet | Reist mit dem Change-Ordner — wird committet/gepusht fuer maschinenuebergreifende Wiederaufnahme (Entscheid plan-review 2026-08-01), nach Ok geloescht; kein bekannter Artefakt-Typ der Statusableitung → beeinflusst Derived State nicht |
 | Struktur-Check-Anker | Ueberschriften-Grep vs. Zeilennummern | Ueberschriften-Grep (3 benannte Anker) | Zeilennummern driften bei jeder Aenderung; Sektions-Ueberschriften sind die stabilste Referenz (L2: Anker auf Wirkstelle) |
 | Template-Quelle zur Laufzeit | installierte Kopien `~/.claude/skills/` vs. Kit-Repo | installierte Kopien | Zielprojekt-Realitaet (Kit-Repo dort nicht vorhanden); kit-sync haelt Klasse A synchron (Discovery-Entscheid) |
 | idea-review `next`-Liste | nur feature-fast ergaenzen vs. auch dtb:task | beide | Die Dreier-Weiche routet real in beide Ziele; pipeline-graph soll die echten Kanten zeigen |
-| Probelauf-Gegenstand | Wegwerf-Testidee vs. echte kleine Idee (#28) | echte Idee #28 | Echter Nutzen statt Aufraeum-Arbeit; #28 (.gitattributes) ist klein genug und liegt seit 2026-07-18 offen |
+| Probelauf-Gegenstand | Wegwerf-Testidee vs. #28 allein vs. Aufteilung | #28 Weichen-Test + #25 Fast-Track-Pilot (+#35 Eskalations-Provokation) | #28 ist ehrlich eingestuft ein Task — die eigene Weiche wuerde ihn dorthin routen (plan-review Befund); #25 (fach-agenda) ist ein echtes kleines Feature und testet den Kernpfad komplett; #35 ist erkennbar KEIN Kleinfall und provoziert die Eskalation |
 | Spec-Lint im Fast-Track | Lint-Kopie vs. Referenz auf feature-plan-Sektion | Referenz | Keine dritte Lint-Kopie (feature-plan ↔ greenfield-prd sind schon bewusst gedoppelt); Fast-Track verweist auf die Sektion in der installierten feature-plan-Kopie |
 
 ---
@@ -240,8 +257,8 @@ Der Skill ist dokumentiert, einmal real durchlaufen und global verteilt.
 - [ ] 2.2 feature-discover Umleitung
 - [ ] 2.3 Wartungs-Hinweise Quell-Skills
 - [ ] 3.1 CLAUDE.md ergaenzen
-- [ ] 3.2 E2E-Probelauf (#28)
-- [ ] 3.3 Distribution + Gesundheitscheck
+- [ ] 3.2 Distribution (kit-sync)
+- [ ] 3.3 E2E-Probelauf (#28/#25/#35) + Gesundheitscheck
 
 ---
 
