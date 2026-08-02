@@ -34,7 +34,7 @@ The `/dtb:*` skills form a German-language workflow system for managing developm
 
 Skills are designed to work together in a session lifecycle:
 1. **Start/Resume**: `workflow-resume` derives the active feature from artifacts (PLAN `## Progress`) and reads `WORKFLOW_STATUS.md` for context
-2. **Work**: Use `feature-plan`, `debug-plan` for planning; `implement` drives the plan phase by phase (3x3 rhythm + phase-end ritual: checkbox flips are gated by checkpoint criteria, the commit SHA is written back as verification evidence); `impl-review` checks the result across three dimensions (plan drift, craft, rules)
+2. **Work**: Use `feature-plan`, `debug-plan` for planning; small features can take the fast-track lane (`feature-fast`: one bundled pass instead of three interviews, artifacts and reviews unchanged); `implement` drives the plan phase by phase (3x3 rhythm + phase-end ritual: checkbox flips are gated by checkpoint criteria, the commit SHA is written back as verification evidence); `impl-review` checks the result across three dimensions (plan drift, craft, rules)
 3. **Save**: `workflow-checkpoint` writes a session log AND overwrites `WORKFLOW_STATUS.md` (status block generated from artifacts, context block manual)
 4. **Next session**: `workflow-resume` picks up where the progress checkboxes left off — even without a checkpoint
 
@@ -49,7 +49,7 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 
 - **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`, `session-summary` (read-only recap of active session / a given day / last 7 days)
 - **Idea management**: `idea` (quick capture), `idea-review` (triage)
-- **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`, `implement` (drives the plan phase by phase, enforces the verification gate at each phase end)
+- **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`, `implement` (drives the plan phase by phase, enforces the verification gate at each phase end), `feature-fast` (fast-track lane for small features: bundles the discover/spec/impl-plan interviews into ONE pass with reasoned default assumptions — max. 3 core questions, one vetoable summary template, self-escalation at >10 assumptions / >2 phases; artifacts, derived state and both reviews stay unchanged)
 - **Bug workflow**: `bug-report` (quick capture with severity), `debug-plan` (root-cause analysis + fix strategy)
 - **Project setup**: `project-init`, `project-health`, `project-team`
 - **Greenfield**: `opportunity-map` (Vorfeld: build/buy/complement/wait-Sichtung → `OPPORTUNITY-MAP.md`, Hand-off zu `greenfield-prd` bei „build"), `greenfield-prd` (Autor: PRD-Interview → `PRD-MVP.md`, oder Report-Modus), `greenfield-roadmap` (Autor: Stack-Besprechung → `TECH-STACK.md` + Lean-Interview → `ROADMAP.md` mit Change-IDs, oder Report-Modus)

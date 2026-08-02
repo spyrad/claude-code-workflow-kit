@@ -63,8 +63,9 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
    - Vorhandene Artefakte (`discovery.md`, `spec.md`, `plan.md`) auflisten und **uebernehmen**:
      sie werden gelesen und NICHT neu erzeugt — vorbefuellt werden nur die fehlenden.
      Alle drei vorhanden → nichts zu tun, auf `/dtb:plan-review {slug}` verweisen
-5. **INBOX-Status:** Steht die Idee auf `Offen`, setze sie auf `In Arbeit` (regulaerer
-   Erhebungs-Beginn — gleiche Semantik wie bei idea-review "Ausarbeiten").
+5. **INBOX-Status:** Hier noch KEIN Statuswechsel — der Flip auf `In Arbeit` passiert
+   erst in Schritt 4 beim ersten Schreiben der fast-draft.md (E2E-Befund 2026-08-02:
+   ein frueher Flip liesse eine sofort eskalierte Idee faelschlich als "In Arbeit" zurueck).
 
 ---
 
@@ -142,8 +143,10 @@ moeglich, und mit markierten Annahmen, wo nicht.
 
 **Zuerst zwischenspeichern, dann fragen:** Schreibe die fertige Vorlage nach
 `{config.paths.workflows}/features/{slug}/fast-draft.md` (Wiederaufnahme-Sicherung — die
-Datei wird regulaer committet und reist im Zwei-Maschinen-Setup mit dem Ordner). Dann zeige
-sie im Chat:
+Datei wird regulaer committet und reist im Zwei-Maschinen-Setup mit dem Ordner). Steht die
+Idee noch auf `Offen`, setze sie JETZT auf `In Arbeit` — der Draft ist der Arbeitsbeginn
+(bewusst erst hier, nicht in Schritt 1: sofort eskalierte Laeufe hinterlassen so keinen
+falschen Status). Dann zeige sie im Chat:
 
 ```
 # Fast-Track-Vorlage: {Feature-Name} (Inbox #{N})

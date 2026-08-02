@@ -253,12 +253,12 @@ der Sonderpfade (Weichen-Routing, Wiederaufnahme, Eskalation).
 - [x] 1.3 Erhebungs-Kern (Defaults + Kernfragen) — `eea3d67`
 - [x] 1.4 Sammelvorlage + Veto + Zwischenspeicher — `eea3d67`
 - [x] 1.5 Schreibphase + Eskalation — `eea3d67`
-- [x] 2.1 idea-review Dreier-Weiche
-- [x] 2.2 feature-discover Umleitung
-- [x] 2.3 Wartungs-Hinweise Quell-Skills
-- [ ] 3.1 CLAUDE.md ergaenzen
-- [ ] 3.2 Distribution (kit-sync)
-- [ ] 3.3 E2E-Probelauf (#28/#25/#35) + Gesundheitscheck
+- [x] 2.1 idea-review Dreier-Weiche — `eb0cbaf`
+- [x] 2.2 feature-discover Umleitung — `eb0cbaf`
+- [x] 2.3 Wartungs-Hinweise Quell-Skills — `eb0cbaf`
+- [x] 3.1 CLAUDE.md ergaenzen
+- [x] 3.2 Distribution (kit-sync)
+- [x] 3.3 E2E-Probelauf (#28/#25/#35) + Gesundheitscheck
 
 ---
 
