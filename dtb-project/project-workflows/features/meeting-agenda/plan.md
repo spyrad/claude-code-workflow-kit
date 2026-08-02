@@ -158,8 +158,8 @@ installiert und hat eine echte Agenda erzeugt.
 - [x] 1.1 SKILL.md schreiben
 - [x] 1.2 Gegenkanten in den Nachbar-Skills
 - [x] 1.3 CLAUDE.md ergaenzen
-- [ ] 1.4 Distribution (kit-sync)
-- [ ] 1.5 Probelauf mit echten Fragen
+- [x] 1.4 Distribution (kit-sync)
+- [x] 1.5 Probelauf mit echten Fragen
 
 ---
 
