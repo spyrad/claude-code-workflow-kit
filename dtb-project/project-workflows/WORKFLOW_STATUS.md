@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| meeting-agenda (#25) | Fertig zum Testen | 5/5 | Abnahme: `/dtb:meeting-agenda` in frischer Session — Triage-Fixes noch nicht verteilt |
+| meeting-agenda (#25) | Fertig zum Testen | 5/5 | Abnahme: `/dtb:meeting-agenda` in frischer Session (Fassung `18a92da` ist verteilt) |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Reale Abnahme beim naechsten Fast-Track-Lauf — Triage-Fixes (`1eec2ea`) noch nicht real durchgespielt |
 | plan-status-feld (#30) | Fertig zum Testen | 12/12 | Reale Abnahme; Verdikt-Nachzug aufgeschoben (Entscheidung 2026-08-01) |
 | meeting-dump (#24) | Fertig zum Testen | 10/10 | Real abnehmen (echtes Meeting im Zielprojekt) |
@@ -30,14 +30,13 @@ Keine Konflikte zwischen Statusfeldern und Ableitung.
 |----------|------|
 | **Blocker** | Keine |
 | **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, Wiederaufnahme nur via #34) — **kein dritter impl-review-Lauf plan-status-feld** (2026-08-01) — **Idee #36 `worker-implement` verworfen** (2026-08-02, Discovery abgebrochen; Wiedereinstiegs-Bedingungen im INBOX-Text) — **meeting-agenda + feature-fast bewusst NICHT abgenommen**: beide wurden vor ihren Triage-Fixes getestet. Alles Wiedervorlage-Schutz. |
-| **Notizen** | Triage-Fixes meeting-agenda liegen uncommittet im Working Tree; kit-sync steht auf `59b3e4e` (= vor der Triage). Fuenfter #28-EOL-Beleg heute. Zwei L7-Werkzeugartefakte als Schein-Befunde erkannt. |
+| **Notizen** | Distribution diese Maschine 43 @ `18a92da` (Triage-Fixes verteilt, 4 Updates). Fuenfter #28-EOL-Beleg heute. Zwei L7-Werkzeugartefakte als Schein-Befunde erkannt (Scratch-Klon geloescht → 43 Schein-Verwaiste; Filter-Unterschied → Schein-Pipeline-Referenz). |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **`commit + push + /dtb:kit-sync sync`** — 13 Triage-Fixes (4 Skills + Seed) noch nicht verteilt
-- [ ] Abnahme meeting-agenda in **frischer** Session (Re-Lauf heute traf gecachte Skill-Instruktionen)
+- [ ] **Abnahme meeting-agenda in frischer Session** — `/dtb:meeting-agenda` gegen die verteilte Fassung (Re-Lauf heute traf gecachte Skill-Instruktionen)
 - [ ] `/dtb:task` fuer #28 (.gitattributes) — geroutet, task.md fehlt; fuenfter EOL-Beleg 2026-08-02
 - [ ] **`/dtb:kit-sync sync` auf der anderen Maschine** — dort `07d5107`, hier 43 @ `59b3e4e`+
 - [ ] Reale Abnahme feature-fast — naechster Fast-Track-Lauf mit gefixten Fassungen
@@ -72,5 +71,5 @@ Keine Konflikte zwischen Statusfeldern und Ableitung.
 
 ## Handoff
 
-**Naechster Befehl:** `commit + push`, danach `/dtb:kit-sync sync` — die 13 Triage-Fixes an 4 Skills und dem Seed liegen uncommittet im Working Tree, die installierte Kopie steht auf `59b3e4e` (vor der Triage). Erst danach ist `/dtb:meeting-agenda` als Abnahme-Lauf aussagekraeftig. **Kein** `/dtb:implement`-Rueckweg noetig: review.md-REJECTED ist der Review-Stand, Triage 13/13 Fixed.
+**Naechster Befehl:** `/dtb:meeting-agenda` — Abnahme-Lauf gegen die verteilte Fassung (Stand `18a92da`, 43/43 synchron). Der heutige Re-Lauf traf gecachte Skill-Instruktionen und zaehlt nicht als Beleg; erst dieser Lauf in **frischer** Session rechtfertigt „Abgenommen" im naechsten Checkpoint. Danach `/dtb:task` fuer #28 (5 Minuten). **Kein** `/dtb:implement`-Rueckweg noetig: review.md-REJECTED ist der Review-Stand, Triage 13/13 Fixed.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl. Bei Rechnerwechsel zuerst `/dtb:kit-sync sync` (andere Maschine `07d5107`).
