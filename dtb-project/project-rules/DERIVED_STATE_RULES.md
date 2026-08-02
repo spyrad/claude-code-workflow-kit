@@ -262,7 +262,8 @@ Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
   nicht sofort/allein beantwortbar) vs. untagged Bullet (Faelle a+b, syntaktisch identisch:
   (a) normaler offener Punkt / (b) „nie erfinden"-Luecke). Nur (c) traegt Tag und Checkbox.
 - Die Ableitung Fach-Frage `[ ]`=offen / `[x]`=beantwortet hat zwei Konsumenten: **lesend**
-  eine kuenftige rein-lesende Agenda-Ansicht (#25, noch offen); **schreibend** der
+  die Agenda-Ansicht `dtb:meeting-agenda` (#25), die vor dem Meeting alle offenen Fragen aus
+  `features/*/{discovery,spec}.md` einsammelt; **schreibend** der
   Meeting-Rueckfluss `dtb:meeting-dump` (#24), der nach einem Meeting Vollantworten (`[x]` +
   `→ Antwort:`) bzw. Zwischenstaende (`[ ]` + `→ Zwischenstand:`, §6.1) nachtraegt — er kippt
   nur die Checkbox und haengt die Fortsetzungszeile an, status-neutral (§6.2), legt aber nie
@@ -389,3 +390,6 @@ Der `dtb:implement`-Loop bleibt gegen dieses Feld blind.
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
 **`fast-draft.md` als status-neutrale Ordner-Datei ergaenzt:** Feature feature-fast, 2026-08-02
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
+**§6.3 lesender Konsument benannt (`dtb:meeting-agenda` statt „#25, noch offen"):** Feature
+meeting-agenda, 2026-08-02 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch,
+vgl. INBOX #22 — **sechster** dokumentierter Skew-Fall)

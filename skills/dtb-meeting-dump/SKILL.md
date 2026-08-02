@@ -24,7 +24,8 @@ legst sie als Beleg ab und gleichst sie gegen die offenen **Fach-Fragen** aller 
 (`- [ ] [Fach] …` in `## Offene Punkte`, Konvention `{config.paths.rules}/DERIVED_STATE_RULES.md` §6).
 Beantwortete Fragen werden — **erst nach deiner Freigabe** — §6-konform abgehakt bzw. mit einem
 Zwischenstand ergaenzt. Der Rueckfluss-Schritt der Fachfragen-Kette: Format (#13) → Erfassung
-(`/dtb:open-question`, #26) → **Rueckfluss (dieser Skill, #24)** → Lese-Agenda (#25).
+(`/dtb:open-question`, #26) → Lese-Agenda (`/dtb:meeting-agenda`, #25) → **Rueckfluss (dieser
+Skill, #24)**.
 
 > **Wartungs-Hinweis (Format-Kopplung):** meeting-dump ist der **Mutator** der
 > `## Offene Punkte`-Sektion — neben den drei **Erzeugern** `dtb:feature-discover`
@@ -208,7 +209,7 @@ aus Schritt 2 haelt ohnehin alles fest).
      Konflikte:      {K}  (ausgewiesen, nicht automatisch geschrieben)
      Nicht zugeordnet: {R}
 
-   Offene Fach-Fragen spaeter via /dtb:workflow-next (bzw. der geplanten Fach-Agenda #25).
+   Offene Fach-Fragen spaeter via /dtb:meeting-agenda (Lese-Ansicht der Kette).
    ```
 
 ---

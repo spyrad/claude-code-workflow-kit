@@ -163,7 +163,7 @@ beschrieben:
    Fach-Frage erfasst → features/<slug>/<datei>:
      - [ ] [Fach] <Frage>
 
-   Sammelansicht spaeter via /dtb:workflow-next (bzw. der geplanten Fach-Agenda).
+   Sammelansicht spaeter via /dtb:meeting-agenda (Agenda aller offenen Fach-Fragen).
    ```
 
 ---

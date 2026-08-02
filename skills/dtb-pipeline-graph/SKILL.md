@@ -185,7 +185,9 @@ Regeln:
 - Knoten-ID: Skill-Name ohne `dtb:` Praefix, Bindestriche durch Unterstriche ersetzen
 - Knoten-Label: Voller `dtb:*` Name
 - Kanten nur zwischen Skills mit explizitem `after`/`next`; beide sind **Listen** → **eine Kante pro Element** (z.B. `project-init` → 3 Nachfolger, `feature-start` ← 2 Vorgaenger)
-- Monitoring-Skills haben keine Kanten (standalone)
+- Monitoring-Skills **deklarieren selbst keine** Kanten (`after`/`next` = `null`); eingehende
+  Kanten aus Nachbar-Skills werden trotzdem gezeichnet (z.B. `open-question` → `workflow-next`,
+  `open-question` → `meeting-agenda`) — sonst waeren Gegenkanten wirkungslos
 
 Wickle das Diagramm in ein `<div class="mermaid">` Element.
 

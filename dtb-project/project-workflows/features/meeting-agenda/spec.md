@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-02
 **Ziel:** Vor dem Fach-Meeting eine fertige Agenda aller offenen [Fach]-Fragen ohne Handarbeit — die fehlende Lese-Ansicht der Fachfragen-Kette.
 **Prioritaet:** Mittel
-**Status:** Geplant <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -12,7 +12,7 @@
 Fach-Fragen werden heute §6-konform in den Feature-Artefakten erfasst (dtb:open-question)
 und nach dem Meeting beantwortet zurueckgespielt (dtb:meeting-dump) — aber es gibt keine
 Sicht, die VOR dem Meeting alle offenen Fragen einsammelt. dtb:meeting-agenda schliesst
-diese Luecke: ein rein lesender Skill, der `features/*/{discovery,spec,plan}.md` scannt
+diese Luecke: ein rein lesender Skill, der `features/*/{discovery,spec}.md` scannt
 und die offenen `[Fach]`-Fragen als nach Feature gruppierte Agenda im Chat ausgibt.
 
 ---
@@ -20,7 +20,10 @@ und die offenen `[Fach]`-Fragen als nach Feature gruppierte Agenda im Chat ausgi
 ## Scope / Abgrenzung
 
 ### Enthalten
-- Scan von `features/*/{discovery,spec,plan}.md` nach offenen `[Fach]`-Fragen (§6-Format)
+- Scan von `features/*/{discovery,spec}.md` nach offenen `[Fach]`-Fragen (§6-Format) — dieselben
+  zwei Dateien, die `dtb:open-question` beschreibt und `dtb:meeting-dump` mutiert
+  (`plan.md` gestrichen, impl-review-Befund F1 vom 2026-08-02: dort koennte eine Frage nie
+  abgehakt werden)
 - Agenda-Report im Chat: gruppiert nach Feature, Zwischenstaende (§6.1) markiert als
   "in Klaerung"
 - Leer-Fall-Meldung mit Verweis auf /dtb:open-question
@@ -57,7 +60,7 @@ und die offenen `[Fach]`-Fragen als nach Feature gruppierte Agenda im Chat ausgi
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] Ein Aufruf liefert alle offenen `[Fach]`-Fragen aus `features/*/{discovery,spec,plan}.md`,
+- [ ] Ein Aufruf liefert alle offenen `[Fach]`-Fragen aus `features/*/{discovery,spec}.md`,
       nach Feature gruppiert — ohne ein Artefakt zu veraendern
 - [ ] Zwischenstaende (§6.1) erscheinen markiert; beantwortete `[x]`-Fragen erscheinen
       standardmaessig nicht

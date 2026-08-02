@@ -9,16 +9,17 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| meeting-agenda (#25) | Fertig zum Testen | 5/5 | Abnahme: `/dtb:meeting-agenda` in frischer Session — Triage-Fixes noch nicht verteilt |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Reale Abnahme beim naechsten Fast-Track-Lauf — Triage-Fixes (`1eec2ea`) noch nicht real durchgespielt |
-| meeting-agenda (#25) | Geplant | 0/4 | `/dtb:plan-review meeting-agenda` (Plan-Kopf: Entwurf) |
 | plan-status-feld (#30) | Fertig zum Testen | 12/12 | Reale Abnahme; Verdikt-Nachzug aufgeschoben (Entscheidung 2026-08-01) |
 | meeting-dump (#24) | Fertig zum Testen | 10/10 | Real abnehmen (echtes Meeting im Zielprojekt) |
-| commit-and-push | Fertig zum Testen | 10/10 | Real abnehmen — heute erneut produktiv gelaufen (`1eec2ea`) |
+| commit-and-push | Fertig zum Testen | 10/10 | Real abnehmen — heute erneut produktiv gelaufen (3 Commits) |
 | open-question | Fertig zum Testen | 9/9 | Real abnehmen (erster echter Fach-Frage-Einsatz) |
 | Fachfragen-Erfassung | Fertig zum Testen | 8/8 | Real abnehmen (naechste feature-discovery nutzt `[Fach]`) |
 
 Keine Konflikte zwischen Statusfeldern und Ableitung.
-`feature-fast/review.md`: Verdikt REJECTED = Stand des Review-Laufs; Triage 10 Fixed · 0 PENDING (`1eec2ea`).
+`meeting-agenda/review.md`: Verdikt REJECTED = Stand des Review-Laufs; Triage 13 Fixed · 0 PENDING.
+`feature-fast/review.md`: Verdikt REJECTED = Stand des Review-Laufs; Triage 10 Fixed (`1eec2ea`).
 `plan-status-feld/review.md`: Verdikt REJECTED = Alt-Stand (Triage 10 Fixed, `5b29f81`).
 
 ---
@@ -28,17 +29,18 @@ Keine Konflikte zwischen Statusfeldern und Ableitung.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, Wiederaufnahme nur via #34) — **kein dritter impl-review-Lauf plan-status-feld** (2026-08-01) — **feature-fast bewusst "Fertig zum Testen", NICHT abgenommen** (2026-08-02): E2E lief vor den Triage-Fixes. Alles Wiedervorlage-Schutz. |
-| **Notizen** | E2E-Probelauf nutzte echte Ideen: #28 als Task geroutet (task.md fehlt noch!), #25 → meeting-agenda geplant, #35 korrekt eskaliert. Fuenfter #22-Skew-Fall (fast-draft.md-Kanonzeile). |
+| **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, Wiederaufnahme nur via #34) — **kein dritter impl-review-Lauf plan-status-feld** (2026-08-01) — **Idee #36 `worker-implement` verworfen** (2026-08-02, Discovery abgebrochen; Wiedereinstiegs-Bedingungen im INBOX-Text) — **meeting-agenda + feature-fast bewusst NICHT abgenommen**: beide wurden vor ihren Triage-Fixes getestet. Alles Wiedervorlage-Schutz. |
+| **Notizen** | Triage-Fixes meeting-agenda liegen uncommittet im Working Tree; kit-sync steht auf `59b3e4e` (= vor der Triage). Fuenfter #28-EOL-Beleg heute. Zwei L7-Werkzeugartefakte als Schein-Befunde erkannt. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:task` fuer #28 (.gitattributes) — geroutet, task.md fehlt; Idee dreifach+EOL-Phantom (4. Beleg 2026-08-02) belegt
-- [ ] `/dtb:plan-review meeting-agenda` — erster Fast-Track-Plan, Kopf Entwurf
+- [ ] **`commit + push + /dtb:kit-sync sync`** — 13 Triage-Fixes (4 Skills + Seed) noch nicht verteilt
+- [ ] Abnahme meeting-agenda in **frischer** Session (Re-Lauf heute traf gecachte Skill-Instruktionen)
+- [ ] `/dtb:task` fuer #28 (.gitattributes) — geroutet, task.md fehlt; fuenfter EOL-Beleg 2026-08-02
+- [ ] **`/dtb:kit-sync sync` auf der anderen Maschine** — dort `07d5107`, hier 43 @ `59b3e4e`+
 - [ ] Reale Abnahme feature-fast — naechster Fast-Track-Lauf mit gefixten Fassungen
-- [ ] **`/dtb:kit-sync sync` auf der anderen Maschine** — dort `07d5107`, hier 42 @ `1eec2ea`
 - [ ] `/dtb:idea-review` — 11 offene Ideen; Reihenfolge #35/#34/#33, dann #32 → #22
 - [ ] Reale Abnahmen der 5 aelteren "Fertig zum Testen"-Features — haengt am Zielprojekt pkp
 - [ ] `review.md`-Kopf plan-status-feld richtigstellen ("Fixes im Working Tree" seit `5b29f81` falsch)
@@ -54,9 +56,9 @@ Keine Konflikte zwischen Statusfeldern und Ableitung.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-02 | feature-fast komplett (Idee→11/11→Review-Triage→verteilt) in einer Session | E2E 3-teilig bestanden; meeting-agenda als Fast-Track-Erstling; 10 Findings gefixt | `2026-08/2026-08-02.md` |
+| 2026-08-02 | meeting-agenda komplett (plan-review→5/5→Triage 13/13) + #36 verworfen | Fachfragen-Kette #26→#25→#24 geschlossen; 2 Selbstkorrekturen dokumentiert | `2026-08/2026-08-02.md` (S2) |
+| 2026-08-02 | feature-fast komplett (Idee→11/11→Review-Triage→verteilt) in einer Session | E2E 3-teilig bestanden; 10 Findings gefixt | `2026-08/2026-08-02.md` (S1) |
 | 2026-08-01 | Distribution nachgezogen + Doku-Luecke 31.07. geschlossen | kit-sync 41/41 @ `5b29f81` | `2026-08/2026-08-01.md` |
-| 2026-07-31 | plan-status-feld: 2. impl-review-Lauf, Triage 10 Fixed | Blocker F1 behoben | `5b29f81` |
 
 ---
 
@@ -70,5 +72,5 @@ Keine Konflikte zwischen Statusfeldern und Ableitung.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:plan-review meeting-agenda` — erster Fast-Track-erzeugter Plan (Kopf: Entwurf); zugleich naechster Baustein Richtung realer feature-fast-Abnahme. Davor optional `/dtb:task` fuer #28 (5 Minuten). feature-fast selbst: kein implement-Rueckweg noetig — review.md-REJECTED ist Review-Stand, Triage 10/10 Fixed committet (`1eec2ea`).
+**Naechster Befehl:** `commit + push`, danach `/dtb:kit-sync sync` — die 13 Triage-Fixes an 4 Skills und dem Seed liegen uncommittet im Working Tree, die installierte Kopie steht auf `59b3e4e` (vor der Triage). Erst danach ist `/dtb:meeting-agenda` als Abnahme-Lauf aussagekraeftig. **Kein** `/dtb:implement`-Rueckweg noetig: review.md-REJECTED ist der Review-Stand, Triage 13/13 Fixed.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl. Bei Rechnerwechsel zuerst `/dtb:kit-sync sync` (andere Maschine `07d5107`).

@@ -3,7 +3,7 @@ name: dtb:meeting-agenda
 description: >-
   Use when: "Meeting-Agenda", "Agenda fuers Fach-Meeting", "offene Fachfragen",
   "was besprechen wir", "Fach-Fragen zeigen", "meeting agenda". Read-only skill
-  collecting all open [Fach] questions from features/*/{discovery,spec,plan}.md
+  collecting all open [Fach] questions from features/*/{discovery,spec}.md
   and printing them grouped by feature as a ready-to-use meeting agenda.
 disable-model-invocation: false
 argument-hint: "[alle]"
@@ -12,7 +12,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [features/*/discovery.md, features/*/spec.md, features/*/plan.md, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [features/*/discovery.md, features/*/spec.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---
 
@@ -36,25 +36,40 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 Lies `{config.paths.rules}/DERIVED_STATE_RULES.md` §6 (Fallback:
 `dtb-project/project-rules/DERIVED_STATE_RULES.md`).
 
-**Dieser Skill traegt keine eigene Format-Logik** — §6 ist die einzige Quelle fuer die
-Fach-Frage-Grammatik. Fehlt die Regel-Datei, arbeite nach der unten beschriebenen
-Kanonform weiter und gib eine Hinweiszeile aus:
+**Dieser Skill spiegelt §6** — Single Source der Fach-Frage-Grammatik bleibt die Regel-Datei.
+Fehlt sie, arbeite nach der unten beschriebenen Kanonform weiter und gib eine Hinweiszeile aus:
 `⚠ DERIVED_STATE_RULES.md nicht gefunden — Kanonform aus dem Skill verwendet`
+
+> **Wartungs-Hinweis (Format-Kopplung):** Schritt 4 spiegelt die §6-Grammatik (Kanonform +
+> die drei Fortsetzungsformen). Die Kopie ist Absicht — die Regel-Datei ist Klasse-B-Seed und
+> erreicht Bestandsprojekte nicht automatisch (INBOX #22), der Fallback-Pfad oben haengt an
+> dieser Spiegelung. Aenderst du §6, ziehe Schritt 4 hier mit. Dieselbe Kopplung tragen
+> `dtb:open-question` und `dtb:meeting-dump`.
 
 ## Schritt 3: Argument auswerten
 
 | Argument | Modus |
 |----------|-------|
-| _(leer)_ | **Standard** — nur offene Fragen, je Frage nur der **letzte** Zwischenstand |
+| _(leer)_ | **Standard** — nur offene Fragen, je Frage nur die **letzte `→ Zwischenstand:`-Zeile in Datei-Reihenfolge** |
 | `alle` | **Voll** — zusaetzlich der Abschnitt „Zuletzt geklaert" (beantwortete Fragen) und je Frage der **volle** Zwischenstands-Verlauf |
+
+Der Argument-Vergleich ist **case-insensitiv** (`alle` = `Alle` = `ALLE`). `- [x]`-Treffer werden
+**nur im `alle`-Modus** ausgegeben — im Standard-Modus werden sie zwar gefunden (Schritt 4 nimmt
+beide Checkbox-Formen auf), aber nicht gezeigt.
 
 Ein anderes Argument → wie Standard behandeln, plus Hinweiszeile:
 `Unbekanntes Argument "{X}" — ignoriert (bekannt: alle)`
 
 ## Schritt 4: Scannen
 
-**Quellen:** `{config.paths.workflows}/features/*/discovery.md`, `spec.md`, `plan.md`.
+**Quellen:** `{config.paths.workflows}/features/*/discovery.md` und `spec.md`.
 `archive/` wird **nicht** gescannt — abgeschlossene Changes gehoeren nicht auf die Agenda.
+
+> **Warum nicht `plan.md`** (impl-review-Befund F1, 2026-08-02): Genau diese zwei Dateien
+> bedient die uebrige Kette — `dtb:open-question` **verweigert** `plan.md` als Ablage-Ort
+> (MVP-Schnitt Feature #13), `dtb:meeting-dump` scannt es ebenfalls nicht. Wuerde die Agenda
+> `plan.md` mitlesen, koennte eine dort handgeschriebene Frage nie beantwortet abgehakt
+> werden — ein Dauer-Eintrag ohne Schliess-Pfad. Die drei Skills bleiben symmetrisch.
 
 **Aufnahmekriterium (verbindlich, beide Bedingungen):**
 
@@ -85,13 +100,21 @@ die dritte ist blosser Zeilenumbruch:
 > zweite Zeile die Einschraenkung „aber selbst kein Blocker" traegt. Das Abschneiden
 > wuerde der Richtlinie „Fragen woertlich uebernehmen" widersprechen.
 
-**Nicht aufnehmen:** untagged Bullets (normale offene Punkte, §6.3), Zeilen ausserhalb
-von `## Offene Punkte`, alles unter `archive/`.
+**Nicht aufnehmen:**
+
+- untagged Bullets (normale offene Punkte, §6.3)
+- Zeilen ausserhalb von `## Offene Punkte`, alles unter `archive/`
+- **Zeilen innerhalb eines Code-Fence** (```` ``` ```` oder `~~~`) — auch wenn der Fence-Inhalt
+  selbst eine `## Offene Punkte`-Ueberschrift und kanonforme Zeilen enthaelt. Dokumentierende
+  Beispielbloecke sind keine echten Fragen; §7.1 schliesst zitierte Bloecke aus demselben
+  Grund bewusst aus
 
 ## Schritt 5: Gruppieren & ausgeben
 
-Gruppiere nach Change-Ordner (Slug), innerhalb einer Gruppe nach Datei-Reihenfolge
-`discovery.md` → `spec.md` → `plan.md`. Features ohne offene Frage erscheinen nicht.
+Gruppiere nach Change-Ordner (Slug), **Gruppen alphabetisch nach Slug** (Glob liefert sonst
+nach Aenderungszeit — zwei Laeufe am selben Bestand ergaeben zwei Reihenfolgen, und eine Agenda
+wird im Meeting von oben nach unten abgearbeitet). Innerhalb einer Gruppe nach Datei-Reihenfolge
+`discovery.md` → `spec.md`. Features ohne offene Frage erscheinen nicht.
 
 Eine Frage mit mindestens einem `→ Zwischenstand:` wird mit `[in Klaerung]` markiert.
 
@@ -134,6 +157,11 @@ Datei-Reihenfolge), und am Ende:
       → Antwort: {Text} (Meeting {YYYY-MM-DD})
 ```
 
+**Sortierung und Umfang:** absteigend nach `(Meeting YYYY-MM-DD)`, **maximal die letzten 5** —
+sonst waechst der Abschnitt monoton und die Ueberschrift „Zuletzt" wird zur Falschaussage
+(Muster: `dtb:backlog-status`, „Abgeschlossen (letzte 5)"). Beantwortete Fragen bleiben als
+Beleg im Artefakt, die Agenda zeigt nur den jueng­sten Ausschnitt.
+
 **Keine beantworteten Fragen im Bestand:** Der Abschnitt erscheint trotzdem, mit der Zeile
 `_(keine beantworteten [Fach]-Fragen im Bestand)_`. Er wird **nicht** stillschweigend
 weggelassen — sonst sieht der `alle`-Modus aus wie der Standard-Modus, und der Nutzer
@@ -147,12 +175,16 @@ Keine offenen [Fach]-Fragen — die Agenda ist leer.
 Fragen fuers Fach-Meeting erfasst du mit:
   /dtb:open-question [feature-slug] {Frage}
 
-Geprueft: {config.paths.workflows}/features/*/{discovery,spec,plan}.md
+Geprueft: {config.paths.workflows}/features/*/{discovery,spec}.md
           (## Offene Punkte, archive/ ausgeschlossen)
 ```
 
 Den geprueften Umfang immer mit ausgeben — sonst ist nicht unterscheidbar, ob nichts
 offen ist oder der Scan ins Leere lief.
+
+**Im `alle`-Modus** folgt auf diesen Block **trotzdem** der Abschnitt „Zuletzt geklaert"
+(ggf. mit seiner eigenen Leer-Zeile). Sonst liefert `alle` bei 0 offenen, aber vorhandenen
+beantworteten Fragen genau das nicht, wofuer das Argument gesetzt wurde.
 
 ## Richtlinien
 

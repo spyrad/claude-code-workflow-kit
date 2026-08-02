@@ -57,9 +57,11 @@ installiert und hat eine echte Agenda erzeugt.
     liefern die Gegenkanten aus Schritt 1.2), `consumes: [features/*/discovery.md,
     features/*/spec.md, features/*/plan.md]`, `produces: []`
   - **Scan-Logik (verbindlich praezisiert):** nur Zeilen der Form `- [ ] [Fach] <Frage>`
-    **innerhalb einer `## Offene Punkte`-Sektion** in `features/*/{discovery,spec,plan}.md`;
+    **innerhalb einer `## Offene Punkte`-Sektion** in `features/*/{discovery,spec}.md`;
     `archive/` ausgeschlossen. Die Sektions-Ankerung ist Pflicht, nicht Kuer — ohne sie
     landen die Doku-Zeilen aus `fachfragen-erfassung/discovery.md` auf der Agenda
+    (`plan.md` nachtraeglich gestrichen — impl-review-Befund F1, 2026-08-02: weder
+    `open-question` noch `meeting-dump` bedienen diesen Ort)
   - Agenda-Report gruppiert nach Feature; Zwischenstaende (§6.1) markiert `[in Klaerung]`,
     im Standard **nur der letzte** `→ Zwischenstand:`, im `alle`-Modus der volle Verlauf
   - Leer-Fall-Meldung mit `/dtb:open-question`-Verweis
@@ -155,11 +157,11 @@ installiert und hat eine echte Agenda erzeugt.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 SKILL.md schreiben
-- [x] 1.2 Gegenkanten in den Nachbar-Skills
-- [x] 1.3 CLAUDE.md ergaenzen
-- [x] 1.4 Distribution (kit-sync)
-- [x] 1.5 Probelauf mit echten Fragen
+- [x] 1.1 SKILL.md schreiben — `c19bc57`
+- [x] 1.2 Gegenkanten in den Nachbar-Skills — `c19bc57`
+- [x] 1.3 CLAUDE.md ergaenzen — `c19bc57`
+- [x] 1.4 Distribution (kit-sync) — `59b3e4e` (Lock-Stand; kit-sync erzeugt keinen Repo-Diff, Lock liegt unter ~/.claude/)
+- [x] 1.5 Probelauf mit echten Fragen — `59b3e4e` (Probelauf-Fixes); Phasen-Abschluss `3730706`
 
 ---
 
