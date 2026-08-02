@@ -11,7 +11,7 @@ allowed-tools: Read, Glob, Grep, Edit
 pipeline:
   stage: capture
   after: null
-  next: [dtb:workflow-next]
+  next: [dtb:workflow-next, dtb:meeting-agenda]
   consumes: [workflow.config.yaml, features/*/spec.md, features/*/discovery.md]
   produces: [features/*/spec.md, features/*/discovery.md]
 ---

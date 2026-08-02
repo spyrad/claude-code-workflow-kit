@@ -11,7 +11,7 @@ argument-hint: "[<Meeting-Notizen als Freitext-Dump>]"
 allowed-tools: Read, Glob, Grep, Edit, Write
 pipeline:
   stage: capture
-  after: null
+  after: [dtb:meeting-agenda]
   next: [dtb:workflow-next]
   consumes: [workflow.config.yaml, features/*/spec.md, features/*/discovery.md, project-meetings/*.md]
   produces: [features/*/spec.md, features/*/discovery.md, project-meetings/*.md]
