@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-30 (plan-status-feld 12/12 umgesetzt + impl-review mit Triage — Idee #30 vollstaendig durch die Pipeline; zuvor: beide project-init-Bugs + Idee #16 archiviert `4641956`; commit-and-push-Nacharbeit `eda0ed1`; 4 Features Fertig zum Testen, Distribution 41/41 auf beiden Maschinen)
+**Letzte Aktualisierung:** 2026-07-31 (frischer impl-review an plan-status-feld: 1 neuer Blocker + 10 Findings, Triage vollstaendig behoben `5b29f81`; L7/L8/L14 nach `skills/CLAUDE.md` gehoben; Idee #29 auf In Arbeit; Distribution 41/41 @ `5b29f81` auf dieser Maschine — die andere steht auf `eda0ed1`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`

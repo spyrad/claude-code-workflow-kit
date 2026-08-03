@@ -156,6 +156,21 @@ Praxisfall 2026-07-28 (`project-init`): eine Haertung am Seed-Absatz liess zwei 
 `WORKFLOW_STATUS.md`/`BACKLOG.md` ohne Zielpfad und ohne `mkdir` — 18 Tage lang landeten sie im
 Projekt-Root. Dieselbe Klasse, im selben Blickfeld, nicht mitgeprueft.
 
+### Kopplungs-Hinweise: Spiegel mitziehen und verifizieren
+
+Traegt eine Stelle einen Kopplungs-/Wartungs-Hinweis („Aenderung hier → X mitziehen"), die
+genannten Spiegel im **selben Zug** mitziehen — und die Spiegelung **mechanisch verifizieren**:
+Grep auf den neuen Wortlaut ueber alle genannten Dateien, Zielzahl = Anzahl der Spiegel. Ein
+Hinweis im Fliesstext ist keine Absicherung; beim fokussierten Einzelfix liest man ihn ueber.
+
+Verallgemeinert die Nachbarschafts-Regel darueber auf **explizite Verweise ueber Dateigrenzen**.
+
+Praxisfall 2026-07-30/31 (`DERIVED_STATE_RULES.md` §7.3): Ein Triage-Fix schrieb den „Vorrang der
+Still-Regel" nur in den Kanon; der Hinweis „Aenderung hier → beide Skills mitziehen" stand zwei
+Zeilen darueber. `workflow-next`/`workflow-status` blieben ungefixt — und weil der Kanon ein
+Klasse-B-Seed ist, waere in Bestandsprojekten genau der Text weitergelaufen, gegen den die Spiegel
+ueberhaupt angelegt wurden. Gefunden erst vom impl-review am Folgetag.
+
 ### Multi-Root: `git -C` in jeder Variante
 
 In Skills, die ueber mehrere Git-Roots operieren, jedes git-Kommando explizit mit `git -C {root}`
@@ -164,6 +179,30 @@ PowerShell-Here-String), nie nur der primaeren.
 
 Praxisfall 2026-07-16: eine Here-String-Variante ohne `git -C` haette im Multi-Root-Fall ins
 falsche Repo committet; sie blieb unsichtbar, weil die primaere Variante korrekt war.
+
+### Werkzeug-Fehlschlag ist kein Datenbefund
+
+Bei Mehr-Punkte-Vergleichen (z.B. Repo ↔ Lock ↔ installierte Kopie) vor der Auswertung mechanisch
+belegen, dass **jede Seite gefuellt ist** — Zeilenzahl > 0 als hartes Gate, sonst Abbruch mit
+„Werkzeug-Fehlschlag, kein Datenbefund". Verbindliche Vergleichs-Sequenzen eines Skills nie durch
+eigene Hash-/Grep-Methoden ersetzen.
+
+Praxisfall 2026-07-29 (`kit-sync`): `grep -P` scheiterte am Locale, die Lock-Seite blieb dadurch
+leer, und der Lauf meldete **41 Schein-Abweichungen** gegen den Leer-Hash — ein Werkzeug-Fehler
+las sich wie „41 Artefakte kaputt".
+
+### Negativ-Kriterien auf die Wirkstelle ankern
+
+Ein Kriterium der Form „Begriff X kommt nicht mehr vor" nie ueber die **ganze Datei** formulieren
+(`grep -c "X" = 0`), sondern auf die **Wirkstelle** ankern — die Zeile oder Sektion, die X
+tatsaechlich loswerden soll. Sonst wird das Kriterium rot, obwohl die Umsetzung stimmt:
+Abschaffungs-Notizen, Toleranz-Matrizen und Migrations-Hinweise **muessen** den abgeschafften
+Begriff nennen.
+
+Praxisfall 2026-07-30/31 (Feature plan-status-feld): `grep -c "In Umsetzung" … = 0` stand als
+Checkpoint-Kriterium, waehrend derselbe Schritt die Altwert-Nennung in der Toleranz-Matrix
+ausdruecklich forderte — das Kriterium widersprach dem eigenen Schritt-Output und war ab dem
+Moment der korrekten Umsetzung dauerhaft rot.
 
 ## Distribution (kit-sync)
 
