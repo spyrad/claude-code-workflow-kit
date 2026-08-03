@@ -3,7 +3,18 @@
 **Erstellt:** 2026-07-18
 **Ziel:** Ein aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Text-Argument §6-konform als `- [ ] [Fach] {Frage}` in die `## Offene Punkte` des aktiven Feature-Artefakts schreibt — das Eingabe-Werkzeug, das die Fachfragen-Konvention (#13) bisher offenliess.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+
+**Abnahme:** 2026-08-03 — **alle 6 Manual-Kriterien belegt.** Kriterien 1-4 am 2026-08-03 an der
+installierten Kopie gegengeprueft: Ziel-Routing mit allen vier Ausgaengen (Override / genau 1 aktiv /
+0 aktiv → Abbruch / >1 → Auswahlliste), `Status-Neutralitaet (Invariante)` in Schritt 5.4,
+alle drei Spec-Randfaelle (leeres Argument, Sonderzeichen, nur `plan/bug/task`),
+`Bestehende Eintraege unangetastet` in Schritt 5.3. Kriterien 5-6 dokumentiert im Changelog
+2026-07-19: P2-Smoke gruen am Wegwerf-Fixture (`ddde4e9`) und installierter Command-Smoke nach
+der kit-sync-Distribution (Phase 3).
+**Weiter offen (kein Plan-Kriterium):** der erste Fach-Frage-Einsatz im Alltag — im Changelog
+2026-07-19 als Wunsch notiert, nicht als Abnahme-Bedingung. Die Abnahme stuetzt sich auf die
+Plan-Kriterien, nicht auf Alltagsbetrieb.
 
 ---
 

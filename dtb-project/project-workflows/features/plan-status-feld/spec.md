@@ -3,7 +3,25 @@
 **Erstellt:** 2026-07-30
 **Ziel:** Das plan.md-Kopf-Statusfeld bekommt genau einen definierten Pfleger (plan-review), die lesenden Skills werden gegen Feld-Drift gehaertet, und Feld-Semantik samt Randfaellen wird in DERIVED_STATE_RULES.md kanonisiert.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+
+**Abnahme:** 2026-08-03 — **alle 3 Manual-Kriterien belegt, kein Vorbehalt.**
+- **§-Verortung (K1):** Regel-Datei traegt §1-§7 lueckenlos, §7 ist der letzte Abschnitt
+  (Z. 276/395) — additiv, keine Nummer verschoben oder doppelt belegt. Querverweise auf
+  §7.1-§7.4 aus sechs Skills konsistent.
+- **Ablauf-Logik (K2):** Schritt 4/5 in `dtb-plan-review` unangetastet, Schreibschritt als
+  nachgelagerter Schritt 6 am Schritt-5-Ausgang (Wertematrix trennt „Findings eingearbeitet"
+  von „Findings offen", binaere behoben-Bedingung). F1-Wirkstelle korrekt: 6.3 gibt die
+  `📝`-Zeile **ausserhalb** des Output-Blocks aus, „nach der Anpassungs-Runde — und erst dann".
+- **Trockenlauf 3.3 (K3):** alle 5 Faelle am 2026-08-03 gegen die **installierten** Leser
+  durchgespielt (Feld fehlt / `In Umsetzung` / unbekannt / `Entwurf`+3/9 / Feld ausserhalb
+  Zeile 1-10) — Toleranz-Matrix, 10-Zeilen-Fenster, `0/Y`-Guard und Konflikt-Praedikat sind in
+  `workflow-next` und `workflow-status` beidseitig praesent, jeder Fall verhaelt sich
+  matrixkonform. Der Ausfuehrungsbeleg liegt zusaetzlich vor: Schritt 3.4 (E2E-Smoke an
+  5 realen Plaenen) ist im Changelog 2026-07-30 dokumentiert — Interpretation **und**
+  Ausfuehrung sind damit abgedeckt.
+
+Das REJECTED in `review.md` ist der Stand VOR der Triage (10 Fixed · 0 PENDING, `5b29f81`).
 
 ---
 

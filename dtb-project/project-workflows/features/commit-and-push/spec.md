@@ -3,7 +3,19 @@
 **Erstellt:** 2026-07-16
 **Ziel:** Ein geführter Routine-Skill, der Änderungen sicher committet und pusht — die heute unbegleitetste Stelle im Workflow.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+
+**Abnahme:** 2026-08-03 — mehrfach produktiv im Einzel-Repo, zuletzt `ecb10ea` (Red-Flag-Scan
+ohne Treffer, blockierende Message-Bestaetigung, heterogener Diff korrekt geflaggt).
+**Vorbehalt:** Die Manual-Kriterien der Phasen 1 und 3 zur **Multi-Root-Gruppierung** bleiben
+unbelegt — Monorepo (1 Root aus n Pfaden), Poly-Repo (n Roots) und die Windows-Pfad-Normalisierung
+wurden nie real durchgespielt; in diesem Einzel-Repo ist das strukturell nicht pruefbar (haengt am
+Monorepo pkp). Ebenso nie real ausgeloest: non-fast-forward, kein Tracking-Branch, Detached HEAD,
+clean+up-to-date. Die Abnahme deckt den Einzel-Repo-Pfad, nicht die Mehr-Root-Faelle.
+**Offener Befund (2026-08-03):** Schritt 6 kennt keinen Auffaelligkeits-Stopp fuer `behind > 0`.
+Schritt 2 erhebt ahead/behind, verwendet es aber nur fuer „Push ja/nein" — bei `behind 19` ist der
+Push jedoch keine Routine, sondern eine Zusammenfuehrungs-Entscheidung; der Nutzer musste den Lauf
+selbst unterbrechen.
 
 ---
 

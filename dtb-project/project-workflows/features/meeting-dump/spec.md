@@ -3,7 +3,18 @@
 **Erstellt:** 2026-07-21
 **Ziel:** Ein aktiver Skill `/dtb:meeting-dump`, der Meeting-Notizen als Beleg persistiert und gegen die offenen `[Fach]`-Fragen aller Features abgleicht — beantwortete Fragen §6-konform abhakt/nachträgt, Teilantworten und Rest-Input sichtbar macht.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+
+**Abnahme:** 2026-08-03 — in einem Zielprojekt durchgespielt (vom Nutzer bestaetigt).
+**Beleg-Luecke:** Projekt und Datum des Laufs wurden nicht protokolliert; der Lauf fand ausserhalb
+dieses Repos statt und ist von hier nicht nachpruefbar. Nachtrag erwuenscht.
+**Am 2026-08-03 hier mechanisch verifiziert** (Manual-Kriterien der Phasen 1 und 2):
+§6 grenzt `→ Antwort:` (nur unter `- [x]`) und `→ Zwischenstand:` (nur unter `- [ ]`) beidseitig
+explizit ab, mit Beispielen; Frontmatter erfuellt die `skills/CLAUDE.md`-Konventionen
+(`name` ↔ Verzeichnis, `Use when:`-Trigger, `disable-model-invocation`, Pipeline-Metadaten).
+**Nicht in diesem Repo belegt:** beobachteter Probelauf gegen ein reales Feature, 0-Fragen-Pfad und
+§6-konforme Rueckschreibung (Phase-3-Kriterien). Gegenprobe hier negativ — `project-meetings/`
+existiert nicht, keine `- [x] [Fach]`-Zeile, kein angewandtes `→ Antwort:`/`→ Zwischenstand:`.
 
 ---
 

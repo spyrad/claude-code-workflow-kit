@@ -3,7 +3,25 @@
 **Erstellt:** 2026-07-17
 **Ziel:** Waehrend der Feature-Arbeit auftauchende Fach-Fragen (fuers Meeting) werden statusfaehig und maschinell erkennbar direkt im Feature-Artefakt erfasst — Derived-State-konform, ohne zweiten Speicherort.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+
+**Abnahme:** 2026-08-03 — **alle 3 Manual-Kriterien belegt, kein Vorbehalt.**
+- **§6-Vollstaendigkeit (K1):** die vier Aspekte sind einzeln verortet — Grammatik §6.1
+  (Kanonform, dateiunabhaengig, Beispielblock), Status-Neutralitaet §6.2 (woertlich „zaehlen
+  NICHT fuer §1 und §2"), Ableitung offen/beantwortet §6.1 + §6.3 (zwei Konsumenten:
+  lesend `meeting-agenda`, schreibend `meeting-dump`), Rueckwaertskompatibilitaet §6.3
+  (untagged bleibt gueltig, keine Migration). Widerspruchsfrei zu §1/§2: alle dortigen
+  Checkbox-Aussagen sind auf `## Progress`/`## Schritte`/`## Fix-Schritte` bezogen, §2 ist
+  schon im Titel auf die Progress-Sektion begrenzt.
+- **Aktive Anleitung (K2):** `feature-discover:243` und `feature-plan:100` tragen denselben
+  imperativen Satz an der Schreibstelle im Template (nicht als Fussnote) und erlauben den
+  untagged-Fall im selben Satz ausdruecklich; `feature-plan:154-158` fuehrt „Zwei Renderings,
+  drei Intents" aus und haelt die „nie erfinden"-Luecke getrennt.
+- **Beobachteter Trockenlauf (K3):** im Changelog 2026-07-17 dokumentiert — „degradationsfest,
+  ‚zwei Renderings, drei Intents'; **blinder Trockenlauf** bestand".
+
+Die im Juli notierte Erwartung „naechste feature-discovery nutzt `[Fach]`" war ein Wunsch,
+kein Plan-Kriterium — sie stand der Abnahme nicht entgegen.
 
 ---
 
