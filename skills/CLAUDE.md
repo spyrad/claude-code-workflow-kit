@@ -108,6 +108,7 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | `impl-review` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `greenfield-roadmap` | `project-strategy/PRD-MVP.md` | `greenfield-prd` (`after`-Match; Pfad ist kein `features/`-Slug, sondern der feste Strategie-Pfad) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
+| `feature-fast` | INBOX-Eintrag zur Idee (kein `features/`-Artefakt) | `idea` voran, `idea-review` als Alternative — **ohne Escape-Hatch** (begruendete Abweichung: die INBOX ist die einzige Erhebungsquelle des Fast-Track; ein Durchrutschen ohne Eintrag waere ein Ad-hoc-Einstieg, den die Spec explizit ausschliesst) |
 | `archive` | archivierbare Kandidaten vorhanden | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu archivieren" (nativ in Schritt 3) |
 | `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu migrieren" (nativ in Schritt 1) |
 

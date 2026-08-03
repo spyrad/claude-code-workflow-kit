@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-07-31 (frischer impl-review an plan-status-feld: 1 neuer Blocker + 10 Findings, Triage vollstaendig behoben `5b29f81`; L7/L8/L14 nach `skills/CLAUDE.md` gehoben; Idee #29 auf In Arbeit; Distribution 41/41 @ `5b29f81` auf dieser Maschine — die andere steht auf `eda0ed1`)
+**Letzte Aktualisierung:** 2026-08-03 (Zusammenfuehrung zweier Straenge — Stand 2026-08-02: meeting-agenda 5/5 Fertig zum Testen, gebaut/reviewt/Triage 13/13 Fixed; Idee #36 worker-implement nach Discovery-Abbruch verworfen; 7 Features Y/Y, alle Abnahmen ausstehend; Distribution dort 43 @ `59b3e4e`, Triage-Fixes noch nicht verteilt. Zuvor ungepushter Stand 2026-07-31: frischer impl-review an plan-status-feld — 1 neuer Blocker + 10 Findings, Triage vollstaendig behoben `5b29f81`; L7/L8/L14 nach `skills/CLAUDE.md` gehoben; Idee #29 auf In Arbeit; Distribution hier 41/41 @ `5b29f81`. Beide Distributions-Angaben sind maschinen-lokal und nach dem Merge veraltet → `/dtb:kit-sync sync` noetig)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -17,6 +17,8 @@
 | Fachfragen-Erfassung | Fertig zum Testen | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
 | open-question | Fertig zum Testen | Mittel | features/open-question/spec.md | Aktiver Erfassungs-Skill `/dtb:open-question`, der eine Fach-Frage per Argument §6-konform als `- [ ] [Fach] {Frage}` ins aktive Feature-Artefakt schreibt — das Eingabe-Werkzeug der Fachfragen-Kette (#13→#26→#25→#24) |
 | plan-status-feld | Fertig zum Testen | Hoch | features/plan-status-feld/spec.md | plan.md-Kopf-Statusfeld bekommt genau einen Pfleger (plan-review schreibt bei jedem Verdikt den letzten Review-Stand), Leser gehaertet (Checkbox-Guard, ⚠-Konfliktmeldung, Toleranz-Matrix) + Kanonisierung in DERIVED_STATE_RULES.md |
+| meeting-agenda | Fertig zum Testen | Mittel | features/meeting-agenda/spec.md | Rein lesende Agenda-Sicht: sammelt offene `[Fach]`-Fragen aus features/*/{discovery,spec}.md, gruppiert nach Feature — die fehlende Lese-Ansicht der Fachfragen-Kette (#13→#26→#25→#24); via Fast-Track geplant |
+| feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 
 ---
 

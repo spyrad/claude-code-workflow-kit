@@ -11,7 +11,7 @@ allowed-tools: Read, Glob, Grep, Edit
 pipeline:
   stage: capture
   after: null
-  next: [dtb:workflow-next]
+  next: [dtb:workflow-next, dtb:meeting-agenda]
   consumes: [workflow.config.yaml, features/*/spec.md, features/*/discovery.md]
   produces: [features/*/spec.md, features/*/discovery.md]
 ---
@@ -163,7 +163,7 @@ beschrieben:
    Fach-Frage erfasst → features/<slug>/<datei>:
      - [ ] [Fach] <Frage>
 
-   Sammelansicht spaeter via /dtb:workflow-next (bzw. der geplanten Fach-Agenda).
+   Sammelansicht spaeter via /dtb:meeting-agenda (Agenda aller offenen Fach-Fragen).
    ```
 
 ---

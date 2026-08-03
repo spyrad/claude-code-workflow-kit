@@ -20,6 +20,7 @@ Regeln in §4) mit festen Dateinamen:
 | `bug.md` | Bug-Report inkl. `## Fix-Schritte` (statt eigenem Ordner-Change fuer Bugs) |
 | `task.md` | Aufgabe inkl. `## Schritte` |
 | `review.md` | Impl-Review-Report (`dtb:impl-review`), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1 |
+| `fast-draft.md` | Fast-Track-Zwischenspeicher (`dtb:feature-fast`, unbestaetigte Sammelvorlage), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1; ein Ordner NUR mit fast-draft.md gilt als "Idee in Erhebung" (kein ableitbarer Feature-Status) |
 
 Ein archivierter Change ist der ganze Ordner unter `archive/<slug>/`.
 
@@ -261,7 +262,8 @@ Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
   nicht sofort/allein beantwortbar) vs. untagged Bullet (Faelle a+b, syntaktisch identisch:
   (a) normaler offener Punkt / (b) „nie erfinden"-Luecke). Nur (c) traegt Tag und Checkbox.
 - Die Ableitung Fach-Frage `[ ]`=offen / `[x]`=beantwortet hat zwei Konsumenten: **lesend**
-  eine kuenftige rein-lesende Agenda-Ansicht (#25, noch offen); **schreibend** der
+  die Agenda-Ansicht `dtb:meeting-agenda` (#25), die vor dem Meeting alle offenen Fragen aus
+  `features/*/{discovery,spec}.md` einsammelt; **schreibend** der
   Meeting-Rueckfluss `dtb:meeting-dump` (#24), der nach einem Meeting Vollantworten (`[x]` +
   `→ Antwort:`) bzw. Zwischenstaende (`[ ]` + `→ Zwischenstand:`, §6.1) nachtraegt — er kippt
   nur die Checkbox und haengt die Fortsetzungszeile an, status-neutral (§6.2), legt aber nie
@@ -386,3 +388,8 @@ Der `dtb:implement`-Loop bleibt gegen dieses Feld blind.
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
 **§7 Plan-Kopf-Statusfeld (Review-Nachweis) ergaenzt:** Feature plan-status-feld, 2026-07-30
 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
+**`fast-draft.md` als status-neutrale Ordner-Datei ergaenzt:** Feature feature-fast, 2026-08-02
+(Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22)
+**§6.3 lesender Konsument benannt (`dtb:meeting-agenda` statt „#25, noch offen"):** Feature
+meeting-agenda, 2026-08-02 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch,
+vgl. INBOX #22 — **sechster** dokumentierter Skew-Fall)

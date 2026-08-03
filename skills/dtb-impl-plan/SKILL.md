@@ -91,6 +91,10 @@ vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
 
 ## Template fuer plan.md
 
+> **Wartungs-Hinweis (Struktur-Anker):** Diese Sektion samt Template wird von
+> `dtb:feature-fast` als Struktur-Anker referenziert (Grep auf `## Template fuer plan.md`).
+> Bei Umbenennung oder Umbau den Struktur-Check dort mitziehen.
+
 Verwende folgende Struktur:
 
 ```markdown

@@ -10,7 +10,7 @@ argument-hint: "[Aufgaben-Beschreibung als Freitext]"
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: idea
-  after: null
+  after: [dtb:idea-review]
   next: null
   consumes: [BACKLOG.md]
   produces: [features/*/task.md, BACKLOG.md]
@@ -113,6 +113,20 @@ Leite einen kurzen, beschreibenden Namen aus der Aufgaben-Beschreibung ab.
 
 **Erfasst mit:** `/dtb:task`
 ```
+
+---
+
+## Schritt 4b: INBOX-Rueckverlinkung (falls aus Idee geroutet)
+
+Stammt die Aufgabe aus einer INBOX-Idee (Dreier-Weiche von `dtb:idea-review`, Argument
+nennt eine Nummer, oder der Chat-Kontext zeigt es):
+
+- Haenge an die Idee-Zeile in `{config.paths.workflows}/INBOX.md` den Link
+  `→ features/{slug}/task.md` an
+- Steht die Idee noch nicht auf `Ausgearbeitet`, setze sie darauf (die Weiche hat das
+  im Regelfall schon getan — hier nur nachziehen, nie zurueckstufen)
+
+Ohne INBOX-Herkunft: Schritt still ueberspringen.
 
 ---
 

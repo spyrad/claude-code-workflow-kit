@@ -34,6 +34,10 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 ## Template fuer spec.md
 
+> **Wartungs-Hinweis (Struktur-Anker):** Diese Sektion samt Template (und der
+> Technical-Leak-Lint unten) werden von `dtb:feature-fast` referenziert (Grep auf
+> `## Template fuer spec.md`). Bei Umbenennung oder Umbau den Struktur-Check dort mitziehen.
+
 Verwende folgende Struktur:
 
 ```markdown
