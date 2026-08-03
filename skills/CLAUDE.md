@@ -52,8 +52,8 @@ which files are present + `plan.md` `## Progress` (see `DERIVED_STATE_RULES.md`)
 |----------------------------|-----------------------------------|
 | `spec.md` | Derived: Spezifiziert, Geplant, In Arbeit, Fertig zum Testen (from `plan.md` `## Progress` checkboxes). Explicit only: Abgenommen, Abgeschlossen, Pausiert |
 | `plan.md` | Head status field = **review evidence only**, exactly two values `Entwurf`/`Reviewed`, defined as the `**Status:**` line within the first 10 lines; sole writer is `dtb:plan-review` (writes on every verdict; manual flip needs an `(manuell {date}: …)` note) — canon in `DERIVED_STATE_RULES.md` §7. Progress via mandatory `## Progress` section (one checkbox per step N.M; flips gated by checkpoint criteria, SHA written back at phase-end commit — verification evidence, §2) |
-| `bug.md` | Derived from `## Fix-Schritte` checklist: Offen, Analysiert, In Arbeit, Behoben |
-| `task.md` | Derived from `## Schritte` checklist: Offen, In Arbeit, Erledigt |
+| `bug.md` | Derived from `## Fix-Schritte` checklist: Offen, Analysiert, In Arbeit, Behoben. Explicit only: Pausiert, Abgenommen (§1.2/§1.5) |
+| `task.md` | Derived from `## Schritte` checklist: Offen, In Arbeit, Erledigt. Explicit only: Pausiert, Abgenommen (§1.2/§1.5) |
 | `INBOX.md` entries | Offen, In Arbeit, Ausgearbeitet, Verworfen (maintained by idea skills) |
 
 ## Eligibility-Gates

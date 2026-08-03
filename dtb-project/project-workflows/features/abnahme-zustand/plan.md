@@ -154,9 +154,9 @@ korrekt, die beiden nicht freigegebenen unveraendert; die Fassung ist installier
 - [x] 1.1 §1.2 aufspalten — `7844bc4`
 - [x] 1.2 Lese-Regel + Konflikt-Praedikat + Kopplungs-Hinweis — `7844bc4`
 - [x] 1.3 Archiv-Widerspruch + Schreiber-Verweis — `7844bc4`
-- [x] 2.1 Naechster-Schritt-Leser haerten
-- [x] 2.2 Backlog-Uebersicht + Wiederaufnahme nachziehen
-- [ ] 2.3 Verifikation am echten Bestand + Distribution
+- [x] 2.1 Naechster-Schritt-Leser haerten — `c44dffd`
+- [x] 2.2 Backlog-Uebersicht + Wiederaufnahme nachziehen — `c44dffd`
+- [x] 2.3 Verifikation am echten Bestand + Distribution — `c44dffd`
 
 ---
 

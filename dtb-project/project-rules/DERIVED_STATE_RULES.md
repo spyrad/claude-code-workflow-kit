@@ -48,9 +48,10 @@ Diese Zustaende sind bewusste Nutzer-Entscheidungen und ueberschreiben die Ablei
 
 - **Pausiert** — manuelle Markierung (WORKFLOW_STATUS "Pausierte Themen" oder BACKLOG-Anmerkung)
 - **Abgenommen** — getestet & freigegeben. Einziger Schreiber ist `dtb:workflow-checkpoint`
-  (Schritt 2.3, Beleg-Rueckfrage als Verifikations-Gate — nie auf blossen Zuruf). Der Change
-  bleibt unter `features/` (Vorbehalte/Beleg-Luecken bleiben im aktiven Bereich sichtbar) und
-  ist damit Archiv-Kandidat (`dtb:archive` Kandidat-Regel)
+  (Schritt 2.3, Beleg-Rueckfrage als Verifikations-Gate — nie auf blossen Zuruf). Traegerfeld
+  ist die `**Status:**`-Zeile im Kopf von `spec.md` (bei reinen Tasks/Bugs: `task.md`/`bug.md`,
+  §1.5). Der Change bleibt unter `features/` (Vorbehalte/Beleg-Luecken bleiben im aktiven
+  Bereich sichtbar) und ist damit Archiv-Kandidat (`dtb:archive` Kandidat-Regel)
 - **Abgeschlossen** — nur via `/dtb:archive`; die Archivierung IST der Abschluss-Akt.
   100% Checkboxen ≠ automatisch abgeschlossen
 
@@ -60,7 +61,8 @@ Diese Zustaende sind bewusste Nutzer-Entscheidungen und ueberschreiben die Ablei
 > `dtb:workflow-next`, `dtb:backlog-status` und `dtb:workflow-resume` (Autarkie: die
 > Regel-Datei ist Klasse-B-Seed und erreicht Bestandsprojekte nicht automatisch).
 > `dtb:workflow-status` behandelt explizite Zustaende bereits. Aenderung hier → die drei
-> Spiegel mitziehen und mechanisch verifizieren (Grep auf den Kernsatz, Zielzahl 3).
+> Spiegel mitziehen und mechanisch verifizieren (Grep auf den einzeiligen Kernsatz:
+> genau 1 Treffer je Spiegel-Datei, 3 Dateien).
 
 - **Kernsatz (eine Zeile, Grep-Anker der Kopplung):** Ein gesetztes `Abgenommen` ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
 - **Konflikt ist genau eine Kombination:** `**Status:** Abgenommen` gesetzt UND `## Progress`
@@ -68,8 +70,7 @@ Diese Zustaende sind bewusste Nutzer-Entscheidungen und ueberschreiben die Ablei
   Widerspruch wird mit 1 Zeile gemeldet:
   `⚠ {Item}: Feld sagt "Abgenommen", ## Progress zeigt "{X/Y}"`.
   Jede andere Kombination ist kein Konflikt.
-- **Feld fehlt oder traegt einen abgeleiteten Wert** → still wie abgeleitet (fehlende
-  Information ist kein Konflikt).
+- **Still-Regel:** Feld fehlt oder traegt den (mit der Ableitung uebereinstimmenden) Wert → still; jeder andere Nicht-`Abgenommen`-Wert faellt unter die normale Konfliktregel §1.3.
 
 ### 1.3 Konfliktregel
 
@@ -102,7 +103,8 @@ Offen/Analysiert (bug) bzw. Offen (task), teilweise = In Arbeit, alle abgehakt =
 (`bug.md`) bzw. **Erledigt** (`task.md`). Es zaehlen ausschliesslich die Checkboxen unter
 `## Fix-Schritte`/`## Schritte` — ein separater `## Testplan` in `bug.md` wird NICHT mitgezaehlt.
 Explizite Statusfelder im
-Kopf dieser Dateien gelten als manuelle Zustaende nach 1.2 nur fuer: Pausiert. Ein Change-Ordner
+Kopf dieser Dateien gelten als manuelle Zustaende nach 1.2 nur fuer: Pausiert und Abgenommen
+(Schreiber von `Abgenommen` bleibt auch hier `dtb:workflow-checkpoint` Schritt 2.3). Ein Change-Ordner
 kann `spec.md`/`plan.md` **und** `bug.md`/`task.md` enthalten (z.B. Bug im Zuge eines Features);
 die Ableitung nach 1.1 (plan-basiert) hat dann Vorrang, `bug.md`/`task.md` sind Zusatz-Artefakte.
 

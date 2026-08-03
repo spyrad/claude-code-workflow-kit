@@ -45,7 +45,7 @@ Pruefe die folgenden Quellen und sammle alle Kandidaten:
 
 ### Change-Ordner (abgeleitet, Regeln: `project-rules/DERIVED_STATE_RULES.md`)
 Ein Change ist der Ordner `features/<slug>/`. Kandidat, wenn:
-- `spec.md` mit explizitem `**Status:** Abgenommen` oder `Abgeschlossen`
+- `spec.md` — bei reinen Tasks/Bugs `task.md`/`bug.md` (Regel-Datei §1.5) — mit explizitem `**Status:** Abgenommen` oder `Abgeschlossen`
 - `plan.md` vollstaendig abgehakt ("Fertig zum Testen") — NUR als Kandidat vorschlagen,
   Archivierung braucht explizite Bestaetigung (Regel-Datei §1.2: 100% Checkboxen ≠ automatisch abgeschlossen)
 - `bug.md` deren `## Fix-Schritte` vollstaendig abgehakt sind (= Behoben) — §1.5

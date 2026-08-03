@@ -74,11 +74,11 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 > bzw. `Fertig zum Testen`) — ein plan-review-Vorschlag waere dort falsch, weil laengst
 > implementiert wird. Zusaetzlich greift dann die Feld-Konfliktmeldung aus Schritt 3.
 
-> **Abgenommen-Zeile (Regel-Datei §1.2, gespiegelte Lese-Regel):** Ein gesetztes `Abgenommen`
-> ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog
-> `Pausiert`). Die Zeile steht bewusst VOR der Y/Y-Zeile (Erst-Treffer-Auswertung) — sie greift
-> nur bei vollstaendigem Progress; `Abgenommen` bei unvollstaendigem Progress ist ein
-> Feld-Konflikt (Schritt 3), kein Pipeline-Zustand.
+> **Abgenommen-Zeile (Regel-Datei §1.2, gespiegelte Lese-Regel — Grep-Anker, eine Zeile):**
+> Ein gesetztes `Abgenommen` ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
+> Die Zeile steht bewusst VOR der Y/Y-Zeile (Erst-Treffer-Auswertung) — sie greift nur bei
+> vollstaendigem Progress; `Abgenommen` bei unvollstaendigem Progress ist ein Feld-Konflikt
+> (Schritt 3), kein Pipeline-Zustand.
 
 **Bug-Pipeline** (Checkliste = `## Fix-Schritte` im Bug-Report):
 
@@ -109,11 +109,12 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 Zustand ab, gewinnt das Artefakt. Den Widerspruch mit 1 Hinweiszeile melden
 (`⚠ BACKLOG sagt "{Feld}", Artefakte zeigen "{abgeleitet}"`), NICHT selbst korrigieren (read-only).
 
-**Ausnahme `Abgenommen` (Regel-Datei §1.2, gespiegelte Lese-Regel):** Ein gesetztes `Abgenommen`
-ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
+**Ausnahme `Abgenommen` (Regel-Datei §1.2):** kein §1.3-Konflikt — Kernsatz steht als Grep-Anker
+in der Abgenommen-Zeile von Schritt 2 (bewusst nur EINE Kopie pro Datei).
 **Konflikt ist genau eine Kombination:** `**Status:** Abgenommen` gesetzt UND `## Progress`
 unvollstaendig (< Y/Y) — dann gewinnt das Artefakt, 1 Hinweiszeile:
-`⚠ {Item}: Feld sagt "Abgenommen", ## Progress zeigt "{X/Y}"`. Feld fehlt → still wie abgeleitet.
+`⚠ {Item}: Feld sagt "Abgenommen", ## Progress zeigt "{X/Y}"`.
+Still-Regel: Feld fehlt oder traegt den (mit der Ableitung uebereinstimmenden) Wert → still; jeder andere Nicht-`Abgenommen`-Wert faellt unter die normale Konfliktregel §1.3.
 
 **Feld-Konflikt `plan.md`-Kopf (Regel-Datei §7.3, gleiche Logik):** **Konflikt ist genau eine
 Kombination:** ein physisch vorhandenes Feld, das als `Entwurf` gilt, UND ≥1 abgehakte

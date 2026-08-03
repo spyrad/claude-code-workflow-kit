@@ -46,8 +46,8 @@ Finde alle Change-Ordner `{config.paths.workflows}/features/*/` und lies deren `
 - **Tasks:** `task.md` `## Schritte`-Checkliste zaehlen (Offen/In Arbeit/Erledigt)
 - **Fallbacks (Regel-Datei §1.4):** `plan.md` ohne Progress → "Fortschritt unbekannt"; flache Alt-Dateien/IMPL_STATUS_*.md
   ignorieren + Migrations-Hinweis; explizit `Pausiert` → als Pausiert zeigen (ueberschreibt Ableitung)
-- **Explizit `Abgenommen` (Regel-Datei §1.2, gespiegelte Lese-Regel):** Ein gesetztes `Abgenommen`
-  ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
+- **Explizit `Abgenommen` (Regel-Datei §1.2, gespiegelte Lese-Regel — Grep-Anker, eine Zeile):**
+  Ein gesetztes `Abgenommen` ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
   Als Abgenommen zeigen (Abschnitt "Fertig zum Testen / Abgenommen")
 
 ## Schritt 3: Abgleich
@@ -59,7 +59,8 @@ Vergleiche die gefundenen Dateien mit den Eintraegen in BACKLOG.md:
   korrigieren (read-only)
 - **Ausnahme `Abgenommen` (§1.2):** kein Konflikt (Lese-Regel in Schritt 2). **Konflikt ist genau
   eine Kombination:** `**Status:** Abgenommen` gesetzt UND `## Progress` unvollstaendig (< Y/Y) —
-  dann 1 Hinweiszeile: `⚠ {Item}: Feld sagt "Abgenommen", ## Progress zeigt "{X/Y}"`
+  dann 1 Hinweiszeile: `⚠ {Item}: Feld sagt "Abgenommen", ## Progress zeigt "{X/Y}"`.
+  Still-Regel: Feld fehlt oder traegt den (mit der Ableitung uebereinstimmenden) Wert → still; jeder andere Nicht-`Abgenommen`-Wert faellt unter die normale Konfliktregel §1.3.
 
 ## Schritt 4: Backlog-Report erstellen
 
