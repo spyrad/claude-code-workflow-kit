@@ -3,7 +3,14 @@
 **Erstellt:** 2026-08-03
 **Ziel:** Der explizite Zustand `Abgenommen` erhaelt eine widerspruchsfreie Definition im Kanon und eine durchgaengige Behandlung in allen lesenden Skills, damit freigegebene Changes nicht weiter als "Fertig zum Testen" gefuehrt oder als Widerspruch gemeldet werden.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+
+**Abnahme:** 2026-08-03 — **alle 4 Manual-Gates in dieser Session bestaetigt, kein Vorbehalt.**
+Phase 1: Aufspaltung kohaerent neben `Pausiert`, Konflikt-Praedikat unterdrueckt keinen echten
+Fehlerfall, Schreiber-Verweis „unveraendert bestaetigt". Phase 2: Negativ-Test — `feature-fast`
+und `meeting-agenda` bleiben unveraendert „Fertig zum Testen". Dazu impl-review-Triage 6/6 Fixed
+(F1-F6, `f3288db`), alle Fixes mechanisch verifiziert (Voll-Kernsatz je 1x in Kanon + 3 Spiegeln),
+distribuiert 43/43. Erste Abnahme nach der vom Feature selbst kanonisierten §1.2-Regel.
 
 ---
 

@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-08-03 (Zwei-Maschinen-Divergenz aufgeloest: ungepushter Strang 2026-07-31 mit Remote-Stand 2026-08-02 zusammengefuehrt `594124c`, 4 Konflikte als Union; Distribution dieser Maschine 43 @ `594124c` — `feature-fast` und `meeting-agenda` waren hier gar nicht installiert; **`commit-and-push` abgenommen** mit Vorbehalt Multi-Root; 6 Features Y/Y warten weiter auf Abnahme; Idee #29 auf In Arbeit)
+**Letzte Aktualisierung:** 2026-08-03 S3 (Feature **abnahme-zustand** komplett in einer Session: Idee #38 → Fast-Track → plan-review REVISE→Reviewed → implement 6/6 → impl-review-Triage 6/6 Fixed → distribuiert `f3288db` → **Abgenommen**. Damit 6 von 8 Features abgenommen; S1/S2: Zwei-Maschinen-Merge `594124c`, 5 Abnahmen, Distribution 43 @ `f3288db`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| abnahme-zustand | Geplant | Hoch | features/abnahme-zustand/spec.md | Der explizite Zustand `Abgenommen` erhält eine widerspruchsfreie Kanon-Definition und durchgängige Leser-Behandlung, damit freigegebene Changes nicht weiter als „Fertig zum Testen" geführt oder als Widerspruch gemeldet werden (Idee #38) |
+| abnahme-zustand | Abgenommen (2026-08-03, alle 4 Manual-Gates in-session belegt) | Hoch | features/abnahme-zustand/spec.md | Der explizite Zustand `Abgenommen` erhält eine widerspruchsfreie Kanon-Definition und durchgängige Leser-Behandlung, damit freigegebene Changes nicht weiter als „Fertig zum Testen" geführt oder als Widerspruch gemeldet werden (Idee #38) |
 | meeting-dump | Abgenommen (2026-08-03, Lauf im Zielprojekt — Projekt/Datum nicht protokolliert) | Mittel | features/meeting-dump/spec.md | Skill `/dtb:meeting-dump`: Meeting-Input als Beleg persistieren + gegen offene `[Fach]`-Fragen abgleichen — Antwort-Rückfluss der Fachfragen-Kette (#13→#26→#24) |
 | commit-and-push | Abgenommen (2026-08-03, mit Vorbehalt Multi-Root) | Mittel | features/commit-and-push/spec.md | Geführter Routine-Skill, der Änderungen sicher committet und pusht; Repo-Grenzen aus git (rev-parse --show-toplevel) statt config.repos → monorepo-, poly-repo- und einzelverzeichnis-fest |
 | Fachfragen-Erfassung | Abgenommen (2026-08-03, alle 3 Manual-Kriterien belegt) | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |
