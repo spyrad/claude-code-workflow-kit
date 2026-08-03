@@ -62,8 +62,7 @@ Diese Zustaende sind bewusste Nutzer-Entscheidungen und ueberschreiben die Ablei
 > `dtb:workflow-status` behandelt explizite Zustaende bereits. Aenderung hier → die drei
 > Spiegel mitziehen und mechanisch verifizieren (Grep auf den Kernsatz, Zielzahl 3).
 
-- **Kernsatz:** Ein gesetztes `Abgenommen` ueberschreibt die Ableitung „Fertig zum Testen"
-  und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
+- **Kernsatz (eine Zeile, Grep-Anker der Kopplung):** Ein gesetztes `Abgenommen` ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
 - **Konflikt ist genau eine Kombination:** `**Status:** Abgenommen` gesetzt UND `## Progress`
   unvollstaendig (< Y/Y). Dann gewinnt das Artefakt (der abgeleitete Status) und der
   Widerspruch wird mit 1 Zeile gemeldet:

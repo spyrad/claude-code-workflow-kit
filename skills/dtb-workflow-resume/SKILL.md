@@ -90,6 +90,12 @@ verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
 3. Fallbacks (Regel-Datei §1.4): `plan.md` ohne `## Progress` → "Fortschritt unbekannt" +
    Nachruestung anbieten; flache Alt-Dateien/`IMPL_STATUS_*.md` (Altbestand) → ignorieren, Migrations-Hinweis;
    explizit "Pausiert" markierte Features → nicht als aktiv zeigen
+3b. **Explizit `Abgenommen` (Regel-Datei §1.2, gespiegelte Lese-Regel):** Ein gesetztes `Abgenommen`
+   ueberschreibt die Ableitung „Fertig zum Testen" und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
+   Abgenommene Features sind NICHT aktiv (kein Fall A/B), verschwinden aber nicht still: im
+   Resume-Report als genau 1 Zeile zeigen — `{N} Feature(s) abgenommen — warten auf /dtb:archive`
+   (nur wenn N > 0). `Abgenommen` bei unvollstaendigem Progress (< Y/Y) → ⚠ Feld-Konflikt melden
+   (Artefakt gewinnt, 1 Zeile), nicht als abgenommen zeigen
 4. **Bei Behind > 0 aus Schritt 3:** Die Ableitung liest die Artefakte im **Arbeitsbaum**, ist
    also nur so aktuell wie der letzte Pull. Betreffen die ungepullten Commits Dateien unter
    `{config.paths.workflows}/` (Plan/Spec/Backlog/Status/`archive/`), dann den abgeleiteten Stand
