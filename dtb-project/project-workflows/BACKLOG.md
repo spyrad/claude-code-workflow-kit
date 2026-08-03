@@ -12,6 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
+| abnahme-zustand | Geplant | Hoch | features/abnahme-zustand/spec.md | Der explizite Zustand `Abgenommen` erhält eine widerspruchsfreie Kanon-Definition und durchgängige Leser-Behandlung, damit freigegebene Changes nicht weiter als „Fertig zum Testen" geführt oder als Widerspruch gemeldet werden (Idee #38) |
 | meeting-dump | Abgenommen (2026-08-03, Lauf im Zielprojekt — Projekt/Datum nicht protokolliert) | Mittel | features/meeting-dump/spec.md | Skill `/dtb:meeting-dump`: Meeting-Input als Beleg persistieren + gegen offene `[Fach]`-Fragen abgleichen — Antwort-Rückfluss der Fachfragen-Kette (#13→#26→#24) |
 | commit-and-push | Abgenommen (2026-08-03, mit Vorbehalt Multi-Root) | Mittel | features/commit-and-push/spec.md | Geführter Routine-Skill, der Änderungen sicher committet und pusht; Repo-Grenzen aus git (rev-parse --show-toplevel) statt config.repos → monorepo-, poly-repo- und einzelverzeichnis-fest |
 | Fachfragen-Erfassung | Abgenommen (2026-08-03, alle 3 Manual-Kriterien belegt) | Mittel | features/fachfragen-erfassung/spec.md | Fach-Fragen aus der Entwicklung statusfähig + maschinell erkennbar direkt im Artefakt erfassen (`- [ ] [Fach] {Frage}`), Derived-State-konform — Fundament für spätere Meeting-Agenda-Ansicht |

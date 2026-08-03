@@ -156,7 +156,7 @@ Verbleibend in BACKLOG.md: {N} aktive Features
 
 ## Richtlinien
 
-- **Keine aktiven Eintraege archivieren:** Nur Status "Verworfen", "Ausgearbeitet" (Inbox) und "Abgeschlossen" (Backlog/Features)
+- **Keine aktiven Eintraege archivieren:** Nur Status "Verworfen", "Ausgearbeitet" (Inbox) sowie "Abgenommen" und "Abgeschlossen" (Backlog/Features — konsistent zur Kandidat-Regel oben; `Abgenommen` ist der Eingang der Archivierung, `Abgeschlossen` wird beim Verschieben gesetzt)
 - **Immer bestaetigen:** Nichts archivieren ohne explizites OK vom Benutzer
 - **Nummern beibehalten:** Inbox-Nummern sind IDs und werden nie wiederverwendet
 - **Archiv-Log ist append-only:** Neue Eintraege anhaengen, nie ueberschreiben

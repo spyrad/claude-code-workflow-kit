@@ -47,7 +47,30 @@ Pro Change-Ordner `features/<slug>/` gilt die **hoechste** zutreffende Zeile:
 Diese Zustaende sind bewusste Nutzer-Entscheidungen und ueberschreiben die Ableitung:
 
 - **Pausiert** — manuelle Markierung (WORKFLOW_STATUS "Pausierte Themen" oder BACKLOG-Anmerkung)
-- **Abgenommen / Abgeschlossen** — nur via `/dtb:archive`; 100% Checkboxen ≠ automatisch abgeschlossen
+- **Abgenommen** — getestet & freigegeben. Einziger Schreiber ist `dtb:workflow-checkpoint`
+  (Schritt 2.3, Beleg-Rueckfrage als Verifikations-Gate — nie auf blossen Zuruf). Der Change
+  bleibt unter `features/` (Vorbehalte/Beleg-Luecken bleiben im aktiven Bereich sichtbar) und
+  ist damit Archiv-Kandidat (`dtb:archive` Kandidat-Regel)
+- **Abgeschlossen** — nur via `/dtb:archive`; die Archivierung IST der Abschluss-Akt.
+  100% Checkboxen ≠ automatisch abgeschlossen
+
+**Lese-Regel fuer `Abgenommen` (verbindlich fuer alle Lese-Skills):**
+
+> **Wartungs-Hinweis (Format-Kopplung):** Diese Lese-Regel ist gespiegelt in
+> `dtb:workflow-next`, `dtb:backlog-status` und `dtb:workflow-resume` (Autarkie: die
+> Regel-Datei ist Klasse-B-Seed und erreicht Bestandsprojekte nicht automatisch).
+> `dtb:workflow-status` behandelt explizite Zustaende bereits. Aenderung hier → die drei
+> Spiegel mitziehen und mechanisch verifizieren (Grep auf den Kernsatz, Zielzahl 3).
+
+- **Kernsatz:** Ein gesetztes `Abgenommen` ueberschreibt die Ableitung „Fertig zum Testen"
+  und ist KEIN Konflikt nach §1.3 (analog `Pausiert`).
+- **Konflikt ist genau eine Kombination:** `**Status:** Abgenommen` gesetzt UND `## Progress`
+  unvollstaendig (< Y/Y). Dann gewinnt das Artefakt (der abgeleitete Status) und der
+  Widerspruch wird mit 1 Zeile gemeldet:
+  `⚠ {Item}: Feld sagt "Abgenommen", ## Progress zeigt "{X/Y}"`.
+  Jede andere Kombination ist kein Konflikt.
+- **Feld fehlt oder traegt einen abgeleiteten Wert** → still wie abgeleitet (fehlende
+  Information ist kein Konflikt).
 
 ### 1.3 Konfliktregel
 
