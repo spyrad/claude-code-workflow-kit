@@ -38,3 +38,18 @@
 | 2026-07-30 | Bug | project-init-status-pfad | features/project-init-status-pfad/bug.md | Behoben (5/5, Fix `9e2e9e3`, blinde Abnahme bestanden; distribuiert 41/41 auf beiden Maschinen) |
 | 2026-07-30 | Bug | project-init-settings-seed | features/project-init-settings-seed/bug.md | Behoben (8/8 inkl. Schritt 8 nach blinder Abnahme; Fixes `41ebf97`/`88d6087`/`f23140c`; distribuiert 41/41 auf beiden Maschinen) |
 | 2026-07-30 | Idee | #16 "10x-mom-test-Pendant" | INBOX.md | Verworfen (2026-07-28) — Substanz bereits in `dtb:opportunity-map` eingebaut (verhaltensbasierte Signale `:78`, Schmerz-von-Loesung-Trennung `:83`, Go/No-Go `:145-157`); Mom-Test adressiert Interviews mit Dritten, die im Ein-Personen-Setting leerlaufen. Wiedereinstieg: falls echte Nutzer-Interviews anstehen. Analyse: Changelog 2026-07-28 |
+| 2026-08-04 | Feature | abnahme-zustand | features/abnahme-zustand/ | Abgeschlossen (abgenommen 2026-08-03, alle 4 Manual-Gates in-session belegt, kein Vorbehalt; Idee #38) |
+| 2026-08-04 | Feature | plan-status-feld | features/plan-status-feld/ | Abgeschlossen (abgenommen 2026-08-03, 3/3 Manual-Kriterien belegt; Idee #30) |
+| 2026-08-04 | Feature | commit-and-push | features/commit-and-push/ | Abgeschlossen (abgenommen 2026-08-03 MIT VORBEHALT Multi-Root — Monorepo/Poly-Repo-Gruppierung + Windows-Pfad-Normalisierung strukturell unbelegt, Abnahme in pkp offen; Befund `behind > 0`-Stopp Schritt 6 offen; Idee #21) |
+| 2026-08-04 | Feature | meeting-dump | features/meeting-dump/ | Abgeschlossen (abgenommen 2026-08-03 mit Beleg-Luecke — Zielprojekt-Lauf nicht protokolliert (Projekt/Datum fehlen), Phase-3-Kriterien im Kit-Repo unbelegt; Idee #24) |
+| 2026-08-04 | Feature | open-question | features/open-question/ | Abgeschlossen (abgenommen 2026-08-03, alle 6 Manual-Kriterien belegt, kein Vorbehalt; Idee #26) |
+| 2026-08-04 | Feature | fachfragen-erfassung | features/fachfragen-erfassung/ | Abgeschlossen (abgenommen 2026-08-03, 3/3 Manual-Kriterien belegt; Idee #13) |
+| 2026-08-04 | Idee | #38 "§1.2 wirft Abgenommen/Abgeschlossen falsch zusammen" | INBOX.md | Ausgearbeitet → abnahme-zustand (umgesetzt + archiviert) |
+| 2026-08-04 | Idee | #37 "Fast-Track-Schiene /dtb:feature-fast" | INBOX.md | Ausgearbeitet → feature-fast (umgesetzt; Feature noch aktiv — Restabnahme offen) |
+| 2026-08-04 | Idee | #36 "/dtb:worker-implement Orchestrator-Drehbuch" | INBOX.md | Verworfen (2026-08-02) — Engpass sitzt in den Entscheidungsphasen (adressiert feature-fast #37); Kit-Repo unguenstigster Delegations-Fall; 5 Pilot-Erkenntnisse (a-e) im INBOX-Text konserviert, Wiedereinstiegs-Kriterien definiert |
+| 2026-08-04 | Idee | #30 "plan.md-Kopf-Statusfeld ohne Pfleger" | INBOX.md | Ausgearbeitet → plan-status-feld (umgesetzt + archiviert) |
+| 2026-08-04 | Idee | #26 "/dtb:open-question Erfassungs-Skill" | INBOX.md | Ausgearbeitet → open-question (umgesetzt + archiviert) |
+| 2026-08-04 | Idee | #25 "Fach-Agenda Lese-Skill" | INBOX.md | Ausgearbeitet → meeting-agenda (umgesetzt; Feature noch aktiv — Restabnahme offen) |
+| 2026-08-04 | Idee | #24 "Besprechungs-Nachbereitung /dtb:meeting-dump" | INBOX.md | Ausgearbeitet → meeting-dump (umgesetzt + archiviert) |
+| 2026-08-04 | Idee | #21 "dtb:commit-and-push bauen" | INBOX.md | Ausgearbeitet → commit-and-push (umgesetzt + archiviert) |
+| 2026-08-04 | Idee | #13 "Fachfragen-/Stakeholder-Fragen-Agenda" | INBOX.md | Ausgearbeitet → fachfragen-erfassung (umgesetzt + archiviert) |

@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-03
 **Ziel:** Der explizite Zustand `Abgenommen` erhaelt eine widerspruchsfreie Definition im Kanon und eine durchgaengige Behandlung in allen lesenden Skills, damit freigegebene Changes nicht weiter als "Fertig zum Testen" gefuehrt oder als Widerspruch gemeldet werden.
 **Prioritaet:** Hoch
-**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+**Status:** Abgeschlossen <!-- gesetzt von /dtb:archive 2026-08-04 — die Archivierung IST der Abschluss-Akt (DERIVED_STATE_RULES.md §1.2) -->
 
 **Abnahme:** 2026-08-03 — **alle 4 Manual-Gates in dieser Session bestaetigt, kein Vorbehalt.**
 Phase 1: Aufspaltung kohaerent neben `Pausiert`, Konflikt-Praedikat unterdrueckt keinen echten

@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-17
 **Ziel:** Waehrend der Feature-Arbeit auftauchende Fach-Fragen (fuers Meeting) werden statusfaehig und maschinell erkennbar direkt im Feature-Artefakt erfasst — Derived-State-konform, ohne zweiten Speicherort.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+**Status:** Abgeschlossen <!-- gesetzt von /dtb:archive 2026-08-04 — die Archivierung IST der Abschluss-Akt (DERIVED_STATE_RULES.md §1.2) -->
 
 **Abnahme:** 2026-08-03 — **alle 3 Manual-Kriterien belegt, kein Vorbehalt.**
 - **§6-Vollstaendigkeit (K1):** die vier Aspekte sind einzeln verortet — Grammatik §6.1

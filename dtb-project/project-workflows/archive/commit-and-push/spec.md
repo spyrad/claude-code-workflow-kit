@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-16
 **Ziel:** Ein geführter Routine-Skill, der Änderungen sicher committet und pusht — die heute unbegleitetste Stelle im Workflow.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+**Status:** Abgeschlossen <!-- gesetzt von /dtb:archive 2026-08-04 — die Archivierung IST der Abschluss-Akt (DERIVED_STATE_RULES.md §1.2) -->
 
 **Abnahme:** 2026-08-03 — mehrfach produktiv im Einzel-Repo, zuletzt `ecb10ea` (Red-Flag-Scan
 ohne Treffer, blockierende Message-Bestaetigung, heterogener Diff korrekt geflaggt).

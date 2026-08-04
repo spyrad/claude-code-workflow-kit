@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-21
 **Ziel:** Ein aktiver Skill `/dtb:meeting-dump`, der Meeting-Notizen als Beleg persistiert und gegen die offenen `[Fach]`-Fragen aller Features abgleicht — beantwortete Fragen §6-konform abhakt/nachträgt, Teilantworten und Rest-Input sichtbar macht.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+**Status:** Abgeschlossen <!-- gesetzt von /dtb:archive 2026-08-04 — die Archivierung IST der Abschluss-Akt (DERIVED_STATE_RULES.md §1.2) -->
 
 **Abnahme:** 2026-08-03 — in einem Zielprojekt durchgespielt (vom Nutzer bestaetigt).
 **Beleg-Luecke:** Projekt und Datum des Laufs wurden nicht protokolliert; der Lauf fand ausserhalb

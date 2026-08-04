@@ -9,17 +9,12 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| abnahme-zustand (#38) | Abgenommen (explizit §1.2) | 6/6 | `/dtb:archive` |
-| commit-and-push | Abgenommen (explizit §1.2) | 10/10 | `/dtb:archive`; Vorbehalt Multi-Root bleibt notiert |
-| meeting-dump (#24) | Abgenommen (explizit §1.2) | 10/10 | `/dtb:archive`; Beleg (Projekt/Datum) nachtragen |
-| open-question | Abgenommen (explizit §1.2) | 9/9 | `/dtb:archive` |
-| plan-status-feld (#30) | Abgenommen (explizit §1.2) | 12/12 | `/dtb:archive` |
-| Fachfragen-Erfassung | Abgenommen (explizit §1.2) | 8/8 | `/dtb:archive` |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (3/5 Kriterien via #38-Lauf belegt) |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme: `/dtb:meeting-agenda` in frischer Session (Probelauf + Negativ-Test) |
 | Idee #29 (No-Loss-Gate) | In Arbeit (INBOX) | — | `/dtb:feature-discover` |
 
 Kein Feature „In Arbeit". Anzeige-Felder stimmen mit Ableitung + expliziten Zustaenden ueberein.
+**Archiviert 2026-08-04:** 6 abgenommene Features nach `archive/` (Details `archive/ARCHIVE_LOG.md`).
 ⚠ INBOX: #28 sagt „Ausgearbeitet", hat aber kein Artefakt → `/dtb:task` fuer #28.
 
 ---
@@ -36,7 +31,6 @@ Kein Feature „In Arbeit". Anzeige-Felder stimmen mit Ableitung + expliziten Zu
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:archive`** — 6 abgenommene Features + 9 INBOX-Eintraege + 19 BACKLOG-Zeilen; entlastet auch dieses Dashboard
 - [ ] **Restabnahmen** `meeting-agenda` + `feature-fast` (Details in der Status-Tabelle)
 - [ ] **Andere Maschine: `/dtb:kit-sync sync`** — steht auf `18a92da`, kennt Merge + beide Feature-Zyklen von heute nicht
 - [ ] `/dtb:task` fuer #28 (achter EOL-Beleg) · `/dtb:feature-discover` #29 · `/dtb:idea-review` (10 offene Ideen, #35/#34/#33 zuerst)
@@ -71,10 +65,7 @@ Kein Feature „In Arbeit". Anzeige-Felder stimmen mit Ableitung + expliziten Zu
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive` — 6 Features tragen `**Status:** Abgenommen` und erfuellen
-die Kandidat-Regel; dazu 9 INBOX-Eintraege (Verworfen/Ausgearbeitet) und 19 BACKLOG-Zeilen.
-Danach Restabnahme `/dtb:meeting-agenda` in frischer Session. Vorher `/dtb:commit-and-push`
-fuer die Checkpoint-Dateien dieser Session.
-**Empfehlung:** Neue Session mit `/clear`, dann `/dtb:workflow-resume` — er zeigt die
-Abgenommenen erstmals ueber die neue Report-Zeile. Bei **Rechnerwechsel** zuerst
-`/dtb:kit-sync sync` (andere Maschine `18a92da`).
+**Naechster Befehl:** `/dtb:commit-and-push` — die Archivierung vom 2026-08-04 (6 Ordner via
+`git mv`, ARCHIVE_LOG, INBOX/BACKLOG/Status bereinigt) ist noch nicht committet.
+Danach Restabnahme `/dtb:meeting-agenda` in frischer Session (Probelauf + Negativ-Test).
+**Empfehlung:** Bei **Rechnerwechsel** zuerst `/dtb:kit-sync sync` (andere Maschine `18a92da`).

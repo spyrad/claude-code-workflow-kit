@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-30
 **Ziel:** Das plan.md-Kopf-Statusfeld bekommt genau einen definierten Pfleger (plan-review), die lesenden Skills werden gegen Feld-Drift gehaertet, und Feld-Semantik samt Randfaellen wird in DERIVED_STATE_RULES.md kanonisiert.
 **Prioritaet:** Hoch
-**Status:** Abgenommen <!-- EXPLIZITER Zustand nach DERIVED_STATE_RULES.md §1.2 — ueberschreibt die Ableitung ("Fertig zum Testen"), NICHT von workflow-checkpoint zurueckzusetzen -->
+**Status:** Abgeschlossen <!-- gesetzt von /dtb:archive 2026-08-04 — die Archivierung IST der Abschluss-Akt (DERIVED_STATE_RULES.md §1.2) -->
 
 **Abnahme:** 2026-08-03 — **alle 3 Manual-Kriterien belegt, kein Vorbehalt.**
 - **§-Verortung (K1):** Regel-Datei traegt §1-§7 lueckenlos, §7 ist der letzte Abschnitt
