@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-08-04
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-04.md`
+**Letztes Update:** 2026-08-05
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-05.md`
 
 ---
 
@@ -27,24 +27,23 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 |----------|------|
 | **Blocker** | Keine |
 | **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, nur via #34) — **Idee #36 verworfen** (2026-08-02) — **6 Abnahmen 2026-08-03**, archiviert 2026-08-04 — **`meeting-agenda` + `feature-fast` bewusst NICHT abgenommen**. Alles Wiedervorlage-Schutz. |
-| **Notizen** | 2026-08-04 S2/S3: Ideen-Bestand auf zwei Achsen geprueft. Achse A (Feld ohne Artefakt) ueber INBOX **und** Archiv erschoepft — nur #28/#29; Archiv mit 26/26 aufgeloesten Ideen sauber. Achse B: 4 veraltete Eintraege, davon **#31 (sachlich falsch) korrigiert**, 3 offen. Aufraeumen und Abnehmen konkurrieren: die Archivierung vom Vormittag hat den einzigen `meeting-agenda`-Testfall mitgenommen. |
+| **Notizen** | 2026-08-05: Achse B komplett (4/4 — #31 am Vortag, #22/#27/#23 heute nachgezogen, Methode identisch). Ideen-Bestand damit auf aktueller Faktenlage. Nebenbefund: vermutete Discovery-Verlust-Luecke (INBOX→BACKLOG) geprueft und widerlegt — einzige echte Sichtbarkeitsluecke bleibt Achse A (INBOX-Feld ohne Artefakt, kein Lint). Resume meldete erneut einen ueberholten Handoff-Befehl (zweiter #35-Beleg). |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#22 / #27 / #23 nachziehen** (Methode wie #31) — Zaehler 3→6 · `grill-me` global installiert + „#32 vor #27" · Reproduktionsbeleg 2026-07-20. Veraltet, aber keiner falsch
-- [ ] `/dtb:commit-and-push` — INBOX + Log + Status uncommittet (Stand `a02e928`)
+- [ ] `/dtb:commit-and-push` — INBOX (#22/#27/#23) + Log + Status uncommittet (Stand `71b6404`)
 - [ ] `/dtb:feature-discover 29` — Eintrag vollstaendig; ⚠ Changelog-Pfade NICHT in `## Betroffene Module` (#32)
 - [ ] `/dtb:task` fuer #28 (EOL/`.gitattributes`, **10 Belege**)
-- [ ] **Restabnahme `meeting-agenda` dreigeteilt** — Negativ-Test + Leer-Fall im Kit, Positiv-Lauf in pkp, Sektions-Ankerung separat (Testfall mit-archiviert; Negativ-Test belegt nur noch den `archive/`-Ausschluss)
+- [ ] **Restabnahme `meeting-agenda` dreigeteilt** — Negativ-Test + Leer-Fall im Kit, Positiv-Lauf in pkp, Sektions-Ankerung separat
 - [ ] **Restabnahme `feature-fast`** — 2 UX-Urteile + Lauf mit gefixter Fassung
-- [ ] Achse-A-Lint in `dtb:project-health` erwaegen · Achse-B-Spalte als Argument in #33 — beides noch nicht als Idee erfasst
+- [ ] Achse-A-Lint in `dtb:project-health` als Idee erfassen · Achse-B-Spalte als Argument in #33 — beides noch nicht erfasst
 - [ ] **Andere Maschine: `/dtb:kit-sync sync`** — steht auf `18a92da`
-- [ ] `/dtb:idea-review` fortsetzen (10 offene, nach den Korrekturen)
+- [ ] `/dtb:idea-review` fortsetzen (10 offene, Bestand jetzt aktuell; #35/#34/#33 zuerst, dann #32 → #27)
 - [ ] Wiedervorlage aus abnahme-zustand: Vermerkform der Freigabe; §5-Roadmap kennt den Abgenommen-Zwischenzustand nicht (bewusst ausgeschlossen)
 - [ ] `commit-and-push`: `behind > 0`-Stopp in Schritt 6 · Multi-Root-Abnahme in pkp · `meeting-dump`-Beleg nachtragen
-- [ ] Mini-Fixes `pipeline-graph:197` + `implement:157` · Platzhalter `workflow.config.yaml` + `ROADMAP.md` entscheiden (bremsen heute Skills aus)
+- [ ] Mini-Fixes `pipeline-graph:197` + `implement:157` · Platzhalter `workflow.config.yaml` + `ROADMAP.md` entscheiden (bremsen Skills aus)
 - [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` loeschen, wenn der Merge sich bewaehrt hat
 - [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
 
@@ -54,10 +53,10 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-04 | Ideen-Bestand auf den #29-Zustand geprueft + #31 korrigiert (S2/S3) | Achse A erschoepft (2 Treffer, Archiv 26/26 sauber); Achse B: 4 Befunde, #31 (falsch) behoben, Zuschnitt real verkleinert | `2026-08/2026-08-04.md` |
+| 2026-08-05 | Achse B abgeschlossen: #22/#27/#23 nachgezogen (S1) | Alle 4 Achse-B-Befunde behoben; #22 Zaehler 3→6, #27 „ohne Bau entscheidbar", #23 hart belegt | `2026-08/2026-08-05.md` |
+| 2026-08-04 | Ideen-Bestand auf den #29-Zustand geprueft + #31 korrigiert (S2/S3) | Achse A erschoepft (2 Treffer, Archiv 26/26 sauber); Achse B: 4 Befunde, #31 (falsch) behoben | `2026-08/2026-08-04.md` |
 | 2026-08-04 | Abnahme-Stau archiviert: 6 Features + 9 Ideen + 18 BACKLOG-Zeilen (S1) | Aktivliste 8 → 2; Vorbehalte im Archiv-Log konserviert | `47c6a26`, `a02e928` |
 | 2026-08-03 | abnahme-zustand (#38) komplett: Idee→Fast-Track→6/6→Triage→Abgenommen | `Abgenommen` kanonisiert + 3 Leser gehaertet | `7844bc4`…`f3288db` |
-| 2026-08-03 | Zwei-Maschinen-Divergenz aufgeloest (S1) + Abnahme-Stau abgebaut (S2) | 4 Konflikte als Union; Warteschlange 7 → 2 | `2026-08/2026-08-03.md` |
 | 2026-08-02 | meeting-agenda komplett + #36 verworfen; feature-fast komplett in einer Session | Fachfragen-Kette geschlossen; E2E bestanden | `2026-08/2026-08-02.md` |
 
 ---
@@ -72,8 +71,8 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — drei Dateien sind uncommittet (INBOX #29+#31,
-Session-Log, Status). Danach **Handarbeit ohne Skill**: #22/#27/#23 nachziehen (Methode wie #31),
-erst dann `/dtb:feature-discover 29`.
+**Naechster Befehl:** `/dtb:commit-and-push` — drei Dateien sind uncommittet (INBOX #22/#27/#23,
+Session-Log 2026-08-05, Status). Danach `/dtb:feature-discover 29` (Achse B ist abgeschlossen,
+die Handarbeits-Vorstufe entfaellt).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her),
 danach obigen Befehl. Bei **Rechnerwechsel** zuerst `/dtb:kit-sync sync` (andere Maschine `18a92da`).
