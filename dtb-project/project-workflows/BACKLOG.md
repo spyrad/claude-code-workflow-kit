@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-08-04 (`/dtb:archive`: 6 abgenommene Features nach `archive/` verschoben, 9 INBOX-Eintraege + 18 Abgeschlossen-Zeilen bereinigt — Details `archive/ARCHIVE_LOG.md`. Aktiv bleiben `feature-fast` + `meeting-agenda`, beide Fertig zum Testen, Restabnahmen offen)
+**Letzte Aktualisierung:** 2026-08-05 (`/dtb:task`: Aufgabe `gitattributes-eol` aus INBOX #28 erfasst und in die Aufgaben-Tabelle eingetragen. Davor 2026-08-04: `/dtb:archive` — 6 abgenommene Features nach `archive/` verschoben, Details `archive/ARCHIVE_LOG.md`. Aktiv bleiben `feature-fast` + `meeting-agenda`, beide Fertig zum Testen, Restabnahmen offen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -21,6 +21,7 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
+| .gitattributes fuer deterministische Zeilenenden | Offen | Mittel | features/gitattributes-eol/task.md | `.gitattributes` ergaenzen + Bestand einmalig renormalisieren, damit LF-Dateien unter `core.autocrlf=true` nicht mehr faelschlich als „modified" erscheinen (10 Belege seit 2026-07-18) |
 
 ---
 
