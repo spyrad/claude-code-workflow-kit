@@ -27,25 +27,24 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 |----------|------|
 | **Blocker** | Keine |
 | **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, nur via #34) — **Idee #36 verworfen** (2026-08-02) — **6 Abnahmen 2026-08-03**, archiviert 2026-08-04 — **`meeting-agenda` + `feature-fast` bewusst NICHT abgenommen**. Alles Wiedervorlage-Schutz. |
-| **Notizen** | 2026-08-05 S2: #28-Konflikt aufgeloest (`/dtb:task` → gitattributes-eol, Task-Lane erstmals komplett). 5 neue Ideen #39-#43 (Zustrom bestaetigt Triage-Bedarf #33). idea-review mitten in #35 unterbrochen — Entscheidung offen. **#35-Belege haeufen sich** (Handoff `commit-and-push` war durch `50e2be0` selbst erledigt; der S4-Handoff dieser Maschine sagte „drei Dateien uncommittet", obwohl `71b6404` sie mitgenommen hatte; beim Resume 2026-08-05 waren beide Handoffs ueberholt). **Selbstkorrektur S4:** Aussage „nur `dtb:task` schreibt BACKLOG" war aus 2 gegrepten Dateien verallgemeinert — es sind **8** Skills (L3-Muster: repo-weit greppen, bevor behauptet wird). Nebenbefund: `oma-knowledge-db` traegt 15 BACKLOG-Aufgaben ohne `task.md` (Altbestand vor Derived State). |
-| **Parallelarbeit** | 2026-08-04 S4 (diese Maschine) und 2026-08-05 S1+S2 (andere Maschine) liefen ohne Kenntnis voneinander. Zusammengefuehrt 2026-08-05 per Rebase: Nummernkollision in der INBOX (beide vergaben #39) — die S4-Idee wurde zu **#44**; die #28-Rueckrollung auf `Offen` wurde verworfen, weil `/dtb:task` das Problem richtig geloest hat. Praktischer Beleg fuer #42. |
+| **Parallelarbeit** | 2026-08-04 S4 (diese Maschine) und 2026-08-05 S1+S2 (andere Maschine) liefen ohne Kenntnis voneinander; zusammengeführt in S3 per Rebase (`9ac66c5`, gepusht). **Nummernkollision in der INBOX** — beide vergaben #39, die S4-Idee wurde zu **#44**; die #28-Rückrollung auf `Offen` verworfen, weil `/dtb:task` das Problem richtig gelöst hat. Erster Sachschaden-Beleg für **#42**. |
+| **Notizen** | **#35 dritter Beleg in Folge:** beide Handoffs (2026-08-04 lokal, 2026-08-05 remote) nannten `/dtb:commit-and-push`, beide waren beim Resume überholt — der Remote-Handoff trug seine Gültigkeitsbedingung selbst mit und bestätigt damit Vorschlag (a). **Selbstkorrektur S4:** „nur `dtb:task` schreibt BACKLOG" war aus 2 gegrepten Dateien verallgemeinert — es sind **8** Skills (L3-Muster). Nebenbefund: `oma-knowledge-db` trägt 15 BACKLOG-Aufgaben ohne `task.md` (Altbestand). idea-review seit S2 mitten in #35 unterbrochen. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:idea-review` fortsetzen — **Entscheidung #35 offen** (Vorschlag Voll-Schiene), danach #34/#33, dann #32 → #27; 16 offene Ideen (inkl. #39-#43, #44)
-- [ ] `/dtb:feature-discover 29` — Eintrag vollstaendig; ⚠ Changelog-Pfade NICHT in `## Betroffene Module` (#32)
-- [ ] Task `gitattributes-eol` starten — 6 Schritte, beruehrt kit-sync-Hashes
-- [ ] **#44 zuschneiden** (ex-#39) — Option (a) ist ein Einzeiler in `workflow-next`; Abgrenzung zu #35 klaeren (gleiches Muster, anderes Pipeline-Ende)
-- [ ] **Restabnahme `meeting-agenda` dreigeteilt** — Negativ-Test + Leer-Fall im Kit, Positiv-Lauf in pkp, Sektions-Ankerung separat
-- [ ] **Restabnahme `feature-fast`** — 2 UX-Urteile + Lauf mit gefixter Fassung
-- [ ] Achse-A-Lint in `dtb:project-health` als Idee erfassen · Achse-B-Spalte als Argument in #33 — beides noch nicht erfasst
-- [ ] **`/dtb:kit-sync sync` auf dieser Maschine** — Stand unklar: S4 meldete 43/43 @ `71b6404`, die andere Maschine notierte `18a92da`; ein `check`-Lauf klaert es
+- [ ] `/dtb:idea-review` fortsetzen — **Entscheidung #35 offen** (Vorschlag Voll-Schiene), danach #34/#33, dann #32 → #27; 16 offene Ideen
+- [ ] `/dtb:kit-sync check` **auf dieser Maschine** — Stand widersprüchlich: S4 meldete 43/43 @ `71b6404`, die andere Maschine notierte `18a92da`
+- [ ] `commit-and-push`: **`behind > 0`-Stopp in Schritt 6 — in S3 praktisch belegt** (Skill läuft bei behind bis zum Push durch, der als non-fast-forward abprallt) · Multi-Root-Abnahme in pkp · `meeting-dump`-Beleg
+- [ ] **#42 hochstufen erwägen** — durch die Nummernkollision belegt, nicht mehr hypothetisch (Nummernvergabe in geteilter Datei ist bei Parallelarbeit strukturell unsicher — gleiche Diagnose wie #34)
+- [ ] **#44 zuschneiden** (ex-#39) — Option (a) ist ein Einzeiler in `workflow-next`; Abgrenzung zu #35 klären
+- [ ] Task `gitattributes-eol` starten — 6 Schritte, berührt kit-sync-Hashes
+- [ ] `/dtb:feature-discover 29` — Eintrag vollständig; ⚠ Changelog-Pfade NICHT in `## Betroffene Module` (#32)
+- [ ] **Restabnahme `meeting-agenda`** dreigeteilt (Negativ-Test + Leer-Fall im Kit, Positiv-Lauf in pkp, Sektions-Ankerung separat) · **Restabnahme `feature-fast`** (2 UX-Urteile + Lauf mit gefixter Fassung)
+- [ ] Achse-A-Lint in `dtb:project-health` als Idee erfassen · Achse-B-Spalte als Argument in #33 · Mini-Fixes `pipeline-graph:197` + `implement:157` · Platzhalter `workflow.config.yaml` + `ROADMAP.md` entscheiden (bremsen Skills aus)
 - [ ] Wiedervorlage aus abnahme-zustand: Vermerkform der Freigabe; §5-Roadmap kennt den Abgenommen-Zwischenzustand nicht (bewusst ausgeschlossen)
-- [ ] `commit-and-push`: `behind > 0`-Stopp in Schritt 6 · Multi-Root-Abnahme in pkp · `meeting-dump`-Beleg nachtragen
-- [ ] Mini-Fixes `pipeline-graph:197` + `implement:157` · Platzhalter `workflow.config.yaml` + `ROADMAP.md` entscheiden (bremsen Skills aus; ROADMAP ist reine Vorlage, §5-Sync laeuft ins Leere)
-- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` loeschen, wenn der Merge sich bewaehrt hat
+- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` löschen, wenn der Merge sich bewährt hat
 - [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
 
 ---
@@ -54,12 +53,11 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-05 | #28-Weiche vollzogen: Task gitattributes-eol erfasst (S2) | Letzter ⚠-Feld-Konflikt aufgeloest; Task-Lane erstmals komplett (Weiche → task.md → BACKLOG) | `2026-08/2026-08-05.md` |
-| 2026-08-05 | Achse B abgeschlossen: #22/#27/#23 nachgezogen (S1) | Alle 4 Achse-B-Befunde behoben; #22 Zaehler 3→6, #27 „ohne Bau entscheidbar", #23 hart belegt | `2026-08/2026-08-05.md` |
-| 2026-08-04 | Maschine nachgezogen + #28-Unsichtbarkeit aufgeklaert (S4) | kit-sync 43/43 @ `71b6404`; 10 Commits gepullt; Ursache = `impl-review` F2 (`1eec2ea`); Idee erfasst (heute #44) | `2026-08/2026-08-04.md` |
-| 2026-08-04 | Ideen-Bestand auf den #29-Zustand geprueft + #31 korrigiert (S2/S3) | Achse A erschoepft (2 Treffer, Archiv 26/26 sauber); Achse B: 4 Befunde, #31 (falsch) behoben | `2026-08/2026-08-04.md` |
-| 2026-08-04 | Abnahme-Stau archiviert: 6 Features + 9 Ideen + 18 BACKLOG-Zeilen (S1) | Aktivliste 8 → 2; Vorbehalte im Archiv-Log konserviert | `47c6a26`, `a02e928` |
-| 2026-08-03 | abnahme-zustand (#38) komplett: Idee→Fast-Track→6/6→Triage→Abgenommen | `Abgenommen` kanonisiert + 3 Leser gehaertet | `7844bc4`…`f3288db` |
+| 2026-08-05 | Parallelarbeit zweier Maschinen zusammengeführt (S3) | Rebase `9ac66c5`; S4-Log gesichert; INBOX-Kollision #39 → #44; #42 erstmals mit Sachschaden belegt | `2026-08/2026-08-05.md` |
+| 2026-08-05 | #28-Weiche vollzogen: Task gitattributes-eol erfasst (S2) | Letzter ⚠-Feld-Konflikt aufgelöst; Task-Lane erstmals komplett (Weiche → task.md → BACKLOG) | `2026-08/2026-08-05.md` |
+| 2026-08-05 | Achse B abgeschlossen: #22/#27/#23 nachgezogen (S1) | Alle 4 Achse-B-Befunde behoben; #22 Zähler 3→6, #27 „ohne Bau entscheidbar", #23 hart belegt | `2026-08/2026-08-05.md` |
+| 2026-08-04 | Maschine nachgezogen + #28-Unsichtbarkeit aufgeklärt (S4) | kit-sync 43/43 @ `71b6404`; Ursache = `impl-review` F2 (`1eec2ea`); Idee erfasst (heute #44) | `2026-08/2026-08-04.md` |
+| 2026-08-04 | Ideen-Bestand geprüft + #31 korrigiert (S2/S3) · Abnahme-Stau archiviert (S1) | Achse A erschöpft; 6 Features + 9 Ideen archiviert, Aktivliste 8 → 2 | `47c6a26`, `a02e928` |
 
 ---
 
@@ -73,10 +71,10 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:idea-review` fortsetzen — die Entscheidung zu #35 steht noch aus
-(Vorschlag: Voll-Schiene), danach #34/#33, dann #32 → #27. Die beiden Handoffs vom 2026-08-04
-und 2026-08-05 („`/dtb:commit-and-push`") sind mit dem Zusammenfuehren am 2026-08-05 erledigt;
-der Arbeitsbaum ist sauber und mit `origin/master` synchron.
+**Naechster Befehl:** `/dtb:idea-review` fortsetzen — die Entscheidung zu #35 steht seit S2
+aus (Vorschlag: Voll-Schiene), danach #34/#33, dann #32 → #27. Stand bei Redaktion:
+`9ac66c5`, Arbeitsbaum sauber, mit `origin/master` synchron — ist HEAD beim Resume ein
+anderer, zuerst gegenprüfen, was inzwischen lief.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her),
 danach obigen Befehl. Auf dieser Maschine vorher `/dtb:kit-sync check` — der Distributions-Stand
-ist seit der Parallelarbeit unklar (siehe Offene Aufgaben).
+ist seit der Parallelarbeit unklar.
