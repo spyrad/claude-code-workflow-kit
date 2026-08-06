@@ -309,11 +309,11 @@ Der Check ist im Kit verankert, verteilt und an dokumentierten Verlustfaellen ge
 - [x] 1.1 Skill-Datei mit Contract — `110c208`
 - [x] 1.2 Signalklassen (Stufe 1) — `110c208`
 - [x] 1.3 Abgleich + Schwellwert (Stufe 2) — `110c208`
-- [x] 2.1 Report mit kopierfertigen Befehlen
-- [x] 2.2 Leer-Fall + Freigabe
-- [x] 2.3 Drei Randfaelle
-- [ ] 3.1 Verankerung im Checkpoint
-- [ ] 3.2 Nachbarschaft + Doku
+- [x] 2.1 Report mit kopierfertigen Befehlen — `471a0e7`
+- [x] 2.2 Leer-Fall + Freigabe — `471a0e7`
+- [x] 2.3 Drei Randfaelle — `471a0e7`
+- [x] 3.1 Verankerung im Checkpoint
+- [x] 3.2 Nachbarschaft + Doku
 - [ ] 3.3 Distribution (kit-sync)
 - [ ] 3.4 Kalibrierung gegen die Fall-Menge
 

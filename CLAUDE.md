@@ -47,7 +47,7 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 
 ### Skill Categories
 
-- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`, `session-summary` (read-only recap of active session / a given day / last 7 days)
+- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`, `session-summary` (read-only recap of active session / a given day / last 7 days), `no-loss-check` (read-only detector running as step 0 of `workflow-checkpoint`: compares the conversation against the artifact state and reports lessons, subject-matter questions and ideas that were never captured — advisory, never blocking, writes nothing)
 - **Idea management**: `idea` (quick capture), `idea-review` (triage)
 - **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`, `implement` (drives the plan phase by phase, enforces the verification gate at each phase end), `feature-fast` (fast-track lane for small features: bundles the discover/spec/impl-plan interviews into ONE pass with reasoned default assumptions — max. 3 core questions, one vetoable summary template, self-escalation at >10 assumptions / >2 phases; artifacts, derived state and both reviews stay unchanged)
 - **Bug workflow**: `bug-report` (quick capture with severity), `debug-plan` (root-cause analysis + fix strategy)

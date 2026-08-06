@@ -222,6 +222,7 @@ flowchart LR
 | Plan reviewen | `/dtb:plan-review` | Architekt, Pragmatiker, Senior Dev |
 | Feature starten | `/dtb:feature-start` | — |
 | Umsetzung + Verifikation | `/dtb:implement` | — |
+| Verlustpruefung vor dem Checkpoint | `/dtb:no-loss-check` | — |
 | Session sichern | `/dtb:workflow-checkpoint` | — |
 | Archivieren | `/dtb:archive` | — |
 

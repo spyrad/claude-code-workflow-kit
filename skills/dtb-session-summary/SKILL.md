@@ -43,6 +43,14 @@ Der Skill hat drei Modi, gesteuert ueber das (optionale) Argument:
 | `YYYY-MM-DD` (z.B. `2026-06-12`) | **Bestimmter Tag** | Changelog-Datei dieses Tages |
 | `woche` / `week` | **Vergangene Woche** | Changelog-Dateien der letzten 7 Tage |
 
+> **Abgrenzung zu `dtb:no-loss-check`:** Beide lesen den Gespraechsverlauf, beantworten aber
+> verschiedene Fragen. Dieser Skill fasst zusammen, **was war** (rueckblickend, vollstaendig,
+> unabhaengig davon ob es erfasst wurde). `dtb:no-loss-check` meldet, **was droht verloren zu
+> gehen** — also nur den Teil, der in keinem Artefakt gelandet ist, jeweils mit fertigem
+> Erfassungs-Befehl. Wer wissen will, was die Sitzung gebracht hat: hier. Wer vor dem Checkpoint
+> sicherstellen will, dass nichts liegen bleibt: dort. Bewusst **keine** Pipeline-Kante zwischen
+> beiden — sie stehen nebeneinander, nicht hintereinander.
+
 ## Schritt 1: Modus bestimmen
 
 Wirf einen Blick auf das uebergebene Argument und entscheide:

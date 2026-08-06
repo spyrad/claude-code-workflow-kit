@@ -8,7 +8,7 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Bash
 pipeline:
   stage: session
-  after: [dtb:impl-review]
+  after: [dtb:impl-review, dtb:no-loss-check]
   next: [dtb:workflow-resume]
   consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, ROADMAP.md]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md]
@@ -167,6 +167,26 @@ Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:work
 ---
 
 ## Ausfuehrung
+
+### Schritt 0: Verlustpruefung (vorgeschaltet)
+
+Bevor du Informationen sammelst, laeuft `/dtb:no-loss-check` — er vergleicht den
+Gespraechsverlauf gegen den Artefakt-Stand und meldet, was nur im Chat lebt (Lektionen,
+Fach-Fragen, Ideen ohne Ablage). Der Grund fuer die Position: **nur hier** kann ein Fund den
+Inhalt dieses Checkpoints noch beeinflussen; nach Schritt 3 ist der Log geschrieben.
+
+Der Aufruf ist moeglich, obwohl dieser Skill selbst gegen Modell-Aufrufe gesperrt ist —
+`dtb:no-loss-check` traegt `disable-model-invocation: false` und darf aus einem laufenden
+Skill angestossen werden.
+
+**Weich, nie blockierend:**
+- Skill nicht installiert (kein `dtb:no-loss-check` verfuegbar) → **eine** Hinweiszeile
+  (`Verlustpruefung uebersprungen — dtb:no-loss-check nicht installiert (/dtb:kit-sync)`),
+  danach unveraendert weiter mit Schritt 1
+- Funde gemeldet → die kopierfertigen Befehle stehen im Report; der Mensch entscheidet, ob er
+  sie absetzt. **Der Checkpoint wartet nicht darauf und bricht nie ab** — `no-loss-check` ist
+  empfehlend, nicht blockierend
+- Lief die Pruefung in dieser Sitzung bereits, genuegt ihr Ergebnis; kein Zweitlauf noetig
 
 ### Schritt 1: Informationen sammeln
 
