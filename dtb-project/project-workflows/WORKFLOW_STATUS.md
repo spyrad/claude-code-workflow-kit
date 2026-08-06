@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| no-loss-gate (#29) | In Discovery | — | `/dtb:feature-plan no-loss-gate` |
+| no-loss-check (#29) | Geplant | 0/11 | Schritt 1.0: Vorabproben (Baseline + Ausloeser) — `/dtb:implement no-loss-check` |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 | gitattributes-eol (#28) | Offen | 0/6 | Schritt 1: Scope entscheiden (`* text=auto` vs. gezielt) |

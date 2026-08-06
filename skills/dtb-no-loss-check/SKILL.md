@@ -1,0 +1,170 @@
+---
+name: dtb:no-loss-check
+description: >-
+  Use when: "bevor ich Schluss mache", "no loss check", "geht was verloren",
+  "Verlustpruefung", "was ist noch nicht erfasst", "Session-Hygiene". Compares the
+  active conversation against the artifact state and reports lessons, subject-matter
+  questions and decisions that surfaced but were never captured — read-only, each
+  finding with a ready-to-run capture command.
+disable-model-invocation: false
+allowed-tools: Read, Glob, Grep
+pipeline:
+  stage: session
+  after: null
+  next: [dtb:workflow-checkpoint]
+  consumes: [workflow.config.yaml, project-rules/lessons.md, features/*/spec.md, features/*/discovery.md, INBOX.md]
+  produces: []
+---
+
+# Verlustpruefung vor dem Session-Ende (no-loss-check)
+
+Du vergleichst den **Gespraechsverlauf** dieser Sitzung gegen den **Artefakt-Stand** des Projekts
+und meldest, was nur im Gespraech lebt und in keiner Datei gelandet ist. Drei Sorten Delta:
+
+| Delta | Zielartefakt | Erfassungs-Befehl |
+|-------|--------------|-------------------|
+| Lektion aufgetaucht | `{config.paths.rules}/lessons.md` | `/dtb:lesson` |
+| Fach-Frage aufgetaucht | `features/*/{discovery,spec}.md` → `## Offene Punkte` | `/dtb:open-question` |
+| Idee/Entscheidung ohne Ablage | `{config.paths.workflows}/INBOX.md` | `/dtb:idea` |
+
+## Strenge: empfehlend — dieser Skill blockiert nichts
+
+Er meldet, benennt die dringenden Funde und fragt **einmal** nach. Er haelt den Checkpoint nicht
+auf, verlangt keine Bestaetigung und wertet ein „egal, weiter" nicht als Fehler. Der Name sagt
+`check`, nicht `gate`: die Pruefung ist verbindlich formuliert, die **Konsequenz** bleibt beim
+Menschen — er koennte sie ohnehin nicht erzwingen, weil `dtb:workflow-checkpoint`
+`disable-model-invocation: true` traegt und nur der Mensch ihn startet.
+
+Sein Wert liegt woanders: Er **nimmt die Formulierungsarbeit ab**. Jeder Fund kommt als
+kopierfertige Befehlszeile mit ausformuliertem Argument — abschicken statt nachdenken.
+
+## Was dieser Skill NICHT ist
+
+- **Kein Recap.** „Was haben wir heute gemacht" beantwortet `dtb:session-summary` (read-only,
+  rueckblickend). Dieser Skill beantwortet die andere Frage: **was droht verloren zu gehen**.
+- **Kein Schreiber.** Er ruft die drei Erfassungs-Skills nicht auf und schreibt ihre Artefakte
+  nicht selbst — `allowed-tools` enthaelt bewusst kein `Write`/`Edit`. Zwei Schreiber pro
+  Artefakt waeren genau die Spiegel-Kopplung, die dieses Kit schon zweimal Folgefehler gekostet hat.
+- **Kein Ersatz fuer den Checkpoint.** Er sitzt davor; `dtb:workflow-checkpoint` bleibt
+  eigenstaendig.
+
+## Vertraulichkeit (Contract-Regel, gilt fuer jede Ausgabe)
+
+Zugangsdaten, Schluessel, Tokens und personenbezogene Daten werden **nie woertlich** in eine
+Vorschlagszeile uebernommen. Der Fund wird gemeldet, die heikle Stelle durch einen Platzhalter
+ersetzt (`<Token>`, `<Kundenname>`). Grund: dieser Skill ist der Trichter vom fluechtigen
+Gespraech in dauerhafte, oft **versionierte** Artefakte — `/dtb:idea` schreibt ungefiltert in
+`INBOX.md`, und die reist ueber jeden Push mit.
+
+---
+
+## Schritt 0: Config laden
+
+Lies `workflow.config.yaml` im Projekt-Root.
+
+Falls nicht vorhanden: Verwende die Fallback-Pfade `dtb-project/project-workflows/` und
+`dtb-project/project-rules/`. Kein Abbruch — ohne Config laeuft die Pruefung auf den
+Standardpfaden weiter.
+
+---
+
+## Stufe 1: Kandidaten erkennen
+
+Gehe den Gespraechsverlauf dieser Sitzung durch und sammle **Kandidaten** je Delta-Sorte. Diese
+Stufe erzeugt Verdachtsfaelle — gefiltert wird erst in Stufe 2.
+
+### Signalklassen
+
+**Lektion** — eine Regel, die kuenftig gilt (nicht: was heute passiert ist):
+
+- Ein **Ursachenbefund nach einem Fehlschlag**: etwas ging schief, die Ursache wurde benannt
+- Eine als **allgemein erkannte Regel** („kuenftig zuerst X pruefen", „nie wieder Y ohne Z")
+- Eine **Korrektur, die beim zweiten Mal Zeit gespart haette** — der Umweg ist erkannt, aber nur
+  im Gespraech beschrieben
+
+**Fach-Frage** — eine Frage, die ins Meeting gehoert (nicht sofort/allein beantwortbar):
+
+- Eine Frage wurde gestellt und **vertagt statt beantwortet** („das klaeren wir spaeter",
+  „muss ich nachfragen")
+- Ein **bewusst offen gelassener Punkt ohne Zustaendigen** — die Entscheidung wurde verschoben,
+  ohne dass jemand sie uebernommen hat
+
+**Idee / Entscheidung ohne Ablage:**
+
+- Ein **Verbesserungsvorschlag**, der im Gespraech auftauchte und in keinem INBOX-Eintrag steht
+- Eine **getroffene Festlegung**, die in keinem Artefakt steht und beim naechsten Mal neu
+  verhandelt wuerde („wir machen das ab jetzt so…")
+
+### Recall vor Precision (verbindlich)
+
+Im Zweifel **melden**. Ein Falsch-Positiv kostet eine Zeile, die der Nutzer ueberliest; ein
+uebersehener Fund ist der Schaden, gegen den dieser Skill ueberhaupt existiert. Die Heuristik
+wird bewusst weit gefasst — die Verengung leistet Stufe 2, nicht diese Stufe.
+
+Formuliere jeden Kandidaten schon hier so, wie er im Artefakt stehen wuerde (ein Satz, ohne
+Gespraechs-Kontext wie „wie du vorhin sagtest") — Stufe 2 vergleicht diese Formulierung gegen
+den Bestand, und der Report gibt sie unveraendert als Befehls-Argument aus.
+
+---
+
+## Stufe 2: Abgleich gegen den Artefakt-Stand
+
+Jeder Kandidat aus Stufe 1 wird gegen den Bestand geprueft. Was dort schon steht, wird
+**unterdrueckt** — aber nie stillschweigend: die Zahl der unterdrueckten Kandidaten erscheint als
+eine Sammelzeile im Report.
+
+### Lesequellen je Delta-Sorte
+
+| Delta | Wo gelesen wird | Was verglichen wird |
+|-------|-----------------|---------------------|
+| Lektion | `{config.paths.rules}/lessons.md` (Fallback `dtb-project/project-rules/lessons.md`) | Spalte `Rule` jeder Datenzeile unter der `\|---\|`-Trennzeile |
+| Fach-Frage | `{config.paths.workflows}/features/*/spec.md` und `.../discovery.md` | Nur Zeilen **innerhalb** von `## Offene Punkte`, nur die §6-Kanonform `- [ ] [Fach] …` **und** ihre beantwortete Form `- [x] [Fach] …` |
+| Idee/Entscheidung | `{config.paths.workflows}/INBOX.md` | Idee-Spalte **jeder** Zeile, unabhaengig vom Status |
+
+**Drei Ausschluesse — jeder mit Grund:**
+
+1. **`archive/` bleibt draussen.** Ein archivierter Change ist abgeschlossen; taucht sein Thema
+   erneut auf, ist das ein legitimer neuer Fund und keine Dublette. Gleiche Grenze wie
+   `dtb:meeting-agenda`.
+2. **Code-Fences bleiben draussen.** Beispiel-Zeilen in Doku (` ```- [ ] [Fach] … ``` `) sind
+   keine erfassten Fragen — sonst filtert der Skill echte Funde anhand von Dokumentation weg.
+3. **`## Progress`, Statusfelder und Plan-Bloecke werden nicht gelesen.** Sie tragen keine
+   erfassten Inhalte, nur Zustaende.
+
+**Status ist beim Abgleich egal — mit einer Nuance:** Ein INBOX-Eintrag auf `Verworfen` gilt als
+**erfasst** (die Entscheidung ist gefallen, erneutes Melden waere Rauschen). Er wird aber in der
+Sammelzeile mit dem Zusatz `davon {N} bewusst verworfen` ausgewiesen — sonst sieht niemand, dass
+ein Fund einer frueheren Entscheidung widerspricht.
+
+**Fehlende Dateien sind kein Fehler.** `lessons.md` ist ein Laufzeit-Artefakt und im Kit
+ungetrackt; existiert sie nicht, sind **alle** Lektions-Kandidaten neu. Gleiches gilt fuer eine
+fehlende `INBOX.md` oder ein Projekt ohne `features/`-Ordner. Nie abbrechen, nie als Warnung
+melden.
+
+### Die Unterdrueckungs-Regel: Ersetzungsprobe
+
+Der Check formuliert Funde neu — ein exakter Textvergleich (wie ihn `dtb:open-question` fuehrt)
+griffe hier nie. Der Vergleich ist deshalb unscharf, und die Schwelle lautet:
+
+> **Unterdruecke einen Kandidaten nur dann, wenn der vorhandene Eintrag ihn ohne
+> Informationsverlust ersetzen koennte** — gleicher Gegenstand **und** gleiche Aussage.
+> Trifft der Bestand denselben Gegenstand, aber eine **andere** Aussage → melden.
+
+Beispiele:
+
+| Kandidat | Bestand | Ergebnis |
+|----------|---------|----------|
+| „Der Checkpoint macht den Arbeitsbaum selbst schmutzig" | `#35` „Handoff-Block behauptet Zustaende, die nicht stimmen" | **Melden** — gleicher Gegenstand, andere Aussage (Ursache vs. Symptom) |
+| „3 von 6 Capture-Skills haben keinen Duplikat-Schutz" | `#48` „fehlender Duplikat-Schutz in `idea`/`task`/`bug-report`" | **Unterdruecken** → Sammelzeile |
+
+**Warum keine Prozent-Schwelle:** Eine Quote („ab 60 % Stichwort-Ueberlappung") suggeriert eine
+Messbarkeit, die es hier nicht gibt — zwei Laeufe zaehlen Inhaltswoerter unterschiedlich, und
+niemand rechnet die Zahl nach. Die Ersetzungsprobe ist dagegen eine Frage, die bei jedem Lauf
+gleich gestellt und vom Menschen nachvollzogen werden kann.
+
+**Im Zweifel gilt Stufe 1:** Laesst sich die Ersetzungsfrage nicht klar mit „ja" beantworten,
+wird gemeldet. Eine zu strenge Unterdrueckung faellt niemandem auf — das ist der teurere Fehler.
+
+---
+
+**Erstellt mit:** `/dtb:impl-plan` → `/dtb:implement` (Feature `no-loss-check`)

@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-08-06 (`/dtb:workflow-checkpoint`: Anzeigefelder gegen die Ableitung geprueft, keine Abweichung. Neu in Discovery: `no-loss-gate` (#29) — noch keine BACKLOG-Zeile, die entsteht mit `/dtb:feature-plan`. Davor 2026-08-05: `/dtb:task` erfasste `gitattributes-eol` aus INBOX #28; 2026-08-04: `/dtb:archive` — 6 abgenommene Features nach `archive/`, Details `archive/ARCHIVE_LOG.md`. Aktiv bleiben `feature-fast` + `meeting-agenda`, beide Fertig zum Testen, Restabnahmen offen)
+**Letzte Aktualisierung:** 2026-08-06 (`/dtb:feature-plan`: `no-loss-check` (#29) spezifiziert und als aktives Feature aufgenommen — bei der Gelegenheit von `no-loss-gate` umbenannt, weil „Gate" eine Blockade versprach, die der Skill bewusst nicht leistet. Davor 2026-08-06 `/dtb:workflow-checkpoint`: Anzeigefelder gegen die Ableitung geprueft, keine Abweichung. Davor 2026-08-05: `/dtb:task` erfasste `gitattributes-eol` aus INBOX #28; 2026-08-04: `/dtb:archive` — 6 abgenommene Features nach `archive/`, Details `archive/ARCHIVE_LOG.md`. Aktiv bleiben `feature-fast` + `meeting-agenda`, beide Fertig zum Testen, Restabnahmen offen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -14,6 +14,7 @@
 |---------|--------|------|-------|------|
 | meeting-agenda | Fertig zum Testen | Mittel | features/meeting-agenda/spec.md | Rein lesende Agenda-Sicht: sammelt offene `[Fach]`-Fragen aus features/*/{discovery,spec}.md, gruppiert nach Feature — die fehlende Lese-Ansicht der Fachfragen-Kette (#13→#26→#25→#24); via Fast-Track geplant |
 | feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
+| no-loss-check | Geplant | Hoch | features/no-loss-check/spec.md | Vergleicht den Gespraechsverlauf gegen den Artefakt-Stand und meldet nicht persistierte Lektionen, Fach-Fragen und Entscheidungen mit fertig formulierten Erfassungs-Befehlen — empfehlende Vorstufe des Checkpoints, schreibt nichts selbst |
 
 ---
 

@@ -1,5 +1,10 @@
-# Discovery: No-Loss-Gate
+# Discovery: No-Loss-Check
 <!-- resume: done -->
+
+> **Umbenannt 2026-08-06** (`/dtb:feature-plan`): `no-loss-gate` → `no-loss-check`. Grund: der
+> Namens-Vorbehalt aus `## Offene Punkte` wurde entschieden — „Gate" versprach eine Blockade, die
+> der Skill laut `## Gewuenschtes Verhalten` bewusst nicht leistet. Der Ordner wurde per `git mv`
+> umbenannt, INBOX #29 nachgezogen. Der Idee-Titel in #29 bleibt historisch „No-Loss-Gate".
 
 **Erstellt:** 2026-08-05
 **Idee-Referenz:** Inbox #29 — "Session-Hygiene-/No-Loss-Gate: neuer eigener Skill, der als
@@ -13,7 +18,7 @@ absucht, bevor eine neue Session sauber („ohne Verluste") starten kann."
 
 | Pfad | Beschreibung |
 |------|-------------|
-| `skills/dtb-no-loss-gate/SKILL.md` | Neu — der zu bauende Detektor-Skill |
+| `skills/dtb-no-loss-check/SKILL.md` | Neu — der zu bauende Detektor-Skill |
 | `skills/dtb-workflow-checkpoint/SKILL.md` | Pipeline-Gegenkante: heute `after: [dtb:impl-review]`, `next: [dtb:workflow-resume]`; die Vorstufe wird hier eingehaengt |
 | `skills/dtb-lesson/SKILL.md` | Routing-Ziel „Lektion nur im Chat"; heute `after: null` |
 | `skills/dtb-open-question/SKILL.md` | Routing-Ziel „Fach-Frage nicht in `## Offene Punkte`"; heute `after: null` |
@@ -156,7 +161,7 @@ absucht, bevor eine neue Session sauber („ohne Verluste") starten kann."
   | Skill | Aenderung |
   |---|---|
   | Detektor | `stage: session`, `next: [dtb:workflow-checkpoint]` |
-  | `workflow-checkpoint` | `after: [dtb:impl-review]` → `after: [dtb:impl-review, dtb:no-loss-gate]` |
+  | `workflow-checkpoint` | `after: [dtb:impl-review]` → `after: [dtb:impl-review, dtb:no-loss-check]` |
   | `session-summary` | keine Kante — nur reziproker Abgrenzungs-Hinweis (Recap „was war" vs. Detektor „was droht verloren zu gehen") |
 - **Die drei Routing-Kanten werden bewusst NICHT gesetzt** (Detektor → `lesson`,
   → `open-question`, → `idea`; alle drei Ziele stehen heute auf `after: null`). Begruendung: Eine
@@ -198,6 +203,10 @@ Checkpoint vs. Auffangen beim Resume, wenn der Checkpoint gar nicht lief) · #44
 ---
 
 ## Offene Punkte
+
+> **Stand 2026-08-06:** Die ersten vier Punkte sind in `spec.md` entschieden (Ausloeser,
+> Name, Signalklassen, Unterdrueckungs-Schwelle). Sie bleiben hier als Herleitung stehen —
+> massgeblich ist die Spec. Punkt 5 ist als Idee #46 erfasst.
 
 - **Wann springt der Detektor an?** Er ist modellaufrufbar (3d), aber welches Signal gilt als
   „Session geht zu Ende"? Kandidaten: explizite Nutzeraeusserung („machen wir Schluss"), Aufruf von
