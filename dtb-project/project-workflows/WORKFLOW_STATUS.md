@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-08-05
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-05.md`
+**Letztes Update:** 2026-08-06
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-06.md`
 
 ---
 
@@ -9,13 +9,12 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| no-loss-gate (#29) | In Discovery | — | `/dtb:feature-plan no-loss-gate` |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 | gitattributes-eol (#28) | Offen | 0/6 | Schritt 1: Scope entscheiden (`* text=auto` vs. gezielt) |
-| Idee #29 (No-Loss-Gate) | In Arbeit (INBOX) | — | `/dtb:feature-discover 29` |
 
 Kein Feature „In Arbeit". BACKLOG- und `spec.md`/`task.md`-Anzeigefelder stimmen mit der Ableitung ueberein.
-⚠ INBOX #29: sagt „In Arbeit", Artefakte zeigen keinen Change-Ordner (Feld = Absicht seit 2026-07-31).
 ⚠ feature-fast + meeting-agenda: `review.md` sagt „Gesamt-Verdikt: REJECTED", die Triage-Bilanz zeigt
 alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne Pfleger, Beleg fuer #35.
 
@@ -27,25 +26,26 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 |----------|------|
 | **Blocker** | Keine |
 | **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, nur via #34) — **Idee #36 verworfen** (2026-08-02) — **6 Abnahmen 2026-08-03**, archiviert 2026-08-04 — **`meeting-agenda` + `feature-fast` bewusst NICHT abgenommen**. Alles Wiedervorlage-Schutz. |
-| **Parallelarbeit** | 2026-08-04 S4 (diese Maschine) und 2026-08-05 S1+S2 (andere Maschine) liefen ohne Kenntnis voneinander; zusammengeführt in S3 per Rebase (`9ac66c5`, gepusht). **Nummernkollision in der INBOX** — beide vergaben #39, die S4-Idee wurde zu **#44**; die #28-Rückrollung auf `Offen` verworfen, weil `/dtb:task` das Problem richtig gelöst hat. Erster Sachschaden-Beleg für **#42**. |
-| **Notizen** | **#35 dritter Beleg in Folge:** beide Handoffs (2026-08-04 lokal, 2026-08-05 remote) nannten `/dtb:commit-and-push`, beide waren beim Resume überholt — der Remote-Handoff trug seine Gültigkeitsbedingung selbst mit und bestätigt damit Vorschlag (a). **Selbstkorrektur S4:** „nur `dtb:task` schreibt BACKLOG" war aus 2 gegrepten Dateien verallgemeinert — es sind **8** Skills (L3-Muster). Nebenbefund: `oma-knowledge-db` trägt 15 BACKLOG-Aufgaben ohne `task.md` (Altbestand). idea-review seit S2 mitten in #35 unterbrochen. |
+| **#35 praezisiert** | **Der Fix (a) wurde unfreiwillig getestet und reicht nicht.** S3 hatte die SHA-Klausel von Hand eingebaut — sie griff nicht, weil HEAD identisch war und der Fehler im **Arbeitsbaum** sass. Ursache ist die Schrittfolge von `workflow-checkpoint` selbst (liest Git in Schritt 1, schreibt in 3/4): **jeder** Checkpoint hinterlaesst deterministisch einen schmutzigen Arbeitsbaum. Vierter Beleg in Folge, beide Fehlerrichtungen dokumentiert. |
+| **Parallelarbeit** | 2026-08-05 zwei Maschinen per Rebase zusammengefuehrt (`9ac66c5`); INBOX-Nummernkollision #39 → #44. **2026-08-06 zweiter Fall:** #45 (Hooks) erschien waehrend laufender Arbeit aus einer fremden Session, Edit-Konflikt vom Werkzeug gemeldet, kein Schaden. Beleg fuer **#42**. |
+| **Notizen** | Ideen-Bestand in einer Session von 16 auf **21** gewachsen (#45-#49). `/dtb:idea-review` hat zum **vierten und fuenften Mal** keine Einzelentscheidung produziert — bei dieser Groesse ist die Triage-Sicht (#33) das fehlende Werkzeug. Zwei Vollscans heute hoben je einen Systemfehler von der Anekdote zum Muster: **#46** sechs halbseitige Pipeline-Kanten, **#48** drei von sechs Capture-Skills ohne Duplikat-Schutz. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:idea-review` fortsetzen — **Entscheidung #35 offen** (Vorschlag Voll-Schiene), danach #34/#33, dann #32 → #27; 16 offene Ideen
+- [ ] `/dtb:feature-plan no-loss-gate` — Discovery vollstaendig (5/5 offene Punkte entschieden); `plan-review` nicht optional, Spiegel-Kopplung ueber 6 Dateien
+- [ ] **#33 entscheiden** — fuenfter Beleg; Triage-Sicht bauen ODER einmal ad hoc durchfuehren, danach mit Reihenfolge in den Review
+- [ ] **#35 entscheiden** — seit 2026-08-05 S2 offen; der Nachtrag verschaerft den Zuschnitt, Empfehlung Voll-Schiene
+- [ ] **#49 gegen #33 abgrenzen** — beide scannen dieselbe Liste mit anderem Raster; Zusammenlegung ist offener Punkt (1)
 - [ ] `/dtb:kit-sync check` **auf dieser Maschine** — Stand widersprüchlich: S4 meldete 43/43 @ `71b6404`, die andere Maschine notierte `18a92da`
-- [ ] `commit-and-push`: **`behind > 0`-Stopp in Schritt 6 — in S3 praktisch belegt** (Skill läuft bei behind bis zum Push durch, der als non-fast-forward abprallt) · Multi-Root-Abnahme in pkp · `meeting-dump`-Beleg
-- [ ] **#42 hochstufen erwägen** — durch die Nummernkollision belegt, nicht mehr hypothetisch (Nummernvergabe in geteilter Datei ist bei Parallelarbeit strukturell unsicher — gleiche Diagnose wie #34)
-- [ ] **#44 zuschneiden** (ex-#39) — Option (a) ist ein Einzeiler in `workflow-next`; Abgrenzung zu #35 klären
-- [ ] Task `gitattributes-eol` starten — 6 Schritte, berührt kit-sync-Hashes
-- [ ] `/dtb:feature-discover 29` — Eintrag vollständig; ⚠ Changelog-Pfade NICHT in `## Betroffene Module` (#32)
-- [ ] **Restabnahme `meeting-agenda`** dreigeteilt (Negativ-Test + Leer-Fall im Kit, Positiv-Lauf in pkp, Sektions-Ankerung separat) · **Restabnahme `feature-fast`** (2 UX-Urteile + Lauf mit gefixter Fassung)
-- [ ] Achse-A-Lint in `dtb:project-health` als Idee erfassen · Achse-B-Spalte als Argument in #33 · Mini-Fixes `pipeline-graph:197` + `implement:157` · Platzhalter `workflow.config.yaml` + `ROADMAP.md` entscheiden (bremsen Skills aus)
-- [ ] Wiedervorlage aus abnahme-zustand: Vermerkform der Freigabe; §5-Roadmap kennt den Abgenommen-Zwischenzustand nicht (bewusst ausgeschlossen)
-- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` löschen, wenn der Merge sich bewährt hat
-- [ ] pkp intern committen: `UI.md` + `project-design/`-Tokens (separates Repo)
+- [ ] Task `gitattributes-eol` starten — heute drei weitere LF→CRLF-Warnungen; beruehrt kit-sync-Hashes, nicht parallel zu no-loss-gate
+- [ ] **Restabnahme `meeting-agenda`** dreigeteilt · **Restabnahme `feature-fast`** (2 UX-Urteile + Lauf mit `1eec2ea`)
+- [ ] `commit-and-push`: **`behind > 0`-Stopp in Schritt 6** (in S3 praktisch belegt) · Multi-Root-Abnahme in pkp · `meeting-dump`-Beleg
+- [ ] **#42 hochstufen erwaegen** (zweiter Parallelarbeits-Fall 2026-08-06) · **#44 zuschneiden** (Einzeiler in `workflow-next`, Abgrenzung zu #35)
+- [ ] Achse-A-Lint in `dtb:project-health` als Idee erfassen — seit 2026-08-04 offen, `/dtb:feature-discover 29` ist erledigt
+- [ ] Platzhalter entscheiden: `workflow.config.yaml` + `ROADMAP.md` (Vorlage — §5-Sync lief erneut leer) · Wiedervorlage abnahme-zustand: Vermerkform der Freigabe
+- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` loeschen, wenn der Merge sich bewaehrt · pkp intern committen: `UI.md` + `project-design/`-Tokens
 
 ---
 
@@ -53,11 +53,10 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-05 | Parallelarbeit zweier Maschinen zusammengeführt (S3) | Rebase `9ac66c5`; S4-Log gesichert; INBOX-Kollision #39 → #44; #42 erstmals mit Sachschaden belegt | `2026-08/2026-08-05.md` |
-| 2026-08-05 | #28-Weiche vollzogen: Task gitattributes-eol erfasst (S2) | Letzter ⚠-Feld-Konflikt aufgelöst; Task-Lane erstmals komplett (Weiche → task.md → BACKLOG) | `2026-08/2026-08-05.md` |
-| 2026-08-05 | Achse B abgeschlossen: #22/#27/#23 nachgezogen (S1) | Alle 4 Achse-B-Befunde behoben; #22 Zähler 3→6, #27 „ohne Bau entscheidbar", #23 hart belegt | `2026-08/2026-08-05.md` |
-| 2026-08-04 | Maschine nachgezogen + #28-Unsichtbarkeit aufgeklärt (S4) | kit-sync 43/43 @ `71b6404`; Ursache = `impl-review` F2 (`1eec2ea`); Idee erfasst (heute #44) | `2026-08/2026-08-04.md` |
-| 2026-08-04 | Ideen-Bestand geprüft + #31 korrigiert (S2/S3) · Abnahme-Stau archiviert (S1) | Achse A erschöpft; 6 Features + 9 Ideen archiviert, Aktivliste 8 → 2 | `47c6a26`, `a02e928` |
+| 2026-08-06 | Discovery no-loss-gate (#29), #35-Ursache gefunden, zwei Vollscans | 5/5 offene Punkte entschieden; Handoff-Fehler als Schrittfolge-Problem belegt (Fix (a) unzureichend); #46 + #48 von der Anekdote zum Muster gehoben | `2026-08/2026-08-06.md`, `6045f4c` |
+| 2026-08-05 | Parallelarbeit zweier Maschinen zusammengefuehrt (S3) | Rebase `9ac66c5`; S4-Log gesichert; INBOX-Kollision #39 → #44 | `2026-08/2026-08-05.md` |
+| 2026-08-05 | #28-Weiche vollzogen (S2) · Achse B abgeschlossen (S1) | Task-Lane erstmals komplett; alle 4 Achse-B-Befunde behoben | `2026-08/2026-08-05.md` |
+| 2026-08-04 | Ideen-Bestand geprueft + #31 korrigiert · Abnahme-Stau archiviert | Achse A erschoepft; 6 Features + 9 Ideen archiviert, Aktivliste 8 → 2 | `47c6a26`, `a02e928` |
 
 ---
 
@@ -71,10 +70,11 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:idea-review` fortsetzen — die Entscheidung zu #35 steht seit S2
-aus (Vorschlag: Voll-Schiene), danach #34/#33, dann #32 → #27. Stand bei Redaktion:
-`9ac66c5`, Arbeitsbaum sauber, mit `origin/master` synchron — ist HEAD beim Resume ein
-anderer, zuerst gegenprüfen, was inzwischen lief.
-**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her),
-danach obigen Befehl. Auf dieser Maschine vorher `/dtb:kit-sync check` — der Distributions-Stand
-ist seit der Parallelarbeit unklar.
+**Naechster Befehl:** `/dtb:feature-plan no-loss-gate` — die Discovery ist vollstaendig
+(`features/no-loss-gate/discovery.md`, alle 5 offenen Punkte entschieden), die Spec fehlt.
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen
+Befehl. **Gueltigkeitsbedingung (Konsequenz aus dem #35-Befund):** Der Befehl gilt, solange
+HEAD auf dem Checkpoint-Commit dieser Session steht **und** `features/no-loss-gate/spec.md`
+nicht existiert. Trifft eines von beiden nicht zu, zuerst gegenpruefen, was inzwischen lief.
+Zum Arbeitsbaum wird hier bewusst **keine** Aussage gemacht — dieser Checkpoint macht ihn
+selbst schmutzig, jede „sauber"-Behauptung waere im Moment des Schreibens falsch.

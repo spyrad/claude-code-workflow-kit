@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-08-05 (`/dtb:task`: Aufgabe `gitattributes-eol` aus INBOX #28 erfasst und in die Aufgaben-Tabelle eingetragen. Davor 2026-08-04: `/dtb:archive` — 6 abgenommene Features nach `archive/` verschoben, Details `archive/ARCHIVE_LOG.md`. Aktiv bleiben `feature-fast` + `meeting-agenda`, beide Fertig zum Testen, Restabnahmen offen)
+**Letzte Aktualisierung:** 2026-08-06 (`/dtb:workflow-checkpoint`: Anzeigefelder gegen die Ableitung geprueft, keine Abweichung. Neu in Discovery: `no-loss-gate` (#29) — noch keine BACKLOG-Zeile, die entsteht mit `/dtb:feature-plan`. Davor 2026-08-05: `/dtb:task` erfasste `gitattributes-eol` aus INBOX #28; 2026-08-04: `/dtb:archive` — 6 abgenommene Features nach `archive/`, Details `archive/ARCHIVE_LOG.md`. Aktiv bleiben `feature-fast` + `meeting-agenda`, beide Fertig zum Testen, Restabnahmen offen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
