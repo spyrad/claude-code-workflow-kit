@@ -5,7 +5,9 @@ description: >-
   "Verlustpruefung", "was ist noch nicht erfasst", "Session-Hygiene". Compares the
   active conversation against the artifact state and reports lessons, subject-matter
   questions and decisions that surfaced but were never captured — read-only, each
-  finding with a ready-to-run capture command.
+  finding with a ready-to-run capture command. Trigger this proactively when the
+  session appears to be ending or the topic shifts: the loss this skill guards
+  against happens precisely in sessions that end without a checkpoint.
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep
 pipeline:
@@ -29,11 +31,15 @@ und meldest, was nur im Gespraech lebt und in keiner Datei gelandet ist. Drei So
 
 ## Strenge: empfehlend — dieser Skill blockiert nichts
 
-Er meldet, benennt die dringenden Funde und fragt **einmal** nach. Er haelt den Checkpoint nicht
-auf, verlangt keine Bestaetigung und wertet ein „egal, weiter" nicht als Fehler. Der Name sagt
-`check`, nicht `gate`: die Pruefung ist verbindlich formuliert, die **Konsequenz** bleibt beim
-Menschen — er koennte sie ohnehin nicht erzwingen, weil `dtb:workflow-checkpoint`
-`disable-model-invocation: true` traegt und nur der Mensch ihn startet.
+Er meldet, benennt die dringenden Funde und fragt **einmal** nach (Abschlussfrage im
+Ausgabe-Muster). Er haelt den Checkpoint nicht auf, verlangt keine Bestaetigung und wertet ein
+„egal, weiter" nicht als Fehler. Der Name sagt `check`, nicht `gate`: die Pruefung ist verbindlich
+formuliert, die **Konsequenz** bleibt beim Menschen.
+
+Das ist eine **bewusste Design-Entscheidung, keine technische Grenze.** Aus dem Schritt-0-Aufruf
+heraus koennte dieser Skill den Checkpoint sehr wohl anhalten — er tut es nicht, weil ein
+Waechter, der sich in den Weg stellt, nach wenigen Sitzungen weggeklickt wird und weil der Mensch
+eine Sitzung jederzeit beenden koennen muss.
 
 Sein Wert liegt woanders: Er **nimmt die Formulierungsarbeit ab**. Jeder Fund kommt als
 kopierfertige Befehlszeile mit ausformuliertem Argument — abschicken statt nachdenken.
@@ -192,10 +198,13 @@ Im Zweifel gehoert ein Fund in die erste Gruppe.
 ### Format je Fund
 
 ```
-[Gruppe] {Ein-Satz-Fund}
+- {Ein-Satz-Fund}
   → /dtb:{skill} {fertiges Argument}
   Ziel: {pfad} ({versioniert|nicht versioniert})
 ```
+
+Die Gruppe wird ueber die **Ueberschrift** ausgedrueckt (siehe Ausgabe-Muster), nie ueber ein
+Praefix in der Fund-Zeile.
 
 **Die Befehlszeile muss ohne Nacharbeit absetzbar sein.** Das heisst konkret:
 
@@ -233,6 +242,14 @@ Klartext `lessons.md` steht dort nur in einem Kommentar. Verlaesslich waere alle
 ### Ausgabe-Muster (feste Ueberschriften, woertlich uebernehmen)
 
 ```
+[nur bei komprimiertem Verlauf, Randfall 1 — immer ganz oben:]
+⚠ Verlauf komprimiert — Erkennung unvollstaendig. Ein frueherer Lauf haette mehr gesehen;
+  bei langen Sitzungen mehrfach laufen lassen statt nur am Ende.
+
+[nur bei einem weiteren Lauf derselben Sitzung, Randfall 3 — direkt darunter:]
+Weiterer Lauf dieser Sitzung — der vorige Report ist keine Kandidatenquelle;
+bereits Erfasstes ist ueber Stufe 2 gefiltert.
+
 Verlustpruefung — {N} Fund(e)
 
 ## Vor dem Checkpoint erledigen
@@ -251,22 +268,36 @@ Verlustpruefung — {N} Fund(e)
   Ziel: dtb-project/project-workflows/INBOX.md (versioniert)
 
 2 Kandidaten als bereits erfasst gefiltert
+
+Trotzdem weiter zum Checkpoint? (ja / erst erfassen)
 ```
 
 Ist eine Gruppe leer, entfaellt ihre Ueberschrift — nie eine leere Ueberschrift ausgeben.
+Die beiden bedingten Kopfzeilen stehen in genau dieser Reihenfolge **ueber** der Titelzeile;
+trifft keine zu, beginnt der Report mit `Verlustpruefung — {N} Fund(e)`.
+
+**Platzhalter (nicht verwechseln):** `{N}` ist die Zahl der **gemeldeten Funde** (Titelzeile),
+`{S}` die Zahl der **unterdrueckten Kandidaten** (Sammelzeile).
+
+**Die Abschlussfrage ist Pflicht, das Warten darauf nicht.** Sie ist der eine Moment, an dem der
+Mensch innehaelt — aber der Skill blockiert nichts: Kommt keine Antwort, gilt das als „ja". Im
+Leer-Fall entfaellt sie (dort gibt es nichts zu erfassen).
 
 ### Sammelzeile fuer Unterdruecktes (Pflicht, auch bei 0)
 
 Genau eine Zeile am Ende des Reports:
 
 ```
-{N} Kandidaten als bereits erfasst gefiltert{, davon {M} bewusst verworfen}
+{S} Kandidaten als bereits erfasst gefiltert{, davon {M} bewusst verworfen}
 ```
 
 Sie macht eine zu strenge Schwelle sichtbar. Ohne sie wirkt jede Fehlkalibrierung wie ein sauberer
 Lauf — derselbe Fehler, gegen den die Kompressions-Meldung unten existiert.
 
-**Was `{N}` zaehlt:** ausschliesslich **dateiseitige** Unterdrueckungen aus Stufe 2
+Der `{M}`-Zusatz erscheint **nur bei `M > 0`** (anders als `{S}`, das auch bei 0 steht). Dieselbe
+Zeile — samt Zusatz — gilt woertlich auch im Leer-Fall.
+
+**Was `{S}` zaehlt:** ausschliesslich **dateiseitige** Unterdrueckungen aus Stufe 2
 (Ersetzungsprobe gegen den Artefakt-Stand). Funde, die im Gespraech bewusst verworfen wurden
 (Randfall 3), zaehlen **nicht** mit — sie waren nie „erfasst", und die Zeile wuerde sonst etwas
 Falsches behaupten. Sie werden auch **nirgends sonst** nachgehalten: die Entscheidung fiel in
@@ -285,8 +316,8 @@ teurer Leerlauf wird uebersprungen — also **eine** Zeile plus Freigabe, nichts
 ⚠ Verlauf komprimiert — Erkennung unvollstaendig. Ein frueherer Lauf haette mehr gesehen;
   bei langen Sitzungen mehrfach laufen lassen statt nur am Ende.
 
-Nichts Unerfasstes gefunden ({N} Kandidaten als bereits erfasst gefiltert).
-Weiter mit /dtb:workflow-checkpoint.
+Nichts Unerfasstes gefunden ({S} Kandidaten als bereits erfasst gefiltert{, davon {M} bewusst verworfen}).
+[nur bei eigenstaendigem Aufruf:] Weiter mit /dtb:workflow-checkpoint.
 ```
 
 **Ausnahme:** Die Kompressions-Zeile aus Randfall 1 steht auch hier — ueber der Freigabe. Ein
@@ -337,8 +368,13 @@ seine eigene Blindheit verschweigt, ist schlimmer als keiner.
 ### 3. Weiterer Lauf in derselben Sitzung
 
 **Der eigene frueherer Report ist nie eine Kandidatenquelle.** Steht im Verlauf bereits eine
-Ausgabe dieses Skills, wird sie beim Sammeln in Stufe 1 uebersprungen — sonst meldet der Check
-seine eigenen Formulierungen als Funde und vergiftet sich selbst.
+Ausgabe dieses Skills, wird beim Sammeln in Stufe 1 nichts daraus geerntet — sonst meldet der
+Check seine eigenen Formulierungen als Funde und vergiftet sich selbst.
+
+**Als Kontext darf er gelesen werden.** Der Unterschied ist wichtig: Nicht-Quelle heisst, dass
+keine Formulierung von dort zum Kandidaten wird; es heisst nicht, dass der Report unsichtbar ist.
+Eine im Verlauf ausgesprochene Ablehnung („den brauchen wir nicht") darf deshalb einem neu
+abgeleiteten Kandidaten zugeordnet werden — nur so ist die Regel unten ueberhaupt ausfuehrbar.
 
 Erkennst du einen frueheren eigenen Lauf, gehoert eine Kopfzeile in den Report:
 
@@ -347,10 +383,10 @@ Weiterer Lauf dieser Sitzung — der vorige Report ist keine Kandidatenquelle;
 bereits Erfasstes ist ueber Stufe 2 gefiltert.
 ```
 
-Die Zeile ist bewusst **zahl- und zustandsfrei**: Wieviele Funde des vorigen Laufs erledigt,
-verworfen oder noch offen sind, liesse sich nur durch Lesen und Klassifizieren des eigenen
-Reports bestimmen — und genau das ist oben ausgeschlossen. „Weiterer" statt „Zweiter", damit die
-Zeile auch beim dritten Lauf stimmt.
+Die Zeile ist bewusst **zahl- und zustandsfrei**: Eine Bilanz „X erledigt, Y verworfen" waere
+eine Behauptung ueber den Bearbeitungsstand fremder Funde, den dieser Skill nicht kennt — er
+sieht Artefakte und Verlauf, nicht was der Mensch mit einem Vorschlag vorhatte. „Weiterer" statt
+„Zweiter", damit die Zeile auch beim dritten Lauf stimmt.
 
 **Bewusst verworfene Funde werden nicht unveraendert wiederholt.** Hat der Fund inzwischen neue
 Substanz (weitere Belege, praezisere Formulierung), darf er erneut erscheinen — dann aber mit dem,

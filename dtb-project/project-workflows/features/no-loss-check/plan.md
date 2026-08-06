@@ -12,9 +12,9 @@
 
 | Phase | Beschreibung | Dauer | Status |
 |-------|-------------|-------|--------|
-| Phase 1 | Vorabproben + Skill-Geruest + zweistufige Erkennung | ~3 h | Geplant |
-| Phase 2 | Report, Leer-Fall und Randfaelle | ~1,5 h | Geplant |
-| Phase 3 | Verdrahtung, Distribution, Kalibrierung | ~1,5 h | Geplant |
+| Phase 1 | Vorabproben + Skill-Geruest + zweistufige Erkennung | ~3 h | Abgeschlossen (`110c208`) |
+| Phase 2 | Report, Leer-Fall und Randfaelle | ~1,5 h | Abgeschlossen (`471a0e7`) |
+| Phase 3 | Verdrahtung, Distribution, Kalibrierung | ~1,5 h | Abgeschlossen (`1110b09`, `926ec71`) |
 
 ---
 
@@ -276,8 +276,11 @@ Der Check ist im Kit verankert, verteilt und an dokumentierten Verlustfaellen ge
       Dateien ist entweder nachgezogen oder als bewusst unveraendert vermerkt
 - [ ] `/dtb:kit-sync check`: alle drei Vergleichsseiten gefuellt (Gate aus 3.3), danach
       `dtb-no-loss-check` im Lock, Status `synced`, kein Drift
-- [ ] `/dtb:project-health`: keine neuen Befunde gegenueber der in **Schritt 1.0** erhobenen
-      Baseline
+- [ ] `/dtb:project-health`: **keine Regression** gegenueber der in **Schritt 1.0** erhobenen
+      Baseline. Bauartbedingte Befunde sind zulaessig und im Session-Log zu begruenden — konkret
+      der Anzeige-Drift, den ein frisch fertiggestelltes Feature bis zum naechsten
+      `workflow-checkpoint` zwangslaeufig erzeugt. Ein Kriterium, das diesen Fall verbietet,
+      waere dauerhaft rot (belegt: Vergleichslauf 7/5/0 gegen Baseline 8/4/0)
 
 #### Manual
 - [ ] Kalibrierung: der Check haette an den Faellen 1-4 jeweils den richtigen Delta-Typ gemeldet

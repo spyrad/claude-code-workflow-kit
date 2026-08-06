@@ -4,9 +4,10 @@ Scope: `skills/dtb-no-loss-check/SKILL.md`, `skills/dtb-workflow-checkpoint/SKIL
 `skills/dtb-session-summary/SKILL.md`, `skills/dtb-workflow-status/SKILL.md`, `CLAUDE.md`
 Geprueft bis: Arbeitsbaum (SHA-Scope `926ec71` + uncommittete Triage-Fixes) · Datum: 2026-08-06
 
-**Gesamt-Verdikt: NEEDS ATTENTION** — kein offener Blocker; die Fixes des 2. Laufs sind
-mechanisch gegengeprueft, aber **nicht unabhaengig verifiziert**. Fuer ein APPROVED braucht es
-einen dritten Lauf gegen den jetzigen Stand.
+**Gesamt-Verdikt: NEEDS ATTENTION** — kein offener Blocker; alle 27 Findings aus drei Laeufen
+sind behoben. Die Fixes des 3. Laufs sind mechanisch gegengeprueft, aber **nicht unabhaengig
+verifiziert**; ein vierter Lauf waere fuer ein formales APPROVED noetig (Rendite-Abwaegung siehe
+unten).
 
 ## Verlauf
 
@@ -16,6 +17,30 @@ einen dritten Lauf gegen den jetzigen Stand.
 | Triage 1 | — | — | 10 Fixed · 0 Lesson · 0 Skipped |
 | 2 (Verifikation) | 1 Sub-Agent, fokussiert auf die Fixes | REJECTED | 8/10 sauber, 2 teilweise, **6 neue Probleme durch die Fixes** |
 | Triage 2 | — | — | 5 Fixed (G1-G5) + 2 Nits · 0 Skipped |
+| 3 (Vollreview) | 2 Sub-Agents gegen `e29ec78` | REJECTED | 10 Findings — Erkennungslogik sauber, alle Rest-Divergenzen im **Ausgabe-Kontrakt** |
+| Triage 3 | — | — | 10 Fixed (H1-H10) · 0 Skipped |
+
+**Konvergenz ueber drei Laeufe:** Lauf 1 traf die Substanz (sachlich falsche Regel), Lauf 2 die
+Naht zwischen den eigenen Fixes, Lauf 3 den Ausgabe-Kontrakt. Kein Lauf war leer — aber die
+Schwere nimmt ab und der Bereich verschiebt sich nach aussen.
+
+## Lauf 3 — Findings (alle FIXED)
+
+| # | Achse | Kern | Decision |
+|---|-------|------|----------|
+| H1 | Plan Adherence | Kalibrier-Beleg existierte nur im Gespraech — das Feature gegen Wissensverlust hatte seinen eigenen Abnahme-Beleg nicht persistiert | FIXED — Fall-Tabelle (5 Faelle, Soll/Ist) im Session-Log |
+| H2 | Safety & Quality | Kopf sagt „fragt einmal nach", der ausfuehrende Teil kannte keine Nachfrage; `discovery.md:84` belegt den geplanten Wortlaut | FIXED — Abschlussfrage im Ausgabe-Muster, ohne Warte-Pflicht |
+| H3 | Architecture | Strenge-Begruendung seit der Schritt-0-Integration sachlich falsch (aus Schritt 0 heraus koennte der Check sehr wohl anhalten) | FIXED — als bewusste Design-Entscheidung ausgewiesen |
+| H4 | Plan Adherence | Spec fordert modell-initiierten Ausloeser, Skill hatte dafuer keine Anweisung | FIXED — proaktiver Trigger in der `description` |
+| H5-H8 | Pattern Consistency | Vier Widersprueche im Ausgabe-Kontrakt: Fund-Format, fehlende bedingte Kopfzeilen, `{N}` doppelt belegt, Randfall 3 widersprach sich | FIXED — in einem Durchgang: Bullet-Form, Kopfzeilen mit fester Reihenfolge, `{N}`/`{S}` getrennt, Kandidatenquelle vs. Kontext unterschieden |
+| H9 | Safety & Quality | Sammelzeile im Leer-Fall ohne `{M}`-Zusatz | FIXED — gleiche Zeile beidseitig, Zusatz nur bei `M > 0` |
+| H10 | Plan Adherence | Phase-3-Kriterium dauerhaft rot; Phasen-Uebersicht zeigte „Geplant" bei 11/11 | FIXED — Kriterium auf „keine Regression" umformuliert, Uebersicht nachgezogen |
+
+**6 Findings unterhalb des Caps** bleiben offen (`allowed-tools`-Deklaration, Leer-Fall-Freigabe
+im Hauptpfad, „nicht-leeren Ordner", `**Erstellt mit:**`-Marker, zwei Abschnitte „Schritt 0",
+Erkennung „Skill nicht installiert"). Der wiederholte `allowed-tools`-Einwand ist zum zweiten Mal
+empirisch widerlegt: `dtb-no-loss-check` lief in dieser Sitzung nachweislich als Schritt 0 aus
+`workflow-checkpoint` heraus.
 
 ## Lauf 1 — Findings (alle FIXED)
 
