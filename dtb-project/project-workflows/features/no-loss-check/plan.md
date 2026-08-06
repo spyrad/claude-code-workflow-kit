@@ -312,10 +312,10 @@ Der Check ist im Kit verankert, verteilt und an dokumentierten Verlustfaellen ge
 - [x] 2.1 Report mit kopierfertigen Befehlen — `471a0e7`
 - [x] 2.2 Leer-Fall + Freigabe — `471a0e7`
 - [x] 2.3 Drei Randfaelle — `471a0e7`
-- [x] 3.1 Verankerung im Checkpoint
-- [x] 3.2 Nachbarschaft + Doku
-- [ ] 3.3 Distribution (kit-sync)
-- [ ] 3.4 Kalibrierung gegen die Fall-Menge
+- [x] 3.1 Verankerung im Checkpoint — `1110b09`
+- [x] 3.2 Nachbarschaft + Doku — `1110b09`
+- [x] 3.3 Distribution (kit-sync)
+- [x] 3.4 Kalibrierung gegen die Fall-Menge
 
 ---
 

@@ -118,7 +118,7 @@ eine Sammelzeile im Report.
 | Delta | Wo gelesen wird | Was verglichen wird |
 |-------|-----------------|---------------------|
 | Lektion | `{config.paths.rules}/lessons.md` (Fallback `dtb-project/project-rules/lessons.md`) | Spalte `Rule` jeder Datenzeile unter der `\|---\|`-Trennzeile |
-| Fach-Frage | `{config.paths.workflows}/features/*/spec.md` und `.../discovery.md` | Nur Zeilen **innerhalb** von `## Offene Punkte`, nur die §6-Kanonform `- [ ] [Fach] …` **und** ihre beantwortete Form `- [x] [Fach] …` |
+| Fach-Frage | `{config.paths.workflows}/features/*/spec.md` und `.../discovery.md` | **Alle** Inhaltszeilen innerhalb von `## Offene Punkte` — die §6-Kanonform `- [ ] [Fach] …`, ihre beantwortete Form `- [x] [Fach] …` **und** untagged Bullets |
 | Idee/Entscheidung | `{config.paths.workflows}/INBOX.md` | Idee-Spalte **jeder** Zeile, unabhaengig vom Status |
 
 **Drei Ausschluesse — jeder mit Grund:**
@@ -130,6 +130,12 @@ eine Sammelzeile im Report.
    keine erfassten Fragen — sonst filtert der Skill echte Funde anhand von Dokumentation weg.
 3. **`## Progress`, Statusfelder und Plan-Bloecke werden nicht gelesen.** Sie tragen keine
    erfassten Inhalte, nur Zustaende.
+
+> **Warum beim Fach-Fragen-Abgleich auch untagged Bullets zaehlen** (Kalibrier-Befund
+> 2026-08-06): Fuer die Frage „steht das schon irgendwo?" ist das `[Fach]`-Tag irrelevant — der
+> Ablage-Ort ist derselbe. Wer nur die Kanonform liest, meldet jede als normalen Bullet
+> festgehaltene Frage bei **jedem** Lauf erneut. Das Tag entscheidet, ob eine Frage ins Meeting
+> geht (§6), nicht ob sie erfasst ist.
 
 **Status ist beim Abgleich egal — mit einer Nuance:** Ein INBOX-Eintrag auf `Verworfen` gilt als
 **erfasst** (die Entscheidung ist gefallen, erneutes Melden waere Rauschen). Er wird aber in der
