@@ -118,7 +118,7 @@ eine Sammelzeile im Report.
 | Delta | Wo gelesen wird | Was verglichen wird |
 |-------|-----------------|---------------------|
 | Lektion | `{config.paths.rules}/lessons.md` (Fallback `dtb-project/project-rules/lessons.md`) | Spalte `Rule` jeder Datenzeile unter der `\|---\|`-Trennzeile |
-| Fach-Frage | `{config.paths.workflows}/features/*/spec.md` und `.../discovery.md` | **Alle** Inhaltszeilen innerhalb von `## Offene Punkte` — die §6-Kanonform `- [ ] [Fach] …`, ihre beantwortete Form `- [x] [Fach] …` **und** untagged Bullets |
+| Fach-Frage | `{config.paths.workflows}/features/*/spec.md` und `.../discovery.md` | **Alle** Inhaltszeilen innerhalb von `## Offene Punkte` — die §6-Kanonform `- [ ] [Fach] …`, ihre beantwortete Form `- [x] [Fach] …` **und** untagged Bullets. Sektionsgrenze wie in `dtb:meeting-agenda`: ab der Ueberschrift bis zur naechsten `## `-Ueberschrift bzw. zum Dateiende |
 | Idee/Entscheidung | `{config.paths.workflows}/INBOX.md` | Idee-Spalte **jeder** Zeile, unabhaengig vom Status |
 
 **Drei Ausschluesse — jeder mit Grund:**
@@ -137,10 +137,12 @@ eine Sammelzeile im Report.
 > festgehaltene Frage bei **jedem** Lauf erneut. Das Tag entscheidet, ob eine Frage ins Meeting
 > geht (§6), nicht ob sie erfasst ist.
 
-**Status ist beim Abgleich egal — mit einer Nuance:** Ein INBOX-Eintrag auf `Verworfen` gilt als
-**erfasst** (die Entscheidung ist gefallen, erneutes Melden waere Rauschen). Er wird aber in der
-Sammelzeile mit dem Zusatz `davon {N} bewusst verworfen` ausgewiesen — sonst sieht niemand, dass
-ein Fund einer frueheren Entscheidung widerspricht.
+**Status ist beim Abgleich egal — mit einer Nuance:** Ein INBOX-Eintrag mit Status `Verworfen`
+gilt als **erfasst** (die Entscheidung ist gefallen, erneutes Melden waere Rauschen) und zaehlt
+damit dateiseitig mit. Er wird in der Sammelzeile zusaetzlich mit dem Zusatz
+`davon {M} bewusst verworfen` ausgewiesen — sonst sieht niemand, dass ein Fund einer frueheren
+Entscheidung widerspricht. **Nicht verwechseln** mit im Gespraech verworfenen Funden
+(Randfall 3): die sind dateiseitig gar nicht vorhanden und zaehlen nirgends.
 
 **Fehlende Dateien sind kein Fehler.** `lessons.md` ist ein Laufzeit-Artefakt und im Kit
 ungetrackt; existiert sie nicht, sind **alle** Lektions-Kandidaten neu. Gleiches gilt fuer eine
@@ -199,21 +201,34 @@ Im Zweifel gehoert ein Fund in die erste Gruppe.
 
 - `/dtb:lesson <Freitext>` — der Freitext nennt Situation, Falle und die kuenftige Regel in einem
   Satz; `dtb:lesson` leitet daraus selbst die vier Felder ab
-- `/dtb:open-question <slug> "<Frage>"` — **der Slug ist Pflicht.** `dtb:open-question` erkennt das
-  erste Token nur dann als Slug, wenn es exakt einen vorhandenen Feature-Ordner matcht; ohne Slug
-  wird das erste Fragewort verschluckt. Ermittle den Ziel-Slug aus dem Gespraechszusammenhang
+- `/dtb:open-question <slug> "<Frage>"` — **der Slug ist Pflicht.** Ohne ihn leitet
+  `dtb:open-question` das Ziel aus dem aktiven Feature ab: bei 0 aktiven Features bricht es ab,
+  bei mehr als einem fragt es zurueck. Der vorformulierte Befehl waere dann nicht ohne Nacharbeit
+  absetzbar — und genau das ist der Zweck dieser Zeile. (Verschluckt wird nichts: matcht das erste
+  Token keinen vorhandenen Ordner, ist das gesamte Argument die Frage.) Ermittle den Ziel-Slug aus
+  dem Gespraechszusammenhang
 - `/dtb:idea <Freitext>` — ein Satz, wie er in der INBOX stehen soll
 
 ### Versioniert oder nicht (Pflichtangabe je Fund)
 
-Vor dem Absetzen muss sichtbar sein, wohin der Inhalt wandert. Bestimme den Zustand durch einen
-Blick in die `.gitignore` des Projekts:
+Vor dem Absetzen muss sichtbar sein, wohin der Inhalt wandert. Die Zuordnung ist **fest**:
 
-- Zielpfad steht dort → `nicht versioniert` (bleibt lokal; `lessons.md` ist im Kit selbst so
-  gefuehrt — Idee #34)
-- Zielpfad steht dort nicht → `versioniert` (reist ueber jeden Push mit — das gilt insbesondere
-  fuer `INBOX.md` und alles unter `features/`)
-- Keine `.gitignore` vorhanden oder Projekt ohne Git → Angabe weglassen, **nicht raten**
+| Zielartefakt | Zustand |
+|--------------|---------|
+| `INBOX.md` | versioniert — reist ueber jeden Push mit |
+| `features/*` | versioniert |
+| `project-rules/lessons.md` | nicht versioniert — bleibt lokal (Idee #34) |
+
+**Vorbehalt (Hinweis an den Menschen, keine Anweisung an diesen Skill):** Das ist die
+Standardverteilung des Kits. Traegt ein Zielprojekt eine abweichende `.gitignore`, kann die Angabe
+danebenliegen — der Check kann das nicht erkennen und soll es auch nicht versuchen; die Korrektur
+faellt dem Menschen zu.
+
+**Nicht selbst per Datei-Lookup ermitteln.** `.gitignore` enthaelt Glob-Muster mit
+Last-Match-wins und Negationen; ein blosser Pfad-Vergleich beantwortet die Frage nicht. Im Kit
+selbst wird `lessons.md` z.B. ueber das Muster `dtb-project/project-rules/*` ignoriert — der
+Klartext `lessons.md` steht dort nur in einem Kommentar. Verlaesslich waere allein
+`git check-ignore`, und das liegt ausserhalb der lesenden Werkzeuge dieses Skills.
 
 ### Ausgabe-Muster (feste Ueberschriften, woertlich uebernehmen)
 
@@ -251,6 +266,13 @@ Genau eine Zeile am Ende des Reports:
 Sie macht eine zu strenge Schwelle sichtbar. Ohne sie wirkt jede Fehlkalibrierung wie ein sauberer
 Lauf — derselbe Fehler, gegen den die Kompressions-Meldung unten existiert.
 
+**Was `{N}` zaehlt:** ausschliesslich **dateiseitige** Unterdrueckungen aus Stufe 2
+(Ersetzungsprobe gegen den Artefakt-Stand). Funde, die im Gespraech bewusst verworfen wurden
+(Randfall 3), zaehlen **nicht** mit — sie waren nie „erfasst", und die Zeile wuerde sonst etwas
+Falsches behaupten. Sie werden auch **nirgends sonst** nachgehalten: die Entscheidung fiel in
+dieser Sitzung und steht im Verlauf; ueber Sitzungsgrenzen hinweg sind sie ohnehin wieder
+legitime Funde.
+
 ---
 
 ## Leer-Fall: nichts gefunden
@@ -259,9 +281,17 @@ Der Normalfall ist „nichts offen", und dieser Skill laeuft potenziell vor jede
 teurer Leerlauf wird uebersprungen — also **eine** Zeile plus Freigabe, nichts weiter:
 
 ```
+[nur bei komprimiertem Verlauf, siehe Randfall 1:]
+⚠ Verlauf komprimiert — Erkennung unvollstaendig. Ein frueherer Lauf haette mehr gesehen;
+  bei langen Sitzungen mehrfach laufen lassen statt nur am Ende.
+
 Nichts Unerfasstes gefunden ({N} Kandidaten als bereits erfasst gefiltert).
 Weiter mit /dtb:workflow-checkpoint.
 ```
+
+**Ausnahme:** Die Kompressions-Zeile aus Randfall 1 steht auch hier — ueber der Freigabe. Ein
+Leer-Verdikt auf komprimiertem Verlauf ist die schwaechste Aussage, die dieser Skill treffen
+kann; sie ohne Vorbehalt auszugeben waere genau das Verschweigen, gegen das Randfall 1 existiert.
 
 **Verboten im Leer-Fall:** Aufzaehlung der geprueften Quellen, Wiederholung der Signalklassen,
 Zusammenfassung der Sitzung (das ist `dtb:session-summary`). Wer hier auswalzt, sorgt dafuer, dass
@@ -304,7 +334,7 @@ seine eigene Blindheit verschweigt, ist schlimmer als keiner.
   Ziel: dtb-project/project-workflows/INBOX.md (versioniert)
 ```
 
-### 3. Zweiter Lauf in derselben Sitzung
+### 3. Weiterer Lauf in derselben Sitzung
 
 **Der eigene frueherer Report ist nie eine Kandidatenquelle.** Steht im Verlauf bereits eine
 Ausgabe dieses Skills, wird sie beim Sammeln in Stufe 1 uebersprungen — sonst meldet der Check
@@ -313,8 +343,14 @@ seine eigenen Formulierungen als Funde und vergiftet sich selbst.
 Erkennst du einen frueheren eigenen Lauf, gehoert eine Kopfzeile in den Report:
 
 ```
-Zweiter Lauf dieser Sitzung — {N} Funde aus dem ersten sind erledigt oder verworfen.
+Weiterer Lauf dieser Sitzung — der vorige Report ist keine Kandidatenquelle;
+bereits Erfasstes ist ueber Stufe 2 gefiltert.
 ```
+
+Die Zeile ist bewusst **zahl- und zustandsfrei**: Wieviele Funde des vorigen Laufs erledigt,
+verworfen oder noch offen sind, liesse sich nur durch Lesen und Klassifizieren des eigenen
+Reports bestimmen — und genau das ist oben ausgeschlossen. „Weiterer" statt „Zweiter", damit die
+Zeile auch beim dritten Lauf stimmt.
 
 **Bewusst verworfene Funde werden nicht unveraendert wiederholt.** Hat der Fund inzwischen neue
 Substanz (weitere Belege, praezisere Formulierung), darf er erneut erscheinen — dann aber mit dem,

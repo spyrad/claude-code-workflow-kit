@@ -84,11 +84,16 @@ gefilterte Fund-Liste — die inhaltliche Haelfte des Features.
 - **Zweck:** bereits Erfasstes herausfiltern, ohne echte Funde still zu verlieren
 - **Dateien:** `skills/dtb-no-loss-check/SKILL.md`
 - **Input:** Ist-Befunde zu den drei Abgleichsflaechen — `lessons.md` Spalte `Rule`,
-  `features/*/{spec,discovery}.md` innerhalb `## Offene Punkte` (nur `- [ ] [Fach]`-Zeilen,
-  `archive/` ausgeschlossen), `INBOX.md` Idee-Spalte
+  `features/*/{spec,discovery}.md` innerhalb `## Offene Punkte` (`archive/` ausgeschlossen —
+  urspruenglich nur `- [ ] [Fach]`-Zeilen, siehe die Nachschaerfung unten), `INBOX.md` Idee-Spalte
 - **Output:** Abschnitt „Stufe 2: Abgleich" mit je Delta-Sorte Lesequelle und Vergleichsregel;
   **Schwellwert des unscharfen Vergleichs hier festgelegt** (technische Entscheidung 1) und
   begruendet; fehlende Datei = alles neu (kein Fehler)
+- **Nachschaerfung 2026-08-06** (Kalibrier-Befund aus Schritt 3.4, im impl-review als F6
+  nachgezogen): Der Fach-Fragen-Abgleich liest **alle** Inhaltszeilen innerhalb von
+  `## Offene Punkte` — §6-Kanonform, beantwortete Form **und** untagged Bullets. Nur die
+  Kanonform zu lesen hiesse, jede als normaler Bullet festgehaltene Frage bei jedem Lauf erneut
+  zu melden (in diesem Projekt sofort 5 Falsch-Positive)
 
 > **3x3-Block:** Nach Schritt 1.3 → Zusammenfassung + Feedback einholen (1.0 ist eine Messung
 > vor dem Bau und zaehlt im Rhythmus nicht mit — die drei Bau-Schritte sind 1.1 bis 1.3)
@@ -135,8 +140,9 @@ eigenen Grenzen offenlegt.
 - **Zweck:** die Formulierungsarbeit erledigen; nur so ist der Fund billiger als das Vergessen
 - **Dateien:** `skills/dtb-no-loss-check/SKILL.md`
 - **Input:** die realen Argument-Formen der drei Ziel-Skills aus der Ist-Analyse —
-  `/dtb:lesson <Freitext>`, `/dtb:open-question <slug> "<Frage>"` (Slug ist Pflicht, sobald mehr
-  als ein Feature in Frage kommt), `/dtb:idea <Freitext>`
+  `/dtb:lesson <Freitext>`, `/dtb:open-question <slug> "<Frage>"` (Slug ist **unbedingt** Pflicht:
+  ohne ihn bricht `open-question` bei 0 aktiven Features ab und fragt bei >1 zurueck — der Befehl
+  waere dann nicht ohne Nacharbeit absetzbar), `/dtb:idea <Freitext>`
 - **Output:** Report-Abschnitt: zwei Gruppen („vor dem Checkpoint erledigen" / „kann warten"),
   je Fund eine Zeile mit fertig formuliertem Befehl; **eine** Sammelzeile fuer unterdrueckte
   Kandidaten (`{N} Kandidaten als bereits erfasst gefiltert`); je Fund die Kennzeichnung, ob das
@@ -177,7 +183,9 @@ eigenen Grenzen offenlegt.
 - [ ] Grep Randfall-Abschnitt: die drei Faelle Kompression, fehlender Ablage-Ort, Zweitlauf je
       einmal benannt
 - [ ] Grep: die `/dtb:open-question`-Beispielzeile enthaelt einen Slug-Platzhalter vor der Frage
-      (sonst wuerde das erste Fragewort als Slug gelesen)
+      (ohne Slug leitet `open-question` das Ziel aus dem aktiven Feature ab — bei 0 aktiven
+      bricht es ab, bei >1 fragt es zurueck; der Befehl waere dann nicht ohne Nacharbeit
+      absetzbar. Korrigiert 2026-08-06 im impl-review, Finding F3)
 - [ ] Grep Report-Abschnitt: die Versioniert-Kennzeichnung je Fund ist als Pflichtbestandteil
       benannt
 
@@ -288,8 +296,8 @@ Der Check ist im Kit verankert, verteilt und an dokumentierten Verlustfaellen ge
 
 | Thema | Optionen | Entscheidung | Begruendung |
 |-------|----------|-------------|-------------|
-| Schwellwert des unscharfen Vergleichs | A: Ueberlappung der Inhaltswoerter oberhalb einer festen Quote · B: Kern-Stichwort muss vorkommen · C: erst nach dem ersten Lauf festlegen | **Offen — in Schritt 1.3 festlegen** | Die Spec verschiebt den Wert bewusst hierher: vor dem ersten Lauf laesst er sich nicht begruenden. Richtung steht fest (im Zweifel melden), und die Sammelzeile macht eine Fehlkalibrierung sichtbar |
-| Doppellauf in derselben Session | A: nur ueber den Gespraechsverlauf · B: der Check nennt im Report seinen eigenen vorherigen Lauf · C: gar nicht behandeln | **Offen — in Schritt 2.3 entscheiden** | Bekannte Schwaeche aus der Spec. A ist billig, aber unzuverlaessig; B kostet eine Zeile im Report und macht den Zweitlauf erkennbar |
+| Schwellwert des unscharfen Vergleichs | A: Ueberlappung der Inhaltswoerter oberhalb einer festen Quote · B: Kern-Stichwort muss vorkommen · C: **Ersetzungsprobe** (koennte der Bestandseintrag den Kandidaten ohne Informationsverlust ersetzen?) | **C — entschieden 2026-08-06 in Schritt 1.3** | Eine Prozent-Quote suggeriert eine Messbarkeit, die ein Prompt-Skill nicht einloest — zwei Laeufe zaehlen Inhaltswoerter unterschiedlich. Die Ersetzungsprobe ist bei jedem Lauf gleich stellbar und vom Menschen nachvollziehbar; die asymmetrische Tie-break-Regel („nicht klar ja → melden") macht die Richtung deterministisch |
+| Doppellauf in derselben Session | A: nur ueber den Gespraechsverlauf · B: der Check nennt im Report seinen eigenen vorherigen Lauf · C: gar nicht behandeln | **A+B — entschieden 2026-08-06 in Schritt 2.3** | Zwei Regeln: der eigene frueherer Report ist nie Kandidatenquelle (sonst Selbstvergiftung), und ein erkannter Zweitlauf wird im Report-Kopf ausgewiesen |
 | Form der Verankerung im Checkpoint | A: eigener Ablauf-Schritt vor „Informationen sammeln" · B: Zeile innerhalb von Schritt 1 · C: nur Hinweis in der Abschluss-Bestaetigung | **A** | C kommt zu spaet (nach dem Schreiben), B versteckt den Aufruf in einem Sammel-Schritt. A ist die einzige Stelle, an der ein Fund den Checkpoint-Inhalt noch beeinflussen kann |
 | Verhalten bei fehlendem Check im Zielprojekt | A: Checkpoint bricht ab · B: Checkpoint laeuft weiter mit Hinweis · C: stilles Ueberspringen | **B** | A macht den Checkpoint von einem empfehlenden Skill abhaengig — das widerspricht seiner Strenge. C verschweigt eine Luecke, dasselbe Muster wie #35 |
 | Kalibrier-Menge | A: im Plan festschreiben · B: zu Beginn von 3.4 · C: waehrend der Auswertung | **A — erledigt (Plan-Review 2026-08-06, Tabelle in Schritt 3.4)** | Wer die Faelle waehlt, nachdem er die Ergebnisse kennt, misst nichts. Die Spec verlangt die Festlegung ausdruecklich im Plan |
@@ -314,8 +322,8 @@ Der Check ist im Kit verankert, verteilt und an dokumentierten Verlustfaellen ge
 - [x] 2.3 Drei Randfaelle — `471a0e7`
 - [x] 3.1 Verankerung im Checkpoint — `1110b09`
 - [x] 3.2 Nachbarschaft + Doku — `1110b09`
-- [x] 3.3 Distribution (kit-sync)
-- [x] 3.4 Kalibrierung gegen die Fall-Menge
+- [x] 3.3 Distribution (kit-sync) — `926ec71`
+- [x] 3.4 Kalibrierung gegen die Fall-Menge — `926ec71`
 
 ---
 

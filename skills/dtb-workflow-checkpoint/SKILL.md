@@ -186,7 +186,10 @@ Skill angestossen werden.
 - Funde gemeldet → die kopierfertigen Befehle stehen im Report; der Mensch entscheidet, ob er
   sie absetzt. **Der Checkpoint wartet nicht darauf und bricht nie ab** — `no-loss-check` ist
   empfehlend, nicht blockierend
-- Lief die Pruefung in dieser Sitzung bereits, genuegt ihr Ergebnis; kein Zweitlauf noetig
+- Lief die Pruefung in dieser Sitzung bereits, laeuft sie hier **trotzdem erneut** — dieser Lauf
+  sieht alles, was seither dazugekommen ist. Den Zweitlauf regelt `dtb:no-loss-check` (Randfall 3:
+  der frueherer Report ist keine Kandidatenquelle, bereits Verworfenes wird nicht unveraendert
+  wiederholt)
 
 ### Schritt 1: Informationen sammeln
 

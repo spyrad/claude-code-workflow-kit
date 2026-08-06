@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| no-loss-check (#29) | Geplant | 0/11 | Schritt 1.0: Vorabproben (Baseline + Ausloeser) — `/dtb:implement no-loss-check` |
+| no-loss-check (#29) | Fertig zum Testen | 11/11 | `/dtb:kit-sync sync` (Review-Fixes verteilen), dann dritter `/dtb:impl-review` |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 | gitattributes-eol (#28) | Offen | 0/6 | Schritt 1: Scope entscheiden (`* text=auto` vs. gezielt) |
@@ -17,6 +17,7 @@
 Kein Feature „In Arbeit". BACKLOG- und `spec.md`/`task.md`-Anzeigefelder stimmen mit der Ableitung ueberein.
 ⚠ feature-fast + meeting-agenda: `review.md` sagt „Gesamt-Verdikt: REJECTED", die Triage-Bilanz zeigt
 alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne Pfleger, Beleg fuer #35.
+`no-loss-check/review.md` steht auf NEEDS ATTENTION **mit** Einordnung — der Unterschied ist Absicht.
 
 ---
 
@@ -25,26 +26,25 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, nur via #34) — **Idee #36 verworfen** (2026-08-02) — **6 Abnahmen 2026-08-03**, archiviert 2026-08-04 — **`meeting-agenda` + `feature-fast` bewusst NICHT abgenommen**. Alles Wiedervorlage-Schutz. |
-| **#35 praezisiert** | **Der Fix (a) wurde unfreiwillig getestet und reicht nicht.** S3 hatte die SHA-Klausel von Hand eingebaut — sie griff nicht, weil HEAD identisch war und der Fehler im **Arbeitsbaum** sass. Ursache ist die Schrittfolge von `workflow-checkpoint` selbst (liest Git in Schritt 1, schreibt in 3/4): **jeder** Checkpoint hinterlaesst deterministisch einen schmutzigen Arbeitsbaum. Vierter Beleg in Folge, beide Fehlerrichtungen dokumentiert. |
-| **Parallelarbeit** | 2026-08-05 zwei Maschinen per Rebase zusammengefuehrt (`9ac66c5`); INBOX-Nummernkollision #39 → #44. **2026-08-06 zweiter Fall:** #45 (Hooks) erschien waehrend laufender Arbeit aus einer fremden Session, Edit-Konflikt vom Werkzeug gemeldet, kein Schaden. Beleg fuer **#42**. |
-| **Notizen** | Ideen-Bestand in einer Session von 16 auf **21** gewachsen (#45-#49). `/dtb:idea-review` hat zum **vierten und fuenften Mal** keine Einzelentscheidung produziert — bei dieser Groesse ist die Triage-Sicht (#33) das fehlende Werkzeug. Zwei Vollscans heute hoben je einen Systemfehler von der Anekdote zum Muster: **#46** sechs halbseitige Pipeline-Kanten, **#48** drei von sechs Capture-Skills ohne Duplikat-Schutz. |
+| **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, nur via #34) — **`no-loss-check` nicht abgenommen** (2026-08-06): dritter Review-Lauf gegen die gefixte Fassung steht aus, obwohl alle drei Manual-Kriterien faktisch belegt sind. **`feature-start` folgt dem Kanon, nicht der Skill-Anweisung** (#50). Alles Wiedervorlage-Schutz. |
+| **Reviews als Ertrag** | Beide `impl-review`-Laeufe fanden je einen Fehler, den der Autor nicht gesehen haette: F1 (sachlich falsche `.gitignore`-Regel, fuer plausibel gehalten) und G1 (zwei eigene Fixes, die sich gegenseitig aufhoben). **Unabhaengige Sub-Agents sind der Wirkfaktor**, nicht die Checkliste. |
+| **#35 praezisiert** | Ursache ist die Schrittfolge von `workflow-checkpoint` selbst — jeder Checkpoint hinterlaesst deterministisch einen schmutzigen Arbeitsbaum. Fix (a) wurde unfreiwillig getestet und reicht nicht. Vierter Beleg in Folge; seit 2026-08-05 S2 unentschieden. |
+| **kit-sync geklaert** | Der widerspruechliche Stand dieser Maschine war keiner: Lock stand auf `71b6404` mit 43/43 synchron, `18a92da` gehoerte zur anderen Maschine. Jetzt 44 Artefakte @ `926ec71`. |
+| **Notizen** | Ideen-Bestand 23 offen (#50 neu). `/dtb:idea-review` zum **fuenften Mal** ohne Einzelentscheidung — bei dieser Groesse ist die Triage-Sicht (#33) das fehlende Werkzeug. `ROADMAP.md`-§5-Sync lief zum dritten Mal leer (unausgefuellte Vorlage, keine Change-IDs). |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:feature-plan no-loss-gate` — Discovery vollstaendig (5/5 offene Punkte entschieden); `plan-review` nicht optional, Spiegel-Kopplung ueber 6 Dateien
-- [ ] **#33 entscheiden** — fuenfter Beleg; Triage-Sicht bauen ODER einmal ad hoc durchfuehren, danach mit Reihenfolge in den Review
-- [ ] **#35 entscheiden** — seit 2026-08-05 S2 offen; der Nachtrag verschaerft den Zuschnitt, Empfehlung Voll-Schiene
-- [ ] **#49 gegen #33 abgrenzen** — beide scannen dieselbe Liste mit anderem Raster; Zusammenlegung ist offener Punkt (1)
-- [ ] `/dtb:kit-sync check` **auf dieser Maschine** — Stand widersprüchlich: S4 meldete 43/43 @ `71b6404`, die andere Maschine notierte `18a92da`
-- [ ] Task `gitattributes-eol` starten — heute drei weitere LF→CRLF-Warnungen; beruehrt kit-sync-Hashes, nicht parallel zu no-loss-gate
+- [ ] `/dtb:kit-sync sync` — installierte Kopie traegt `926ec71` **ohne** die 17 Review-Fixes
+- [ ] **Dritter `/dtb:impl-review no-loss-check`** gegen die gefixte Fassung → noetig fuer APPROVED
+- [ ] **Vier Funde der Verlustpruefung absetzen** — 2 Lektionen (Nachlauf-Kriterien koennen erst nach dem Commit gruen werden; kit-sync vergleicht gegen den gepushten Stand), 2 Ideen (README „Skills Overview" veraltet; `project-health` Check 8 faktisch nie ausgefuehrt)
+- [ ] **L11/L12 nach `skills/CLAUDE.md` heben** — `lessons.md` ist ungetrackt, die Regeln reisen sonst nicht mit
+- [ ] **#50 entscheiden** (`feature-start` gegen den Status-Kanon) · **#35 entscheiden** (Empfehlung Voll-Schiene) · **#33 entscheiden** (fuenfter Beleg) · **#49 gegen #33 abgrenzen**
+- [ ] Task `gitattributes-eol` starten — bei jedem `git add` dieser Session LF→CRLF-Warnungen
 - [ ] **Restabnahme `meeting-agenda`** dreigeteilt · **Restabnahme `feature-fast`** (2 UX-Urteile + Lauf mit `1eec2ea`)
-- [ ] `commit-and-push`: **`behind > 0`-Stopp in Schritt 6** (in S3 praktisch belegt) · Multi-Root-Abnahme in pkp · `meeting-dump`-Beleg
-- [ ] **#42 hochstufen erwaegen** (zweiter Parallelarbeits-Fall 2026-08-06) · **#44 zuschneiden** (Einzeiler in `workflow-next`, Abgrenzung zu #35)
-- [ ] Achse-A-Lint in `dtb:project-health` als Idee erfassen — seit 2026-08-04 offen, `/dtb:feature-discover 29` ist erledigt
-- [ ] Platzhalter entscheiden: `workflow.config.yaml` + `ROADMAP.md` (Vorlage — §5-Sync lief erneut leer) · Wiedervorlage abnahme-zustand: Vermerkform der Freigabe
+- [ ] `commit-and-push`: **`behind > 0`-Stopp in Schritt 6** · Multi-Root-Abnahme in pkp · **#42 hochstufen erwaegen** · **#44 zuschneiden**
+- [ ] Platzhalter entscheiden: `workflow.config.yaml` · `config.paths.rules` ergaenzen · `ROADMAP.md` (Vorlage) · Achse-A-Lint als Idee erfassen
 - [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` loeschen, wenn der Merge sich bewaehrt · pkp intern committen: `UI.md` + `project-design/`-Tokens
 
 ---
@@ -53,9 +53,9 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-06 | Discovery no-loss-gate (#29), #35-Ursache gefunden, zwei Vollscans | 5/5 offene Punkte entschieden; Handoff-Fehler als Schrittfolge-Problem belegt (Fix (a) unzureichend); #46 + #48 von der Anekdote zum Muster gehoben | `2026-08/2026-08-06.md`, `6045f4c` |
-| 2026-08-05 | Parallelarbeit zweier Maschinen zusammengefuehrt (S3) | Rebase `9ac66c5`; S4-Log gesichert; INBOX-Kollision #39 → #44 | `2026-08/2026-08-05.md` |
-| 2026-08-05 | #28-Weiche vollzogen (S2) · Achse B abgeschlossen (S1) | Task-Lane erstmals komplett; alle 4 Achse-B-Befunde behoben | `2026-08/2026-08-05.md` |
+| 2026-08-06 | `no-loss-check` (#29) Spec → Fertig zum Testen in einer Sitzung | 11/11 mit SHA-Beleg, 4 Phasen-Commits bis `926ec71`; 2 Review-Laeufe, 17 Fixes; Kalibrierung 5/5; erster produktiver Lauf mit 4 Funden / 0 Falsch-Positiven | `2026-08/2026-08-06.md` (S2), `review.md` |
+| 2026-08-06 | Discovery no-loss-gate (#29), #35-Ursache gefunden, zwei Vollscans | 5/5 offene Punkte entschieden; #46 + #48 von der Anekdote zum Muster gehoben | `2026-08/2026-08-06.md` (S1), `6045f4c` |
+| 2026-08-05 | Parallelarbeit zweier Maschinen zusammengefuehrt (S3) | Rebase `9ac66c5`; INBOX-Kollision #39 → #44 | `2026-08/2026-08-05.md` |
 | 2026-08-04 | Ideen-Bestand geprueft + #31 korrigiert · Abnahme-Stau archiviert | Achse A erschoepft; 6 Features + 9 Ideen archiviert, Aktivliste 8 → 2 | `47c6a26`, `a02e928` |
 
 ---
@@ -70,11 +70,12 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:feature-plan no-loss-gate` — die Discovery ist vollstaendig
-(`features/no-loss-gate/discovery.md`, alle 5 offenen Punkte entschieden), die Spec fehlt.
+**Naechster Befehl:** `/dtb:kit-sync sync` — die installierte Kopie von `dtb-no-loss-check`
+traegt den Stand `926ec71` ohne die 17 Review-Fixes; bis zur Verteilung laeuft die alte Fassung
+mit der als F1 belegten `.gitignore`-Regel. Danach dritter `/dtb:impl-review no-loss-check`.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen
-Befehl. **Gueltigkeitsbedingung (Konsequenz aus dem #35-Befund):** Der Befehl gilt, solange
-HEAD auf dem Checkpoint-Commit dieser Session steht **und** `features/no-loss-gate/spec.md`
-nicht existiert. Trifft eines von beiden nicht zu, zuerst gegenpruefen, was inzwischen lief.
-Zum Arbeitsbaum wird hier bewusst **keine** Aussage gemacht — dieser Checkpoint macht ihn
-selbst schmutzig, jede „sauber"-Behauptung waere im Moment des Schreibens falsch.
+Befehl. **Gueltigkeitsbedingung:** Der Befehl gilt, solange `/dtb:kit-sync check` fuer
+`skills/dtb-no-loss-check/SKILL.md` „Update verfuegbar" meldet. Meldet es „synchron", ist die
+Verteilung erledigt und der dritte Review-Lauf ist der naechste Schritt.
+Zum Arbeitsbaum wird bewusst **keine** Aussage gemacht — dieser Checkpoint macht ihn selbst
+schmutzig (#35).
