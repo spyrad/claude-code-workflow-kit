@@ -167,4 +167,154 @@ wird gemeldet. Eine zu strenge Unterdrueckung faellt niemandem auf — das ist d
 
 ---
 
+## Report: Funde melden
+
+Der Report kommt **am Stueck** — kein interaktiver Durchlauf, keine Rueckfrage pro Fund. Ein Fund
+ist erfassenswert oder nicht, und das sieht man in einer Zeile.
+
+### Zwei Gruppen nach Verlustrisiko
+
+| Gruppe | Was hineingehoert |
+|--------|-------------------|
+| **Vor dem Checkpoint erledigen** | Der Inhalt existiert **nur** im Gespraech und waere danach nicht rekonstruierbar — z.B. ein Ursachenbefund nach langer Fehlersuche, eine muendlich getroffene Festlegung |
+| **Kann warten** | Der Inhalt liesse sich notfalls aus Artefakten, Commits oder Logs rekonstruieren — die Erfassung spart Arbeit, verhindert aber keinen Verlust |
+
+Im Zweifel gehoert ein Fund in die erste Gruppe.
+
+### Format je Fund
+
+```
+[Gruppe] {Ein-Satz-Fund}
+  → /dtb:{skill} {fertiges Argument}
+  Ziel: {pfad} ({versioniert|nicht versioniert})
+```
+
+**Die Befehlszeile muss ohne Nacharbeit absetzbar sein.** Das heisst konkret:
+
+- `/dtb:lesson <Freitext>` — der Freitext nennt Situation, Falle und die kuenftige Regel in einem
+  Satz; `dtb:lesson` leitet daraus selbst die vier Felder ab
+- `/dtb:open-question <slug> "<Frage>"` — **der Slug ist Pflicht.** `dtb:open-question` erkennt das
+  erste Token nur dann als Slug, wenn es exakt einen vorhandenen Feature-Ordner matcht; ohne Slug
+  wird das erste Fragewort verschluckt. Ermittle den Ziel-Slug aus dem Gespraechszusammenhang
+- `/dtb:idea <Freitext>` — ein Satz, wie er in der INBOX stehen soll
+
+### Versioniert oder nicht (Pflichtangabe je Fund)
+
+Vor dem Absetzen muss sichtbar sein, wohin der Inhalt wandert. Bestimme den Zustand durch einen
+Blick in die `.gitignore` des Projekts:
+
+- Zielpfad steht dort → `nicht versioniert` (bleibt lokal; `lessons.md` ist im Kit selbst so
+  gefuehrt — Idee #34)
+- Zielpfad steht dort nicht → `versioniert` (reist ueber jeden Push mit — das gilt insbesondere
+  fuer `INBOX.md` und alles unter `features/`)
+- Keine `.gitignore` vorhanden oder Projekt ohne Git → Angabe weglassen, **nicht raten**
+
+### Ausgabe-Muster (feste Ueberschriften, woertlich uebernehmen)
+
+```
+Verlustpruefung — {N} Fund(e)
+
+## Vor dem Checkpoint erledigen
+
+- Der Checkpoint liest den Git-Stand vor dem eigenen Schreiben und hinterlaesst
+  deshalb immer einen schmutzigen Arbeitsbaum.
+  → /dtb:lesson "Checkpoint liest Git in Schritt 1 und schreibt in 3/4 — eine
+    'Arbeitsbaum sauber'-Aussage im Handoff ist im Moment des Schreibens falsch,
+    ausser es folgt ein Commit."
+  Ziel: dtb-project/project-rules/lessons.md (nicht versioniert)
+
+## Kann warten
+
+- Reziprozitaet der Pipeline-Kanten wird nirgends geprueft.
+  → /dtb:idea "Lint fuer halbseitige Pipeline-Kanten in dtb:project-health."
+  Ziel: dtb-project/project-workflows/INBOX.md (versioniert)
+
+2 Kandidaten als bereits erfasst gefiltert
+```
+
+Ist eine Gruppe leer, entfaellt ihre Ueberschrift — nie eine leere Ueberschrift ausgeben.
+
+### Sammelzeile fuer Unterdruecktes (Pflicht, auch bei 0)
+
+Genau eine Zeile am Ende des Reports:
+
+```
+{N} Kandidaten als bereits erfasst gefiltert{, davon {M} bewusst verworfen}
+```
+
+Sie macht eine zu strenge Schwelle sichtbar. Ohne sie wirkt jede Fehlkalibrierung wie ein sauberer
+Lauf — derselbe Fehler, gegen den die Kompressions-Meldung unten existiert.
+
+---
+
+## Leer-Fall: nichts gefunden
+
+Der Normalfall ist „nichts offen", und dieser Skill laeuft potenziell vor jedem Checkpoint. Ein
+teurer Leerlauf wird uebersprungen — also **eine** Zeile plus Freigabe, nichts weiter:
+
+```
+Nichts Unerfasstes gefunden ({N} Kandidaten als bereits erfasst gefiltert).
+Weiter mit /dtb:workflow-checkpoint.
+```
+
+**Verboten im Leer-Fall:** Aufzaehlung der geprueften Quellen, Wiederholung der Signalklassen,
+Zusammenfassung der Sitzung (das ist `dtb:session-summary`). Wer hier auswalzt, sorgt dafuer, dass
+der Skill beim naechsten Mal uebersprungen wird.
+
+---
+
+## Randfaelle
+
+### 1. Komprimierter Verlauf — die eigene Blindheit melden
+
+Bei langen Sitzungen fasst das Harness den Verlauf zusammen. Der Check sieht dann eine
+Zusammenfassung statt des Gespraechs — ausgerechnet in der langen Sitzung, in der am meisten
+aufgelaufen ist. Betroffen ist **nur Stufe 1**; der Abgleich in Stufe 2 liest Dateien und bleibt
+unberuehrt.
+
+Gibt es Anzeichen fuer eine Kompression (Hinweis im Verlauf, erkennbar zusammengefasste
+Vorgeschichte, fehlende Anfangsphase), gehoert **oben in den Report**:
+
+```
+⚠ Verlauf komprimiert — Erkennung unvollstaendig. Ein frueherer Lauf haette mehr gesehen;
+  bei langen Sitzungen mehrfach laufen lassen statt nur am Ende.
+```
+
+Diese Zeile wird **nie** weggelassen, um den Report sauber aussehen zu lassen. Ein Waechter, der
+seine eigene Blindheit verschweigt, ist schlimmer als keiner.
+
+### 2. Kein Ablage-Ort fuer eine Fach-Frage
+
+`dtb:open-question` bricht ab, wenn das Ziel-Feature weder `spec.md` noch `discovery.md` hat —
+`## Offene Punkte` gehoert nicht in `plan.md`/`bug.md`/`task.md`. Pruefe das **vor** dem Vorschlag:
+
+- Ziel-Ordner hat `spec.md` oder `discovery.md` → normaler `/dtb:open-question`-Vorschlag
+- Ziel-Ordner hat keine der beiden **oder** es gibt gar kein passendes Feature → **umleiten** auf
+  `/dtb:idea`, mit sichtbarem Vermerk im Fund-Text, damit die Frage nicht als Idee verschwindet:
+
+```
+- {Frage} — urspruenglich eine Fach-Frage; kein Feature mit spec.md/discovery.md als Ablage-Ort.
+  → /dtb:idea "[Fach-Frage ohne Ablage-Ort] {Frage}"
+  Ziel: dtb-project/project-workflows/INBOX.md (versioniert)
+```
+
+### 3. Zweiter Lauf in derselben Sitzung
+
+**Der eigene frueherer Report ist nie eine Kandidatenquelle.** Steht im Verlauf bereits eine
+Ausgabe dieses Skills, wird sie beim Sammeln in Stufe 1 uebersprungen — sonst meldet der Check
+seine eigenen Formulierungen als Funde und vergiftet sich selbst.
+
+Erkennst du einen frueheren eigenen Lauf, gehoert eine Kopfzeile in den Report:
+
+```
+Zweiter Lauf dieser Sitzung — {N} Funde aus dem ersten sind erledigt oder verworfen.
+```
+
+**Bewusst verworfene Funde werden nicht unveraendert wiederholt.** Hat der Fund inzwischen neue
+Substanz (weitere Belege, praezisere Formulierung), darf er erneut erscheinen — dann aber mit dem,
+was neu ist. Ueber Sitzungsgrenzen hinweg ist jeder Fund wieder legitim: Was in einer anderen
+Sitzung verworfen wurde, weiss dieser Lauf nicht, und Raten waere schlimmer als Wiederholen.
+
+---
+
 **Erstellt mit:** `/dtb:impl-plan` → `/dtb:implement` (Feature `no-loss-check`)

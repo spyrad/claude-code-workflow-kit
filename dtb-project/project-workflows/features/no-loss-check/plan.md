@@ -305,13 +305,13 @@ Der Check ist im Kit verankert, verteilt und an dokumentierten Verlustfaellen ge
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.0 Vorabproben (Baseline + Ausloeser)
-- [x] 1.1 Skill-Datei mit Contract
-- [x] 1.2 Signalklassen (Stufe 1)
-- [x] 1.3 Abgleich + Schwellwert (Stufe 2)
-- [ ] 2.1 Report mit kopierfertigen Befehlen
-- [ ] 2.2 Leer-Fall + Freigabe
-- [ ] 2.3 Drei Randfaelle
+- [x] 1.0 Vorabproben (Baseline + Ausloeser) — `110c208`
+- [x] 1.1 Skill-Datei mit Contract — `110c208`
+- [x] 1.2 Signalklassen (Stufe 1) — `110c208`
+- [x] 1.3 Abgleich + Schwellwert (Stufe 2) — `110c208`
+- [x] 2.1 Report mit kopierfertigen Befehlen
+- [x] 2.2 Leer-Fall + Freigabe
+- [x] 2.3 Drei Randfaelle
 - [ ] 3.1 Verankerung im Checkpoint
 - [ ] 3.2 Nachbarschaft + Doku
 - [ ] 3.3 Distribution (kit-sync)
