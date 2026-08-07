@@ -43,8 +43,7 @@ der Nutzer die Escape-Hatch bestaetigt:
 ```
 ⛔ plan-review braucht einen Implementierungsplan, der fehlt.
    Geprueft: features/{slug}/plan.md — nicht gefunden.
-   → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (empfohlen — after-Match)
-     alternativ schreibt auch /dtb:feature-start ein plan.md (Progress-Update)
+   → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (einziger Erzeuger)
 
    Fehlalarm (plan.md existiert doch) oder bewusst ohne fortfahren? „trotzdem fortfahren" bestaetigen.
 ```

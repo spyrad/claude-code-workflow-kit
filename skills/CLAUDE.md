@@ -102,7 +102,7 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | Skill | Kritisches Artefakt | Redirect (nach Selbst-Ausschluss + `after`-Match) |
 |-------|---------------------|----------------------------------------------------|
 | `impl-plan` | `features/*/spec.md` | `feature-plan` (`workflow-checkpoint` nur Status-Updater) |
-| `plan-review` | `features/*/plan.md` | `impl-plan` voran, `feature-start` als Alternative |
+| `plan-review` | `features/*/plan.md` | `impl-plan` (einziger Erzeuger; `feature-start` ergaenzt nur `## Progress` in einem VORHANDENEN Plan und verweigert bei fehlendem selbst) |
 | `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
 | `implement` | `features/*/plan.md` | `impl-plan` (`after`-Match ueber `feature-start` hinweg: feature-start erstellt keinen Plan, es laedt nur Kontext und ruestet allenfalls `## Progress` nach; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `impl-review` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |

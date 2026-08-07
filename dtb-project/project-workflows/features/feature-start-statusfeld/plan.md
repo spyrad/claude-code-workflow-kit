@@ -151,10 +151,15 @@ Erweist sich der Wegfall der Sichtbarkeit im Alltag als Fehler:
 3. Bereits gestartete Items bleiben unberuehrt: ihr abgeleiteter Status haengt an `## Progress`
    bzw. den Checklisten, nicht am Anzeigefeld
 
-**Fehlermodus benennen (Betriebs-Waechter, Runde 3):** Faellt spaeter auf, dass ein Pfad doch
-`Write` braucht, bricht der Lauf mitten in der Arbeit ab statt vorab zu warnen. Erkennungszeichen:
-Der Skill meldet einen Werkzeug-Fehler bei der Progress-Nachruestung. Sofortmassnahme: `Write` in
-`allowed-tools` zurueckgeben (eine Zeile), Rest des Features bleibt gueltig.
+**Fehlermodus benennen (Betriebs-Waechter, Runde 3):** Faellt spaeter auf, dass ein Pfad ein
+entzogenes Werkzeug doch braucht, bricht der Lauf mitten in der Arbeit ab statt vorab zu warnen.
+Erkennungszeichen: Der Skill meldet einen Werkzeug-Fehler. Sofortmassnahme: das fehlende Werkzeug
+in `allowed-tools` zurueckgeben (eine Zeile), Rest des Features bleibt gueltig.
+**Real eingetreten (impl-review 2026-08-07, F2):** Nicht `Write` fehlte, sondern **`Glob`** —
+Schritt 2 scannt `features/*/bug.md` und `features/*/task.md`, was ohne Glob-Deklaration nicht
+gedeckt war. Nachgetragen: `allowed-tools: Read, Glob, Edit`. `Write` bleibt entfernt, weil die
+Progress-Nachruestung nur eine Sektion in eine bereits durch das Hard-Gate erzwungene Datei
+ergaenzt — `Edit` genuegt.
 
 ---
 
@@ -167,8 +172,8 @@ Der Skill meldet einen Werkzeug-Fehler bei der Progress-Nachruestung. Sofortmass
 - [x] 1.1 Schreibanweisungen aus Schritt 4 entfernen — `43e9c9a`
 - [x] 1.2 Frontmatter angleichen — `43e9c9a`
 - [x] 1.3 Ausgabe-Templates + Wichtig-Block nachziehen — `43e9c9a`
-- [x] 2.1 Doku-Spiegel korrigieren
-- [x] 2.2 Gegenprobe + Verteilung
+- [x] 2.1 Doku-Spiegel korrigieren — `4047ea3`
+- [x] 2.2 Gegenprobe + Verteilung — `4047ea3`
 
 ---
 

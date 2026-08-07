@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-07
 **Ziel:** Ein Feature-, Bug- oder Aufgaben-Start behauptet keinen Status mehr, den die Ableitung nicht traegt — damit eine Konfliktmeldung wieder ein Befund ist und kein Dauerrauschen.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
