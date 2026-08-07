@@ -164,11 +164,11 @@ Der Skill meldet einen Werkzeug-Fehler bei der Progress-Nachruestung. Sofortmass
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Schreibanweisungen aus Schritt 4 entfernen
-- [x] 1.2 Frontmatter angleichen
-- [x] 1.3 Ausgabe-Templates + Wichtig-Block nachziehen
-- [ ] 2.1 Doku-Spiegel korrigieren
-- [ ] 2.2 Gegenprobe + Verteilung
+- [x] 1.1 Schreibanweisungen aus Schritt 4 entfernen — `43e9c9a`
+- [x] 1.2 Frontmatter angleichen — `43e9c9a`
+- [x] 1.3 Ausgabe-Templates + Wichtig-Block nachziehen — `43e9c9a`
+- [x] 2.1 Doku-Spiegel korrigieren
+- [x] 2.2 Gegenprobe + Verteilung
 
 ---
 

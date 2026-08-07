@@ -225,7 +225,7 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
 ## Verwandte Skills
 
 - `/dtb:impl-plan` — erzeugt den Plan mit Automated/Manual-Kriterien (Vorgaenger)
-- `/dtb:feature-start` — aktiviert das Feature (Backlog → In Arbeit) und uebergibt hierher
+- `/dtb:feature-start` — laedt den Kontext des Items und uebergibt hierher (schreibt keine Anzeigefelder)
 - `/dtb:impl-review` — Feature-End-Review: Plan-Drift + Craft + Rules (Nachfolger)
 - `/dtb:workflow-checkpoint` — Session-Ende, Status-Sync, Abnahme mit Beleg-Rueckfrage
 - `/dtb:lesson` — Lektion festhalten (Prior-Quelle)

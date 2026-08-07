@@ -104,7 +104,7 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | `impl-plan` | `features/*/spec.md` | `feature-plan` (`workflow-checkpoint` nur Status-Updater) |
 | `plan-review` | `features/*/plan.md` | `impl-plan` voran, `feature-start` als Alternative |
 | `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
-| `implement` | `features/*/plan.md` | `impl-plan` (`after`-Match ueber `feature-start` hinweg: feature-start nur Status-Updater; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
+| `implement` | `features/*/plan.md` | `impl-plan` (`after`-Match ueber `feature-start` hinweg: feature-start erstellt keinen Plan, es laedt nur Kontext und ruestet allenfalls `## Progress` nach; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `impl-review` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `greenfield-roadmap` | `project-strategy/PRD-MVP.md` | `greenfield-prd` (`after`-Match; Pfad ist kein `features/`-Slug, sondern der feste Strategie-Pfad) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
