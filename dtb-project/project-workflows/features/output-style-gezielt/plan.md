@@ -207,8 +207,8 @@ Richtungen; die Wirkung ist an einem Fall-Set abgenommen statt an Stimmung.
 - [x] 2.4 Muster-Beleg: Wegwerf-Test — `17b1319`
 - [x] 3.1 project-health Check 12
 - [x] 3.2 Aktivieren auf dieser Maschine + Annahmen-Probe
-- [ ] 3.3 Kalibrier-Fall-Set + Abnahmelauf
-- [ ] 3.4 Nachschaerfen + Abschluss-Verteilung
+- [x] 3.3 Kalibrier-Fall-Set + Abnahmelauf
+- [x] 3.4 Nachschaerfen + Abschluss-Verteilung
 
 ---
 

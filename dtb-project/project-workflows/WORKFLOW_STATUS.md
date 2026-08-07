@@ -42,7 +42,7 @@
 - [ ] #50 · #35 · #33 · #49 entscheiden — #33 hat jetzt den sechsten Beleg
 - [ ] Restabnahme `meeting-agenda` (dreigeteilt) · Restabnahme `feature-fast` (2 UX-Urteile + `1eec2ea`)
 - [ ] Task `gitattributes-eol` starten · Config-Platzhalter (`workflow.config.yaml`) fuellen
-- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` loeschen, wenn Merge sich bewaehrt · pkp intern committen (`UI.md` + Tokens)
+- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` **auf Maschine 2** loeschen (existiert nur dort lokal; Merge seit 2026-08-05 bewaehrt) · pkp intern committen (`UI.md` + Tokens)
 
 ---
 
