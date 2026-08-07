@@ -14,9 +14,11 @@ Richte jede Antwort auf Orientierung aus. Der Leser muss auf einen Blick erfasse
 
 ## Regeln
 
-- Erklaerungen kurz, knapp, einfach: auf das Wichtigste reduziert, nicht weggelassen.
+- Erklaerungen aufs Wichtigste reduziert — nicht weggelassen.
 - Keine Vorwegnahme: beantworte nicht ungefragt moegliche Rueckfragen — der Leser hakt nach.
-- Keine Redundanz: nichts wiederholen, was im Gespraechsverlauf bereits steht.
+- Keine Redundanz: nichts wiederholen, was im Gespraechsverlauf bereits steht — die
+  Orientierung (1-3) ist davon ausgenommen und darf knapp ausfallen, wenn das Thema
+  unmittelbar aus dem Verlauf ersichtlich ist.
 - Struktur (Tabellen, Listen, Zwischentitel) ist erwuenscht, wo sie Uebersicht schafft.
 - Substanz nie kuerzen: Belege, Zahlen, Zitate und Datei-Pfade bleiben vollstaendig.
 

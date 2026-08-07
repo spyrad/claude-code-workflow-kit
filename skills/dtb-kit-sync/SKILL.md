@@ -147,8 +147,9 @@ COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
      Artefakte ohne dtb-Praefix ab, z.B. geloeschte `agents/*.md`)
    - `dtb-*`-Dateien in den vier Zielverzeichnissen (skills/, agents/, commands/,
      output-styles/ unter `~/.claude/`) ohne Repo-Entsprechung und ohne
-     Lock-Eintrag (Altbestand, z.B. umbenannter Skill; das Klassen-Muster
-     `output-styles/dtb-*.md` ist bewusst deckungsgleich mit dieser Heuristik)
+     Lock-Eintrag (Altbestand, z.B. umbenannter Skill; die Heuristik deckt sich mit den
+     Praefix-Klassen-Mustern `skills/dtb-*`, `commands/dtb-*` und `output-styles/dtb-*.md`
+     — `agents/*.md` ohne Praefix wird ueber die Lock-Eintrags-Quelle oben abgedeckt)
    Nutzer-eigene Dateien OHNE dtb-Praefix und OHNE Lock-Eintrag (z.B. fremde Agents)
    werden ignoriert — sie gehoeren nicht dem Kit.
 6. **Report ausgeben** (Format fix), Scratch aufraeumen.
@@ -268,6 +269,6 @@ Verifikation: /dtb:kit-sync check
 
 ## Verwandte Skills
 
-- `/dtb:project-health` — prueft Drift als Check 5 (read-only, verweist hierher)
+- `/dtb:project-health` — prueft Drift als Check 11 (read-only, verweist hierher)
 - `/dtb:project-init` — Projekt-Ebene: Scaffolding, Seeds, CLAUDE.md-Bloecke
 - `/dtb:repo-sync` — NICHT verwandt: prueft Git-Status der Projekt-Repos, nicht die Kit-Distribution

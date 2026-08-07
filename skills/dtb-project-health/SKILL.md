@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md, dtb-lock.json, ~/.claude/settings.json]
+  consumes: [workflow.config.yaml, BACKLOG.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md, ~/.claude/dtb-lock.json, ~/.claude/settings.json]
   produces: []
 ---
 
@@ -236,16 +236,15 @@ Logik NICHT duplizieren: Hashing-Methode und Zustaende sind in
   zaehlen) — sonst nur Hinweis: `Vollstaendiger Drei-Punkte-Check: /dtb:kit-sync check`
 - Seeds (`mode: seed`) NIE pruefen
 
----
-
 #### Check 12: Output-Style aktiviert (installiert vs. geschaltet)
 
 Prueft, ob ein per kit-sync installierter Output-Style auch geschaltet ist — der Schalter
 (`outputStyle` in `~/.claude/settings.json`) reist bei der Distribution NICHT mit; ohne diesen
 Check laege die Datei auf einer frisch gesyncten Maschine stumm herum. Read-only, kein Netzwerk.
 
-- Lock fehlt/korrupt ODER kein `output-styles/*`-Eintrag im Lock → eine ✅-Zeile
-  „kein Output-Style installiert", kein Befund
+- Lock fehlt/korrupt ODER kein `output-styles/dtb-*`-Eintrag im Lock → eine ✅-Zeile
+  „kein Output-Style im Lock nachweisbar" (bei fehlendem/korruptem Lock ist das keine
+  Installations-Aussage — den Lock-Zustand meldet Check 11), kein Befund
 - Sonst: `outputStyle`-Feld in `~/.claude/settings.json` pruefen
   - Feld gesetzt → ✅ aktiv (der Wert wird bewusst NICHT gegen den Style-Namen abgeglichen —
     einfacher Existenz-Check)
@@ -327,7 +326,7 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 - ✅/⚠️ Installierte Kopien: {N} synchron zum Lock, {M} abweichend, {K} fehlend → /dtb:kit-sync sync
 
 ## Output-Style
-- ✅/ℹ️ {kein Output-Style installiert / {name}: aktiv / installiert, nicht aktiviert → Hinweis}
+- ✅/ℹ️ {kein Output-Style im Lock nachweisbar / outputStyle gesetzt: {wert} / installiert, nicht aktiviert → Hinweis}
 ```
 
 ### Schritt 3: Empfohlene Aktionen
