@@ -9,7 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| output-style-gezielt (#40) | In Arbeit | 9/11 | 3.3 Kalibrier-Fall-Set (frische Session!) |
+| output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | no-loss-check (#29) | Abgenommen | 11/11 | `/dtb:archive` |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
@@ -25,21 +25,20 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Entschieden (2026-08-07)** | #40-Zuschnitt: nur Fliesstext (Ebene b), global, schaltbar, Kit-Artefakt via neue kit-sync-Klasse `output-styles/dtb-*.md` (**erste Klassen-Erweiterung ueberhaupt**, Wegwerf-Test belegt Muster + Verwaisten-Pfad). #45 als Vorbedingung entfallen. Praezedenz auf Output Styles begrenzt. Sprache Deutsch. Zweite Maschine Check-12-getrieben. |
-| **Stil aktiviert** | `outputStyle: "Gezielt"` in `~/.claude/settings.json` (Backup `settings.json.bak-output-style`) — wirkt erst ab naechster Session; Kalibrierung 3.3 MUSS in frischer Session laufen |
-| **Kit-Stand** | Lock 45 Artefakte @ `17b1319`, 0 Abweichungen; `~/.claude/output-styles/` neu, nur `dtb-gezielt.md` |
-| **Notizen** | Verlustpruefung: 4 Funde nicht abgesetzt (s. Offene Aufgaben). ROADMAP-§5-Sync zum vierten Mal leer. Ideen-Bestand 21 offen — #33-Triage-Sicht fehlt weiterhin (sechster Lauf ohne Einzelentscheidungen, aber #40 ausgearbeitet). |
+| **Entschieden (2026-08-07)** | #40 komplett durchgezogen: Kalibrier-Abnahme 5/5, `impl-review`-Triage 9 Fixed / 0 Skipped, Status bewusst „Fertig zum Testen" (Abnahme erst nach Alltagsnutzung). Verlustfunde erstmals vollstaendig abgesetzt statt vermerkt. |
+| **Stil aktiv** | `outputStyle: "Gezielt"` in `~/.claude/settings.json`; gefixte Fassung (Praezedenz-Klausel) wirkt ab der naechsten Session — in dieser lief noch die Fassung von `845e356` |
+| **Kit-Stand** | Lock 45 Artefakte @ `1758671`, **45/45 synchron, 0 Abweichungen**; `~/.claude/output-styles/` traegt nur `dtb-gezielt.md` |
+| **Notizen** | Lektionen jetzt L1-L14 (ungetrackt, #34). ROADMAP-§5-Sync zum fuenften Mal leer. Ideen-Bestand 22 offen (#51 neu) — #33-Triage-Sicht fehlt weiterhin. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Phase 3 abschliessen:** 3.3 Kalibrierung (frische Session, 5 Faelle inkl. Gegenprobe) + 3.4 Abschluss-Verteilung — 3.1/3.2 liegen uncommittet im Arbeitsbaum
-- [ ] **4 Funde Verlustpruefung 2026-08-07 absetzen:** #41-Nachtrag (TTS laengst per Stop-Hook umgesetzt) · Bootstrap-Lektion (kit-sync-Selbst-Update) · toter `frameworks/`-Verweis (`skills/CLAUDE.md` Z. 216) · Wegwerf-Test-Lektion
-- [ ] **5 Funde Verlustpruefung 2026-08-06 absetzen** (3 Lektionen, 2 Ideen — s. Log 2026-08-06)
-- [ ] `/dtb:archive` — no-loss-check + 8 weitere archivierbare Eintraege
-- [ ] L11/L12 nach `skills/CLAUDE.md` heben (lessons.md ungetrackt)
-- [ ] #50 · #35 · #33 · #49 entscheiden — #33 hat jetzt den sechsten Beleg
+- [ ] **Abnahme `output-style-gezielt`** — Stil im Alltag beobachten (gefixte Fassung ab naechster Session), dann Status im Checkpoint setzen
+- [ ] `/dtb:archive` — `no-loss-check` + 10 weitere archivierbare Eintraege (3 INBOX `Ausgearbeitet`, 7 BACKLOG `Abgeschlossen`)
+- [ ] **9 Funde aelterer Verlustpruefungen absetzen** — 4 vom 2026-08-07 S1 (#41-Nachtrag · Bootstrap-Lektion · toter `frameworks/`-Verweis in `skills/CLAUDE.md` Z. 216 · Wegwerf-Test-Lektion) + 5 vom 2026-08-06
+- [ ] L11/L12/L13 nach `skills/CLAUDE.md` heben (lessons.md ungetrackt)
+- [ ] #51 · #50 · #35 · #33 · #49 entscheiden — #33 hat den sechsten Beleg
 - [ ] Restabnahme `meeting-agenda` (dreigeteilt) · Restabnahme `feature-fast` (2 UX-Urteile + `1eec2ea`)
 - [ ] Task `gitattributes-eol` starten · Config-Platzhalter (`workflow.config.yaml`) fuellen
 - [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` **auf Maschine 2** loeschen (existiert nur dort lokal; Merge seit 2026-08-05 bewaehrt) · pkp intern committen (`UI.md` + Tokens)
@@ -50,7 +49,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-07 | `output-style-gezielt` (#40): Idee → 9/11 an einem Vormittag | Volle Kette inkl. plan-review (REVISE → 4 WARNs behoben); erste kit-sync-Klassen-Erweiterung, per Wegwerf-Test belegt; Stil installiert + aktiviert | `2026-08/2026-08-07.md`, Commits `7172b9c`…`17b1319` |
+| 2026-08-07 | `output-style-gezielt` (#40): Idee → 11/11 an einem Tag | Kalibrierung 5/5; impl-review 7/7 MATCH, 0 EXTRA, 9 Findings gefixt; erste kit-sync-Klassen-Erweiterung, Kit 45/45 @ `1758671` | `2026-08/2026-08-07.md`, `7172b9c`…`1758671`, `review.md` |
 | 2026-08-06 | `no-loss-check` (#29): Spec → Abgenommen in einem Tag | 11/11, 3 Review-Laeufe, 27 Findings behoben, Kalibrierung 5/5, 0 Falsch-Positive | `2026-08/2026-08-06.md`, `review.md` |
 | 2026-08-05 | Parallelarbeit zweier Maschinen zusammengefuehrt | Rebase `9ac66c5`; INBOX-Kollision #39 → #44 | `2026-08/2026-08-05.md` |
 | 2026-08-04 | Ideen-Bestand geprueft · Abnahme-Stau archiviert | 6 Features + 9 Ideen archiviert, Aktivliste 8 → 2 | `47c6a26`, `a02e928` |
@@ -67,14 +66,11 @@
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:implement output-style-gezielt phase 3` — steigt bei 3.3 ein
-(Kalibrier-Fall-Set). **Vorher in der neuen Session:** `/config` oeffnen und pruefen, ob
-„Gezielt" als Output style aktiv ist (Annahmen-Probe 1: loest der Wert gegen das
-Frontmatter-`name` auf?).
-**Empfehlung:** Neue Session mit `/clear` starten (der Session-Bruch ist hier PFLICHT — der
-Stil wirkt erst ab Session-Start, die Kalibrierung misst sonst nichts), dann
-`/dtb:workflow-resume`, danach obigen Befehl. **Gueltigkeitsbedingung:** Der Befehl gilt,
-solange `## Progress` in `features/output-style-gezielt/plan.md` bei 9/11 steht (3.3/3.4 offen).
-Arbeitsbaum beim Schreiben dieses Blocks: `plan.md` + `skills/dtb-project-health/SKILL.md`
-uncommittet (3.1/3.2 + SHA-Nachtraege) — landet planmaessig im 3.4-Commit; dieser
-Checkpoint-Commit selbst macht Log + Status erneut schmutzig (#35).
+**Naechster Befehl:** `/dtb:archive` — `no-loss-check` ist abgenommen, dazu 10 weitere
+archivierbare Eintraege; der Stau ist die groesste offene Position.
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext
+her), danach obigen Befehl. **Gueltigkeitsbedingung:** Der Befehl gilt, solange
+`features/no-loss-check/spec.md` `Abgenommen` traegt und der Ordner noch unter `features/` liegt.
+Arbeitsbaum beim Schreiben dieses Blocks: `INBOX.md`, `BACKLOG.md`, `spec.md`, Session-Log und
+diese Datei uncommittet (lessons.md ist ungetrackt) — dieser Checkpoint-Commit nimmt sie mit,
+macht Log + Status danach aber erneut schmutzig (#35).

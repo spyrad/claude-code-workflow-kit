@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-07
 **Ziel:** Eine global geltende, schaltbare Stil-Anweisung als versioniertes Kit-Artefakt ausliefern, die Claudes Fliesstext auf Orientierung statt Vollstaendigkeit ausrichtet.
 **Prioritaet:** Mittel <!-- nicht ausdruecklich festgelegt, s. Offene Punkte -->
-**Status:** In Arbeit <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 <!-- Lint-Override: Der Spec-Gegenstand ist selbst ein Kit-/Konfigurations-Artefakt (eine Stil-Datei
      und ihre Verteilung durch das Kit). Nach der Meta-Spec-Ausnahme des Technical-Leak-Lints sind
