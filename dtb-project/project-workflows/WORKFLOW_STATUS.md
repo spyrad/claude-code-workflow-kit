@@ -9,15 +9,16 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| no-loss-check (#29) | Fertig zum Testen | 11/11 | `/dtb:kit-sync sync` (Review-Fixes verteilen), dann dritter `/dtb:impl-review` |
+| output-style-gezielt (#40) | Geplant | 0/11 | `/dtb:implement output-style-gezielt` |
+| no-loss-check (#29) | Abgenommen | 11/11 | `/dtb:archive` |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 | gitattributes-eol (#28) | Offen | 0/6 | Schritt 1: Scope entscheiden (`* text=auto` vs. gezielt) |
 
-Kein Feature „In Arbeit". BACKLOG- und `spec.md`/`task.md`-Anzeigefelder stimmen mit der Ableitung ueberein.
+Laufende Arbeit: `output-style-gezielt` gestartet 2026-08-07 (Anzeige nach Kanon `Geplant` — „In Arbeit" beginnt erst mit dem ersten Haekchen, #50). BACKLOG- und `spec.md`/`task.md`-Anzeigefelder stimmen mit der Ableitung ueberein.
+1 Feature abgenommen — wartet auf `/dtb:archive`.
 ⚠ feature-fast + meeting-agenda: `review.md` sagt „Gesamt-Verdikt: REJECTED", die Triage-Bilanz zeigt
 alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne Pfleger, Beleg fuer #35.
-`no-loss-check/review.md` steht auf NEEDS ATTENTION **mit** Einordnung — der Unterschied ist Absicht.
 
 ---
 
@@ -26,19 +27,19 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Entschieden** | **`lessons.md` bleibt ungetrackt** (2026-07-18, nur via #34) — **`no-loss-check` nicht abgenommen** (2026-08-06): dritter Review-Lauf gegen die gefixte Fassung steht aus, obwohl alle drei Manual-Kriterien faktisch belegt sind. **`feature-start` folgt dem Kanon, nicht der Skill-Anweisung** (#50). Alles Wiedervorlage-Schutz. |
-| **Reviews als Ertrag** | Beide `impl-review`-Laeufe fanden je einen Fehler, den der Autor nicht gesehen haette: F1 (sachlich falsche `.gitignore`-Regel, fuer plausibel gehalten) und G1 (zwei eigene Fixes, die sich gegenseitig aufhoben). **Unabhaengige Sub-Agents sind der Wirkfaktor**, nicht die Checkliste. |
-| **#35 praezisiert** | Ursache ist die Schrittfolge von `workflow-checkpoint` selbst — jeder Checkpoint hinterlaesst deterministisch einen schmutzigen Arbeitsbaum. Fix (a) wurde unfreiwillig getestet und reicht nicht. Vierter Beleg in Folge; seit 2026-08-05 S2 unentschieden. |
-| **kit-sync geklaert** | Der widerspruechliche Stand dieser Maschine war keiner: Lock stand auf `71b6404` mit 43/43 synchron, `18a92da` gehoerte zur anderen Maschine. Jetzt 44 Artefakte @ `926ec71`. |
-| **Notizen** | Ideen-Bestand 23 offen (#50 neu). `/dtb:idea-review` zum **fuenften Mal** ohne Einzelentscheidung — bei dieser Groesse ist die Triage-Sicht (#33) das fehlende Werkzeug. `ROADMAP.md`-§5-Sync lief zum dritten Mal leer (unausgefuellte Vorlage, keine Change-IDs). |
+| **Entschieden** | **`no-loss-check` abgenommen** (2026-08-06): dreimal reviewt, 27 Findings behoben, Kalibrierung 5/5, zwei echte Laeufe mit 5 Funden / 0 Falsch-Positiven. **Schlussstrich beim Review bewusst entschieden** — `review.md` behaelt NEEDS ATTENTION mit Vermerk statt schoengeschriebenem APPROVED. **`lessons.md` bleibt ungetrackt** (#34). **`feature-start` folgt dem Kanon, nicht der Skill-Anweisung** (#50). |
+| **Review-Konvergenz** | Drei Laeufe am selben Artefakt: Lauf 1 traf die Substanz, Lauf 2 die Naht zwischen den eigenen Fixes, Lauf 3 den Ausgabe-Kontrakt. Kein Lauf war leer, aber Schwere und Fundort wandern nach aussen — der vierte waere Rendite-negativ gewesen. **Zweimal fand ein Agent einen Fehler, den der Autor selbst produziert und fuer plausibel gehalten hatte.** |
+| **#35 praezisiert** | Ursache ist die Schrittfolge von `workflow-checkpoint` selbst — jeder Checkpoint hinterlaesst deterministisch einen schmutzigen Arbeitsbaum. Fix (a) unfreiwillig getestet, reicht nicht. Seit 2026-08-05 S2 unentschieden. |
+| **kit-sync geklaert** | Der widerspruechliche Stand dieser Maschine war keiner: Lock stand auf `71b6404` mit 43/43 synchron, `18a92da` gehoerte zur anderen Maschine. Jetzt 44 Artefakte @ `926ec71` — `3d15d0a` noch nicht verteilt. |
+| **Notizen** | Ideen-Bestand 23 offen. `/dtb:idea-review` zum fuenften Mal ohne Einzelentscheidung — bei dieser Groesse ist die Triage-Sicht (#33) das fehlende Werkzeug. `ROADMAP.md`-§5-Sync lief zum dritten Mal leer (unausgefuellte Vorlage). |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] `/dtb:kit-sync sync` — installierte Kopie traegt `926ec71` **ohne** die 17 Review-Fixes
-- [ ] **Dritter `/dtb:impl-review no-loss-check`** gegen die gefixte Fassung → noetig fuer APPROVED
-- [ ] **Vier Funde der Verlustpruefung absetzen** — 2 Lektionen (Nachlauf-Kriterien koennen erst nach dem Commit gruen werden; kit-sync vergleicht gegen den gepushten Stand), 2 Ideen (README „Skills Overview" veraltet; `project-health` Check 8 faktisch nie ausgefuehrt)
+- [ ] `/dtb:kit-sync sync` — `3d15d0a` (H-Fixes) noch nicht verteilt
+- [ ] `/dtb:archive` — `no-loss-check` abgenommen, dazu 8 weitere archivierbare Eintraege
+- [ ] **Fuenf Funde der Verlustpruefung absetzen** — 3 Lektionen (Nachlauf-Kriterien koennen erst nach dem Commit gruen werden · kit-sync vergleicht gegen den gepushten Stand · Review-Rendite statt Fehlerfreiheit), 2 Ideen (README „Skills Overview" veraltet · `project-health` Check 8 faktisch nie ausgefuehrt)
 - [ ] **L11/L12 nach `skills/CLAUDE.md` heben** — `lessons.md` ist ungetrackt, die Regeln reisen sonst nicht mit
 - [ ] **#50 entscheiden** (`feature-start` gegen den Status-Kanon) · **#35 entscheiden** (Empfehlung Voll-Schiene) · **#33 entscheiden** (fuenfter Beleg) · **#49 gegen #33 abgrenzen**
 - [ ] Task `gitattributes-eol` starten — bei jedem `git add` dieser Session LF→CRLF-Warnungen
@@ -53,7 +54,7 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-06 | `no-loss-check` (#29) Spec → Fertig zum Testen in einer Sitzung | 11/11 mit SHA-Beleg, 4 Phasen-Commits bis `926ec71`; 2 Review-Laeufe, 17 Fixes; Kalibrierung 5/5; erster produktiver Lauf mit 4 Funden / 0 Falsch-Positiven | `2026-08/2026-08-06.md` (S2), `review.md` |
+| 2026-08-06 | `no-loss-check` (#29): Spec → Abgenommen in einem Tag | 11/11 mit SHA-Beleg, 5 Commits bis `3d15d0a`; 3 Review-Laeufe, 27 Findings behoben; Kalibrierung 5/5; zwei produktive Laeufe, 0 Falsch-Positive | `2026-08/2026-08-06.md` (S2+S3), `review.md` |
 | 2026-08-06 | Discovery no-loss-gate (#29), #35-Ursache gefunden, zwei Vollscans | 5/5 offene Punkte entschieden; #46 + #48 von der Anekdote zum Muster gehoben | `2026-08/2026-08-06.md` (S1), `6045f4c` |
 | 2026-08-05 | Parallelarbeit zweier Maschinen zusammengefuehrt (S3) | Rebase `9ac66c5`; INBOX-Kollision #39 → #44 | `2026-08/2026-08-05.md` |
 | 2026-08-04 | Ideen-Bestand geprueft + #31 korrigiert · Abnahme-Stau archiviert | Achse A erschoepft; 6 Features + 9 Ideen archiviert, Aktivliste 8 → 2 | `47c6a26`, `a02e928` |
@@ -70,12 +71,11 @@ alle Findings behoben (13/13 bzw. 10/10, 2026-08-02) — eingefrorenes Feld ohne
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:kit-sync sync` — die installierte Kopie von `dtb-no-loss-check`
-traegt den Stand `926ec71` ohne die 17 Review-Fixes; bis zur Verteilung laeuft die alte Fassung
-mit der als F1 belegten `.gitignore`-Regel. Danach dritter `/dtb:impl-review no-loss-check`.
+**Naechster Befehl:** `/dtb:kit-sync sync` — `3d15d0a` traegt die H1-H10-Fixes, die installierte
+Kopie steht noch auf `926ec71`. Danach `/dtb:archive` (`no-loss-check` ist abgenommen und damit
+Archiv-Kandidat, zusammen mit 8 weiteren Eintraegen).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen
 Befehl. **Gueltigkeitsbedingung:** Der Befehl gilt, solange `/dtb:kit-sync check` fuer
-`skills/dtb-no-loss-check/SKILL.md` „Update verfuegbar" meldet. Meldet es „synchron", ist die
-Verteilung erledigt und der dritte Review-Lauf ist der naechste Schritt.
-Zum Arbeitsbaum wird bewusst **keine** Aussage gemacht — dieser Checkpoint macht ihn selbst
-schmutzig (#35).
+`skills/dtb-no-loss-check/SKILL.md` „Update verfuegbar" meldet — sonst ist die Verteilung erledigt
+und `/dtb:archive` der naechste Schritt. Zum Arbeitsbaum wird bewusst **keine** Aussage gemacht
+(#35).

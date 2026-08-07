@@ -212,7 +212,8 @@ A lock file `~/.claude/dtb-lock.json` records source, ref, and a content hash pe
 (three-point drift detection: repo ↔ lock ↔ installed copy; hashing normalizes line endings).
 
 - **Class A (`mode: synced`, drift-checked):** `skills/dtb-*/SKILL.md`, `agents/*.md`,
-  `commands/dtb-*.md` — a NEW skill is covered automatically by the pattern, no registration needed
+  `commands/dtb-*.md`, `output-styles/dtb-*.md` — a NEW skill is covered automatically by the
+  pattern, no registration needed
 - **Class B (`mode: seed`, copied once, never drift-checked):** `frameworks/` templates,
   `settings.json`, `DERIVED_STATE_RULES.md` (distributed per project by `dtb:project-init`)
 - Personas are not part of the kit (removed 2026-07-23) — they live in the separate

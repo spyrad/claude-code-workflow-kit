@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-06
 **Ziel:** Vor dem Session-Ende erkennen, welches Wissen nur im Gespraechsverlauf lebt und in keinem Artefakt gelandet ist — und es mit fertig formulierten Erfassungs-Befehlen melden.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- explizit gesetzt 2026-08-06 durch dtb:workflow-checkpoint (Beleg im Session-Log S3); abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 **Idee-Referenz:** INBOX #29 (2026-07-21, Titel dort historisch „No-Loss-Gate")
 **Discovery:** `features/no-loss-check/discovery.md`

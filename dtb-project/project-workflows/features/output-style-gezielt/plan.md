@@ -198,11 +198,11 @@ Richtungen; die Wirkung ist an einem Fall-Set abgenommen statt an Stimmung.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Verzeichnis + Datei anlegen
-- [x] 1.2 Inhalt ausformulieren
-- [x] 1.3 Selbst-Review gegen die Spec
-- [ ] 2.1 kit-sync: Klassen-Tabelle + Verwaisten-Logik
-- [ ] 2.2 Spiegel mitziehen (skills/CLAUDE.md + Root-CLAUDE.md)
+- [x] 1.1 Verzeichnis + Datei anlegen — `7172b9c`
+- [x] 1.2 Inhalt ausformulieren — `7172b9c`
+- [x] 1.3 Selbst-Review gegen die Spec — `7172b9c`
+- [x] 2.1 kit-sync: Klassen-Tabelle + Verwaisten-Logik
+- [x] 2.2 Spiegel mitziehen (skills/CLAUDE.md + Root-CLAUDE.md)
 - [ ] 2.3 sync-Lauf + Drei-Punkte-Verifikation
 - [ ] 2.4 Muster-Beleg: Wegwerf-Test
 - [ ] 3.1 project-health Check 12

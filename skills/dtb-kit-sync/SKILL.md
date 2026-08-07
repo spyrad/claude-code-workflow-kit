@@ -74,6 +74,7 @@ Drei-Punkte-Vergleichs: **Repo ↔ Lock ↔ installierte Kopie**.
 | A | `skills/dtb-*/SKILL.md` | `~/.claude/skills/dtb-*/SKILL.md` | synced | ja |
 | A | `agents/*.md` | `~/.claude/agents/*.md` | synced | ja |
 | A | `commands/dtb-*.md` | `~/.claude/commands/dtb-*.md` | synced | ja |
+| A | `output-styles/dtb-*.md` | `~/.claude/output-styles/dtb-*.md` | synced | ja |
 | B | `settings.json` | projektlokal (via project-init) | seed | nein — nie als Drift melden |
 
 Nicht Teil des Kits: `personas/` (2026-07-23 entfernt — Personas leben im separaten
@@ -144,8 +145,10 @@ COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
 5. **Verwaiste Kopien** (zwei Quellen, beide → **verwaist**):
    - Lock-Eintraege, deren Repo-Pfad in `$SRC` nicht mehr existiert (deckt auch
      Artefakte ohne dtb-Praefix ab, z.B. geloeschte `agents/*.md`)
-   - `dtb-*`-Dateien in den drei Zielverzeichnissen ohne Repo-Entsprechung und ohne
-     Lock-Eintrag (Altbestand, z.B. umbenannter Skill)
+   - `dtb-*`-Dateien in den vier Zielverzeichnissen (skills/, agents/, commands/,
+     output-styles/ unter `~/.claude/`) ohne Repo-Entsprechung und ohne
+     Lock-Eintrag (Altbestand, z.B. umbenannter Skill; das Klassen-Muster
+     `output-styles/dtb-*.md` ist bewusst deckungsgleich mit dieser Heuristik)
    Nutzer-eigene Dateien OHNE dtb-Praefix und OHNE Lock-Eintrag (z.B. fremde Agents)
    werden ignoriert — sie gehoeren nicht dem Kit.
 6. **Report ausgeben** (Format fix), Scratch aufraeumen.

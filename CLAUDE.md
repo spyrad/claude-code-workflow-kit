@@ -19,7 +19,7 @@ This is a **distribution repository**, not a standalone project. Users copy part
 There are no build steps, tests, or runtime dependencies. The `context7` plugin is enabled in settings.json.
 
 **Distribution model:** `dtb:kit-sync` installs class-A artifacts (`skills/dtb-*/SKILL.md`,
-`agents/*.md`, `commands/dtb-*.md`) globally to `~/.claude/` and records a content hash per
+`agents/*.md`, `commands/dtb-*.md`, `output-styles/dtb-*.md`) globally to `~/.claude/` and records a content hash per
 file in `~/.claude/dtb-lock.json` (three-point drift detection repo ↔ lock ↔ copy; source is
 this repo on GitHub). Seeds (`settings.json`, `DERIVED_STATE_RULES.md`) are
 copied per project by `dtb:project-init` and never drift-checked. `dtb:project-init` writes
