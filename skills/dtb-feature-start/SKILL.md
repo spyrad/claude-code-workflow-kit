@@ -4,16 +4,16 @@ description: >-
   Use when: "Feature starten", "feature start", "naechstes Feature",
   "Feature aus Backlog starten", "Bug fixen", "Bug-Fix starten",
   "Aufgabe starten", "Task starten".
-  Starts a planned feature, analyzed bug, or open task from the backlog
-  by updating status to "In Arbeit" and showing the context.
+  Loads a planned feature, analyzed bug, or open task from the backlog and
+  shows its context and entry point. Status displays remain untouched.
 disable-model-invocation: true
-allowed-tools: Read, Write, Edit
+allowed-tools: Read, Edit
 pipeline:
   stage: implementation
   after: [dtb:plan-review, dtb:debug-plan]
   next: [dtb:implement]
   consumes: [BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
-  produces: [BACKLOG.md, WORKFLOW_STATUS.md, features/*/plan.md, features/*/task.md]
+  produces: [features/*/plan.md]
 ---
 
 # Feature, Bug-Fix oder Aufgabe starten
@@ -70,9 +70,16 @@ Was moechtest du starten?
 
 Falls nur eine oder zwei Kategorien vorhanden: Zeige nur die relevanten Sektionen.
 
-### Schritt 4: Aktivieren
+### Schritt 4: Kontext laden
 
-Nach Auswahl durch den Benutzer:
+Nach Auswahl durch den Benutzer werden die Artefakte des Items gelesen — **mehr nicht**.
+
+> **Keine Anzeigefelder anfassen (Kanon §1.3):** Dieser Skill pflegt keine Statusanzeigen —
+> weder im Backlog noch in der Uebersichtsdatei noch in `bug.md`/`task.md`. Der abgeleitete
+> Status eines Items haengt allein an `## Progress` bzw. der Checkliste und wechselt mit dem
+> ersten abgehakten Schritt; einziger Pfleger der Anzeigen ist `dtb:workflow-checkpoint`.
+> Ein Start, der eine Anzeige veraendert, behauptet einen Fortschritt, den es noch nicht gibt —
+> und erzeugt genau den Feldkonflikt, den `dtb:workflow-resume` dann pflichtgemaess meldet.
 
 **Bei Feature:**
 0. **Eligibility-Gate (Fit-Check):** Pruefe, ob `{config.paths.workflows}/features/{slug}/plan.md`
@@ -92,21 +99,16 @@ Nach Auswahl durch den Benutzer:
 2. **Lies den Implementierungsplan:** `{config.paths.workflows}/features/{slug}/plan.md` (falls vorhanden)
    — die `## Progress`-Sektion bestimmt den Einstiegspunkt (erster nicht abgehakter Schritt).
    Falls der Plan keine `## Progress`-Sektion hat (Altbestand): Nachruestung anbieten
-   (Fallback gemaess `project-rules/DERIVED_STATE_RULES.md`)
-3. **Setze Status in BACKLOG.md** auf "In Arbeit" (abgeleitete Anzeige, siehe Regeln)
-4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Feature-Name eintragen
+   (Fallback gemaess `project-rules/DERIVED_STATE_RULES.md`) — das repariert eine fehlende
+   Struktur und ist die **einzige** schreibende Handlung dieses Skills
 
 **Bei Bug:**
-1. **Lies den Bug-Report:** `{config.paths.workflows}/features/{slug}/bug.md`
-2. **Setze Status in `bug.md`** von "Analysiert" auf "In Arbeit"
-3. **Falls Bug in BACKLOG.md:** Setze Status auf "In Arbeit"
-4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Bug-Name eintragen
+1. **Lies den Bug-Report:** `{config.paths.workflows}/features/{slug}/bug.md` — Symptom,
+   Analyse-Abschnitt und `## Fix-Schritte` als Kontext fuer Schritt 5
 
 **Bei Aufgabe:**
-1. **Lies die Aufgabe:** `{config.paths.workflows}/features/{slug}/task.md`
-2. **Setze Status in `task.md`** von "Offen" auf "In Arbeit"
-3. **Falls Aufgabe in BACKLOG.md:** Setze Status auf "In Arbeit"
-4. **Aktualisiere WORKFLOW_STATUS.md:** "Laufende Arbeit" → Aufgaben-Name eintragen
+1. **Lies die Aufgabe:** `{config.paths.workflows}/features/{slug}/task.md` — Beschreibung
+   und `## Schritte` als Kontext fuer Schritt 5
 
 ### Schritt 5: Kontext zeigen
 
@@ -114,7 +116,7 @@ Nach Auswahl durch den Benutzer:
 ```
 # Feature gestartet: {Feature-Name}
 
-**Status:** Geplant → In Arbeit
+**Status:** Geplant (unveraendert — wechselt mit dem ersten abgehakten Schritt)
 
 ## Feature-Uebersicht
 
@@ -139,7 +141,7 @@ Bereit? Starte mit `/dtb:implement {Feature-Name}` oder stelle Fragen.
 ```
 # Bug-Fix gestartet: {Bug-Name}
 
-**Status:** Analysiert → In Arbeit
+**Status:** Analysiert (unveraendert — wechselt mit dem ersten abgehakten Fix-Schritt)
 **Severity:** {Severity}
 
 ## Symptom
@@ -165,7 +167,7 @@ Bereit? Sage "Los" oder stelle Fragen.
 ```
 # Aufgabe gestartet: {Aufgaben-Name}
 
-**Status:** Offen → In Arbeit
+**Status:** Offen (unveraendert — wechselt mit dem ersten abgehakten Schritt)
 **Prioritaet:** {Prio}
 
 ## Beschreibung
@@ -184,7 +186,7 @@ Bereit? Sage "Los" oder stelle Fragen.
 ## Wichtig
 
 - **Nur startbare Items:** Features mit Status "Geplant", Bugs mit Status "Analysiert" und Aufgaben mit Status "Offen" — keine "In Arbeit" oder "Abgeschlossen"
-- **Status-Update:** BACKLOG.md und WORKFLOW_STATUS.md muessen aktualisiert werden
+- **Kein Status-Update:** Dieser Skill pflegt keine Anzeigefelder — nicht in BACKLOG.md, nicht in WORKFLOW_STATUS.md, nicht in `bug.md`/`task.md`. Einziger Pfleger ist `dtb:workflow-checkpoint` (`project-rules/DERIVED_STATE_RULES.md` §1.3); der abgeleitete Status folgt dem Fortschritt, nicht dem Start
 - **Checkbox-Pflicht im Implementierungs-Loop:** Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen), SHA-Nachtrag beim Phasen-Ende-Commit — den Loop samt Ritual fuehrt `/dtb:implement`. Nicht gesammelt am Session-Ende. Die Progress-Sektion ist die Single Source of Truth (`project-rules/DERIVED_STATE_RULES.md`) — es gibt kein IMPL_STATUS_*.md mehr
 - **Feature-Spec lesen:** Immer die vollstaendige Spec lesen um den Kontext zu zeigen
 - **Umsetzungs-Verweis:** Wenn ein `plan.md` vorhanden ist, auf `/dtb:implement` verweisen — 3x3-Rhythmus und Phasen-Ende-Ritual sind dort die eine Quelle (hier nicht duplizieren)
