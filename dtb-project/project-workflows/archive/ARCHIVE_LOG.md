@@ -53,3 +53,14 @@
 | 2026-08-04 | Idee | #24 "Besprechungs-Nachbereitung /dtb:meeting-dump" | INBOX.md | Ausgearbeitet → meeting-dump (umgesetzt + archiviert) |
 | 2026-08-04 | Idee | #21 "dtb:commit-and-push bauen" | INBOX.md | Ausgearbeitet → commit-and-push (umgesetzt + archiviert) |
 | 2026-08-04 | Idee | #13 "Fachfragen-/Stakeholder-Fragen-Agenda" | INBOX.md | Ausgearbeitet → fachfragen-erfassung (umgesetzt + archiviert) |
+| 2026-08-07 | Feature | no-loss-check | features/no-loss-check/ | Abgenommen 2026-08-06 (Kalibrierung 5/5, 2 produktive Laeufe ohne Falsch-Positive) → Abgeschlossen |
+| 2026-08-07 | Idee | #50 "feature-start widerspricht dem Status-Kanon" | INBOX.md | Ausgearbeitet → feature-start-statusfeld (umgesetzt 5/5; Feature noch aktiv — Restabnahme offen) |
+| 2026-08-07 | Idee | #40 "Formulierung/Sprachstil sparsam" | INBOX.md | Ausgearbeitet → output-style-gezielt (umgesetzt 11/11; Feature noch aktiv — Restabnahme offen) |
+| 2026-08-07 | Idee | #29 "Session-Hygiene-/No-Loss-Gate" | INBOX.md | Ausgearbeitet → no-loss-check (umgesetzt + im selben Lauf archiviert) |
+| 2026-08-07 | Idee | #28 ".gitattributes fuer deterministische Zeilenenden" | INBOX.md | Ausgearbeitet → gitattributes-eol (Task erfasst, noch nicht gestartet — Aufgabe bleibt aktiv) |
+| 2026-08-07 | Anzeigezeile | abnahme-zustand | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ |
+| 2026-08-07 | Anzeigezeile | plan-status-feld | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ |
+| 2026-08-07 | Anzeigezeile | commit-and-push | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ (Vorbehalt Multi-Root offen, s. #23) |
+| 2026-08-07 | Anzeigezeile | meeting-dump | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ (Beleg Projekt/Datum offen) |
+| 2026-08-07 | Anzeigezeile | open-question | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ |
+| 2026-08-07 | Anzeigezeile | Fachfragen-Erfassung | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ |
