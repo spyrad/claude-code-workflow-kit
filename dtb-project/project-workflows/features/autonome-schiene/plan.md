@@ -280,8 +280,8 @@ Regelwerk und Spiegel konsistent, Verhalten am realen Fall belegt, Kit verteilt.
 - [x] 3.1 worker-report.md status-neutral
 - [x] 3.2 Governance-Regel + Spiegel + Config
 - [x] 3.3 Selbstpruefung + Gegenprobe (L15/L16)
-- [ ] 3.4 Zwischen-Sync + Erstlauf gitattributes-eol
-- [ ] 3.5 Abschluss-Verifikation (Nachlauf)
+- [x] 3.4 Zwischen-Sync + Erstlauf gitattributes-eol
+- [x] 3.5 Abschluss-Verifikation (Nachlauf)
 
 ---
 
