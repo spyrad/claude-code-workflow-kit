@@ -21,6 +21,7 @@ Regeln in §4) mit festen Dateinamen:
 | `task.md` | Aufgabe inkl. `## Schritte` |
 | `review.md` | Impl-Review-Report (`dtb:impl-review`), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1 |
 | `fast-draft.md` | Fast-Track-Zwischenspeicher (`dtb:feature-fast`, unbestaetigte Sammelvorlage), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1; ein Ordner NUR mit fast-draft.md gilt als "Idee in Erhebung" (kein ableitbarer Feature-Status) |
+| `worker-report.md` | Worker-Bericht (`dtb:worker`, voller Lauf-Report je Task), **status-neutral** — zaehlt NICHT fuer die Ableitung nach §1.1; der Umsetzungsstand einer Aufgabe folgt allein den `## Schritte`-Checkboxen (§1.5) |
 
 Ein archivierter Change ist der ganze Ordner unter `archive/<slug>/`.
 
@@ -417,3 +418,6 @@ Der `dtb:implement`-Loop bleibt gegen dieses Feld blind.
 **§6.3 lesender Konsument benannt (`dtb:meeting-agenda` statt „#25, noch offen"):** Feature
 meeting-agenda, 2026-08-02 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch,
 vgl. INBOX #22 — **sechster** dokumentierter Skew-Fall)
+**`worker-report.md` als status-neutrale Ordner-Datei ergaenzt:** Feature autonome-schiene,
+2026-08-08 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22 —
+**siebter** dokumentierter Skew-Fall)

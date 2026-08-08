@@ -112,6 +112,18 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | `archive` | archivierbare Kandidaten vorhanden | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu archivieren" (nativ in Schritt 3) |
 | `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu migrieren" (nativ in Schritt 1) |
 
+## Autonomie-Regel (dtb:worker)
+
+Autonome Ausfuehrung gilt ausschliesslich **zwischen expliziter Freigabe und Abnahme**.
+`dtb:worker` ist schreibend und damit `disable-model-invocation: true` — der Mensch startet
+jeden Lauf; das Modell entscheidet nie selbst, DASS gearbeitet wird. Worker schreiben
+ausschliesslich in ihren eigenen Change-Ordner (`## Schritte` abhaken, `worker-report.md` —
+status-neutral nach `DERIVED_STATE_RULES.md` §1.1) und ihren eigenen Worktree. Niemals:
+committen/pushen, zentrale Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md),
+Status-/Anzeigefelder, Schreibzugriffe ausserhalb des eigenen Worktrees. Die Deckelung
+(`worker.max_attempts`/`worker.max_minutes` in `workflow.config.yaml`, Defaults 3/30) ist
+Anweisungs-Ebene — kein harter Timer; der Bericht weist die Laufzeit je Versuch aus.
+
 ## Directory & naming conventions
 
 - Each skill lives in `skills/dtb-<name>/SKILL.md`

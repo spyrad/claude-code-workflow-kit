@@ -14,3 +14,7 @@ repos:
     type: "[python|typescript|go|rust|...]"
     test_command: null
     build_command: null
+
+worker:
+  max_attempts: 3   # dtb:worker — Versuche pro Task
+  max_minutes: 30   # dtb:worker — Minuten pro Task (Anweisungs-Ebene)

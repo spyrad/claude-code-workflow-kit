@@ -98,6 +98,10 @@ repos:
     type: "[python|typescript|go|rust|...]"
     test_command: "[test command oder null]"
     build_command: "[build command oder null]"
+
+worker:
+  max_attempts: 3   # dtb:worker — Versuche pro Task
+  max_minutes: 30   # dtb:worker — Minuten pro Task (Anweisungs-Ebene)
 ```
 
 **Regeln:**
@@ -106,6 +110,7 @@ repos:
 - `paths`: Immer relativ zum Projekt-Root, Standard ist `dtb-project/project-workflows` und `dtb-project/project-changelog`
 - `repos`: Pro Unterprojekt/Repo ein Eintrag. Bei Single-Repo nur ein Eintrag mit `path: "."`
 - `test_command` / `build_command`: Konkrete Shell-Commands oder `null` falls nicht vorhanden
+- `worker`: Deckelung fuer `dtb:worker` (Versuche/Minuten pro Task); Defaults 3/30, projektweit anpassbar
 
 ---
 
