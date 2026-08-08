@@ -16,7 +16,7 @@
 | feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 | output-style-gezielt | Fertig zum Testen | Mittel | features/output-style-gezielt/spec.md | Eine global geltende, schaltbare Stil-Vorgabe als versioniertes Kit-Artefakt ausliefern, die Claudes Fliesstext auf Orientierung statt Vollstaendigkeit ausrichtet — worum es geht, was der Stand ist, was zu entscheiden ist; Gegner sind Vorwegnahme und Redundanz, nicht Erklaerung |
 | feature-start-statusfeld | Fertig zum Testen | Hoch | features/feature-start-statusfeld/spec.md | `dtb:feature-start` schreibt keine Anzeigefelder mehr — der Start behauptet keinen Status, den die Ableitung nicht traegt, damit die Feld-Konfliktmeldung wieder ein Befund ist statt Dauerrauschen (INBOX #50, via Fast-Track) |
-| autonome-schiene | Spezifiziert | Hoch | features/autonome-schiene/spec.md | Leichtgewichtige Lane: erkennt worker-taugliche INBOX-Eintraege (Urteil + Abhaengigkeiten + Reihenfolge + Vorab-Fragen) und arbeitet freigegebene Eintraege im Hintergrund autonom bis zur Abnahmereife ab — Freigabe und Abnahme bleiben beim Menschen (INBOX #43, zusammengelegt mit ex-#49) |
+| autonome-schiene | Fertig zum Testen | Hoch | features/autonome-schiene/spec.md | Leichtgewichtige Lane: erkennt worker-taugliche INBOX-Eintraege (Urteil + Abhaengigkeiten + Reihenfolge + Vorab-Fragen) und arbeitet freigegebene Eintraege im Hintergrund autonom bis zur Abnahmereife ab — Freigabe und Abnahme bleiben beim Menschen (INBOX #43, zusammengelegt mit ex-#49) |
 
 ---
 
@@ -24,7 +24,7 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| .gitattributes fuer deterministische Zeilenenden | Offen | Mittel | features/gitattributes-eol/task.md | `.gitattributes` ergaenzen + Bestand einmalig renormalisieren, damit LF-Dateien unter `core.autocrlf=true` nicht mehr faelschlich als „modified" erscheinen (10 Belege seit 2026-07-18) |
+| .gitattributes fuer deterministische Zeilenenden | In Arbeit | Mittel | features/gitattributes-eol/task.md | `.gitattributes` ergaenzen + Bestand einmalig renormalisieren, damit LF-Dateien unter `core.autocrlf=true` nicht mehr faelschlich als „modified" erscheinen (10 Belege seit 2026-07-18) |
 
 ---
 

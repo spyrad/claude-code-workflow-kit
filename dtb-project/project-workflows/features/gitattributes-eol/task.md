@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-08-05
 **Prioritaet:** Mittel
-**Status:** Offen
+**Status:** In Arbeit
 **Bereich:** Repo-Infrastruktur (Git-Konfiguration, betrifft alle Textdateien + kit-sync-Distribution)
 
 ---

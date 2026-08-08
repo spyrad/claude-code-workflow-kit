@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-08-07
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-07.md`
+**Letztes Update:** 2026-08-08
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-08.md`
 
 ---
 
@@ -9,15 +9,17 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| autonome-schiene (#43) | Fertig zum Testen | 11/11 | kit-sync abschliessen, dann Verhaltenstest gegen die gefixte Fassung |
+| gitattributes-eol | In Arbeit | 5/6 | Schritt 6: andere Maschine — pull + pruefen |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung wiederholen, dann Abnahme |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
-| gitattributes-eol (#28) | Offen | 0/6 | Schritt 1: Scope entscheiden (`* text=auto` vs. gezielt) |
 
-Anzeigefelder synchron zur Ableitung. `no-loss-check` am 2026-08-07 archiviert (`archive/no-loss-check/`).
+Anzeigefelder synchron zur Ableitung.
 ⚠ feature-fast + meeting-agenda: `review.md` sagt „REJECTED", Triage zeigt alle Findings behoben — eingefrorenes Feld, Beleg fuer #35.
-⚠ feature-start-statusfeld: `review.md` sagt „REJECTED", Triage-Bilanz zeigt 9/9 behoben — dritter #35-Beleg, diesmal am selben Tag entstanden.
+⚠ feature-start-statusfeld: `review.md` sagt „REJECTED", Triage-Bilanz zeigt 9/9 behoben — dritter #35-Beleg.
+⚠ autonome-schiene: `review.md` sagt „REJECTED", Triage-Bilanz zeigt 7 FIXED / 1 bewusst SKIPPED — **vierter** #35-Beleg, am selben Tag entstanden.
 
 ---
 
@@ -26,24 +28,26 @@ Anzeigefelder synchron zur Ableitung. `no-loss-check` am 2026-08-07 archiviert (
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Entschieden (2026-08-07)** | #50 komplett durchgezogen (Fast-Track → 5/5): `feature-start` schreibt keine Anzeigefelder mehr, statt sie korrekt zu setzen. Defekt betraf alle drei Lanes, nicht nur Features. Nebenbefunde bewusst ausgelagert statt eingefaltet (#52/#53/#54). Verlustfunde beider Laeufe vollstaendig abgesetzt. |
-| **Aufgeraeumt (S5)** | `/dtb:archive`: 11 Eintraege — `no-loss-check` als Ordner nach `archive/` (24 Ordner gesamt), 4 ausgearbeitete INBOX-Eintraege (#50/#40/#29/#28) und 6 Karteileichen im BACKLOG-Abschnitt „Abgeschlossen". Aktivliste jetzt 4 Features + 1 Aufgabe. |
-| **Nachlauf erledigt (S4)** | Triage-Fixes committet (`b5e11e4`) + gepusht + gesynct; installierte Kopien tragen die gefixte Fassung (Belege stichprobenhaft geprueft). Es waren **zwei** Klasse-A-Dateien, nicht drei — Fehleinschaetzung als #55 erfasst. |
-| **Kit-Stand** | Lock 45 Artefakte @ `b5e11e4`, **45/45 synchron, 0 Abweichungen** — inkl. aller Triage-Fixes |
-| **Notizen** | Lektionen L1-L17 (ungetrackt, #34). Ideen-Bestand **26 offen** (#56 neu) — das Archivieren aenderte ihn nicht, die 4 entfernten Eintraege trugen `Ausgearbeitet`. Fuenf Checkpoints an einem Tag; Sitzung lief ueber Mitternacht (#56). #33-Triage-Sicht zum **siebten** Mal von Hand erzeugt. ROADMAP-§5-Sync zum fuenften Mal leer. Vier Checkpoints an einem Tag. |
+| **Entschieden (2026-08-08)** | #43 + ex-#49 zusammengelegt und komplett durchgezogen (11/11 an einem Tag): autonome Schiene mit `dtb:worker`. Vier Design-Entscheide: strukturelle Trennung statt Lock, Deckelung 3/30 via Config, ein Skill mit zwei Modi, Traeger fest verdrahtet (Subagent + Worktree; `/loop`/`/schedule` bewusst draussen). Worktree gilt **immer**, auch fuer den Einzel-Worker (plan-review F1). |
+| **Erstlauf-Ertrag** | Die Lane hat sich am realen Fall bewiesen UND einen Sachbefund geliefert: EOL-Renormalisierung ist ein **No-op** (alle 187 Blobs bereits LF), Phantom-Diffs kamen von der `core.autocrlf`-Konfiguration der Lesemaschine. `.gitattributes` committet (`3de7923`). |
+| **Offener Nachlauf** | ⚠ `kit-sync sync` **nicht abgeschlossen**: 2 Klasse-A-Updates (`dtb-worker`, `dtb-task`) bestaetigt, aber nicht uebernommen — installierte Kopien tragen die ungefixte Fassung inkl. F1-Widerspruch (dritter #51-Beleg). |
+| **Kit-Stand** | Lock **46 Artefakte @ `a59662b`** (Repo steht auf `eeac392` — 2 Updates ausstehend) |
+| **Notizen** | Lektionen L1-L17 (ungetrackt, #34). Ideen-Bestand **25 offen** (#49 verworfen, #43 ausgearbeitet). #33-Triage-Sicht zum **achten** Mal von Hand erzeugt. ROADMAP-§5-Sync zum **sechsten** Mal leer. Verlustpruefung 2026-08-08: 3 Funde, nicht abgesetzt. |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Verhaltenstests wiederholen** — realer Start + Konfliktpruefung und Wegwerf-Test der Progress-Nachruestung gegen die **gefixte** Fassung; erst dann ist `feature-start-statusfeld` abnahmereif (die bisherigen Laeufe testeten den Stand vor der Triage)
-- [ ] **Abnahme `output-style-gezielt`** — Stil im Alltag beobachten (gefixte Fassung ab naechster Session), dann Status im Checkpoint setzen
-- [ ] **9 Funde aelterer Verlustpruefungen absetzen** — 4 vom 2026-08-07 S1 (#41-Nachtrag · Bootstrap-Lektion · toter `frameworks/`-Verweis in `skills/CLAUDE.md` Z. 216 · Wegwerf-Test-Lektion) + 5 vom 2026-08-06
+- [ ] **`/dtb:kit-sync sync` abschliessen** — die zwei Klasse-A-Updates uebernehmen; bis dahin laufen die installierten Kopien mit der ungefixten `dtb-worker`-Fassung
+- [ ] **3 Funde der Verlustpruefung 2026-08-08 absetzen** — F3-Fix ungetestet (`/dtb:open-question autonome-schiene`) · Lektion Schreibgrenze↔Rechenschaftspflicht (`/dtb:lesson`) · Idee „welche EINE Entscheidung macht einen Eintrag worker-tauglich" (`/dtb:idea`)
+- [ ] **Verhaltenstest `dtb:worker`** gegen die gefixte Fassung (v.a. der ungetestete Worktree-Ort `.dtb-worktrees/`) → dann Abnahme `autonome-schiene`
+- [ ] `gitattributes-eol` Schritt 6 — andere Maschine: pull + pruefen, dass keine Massen-„modified"-Anzeige entsteht
+- [ ] **9 Funde aelterer Verlustpruefungen absetzen** — 4 vom 2026-08-07 S1 + 5 vom 2026-08-06
 - [ ] L11-L17 nach `skills/CLAUDE.md` heben (lessons.md ungetrackt — #34)
-- [ ] #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 · #49 entscheiden — #33 hat den siebten Beleg; #51 haengt faktisch an #55
-- [ ] Restabnahme `meeting-agenda` (dreigeteilt) · Restabnahme `feature-fast` (2 UX-Urteile + `1eec2ea`)
-- [ ] Task `gitattributes-eol` starten · Config-Platzhalter (`workflow.config.yaml`) fuellen
-- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` **auf Maschine 2** loeschen (existiert nur dort lokal) · pkp intern committen (`UI.md` + Tokens)
+- [ ] #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 entscheiden — #33 hat den achten Beleg; #51 den dritten
+- [ ] Restabnahmen `feature-fast` · `meeting-agenda` · `output-style-gezielt` · `feature-start-statusfeld`
+- [ ] Config-Platzhalter (`workflow.config.yaml`) fuellen · ROADMAP-Vorlage fuellen oder entfernen (6x leer gesynct)
+- [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` **auf Maschine 2** loeschen · pkp intern committen (`UI.md` + Tokens)
 
 ---
 
@@ -51,10 +55,8 @@ Anzeigefelder synchron zur Ableitung. `no-loss-check` am 2026-08-07 archiviert (
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-07 | `feature-start-statusfeld` (#50): Triage → 5/5 an einem Nachmittag | Fast-Track, plan-review REVISE (4 WARNs), 2 Phasen, impl-review REJECTED → 9/9 gefixt; Defekt betraf alle drei Lanes | `2026-08/2026-08-07.md` S3, `43e9c9a`…`4047ea3`, `review.md` |
-| 2026-08-07 | `output-style-gezielt` (#40): Idee → 11/11 an einem Tag | Kalibrierung 5/5; impl-review 7/7 MATCH, 9 Findings gefixt; erste kit-sync-Klassen-Erweiterung | `2026-08/2026-08-07.md` S1+S2, `7172b9c`…`1758671` |
-| 2026-08-06 | `no-loss-check` (#29): Spec → Abgenommen in einem Tag | 11/11, 3 Review-Laeufe, 27 Findings behoben, Kalibrierung 5/5 | `2026-08/2026-08-06.md` |
-| 2026-08-05 | Parallelarbeit zweier Maschinen zusammengefuehrt | Rebase `9ac66c5`; INBOX-Kollision #39 → #44 | `2026-08/2026-08-05.md` |
+| 2026-08-08 | `autonome-schiene` (#43+ex-#49): Triage → 11/11 an einem Tag | Vierte Lane; plan-review REVISE (4 WARNs), 3 Phasen, impl-review REJECTED → 7/8 gefixt; **erster echter Worker-Lauf** erledigte nebenbei `gitattributes-eol` auf 5/6 | `2026-08/2026-08-08.md`, `a89b064`…`eeac392`, `review.md` |
+| 2026-08-07 | `feature-start-statusfeld` (#50) 5/5 · `output-style-gezielt` (#40) 11/11 · `/dtb:archive` 11 Eintraege | Zwei Features an einem Tag; Defekt betraf alle drei Lanes; erste kit-sync-Klassen-Erweiterung | `2026-08/2026-08-07.md`, `43e9c9a`…`7d5e77f` |
 
 ---
 
@@ -68,13 +70,14 @@ Anzeigefelder synchron zur Ableitung. `no-loss-check` am 2026-08-07 archiviert (
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:feature-start` → Aufgabe `gitattributes-eol` (0/6, einziger Posten
-mit echter Arbeit statt Abnahme). Der Lauf ist zugleich der ausstehende Verhaltenstest fuer
-`feature-start-statusfeld` gegen die **gefixte** Fassung: danach pruefen, ob `task.md`, BACKLOG
-und Ableitung uebereinstimmend `Offen` zeigen und nichts geschrieben wurde.
+**Naechster Befehl:** `/dtb:kit-sync sync` — die zwei bestaetigten, aber nicht uebernommenen
+Klasse-A-Updates (`dtb-worker`, `dtb-task`) einspielen. Bis dahin laufen die installierten
+Kopien mit der **ungefixten** Fassung; ein `dtb:worker`-Lauf wuerde den F1-Schreibziel-
+Widerspruch woertlich vorfinden.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen
-Befehl. **Gueltigkeitsbedingung:** gilt, solange `features/gitattributes-eol/task.md` bei 0/6
-steht; sonst „naechsten Schritt umsetzen" (§1.5). Kit-Stand aktuell (Lock @ `b5e11e4`, 45/45).
+Befehl. **Gueltigkeitsbedingung:** gilt, solange der Lock unter `a59662b` steht bzw. ein
+`check` die zwei Updates weiter meldet; ist der Sync erledigt, lautet der naechste Schritt
+`/dtb:open-question autonome-schiene` (Verlustfund) und danach der Verhaltenstest.
 ⚠ **Ableitung bewusst uebersteuert:** Die Regel zeigt bei `review.md` mit REJECTED auf
-`/dtb:implement` — bei `feature-start-statusfeld` sind alle 9 Findings behoben (Triage-Bilanz im
-Snapshot). Eingefrorenes Verdikt-Feld, dritter #35-Beleg.
+`/dtb:implement` — bei `autonome-schiene` sind 7 Findings behoben und 1 bewusst verworfen
+(Triage-Bilanz im Snapshot). Eingefrorenes Verdikt-Feld, vierter #35-Beleg.
