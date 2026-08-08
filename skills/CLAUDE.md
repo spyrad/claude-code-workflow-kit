@@ -12,7 +12,7 @@ description: >-
 disable-model-invocation: true
 allowed-tools: Read, Write, Glob, Grep, Bash   # subset as needed
 pipeline:
-  stage: idea | planning | implementation | development | session | monitoring | setup | greenfield
+  stage: idea | capture | planning | implementation | execution | development | session | monitoring | setup | greenfield
   after: [dtb:<predecessor>]  # list, or null if entry point
   next: [dtb:<successor>]     # list, or null if terminal
   consumes: [features/*/spec.md]   # artifacts read by this skill (features/*/{spec,plan,bug,task}.md, etc.)
@@ -117,8 +117,9 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 Autonome Ausfuehrung gilt ausschliesslich **zwischen expliziter Freigabe und Abnahme**.
 `dtb:worker` ist schreibend und damit `disable-model-invocation: true` — der Mensch startet
 jeden Lauf; das Modell entscheidet nie selbst, DASS gearbeitet wird. Worker schreiben
-ausschliesslich in ihren eigenen Change-Ordner (`## Schritte` abhaken, `worker-report.md` —
-status-neutral nach `DERIVED_STATE_RULES.md` §1.1) und ihren eigenen Worktree. Niemals:
+ausschliesslich INNERHALB ihres eigenen Worktrees — dort in ihren Change-Ordner
+(`## Schritte` abhaken, `worker-report.md` — status-neutral nach `DERIVED_STATE_RULES.md`
+§1.1); das Haupt-Repo erreichen die Aenderungen erst mit der Abnahme. Niemals:
 committen/pushen, zentrale Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md),
 Status-/Anzeigefelder, Schreibzugriffe ausserhalb des eigenen Worktrees. Die Deckelung
 (`worker.max_attempts`/`worker.max_minutes` in `workflow.config.yaml`, Defaults 3/30) ist

@@ -15,7 +15,7 @@ argument-hint: "[slug | liste]"
 allowed-tools: Read, Glob, Grep, Bash, Agent
 pipeline:
   stage: execution
-  after: [dtb:task, dtb:idea-review]
+  after: [dtb:task]
   next: [dtb:workflow-checkpoint]
   consumes: [INBOX.md, features/*/task.md, workflow.config.yaml]
   produces: [features/*/worker-report.md, features/*/task.md]
@@ -66,10 +66,7 @@ die bestehenden Lanes.
 
 ### Schritt 2: Urteil je Eintrag (Bewertungsraster: Worker-Tauglichkeit)
 
-> **Struktur-Hinweis (andockbar):** Dieses Raster ist bewusst eine eigene
-> Unterueberschrift unter dem gemeinsamen Scan aus Schritt 1. Weitere Raster ueber
-> dieselbe Quellenliste (z.B. Aufwand×Nutzen-Triage, INBOX #33) docken als
-> Schwester-Abschnitte an — Scan einmal, Sichten mehrfach.
+> Schwester-Raster ueber dieselbe Quellenliste (z.B. Aufwand×Nutzen, INBOX #33) docken hier als eigene Unterueberschrift an.
 
 Vier Kriterien, jedes je Eintrag mit ja/nein bewertet:
 
@@ -120,6 +117,10 @@ Die Freigabe ist die Governance-Klammer vorn — ohne sie startet nichts.
 2. **Umfang bestaetigen:** einzelner Eintrag ODER Liste in der vorgeschlagenen
    Reihenfolge. Bei Liste anzeigen, welche Teile parallel laufen (∥-Markierung aus
    Schritt 3)
+2b. **Unerreichbare Schritte ausklammern:** Schritte, die Commits/Pushes verlangen
+   oder ausserhalb der Worker-Reichweite liegen (z.B. andere Maschine), werden bei
+   der Freigabe sichtbar als „beim Menschen" markiert — sie zaehlen nicht gegen den
+   Worker-Ausgang
 3. **Stoppweg nennen (Pflichtzeile im Dialog):**
    ```
    Laufende Worker sind Background-Tasks dieser Session — Auflistung und Abbruch
@@ -137,10 +138,11 @@ Die Freigabe ist die Governance-Klammer vorn — ohne sie startet nichts.
 **Vorbedingung (hart):** Zielbereich clean — `git status --short` fuer die vom Task
 beruehrten Pfade zeigt nichts Uncommittetes. Sonst kein Start (melden, Nutzer raeumt auf).
 
-**Isolation (immer):** Je Worker ein eigener Git-Worktree — auch fuer den Einzel-Worker
-(`git worktree add {tmp}/worker-{slug} HEAD` oder die native Worktree-Isolation des
-Subagent-Mechanismus). Das Ergebnis bleibt als Diff im Worktree liegen, bis der Mensch
-abnimmt; der Arbeitsbaum des Nutzers wird nie beruehrt.
+**Isolation (immer):** Je Worker ein eigener Git-Worktree — auch fuer den Einzel-Worker:
+`git worktree add {repo-parent}/.dtb-worktrees/worker-{slug} HEAD` — ein stabiler Ort
+NEBEN dem Repo, kein Session-Temp-Verzeichnis (die Abnahme kann in einer Folgesession
+passieren, der Diff muss sie ueberleben). Das Ergebnis bleibt als Diff im Worktree
+liegen, bis der Mensch abnimmt; der Arbeitsbaum des Nutzers wird nie beruehrt.
 
 **Start:** Background-Subagent mit dem Auftrags-Template (der Nutzer arbeitet weiter,
 Meldung bei Abschluss):
@@ -156,7 +158,9 @@ Auftrag Worker {slug}:
 - Versuchsschleife: umsetzen → Kriterien pruefen → bei Rot nachbessern und erneut
   pruefen — bis gruen, Versuche verbraucht oder Zeit um
 - Rechenschaft: erledigte `## Schritte` in features/{slug}/task.md abhaken und
-  features/{slug}/worker-report.md schreiben (Template in Schritt 8)
+  features/{slug}/worker-report.md schreiben (Template in Schritt 8) — beides IN
+  DEINEM WORKTREE (die Pfade sind Worktree-relativ); das Haupt-Repo erreichen die
+  Aenderungen erst mit der Abnahme
 
 VERBOTE (hart, keine Ausnahme):
 - niemals committen oder pushen
@@ -186,15 +190,19 @@ der Anzahl gleichzeitig laufender Worker (je Worker immer ein eigener Worktree):
 
 ### Schritt 8: Bericht (`worker-report.md`)
 
-Jeder Worker schreibt VOR seinem Ende — egal mit welchem Ausgang — den vollen Bericht
-nach `features/{slug}/worker-report.md` (status-neutral, zaehlt NICHT fuer die
-Statusableitung — Kanon: `DERIVED_STATE_RULES.md` §1.1):
+Jeder SELBST-beendete Worker schreibt VOR seinem Ende den vollen Bericht nach
+`features/{slug}/worker-report.md` (status-neutral, zaehlt NICHT fuer die
+Statusableitung — Kanon: `DERIVED_STATE_RULES.md` §1.1). Bei harten Stopps
+(Task-Verwaltung, Kollisionsregel) bleibt der Diff ohne Report — der koordinierende
+Haupt-Agent legt eine Minimal-Notiz an (Ausgang „gestoppt", Zeitpunkt):
 
 ```markdown
 # Worker-Report: {slug}
 
 **Gestartet:** {YYYY-MM-DD HH:MM} · **Beendet:** {HH:MM} · **Gesamtdauer:** {Min}
 **Ausgang:** gruen | Deckel erreicht | teilweise | gestoppt
+  (gruen = alle WORKER-ERREICHBAREN Schritte gruen; bei der Freigabe ausgeklammerte
+  Schritte weist der Report unter „Was aufgefallen ist" als Abnahme-Aufgaben aus)
 **Worktree:** {Pfad} (Diff liegt dort bis zur Abnahme)
 
 ## Versuche
@@ -220,9 +228,13 @@ den Chat — Status-Konvention):
 
 ```
 {slug}: {Ausgang} nach {N} Versuch(en) ({Min} Min) → features/{slug}/worker-report.md
+(bis zur Abnahme im Worktree, danach im Haupt-Repo)
 {Bei Liste: uebersprungene "teilweise"-Eintraege + gestoppte Worker gesammelt}
 
 Naechster Schritt: Abnahme durch dich — Diff im Worktree pruefen, dann uebernehmen
 (Merge/Apply + Commit via /dtb:commit-and-push) oder mit Korrekturhinweis liegen lassen
 (zweiter Lauf nutzt den Hinweis als zusaetzliche Vorab-Antwort).
 ```
+
+Nach Uebernahme ODER endgueltigem Verwerfen: `git worktree remove {Pfad}` (`--force` bei
+verworfenem Stand) — keine verwaisten Worktree-Registrierungen zuruecklassen.

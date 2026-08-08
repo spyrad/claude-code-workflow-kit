@@ -11,7 +11,7 @@ allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: idea
   after: [dtb:idea-review]
-  next: null
+  next: [dtb:worker]
   consumes: [BACKLOG.md]
   produces: [features/*/task.md, BACKLOG.md]
 ---

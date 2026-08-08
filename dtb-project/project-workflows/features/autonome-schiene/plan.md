@@ -277,11 +277,11 @@ Regelwerk und Spiegel konsistent, Verhalten am realen Fall belegt, Kit verteilt.
 - [x] 2.1 Worker-Auftrag (Einzel-Task) — `51809fe`
 - [x] 2.2 Listen- und Parallel-Logik — `51809fe`
 - [x] 2.3 Bericht + Abschluss-Meldung — `51809fe`
-- [x] 3.1 worker-report.md status-neutral
-- [x] 3.2 Governance-Regel + Spiegel + Config
-- [x] 3.3 Selbstpruefung + Gegenprobe (L15/L16)
-- [x] 3.4 Zwischen-Sync + Erstlauf gitattributes-eol
-- [x] 3.5 Abschluss-Verifikation (Nachlauf)
+- [x] 3.1 worker-report.md status-neutral — `a59662b`
+- [x] 3.2 Governance-Regel + Spiegel + Config — `a59662b`
+- [x] 3.3 Selbstpruefung + Gegenprobe (L15/L16) — `a59662b`
+- [x] 3.4 Zwischen-Sync + Erstlauf gitattributes-eol — `9927fe9`
+- [x] 3.5 Abschluss-Verifikation (Nachlauf) — `166595c`
 
 ---
 
