@@ -30,7 +30,7 @@ Anzeigefelder synchron zur Ableitung. `no-loss-check` am 2026-08-07 archiviert (
 | **Aufgeraeumt (S5)** | `/dtb:archive`: 11 Eintraege — `no-loss-check` als Ordner nach `archive/` (24 Ordner gesamt), 4 ausgearbeitete INBOX-Eintraege (#50/#40/#29/#28) und 6 Karteileichen im BACKLOG-Abschnitt „Abgeschlossen". Aktivliste jetzt 4 Features + 1 Aufgabe. |
 | **Nachlauf erledigt (S4)** | Triage-Fixes committet (`b5e11e4`) + gepusht + gesynct; installierte Kopien tragen die gefixte Fassung (Belege stichprobenhaft geprueft). Es waren **zwei** Klasse-A-Dateien, nicht drei — Fehleinschaetzung als #55 erfasst. |
 | **Kit-Stand** | Lock 45 Artefakte @ `b5e11e4`, **45/45 synchron, 0 Abweichungen** — inkl. aller Triage-Fixes |
-| **Notizen** | Lektionen L1-L16 (ungetrackt, #34). Ideen-Bestand **25 offen** — unveraendert durch das Archivieren, denn die 4 entfernten Eintraege trugen `Ausgearbeitet`, nicht `Offen`. #33-Triage-Sicht zum **siebten** Mal von Hand erzeugt. ROADMAP-§5-Sync zum fuenften Mal leer. Vier Checkpoints an einem Tag. |
+| **Notizen** | Lektionen L1-L17 (ungetrackt, #34). Ideen-Bestand **26 offen** (#56 neu) — das Archivieren aenderte ihn nicht, die 4 entfernten Eintraege trugen `Ausgearbeitet`. Fuenf Checkpoints an einem Tag; Sitzung lief ueber Mitternacht (#56). #33-Triage-Sicht zum **siebten** Mal von Hand erzeugt. ROADMAP-§5-Sync zum fuenften Mal leer. Vier Checkpoints an einem Tag. |
 
 ---
 
@@ -39,8 +39,8 @@ Anzeigefelder synchron zur Ableitung. `no-loss-check` am 2026-08-07 archiviert (
 - [ ] **Verhaltenstests wiederholen** — realer Start + Konfliktpruefung und Wegwerf-Test der Progress-Nachruestung gegen die **gefixte** Fassung; erst dann ist `feature-start-statusfeld` abnahmereif (die bisherigen Laeufe testeten den Stand vor der Triage)
 - [ ] **Abnahme `output-style-gezielt`** — Stil im Alltag beobachten (gefixte Fassung ab naechster Session), dann Status im Checkpoint setzen
 - [ ] **9 Funde aelterer Verlustpruefungen absetzen** — 4 vom 2026-08-07 S1 (#41-Nachtrag · Bootstrap-Lektion · toter `frameworks/`-Verweis in `skills/CLAUDE.md` Z. 216 · Wegwerf-Test-Lektion) + 5 vom 2026-08-06
-- [ ] L11-L16 nach `skills/CLAUDE.md` heben (lessons.md ungetrackt — #34)
-- [ ] #55 · #54 · #53 · #52 · #51 · #35 · #33 · #49 entscheiden — #33 hat den siebten Beleg; #51 haengt faktisch an #55
+- [ ] L11-L17 nach `skills/CLAUDE.md` heben (lessons.md ungetrackt — #34)
+- [ ] #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 · #49 entscheiden — #33 hat den siebten Beleg; #51 haengt faktisch an #55
 - [ ] Restabnahme `meeting-agenda` (dreigeteilt) · Restabnahme `feature-fast` (2 UX-Urteile + `1eec2ea`)
 - [ ] Task `gitattributes-eol` starten · Config-Platzhalter (`workflow.config.yaml`) fuellen
 - [ ] Sicherungs-Branch `backup/2026-08-03-pre-merge` **auf Maschine 2** loeschen (existiert nur dort lokal) · pkp intern committen (`UI.md` + Tokens)
