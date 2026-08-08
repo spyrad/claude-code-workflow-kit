@@ -26,11 +26,11 @@ und manuellen Klaeraufwand kosten.
 
 ## Schritte
 
-- [ ] Scope entscheiden: `* text=auto` fuer alles vs. gezielt `*.md text` / `*.json text` (+ ggf. `*.yaml`/`*.sh`)
-- [ ] `.gitattributes` anlegen und als eigener Commit committen
-- [ ] Einmal-Renormalisierung: `git add --renormalize .` als **separater** Commit (reiner EOL-Commit, kein Inhalt)
-- [ ] Auswirkung auf kit-sync pruefen: Renormalisierung kann Content-Hashes der Klasse-A-Dateien aendern → `/dtb:kit-sync check`, bei Drift-Meldungen `sync` nachziehen
-- [ ] Verifikation lokal: EOL-Artefakt reproduziert nicht mehr (`git status` sauber nach Checkout/Touch einer betroffenen Datei)
+- [x] Scope entscheiden: `* text=auto` fuer alles vs. gezielt `*.md text` / `*.json text` (+ ggf. `*.yaml`/`*.sh`) — Entscheidung des Menschen: `* text=auto`
+- [x] `.gitattributes` anlegen und als eigener Commit committen — Datei angelegt + gestaged (Worker), Commit bei Abnahme 2026-08-08: `3de7923`
+- [x] Einmal-Renormalisierung: `git add --renormalize .` als **separater** Commit (reiner EOL-Commit, kein Inhalt) — ausgefuehrt: No-op, alle 187 Blobs waren bereits LF; separater Commit entfaellt (waere leer; Abnahme-Probe im Haupt-Repo: `git ls-files --eol` → 0 nicht-LF)
+- [x] Auswirkung auf kit-sync pruefen: Renormalisierung kann Content-Hashes der Klasse-A-Dateien aendern → geprueft: Hashes VOR = NACH fuer 3 Stichproben, kein Drift moeglich (kithash strippt CR, Blobs schon LF)
+- [x] Verifikation lokal: EOL-Artefakt reproduziert nicht mehr (`git status` sauber nach Checkout/Touch einer betroffenen Datei)
 - [ ] Andere Maschine: pull + pruefen, dass dort keine Massen-„modified"-Anzeige entsteht; ggf. `/dtb:kit-sync sync`
 
 ## Ergebnis
