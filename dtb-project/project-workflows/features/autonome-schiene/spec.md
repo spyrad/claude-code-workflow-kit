@@ -132,6 +132,7 @@ Freigabe vor dem Start, Abnahme nach dem Lauf.
   Parallel-Pfad ist textlich geliefert, aber unkalibriert. Nachgelagerte Kalibrierung
   beim ersten realen Listen-Lauf — benannter Kandidat: INBOX #46 (als Task erfasst)
   plus ein weiterer tauglicher Eintrag
+- [ ] [Fach] Worker-Worktrees unter `.dtb-worktrees/` im Projekt-Baum: ist der Ort richtig gewaehlt (Kollision mit Tooling/Ignore-Regeln) und reicht `worktree remove` als Aufraeum-Garantie, wenn ein Worker haengen bleibt?
 
 ---
 
