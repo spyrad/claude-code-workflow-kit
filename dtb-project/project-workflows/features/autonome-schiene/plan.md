@@ -271,12 +271,12 @@ Regelwerk und Spiegel konsistent, Verhalten am realen Fall belegt, Kit verteilt.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Skill-Geruest + Frontmatter
-- [x] 1.2 Erkennungs-Sicht (Scan + Urteil)
-- [x] 1.3 Freigabe-Dialog
-- [ ] 2.1 Worker-Auftrag (Einzel-Task)
-- [ ] 2.2 Listen- und Parallel-Logik
-- [ ] 2.3 Bericht + Abschluss-Meldung
+- [x] 1.1 Skill-Geruest + Frontmatter — `a89b064`
+- [x] 1.2 Erkennungs-Sicht (Scan + Urteil) — `a89b064`
+- [x] 1.3 Freigabe-Dialog — `a89b064`
+- [x] 2.1 Worker-Auftrag (Einzel-Task)
+- [x] 2.2 Listen- und Parallel-Logik
+- [x] 2.3 Bericht + Abschluss-Meldung
 - [ ] 3.1 worker-report.md status-neutral
 - [ ] 3.2 Governance-Regel + Spiegel + Config
 - [ ] 3.3 Selbstpruefung + Gegenprobe (L15/L16)

@@ -127,3 +127,102 @@ Die Freigabe ist die Governance-Klammer vorn — ohne sie startet nichts.
    als Diff im jeweiligen Worktree liegen.
    ```
 4. **Explizite Bestaetigung** („Start") ist die Startbedingung. Danach → Modus 2.
+
+---
+
+## Modus 2: Ausfuehrung (nur nach Freigabe aus Schritt 5)
+
+### Schritt 6: Worker starten (Einzel-Task)
+
+**Vorbedingung (hart):** Zielbereich clean — `git status --short` fuer die vom Task
+beruehrten Pfade zeigt nichts Uncommittetes. Sonst kein Start (melden, Nutzer raeumt auf).
+
+**Isolation (immer):** Je Worker ein eigener Git-Worktree — auch fuer den Einzel-Worker
+(`git worktree add {tmp}/worker-{slug} HEAD` oder die native Worktree-Isolation des
+Subagent-Mechanismus). Das Ergebnis bleibt als Diff im Worktree liegen, bis der Mensch
+abnimmt; der Arbeitsbaum des Nutzers wird nie beruehrt.
+
+**Start:** Background-Subagent mit dem Auftrags-Template (der Nutzer arbeitet weiter,
+Meldung bei Abschluss):
+
+```
+Auftrag Worker {slug}:
+- Arbeitsverzeichnis: {Worktree-Pfad} — dein gesamter Aktionsradius
+- Schritte: {## Schritte aus features/{slug}/task.md}
+- Vorab-Antworten: {beantwortete Vorab-Fragen aus der Freigabe}
+- Erfolgskriterium: {mechanische Pruefung je Schritt — Grep/Test/Build/Datei}
+- Deckelung: max. {max_attempts} Versuche, max. {max_minutes} Minuten
+  (Anweisungs-Ebene — protokolliere Start/Ende/Dauer je Versuch im Report)
+- Versuchsschleife: umsetzen → Kriterien pruefen → bei Rot nachbessern und erneut
+  pruefen — bis gruen, Versuche verbraucht oder Zeit um
+- Rechenschaft: erledigte `## Schritte` in features/{slug}/task.md abhaken und
+  features/{slug}/worker-report.md schreiben (Template in Schritt 8)
+
+VERBOTE (hart, keine Ausnahme):
+- niemals committen oder pushen
+- keine Schreibzugriffe ausserhalb des eigenen Worktrees
+- keine zentralen Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md) und keine
+  Status-/Anzeigefelder anfassen
+- triffst du auf eine ungeklaerte Entscheidung, die deine Vorab-Antworten nicht
+  abdecken: Abbruch + Ausgang „teilweise" im Report — niemals raten, niemals fragen
+```
+
+### Schritt 7: Listen-Lauf
+
+Ein einheitlicher Ausfuehrungspfad — sequenziell und parallel unterscheiden sich nur in
+der Anzahl gleichzeitig laufender Worker (je Worker immer ein eigener Worktree):
+
+1. **Reihenfolge:** Die freigegebene Reihenfolge aus der Sicht wird abgearbeitet.
+   Abhaengige Eintraege warten auf ihren Vorgaenger; unabhaengige Eintraege mit
+   disjunkten Dateien (∥-Kandidaten) starten gleichzeitig
+2. **Kollisionsregel:** Stellt sich waehrend des Laufs heraus, dass zwei Worker doch
+   dieselbe Datei anfassen (die Analyse ist eine Schaetzung) → der SPAETER gestartete
+   Worker stoppt mit Ausgang „gestoppt"; sein Eintrag wandert ans Listen-Ende
+3. **`teilweise`-Eintraege** (unbeantwortete Vorab-Frage): ueberspringen und am Ende
+   gesammelt melden — kein stiller Verlust
+4. **Degradation:** Kein Git-Repo bzw. keine Worktree-Faehigkeit → sequenziell direkt im
+   Arbeitsbaum, mit Pflicht-Warnhinweis im Freigabe-Dialog („waehrend des Laufs nicht im
+   Repo arbeiten"). Die Lane verweigert nie wegen fehlender Traeger
+
+### Schritt 8: Bericht (`worker-report.md`)
+
+Jeder Worker schreibt VOR seinem Ende — egal mit welchem Ausgang — den vollen Bericht
+nach `features/{slug}/worker-report.md` (status-neutral, zaehlt NICHT fuer die
+Statusableitung — Kanon: `DERIVED_STATE_RULES.md` §1.1):
+
+```markdown
+# Worker-Report: {slug}
+
+**Gestartet:** {YYYY-MM-DD HH:MM} · **Beendet:** {HH:MM} · **Gesamtdauer:** {Min}
+**Ausgang:** gruen | Deckel erreicht | teilweise | gestoppt
+**Worktree:** {Pfad} (Diff liegt dort bis zur Abnahme)
+
+## Versuche
+
+| # | Start | Ende | Dauer | Ergebnis |
+|---|-------|------|-------|----------|
+| 1 | {HH:MM} | {HH:MM} | {Min} | {gruen / rot: woran} |
+
+## Was getan wurde
+- {konkrete Aenderungen, je Datei}
+
+## Was verifiziert wurde
+- {ausgefuehrte Pruefungen mit Ergebnis — Kommando + Ausgabe-Kern}
+
+## Was aufgefallen ist
+- {Nebenbefunde, Ueberraschungen, offene Reste — oder „nichts"}
+```
+
+### Schritt 9: Abschluss-Meldung
+
+Im Chat je Task genau **eine** Sammel-Zeile (Details gehoeren in den Bericht, nicht in
+den Chat — Status-Konvention):
+
+```
+{slug}: {Ausgang} nach {N} Versuch(en) ({Min} Min) → features/{slug}/worker-report.md
+{Bei Liste: uebersprungene "teilweise"-Eintraege + gestoppte Worker gesammelt}
+
+Naechster Schritt: Abnahme durch dich — Diff im Worktree pruefen, dann uebernehmen
+(Merge/Apply + Commit via /dtb:commit-and-push) oder mit Korrekturhinweis liegen lassen
+(zweiter Lauf nutzt den Hinweis als zusaetzliche Vorab-Antwort).
+```
