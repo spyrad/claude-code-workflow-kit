@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-08-08
 **Prioritaet:** Mittel
-**Status:** Erledigt
+**Status:** Abgeschlossen <!-- explizit gesetzt beim Archivieren 2026-08-09 (/dtb:archive) -->
 **Bereich:** Kit-Skills — Pipeline-Metadaten im Frontmatter (`skills/dtb-*/SKILL.md`)
 
 ---

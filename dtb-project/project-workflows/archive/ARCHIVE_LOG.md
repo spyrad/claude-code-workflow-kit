@@ -64,3 +64,6 @@
 | 2026-08-07 | Anzeigezeile | meeting-dump | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ (Beleg Projekt/Datum offen) |
 | 2026-08-07 | Anzeigezeile | open-question | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ |
 | 2026-08-07 | Anzeigezeile | Fachfragen-Erfassung | BACKLOG.md "Abgeschlossen" | Karteileiche — Ordner liegt seit 2026-08-04 unter archive/ |
+| 2026-08-09 | Idee | #49 "Skill, der die INBOX nach worker-tauglichen Eintraegen durchlaeuft" | INBOX.md | Verworfen — am 2026-08-08 mit #43 zusammengelegt (Erkennungs-Seite der autonomen Schiene), Kerninhalt dort uebernommen |
+| 2026-08-09 | Idee | #43 "Separate, leichtgewichtige Schiene (Skills von Matt Pocock) — Automatisierung von Aufgabenklassen" | INBOX.md | Ausgearbeitet → features/autonome-schiene/spec.md (Feature bleibt aktiv, Fertig zum Testen) |
+| 2026-08-09 | Aufgabe | pipeline-kanten-reziprok | features/pipeline-kanten-reziprok/task.md | Erledigt — 4/4, Worker-Lauf gruen, Ergebnis `a79c218`; Status beim Archivieren auf Abgeschlossen gesetzt |

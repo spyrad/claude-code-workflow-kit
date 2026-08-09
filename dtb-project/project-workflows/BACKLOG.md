@@ -25,7 +25,6 @@
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
 | .gitattributes fuer deterministische Zeilenenden | In Arbeit | Mittel | features/gitattributes-eol/task.md | `.gitattributes` ergaenzen + Bestand einmalig renormalisieren, damit LF-Dateien unter `core.autocrlf=true` nicht mehr faelschlich als „modified" erscheinen (10 Belege seit 2026-07-18) |
-| Pipeline-Kanten reziprok nachtragen | Erledigt | Mittel | features/pipeline-kanten-reziprok/task.md | Die zwei echten halbseitigen Kanten aus INBOX #46 gegenrichtig eintragen (`plan-review.after` += `feature-fast`, `feature-discover.after` += `greenfield-roadmap`); die vier read-only-Faelle und die Konventionsfrage bleiben bewusst draussen |
 
 ---
 

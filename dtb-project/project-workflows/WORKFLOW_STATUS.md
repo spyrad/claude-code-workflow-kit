@@ -9,7 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| pipeline-kanten-reziprok | Erledigt | 4/4 | — (Archiv-Kandidat) |
 | gitattributes-eol | In Arbeit | 5/6 | Schritt 6: andere Maschine — pull + pruefen |
 | autonome-schiene (#43) | Fertig zum Testen | 11/11 | Restabnahme: 2 der 4 Manual-Kriterien offen |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung wiederholen, dann Abnahme |
@@ -73,8 +72,9 @@ Anzeigefelder synchron zur Ableitung.
 `Offen`" absetzen (Fund 1 der Verlustpruefung 2026-08-09), danach die zwei Ideen-Funde.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen
 Befehl. **Gueltigkeitsbedingung:** gilt, solange die drei Funde nicht erfasst sind; sind sie
-abgesetzt, lautet der naechste Schritt `/dtb:archive` (`pipeline-kanten-reziprok` ist 4/4 und
-Archiv-Kandidat) oder die Restabnahme von `autonome-schiene`.
+abgesetzt, lautet der naechste Schritt `/dtb:archive` oder die Restabnahme von `autonome-schiene`.
+**Erledigt 2026-08-09:** die drei Funde sind abgesetzt (L19, Ideen #60/#61); `/dtb:archive` ist
+gelaufen — `pipeline-kanten-reziprok` sowie INBOX #49/#43 liegen unter `archive/`.
 ⚠ **Ableitung bewusst uebersteuert:** Die Regel zeigt bei `review.md` mit REJECTED auf
 `/dtb:implement` — bei allen vier betroffenen Features sind die Findings behoben bzw. bewusst
 verworfen (Triage-Bilanzen in den Session-Logs). Eingefrorene Verdikt-Felder, vierter #35-Beleg.

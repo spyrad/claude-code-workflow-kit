@@ -93,7 +93,7 @@ Freigabe-Mechanik steht. Es wird noch nichts ausgefuehrt.
 - [ ] `grep -c '/dtb:task' skills/dtb-worker/SKILL.md` >= 1 (Redirect fuer Ideen ohne Change-Ordner)
 
 #### Manual
-- [ ] Sicht-Format am realen INBOX-Bestand gegengelesen: kompakt, Urteile nachvollziehbar
+- [x] Sicht-Format am realen INBOX-Bestand gegengelesen: kompakt, Urteile nachvollziehbar — Laeufe 2026-08-08 (27 Eintraege) und 2026-08-09 (26 Eintraege), Nutzer-Urteil 2026-08-09: bestanden
 
 ---
 
@@ -163,7 +163,7 @@ Bericht. Der verdrahtete Traeger ist der Background-Subagent (E4).
 - [ ] `grep -c 'teilweise' skills/dtb-worker/SKILL.md` >= 3 (Urteil, Abbruchpfad, Listen-Sammlung)
 
 #### Manual
-- [ ] Auftrags-Template gedanklich gegen `gitattributes-eol` durchgespielt: alle 3c-Randfaelle haben einen definierten Ausgang
+- [x] Auftrags-Template gedanklich gegen `gitattributes-eol` durchgespielt: alle 3c-Randfaelle haben einen definierten Ausgang — Durchgang 2026-08-09 ueber die 6 Randfaelle aus `discovery.md:63-77`, je Fall Fundstelle im Skill belegt (Deckelung Z. 156-159/203 · Abbruch-Verbot Z. 170-171 · Listen-Ueberspringen Schritt 7.3 · Abnahme-Ablehnung Schritt 9 Z. 234-236 · Kollisionsregel Schritt 7.2 · Leerfall Z. 106-107); zusaetzlich der von der Discovery nicht gefuehrte Fall „strukturell unerreichbare Schritte" via F2/Schritt 5.2b. Nutzer-Urteil: bestanden. Nebenbefund → INBOX #62
 
 ---
 
@@ -247,8 +247,8 @@ Regelwerk und Spiegel konsistent, Verhalten am realen Fall belegt, Kit verteilt.
 - [ ] `git -C . log --oneline -1` zeigt den Phasen-Commit; `/dtb:kit-sync check` meldet 0 Abweichungen
 
 #### Manual
-- [ ] Abnahme-Urteil zum Erstlauf: Bericht vollstaendig, Arbeitsergebnis akzeptiert oder begruendet abgelehnt
-- [ ] 3.3-Pruefprotokoll gegengelesen: keine neue „Zustandsaussage ohne Pfleger"
+- [x] Abnahme-Urteil zum Erstlauf: Bericht vollstaendig, Arbeitsergebnis akzeptiert oder begruendet abgelehnt — Erstlauf `gitattributes-eol` 2026-08-08 (Ausgang „teilweise", Diff uebernommen, Aufgabe auf 5/6); zweiter Lauf `pipeline-kanten-reziprok` 2026-08-09 gruen nach 1 Versuch, Diff uebernommen (`a79c218`). Nutzer-Urteil 2026-08-09: bestanden
+- [x] 3.3-Pruefprotokoll gegengelesen: keine neue „Zustandsaussage ohne Pfleger" — **Protokoll war nie abgelegt worden** (Schritt 3.3 abgehakt mit `a59662b`, Output nirgends niedergeschrieben) → am 2026-08-09 gegen Stand `4d16740` nachgeholt: 8 Treffer aus `worker-report` / `dtb:worker` / `## Schritte` in `skills/` + `DERIVED_STATE_RULES.md` + Root-`CLAUDE.md`, jeder gegen die Pruefragefrage bewertet, alle tragen. Zwei Nebenbefunde: `worker.next` ohne Gegenrichtung (= bekanntes INBOX #58) und der unbestimmte Ort der Minimal-Notiz bei hartem Stopp (`SKILL.md:196-197` → INBOX #62). Beleg-Luecke selbst → Lektion L20. Nutzer-Urteil: bestanden
 
 ---
 

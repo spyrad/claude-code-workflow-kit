@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-08
 **Ziel:** Eine leichtgewichtige Lane, die worker-taugliche INBOX-Eintraege erkennt und nach menschlicher Freigabe autonom bis zur Abnahmereife abarbeitet — ohne die volle Kette Discovery → Spec → Plan.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- explizit gesetzt 2026-08-09 (Restabnahme: alle 4 #### Manual-Kriterien erfuellt) — ueberschreibt die Ableitung „Fertig zum Testen" nach DERIVED_STATE_RULES.md §1.2, kein Feld-Konflikt -->
 
 ---
 
