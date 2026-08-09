@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-08-08
 **Prioritaet:** Mittel
-**Status:** Offen
+**Status:** Erledigt
 **Bereich:** Kit-Skills — Pipeline-Metadaten im Frontmatter (`skills/dtb-*/SKILL.md`)
 
 ---
@@ -36,7 +36,7 @@ dasselbe Spiegel-Kopplungs-Muster wie die Faelle vom 30./31.07.
 - [x] `dtb:feature-fast` in `skills/dtb-plan-review/SKILL.md` → `pipeline.after` ergaenzen — Pruefung: `grep -A6 '^pipeline:' skills/dtb-plan-review/SKILL.md` zeigt `after: [dtb:impl-plan, dtb:feature-fast]`
 - [x] `dtb:greenfield-roadmap` in `skills/dtb-feature-discover/SKILL.md` → `pipeline.after` ergaenzen — Pruefung: `grep -A6 '^pipeline:' skills/dtb-feature-discover/SKILL.md` zeigt `after: [dtb:idea-review, dtb:greenfield-roadmap]`
 - [x] Gegenprobe Vollscan: kein weiterer Skill verliert eine Kante, und die vier read-only-Faelle stehen unveraendert auf `after: null` — Pruefung: `grep -c 'after: null' skills/dtb-workflow-next/SKILL.md skills/dtb-meeting-agenda/SKILL.md` unveraendert
-- [ ] **(beim Menschen — bei der Worker-Freigabe ausgeklammert)** Commit/Push + `/dtb:kit-sync sync`: beide geaenderten Dateien sind Klasse-A-Artefakte, ohne sync laufen die installierten Kopien weiter mit den halbseitigen Kanten
+- [x] **(beim Menschen — bei der Worker-Freigabe ausgeklammert)** Commit/Push + `/dtb:kit-sync sync`: beide geaenderten Dateien sind Klasse-A-Artefakte, ohne sync laufen die installierten Kopien weiter mit den halbseitigen Kanten — erledigt 2026-08-09: Commit `a79c218` gepusht, Lock auf `a79c218` (46/46 synchron)
 
 ## Ergebnis
 
