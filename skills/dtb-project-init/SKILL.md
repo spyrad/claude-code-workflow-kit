@@ -102,6 +102,9 @@ repos:
 worker:
   max_attempts: 3   # dtb:worker — Versuche pro Task
   max_minutes: 30   # dtb:worker — Minuten pro Task (Anweisungs-Ebene)
+
+parallel:
+  default_branch: null  # Worktree-Guard — optional: Branch des Haupt-Checkouts; null = nur Worktree-Check (Verhalten wie ohne Key)
 ```
 
 **Regeln:**
@@ -109,6 +112,7 @@ worker:
 - `namespace`: Kurzform, lowercase, fuer Pfade und Commands (z.B. "dtb", "myapp")
 - `paths`: Immer relativ zum Projekt-Root, Standard ist `dtb-project/project-workflows` und `dtb-project/project-changelog`
 - `repos`: Pro Unterprojekt/Repo ein Eintrag. Bei Single-Repo nur ein Eintrag mit `path: "."`
+- `parallel.default_branch`: Optional (Default `null` = nur Worktree-Check, Verhalten wie ohne Key — Bestandsprojekte ohne den Key sind gueltig). Gesetzt aktiviert er die Branch-Pruefung der Worktree-Guards (`skills/CLAUDE.md` → „Parallele Sessions")
 - `test_command` / `build_command`: Konkrete Shell-Commands oder `null` falls nicht vorhanden
 - `worker`: Deckelung fuer `dtb:worker` (Versuche/Minuten pro Task); Defaults 3/30, projektweit anpassbar
 

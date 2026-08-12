@@ -124,6 +124,93 @@ committen/pushen, zentrale Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md),
 Status-/Anzeigefelder, Schreibzugriffe ausserhalb des eigenen Worktrees. Die Deckelung
 (`worker.max_attempts`/`worker.max_minutes` in `workflow.config.yaml`, Defaults 3/30) ist
 Anweisungs-Ebene — kein harter Timer; der Bericht weist die Laufzeit je Versuch aus.
+Die Worktree-Grenze der Worker ist die Worker-Instanz der kitweiten
+**Schreibgrenzen-Regel** (naechste Sektion) — dort ist sie kanonisch formuliert.
+
+## Parallele Sessions (Schreibgrenze, Orchestrator-Muster, Worktree-Guard)
+
+### Schreibgrenzen-Regel (die eine Quelle)
+
+**Global geteilte Dateien haben genau einen Schreiber: die Session im Haupt-Checkout
+(Orchestrator).** Global geteilt ist alles ausserhalb des eigenen Change-Ordners
+`features/<slug>/`: `WORKFLOW_STATUS.md`, `BACKLOG.md`, `INBOX.md`,
+Changelog-Tagesdateien, `project-rules/lessons.md`, `project-meetings/`, `archive/`.
+In einem verlinkten Worktree entstehen ausschliesslich Feature-Artefakte des eigenen
+Changes; alles Globale erreicht das Projekt erst ueber den Orchestrator (Hand-off) bzw.
+die Abnahme.
+
+Diese Regel ist bewusst NUR hier ausformuliert — die Worktree-Guards der Skills und die
+Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wortlaut.
+
+### Orchestrator-Muster
+
+- Genau EINE Orchestrator-Session pro Projekt-Checkout: sie fuehrt alle global
+  schreibenden Skills aus (Checkpoint, INBOX, Backlog, Archiv, Lektionen, Meetings)
+- N Worker-Sessions, je eine pro Change, je in einem eigenen Worktree — empfohlener Weg
+  sind die nativen CC-Worktree-Tools (`EnterWorktree`/`ExitWorktree`, Subagents mit
+  `isolation: worktree`); sie uebernehmen Pfad, Branch-Anlage und Aufraeumen
+- Worker-Sessions uebergeben ihre Session-Inhalte am Ende als Hand-off an die
+  Orchestrator-Session, die den Checkpoint ausfuehrt (Transport z.B.
+  Herdr-Session-Kommunikation; Fallback: Text der Guard-Abbruchmeldung manuell tragen)
+- **Bekannte Grenze:** Der Guard erkennt nur verlinkte Worktrees. Zwei Sessions im
+  SELBEN Checkout oder Schreiber aus fremden Projekten verletzen das Muster, ohne dass
+  der Guard feuert — Leitplanke ist diese Konvention, Auffangnetz die Lesestand-Pruefung
+  der lesend-entscheidenden Skills (`idea-review`, `workflow-resume`)
+
+### Skill-Kategorien (Worktree-Verhalten)
+
+| Kategorie | Verhalten im verlinkten Worktree | Skills |
+|-----------|----------------------------------|--------|
+| **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint`, `idea`, `idea-review`, `archive`, `lesson`, `meeting-dump`, `task`, `bug-report` |
+| **Teil-Guard** (hybrid) | Laeuft normal am EIGENEN Change, ueberspringt aber die globalen Schreibschritte (INBOX-Status/-Link, BACKLOG-Eintrag) mit einer Hinweiszeile; das Uebersprungene gehoert in den Hand-off | `feature-discover`, `feature-plan`, `feature-fast` |
+| **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `feature-start`, `debug-plan`, `impl-review`, `open-question` |
+| **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `no-loss-check`, `pipeline-graph`, … |
+
+Einteilungs-Kriterium ist das `produces:`-Frontmatter — mechanisch pruefen, nie
+schaetzen: Erzeugt ein Skill NEUE Change-Ordner oder schreibt er quer (zentrale Dateien,
+fremde Changes) → **Voll-Guard**. Arbeitet er am eigenen Change und zieht global nur
+Status/Links nach → **Teil-Guard**. Schreibt er nur den eigenen Change-Ordner →
+**worktree-faehig**. Ein NEUER Skill mit globalen `produces`-Eintraegen uebernimmt die
+Guard-Vorlage ab dem ersten Tag.
+
+### Worktree-Guard (kanonische Vorlage)
+
+Jeder **Voll-Guard**-Skill traegt frueh (vor seinem ersten schreibenden Schritt) eine
+Sektion, die mit der Zeile `## Worktree-Guard (Schritt 0)` beginnt — sie ist der
+Grep-Anker der Spiegel-Verifikation. Inhalt (woertlich uebernehmen, nur `{skill}` und
+den Echo-Teil anpassen):
+
+Pruefung in EINEM selbstaendigen Bash-Block (eigene Shell — Setup nie auslagern):
+
+```bash
+git rev-parse --path-format=absolute --git-dir --git-common-dir 2>/dev/null || echo NOGIT
+```
+
+- Ausgabe `NOGIT` (kein Git-Repo) oder beide Zeilen identisch → **Durchlass, kein
+  Output** (der Guard ist im Normalfall unsichtbar — keine Bestaetigungszeile)
+- Zeilen ungleich (verlinkter Worktree) → **harter Abbruch** vor jedem Schreiben:
+
+```
+⛔ {skill} schreibt globale Dateien und laeuft nur in der Orchestrator-Session
+   (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele Sessions").
+   Haupt-Checkout: {Elternverzeichnis der zweiten Ausgabezeile}
+   {Capture-Skills mit uebergebenem Text: „Dein Text geht nicht verloren — dort absetzen:"
+    + fertiger Befehl `/dtb:{skill} "{erfasster Text}"`}
+```
+
+- **Echo-Verhalten:** Nur bereits uebergebener/erfasster Text wird geechot. Greift der
+  Abbruch VOR einem Erfassungs-Dialog, gibt es nichts zu echoen — die Meldung nennt nur
+  den Befehl ohne Text-Anteil
+- **Branch-Pruefung (optional):** Ist `parallel.default_branch` in `workflow.config.yaml`
+  gesetzt (nicht `null`) und der aktuelle Branch im Haupt-Checkout ungleich diesem Wert →
+  ebenfalls Abbruch, mit Begruendung „globale Dateien gehoeren auf `{default_branch}`".
+  Bei `null` oder fehlendem Key entfaellt diese Pruefung ersatzlos (Bestandsprojekte
+  verhalten sich unveraendert)
+- **Teil-Guard-Variante:** Teil-Guard-Skills fuehren dieselbe Pruefung aus, brechen aber
+  NICHT ab — im Worktree ueberspringen sie ihre globalen Schreibschritte mit genau einer
+  Hinweiszeile `↷ {Datei}-Update uebersprungen (Worktree) — in den Hand-off aufnehmen`
+  und arbeiten normal weiter. Ihr Grep-Anker ist die Zeile `**Teil-Guard (Worktree):**`
+  an der uebersprungenen Schreibstelle
 
 ## Directory & naming conventions
 

@@ -171,6 +171,10 @@ VERBOTE (hart, keine Ausnahme):
   abdecken: Abbruch + Ausgang „teilweise" im Report — niemals raten, niemals fragen
 ```
 
+Die VERBOTE sind die Worker-Instanz der kitweiten **Schreibgrenzen-Regel**
+(`skills/CLAUDE.md` → „Parallele Sessions") — Aenderungen an der Grenze dort nachziehen,
+nicht hier eigenstaendig formulieren.
+
 ### Schritt 7: Listen-Lauf
 
 Ein einheitlicher Ausfuehrungspfad — sequenziell und parallel unterscheiden sich nur in
