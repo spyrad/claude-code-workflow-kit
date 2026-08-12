@@ -19,6 +19,38 @@ pipeline:
 
 Du erfasst einen Bug-Report schnell und strukturiert. Ziel: Alles festhalten was zur Reproduktion und Einordnung noetig ist, ohne den Flow zu unterbrechen.
 
+## Worktree-Guard (Schritt 0)
+
+Dieser Skill schreibt globale Dateien und laeuft nur in der Orchestrator-Session —
+Schreibgrenzen-Regel: `skills/CLAUDE.md` → „Parallele Sessions".
+
+Pruefe VOR dem ersten Schreiben in EINEM selbstaendigen Bash-Block (cd/pwd-Normalisierung
+ist Pflicht — ohne sie False Positives in Unterverzeichnissen):
+
+```bash
+G=$(git rev-parse --git-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
+C=$(git rev-parse --git-common-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
+G=$(cd "$G" && pwd); C=$(cd "$C" && pwd)
+if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkout: $(dirname "$C"))"; fi
+```
+
+- `DURCHLASS-NOGIT` (kein Git-Repo/Fehlschlag) oder `HAUPT-CHECKOUT` → Durchlass, KEIN
+  Output — der Guard bleibt unsichtbar. Zusatz nur bei gesetztem `parallel.default_branch`
+  (nicht `null`) in `workflow.config.yaml`: aktueller Branch ungleich dem Wert → Abbruch
+  mit Hinweis „globale Dateien gehoeren auf `{default_branch}`"
+- `WORKTREE` (verlinkter Worktree) → harter Abbruch, nichts schreiben:
+
+  ```
+  ⛔ dtb:bug-report schreibt globale Dateien und laeuft nur in der Orchestrator-Session
+     (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele Sessions").
+     Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
+  ```
+
+  Wurde bereits Text uebergeben/erfasst, haengt die Meldung ihn als fertigen Befehl an —
+  „Dein Text geht nicht verloren — dort absetzen: `/dtb:bug-report "{erfasster Text}"`".
+  Greift der Abbruch VOR dem Erfassungs-Dialog, gibt es nichts zu echoen — nur den
+  Befehl ohne Text-Anteil nennen.
+
 ## Schritt 0: Config laden
 
 Lies `workflow.config.yaml` im Projekt-Root.

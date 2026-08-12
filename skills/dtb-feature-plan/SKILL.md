@@ -166,6 +166,14 @@ Verwende folgende Struktur:
 8. **Speichere die Datei**
 
 9. **Inbox-Status aktualisieren:**
+
+   **Teil-Guard (Worktree):** Laeuft dieser Skill in einem verlinkten Worktree
+   (die Guard-Pruefung aus `skills/CLAUDE.md` → „Worktree-Guard (kanonische Vorlage)"
+   meldet `WORKTREE`), Schritt 9 UND 10 NICHT ausfuehren — stattdessen genau eine
+   Hinweiszeile `↷ INBOX.md-/BACKLOG.md-Update uebersprungen (Worktree) — in den Hand-off
+   aufnehmen` und normal weiterarbeiten (Schreibgrenzen-Regel: `skills/CLAUDE.md` →
+   „Parallele Sessions"). Gilt auch fuer den Status-Flip in Schritt 2 (Inbox-Auswahl).
+
    - Falls das Feature aus einer Inbox-Idee erstellt wurde:
      - Setze den Status in `INBOX.md` auf `Ausgearbeitet`
      - Ergaenze die Idee-Zeile um den Link: `→ features/{slug}/spec.md`

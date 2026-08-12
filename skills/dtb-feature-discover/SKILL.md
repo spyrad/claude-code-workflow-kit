@@ -251,6 +251,12 @@ Schritt 3 final auf `<!-- resume: done -->`):
 
 ## Schritt 7: Inbox aktualisieren
 
+**Teil-Guard (Worktree):** Laeuft dieser Skill in einem verlinkten Worktree
+(die Guard-Pruefung aus `skills/CLAUDE.md` → „Worktree-Guard (kanonische Vorlage)"
+meldet `WORKTREE`), diesen Schritt NICHT ausfuehren — stattdessen genau eine
+Hinweiszeile `↷ INBOX.md-Update uebersprungen (Worktree) — in den Hand-off aufnehmen`
+und normal weiterarbeiten (Schreibgrenzen-Regel: `skills/CLAUDE.md` → „Parallele Sessions").
+
 - Der Status der Idee bleibt auf `In Arbeit`
 - Haenge den Link `→ features/{slug}/discovery.md` an die Inbox-Zeile an
 

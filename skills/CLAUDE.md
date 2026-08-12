@@ -180,20 +180,25 @@ Sektion, die mit der Zeile `## Worktree-Guard (Schritt 0)` beginnt — sie ist d
 Grep-Anker der Spiegel-Verifikation. Inhalt (woertlich uebernehmen, nur `{skill}` und
 den Echo-Teil anpassen):
 
-Pruefung in EINEM selbstaendigen Bash-Block (eigene Shell — Setup nie auslagern):
+Pruefung in EINEM selbstaendigen Bash-Block (eigene Shell — Setup nie auslagern; die
+cd/pwd-Normalisierung ist Pflicht: ohne sie liefert der Vergleich in Unterverzeichnissen
+des Haupt-Checkouts False Positives, und `--path-format` existiert erst ab Git 2.31):
 
 ```bash
-git rev-parse --path-format=absolute --git-dir --git-common-dir 2>/dev/null || echo NOGIT
+G=$(git rev-parse --git-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
+C=$(git rev-parse --git-common-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
+G=$(cd "$G" && pwd); C=$(cd "$C" && pwd)
+if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkout: $(dirname "$C"))"; fi
 ```
 
-- Ausgabe `NOGIT` (kein Git-Repo) oder beide Zeilen identisch → **Durchlass, kein
+- `DURCHLASS-NOGIT` (kein Git-Repo/Fehlschlag) oder `HAUPT-CHECKOUT` → **Durchlass, kein
   Output** (der Guard ist im Normalfall unsichtbar — keine Bestaetigungszeile)
-- Zeilen ungleich (verlinkter Worktree) → **harter Abbruch** vor jedem Schreiben:
+- `WORKTREE` (verlinkter Worktree) → **harter Abbruch** vor jedem Schreiben:
 
 ```
 ⛔ {skill} schreibt globale Dateien und laeuft nur in der Orchestrator-Session
    (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele Sessions").
-   Haupt-Checkout: {Elternverzeichnis der zweiten Ausgabezeile}
+   Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
    {Capture-Skills mit uebergebenem Text: „Dein Text geht nicht verloren — dort absetzen:"
     + fertiger Befehl `/dtb:{skill} "{erfasster Text}"`}
 ```

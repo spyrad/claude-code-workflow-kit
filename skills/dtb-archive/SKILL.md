@@ -18,6 +18,33 @@ pipeline:
 
 Du raeumst die aktiven Workflow-Dateien auf, indem du abgeschlossene und verworfene Eintraege ins Archiv verschiebst.
 
+## Worktree-Guard (Schritt 0)
+
+Dieser Skill schreibt globale Dateien und laeuft nur in der Orchestrator-Session —
+Schreibgrenzen-Regel: `skills/CLAUDE.md` → „Parallele Sessions".
+
+Pruefe VOR dem ersten Schreiben in EINEM selbstaendigen Bash-Block (cd/pwd-Normalisierung
+ist Pflicht — ohne sie False Positives in Unterverzeichnissen):
+
+```bash
+G=$(git rev-parse --git-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
+C=$(git rev-parse --git-common-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
+G=$(cd "$G" && pwd); C=$(cd "$C" && pwd)
+if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkout: $(dirname "$C"))"; fi
+```
+
+- `DURCHLASS-NOGIT` (kein Git-Repo/Fehlschlag) oder `HAUPT-CHECKOUT` → Durchlass, KEIN
+  Output — der Guard bleibt unsichtbar. Zusatz nur bei gesetztem `parallel.default_branch`
+  (nicht `null`) in `workflow.config.yaml`: aktueller Branch ungleich dem Wert → Abbruch
+  mit Hinweis „globale Dateien gehoeren auf `{default_branch}`"
+- `WORKTREE` (verlinkter Worktree) → harter Abbruch, nichts schreiben:
+
+  ```
+  ⛔ dtb:archive schreibt globale Dateien und laeuft nur in der Orchestrator-Session
+     (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele Sessions").
+     Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
+  ```
+
 ## Schritt 0: Config laden
 
 Lies `workflow.config.yaml` im Projekt-Root.

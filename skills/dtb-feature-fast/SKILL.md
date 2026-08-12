@@ -235,6 +235,14 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
    die bewusste Ausnahme von der Ununterscheidbarkeit (siehe "Wichtig").
 6. **INBOX aktualisieren:** Idee auf `Ausgearbeitet`, Links anhaengen:
    `→ features/{slug}/discovery.md → features/{slug}/spec.md`
+
+   **Teil-Guard (Worktree):** Laeuft dieser Skill in einem verlinkten Worktree
+   (die Guard-Pruefung aus `skills/CLAUDE.md` → „Worktree-Guard (kanonische Vorlage)"
+   meldet `WORKTREE`), Schritt 6 UND 7 NICHT ausfuehren — stattdessen genau eine
+   Hinweiszeile `↷ INBOX.md-/BACKLOG.md-Update uebersprungen (Worktree) — in den Hand-off
+   aufnehmen` und normal weiterarbeiten (Schreibgrenzen-Regel: `skills/CLAUDE.md` →
+   „Parallele Sessions"). Gilt auch fuer den `In Arbeit`-Flip beim Start (Schritt 2/5).
+
 7. **BACKLOG anbieten** (analog feature-plan Schritt 10). Bei Ja: Status-Spalte mit dem
    abgeleiteten Initial-Status **Geplant** eintragen (spec.md + plan.md existieren,
    0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`).
