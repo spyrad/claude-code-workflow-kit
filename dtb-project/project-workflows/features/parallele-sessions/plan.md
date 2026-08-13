@@ -289,8 +289,8 @@ durchlaufen: Worker-Session im Worktree → Hand-off → Orchestrator-Checkpoint
 - [x] 4.1 Hand-off-Format — `42774fe`
 - [x] 4.2 Sende-Seite (Guard-Zweig checkpoint) — `42774fe`
 - [x] 4.3 Empfangsseite checkpoint — `42774fe`
-- [x] 5.1 Commit, Push, kit-sync
-- [x] 5.2 End-to-End-Durchlauf
+- [x] 5.1 Commit, Push, kit-sync — `f91b8d5`
+- [x] 5.2 End-to-End-Durchlauf — `f91b8d5`
 
 ---
 

@@ -18,7 +18,7 @@ pipeline:
 
 Du fuehrst den Benutzer durch alle offenen Ideen in der Inbox. Fuer jede Idee wird eine Entscheidung getroffen.
 
-## Worktree-Guard (Schritt 0)
+## Worktree-Guard
 
 Dieser Skill schreibt globale Dateien und laeuft nur in der Orchestrator-Session —
 Schreibgrenzen-Regel: `skills/CLAUDE.md` → „Parallele Sessions".
@@ -29,19 +29,22 @@ ist Pflicht — ohne sie False Positives in Unterverzeichnissen):
 ```bash
 G=$(git rev-parse --git-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
 C=$(git rev-parse --git-common-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
-G=$(cd "$G" && pwd); C=$(cd "$C" && pwd)
+G=$(cd "$G" 2>/dev/null && pwd) || { echo DURCHLASS-NOGIT; exit 0; }
+C=$(cd "$C" 2>/dev/null && pwd) || { echo DURCHLASS-NOGIT; exit 0; }
 if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkout: $(dirname "$C"))"; fi
 ```
 
 - `DURCHLASS-NOGIT` (kein Git-Repo/Fehlschlag) oder `HAUPT-CHECKOUT` → Durchlass, KEIN
-  Output — der Guard bleibt unsichtbar. Zusatz nur bei gesetztem `parallel.default_branch`
-  (nicht `null`) in `workflow.config.yaml`: aktueller Branch ungleich dem Wert → Abbruch
-  mit Hinweis „globale Dateien gehoeren auf `{default_branch}`"
+  Output — der Guard bleibt unsichtbar
+- **Branch-Pruefung (optional, nur im `HAUPT-CHECKOUT`-Fall):** Ist `parallel.default_branch`
+  in `workflow.config.yaml` gesetzt (nicht `null`) und `git branch --show-current` ungleich
+  diesem Wert → Abbruch mit Hinweis „globale Dateien gehoeren auf `{default_branch}`"
 - `WORKTREE` (verlinkter Worktree) → harter Abbruch, nichts schreiben:
 
   ```
   ⛔ dtb:idea-review schreibt globale Dateien und laeuft nur in der Orchestrator-Session
-     (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele Sessions").
+     (Schreibgrenzen-Regel: globale Dateien haben genau einen Schreiber —
+     die Session im Haupt-Checkout).
      Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
   ```
 

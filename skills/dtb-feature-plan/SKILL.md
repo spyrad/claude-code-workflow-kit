@@ -130,7 +130,9 @@ Verwende folgende Struktur:
    - Falls Inbox nicht existiert oder keine offenen Ideen: Ueberspringe diesen Schritt ohne Hinweis
    - **Bei Auswahl einer Idee:**
      - Verwende den Idee-Text als Ausgangsbasis fuer die Feature-Diskussion
-     - Setze den Inbox-Status auf `In Arbeit`
+     - Setze den Inbox-Status auf `In Arbeit` (Teil-Guard: im verlinkten Worktree diesen
+       Flip NICHT ausfuehren — Hinweiszeile gemaess dem Teil-Guard-Block in Schritt 9,
+       in den Hand-off aufnehmen)
 
 3. **Feature-Name / Slug ermitteln:**
    - Frage den Benutzer nach dem Feature-Namen falls nicht klar

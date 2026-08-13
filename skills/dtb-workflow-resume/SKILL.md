@@ -123,8 +123,9 @@ Parallele Sessions koennen gelesene Dateien zwischen Einlesen und Report veraend
 lesend-entscheidend: sein Report ist eine Handlungsempfehlung).
 
 1. **Beim Einlesen merken:** mtime der gelesenen Steuer-Dateien festhalten
-   (`WORKFLOW_STATUS.md`, `BACKLOG.md`, die in Schritt 4 gelesenen
-   `features/*/plan.md`) — in EINEM selbstaendigen Bash-Block:
+   (`WORKFLOW_STATUS.md`, `BACKLOG.md`, die in Schritt 2 gelesene neueste
+   Changelog-Tagesdatei, die in Schritt 4 gelesenen `features/*/plan.md`) — in EINEM
+   selbstaendigen Bash-Block:
    ```bash
    ls -la --time-style=full-iso {datei...}
    ```

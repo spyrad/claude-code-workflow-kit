@@ -173,7 +173,9 @@ moeglich, und mit markierten Annahmen, wo nicht.
 Datei wird regulaer committet und reist im Zwei-Maschinen-Setup mit dem Ordner). Steht die
 Idee noch auf `Offen`, setze sie JETZT auf `In Arbeit` — der Draft ist der Arbeitsbeginn
 (bewusst erst hier, nicht in Schritt 1: sofort eskalierte Laeufe hinterlassen so keinen
-falschen Status). Dann zeige sie im Chat:
+falschen Status). (Teil-Guard: im verlinkten Worktree diesen Flip NICHT ausfuehren —
+Hinweiszeile gemaess dem Teil-Guard-Block in Schritt 6/7, in den Hand-off aufnehmen.)
+Dann zeige sie im Chat:
 
 ```
 # Fast-Track-Vorlage: {Feature-Name} (Inbox #{N})
@@ -241,7 +243,7 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
    meldet `WORKTREE`), Schritt 6 UND 7 NICHT ausfuehren — stattdessen genau eine
    Hinweiszeile `↷ INBOX.md-/BACKLOG.md-Update uebersprungen (Worktree) — in den Hand-off
    aufnehmen` und normal weiterarbeiten (Schreibgrenzen-Regel: `skills/CLAUDE.md` →
-   „Parallele Sessions"). Gilt auch fuer den `In Arbeit`-Flip beim Start (Schritt 2/5).
+   „Parallele Sessions"). Gilt auch fuer den `In Arbeit`-Flip in Schritt 4.
 
 7. **BACKLOG anbieten** (analog feature-plan Schritt 10). Bei Ja: Status-Spalte mit dem
    abgeleiteten Initial-Status **Geplant** eintragen (spec.md + plan.md existieren,

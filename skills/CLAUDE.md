@@ -178,9 +178,13 @@ Guard-Vorlage ab dem ersten Tag.
 ### Worktree-Guard (kanonische Vorlage)
 
 Jeder **Voll-Guard**-Skill traegt frueh (vor seinem ersten schreibenden Schritt) eine
-Sektion, die mit der Zeile `## Worktree-Guard (Schritt 0)` beginnt — sie ist der
-Grep-Anker der Spiegel-Verifikation. Inhalt (woertlich uebernehmen, nur `{skill}` und
-den Echo-Teil anpassen):
+Sektion, die mit der Zeile `## Worktree-Guard` beginnt — sie ist der Grep-Anker der
+Spiegel-Verifikation (bewusst OHNE Schritt-Nummer: die Skills haben eigene
+Schritt-0-Sektionen, eine zweite Null waere ambig). **Bash-Block und ⛔-Fence sind
+byte-identisch zu uebernehmen** (im Fence variiert nur der Skill-Name); Rahmenprosa und
+Echo-Absatz gemaess der Referenz-Instanz `skills/dtb-idea/SKILL.md` — bei Abweichung
+zwischen dieser Vorlage und der Referenz-Instanz gilt die Referenz-Instanz, und die
+Abweichung ist ein Befund:
 
 Pruefung in EINEM selbstaendigen Bash-Block (eigene Shell — Setup nie auslagern; die
 cd/pwd-Normalisierung ist Pflicht: ohne sie liefert der Vergleich in Unterverzeichnissen
@@ -189,17 +193,25 @@ des Haupt-Checkouts False Positives, und `--path-format` existiert erst ab Git 2
 ```bash
 G=$(git rev-parse --git-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
 C=$(git rev-parse --git-common-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
-G=$(cd "$G" && pwd); C=$(cd "$C" && pwd)
+G=$(cd "$G" 2>/dev/null && pwd) || { echo DURCHLASS-NOGIT; exit 0; }
+C=$(cd "$C" 2>/dev/null && pwd) || { echo DURCHLASS-NOGIT; exit 0; }
 if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkout: $(dirname "$C"))"; fi
 ```
 
 - `DURCHLASS-NOGIT` (kein Git-Repo/Fehlschlag) oder `HAUPT-CHECKOUT` → **Durchlass, kein
-  Output** (der Guard ist im Normalfall unsichtbar — keine Bestaetigungszeile)
+  Output** (der Guard ist im Normalfall unsichtbar — keine Bestaetigungszeile; jeder
+  Fehlschlag der Erkennung failt einheitlich offen und markiert als `DURCHLASS-NOGIT`)
+- **Branch-Pruefung (optional, nur im `HAUPT-CHECKOUT`-Fall):** Ist `parallel.default_branch`
+  in `workflow.config.yaml` gesetzt (nicht `null`) und `git branch --show-current` ungleich
+  diesem Wert → Abbruch mit Hinweis „globale Dateien gehoeren auf `{default_branch}`".
+  Bei `null` oder fehlendem Key entfaellt die Pruefung ersatzlos (Bestandsprojekte
+  verhalten sich unveraendert)
 - `WORKTREE` (verlinkter Worktree) → **harter Abbruch** vor jedem Schreiben:
 
 ```
 ⛔ {skill} schreibt globale Dateien und laeuft nur in der Orchestrator-Session
-   (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele Sessions").
+   (Schreibgrenzen-Regel: globale Dateien haben genau einen Schreiber —
+   die Session im Haupt-Checkout).
    Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
    {Capture-Skills mit uebergebenem Text: „Dein Text geht nicht verloren — dort absetzen:"
     + fertiger Befehl `/dtb:{skill} "{erfasster Text}"`}
@@ -208,16 +220,25 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
 - **Echo-Verhalten:** Nur bereits uebergebener/erfasster Text wird geechot. Greift der
   Abbruch VOR einem Erfassungs-Dialog, gibt es nichts zu echoen — die Meldung nennt nur
   den Befehl ohne Text-Anteil
-- **Branch-Pruefung (optional):** Ist `parallel.default_branch` in `workflow.config.yaml`
-  gesetzt (nicht `null`) und der aktuelle Branch im Haupt-Checkout ungleich diesem Wert →
-  ebenfalls Abbruch, mit Begruendung „globale Dateien gehoeren auf `{default_branch}`".
-  Bei `null` oder fehlendem Key entfaellt diese Pruefung ersatzlos (Bestandsprojekte
-  verhalten sich unveraendert)
 - **Teil-Guard-Variante:** Teil-Guard-Skills fuehren dieselbe Pruefung aus, brechen aber
   NICHT ab — im Worktree ueberspringen sie ihre globalen Schreibschritte mit genau einer
   Hinweiszeile `↷ {Datei}-Update uebersprungen (Worktree) — in den Hand-off aufnehmen`
   und arbeiten normal weiter. Ihr Grep-Anker ist die Zeile `**Teil-Guard (Worktree):**`
-  an der uebersprungenen Schreibstelle
+  an der uebersprungenen Schreibstelle (zusaetzlich in `open-question` fuer den
+  Slug-Override auf fremde Changes — die worktree-faehig-Einstufung gilt nur fuer den
+  abgeleiteten Default-Fall)
+
+### Lesestand-Pruefung (Spiegel-Anker)
+
+Die lesend-entscheidenden Skills tragen eine Sektion mit der Anker-Zeile
+`Lesestand-Pruefung (Lese-Seite)` — Ueberschriftsebene folgt der lokalen Konvention des
+Skills, der Anker ist der Zeilentext. Spiegel: `dtb-idea-review`, `dtb-workflow-resume`.
+Woertlich gespiegelte 3-Schritte-Struktur: (1) beim Einlesen mtime der Steuer-Dateien
+merken, (2) unmittelbar vor dem Trigger erneut pruefen — bei Abweichung Re-Read +
+genau eine ⚠-Zeile nur bei tatsaechlicher Inhaltsabweichung (mtime-only = still,
+geloeschte Datei = Abweichung), (3) bewusste Restluecke (kein Locking) benennen.
+Deklarierte Anpassungspunkte je Skill: der **Trigger** (idea-review: vor jeder
+Statusentscheidung; workflow-resume: vor der Report-Ausgabe) und die **Dateiliste**.
 
 ## Directory & naming conventions
 

@@ -69,6 +69,13 @@ Ein absichtlich gemeinter, aber ungueltiger Slug wird so zunaechst zur Frage; di
 Variante-B-Bestaetigung (Schritt 4.3) macht das ermittelte Ziel sichtbar, bevor geschrieben wird,
 und ein Ziel ohne `spec.md`/`discovery.md` landet ueber Schritt 3 im definierten Abbruch.
 
+**Teil-Guard (Worktree):** In einem verlinkten Worktree ist nur der EIGENE Change frei
+beschreibbar (Schreibgrenzen-Regel: `skills/CLAUDE.md` → „Parallele Sessions"; dieser
+Skill ist worktree-faehig fuer den abgeleiteten Default-Fall). Zeigt ein Slug-Override
+im Worktree auf einen FREMDEN Change-Ordner → NICHT schreiben, stattdessen genau eine
+Hinweiszeile `↷ open-question auf fremden Change uebersprungen (Worktree) — in den
+Hand-off aufnehmen`.
+
 ### b) Kein Slug → aktives Feature ableiten
 Ableitung nach `{config.paths.rules}/DERIVED_STATE_RULES.md` §1.1: scanne
 `{config.paths.workflows}/features/*/plan.md` und zaehle in `## Progress` die Checkboxen —

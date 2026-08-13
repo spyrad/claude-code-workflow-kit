@@ -22,7 +22,7 @@ Du dokumentierst den aktuellen Stand einer Development-Session. Zwei Aufgaben:
 
 ---
 
-## Worktree-Guard (Schritt 0)
+## Worktree-Guard
 
 Dieser Skill schreibt globale Dateien und laeuft nur in der Orchestrator-Session —
 Schreibgrenzen-Regel: `skills/CLAUDE.md` → „Parallele Sessions".
@@ -33,19 +33,22 @@ ist Pflicht — ohne sie False Positives in Unterverzeichnissen):
 ```bash
 G=$(git rev-parse --git-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
 C=$(git rev-parse --git-common-dir 2>/dev/null) || { echo DURCHLASS-NOGIT; exit 0; }
-G=$(cd "$G" && pwd); C=$(cd "$C" && pwd)
+G=$(cd "$G" 2>/dev/null && pwd) || { echo DURCHLASS-NOGIT; exit 0; }
+C=$(cd "$C" 2>/dev/null && pwd) || { echo DURCHLASS-NOGIT; exit 0; }
 if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkout: $(dirname "$C"))"; fi
 ```
 
 - `DURCHLASS-NOGIT` (kein Git-Repo/Fehlschlag) oder `HAUPT-CHECKOUT` → Durchlass, KEIN
-  Output — der Guard bleibt unsichtbar. Zusatz nur bei gesetztem `parallel.default_branch`
-  (nicht `null`) in `workflow.config.yaml`: aktueller Branch ungleich dem Wert → Abbruch
-  mit Hinweis „globale Dateien gehoeren auf `{default_branch}`"
+  Output — der Guard bleibt unsichtbar
+- **Branch-Pruefung (optional, nur im `HAUPT-CHECKOUT`-Fall):** Ist `parallel.default_branch`
+  in `workflow.config.yaml` gesetzt (nicht `null`) und `git branch --show-current` ungleich
+  diesem Wert → Abbruch mit Hinweis „globale Dateien gehoeren auf `{default_branch}`"
 - `WORKTREE` (verlinkter Worktree) → harter Abbruch, nichts schreiben:
 
   ```
   ⛔ dtb:workflow-checkpoint schreibt globale Dateien und laeuft nur in der Orchestrator-Session
-     (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele Sessions").
+     (Schreibgrenzen-Regel: globale Dateien haben genau einen Schreiber —
+     die Session im Haupt-Checkout).
      Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
   ```
 
@@ -58,7 +61,11 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
 
 ---
 
-## Hand-off (Worktree → Orchestrator)
+## Worktree-Hand-off (Worktree → Orchestrator)
+
+> Nicht zu verwechseln mit dem `## Handoff`-Block in WORKFLOW_STATUS.md (Uebergang
+> Session→Folgesession, Teil 2/Schritt 4) — dieses Konzept hier ist die Uebergabe
+> Worktree→Orchestrator. Grep-eindeutiges Token: `WORKTREE-HANDOFF`.
 
 ### Hand-off-Block (Format — die eine Quelle)
 
@@ -68,7 +75,7 @@ einfache Aufzaehlungen. Pflichtfelder sind die `HANDOFF`-Kopfzeile und `Erledigt
 alle uebrigen Felder duerfen mit `- keine` gefuellt sein.
 
 ```text
-HANDOFF (dtb) — Quelle: {feature-slug} @ {branch | detached HEAD ({short-sha})}, {YYYY-MM-DD HH:MM}
+WORKTREE-HANDOFF (dtb) — Quelle: {feature-slug} @ {branch | detached HEAD ({short-sha})}, {YYYY-MM-DD HH:MM}
 
 Erledigt:
 - {was wurde umgesetzt, mit Datei-/Schritt-Bezug}
@@ -268,8 +275,8 @@ Skill angestossen werden.
 
 ### Schritt 1: Informationen sammeln
 
-**Empfangsseite (Hand-off):** Enthaelt der Aufruf einen Hand-off-Block (Argument oder
-eingefuegter Text, erkennbar an der Kopfzeile `HANDOFF (dtb) — Quelle: …`):
+**Empfangsseite (Worktree-Hand-off):** Enthaelt der Aufruf einen Hand-off-Block (Argument
+oder eingefuegter Text, erkennbar an der Kopfzeile `WORKTREE-HANDOFF (dtb) — Quelle: …`):
 1. Pflichtfelder pruefen (Kopfzeile mit Slug/Branch + `Erledigt:`) — fehlt eines →
    nachfragen, NICHT raten
 2. Die Session-Inhalte aus dem BLOCK schoepfen statt aus dem Chat-Verlauf (Zuordnung:
