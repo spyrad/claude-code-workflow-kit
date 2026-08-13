@@ -286,11 +286,11 @@ durchlaufen: Worker-Session im Worktree → Hand-off → Orchestrator-Checkpoint
 - [x] 3.1 Lese-Seite idea-review — `d97ad6b`
 - [x] 3.2 Lese-Seite workflow-resume — `d97ad6b`
 - [x] 3.3 Fremdschreib-Verifikation — `d97ad6b`
-- [x] 4.1 Hand-off-Format
-- [x] 4.2 Sende-Seite (Guard-Zweig checkpoint)
-- [x] 4.3 Empfangsseite checkpoint
-- [ ] 5.1 Commit, Push, kit-sync
-- [ ] 5.2 End-to-End-Durchlauf
+- [x] 4.1 Hand-off-Format — `42774fe`
+- [x] 4.2 Sende-Seite (Guard-Zweig checkpoint) — `42774fe`
+- [x] 4.3 Empfangsseite checkpoint — `42774fe`
+- [x] 5.1 Commit, Push, kit-sync
+- [x] 5.2 End-to-End-Durchlauf
 
 ---
 

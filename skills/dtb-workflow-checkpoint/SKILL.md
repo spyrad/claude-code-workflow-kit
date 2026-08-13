@@ -68,7 +68,7 @@ einfache Aufzaehlungen. Pflichtfelder sind die `HANDOFF`-Kopfzeile und `Erledigt
 alle uebrigen Felder duerfen mit `- keine` gefuellt sein.
 
 ```text
-HANDOFF (dtb) — Quelle: {feature-slug} @ {branch}, {YYYY-MM-DD HH:MM}
+HANDOFF (dtb) — Quelle: {feature-slug} @ {branch | detached HEAD ({short-sha})}, {YYYY-MM-DD HH:MM}
 
 Erledigt:
 - {was wurde umgesetzt, mit Datei-/Schritt-Bezug}
@@ -85,6 +85,11 @@ Offene Punkte / Naechste Schritte:
 Uebersprungene globale Updates (Teil-Guards):
 - {z.B. "INBOX #NN: Link/Status nachziehen", oder "- keine"}
 ```
+
+**Branch-Angabe:** Steht der Worktree auf einem detached HEAD, ist das der Normalfall,
+kein Sonderfall — `dtb:worker` legt seine Worktrees mit `git worktree add {pfad} HEAD`
+an (`skills/dtb-worker/SKILL.md`), also ohne Branch. Dann
+`detached HEAD ({short-sha})` eintragen, nie raten oder leer lassen.
 
 Die Felder bilden 1:1 auf das Session-Log-Format ab (Teil 1): Erledigt → Implementiert,
 Dateien → Dateien, Entscheidungen → Kontext, Offene Punkte → Naechste Schritte.
