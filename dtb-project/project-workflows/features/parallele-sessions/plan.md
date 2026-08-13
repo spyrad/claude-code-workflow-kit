@@ -283,12 +283,12 @@ durchlaufen: Worker-Session im Worktree → Hand-off → Orchestrator-Checkpoint
 - [x] 2.1 Guard Capture-Vierergruppe — `bd35683`
 - [x] 2.2 Guard Prozess-Vierergruppe — `bd35683`
 - [x] 2.3 Spiegel-Verifikation + No-op-Beleg — `bd35683`
-- [x] 3.1 Lese-Seite idea-review
-- [x] 3.2 Lese-Seite workflow-resume
-- [x] 3.3 Fremdschreib-Verifikation
-- [ ] 4.1 Hand-off-Format
-- [ ] 4.2 Sende-Seite (Guard-Zweig checkpoint)
-- [ ] 4.3 Empfangsseite checkpoint
+- [x] 3.1 Lese-Seite idea-review — `d97ad6b`
+- [x] 3.2 Lese-Seite workflow-resume — `d97ad6b`
+- [x] 3.3 Fremdschreib-Verifikation — `d97ad6b`
+- [x] 4.1 Hand-off-Format
+- [x] 4.2 Sende-Seite (Guard-Zweig checkpoint)
+- [x] 4.3 Empfangsseite checkpoint
 - [ ] 5.1 Commit, Push, kit-sync
 - [ ] 5.2 End-to-End-Durchlauf
 

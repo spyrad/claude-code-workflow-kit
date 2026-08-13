@@ -151,7 +151,9 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
   `isolation: worktree`); sie uebernehmen Pfad, Branch-Anlage und Aufraeumen
 - Worker-Sessions uebergeben ihre Session-Inhalte am Ende als Hand-off an die
   Orchestrator-Session, die den Checkpoint ausfuehrt (Transport z.B.
-  Herdr-Session-Kommunikation; Fallback: Text der Guard-Abbruchmeldung manuell tragen)
+  Herdr-Session-Kommunikation; Fallback: Text der Guard-Abbruchmeldung manuell tragen).
+  Format und Empfangsseite: `skills/dtb-workflow-checkpoint/SKILL.md` → „Hand-off-Block"
+  (die eine Quelle — hier nur der Verweis)
 - **Bekannte Grenze:** Der Guard erkennt nur verlinkte Worktrees. Zwei Sessions im
   SELBEN Checkout oder Schreiber aus fremden Projekten verletzen das Muster, ohne dass
   der Guard feuert — Leitplanke ist diese Konvention, Auffangnetz die Lesestand-Pruefung

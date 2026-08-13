@@ -49,9 +49,46 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
      Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
   ```
 
-  Die Worktree-Session uebergibt ihre Session-Inhalte stattdessen als Hand-off an die
-  Orchestrator-Session, die dort checkpointet (Sende-Seite: die Meldung erzeugt kuenftig
-  den Hand-off-Block — bis dahin Inhalte manuell in die Orchestrator-Session tragen).
+  **Sende-Seite:** Nach der ⛔-Meldung erzeugt dieser Skill aus dem Sitzungskontext den
+  Hand-off-Block (Format: naechste Sektion) und gibt ihn vollstaendig aus — die
+  Worktree-Session uebergibt ihn an die Orchestrator-Session (Transport: z.B.
+  Herdr-Session-Kommunikation an die Orchestrator-Pane; ohne Herdr manuell kopieren).
+  Der Orchestrator checkpointet damit (Empfangsseite: Schritt 1). Es wird weiterhin
+  NICHTS geschrieben — der Block ist Chat-Output, keine Datei.
+
+---
+
+## Hand-off (Worktree → Orchestrator)
+
+### Hand-off-Block (Format — die eine Quelle)
+
+Der Block ist **status-neutral** (`DERIVED_STATE_RULES.md` §1.1): er enthaelt bewusst
+KEINE `- [ ]`-Checkboxen (nichts, das eine Status-Ableitung mitzaehlen koennte) — nur
+einfache Aufzaehlungen. Pflichtfelder sind die `HANDOFF`-Kopfzeile und `Erledigt:`;
+alle uebrigen Felder duerfen mit `- keine` gefuellt sein.
+
+```text
+HANDOFF (dtb) — Quelle: {feature-slug} @ {branch}, {YYYY-MM-DD HH:MM}
+
+Erledigt:
+- {was wurde umgesetzt, mit Datei-/Schritt-Bezug}
+
+Entscheidungen:
+- {getroffene Entscheidung + 1-Satz-Begruendung, oder "- keine"}
+
+Dateien:
+- {pfad} - {Kurzbeschreibung, oder "- keine"}
+
+Offene Punkte / Naechste Schritte:
+- {offener Punkt, oder "- keine"}
+
+Uebersprungene globale Updates (Teil-Guards):
+- {z.B. "INBOX #NN: Link/Status nachziehen", oder "- keine"}
+```
+
+Die Felder bilden 1:1 auf das Session-Log-Format ab (Teil 1): Erledigt → Implementiert,
+Dateien → Dateien, Entscheidungen → Kontext, Offene Punkte → Naechste Schritte.
+`skills/CLAUDE.md` (Orchestrator-Muster) verweist hierher — Format nur hier pflegen.
 
 ---
 
@@ -225,6 +262,20 @@ Skill angestossen werden.
   wiederholt)
 
 ### Schritt 1: Informationen sammeln
+
+**Empfangsseite (Hand-off):** Enthaelt der Aufruf einen Hand-off-Block (Argument oder
+eingefuegter Text, erkennbar an der Kopfzeile `HANDOFF (dtb) — Quelle: …`):
+1. Pflichtfelder pruefen (Kopfzeile mit Slug/Branch + `Erledigt:`) — fehlt eines →
+   nachfragen, NICHT raten
+2. Die Session-Inhalte aus dem BLOCK schoepfen statt aus dem Chat-Verlauf (Zuordnung:
+   Erledigt → Implementiert, Dateien → Dateien, Entscheidungen → Kontext,
+   Offene Punkte → Naechste Schritte)
+3. Den Log-Eintrag mit Quell-Kennzeichnung schreiben: Kontext beginnt mit
+   `Worker-Session (Worktree {branch}, Hand-off {YYYY-MM-DD HH:MM})`
+4. `Uebersprungene globale Updates` aus dem Block als offene Punkte in
+   `### Naechste Schritte` uebernehmen (dort ALS Checkboxen — der Block selbst traegt
+   keine) bzw. direkt in diesem Lauf nachziehen, wenn trivial (z.B. INBOX-Link)
+Ohne Hand-off-Block: normal aus dem Chat-Verlauf (unten).
 
 **Aus Chat-Verlauf:**
 - Was wurde implementiert/geaendert?
