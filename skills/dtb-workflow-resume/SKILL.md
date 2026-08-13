@@ -116,6 +116,31 @@ verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
 **Fall C: Kein Feature "In Arbeit"**
 - Hinweis: "Kein aktives Feature. Starte eines mit `/dtb:feature-start`"
 
+### Lesestand-Pruefung (Lese-Seite)
+
+Parallele Sessions koennen gelesene Dateien zwischen Einlesen und Report veraendern
+(Orchestrator-Muster: `skills/CLAUDE.md` → „Parallele Sessions" — dieser Skill ist
+lesend-entscheidend: sein Report ist eine Handlungsempfehlung).
+
+1. **Beim Einlesen merken:** mtime der gelesenen Steuer-Dateien festhalten
+   (`WORKFLOW_STATUS.md`, `BACKLOG.md`, die in Schritt 4 gelesenen
+   `features/*/plan.md`) — in EINEM selbstaendigen Bash-Block:
+   ```bash
+   ls -la --time-style=full-iso {datei...}
+   ```
+2. **Unmittelbar vor der Report-Ausgabe (Schritt 5)** dieselbe Abfrage erneut
+   ausfuehren und vergleichen:
+   - mtime unveraendert → still weiterarbeiten (kein Output)
+   - mtime veraendert → Datei NEU lesen und den Inhalt vergleichen:
+     - Inhalt tatsaechlich abweichend → genau eine Zeile im Report
+       `⚠ {Datei} wurde seit dem Einlesen geaendert ({neue mtime}) — Stand neu geladen`
+       und den Report auf dem FRISCHEN Stand aufbauen (kein Abbruch, keine Nachfrage)
+     - Inhalt identisch (nur mtime, z.B. touch/Checkout) → keine Warnung
+   - Datei existiert nicht mehr → wie Abweichung behandeln:
+     `⚠ {Datei} seit dem Einlesen entfernt/verschoben — Ableitung ggf. hinfaellig`
+3. **Bewusste Restluecke:** Das Fenster zwischen Pruefung und Ausgabe bleibt
+   (kein Locking) — Konvention: `skills/CLAUDE.md` → „Parallele Sessions".
+
 ### Schritt 5: Resume-Report
 
 Halte den Report **kompakt** (max 60 Zeilen Output). Fokus auf Actionable Info.

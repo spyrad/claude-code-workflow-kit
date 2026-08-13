@@ -71,6 +71,31 @@ Keine offenen Ideen in der Inbox. Alles aufgeraeumt.
 
 ---
 
+## Lesestand-Pruefung (Lese-Seite)
+
+Parallele Sessions koennen gelesene Dateien zwischen Einlesen und Entscheidung
+veraendern (Orchestrator-Muster: `skills/CLAUDE.md` → „Parallele Sessions" — dieser
+Skill ist lesend-entscheidend; Beleg: fremder INBOX-Nachtrag waehrend eines laufenden
+Reviews, 2026-08-11).
+
+1. **Beim Einlesen merken:** mtime der gelesenen `INBOX.md` festhalten — in EINEM
+   selbstaendigen Bash-Block:
+   ```bash
+   ls -la --time-style=full-iso {pfad}/INBOX.md
+   ```
+2. **Unmittelbar vor JEDER Statusentscheidung** (jedem Schreiben einer Status-Aenderung
+   in Schritt 3) dieselbe Abfrage erneut ausfuehren und vergleichen:
+   - mtime unveraendert → still weiterarbeiten (kein Output)
+   - mtime veraendert → Datei NEU lesen und den Inhalt vergleichen:
+     - Inhalt tatsaechlich abweichend → genau eine Zeile
+       `⚠ INBOX.md wurde seit dem Einlesen geaendert ({neue mtime}) — Stand neu geladen`
+       und mit dem FRISCHEN Stand weiterarbeiten (kein Abbruch, keine Nachfrage)
+     - Inhalt identisch (nur mtime, z.B. touch/Checkout) → keine Warnung
+   - Datei existiert nicht mehr → wie Abweichung behandeln:
+     `⚠ INBOX.md seit dem Einlesen entfernt/verschoben — Entscheidung ggf. hinfaellig`
+3. **Bewusste Restluecke:** Das Fenster zwischen Pruefung und eigenem Schreiben bleibt
+   (kein Locking) — Konvention: `skills/CLAUDE.md` → „Parallele Sessions".
+
 ## Schritt 2: Uebersicht zeigen
 
 ```

@@ -280,12 +280,12 @@ durchlaufen: Worker-Session im Worktree → Hand-off → Orchestrator-Checkpoint
 - [x] 1.1 Konvention CLAUDE.md + worker-Umstellung — `7009da6`
 - [x] 1.2 Kanonischer Guard-Block — `7009da6`
 - [x] 1.3 Config-Key + project-init-Seed — `7009da6`
-- [x] 2.1 Guard Capture-Vierergruppe
-- [x] 2.2 Guard Prozess-Vierergruppe
-- [x] 2.3 Spiegel-Verifikation + No-op-Beleg
-- [ ] 3.1 Lese-Seite idea-review
-- [ ] 3.2 Lese-Seite workflow-resume
-- [ ] 3.3 Fremdschreib-Verifikation
+- [x] 2.1 Guard Capture-Vierergruppe — `bd35683`
+- [x] 2.2 Guard Prozess-Vierergruppe — `bd35683`
+- [x] 2.3 Spiegel-Verifikation + No-op-Beleg — `bd35683`
+- [x] 3.1 Lese-Seite idea-review
+- [x] 3.2 Lese-Seite workflow-resume
+- [x] 3.3 Fremdschreib-Verifikation
 - [ ] 4.1 Hand-off-Format
 - [ ] 4.2 Sende-Seite (Guard-Zweig checkpoint)
 - [ ] 4.3 Empfangsseite checkpoint
