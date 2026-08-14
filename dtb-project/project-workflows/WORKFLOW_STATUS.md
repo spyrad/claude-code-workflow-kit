@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-08-13
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-13.md`
+**Letztes Update:** 2026-08-14
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-14.md`
 
 ---
 
@@ -16,7 +16,7 @@
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Alle fuenf Features: `review.md` sagt je „REJECTED", die Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder, jetzt **vier** #35-Belege.
+⚠ Alle fuenf Features: `review.md` sagt je „REJECTED", die Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder, weiterhin **vier** #35-Belege.
 
 ---
 
@@ -25,17 +25,16 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Erreicht (08-11 bis 08-13)** | **#42 von der Idee bis 14/14 in einer Sitzung** — Voll-Schiene komplett, 6 Commits `7009da6`…`746b810`, Kit verteilt (Lock `746b810`, 46 synchron). Guard-Liste zweimal per `produces`-Frontmatter korrigiert, nie geschaetzt |
-| **Kernbefund** | **Der Verifikations-Apparat produzierte zwei eigene Fehler:** ein git-Flag, das es auf dieser Maschine nicht gibt (`--path-format`, erst ab 2.31 → L24), und eine Grep-Zaehlung, die an gemischten Zeilenenden scheiterte (3 statt 8 Treffer → L25). Beide waeren ohne Gegenprobe als „gruen" durchgegangen |
-| **Nicht belegt** | Die **Herdr-Uebergabe** selbst — der E2E-Lauf lief ueber einen Subagenten. Deshalb bleibt #42 „Fertig zum Testen" trotz bestaetigter Manual-Kriterien |
-| **Kit-Stand (maschinenlokal!)** | Lock **46 Artefakte @ `746b810`** (2026-08-13). Kennzahl gilt **nicht** projektweit (#66) |
-| **Notizen** | Lektionen L1-L14 + L22-L25 (ungetrackt, #34 — Luecke L15-L21). Ideen-Bestand **33 offen**, #42 auf `Ausgearbeitet`. ROADMAP-§5-Sync zum **elften** Mal leer. Verlustpruefung 2026-08-13: 4 Funde, 2 abgesetzt (L24/L25) |
+| **Erreicht (2026-08-14)** | Nichts implementiert — Lese-/Absicherungs-Session (Resume, commit-and-push, Verlustpruefung); Vortags-Stand gesichert: `0553980` gepusht, Arbeitsbaum vor diesem Checkpoint sauber. **Kernbefund: Handoff-Verfall zum dritten Mal belegt (L23/#35) — und die Bedingungs-Klausel hielt zum zweiten Mal:** `/dtb:commit-and-push` war gegenstandslos (clean & `0/0`), der mitgeschriebene Nachfolge-Schritt griff ohne Nacharbeit |
+| **Neuer Befund** | `workflow-resume` **Fall C** kollabiert 5x `Y/Y` auf „Starte eines mit `/dtb:feature-start`" — die Restabnahmen kommen im Report nicht vor; der echte naechste Schritt stammte aus `## Offene Aufgaben`, nicht aus der Ableitung (Familie #35, eigene Aussage). **Nicht belegt** bleibt die **Herdr-Uebergabe** (einziger offener Abnahme-Beleg fuer #42); Kit-Stand unveraendert Lock **46 @ `746b810`**, maschinenlokal (#66) |
+| **Notizen** | Lektionen L1-L14 + L22-L25 (ungetrackt, #34 — Luecke L15-L21). Ideen-Bestand **33 offen**. ROADMAP-§5-Sync zum **zwoelften** Mal leer (unbefuellte Vorlage ohne Change-IDs). Verlustpruefung 2026-08-14: 1 Fund, offen; 2 gefiltert |
 
 ---
 
 ## Offene Aufgaben
 
 - [ ] **Herdr-Uebergabe real durchspielen** — offener Abnahme-Beleg fuer `parallele-sessions`
+- [ ] **Verlustfund 2026-08-14 absetzen** — `/dtb:idea` zum `workflow-resume`-Fall-C-Befund
 - [ ] **2 Verlustfunde vom 2026-08-11 absetzen** — 2x `/dtb:lesson` (instabiler Lesestand bei Parallelsessions; master-Commit-Konvention)
 - [ ] **L11-L14 + L22-L25 nach `skills/CLAUDE.md` heben** — `Applies-to: alle`, leben nur lokal (#34/#64); L24/L25 gehoeren in „Mechanik-Regeln"
 - [ ] **2 Findings unterhalb des impl-review-Caps** — meeting-dump-Echo-Ausnahme benennen; `ls -la` ist GNU-only (`ls -l` genuegt)
@@ -43,7 +42,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 - [ ] **L20-Bestandsnachlauf** — `feature-start-statusfeld/plan.md:101` + `meeting-agenda/plan.md:104`
 - [ ] **9 Funde aelterer Verlustpruefungen absetzen** — 4 vom 2026-08-07 S1 + 5 vom 2026-08-06
 - [ ] #66 · #65 · #64 · #63 · #62 · #59 · #58 · #57 · #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 entscheiden
-- [ ] Restabnahmen der vier Bestands-Features · Config-Platzhalter fuellen · ROADMAP-Vorlage fuellen oder entfernen (11x leer) · pkp intern committen (`UI.md` + Tokens)
+- [ ] Restabnahmen der vier Bestands-Features · Config-Platzhalter fuellen · **ROADMAP.md befuellen oder entfernen (12x leer)** · pkp intern committen (`UI.md` + Tokens)
 
 ---
 
@@ -66,16 +65,16 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — der Checkpoint hinterlaesst Log, Status,
-BACKLOG, INBOX, `spec.md` und `lessons.md`-Nachtraege uncommittet; `746b810` ist gepusht,
-alles danach nicht.
-**Empfehlung:** `/clear`, dann `/dtb:workflow-resume`; danach obigen Befehl.
-**Gueltigkeitsbedingung:** gilt, solange `git status --short` nicht leer ist. Ist der
-Arbeitsbaum bereits sauber, ist der naechste Schritt die **Herdr-Uebergabe real durchspielen**
-(Abnahme-Beleg fuer `parallele-sessions`) — danach Abnahme im Checkpoint.
+**Naechster Befehl:** — offen — kein Skill-Schritt: **manueller Abnahme-Lauf „Herdr-Uebergabe
+real durchspielen"** (Worker-Session im Worktree → Guard-Abbruch → Hand-off-Block →
+Orchestrator-Pane), danach `/dtb:workflow-checkpoint` fuer die Abnahme.
+**Empfehlung:** `/clear`, dann `/dtb:workflow-resume`; danach obigen Lauf.
+**Gueltigkeitsbedingung:** gilt, solange `features/parallele-sessions/spec.md` **nicht**
+`Abgenommen` traegt (danach: `/dtb:archive` bzw. `/dtb:idea-review`). Dieser Checkpoint
+hinterlaesst Log, Status und BACKLOG uncommittet → `/dtb:commit-and-push` steht **vorher** an,
+erledigt sobald `git status --short` leer ist.
 ⚠ **Ableitung bewusst uebersteuert:** Die Regel zeigt bei `review.md` mit REJECTED auf
-`/dtb:implement` — bei allen fuenf Features sind die Findings behoben (Triage-Bilanzen in
-den Session-Logs bzw. in `review.md`). Eingefrorene Verdikt-Felder, vier #35-Belege.
-⚠ **Fremdschreib-Risiko (#42):** Am 2026-08-11 schrieb eine Session aus einem **anderen**
-Projekt in diese INBOX. Die neue Lesestand-Pruefung faengt das jetzt in `idea-review` und
-`workflow-resume` — ausserhalb dieser beiden Skills weiter Stand vor Entscheidungen nachlesen.
+`/dtb:implement` — bei allen fuenf Features sind die Findings behoben (Triage-Bilanzen in den
+Logs bzw. `review.md`). Eingefrorene Verdikt-Felder, vier #35-Belege.
+⚠ **Fremdschreib-Risiko (#42):** Am 2026-08-11 schrieb eine Fremdsession in diese INBOX. Die
+Lesestand-Pruefung deckt `idea-review` + `workflow-resume` — sonst Stand vor Entscheidungen nachlesen.
