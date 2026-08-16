@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
 **Letztes Update:** 2026-08-16
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-16.md` (Session 3)
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-16.md` (Session 4)
 
 ---
 
@@ -28,14 +28,13 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 |----------|------|
 | **Blocker** | Keine |
 | **Erreicht (2026-08-16)** | Vormittags #42 abgenommen+archiviert (erster realer Worker-Hand-off); abends **#67 an EINEM Tag Idee→Abnahme**: `dtb:worker` Pane-Traeger (Hinweg/Rueckweg/Abschluss/Queue automatisch), E2E mit 2 echten Aufgaben, Negativ-Test gefangen, impl-review 12/12 Findings behoben. E2E erledigte #65 + ls-Portabilisierung gleich mit |
-| **Notizen** | Uncommittet: Triage-Fixes + review.md + Statussync → commit-and-push + kit-sync faellig (4 Klasse-A-Dateien tragen Triage-Fixes noch nicht verteilt). Worker-Panes w3:p7/w3:p8 leben noch. Ideen-Bestand 32 offen. Verlustfunde: L15-Raender-Lektion (neu) + Fall-C + #60 (jetzt 4 Belege) |
+| **Notizen** | Gesichert + verteilt: `d43d5a2` gepusht, Kit 46/46 synchron. Worker-Panes w3:p7/w3:p8 leben noch (manuelles /exit). Ideen-Bestand 32 offen. Verlustfunde: L15-Raender-Lektion (neu) + Fall-C + #60 (4 Belege) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:commit-and-push` + kit-sync** — Triage-Fixes an 2 Klasse-A-Dateien (dtb-worker + Root/skills-CLAUDE.md sind Repo-Doku) + review.md + Statussync uncommittet
-- [ ] **`/dtb:archive`** — 3 Kandidaten (herdr-worker-automation, lesestand-ls-portabel, archive-4d-realitaet)
+- [ ] **`/dtb:archive`** — 5 Kandidaten identifiziert (INBOX #67+#65; 3 Change-Ordner, alle Abgenommen), Bestaetigung stand beim Session-4-Checkpoint noch aus
 - [ ] **Worker aufraeumen** — /exit in w3:p7 + w3:p8, dann Worktrees + Task-Branches entfernen
 - [ ] **L15-Raender-Lektion absetzen** — `/dtb:lesson` (Befehl im Verlustreport Session 3)
 - [ ] **F4-Nachlauf** — Branch-Prosa in dtb-workflow-checkpoint (Ein-Satz, nach dem Archiv; notiert in der Spec #67)
@@ -69,7 +68,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` (Triage-Fixes + Statussync sichern) → kit-sync-Nachlauf → `/dtb:archive` (3 Kandidaten) → Worker-Panes aufraeumen.
-**Empfehlung:** In DIESER Session direkt weiter (Kontext warm); sonst `/clear` + `/dtb:workflow-resume`.
-**Gueltigkeitsbedingung:** `/dtb:commit-and-push` gilt, solange `git status --short` nicht leer bzw. `master` ahead ist; `/dtb:archive` gilt, solange die drei `features/`-Ordner existieren; Pane-Aufraeumen setzt beendete Worker-Sessions voraus (`/exit` tippt der Mensch — w3:p7 traegt noch die lesestand-Session).
+**Naechster Befehl:** `/dtb:archive` (5 Kandidaten warten auf die Bestaetigung) → danach Worker-Panes aufraeumen (/exit in w3:p7 + w3:p8, dann Worktrees + Branches entfernen) → Checkpoint-Rest committen.
+**Empfehlung:** In DIESER Session direkt weiter; sonst `/clear` + `/dtb:workflow-resume`.
+**Gueltigkeitsbedingung:** `/dtb:archive` gilt, solange die drei `features/`-Ordner (herdr-worker-automation, lesestand-ls-portabel, archive-4d-realitaet) existieren. Dieser Checkpoint hinterlaesst Log + Status uncommittet → `/dtb:commit-and-push` faellig, erledigt sobald `git status --short` leer ist. Pane-Aufraeumen setzt beendete Worker-Sessions voraus (`/exit` tippt der Mensch).
 ⚠ **Ableitung bewusst uebersteuert:** `review.md` mit REJECTED zeigt regulaer auf `/dtb:implement` — Findings sind bei allen Features behoben (eingefrorene Verdikt-Felder, #35).
