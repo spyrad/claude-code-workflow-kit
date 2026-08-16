@@ -133,6 +133,68 @@ Die Freigabe ist die Governance-Klammer vorn — ohne sie startet nichts.
 
 ## Modus 2: Ausfuehrung (nur nach Freigabe aus Schritt 5)
 
+### Traeger-Weiche (Subagent | Pane)
+
+Die Ausfuehrung hat zwei Traeger; die Wahl faellt im Freigabe-Dialog (Schritt 5), Default
+ist der Subagent:
+
+- **`subagent` (Default):** Background-Subagent im Worktree — blind, Ergebnis als
+  `worker-report.md` (Schritte 6-9, unveraendertes Verhalten)
+- **`pane` (nur auf explizite Wahl):** Echte Claude-Code-Session in einer Herdr-Pane —
+  beobachtbar und unterbrechbar; Ergebnis als WORKTREE-HANDOFF-Block statt
+  `worker-report.md` (Ablauf: `### Pane-Ausfuehrung`, wird von Phase 2/3 dieses Features
+  gefuellt)
+
+**Eligibility-Gate des Pane-Traegers (hart):** `HERDR_ENV` = `1` UND `herdr` im PATH
+(`command -v herdr`). Sonst Abbruch — KEINE stille Degradierung auf den Subagenten:
+
+```
+⛔ Pane-Modus braucht Herdr (HERDR_ENV=1 + herdr-CLI), hier nicht verfuegbar.
+   Alternativen: Subagenten-Modus (dtb:worker, Default) oder manueller
+   Worker-Hand-off (skills/CLAUDE.md → „Parallele Sessions").
+```
+
+### Pane-Auftrag (Vorlage — die eine Quelle)
+
+Der Auftragstext traegt ALLES, was die Worker-Session wissen muss — Rolle, Ort, Adressen,
+Rueckkanal. Es gibt bewusst KEINE Team-Registry und keine persistierten Pane-IDs
+(fluechtige Adressen; eine Datei waere eine Zustandsaussage ohne Pfleger). Die
+Orchestrator-Adresse kommt zur Laufzeit aus `$HERDR_PANE_ID`. Alle Herdr-Kommandos des
+Pane-Modus stehen NUR in dieser Vorlage und in `### Pane-Ausfuehrung` — Herdr-CLI-Drift
+(bekanntes, dokumentiertes Risiko; Syntax-Stand 2026-08-16) wird an einem Ort korrigiert:
+
+```
+Du bist Worker-Session fuer den Change `{slug}`.
+Dein Arbeitsplatz ist dieser Worktree ({worktree-pfad}) — arbeite nur hier, fasse keine
+zentralen Workflow-Dateien an (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele
+Sessions").
+Orchestrator: Herdr-Pane {orchestrator-pane}.
+
+Auftrag: Lies {config.paths.workflows}/features/{slug}/task.md und arbeite die
+## Schritte ab. Hake erledigte Schritte in der task.md ab.
+{Vorab-Antworten aus der Freigabe, falls vorhanden}
+Committe deine Aenderungen auf dem aktuellen Branch (task/{slug}) mit aussagekraeftiger
+Message — NIEMALS pushen, keine anderen Branches.
+Deckelung: max. {worker.max_attempts} Versuche, max. {worker.max_minutes} Minuten.
+Triffst du auf eine ungeklaerte Entscheidung, die deine Vorab-Antworten nicht abdecken:
+stoppe die Arbeit und fuehre sie unter „Offene Punkte" im Hand-off-Block auf — niemals
+raten.
+
+Wenn fertig: Baue den WORKTREE-HANDOFF-Block nach dem Format aus deiner installierten
+Skill-Kopie `~/.claude/skills/dtb-workflow-checkpoint/SKILL.md` (Sektion
+„### Hand-off-Block") — den Skill NICHT aufrufen, nur das Format lesen. Schicke den
+Block WOERTLICH und VOLLSTAENDIG (inklusive Kopfzeile „WORKTREE-HANDOFF (dtb) — …") an
+den Orchestrator zurueck:
+herdr agent prompt {orchestrator-pane} "<der komplette Block>"
+Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empfangsseite.
+```
+
+Der Block ersetzt im Pane-Modus den `worker-report.md` vollstaendig (er landet via
+Empfangsseite im Session-Log — dauerhafter als der Report; Entscheidung 2026-08-16).
+Die Schreibgrenze und die VERBOTE-Substanz gelten unveraendert — einziger Unterschied
+zum Subagenten: der Pane-Worker COMMITTET auf seinem eigenen Task-Branch (Merge und
+Diff-Abnahme brauchen eine Branch-Referenz), pusht aber nie.
+
 ### Schritt 6: Worker starten (Einzel-Task)
 
 **Vorbedingung (hart):** Zielbereich clean — `git status --short` fuer die vom Task
@@ -183,9 +245,13 @@ der Anzahl gleichzeitig laufender Worker (je Worker immer ein eigener Worktree):
 1. **Reihenfolge:** Die freigegebene Reihenfolge aus der Sicht wird abgearbeitet.
    Abhaengige Eintraege warten auf ihren Vorgaenger; unabhaengige Eintraege mit
    disjunkten Dateien (∥-Kandidaten) starten gleichzeitig
-2. **Kollisionsregel:** Stellt sich waehrend des Laufs heraus, dass zwei Worker doch
-   dieselbe Datei anfassen (die Analyse ist eine Schaetzung) → der SPAETER gestartete
-   Worker stoppt mit Ausgang „gestoppt"; sein Eintrag wandert ans Listen-Ende
+2. **Kollisionsregel (gilt fuer BEIDE Traeger — Subagent wie Pane):** Stellt sich
+   waehrend des Laufs heraus, dass zwei Worker doch dieselbe Datei anfassen (die Analyse
+   ist eine Schaetzung) → der SPAETER gestartete Worker stoppt mit Ausgang „gestoppt";
+   sein Eintrag wandert ans Listen-Ende. Im Pane-Modus verhindert die Zuteilung die
+   Kollision zusaetzlich vorab: Aufgaben mit gemeinsamen Dateien werden nie gleichzeitig
+   zugeteilt — der freie Worker bekommt die naechste konfliktfreie Aufgabe, die
+   kollidierende wartet (Warteschlange). Diese Stopp-Regel bleibt das Auffangnetz
 3. **`teilweise`-Eintraege** (unbeantwortete Vorab-Frage): ueberspringen und am Ende
    gesammelt melden — kein stiller Verlust
 4. **Degradation:** Kein Git-Repo bzw. keine Worktree-Faehigkeit → sequenziell direkt im

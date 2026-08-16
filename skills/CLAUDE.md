@@ -154,6 +154,12 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
   Herdr-Session-Kommunikation; Fallback: Text der Guard-Abbruchmeldung manuell tragen).
   Format und Empfangsseite: `skills/dtb-workflow-checkpoint/SKILL.md` → „Hand-off-Block"
   (die eine Quelle — hier nur der Verweis)
+- **Pane-Worker (automatisierte Variante):** `dtb:worker` kann Worker als echte
+  Claude-Code-Sessions in Herdr-Panes fuehren (Traeger `pane` statt Subagent) —
+  Worktree-Anlage, Beauftragung und Rueckweg des Hand-off-Blocks laufen dann
+  automatisiert; der Mensch behaelt Freigabe und Diff-Abnahme. Mechanik, Auftragstext
+  und Gate: `skills/dtb-worker/SKILL.md` → „Traeger-Weiche" / „Pane-Auftrag"
+  (die eine Quelle — hier nur der Verweis)
 - **Bekannte Grenze:** Der Guard erkennt nur verlinkte Worktrees. Zwei Sessions im
   SELBEN Checkout oder Schreiber aus fremden Projekten verletzen das Muster, ohne dass
   der Guard feuert — Leitplanke ist diese Konvention, Auffangnetz die Lesestand-Pruefung
