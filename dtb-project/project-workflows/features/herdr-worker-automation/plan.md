@@ -244,12 +244,12 @@ installierten Kopien sind aktuell; die Success Criteria sind real belegt.
 - [x] 1.1 Traeger-Weiche + Herdr-Gate — `161367b`
 - [x] 1.2 Pane-Auftrag-Vorlage — `161367b`
 - [x] 1.3 Kollisionsregel + Konvention + Config-Gegenprobe — `161367b`
-- [x] 2.1 Vorbedingungen + Warnpruefung
-- [x] 2.2 Start-Sequenz
-- [x] 2.3 Trockenlauf + Gate-Negativ + Zustellungs-Probe
-- [ ] 3.1 Warte-Logik
-- [ ] 3.2 Branch-Verifikation
-- [ ] 3.3 Abschluss-Sequenz
+- [x] 2.1 Vorbedingungen + Warnpruefung — `766d9a0`
+- [x] 2.2 Start-Sequenz — `766d9a0`
+- [x] 2.3 Trockenlauf + Gate-Negativ + Zustellungs-Probe — `766d9a0`
+- [x] 3.1 Warte-Logik
+- [x] 3.2 Branch-Verifikation
+- [x] 3.3 Abschluss-Sequenz
 - [ ] 4.1 Warteschlange
 - [ ] 4.2 Commit, Push, kit-sync
 - [ ] 4.3 End-to-End-Beleg (2 Aufgaben) + Negativ-Test

@@ -239,7 +239,61 @@ Drift-Risiko dokumentiert; Kommandos nur hier und in der Vorlage oben):
    belegt — Zustellungs-Probe 2026-08-16)
 
 Danach kehrt der Orchestrator zur eigenen Arbeit zurueck — KEIN blockierendes Warten
-(Rueckweg: naechste Sektion, gefuellt von Phase 3 dieses Features).
+(Rueckweg: naechste Sektion).
+
+#### Rueckweg: Warten ohne Warten
+
+Der Push des Workers erreicht die Orchestrator-Session von selbst als Eingabe (belegt
+2026-08-16) — es laeuft KEIN blockierender wait-Prozess. Stattdessen prueft der
+Orchestrator **anlassbezogen** (der Mensch fragt nach dem Stand, oder die naechste
+Aufgabe soll zugeteilt werden) per `herdr agent get {pane-id}` Status und verstrichene
+Zeit gegen `worker.max_minutes`. Drei Ausgaenge:
+
+- **(a) WORKTREE-HANDOFF-Block trifft ein** (Kopfzeile erkannt) → Branch-Verifikation
+  (naechster Abschnitt)
+- **(b) Status `blocked`** (Permission-/Frage-Dialog) → Pane lesen
+  (`herdr pane read {pane-id}`), Zustand melden, Mensch entscheidet
+  (weiterwarten / eingreifen / stoppen)
+- **(c) Zeit ueber `worker.max_minutes`** → wie (b): Pane lesen, melden, Mensch
+  entscheidet. **KEIN Auto-Stopp** — ein Abbruch wuerfe moeglicherweise fast fertige
+  Arbeit weg, und die Pane ist ja sichtbar (der Vorteil dieses Traegers)
+
+#### Rueckweg: Branch-Verifikation (vor dem Checkpoint)
+
+Der Block ist eine Behauptung — git ist die Wahrheit. VOR dem Checkpoint-Aufruf prueft
+der Orchestrator (diese Verifikation lebt HIER, `dtb:workflow-checkpoint` bleibt
+unveraendert; seine Empfangsseite konsumiert wie bisher nur den Block):
+
+1. **Pflichtfelder:** Kopfzeile `WORKTREE-HANDOFF (dtb) — Quelle: …` + `Erledigt:`
+   vorhanden (fehlt eines → beim Worker nachfassen, nicht raten)
+2. **Commit existiert:** `git log --oneline master..task/{slug}` zeigt den im Block
+   genannten Commit (auch: „vergessen zu committen" faellt hier auf)
+3. **Dateiliste stimmt:** `git diff --stat master..task/{slug}` deckt die Eintraege
+   unter `Dateien:` — Abweichung in beide Richtungen melden (Datei im Diff, aber nicht
+   im Block, und umgekehrt)
+
+Abweichung → Befund melden, Block trotzdem anzeigen (Entscheidung beim Menschen), KEIN
+Merge-Angebot. Verifikation gruen → Meldung als blockierende Auswahlfrage:
+`Worker {slug} fertig — Diff ansehen?` (Optionen: Diff zeigen / direkt abnehmen /
+liegen lassen).
+
+#### Abschluss (nach menschlicher Diff-Abnahme)
+
+Reihenfolge (entschieden 2026-08-16 — der Worktree bleibt bis nach dem Checkpoint als
+Beweismittel lesbar; KEIN Auto-Merge, die Abnahme ist eine explizite Auswahlfrage):
+
+1. `git merge --ff-only task/{slug}` — bei non-fast-forward: melden, `git merge` vs.
+   Rebase dem Menschen ueberlassen, NIE `--force`/`--no-verify`
+2. **Klasse-A-Check:** Liegen im Diff Dateien der kit-sync-Klassen
+   (`skills/dtb-*/SKILL.md`, `agents/*.md`, `commands/dtb-*.md`,
+   `output-styles/dtb-*.md`) → Hinweiszeile „Nachlauf: Commit → Push →
+   `/dtb:kit-sync sync`" (#51-Muster)
+3. Hinweis auf `/dtb:workflow-checkpoint` — der Mensch checkpointet mit dem Block
+   (Empfangsseite schreibt den Log-Eintrag mit Quell-Kennzeichnung)
+4. NACH dem Checkpoint: Worker-Session beenden lassen (`/exit` in der Pane), Pane
+   schliessen, `git worktree remove {pfad}` + `git branch -d task/{slug}` — unter
+   Windows ggf. kurz warten (Datei-Lock der eben geschlossenen Pane) und mit
+   `git worktree prune` nachraeumen. Keine verwaisten Registrierungen zuruecklassen
 
 ### Schritt 6: Worker starten (Einzel-Task)
 
