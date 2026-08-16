@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-08-14
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-14.md`
+**Letztes Update:** 2026-08-16
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-16.md`
 
 ---
 
@@ -9,14 +9,15 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| parallele-sessions (#42) | Fertig zum Testen | 14/14 | Herdr-Uebergabe real durchspielen, dann Abnahme im Checkpoint |
+| parallele-sessions (#42) | Abgenommen | 14/14 | /dtb:archive |
+| pipeline-kante-worker-checkpoint (#58 F2) | Erledigt | 3/3 | /dtb:archive |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung, dann Abnahme |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Alle fuenf Features: `review.md` sagt je „REJECTED", die Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder, weiterhin **vier** #35-Belege.
+⚠ Die vier „Fertig zum Testen"-Features: `review.md` sagt je „REJECTED", Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder (#35-Belege). Gilt auch fuer das abgenommene parallele-sessions.
 
 ---
 
@@ -25,24 +26,25 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Erreicht (2026-08-14)** | Nichts implementiert — Lese-/Absicherungs-Session (Resume, commit-and-push, Verlustpruefung); Vortags-Stand gesichert: `0553980` gepusht, Arbeitsbaum vor diesem Checkpoint sauber. **Kernbefund: Handoff-Verfall zum dritten Mal belegt (L23/#35) — und die Bedingungs-Klausel hielt zum zweiten Mal:** `/dtb:commit-and-push` war gegenstandslos (clean & `0/0`), der mitgeschriebene Nachfolge-Schritt griff ohne Nacharbeit |
-| **Neuer Befund** | `workflow-resume` **Fall C** kollabiert 5x `Y/Y` auf „Starte eines mit `/dtb:feature-start`" — die Restabnahmen kommen im Report nicht vor; der echte naechste Schritt stammte aus `## Offene Aufgaben`, nicht aus der Ableitung (Familie #35, eigene Aussage). **Nicht belegt** bleibt die **Herdr-Uebergabe** (einziger offener Abnahme-Beleg fuer #42); Kit-Stand unveraendert Lock **46 @ `746b810`**, maschinenlokal (#66) |
-| **Notizen** | Lektionen L1-L14 + L22-L25 (ungetrackt, #34 — Luecke L15-L21). Ideen-Bestand **33 offen**. ROADMAP-§5-Sync zum **zwoelften** Mal leer (unbefuellte Vorlage ohne Change-IDs). Verlustpruefung 2026-08-14: 1 Fund, offen; 2 gefiltert |
+| **Erreicht (2026-08-16)** | **Erster realer Orchestrator/Worker-Durchlauf — #42 abgenommen.** Echte Worker-Session im Worktree setzte #58 Fall 2 um (`acb405e`), Guard brach beim Worker-Checkpoint korrekt ab, WORKTREE-HANDOFF-Block kam **automatisch** per `herdr agent prompt` an, Empfangsseite schrieb den Log. Manual-Kriterium 5.2 damit belegt. Nebenbei: Idee #67 (Herdr-Automatisierung 1:n) mit drei Test-Befunden erfasst |
+| **Notizen** | Lektionen L1-L14 + L22-L25 (ungetrackt, #34). Ideen-Bestand 34 offen (#67 neu). ROADMAP-§5-Sync weiterhin leer (unbefuellte Vorlage). Verlustpruefung 2026-08-16: 2 Funde offen, 7 gefiltert (in #67 aufgegangen). Kit-Stand: Lock `08fa791` — `dtb-workflow-checkpoint` seit `acb405e` drift → kit-sync faellig |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Herdr-Uebergabe real durchspielen** — offener Abnahme-Beleg fuer `parallele-sessions`
-- [ ] **Verlustfund 2026-08-14 absetzen** — `/dtb:idea` zum `workflow-resume`-Fall-C-Befund
-- [ ] **2 Verlustfunde vom 2026-08-11 absetzen** — 2x `/dtb:lesson` (instabiler Lesestand bei Parallelsessions; master-Commit-Konvention)
-- [ ] **L11-L14 + L22-L25 nach `skills/CLAUDE.md` heben** — `Applies-to: alle`, leben nur lokal (#34/#64); L24/L25 gehoeren in „Mechanik-Regeln"
-- [ ] **2 Findings unterhalb des impl-review-Caps** — meeting-dump-Echo-Ausnahme benennen; `ls -la` ist GNU-only (`ls -l` genuegt)
-- [ ] **`/dtb:idea-review` fortsetzen** — 33 offene Ideen, seit 2026-08-11 nur #42 entschieden
+- [ ] **`/dtb:commit-and-push` + kit-sync** — Checkpoint-Dateien uncommittet, master 2 ahead; `dtb-workflow-checkpoint/SKILL.md` ist Klasse A (#51-Muster)
+- [ ] **`/dtb:archive`** — parallele-sessions (Abgenommen) + pipeline-kante-worker-checkpoint (Erledigt)
+- [ ] **Worktree `wt-pipeline-kante` entfernen** — erst Worker-Session (w3:p2) beenden, dann `git worktree remove` + Branch loeschen
+- [ ] **Verlustfunde absetzen** — Fall-C-Befund 2026-08-14 (`/dtb:idea`) + #60-Nachtrag dritter Beleg (`/dtb:idea`); dazu 2 Funde vom 2026-08-11 (`/dtb:lesson`)
+- [ ] **INBOX #58 Fall (1)** — `greenfield-prd.after: null`: bewusster Einstiegspunkt oder fehlende Kante?
+- [ ] **L11-L14 + L22-L25 nach `skills/CLAUDE.md` heben** — leben nur lokal (#34/#64)
+- [ ] **2 Findings unterhalb des impl-review-Caps** — meeting-dump-Echo-Ausnahme benennen; `ls -la` ist GNU-only
+- [ ] **`/dtb:idea-review` fortsetzen** — 34 offene Ideen
 - [ ] **L20-Bestandsnachlauf** — `feature-start-statusfeld/plan.md:101` + `meeting-agenda/plan.md:104`
 - [ ] **9 Funde aelterer Verlustpruefungen absetzen** — 4 vom 2026-08-07 S1 + 5 vom 2026-08-06
-- [ ] #66 · #65 · #64 · #63 · #62 · #59 · #58 · #57 · #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 entscheiden
-- [ ] Restabnahmen der vier Bestands-Features · Config-Platzhalter fuellen · **ROADMAP.md befuellen oder entfernen (12x leer)** · pkp intern committen (`UI.md` + Tokens)
+- [ ] #67 · #66 · #65 · #64 · #63 · #62 · #59 · #58 · #57 · #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 entscheiden
+- [ ] Restabnahmen der vier Bestands-Features · Config-Platzhalter fuellen · ROADMAP.md befuellen oder entfernen · pkp intern committen
 
 ---
 
@@ -50,8 +52,8 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-13 | `parallele-sessions` (#42) von der Idee bis „Fertig zum Testen" | 14/14, 6 Commits, Guard in 11 Skills, Kit verteilt; L24/L25 erfasst | `2026-08/2026-08-13.md` |
-| 2026-08-11 | Handoff-Verfall reproduziert + #42-Nachtrag gesichert | Verfalls-Bedingung griff korrekt; `6d3f619`; 3 Verlustfunde | `2026-08/2026-08-11.md` |
+| 2026-08-16 | Erster realer Worker→Orchestrator-Durchlauf, #42 abgenommen | Guard + Hand-off + Empfangsseite end-to-end belegt; #58 F2 erledigt (`acb405e`) | `2026-08/2026-08-16.md` |
+| 2026-08-13 | `parallele-sessions` (#42) von der Idee bis „Fertig zum Testen" | 14/14, 6 Commits, Guard in 11 Skills, Kit verteilt | `2026-08/2026-08-13.md` |
 
 ---
 
@@ -65,16 +67,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** — offen — kein Skill-Schritt: **manueller Abnahme-Lauf „Herdr-Uebergabe
-real durchspielen"** (Worker-Session im Worktree → Guard-Abbruch → Hand-off-Block →
-Orchestrator-Pane), danach `/dtb:workflow-checkpoint` fuer die Abnahme.
-**Empfehlung:** `/clear`, dann `/dtb:workflow-resume`; danach obigen Lauf.
-**Gueltigkeitsbedingung:** gilt, solange `features/parallele-sessions/spec.md` **nicht**
-`Abgenommen` traegt (danach: `/dtb:archive` bzw. `/dtb:idea-review`). Dieser Checkpoint
-hinterlaesst Log, Status und BACKLOG uncommittet → `/dtb:commit-and-push` steht **vorher** an,
-erledigt sobald `git status --short` leer ist.
-⚠ **Ableitung bewusst uebersteuert:** Die Regel zeigt bei `review.md` mit REJECTED auf
-`/dtb:implement` — bei allen fuenf Features sind die Findings behoben (Triage-Bilanzen in den
-Logs bzw. `review.md`). Eingefrorene Verdikt-Felder, vier #35-Belege.
-⚠ **Fremdschreib-Risiko (#42):** Am 2026-08-11 schrieb eine Fremdsession in diese INBOX. Die
-Lesestand-Pruefung deckt `idea-review` + `workflow-resume` — sonst Stand vor Entscheidungen nachlesen.
+**Naechster Befehl:** `/dtb:commit-and-push` (Checkpoint-Stand + 2 ungepushte Commits sichern), danach kit-sync-Nachlauf und `/dtb:archive` (parallele-sessions + pipeline-kante-worker-checkpoint).
+**Empfehlung:** `/clear`, dann `/dtb:workflow-resume`; danach obige Befehle.
+**Gueltigkeitsbedingung:** `/dtb:commit-and-push` gilt, solange `git status --short` nicht leer bzw. `master` ahead ist; `/dtb:archive` gilt, solange `features/parallele-sessions/` und `features/pipeline-kante-worker-checkpoint/` existieren. Worktree-Aufraeumen (`wt-pipeline-kante`) setzt beendete Worker-Session voraus.
+⚠ **Ableitung bewusst uebersteuert:** `review.md` mit REJECTED zeigt regulaer auf `/dtb:implement` — Findings sind bei allen Features behoben (eingefrorene Verdikt-Felder, #35).

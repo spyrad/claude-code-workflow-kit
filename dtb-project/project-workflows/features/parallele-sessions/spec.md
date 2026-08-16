@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-12
 **Ziel:** Parallele Sessions in einem Projekt laufen ohne Verlustrisiko an den globalen Dateien — genau ein globaler Schreiber (Orchestrator im Haupt-Checkout), Worker-Sessions in eigenen Worktrees, Hand-off statt Direktschreiben.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- explizit gesetzt 2026-08-16 (dtb:workflow-checkpoint) — Beleg: Herdr-Uebergabe real durchgespielt; abgeleitete Anzeige sonst von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

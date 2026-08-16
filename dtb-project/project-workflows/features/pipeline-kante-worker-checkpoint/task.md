@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-08-16
 **Prioritaet:** Mittel
-**Status:** Offen
+**Status:** Erledigt <!-- abgeleitete Anzeige, sync: dtb:workflow-checkpoint 2026-08-16 (3/3, Commit acb405e) -->
 **Bereich:** Skill-Pipeline-Metadaten (Frontmatter)
 
 ---
