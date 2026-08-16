@@ -37,9 +37,9 @@ Anweisung, die bei jeder Ausfuehrung gebrochen werden muss, ist ein Defekt.
 
 ## Schritte
 
-- [ ] 4d umformulieren: archivierte Items aus JEDEM BACKLOG-Abschnitt entfernen (Aktive Features, Aufgaben, Abgeschlossen)
-- [ ] 4e umformulieren: Zeilen archivierter Items aus der Status-Tabelle entfernen; Warnung nur noch bei faelschlich „In Arbeit" gefuehrten Items
-- [ ] Verifikation: `grep -c "bleibt unberuehrt" skills/dtb-archive/SKILL.md` = 0 UND Schritt-4d-/4e-Ueberschriften weiterhin vorhanden (Grep je = 1)
+- [x] 4d umformulieren: archivierte Items aus JEDEM BACKLOG-Abschnitt entfernen (Aktive Features, Aufgaben, Abgeschlossen)
+- [x] 4e umformulieren: Zeilen archivierter Items aus der Status-Tabelle entfernen; Warnung nur noch bei faelschlich „In Arbeit" gefuehrten Items
+- [x] Verifikation: `grep -c "bleibt unberuehrt" skills/dtb-archive/SKILL.md` = 0 UND Schritt-4d-/4e-Ueberschriften weiterhin vorhanden (Grep je = 1)
 
 ## Ergebnis
 

@@ -153,16 +153,31 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 
 ### 4d: BACKLOG.md bereinigen
 
-- Entferne archivierte Features aus dem Abschnitt "Abgeschlossen"
-- Entferne archivierte Bugs aus dem Abschnitt "Bugs" (Status `Behoben`)
-- Entferne archivierte Aufgaben aus dem Abschnitt "Aufgaben" (Status `Erledigt`)
-- Abschnitt "Aktive Features" bleibt unberuehrt
+- **Archivierte Items werden aus JEDEM Abschnitt entfernt** — "Aktive Features", "Bugs",
+  "Aufgaben" und "Abgeschlossen". Ein archiviertes Item hat in BACKLOG.md keine Zeile mehr,
+  egal unter welcher Ueberschrift sie stand
+- In der Praxis stehen abgeschlossene Features bis zur Archivierung im Abschnitt
+  "Aktive Features": der Abschnitt "Abgeschlossen" wird bewusst leer gehalten
+  (Karteileichen-Entscheidung 2026-08-07). Die Archivierung ist der Moment, in dem die Zeile
+  verschwindet — sie wird **nicht** vorher nach "Abgeschlossen" umgehaengt
+- Konkret zu pruefende Abschnitte: "Aktive Features" (Status `Abgenommen`/`Abgeschlossen`),
+  "Bugs" (Status `Behoben`), "Aufgaben" (Status `Erledigt`), "Abgeschlossen" (Altbestand)
 
 ### 4e: WORKFLOW_STATUS.md bereinigen
 
 - Lies `{config.paths.workflows}/WORKFLOW_STATUS.md`
-- Entferne Referenzen auf soeben archivierte Features, Bugs und Tasks
-- Falls ein archiviertes Item dort als "aktiv" oder "in Arbeit" gefuehrt wird: **nicht entfernen**, sondern Warnung ausgeben
+- **Entferne die Zeilen soeben archivierter Features, Bugs und Tasks aus der Status-Tabelle**
+  sowie sonstige Referenzen auf sie. Der Statusblock ist generiert — eine stehengelassene Zeile
+  waere schlicht falsch und wuerde beim naechsten `dtb:workflow-checkpoint` ohnehin verschwinden
+- **Warnung nur bei Widerspruch:** Wird ein archiviertes Item dort als "In Arbeit" gefuehrt
+  (teilweise abgehakter `## Progress`), Zeile trotzdem entfernen, aber Warnung ausgeben —
+  archiviert und gleichzeitig in Arbeit ist ein Widerspruch, den der Benutzer sehen muss:
+
+```
+⚠ {slug} wurde archiviert, stand in WORKFLOW_STATUS.md aber als "In Arbeit"
+  (Progress teilweise abgehakt). Zeile entfernt — bitte pruefen, ob die
+  Archivierung beabsichtigt war.
+```
 
 ---
 
