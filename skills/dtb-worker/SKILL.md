@@ -195,6 +195,52 @@ Die Schreibgrenze und die VERBOTE-Substanz gelten unveraendert — einziger Unte
 zum Subagenten: der Pane-Worker COMMITTET auf seinem eigenen Task-Branch (Merge und
 Diff-Abnahme brauchen eine Branch-Referenz), pusht aber nie.
 
+### Pane-Ausfuehrung (Traeger `pane`)
+
+#### Hinweg: Vorbedingungen
+
+Vor jedem Pane-Start, in dieser Reihenfolge:
+
+1. **Auftragsdatei committet?** (L18) Die `task.md` des Eintrags muss committet sein —
+   der Worktree entsteht aus einem Commit und sieht Uncommittetes nicht:
+   `git status --short -- {config.paths.workflows}/features/{slug}/task.md` muss leer
+   sein. Sonst Abbruch mit Hinweis (erst committen, z.B. via `/dtb:commit-and-push`)
+2. **Fremde Session im Haupt-Checkout?** `herdr agent list` lesen und Eintraege mit
+   Arbeitsverzeichnis = Haupt-Checkout (ausser der eigenen Pane `$HERDR_PANE_ID`)
+   suchen. Fund → genau EINE Warnzeile, dann weiterarbeiten (melden statt blockieren;
+   die Verzeichnis-Angabe ist der Pane-Start-Stand und stale-anfaellig — belegt
+   2026-08-16, deshalb kein hartes Verbot):
+   ```
+   ⚠ Weitere Session im Haupt-Checkout gefunden ({pane-id}) — der Worktree-Guard
+     deckt diesen Fall nicht (skills/CLAUDE.md → „Bekannte Grenze").
+   ```
+
+#### Hinweg: Start-Sequenz
+
+Vier Kommandos je Aufgabe — Antworten lesen, IDs nie raten (Syntax-Stand 2026-08-16,
+Drift-Risiko dokumentiert; Kommandos nur hier und in der Vorlage oben):
+
+1. `git worktree add {repo-parent}/.dtb-worktrees/worker-{slug} -b task/{slug}` —
+   Task-Branch statt detached HEAD (bewusste Differenz zum Subagenten-Traeger:
+   Merge und Diff-Abnahme brauchen eine Branch-Referenz; Entscheidung 2026-08-16)
+2. `herdr pane split --current --direction right --cwd {worktree-pfad} --no-focus` —
+   Pane-ID aus `.result.pane.pane_id` der Antwort lesen
+3. `herdr pane run {pane-id} "claude"` — startet die Session ueber die Pane-Shell.
+   BEWUSST NICHT `herdr agent start`: der scheitert auf Windows zweifach (ohne
+   Agent-Argumente am `Start-Process -ArgumentList ''`-Bug, mit Argumenten an
+   „%1 ist keine zulaessige Win32-Anwendung" — `claude` ist ein npm-Shim, kein
+   Win32-Exe; beide belegt 2026-08-16). Danach **Erkennungs-Warten**: `herdr pane
+   list` wiederholt lesen, bis die Pane `"agent": "claude"` mit `agent_status`
+   `idle` traegt (Budget ~90 s, genau EIN weiterer Anlauf), sonst Abbruch:
+   Meldung + Pane-Inhalt (`herdr pane read {pane-id}`) zeigen
+4. `herdr agent prompt {pane-id} "{Pane-Auftrag aus der Vorlage}"` — Ziel ist die
+   Pane-ID (kein Agent-Name — `pane run` vergibt keinen). Der Auftrag ist
+   mehrzeilig; als EIN Argument uebergeben (die Zustellung als eine Nachricht ist
+   belegt — Zustellungs-Probe 2026-08-16)
+
+Danach kehrt der Orchestrator zur eigenen Arbeit zurueck — KEIN blockierendes Warten
+(Rueckweg: naechste Sektion, gefuellt von Phase 3 dieses Features).
+
 ### Schritt 6: Worker starten (Einzel-Task)
 
 **Vorbedingung (hart):** Zielbereich clean — `git status --short` fuer die vom Task

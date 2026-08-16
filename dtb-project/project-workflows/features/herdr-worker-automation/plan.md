@@ -241,12 +241,12 @@ installierten Kopien sind aktuell; die Success Criteria sind real belegt.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Traeger-Weiche + Herdr-Gate
-- [x] 1.2 Pane-Auftrag-Vorlage
-- [x] 1.3 Kollisionsregel + Konvention + Config-Gegenprobe
-- [ ] 2.1 Vorbedingungen + Warnpruefung
-- [ ] 2.2 Start-Sequenz
-- [ ] 2.3 Trockenlauf + Gate-Negativ + Zustellungs-Probe
+- [x] 1.1 Traeger-Weiche + Herdr-Gate — `161367b`
+- [x] 1.2 Pane-Auftrag-Vorlage — `161367b`
+- [x] 1.3 Kollisionsregel + Konvention + Config-Gegenprobe — `161367b`
+- [x] 2.1 Vorbedingungen + Warnpruefung
+- [x] 2.2 Start-Sequenz
+- [x] 2.3 Trockenlauf + Gate-Negativ + Zustellungs-Probe
 - [ ] 3.1 Warte-Logik
 - [ ] 3.2 Branch-Verifikation
 - [ ] 3.3 Abschluss-Sequenz
