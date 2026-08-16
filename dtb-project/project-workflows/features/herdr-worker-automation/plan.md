@@ -247,10 +247,10 @@ installierten Kopien sind aktuell; die Success Criteria sind real belegt.
 - [x] 2.1 Vorbedingungen + Warnpruefung — `766d9a0`
 - [x] 2.2 Start-Sequenz — `766d9a0`
 - [x] 2.3 Trockenlauf + Gate-Negativ + Zustellungs-Probe — `766d9a0`
-- [x] 3.1 Warte-Logik
-- [x] 3.2 Branch-Verifikation
-- [x] 3.3 Abschluss-Sequenz
-- [ ] 4.1 Warteschlange
+- [x] 3.1 Warte-Logik — `e2d1169`
+- [x] 3.2 Branch-Verifikation — `e2d1169`
+- [x] 3.3 Abschluss-Sequenz — `e2d1169`
+- [x] 4.1 Warteschlange
 - [ ] 4.2 Commit, Push, kit-sync
 - [ ] 4.3 End-to-End-Beleg (2 Aufgaben) + Negativ-Test
 

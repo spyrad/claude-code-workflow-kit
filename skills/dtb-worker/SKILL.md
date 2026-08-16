@@ -295,6 +295,27 @@ Beweismittel lesbar; KEIN Auto-Merge, die Abnahme ist eine explizite Auswahlfrag
    Windows ggf. kurz warten (Datei-Lock der eben geschlossenen Pane) und mit
    `git worktree prune` nachraeumen. Keine verwaisten Registrierungen zuruecklassen
 
+#### Warteschlange (mehrere freigegebene Aufgaben)
+
+Sind mehr Aufgaben freigegeben als Worker laufen sollen, arbeitet der Pane-Modus sie
+als Warteschlange ab:
+
+- **Pane-Anzahl:** kommt aus der Freigabe-Frage (Schritt 5), Default **2** — bewusst
+  KEIN Config-Key (die Zahl ist situativ, kein Projektzustand; Seed-Skew #22)
+- **Reihenfolge:** die freigegebene Reihenfolge aus der Erkennungs-Sicht (Schritt 3 —
+  Abhaengigkeiten zuerst); parallel laufen nur Aufgaben ohne gemeinsame Dateien
+  (Kollisionsregel, Schritt 7 — die Zuteilung prueft VOR dem Start, die Stopp-Regel
+  bleibt Auffangnetz)
+- **Freier Worker bekommt die naechste konfliktfreie Aufgabe** — je Aufgabe entsteht
+  ein EIGENER Worktree + Task-Branch (nie einen Worktree wiederverwenden); die **Pane**
+  darf wiederverwendet werden: nach `/exit` der vorigen Session
+  `herdr pane run {pane-id} "cd {neuer-worktree-pfad}; claude"`, dann Erkennungs-Warten
+  wie in der Start-Sequenz
+- **Kollidierende Aufgabe wartet**, bis die blockierende gemergt ist; danach entsteht
+  ihr Worktree vom frischen `master`-Stand (enthaelt den Vorgaenger-Merge)
+- **Abschluss je Aufgabe einzeln** (Verifikation → Abnahme → Merge) — kein
+  Sammel-Merge; die Meldungen bleiben je Aufgabe eine blockierende Auswahlfrage
+
 ### Schritt 6: Worker starten (Einzel-Task)
 
 **Vorbedingung (hart):** Zielbereich clean — `git status --short` fuer die vom Task
