@@ -127,7 +127,7 @@ lesend-entscheidend: sein Report ist eine Handlungsempfehlung).
    Changelog-Tagesdatei, die in Schritt 4 gelesenen `features/*/plan.md`) — in EINEM
    selbstaendigen Bash-Block:
    ```bash
-   ls -la --time-style=full-iso {datei...}
+   ls -l --time-style=full-iso {datei...}
    ```
 2. **Unmittelbar vor der Report-Ausgabe (Schritt 5)** dieselbe Abfrage erneut
    ausfuehren und vergleichen:

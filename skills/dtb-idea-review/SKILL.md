@@ -84,7 +84,7 @@ Reviews, 2026-08-11).
 1. **Beim Einlesen merken:** mtime der gelesenen `INBOX.md` festhalten — in EINEM
    selbstaendigen Bash-Block:
    ```bash
-   ls -la --time-style=full-iso {pfad}/INBOX.md
+   ls -l --time-style=full-iso {pfad}/INBOX.md
    ```
 2. **Unmittelbar vor JEDER Statusentscheidung** (jedem Schreiben einer Status-Aenderung
    in Schritt 3) dieselbe Abfrage erneut ausfuehren und vergleichen:

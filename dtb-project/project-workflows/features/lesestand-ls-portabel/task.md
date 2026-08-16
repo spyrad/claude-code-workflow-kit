@@ -25,9 +25,9 @@ Portabilitaet; `ls -l` genuegt fuer die mtime-Anzeige.
 
 ## Schritte
 
-- [ ] `skills/dtb-idea-review/SKILL.md`: `ls -la --time-style=full-iso` → `ls -l --time-style=full-iso`
-- [ ] `skills/dtb-workflow-resume/SKILL.md`: dito (identischer Wortlaut, Spiegel)
-- [ ] Verifikation: `grep -r "ls -la" skills/dtb-*/SKILL.md` = 0 Treffer UND `grep -rc "ls -l --time-style" skills/dtb-*/SKILL.md` = genau 2 Dateien mit je 1 Treffer
+- [x] `skills/dtb-idea-review/SKILL.md`: `ls -la --time-style=full-iso` → `ls -l --time-style=full-iso`
+- [x] `skills/dtb-workflow-resume/SKILL.md`: dito (identischer Wortlaut, Spiegel)
+- [x] Verifikation: `grep -r "ls -la" skills/dtb-*/SKILL.md` = 0 Treffer UND `grep -rc "ls -l --time-style" skills/dtb-*/SKILL.md` = genau 2 Dateien mit je 1 Treffer
 
 ## Ergebnis
 
