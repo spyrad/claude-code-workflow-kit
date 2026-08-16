@@ -171,7 +171,8 @@ Sessions").
 Orchestrator: Herdr-Pane {orchestrator-pane}.
 
 Auftrag: Lies {config.paths.workflows}/features/{slug}/task.md und arbeite die
-## Schritte ab. Hake erledigte Schritte in der task.md ab.
+## Schritte ab. Hake erledigte Schritte in der task.md ab. Schreibe KEINEN
+worker-report.md — der Hand-off-Block ersetzt ihn im Pane-Modus.
 {Vorab-Antworten aus der Freigabe, falls vorhanden}
 Committe deine Aenderungen auf dem aktuellen Branch (task/{slug}) mit aussagekraeftiger
 Message — NIEMALS pushen, keine anderen Branches.
@@ -307,10 +308,11 @@ als Warteschlange ab:
   (Kollisionsregel, Schritt 7 — die Zuteilung prueft VOR dem Start, die Stopp-Regel
   bleibt Auffangnetz)
 - **Freier Worker bekommt die naechste konfliktfreie Aufgabe** — je Aufgabe entsteht
-  ein EIGENER Worktree + Task-Branch (nie einen Worktree wiederverwenden); die **Pane**
-  darf wiederverwendet werden: nach `/exit` der vorigen Session
-  `herdr pane run {pane-id} "cd {neuer-worktree-pfad}; claude"`, dann Erkennungs-Warten
-  wie in der Start-Sequenz
+  ein EIGENER Worktree + Task-Branch (nie einen Worktree wiederverwenden). **Je Aufgabe
+  auch eine NEUE Pane** (Start-Sequenz ab Schritt 2): eine laufende Worker-Session
+  laesst sich nicht fernbeenden — ein per `agent prompt` zugestelltes `/exit` kommt als
+  Chat-Text an, nicht als Kommando (belegt 2026-08-16). Die alte Pane bleibt bis zum
+  Aufraeumen ihrer Aufgabe stehen; ihr `/exit` tippt der Mensch
 - **Kollidierende Aufgabe wartet**, bis die blockierende gemergt ist; danach entsteht
   ihr Worktree vom frischen `master`-Stand (enthaelt den Vorgaenger-Merge)
 - **Abschluss je Aufgabe einzeln** (Verifikation → Abnahme → Merge) — kein

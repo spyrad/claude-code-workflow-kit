@@ -251,8 +251,8 @@ installierten Kopien sind aktuell; die Success Criteria sind real belegt.
 - [x] 3.2 Branch-Verifikation — `e2d1169`
 - [x] 3.3 Abschluss-Sequenz — `e2d1169`
 - [x] 4.1 Warteschlange
-- [ ] 4.2 Commit, Push, kit-sync
-- [ ] 4.3 End-to-End-Beleg (2 Aufgaben) + Negativ-Test
+- [x] 4.2 Commit, Push, kit-sync
+- [x] 4.3 End-to-End-Beleg (2 Aufgaben) + Negativ-Test
 
 ---
 
