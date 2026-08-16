@@ -118,10 +118,13 @@ Autonome Ausfuehrung gilt ausschliesslich **zwischen expliziter Freigabe und Abn
 `dtb:worker` ist schreibend und damit `disable-model-invocation: true` — der Mensch startet
 jeden Lauf; das Modell entscheidet nie selbst, DASS gearbeitet wird. Worker schreiben
 ausschliesslich INNERHALB ihres eigenen Worktrees — dort in ihren Change-Ordner
-(`## Schritte` abhaken, `worker-report.md` — status-neutral nach `DERIVED_STATE_RULES.md`
+(`## Schritte` abhaken; Subagenten-Traeger: `worker-report.md`, Pane-Traeger:
+Hand-off-Block statt Report — beides status-neutral nach `DERIVED_STATE_RULES.md`
 §1.1); das Haupt-Repo erreichen die Aenderungen erst mit der Abnahme. Niemals:
-committen/pushen, zentrale Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md),
-Status-/Anzeigefelder, Schreibzugriffe ausserhalb des eigenen Worktrees. Die Deckelung
+pushen, zentrale Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md),
+Status-/Anzeigefelder, Schreibzugriffe ausserhalb des eigenen Worktrees. Committen:
+der Subagenten-Traeger nie; der Pane-Traeger ausschliesslich auf seinem eigenen
+Task-Branch (Traeger-Weiche: `skills/dtb-worker/SKILL.md`). Die Deckelung
 (`worker.max_attempts`/`worker.max_minutes` in `workflow.config.yaml`, Defaults 3/30) ist
 Anweisungs-Ebene — kein harter Timer; der Bericht weist die Laufzeit je Versuch aus.
 Die Worktree-Grenze der Worker ist die Worker-Instanz der kitweiten

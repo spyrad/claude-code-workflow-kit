@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-16
 **Ziel:** Die Orchestrator/Worker-Uebergaben (1:n) laufen automatisch — der Mensch trifft nur noch zwei Entscheidungen: Freigabe der Aufgaben-Zuteilung am Anfang, Abnahme des Diffs am Ende.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- explizit gesetzt 2026-08-16 (dtb:workflow-checkpoint) — Beleg: E2E-Queue-Durchlauf 2 Aufgaben/1 Worker, Bloecke automatisch, Negativ-Test gefangen -->
 
 ---
 
@@ -125,6 +125,11 @@ Abnahme, Aufraeumen) — auf dem Fundament von #42, ohne es umzubauen.
   braucht die Warteschlange (d) eine eigene Formulierung?
 - Auftragstext-Vorlage: genauer Wortlaut (der Test-Auftrag vom 2026-08-16 als
   Ausgangspunkt) — Detailfestlegung im Implementierungsplan
+- **Nachlauf NACH der Abnahme (impl-review F4, 2026-08-16):** In
+  `skills/dtb-workflow-checkpoint/SKILL.md` (Hand-off-Block, Branch-Angabe) die Prosa
+  „dtb:worker legt seine Worktrees mit `git worktree add {pfad} HEAD` an … also ohne
+  Branch" um einen Satz ergaenzen: gilt fuer den Subagenten-Traeger; der Pane-Traeger
+  nutzt `task/{slug}`-Branches. Bewusst ausserhalb des Diff-0-Fensters des Features
 
 ---
 

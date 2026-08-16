@@ -8,8 +8,10 @@ description: >-
   full discovery-spec-plan chain. Run mode (slug or "liste", only after
   explicit approval) executes entries as background workers in isolated
   worktrees, checking off `## Schritte` in the task's own change folder
-  and writing a full worker-report.md per task. Never commits or pushes,
-  never touches status displays or central files.
+  and writing a full worker-report.md per task (subagent carrier; the pane
+  carrier runs as a visible Herdr session, commits on its own task branch —
+  never pushes — and returns a hand-off block instead of a report). Never
+  touches status displays or central files.
 disable-model-invocation: true
 argument-hint: "[slug | liste]"
 allowed-tools: Read, Glob, Grep, Bash, Agent
@@ -117,15 +119,25 @@ Die Freigabe ist die Governance-Klammer vorn — ohne sie startet nichts.
 2. **Umfang bestaetigen:** einzelner Eintrag ODER Liste in der vorgeschlagenen
    Reihenfolge. Bei Liste anzeigen, welche Teile parallel laufen (∥-Markierung aus
    Schritt 3)
+2a. **Traeger bestaetigen:** `subagent` (Default) | `pane` — bei `pane` zusaetzlich
+   die Pane-Anzahl erfragen (Default 2). Diese Abfrage ist der EINZIGE Ort, an dem
+   Traeger und Anzahl entstehen (Traeger-Weiche und Warteschlange lesen sie von hier)
 2b. **Unerreichbare Schritte ausklammern:** Schritte, die Commits/Pushes verlangen
    oder ausserhalb der Worker-Reichweite liegen (z.B. andere Maschine), werden bei
    der Freigabe sichtbar als „beim Menschen" markiert — sie zaehlen nicht gegen den
    Worker-Ausgang
-3. **Stoppweg nennen (Pflichtzeile im Dialog):**
+3. **Stoppweg nennen (Pflichtzeile im Dialog — traegerabhaengig):**
+   Bei Traeger `subagent`:
    ```
    Laufende Worker sind Background-Tasks dieser Session — Auflistung und Abbruch
    ueber die Task-Verwaltung, jederzeit. Abgebrochene/halbfertige Ergebnisse bleiben
    als Diff im jeweiligen Worktree liegen.
+   ```
+   Bei Traeger `pane`:
+   ```
+   Worker sind sichtbare Herdr-Panes — Eingriff und Stopp direkt in der Pane
+   (ein Fernstopp existiert nicht; /exit tippt der Mensch). Halbfertige Ergebnisse
+   bleiben als Diff im jeweiligen Worktree liegen.
    ```
 4. **Explizite Bestaetigung** („Start") ist die Startbedingung. Danach → Modus 2.
 
@@ -142,8 +154,7 @@ ist der Subagent:
   `worker-report.md` (Schritte 6-9, unveraendertes Verhalten)
 - **`pane` (nur auf explizite Wahl):** Echte Claude-Code-Session in einer Herdr-Pane —
   beobachtbar und unterbrechbar; Ergebnis als WORKTREE-HANDOFF-Block statt
-  `worker-report.md` (Ablauf: `### Pane-Ausfuehrung`, wird von Phase 2/3 dieses Features
-  gefuellt)
+  `worker-report.md` (Ablauf: `### Pane-Ausfuehrung`)
 
 **Eligibility-Gate des Pane-Traegers (hart):** `HERDR_ENV` = `1` UND `herdr` im PATH
 (`command -v herdr`). Sonst Abbruch — KEINE stille Degradierung auf den Subagenten:
@@ -151,7 +162,7 @@ ist der Subagent:
 ```
 ⛔ Pane-Modus braucht Herdr (HERDR_ENV=1 + herdr-CLI), hier nicht verfuegbar.
    Alternativen: Subagenten-Modus (dtb:worker, Default) oder manueller
-   Worker-Hand-off (skills/CLAUDE.md → „Parallele Sessions").
+   Worker-Hand-off.
 ```
 
 ### Pane-Auftrag (Vorlage — die eine Quelle)
@@ -161,13 +172,13 @@ Rueckkanal. Es gibt bewusst KEINE Team-Registry und keine persistierten Pane-IDs
 (fluechtige Adressen; eine Datei waere eine Zustandsaussage ohne Pfleger). Die
 Orchestrator-Adresse kommt zur Laufzeit aus `$HERDR_PANE_ID`. Alle Herdr-Kommandos des
 Pane-Modus stehen NUR in dieser Vorlage und in `### Pane-Ausfuehrung` — Herdr-CLI-Drift
-(bekanntes, dokumentiertes Risiko; Syntax-Stand 2026-08-16) wird an einem Ort korrigiert:
+(bekanntes, dokumentiertes Risiko; Syntax-Stand 2026-08-16) wird an diesen zwei
+benannten, aufeinander verweisenden Orten korrigiert — nirgendwo sonst:
 
 ```
 Du bist Worker-Session fuer den Change `{slug}`.
 Dein Arbeitsplatz ist dieser Worktree ({worktree-pfad}) — arbeite nur hier, fasse keine
-zentralen Workflow-Dateien an (Schreibgrenzen-Regel: skills/CLAUDE.md → „Parallele
-Sessions").
+zentralen Workflow-Dateien an (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md, Changelog).
 Orchestrator: Herdr-Pane {orchestrator-pane}.
 
 Auftrag: Lies {config.paths.workflows}/features/{slug}/task.md und arbeite die
@@ -192,11 +203,17 @@ Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empf
 
 Der Block ersetzt im Pane-Modus den `worker-report.md` vollstaendig (er landet via
 Empfangsseite im Session-Log — dauerhafter als der Report; Entscheidung 2026-08-16).
-Die Schreibgrenze und die VERBOTE-Substanz gelten unveraendert — einziger Unterschied
-zum Subagenten: der Pane-Worker COMMITTET auf seinem eigenen Task-Branch (Merge und
-Diff-Abnahme brauchen eine Branch-Referenz), pusht aber nie.
+Die Schreibgrenze gilt unveraendert; **Abweichungen von den Subagenten-VERBOTEN:** der
+Pane-Worker COMMITTET auf seinem eigenen Task-Branch (Merge und Diff-Abnahme brauchen
+eine Branch-Referenz — nie pushen, keine anderen Branches) und liefert den
+Hand-off-Block statt eines Reports.
 
 ### Pane-Ausfuehrung (Traeger `pane`)
+
+**`{default-branch}`** bezeichnet in dieser Sektion den Zielbranch des Haupt-Checkouts:
+`parallel.default_branch` aus `workflow.config.yaml`, falls gesetzt; sonst der aktuelle
+Branch des Haupt-Checkouts (`git branch --show-current`). NIE einen Branch-Namen
+hartkodieren — Zielprojekte heissen `main`, `master` oder anders.
 
 #### Hinweg: Vorbedingungen
 
@@ -213,7 +230,7 @@ Vor jedem Pane-Start, in dieser Reihenfolge:
    2026-08-16, deshalb kein hartes Verbot):
    ```
    ⚠ Weitere Session im Haupt-Checkout gefunden ({pane-id}) — der Worktree-Guard
-     deckt diesen Fall nicht (skills/CLAUDE.md → „Bekannte Grenze").
+     deckt diesen Fall nicht (bekannte Grenze: er erkennt nur verlinkte Worktrees).
    ```
 
 #### Hinweg: Start-Sequenz
@@ -232,7 +249,8 @@ Drift-Risiko dokumentiert; Kommandos nur hier und in der Vorlage oben):
    „%1 ist keine zulaessige Win32-Anwendung" — `claude` ist ein npm-Shim, kein
    Win32-Exe; beide belegt 2026-08-16). Danach **Erkennungs-Warten**: `herdr pane
    list` wiederholt lesen, bis die Pane `"agent": "claude"` mit `agent_status`
-   `idle` traegt (Budget ~90 s, genau EIN weiterer Anlauf), sonst Abbruch:
+   `idle` traegt (Budget ~90 s; bleibt die Erkennung aus, genau EIN erneutes
+   `herdr pane run {pane-id} "claude"` mit frischem 90-s-Budget), sonst Abbruch:
    Meldung + Pane-Inhalt (`herdr pane read {pane-id}`) zeigen
 4. `herdr agent prompt {pane-id} "{Pane-Auftrag aus der Vorlage}"` — Ziel ist die
    Pane-ID (kein Agent-Name — `pane run` vergibt keinen). Der Auftrag ist
@@ -266,10 +284,12 @@ der Orchestrator (diese Verifikation lebt HIER, `dtb:workflow-checkpoint` bleibt
 unveraendert; seine Empfangsseite konsumiert wie bisher nur den Block):
 
 1. **Pflichtfelder:** Kopfzeile `WORKTREE-HANDOFF (dtb) — Quelle: …` + `Erledigt:`
-   vorhanden (fehlt eines → beim Worker nachfassen, nicht raten)
-2. **Commit existiert:** `git log --oneline master..task/{slug}` zeigt den im Block
-   genannten Commit (auch: „vergessen zu committen" faellt hier auf)
-3. **Dateiliste stimmt:** `git diff --stat master..task/{slug}` deckt die Eintraege
+   vorhanden (fehlt eines → beim Worker nachfassen, nicht raten).
+   Feldnamen folgen `skills/dtb-workflow-checkpoint/SKILL.md` → `### Hand-off-Block`
+   (die eine Quelle) — Aenderung dort → diese Verifikation nachziehen
+2. **Commit existiert:** `git log --oneline {default-branch}..task/{slug}` zeigt den im
+   Block genannten Commit (auch: „vergessen zu committen" faellt hier auf)
+3. **Dateiliste stimmt:** `git diff --stat {default-branch}..task/{slug}` deckt die Eintraege
    unter `Dateien:` — Abweichung in beide Richtungen melden (Datei im Diff, aber nicht
    im Block, und umgekehrt)
 
@@ -305,20 +325,19 @@ als Warteschlange ab:
   KEIN Config-Key (die Zahl ist situativ, kein Projektzustand; Seed-Skew #22)
 - **Reihenfolge:** die freigegebene Reihenfolge aus der Erkennungs-Sicht (Schritt 3 —
   Abhaengigkeiten zuerst); parallel laufen nur Aufgaben ohne gemeinsame Dateien
-  (Kollisionsregel, Schritt 7 — die Zuteilung prueft VOR dem Start, die Stopp-Regel
-  bleibt Auffangnetz)
+  (Kollisionsregel: Schritt 7, Punkt 2)
 - **Freier Worker bekommt die naechste konfliktfreie Aufgabe** — je Aufgabe entsteht
   ein EIGENER Worktree + Task-Branch (nie einen Worktree wiederverwenden). **Je Aufgabe
-  auch eine NEUE Pane** (Start-Sequenz ab Schritt 2): eine laufende Worker-Session
+  auch eine NEUE Pane** (Start-Sequenz ab Kommando 2): eine laufende Worker-Session
   laesst sich nicht fernbeenden — ein per `agent prompt` zugestelltes `/exit` kommt als
   Chat-Text an, nicht als Kommando (belegt 2026-08-16). Die alte Pane bleibt bis zum
   Aufraeumen ihrer Aufgabe stehen; ihr `/exit` tippt der Mensch
 - **Kollidierende Aufgabe wartet**, bis die blockierende gemergt ist; danach entsteht
-  ihr Worktree vom frischen `master`-Stand (enthaelt den Vorgaenger-Merge)
+  ihr Worktree vom frischen `{default-branch}`-Stand (enthaelt den Vorgaenger-Merge)
 - **Abschluss je Aufgabe einzeln** (Verifikation → Abnahme → Merge) — kein
   Sammel-Merge; die Meldungen bleiben je Aufgabe eine blockierende Auswahlfrage
 
-### Schritt 6: Worker starten (Einzel-Task)
+### Schritt 6: Worker starten (Einzel-Task — Traeger `subagent`)
 
 **Vorbedingung (hart):** Zielbereich clean — `git status --short` fuer die vom Task
 beruehrten Pfade zeigt nichts Uncommittetes. Sonst kein Start (melden, Nutzer raeumt auf).
@@ -338,7 +357,7 @@ Auftrag Worker {slug}:
 - Schritte: {## Schritte aus features/{slug}/task.md}
 - Vorab-Antworten: {beantwortete Vorab-Fragen aus der Freigabe}
 - Erfolgskriterium: {mechanische Pruefung je Schritt — Grep/Test/Build/Datei}
-- Deckelung: max. {max_attempts} Versuche, max. {max_minutes} Minuten
+- Deckelung: max. {worker.max_attempts} Versuche, max. {worker.max_minutes} Minuten
   (Anweisungs-Ebene — protokolliere Start/Ende/Dauer je Versuch im Report)
 - Versuchsschleife: umsetzen → Kriterien pruefen → bei Rot nachbessern und erneut
   pruefen — bis gruen, Versuche verbraucht oder Zeit um
@@ -360,7 +379,7 @@ Die VERBOTE sind die Worker-Instanz der kitweiten **Schreibgrenzen-Regel**
 (`skills/CLAUDE.md` → „Parallele Sessions") — Aenderungen an der Grenze dort nachziehen,
 nicht hier eigenstaendig formulieren.
 
-### Schritt 7: Listen-Lauf
+### Schritt 7: Listen-Lauf (beide Traeger — traegt die EINE Kollisionsregel)
 
 Ein einheitlicher Ausfuehrungspfad — sequenziell und parallel unterscheiden sich nur in
 der Anzahl gleichzeitig laufender Worker (je Worker immer ein eigener Worktree):
@@ -381,7 +400,7 @@ der Anzahl gleichzeitig laufender Worker (je Worker immer ein eigener Worktree):
    Arbeitsbaum, mit Pflicht-Warnhinweis im Freigabe-Dialog („waehrend des Laufs nicht im
    Repo arbeiten"). Die Lane verweigert nie wegen fehlender Traeger
 
-### Schritt 8: Bericht (`worker-report.md`)
+### Schritt 8: Bericht (`worker-report.md` — Traeger `subagent`; der Pane-Traeger liefert stattdessen den Hand-off-Block)
 
 Jeder SELBST-beendete Worker schreibt VOR seinem Ende den vollen Bericht nach
 `features/{slug}/worker-report.md` (status-neutral, zaehlt NICHT fuer die
@@ -414,7 +433,7 @@ Haupt-Agent legt eine Minimal-Notiz an (Ausgang „gestoppt", Zeitpunkt):
 - {Nebenbefunde, Ueberraschungen, offene Reste — oder „nichts"}
 ```
 
-### Schritt 9: Abschluss-Meldung
+### Schritt 9: Abschluss-Meldung (Traeger `subagent` — der Pane-Traeger meldet ueber die Branch-Verifikation)
 
 Im Chat je Task genau **eine** Sammel-Zeile (Details gehoeren in den Bericht, nicht in
 den Chat — Status-Konvention):

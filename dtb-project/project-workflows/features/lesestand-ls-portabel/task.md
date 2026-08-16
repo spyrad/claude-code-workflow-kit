@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-08-16
 **Prioritaet:** Niedrig
-**Status:** Offen
+**Status:** Abgenommen <!-- explizit gesetzt 2026-08-16 (dtb:workflow-checkpoint) — Beleg: Diff-Abnahme vor ff-Merge cdd2c63/c659150 -->
 **Bereich:** Skill-Lesestand-Pruefung (dtb-idea-review, dtb-workflow-resume)
 
 ---
