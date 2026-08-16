@@ -27,9 +27,9 @@ ist im Eintrag selbst als unstrittig eingestuft — dieselbe Fehlerklasse wurde 
 
 ## Schritte
 
-- [ ] `after`-Liste in `skills/dtb-workflow-checkpoint/SKILL.md` um `dtb:worker` ergaenzen
-- [ ] Reziprozitaet belegen: Grep auf `next:` in `dtb-worker/SKILL.md` und `after:` in `dtb-workflow-checkpoint/SKILL.md` — beide Richtungen vorhanden
-- [ ] Gegenprobe: keine weiteren Frontmatter-Zeilen veraendert (Diff zeigt genau 1 geaenderte Zeile)
+- [x] `after`-Liste in `skills/dtb-workflow-checkpoint/SKILL.md` um `dtb:worker` ergaenzen
+- [x] Reziprozitaet belegen: Grep auf `next:` in `dtb-worker/SKILL.md` und `after:` in `dtb-workflow-checkpoint/SKILL.md` — beide Richtungen vorhanden
+- [x] Gegenprobe: keine weiteren Frontmatter-Zeilen veraendert (Diff zeigt genau 1 geaenderte Zeile)
 
 ## Ergebnis
 
