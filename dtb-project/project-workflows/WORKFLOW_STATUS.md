@@ -9,15 +9,13 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| parallele-sessions (#42) | Abgenommen | 14/14 | /dtb:archive |
-| pipeline-kante-worker-checkpoint (#58 F2) | Erledigt | 3/3 | /dtb:archive |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung, dann Abnahme |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Die vier „Fertig zum Testen"-Features: `review.md` sagt je „REJECTED", Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder (#35-Belege). Gilt auch fuer das abgenommene parallele-sessions.
+⚠ Die vier „Fertig zum Testen"-Features: `review.md` sagt je „REJECTED", Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder (#35-Belege).
 
 ---
 
@@ -33,9 +31,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:commit-and-push` + kit-sync** — Checkpoint-Dateien uncommittet, master 2 ahead; `dtb-workflow-checkpoint/SKILL.md` ist Klasse A (#51-Muster)
-- [ ] **`/dtb:archive`** — parallele-sessions (Abgenommen) + pipeline-kante-worker-checkpoint (Erledigt)
-- [ ] **Worktree `wt-pipeline-kante` entfernen** — erst Worker-Session (w3:p2) beenden, dann `git worktree remove` + Branch loeschen
+- [ ] **`/dtb:commit-and-push`** — Archiv-Lauf (git mv + Bereinigungen) uncommittet
 - [ ] **Verlustfunde absetzen** — Fall-C-Befund 2026-08-14 (`/dtb:idea`) + #60-Nachtrag dritter Beleg (`/dtb:idea`); dazu 2 Funde vom 2026-08-11 (`/dtb:lesson`)
 - [ ] **INBOX #58 Fall (1)** — `greenfield-prd.after: null`: bewusster Einstiegspunkt oder fehlende Kante?
 - [ ] **L11-L14 + L22-L25 nach `skills/CLAUDE.md` heben** — leben nur lokal (#34/#64)
@@ -67,7 +63,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` (Checkpoint-Stand + 2 ungepushte Commits sichern), danach kit-sync-Nachlauf und `/dtb:archive` (parallele-sessions + pipeline-kante-worker-checkpoint).
-**Empfehlung:** `/clear`, dann `/dtb:workflow-resume`; danach obige Befehle.
-**Gueltigkeitsbedingung:** `/dtb:commit-and-push` gilt, solange `git status --short` nicht leer bzw. `master` ahead ist; `/dtb:archive` gilt, solange `features/parallele-sessions/` und `features/pipeline-kante-worker-checkpoint/` existieren. Worktree-Aufraeumen (`wt-pipeline-kante`) setzt beendete Worker-Session voraus.
+**Naechster Befehl:** `/dtb:commit-and-push` (Archiv-Lauf sichern: 2 Ordner nach archive/, INBOX/BACKLOG/Status bereinigt).
+**Empfehlung:** `/clear`, dann `/dtb:workflow-resume`; danach obigen Befehl.
+**Gueltigkeitsbedingung:** gilt, solange `git status --short` nicht leer bzw. `master` ahead ist — danach ist der naechste offene Punkt die Triage (`/dtb:idea-review`, 34 offene Ideen inkl. #67) bzw. die Restabnahmen der vier Bestands-Features.
 ⚠ **Ableitung bewusst uebersteuert:** `review.md` mit REJECTED zeigt regulaer auf `/dtb:implement` — Findings sind bei allen Features behoben (eingefrorene Verdikt-Felder, #35).
