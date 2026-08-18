@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-08-16
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-16.md` (Session 4)
+**Letztes Update:** 2026-08-18
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-18.md` (Session 1)
 
 ---
 
@@ -24,21 +24,21 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Erreicht (2026-08-16)** | Vormittags #42 abgenommen+archiviert (erster realer Worker-Hand-off); abends **#67 an EINEM Tag Idee→Abnahme**: `dtb:worker` Pane-Traeger (Hinweg/Rueckweg/Abschluss/Queue automatisch), E2E mit 2 echten Aufgaben, Negativ-Test gefangen, impl-review 12/12 Findings behoben. E2E erledigte #65 + ls-Portabilisierung gleich mit |
-| **Notizen** | Gesichert + verteilt: `d43d5a2` gepusht, Kit 46/46 synchron. Worker-Panes w3:p7/w3:p8 leben noch (manuelles /exit). Ideen-Bestand 32 offen. Verlustfunde: L15-Raender-Lektion (neu) + Fall-C + #60 (4 Belege) |
+| **Erreicht (2026-08-18)** | Aufraeum-Session: `/dtb:archive` nachgeholt — **5 abgenommene Items archiviert** (#67, #65, 3 Change-Ordner), Bestand traegt jetzt nur noch Offenes; `5e5f1cd` gepusht. Idee **#68** (`dtb:pane-start`) erfasst: interaktive Voll-Schiene-Sessions in Pane+Worktree, #67-Mechanik wiederverwendbar, neu nur der Begruessungstext |
+| **Notizen** | Erster Archiv-Lauf unter der gefixten 4d/4e-Fassung (`350f017`) — trug ohne Abweichungs-Meldung. Ideen-Bestand 33 offen (Einzeldurchgang des Reviews nicht gestartet). Kit-Stand: Lock 46 Artefakte @ `d43d5a2` (maschinenlokal gemessen, #66) — Klasse A seither unberuehrt. ROADMAP-§5-Sync zum **13.** Mal leer (reine Platzhalter-Vorlage) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Worker aufraeumen** — /exit in w3:p7 + w3:p8, dann Worktrees + Task-Branches entfernen
-- [ ] **L15-Raender-Lektion absetzen** — `/dtb:lesson` (Befehl im Verlustreport Session 3)
-- [ ] **F4-Nachlauf** — Branch-Prosa in dtb-workflow-checkpoint (Ein-Satz, nach dem Archiv; notiert in der Spec #67)
-- [ ] **Verlustfunde absetzen** — Fall-C (2026-08-14) + #60-Nachtrag (4 Belege); dazu 2 Funde vom 2026-08-11 (`/dtb:lesson`)
-- [ ] **INBOX #58 Fall (1)** — `greenfield-prd.after: null`: bewusster Einstiegspunkt oder fehlende Kante?
+- [ ] **F4-Nachlauf** — Ein-Satz-Korrektur der Branch-Prosa in `dtb-workflow-checkpoint`; Quelle: `archive/herdr-worker-automation/spec.md`. Danach `/dtb:kit-sync` (Klasse A beruehrt)
+- [ ] **#68 ausarbeiten** — `/dtb:feature-fast 68` (kleines Feature auf fertigem #67-Fundament)
+- [ ] **3 Verlustfunde vom 2026-08-18 absetzen** — fluechtige Zustaende in „Offene Aufgaben", `dtb:archive`-4e-Abgrenzung, Fall-C-Restabnahmen (Befehle im Report Session 1)
+- [ ] **L15-Raender-Lektion absetzen** — `/dtb:lesson` (Befehl im Verlustreport 2026-08-16 Session 3)
+- [ ] **Aeltere Verlustfunde absetzen** — Fall-C (2026-08-14) + #60-Nachtrag (4 Belege); dazu 2 Funde vom 2026-08-11 und 9 aus 2026-08-06/07
 - [ ] **L11-L14 + L22-L25 nach `skills/CLAUDE.md` heben** — leben nur lokal (#34/#64)
-- [ ] **`/dtb:idea-review` fortsetzen** — 32 offene Ideen
-- [ ] **9 Funde aelterer Verlustpruefungen absetzen** — 4 vom 2026-08-07 S1 + 5 vom 2026-08-06
+- [ ] **INBOX #58 Fall (1)** — `greenfield-prd.after: null`: bewusster Einstiegspunkt oder fehlende Kante?
+- [ ] **`/dtb:idea-review` fortsetzen** — 33 offene Ideen
 - [ ] #66 · #64 · #63 · #62 · #61 · #60 · #59 · #58 · #57 · #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 entscheiden
 - [ ] Restabnahmen der vier Bestands-Features · Config-Platzhalter fuellen · ROADMAP.md befuellen oder entfernen
 
@@ -48,9 +48,9 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-08-18 | 5 abgenommene Items archiviert, Bestand bereinigt | 2 Ideen + 1 Feature + 2 Aufgaben nach `archive/`; erster Lauf unter gefixter 4d/4e-Fassung | `2026-08/2026-08-18.md` (S1) |
 | 2026-08-16 | `herdr-worker-automation` (#67) Idee→Abnahme an einem Tag | Pane-Traeger in dtb:worker; E2E-Queue 2 Aufgaben real, 12 Review-Findings behoben | `2026-08/2026-08-16.md` (S3) |
 | 2026-08-16 | Erster realer Worker→Orchestrator-Durchlauf, #42 abgenommen + archiviert | Guard + Hand-off + Empfangsseite end-to-end belegt; #58 F2 erledigt | `2026-08/2026-08-16.md` (S1) |
-| 2026-08-13 | `parallele-sessions` (#42) von der Idee bis „Fertig zum Testen" | 14/14, 6 Commits, Guard in 11 Skills | `2026-08/2026-08-13.md` |
 
 ---
 
@@ -64,7 +64,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive` (5 Kandidaten warten auf die Bestaetigung) → danach Worker-Panes aufraeumen (/exit in w3:p7 + w3:p8, dann Worktrees + Branches entfernen) → Checkpoint-Rest committen.
-**Empfehlung:** In DIESER Session direkt weiter; sonst `/clear` + `/dtb:workflow-resume`.
-**Gueltigkeitsbedingung:** `/dtb:archive` gilt, solange die drei `features/`-Ordner (herdr-worker-automation, lesestand-ls-portabel, archive-4d-realitaet) existieren. Dieser Checkpoint hinterlaesst Log + Status uncommittet → `/dtb:commit-and-push` faellig, erledigt sobald `git status --short` leer ist. Pane-Aufraeumen setzt beendete Worker-Sessions voraus (`/exit` tippt der Mensch).
-⚠ **Ableitung bewusst uebersteuert:** `review.md` mit REJECTED zeigt regulaer auf `/dtb:implement` — Findings sind bei allen Features behoben (eingefrorene Verdikt-Felder, #35).
+**Naechster Befehl:** `/dtb:feature-fast 68` (Idee #68 `dtb:pane-start` ausarbeiten) — alternativ zuerst der F4-Nachlauf in `dtb-workflow-checkpoint` + `/dtb:kit-sync`, wenn die Kit-Verteilung Vorrang hat.
+**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen Befehl.
+**Gueltigkeitsbedingung:** `/dtb:feature-fast 68` gilt, solange `INBOX.md` #68 den Status `Offen` traegt und kein Ordner `features/pane-start/` existiert; danach ist der naechste Schritt `/dtb:plan-review pane-start`. Dieser Checkpoint hinterlaesst Log + Status uncommittet → `/dtb:commit-and-push` faellig, erledigt sobald `git status --short` leer ist.
+⚠ **Ableitung bewusst uebersteuert:** `review.md` mit REJECTED zeigt regulaer auf `/dtb:implement` — Findings sind bei allen vier Features behoben (eingefrorene Verdikt-Felder, #35).
