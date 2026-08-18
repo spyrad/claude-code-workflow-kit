@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-08-16
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- explizit gesetzt 2026-08-16 (dtb:workflow-checkpoint) — Beleg: Diff-Abnahme vor ff-Merge 350f017 -->
+**Status:** Abgeschlossen <!-- archiviert 2026-08-18 (dtb:archive); Abnahme 2026-08-16 (dtb:workflow-checkpoint) — Beleg: Diff-Abnahme vor ff-Merge 350f017 -->
 **Bereich:** skills/dtb-archive/SKILL.md (Schritte 4d + 4e)
 
 ---

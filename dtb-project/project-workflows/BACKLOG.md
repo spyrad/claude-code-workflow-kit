@@ -12,7 +12,6 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| herdr-worker-automation | Abgenommen | Hoch | features/herdr-worker-automation/spec.md | Orchestrator/Worker-Uebergaben (1:n) automatisieren: Hinweg (Worktree+Pane+Worker+Auftrag), Rueckweg (Hand-off-Block per Push), Abschluss (Merge nach Abnahme + Aufraeumen) — Mensch nur bei Freigabe und Diff-Abnahme; auf #42 aufbauend, ohne es umzubauen (INBOX #67) |
 | meeting-agenda | Fertig zum Testen | Mittel | features/meeting-agenda/spec.md | Rein lesende Agenda-Sicht: sammelt offene `[Fach]`-Fragen aus features/*/{discovery,spec}.md, gruppiert nach Feature — die fehlende Lese-Ansicht der Fachfragen-Kette (#13→#26→#25→#24); via Fast-Track geplant |
 | feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 | output-style-gezielt | Fertig zum Testen | Mittel | features/output-style-gezielt/spec.md | Eine global geltende, schaltbare Stil-Vorgabe als versioniertes Kit-Artefakt ausliefern, die Claudes Fliesstext auf Orientierung statt Vollstaendigkeit ausrichtet — worum es geht, was der Stand ist, was zu entscheiden ist; Gegner sind Vorwegnahme und Redundanz, nicht Erklaerung |
@@ -24,8 +23,6 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| Lesestand-Pruefung ls portabel | Abgenommen | Niedrig | features/lesestand-ls-portabel/task.md | ls -la → ls -l in den zwei gespiegelten Lesestand-Pruefungs-Bloecken (GNU-only-Finding) |
-| archive 4d/4e Archiv-Realitaet | Abgenommen | Mittel | features/archive-4d-realitaet/task.md | 4d: archivierte Items aus JEDEM Abschnitt entfernen; 4e: Zeilen aus Status-Tabelle entfernen, Warnung nur bei faelschlich In Arbeit (INBOX #65, Option 1) |
 
 ---
 

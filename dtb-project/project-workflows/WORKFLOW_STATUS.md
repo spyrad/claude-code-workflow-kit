@@ -9,16 +9,13 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| herdr-worker-automation (#67) | Abgenommen | 12/12 | /dtb:archive |
-| lesestand-ls-portabel | Abgenommen | 3/3 | /dtb:archive |
-| archive-4d-realitaet (#65) | Abgenommen | 3/3 | /dtb:archive |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung, dann Abnahme |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Die vier „Fertig zum Testen"-Features + herdr-worker-automation: `review.md` sagt je „REJECTED", Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder (#35-Belege).
+⚠ Die vier „Fertig zum Testen"-Features: `review.md` sagt je „REJECTED", Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder (#35-Belege).
 
 ---
 
@@ -34,7 +31,6 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:archive`** — 5 Kandidaten identifiziert (INBOX #67+#65; 3 Change-Ordner, alle Abgenommen), Bestaetigung stand beim Session-4-Checkpoint noch aus
 - [ ] **Worker aufraeumen** — /exit in w3:p7 + w3:p8, dann Worktrees + Task-Branches entfernen
 - [ ] **L15-Raender-Lektion absetzen** — `/dtb:lesson` (Befehl im Verlustreport Session 3)
 - [ ] **F4-Nachlauf** — Branch-Prosa in dtb-workflow-checkpoint (Ein-Satz, nach dem Archiv; notiert in der Spec #67)

@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-16
 **Ziel:** Die Orchestrator/Worker-Uebergaben (1:n) laufen automatisch — der Mensch trifft nur noch zwei Entscheidungen: Freigabe der Aufgaben-Zuteilung am Anfang, Abnahme des Diffs am Ende.
 **Prioritaet:** Hoch
-**Status:** Abgenommen <!-- explizit gesetzt 2026-08-16 (dtb:workflow-checkpoint) — Beleg: E2E-Queue-Durchlauf 2 Aufgaben/1 Worker, Bloecke automatisch, Negativ-Test gefangen -->
+**Status:** Abgeschlossen <!-- archiviert 2026-08-18 (dtb:archive); Abnahme 2026-08-16 (dtb:workflow-checkpoint) — Beleg: E2E-Queue-Durchlauf 2 Aufgaben/1 Worker, Bloecke automatisch, Negativ-Test gefangen -->
 
 ---
 
