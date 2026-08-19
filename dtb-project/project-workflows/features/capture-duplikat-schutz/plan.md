@@ -336,14 +336,14 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
 - [x] 1.1 Ersetzungsprobe heben + Rueckverweis — `6f858a2`
 - [x] 1.2 Konventions-Sektion (Einteilung, Kopplung, Meldeform, §4-Abgrenzung) — `6f858a2`
 - [x] 1.3 Zuordnungstabelle + Grep-Anker — `6f858a2`
-- [x] 2.1 `dtb:idea` haerten (inkl. Frontmatter)
-- [x] 2.2 `dtb:task` haerten
-- [x] 2.3 `dtb:bug-report` haerten
-- [x] 2.4 Mechanische Selbstpruefung
-- [ ] 3.1 Mechanik-Beleg `idea`
-- [ ] 3.2 Mechanik-Beleg `task`/`bug-report` (angelegte Test-Situation)
-- [ ] 3.3 Ausschluss-Nachweise
-- [ ] 3.4 Uebergabe-Notiz
+- [x] 2.1 `dtb:idea` haerten (inkl. Frontmatter) — `f971cdd`
+- [x] 2.2 `dtb:task` haerten — `f971cdd`
+- [x] 2.3 `dtb:bug-report` haerten — `f971cdd`
+- [x] 2.4 Mechanische Selbstpruefung — `f971cdd`
+- [x] 3.1 Mechanik-Beleg `idea`
+- [x] 3.2 Mechanik-Beleg `task`/`bug-report` (angelegte Test-Situation)
+- [x] 3.3 Ausschluss-Nachweise
+- [x] 3.4 Uebergabe-Notiz
 
 ---
 
@@ -354,6 +354,34 @@ Umsetzung mit `/dtb:implement Capture-Duplikat-Schutz` — 3x3-Rhythmus und Phas
 Wiedereinstieg bei Kontextverlust: `features/capture-duplikat-schutz/plan.md` laden; der erste nicht
 abgehakte Schritt in `## Progress` ist der naechste.
 Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint`).
+
+---
+
+## Uebergabe-Notiz (Orchestrator)
+
+> Geschrieben von Schritt 3.4 (Plan-Schritt benennt diese Datei als Ziel). Diese sechs Punkte kann
+> der Worktree strukturell nicht leisten — sie gehoeren zur Abnahme im Haupt-Checkout, NACH dem
+> Zusammenfuehren von `feature/capture-duplikat-schutz`:
+
+1. **Echter Skill-Lauf je Zielskill** (`/dtb:idea`, `/dtb:task`, `/dtb:bug-report`) im
+   Haupt-Checkout — die Skills sind Voll-Guard und brachen hier vor dem Check ab; belegt ist
+   bisher nur die Mechanik (Protokolle siehe Session-Log). Je ein Treffer- und ein Blind-Fall,
+   Vorlagen: die sechs Protokoll-Faelle aus Phase 3.
+2. **`/dtb:kit-sync` ausfuehren** — drei Klasse-A-Artefakte geaendert (`dtb-idea`, `dtb-task`,
+   `dtb-bug-report`), dazu `dtb-no-loss-check`; die Drift-Erkennung meldet die installierten
+   Kopien. Bewusst NICHT im Worktree gelaufen (kit-sync hat keinen Guard und haette den
+   Branch-Stand global installiert).
+3. **INBOX #48 auf `Ausgearbeitet`** setzen und die Links `→ features/capture-duplikat-schutz/spec.md`
+   (+ discovery) anhaengen — der Teil-Guard hat den Flip hier planmaessig uebersprungen.
+4. **Backlog-Zeile** fuer das Feature eintragen (Status abgeleitet, derzeit „Fertig zum Testen"
+   nach letztem Phasen-Commit).
+5. **Folge-Idee erfassen:** Regressions-Erkennung fuer `bug-report` — ein Treffer im `archive/`
+   auf gleiches Symptom bei geschlossenem Bug ist ein Regressions-Signal, keine Dublette
+   (bewusst aus diesem Feature ausgeschlossen).
+6. **Folge-Idee erfassen:** `dtb:project-health` prueft die Duplikat-Schutz-Konvention —
+   Pre-Mortem-Restluecke: einen SIEBTEN Capture-Skill erwischen Zuordnungstabelle und
+   Anker-Zielzahl nicht automatisch; nur eine Pruefung „erfuellt Einteilungskriterium, traegt
+   aber keinen `## Duplikat-Check`-Anker → WARNUNG" schliesst das.
 
 ---
 
