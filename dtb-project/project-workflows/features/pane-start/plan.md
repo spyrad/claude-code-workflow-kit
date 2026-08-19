@@ -173,7 +173,7 @@ Wartepflicht — und der Skill ist verteilt und katalogisiert.
 - [x] 1.4 Kopplung und Einordnung in die Konventionen — `cad078f`
 - [x] 2.1 Fixture-Setup und -Abbau
 - [x] 2.2 Drei blinde Abbruch-Laeufe
-- [ ] 2.3 Echter Pane-Start (Ende-zu-Ende)
+- [x] 2.3 Echter Pane-Start (Ende-zu-Ende)
 - [ ] 2.4 Katalog und Verteilung
 
 ---
