@@ -10,7 +10,7 @@ argument-hint: "[Idee-Nummer oder Suchbegriff]"
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: planning
-  after: [dtb:idea-review, dtb:greenfield-roadmap]
+  after: [dtb:idea-review, dtb:greenfield-roadmap, dtb:pane-start]
   next: [dtb:feature-plan, dtb:feature-fast]
   consumes: [INBOX.md, workflow.config.yaml]
   produces: [features/*/discovery.md, INBOX.md]

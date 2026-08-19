@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-19
 **Ziel:** Eine interaktive Voll-Schiene-Session laesst sich mit einem Befehl in einer eigenen Pane und einem eigenen Worktree starten, fertig eingerichtet und ueber ihren Rueckweg informiert.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

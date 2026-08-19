@@ -171,10 +171,10 @@ Wartepflicht — und der Skill ist verteilt und katalogisiert.
 - [x] 1.2 Begruessungstext-Vorlage und Start-Ablauf — `cad078f`
 - [x] 1.3 Struktur-Check der Mechanik-Quelle — `cad078f`
 - [x] 1.4 Kopplung und Einordnung in die Konventionen — `cad078f`
-- [x] 2.1 Fixture-Setup und -Abbau
-- [x] 2.2 Drei blinde Abbruch-Laeufe
-- [x] 2.3 Echter Pane-Start (Ende-zu-Ende)
-- [x] 2.4 Katalog und Verteilung
+- [x] 2.1 Fixture-Setup und -Abbau — `7b9d773`
+- [x] 2.2 Drei blinde Abbruch-Laeufe — `7b9d773`
+- [x] 2.3 Echter Pane-Start (Ende-zu-Ende) — `5ed27c8`
+- [x] 2.4 Katalog und Verteilung — `585574a`
 
 ---
 

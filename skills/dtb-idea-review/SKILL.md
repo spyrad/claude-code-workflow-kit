@@ -9,7 +9,7 @@ allowed-tools: Read, Write
 pipeline:
   stage: idea
   after: [dtb:idea]
-  next: [dtb:feature-discover, dtb:feature-fast, dtb:task]
+  next: [dtb:feature-discover, dtb:feature-fast, dtb:task, dtb:pane-start]
   consumes: [INBOX.md]
   produces: [INBOX.md]
 ---

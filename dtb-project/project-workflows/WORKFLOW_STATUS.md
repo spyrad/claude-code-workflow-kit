@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-08-18
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-18.md` (Session 1)
+**Letztes Update:** 2026-08-19
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-08/2026-08-19.md` (Session 1)
 
 ---
 
@@ -9,13 +9,15 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| pane-start (#68) | Fertig zum Testen | 8/8 | Zweitlauf mit gefixter Fassung (Pfad `pane-{slug}`, F10), dann Abnahme |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung, dann Abnahme |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Die vier „Fertig zum Testen"-Features: `review.md` sagt je „REJECTED", Triage-Bilanzen zeigen alle Findings behoben — eingefrorene Verdikt-Felder (#35-Belege).
+⚠ Alle fuenf `review.md` tragen ein negatives Verdikt (4x REJECTED, pane-start NEEDS ATTENTION),
+die Triage-Bilanzen zeigen alle Findings behoben oder entschieden — eingefrorene Verdikt-Felder (#35).
 
 ---
 
@@ -24,21 +26,21 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Erreicht (2026-08-18)** | Aufraeum-Session: `/dtb:archive` nachgeholt — **5 abgenommene Items archiviert** (#67, #65, 3 Change-Ordner), Bestand traegt jetzt nur noch Offenes; `5e5f1cd` gepusht. Idee **#68** (`dtb:pane-start`) erfasst: interaktive Voll-Schiene-Sessions in Pane+Worktree, #67-Mechanik wiederverwendbar, neu nur der Begruessungstext |
-| **Notizen** | Erster Archiv-Lauf unter der gefixten 4d/4e-Fassung (`350f017`) — trug ohne Abweichungs-Meldung. Ideen-Bestand 33 offen (Einzeldurchgang des Reviews nicht gestartet). Kit-Stand: Lock 46 Artefakte @ `d43d5a2` (maschinenlokal gemessen, #66) — Klasse A seither unberuehrt. ROADMAP-§5-Sync zum **13.** Mal leer (reine Platzhalter-Vorlage) |
+| **Erreicht (2026-08-19)** | **`pane-start` (#68) an einem Tag von der Idee bis 8/8** — zweiter Traeger der Pane-Schiene (interaktive Voll-Schiene in Pane+Worktree). Volle Kette: idea-review → feature-fast → plan-review (REVISE/5 WARNs) → implement (4 Commits `cad078f`…`585574a`) → impl-review (13 Findings, Triage 11 Fixed/1 Skip/1 Lesson). E2E real belegt (Pane `w3:p5`, Wartepflicht gehalten, 0 Dateiaenderungen); Kit verteilt auf **47 Artefakte @ `5ed27c8`** |
+| **Notizen** | Herdr-Sequenz referenziert statt kopiert (Struktur-Check + beidseitige Kopplung). **#54 zweifach neu belegt** → L26/L27 erfasst. Kit-Stand nach der Triage nicht mehr synchron: 5 Klasse-A-Dateien uncommittet. Ideen-Bestand 32 offen. ROADMAP-§5-Sync zum **14.** Mal leer (reine Platzhalter-Vorlage) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **F4-Nachlauf** — Ein-Satz-Korrektur der Branch-Prosa in `dtb-workflow-checkpoint`; Quelle: `archive/herdr-worker-automation/spec.md`. Danach `/dtb:kit-sync` (Klasse A beruehrt)
-- [ ] **#68 ausarbeiten** — `/dtb:feature-fast 68` (kleines Feature auf fertigem #67-Fundament)
-- [ ] **3 Verlustfunde vom 2026-08-18 absetzen** — fluechtige Zustaende in „Offene Aufgaben", `dtb:archive`-4e-Abgrenzung, Fall-C-Restabnahmen (Befehle im Report Session 1)
-- [ ] **L15-Raender-Lektion absetzen** — `/dtb:lesson` (Befehl im Verlustreport 2026-08-16 Session 3)
-- [ ] **Aeltere Verlustfunde absetzen** — Fall-C (2026-08-14) + #60-Nachtrag (4 Belege); dazu 2 Funde vom 2026-08-11 und 9 aus 2026-08-06/07
-- [ ] **L11-L14 + L22-L25 nach `skills/CLAUDE.md` heben** — leben nur lokal (#34/#64)
+- [ ] **`/dtb:commit-and-push` + `/dtb:kit-sync sync`** — 7 uncommittete Dateien; die Triage beruehrte 5 Klasse-A-Dateien (#51-Muster)
+- [ ] **Restabnahme pane-start** — Zweitlauf mit der gefixten Fassung, insbesondere Worktree-Pfad `pane-{slug}` (F10, nie real durchlaufen)
+- [ ] **4 Verlustfunde vom 2026-08-19 absetzen** — Config-vor-Guard (alle Voll-Guards), `{Grund}`-Platzhalter der Guard-Vorlage, `impl-review`-Ausnahmeliste, `stage`-Enum (Befehle im Report Session 1)
+- [ ] **F4-Nachlauf** — Branch-Prosa in `dtb-workflow-checkpoint` (Absatz `**Branch-Angabe:**`); Quelle: `archive/herdr-worker-automation/spec.md`
+- [ ] **Aeltere Verlustfunde absetzen** — L15-Raender-Lektion, Fall-C (2026-08-14), #60-Nachtrag (4 Belege), 9 Funde aus 2026-08-06/07/11
+- [ ] **L11-L14 + L22-L27 nach `skills/CLAUDE.md` heben** — leben nur lokal (#34/#64)
 - [ ] **INBOX #58 Fall (1)** — `greenfield-prd.after: null`: bewusster Einstiegspunkt oder fehlende Kante?
-- [ ] **`/dtb:idea-review` fortsetzen** — 33 offene Ideen
+- [ ] **`/dtb:idea-review` fortsetzen** — 32 offene Ideen
 - [ ] #66 · #64 · #63 · #62 · #61 · #60 · #59 · #58 · #57 · #56 · #55 · #54 · #53 · #52 · #51 · #35 · #33 entscheiden
 - [ ] Restabnahmen der vier Bestands-Features · Config-Platzhalter fuellen · ROADMAP.md befuellen oder entfernen
 
@@ -48,9 +50,9 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-08-18 | 5 abgenommene Items archiviert, Bestand bereinigt | 2 Ideen + 1 Feature + 2 Aufgaben nach `archive/`; erster Lauf unter gefixter 4d/4e-Fassung | `2026-08/2026-08-18.md` (S1) |
-| 2026-08-16 | `herdr-worker-automation` (#67) Idee→Abnahme an einem Tag | Pane-Traeger in dtb:worker; E2E-Queue 2 Aufgaben real, 12 Review-Findings behoben | `2026-08/2026-08-16.md` (S3) |
-| 2026-08-16 | Erster realer Worker→Orchestrator-Durchlauf, #42 abgenommen + archiviert | Guard + Hand-off + Empfangsseite end-to-end belegt; #58 F2 erledigt | `2026-08/2026-08-16.md` (S1) |
+| 2026-08-19 | `pane-start` (#68) Idee→8/8 an einem Tag | Interaktive Pane-Schiene, E2E real belegt, Kit auf 47 Artefakte | `2026-08/2026-08-19.md` (S1) |
+| 2026-08-18 | 5 abgenommene Items archiviert, Bestand bereinigt | 2 Ideen + 1 Feature + 2 Aufgaben nach `archive/` | `2026-08/2026-08-18.md` (S1) |
+| 2026-08-16 | `herdr-worker-automation` (#67) Idee→Abnahme an einem Tag | Pane-Traeger in dtb:worker; E2E-Queue 2 Aufgaben real | `2026-08/2026-08-16.md` (S3) |
 
 ---
 
@@ -64,7 +66,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:feature-fast 68` (Idee #68 `dtb:pane-start` ausarbeiten) — alternativ zuerst der F4-Nachlauf in `dtb-workflow-checkpoint` + `/dtb:kit-sync`, wenn die Kit-Verteilung Vorrang hat.
+**Naechster Befehl:** `/dtb:commit-and-push` (7 uncommittete Dateien), unmittelbar danach `/dtb:kit-sync sync` — die Triage beruehrte 5 Klasse-A-Dateien.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen Befehl.
-**Gueltigkeitsbedingung:** `/dtb:feature-fast 68` gilt, solange `INBOX.md` #68 den Status `Offen` traegt und kein Ordner `features/pane-start/` existiert; danach ist der naechste Schritt `/dtb:plan-review pane-start`. Dieser Checkpoint hinterlaesst Log + Status uncommittet → `/dtb:commit-and-push` faellig, erledigt sobald `git status --short` leer ist.
-⚠ **Ableitung bewusst uebersteuert:** `review.md` mit REJECTED zeigt regulaer auf `/dtb:implement` — Findings sind bei allen vier Features behoben (eingefrorene Verdikt-Felder, #35).
+**Gueltigkeitsbedingung:** `/dtb:commit-and-push` gilt, solange `git status --short` nicht leer ist; danach ist der naechste Schritt `/dtb:kit-sync sync`, und sobald der Lock 48 Artefakte @ dem neuen HEAD traegt, folgt die Restabnahme von `pane-start` (Zweitlauf mit Pfad `pane-{slug}`).
+⚠ **Ableitung bewusst uebersteuert:** `pane-start` steht auf „Fertig zum Testen", obwohl alle Manual-Kriterien bestaetigt sind — die 11 Triage-Fixes kamen nach dem E2E-Lauf, F10 (Worktree-Pfad) ist noch nie real durchlaufen. Die vier Bestands-Features zeigen `review.md` REJECTED bei behobenen Findings (#35).

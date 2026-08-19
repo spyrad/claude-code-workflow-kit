@@ -157,10 +157,13 @@ ist der Subagent:
   `worker-report.md` (Ablauf: `### Pane-Ausfuehrung`)
 
 **Eligibility-Gate des Pane-Traegers (hart):** `HERDR_ENV` = `1` UND `herdr` im PATH
-(`command -v herdr`). Sonst Abbruch — KEINE stille Degradierung auf den Subagenten:
+(`command -v herdr`) UND `$HERDR_PANE_ID` nicht leer (die Orchestrator-Adresse des
+Pane-Auftrags kommt daraus — ohne eigene Pane-Adresse kein Rueckkanal). Sonst Abbruch —
+KEINE stille Degradierung auf den Subagenten:
 
 ```
-⛔ Pane-Modus braucht Herdr (HERDR_ENV=1 + herdr-CLI), hier nicht verfuegbar.
+⛔ Pane-Modus braucht Herdr (HERDR_ENV=1 + herdr-CLI + eigene Pane-Adresse
+   $HERDR_PANE_ID), hier nicht verfuegbar.
    Alternativen: Subagenten-Modus (dtb:worker, Default) oder manueller
    Worker-Hand-off.
 ```
@@ -177,7 +180,10 @@ Rueckkanal. Es gibt bewusst KEINE Team-Registry und keine persistierten Pane-IDs
 Orchestrator-Adresse kommt zur Laufzeit aus `$HERDR_PANE_ID`. Alle Herdr-Kommandos des
 Pane-Modus stehen NUR in dieser Vorlage und in `### Pane-Ausfuehrung` — Herdr-CLI-Drift
 (bekanntes, dokumentiertes Risiko; Syntax-Stand 2026-08-16) wird an diesen zwei
-benannten, aufeinander verweisenden Orten korrigiert — nirgendwo sonst:
+benannten, aufeinander verweisenden Orten korrigiert — nirgendwo sonst (einzige
+deklarierte Ausnahme: die Rueckweg-Zeile `herdr agent prompt {orchestrator-pane} …` im
+Begruessungstext von `dtb:pane-start` spiegelt die Rueckweg-Zeile dieser Vorlage —
+Aenderung hier → dort mitziehen):
 
 ```
 Du bist Worker-Session fuer den Change `{slug}`.

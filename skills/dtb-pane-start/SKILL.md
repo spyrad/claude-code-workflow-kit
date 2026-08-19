@@ -15,7 +15,7 @@ pipeline:
   stage: execution
   after: [dtb:idea-review]
   next: [dtb:feature-discover, dtb:feature-fast]
-  consumes: [INBOX.md, workflow.config.yaml, features/*/plan.md, features/*/spec.md]
+  consumes: [INBOX.md, workflow.config.yaml, features/*/discovery.md, features/*/plan.md, features/*/spec.md]
   produces: []
 ---
 
@@ -30,7 +30,9 @@ eigenen Arbeit zurueck; in der Pane arbeitet ein **Mensch**.
 der Autonomie-Regel (Versuchslimit, Zeitdeckel, Tauglichkeitsraster, Bericht). Dieser Skill
 stellt einen **Begruessungstext** zu und hat davon nichts — es sitzt jemand drin. Was beide
 teilen, sind die vier Start-Kommandos; sie leben ausschliesslich in `dtb:worker` und werden
-hier NUR referenziert, niemals kopiert (Drift-Schutz — Details: `## Herdr-Mechanik`).
+hier NUR referenziert, niemals kopiert (Drift-Schutz — Details: `## Herdr-Mechanik`; einzige
+deklarierte Ausnahme ist die Rueckweg-Zeile des Begruessungstexts, ein benannter Spiegel —
+siehe „Regeln zur Vorlage").
 
 ## Worktree-Guard
 
@@ -85,9 +87,9 @@ genuegt nicht). Sonst Abbruch — KEINE stille Degradierung auf einen anderen We
 ```
 ⛔ dtb:pane-start braucht Herdr (HERDR_ENV=1 + herdr-CLI + eigene Pane-Adresse
    $HERDR_PANE_ID), hier nicht verfuegbar.
-   Alternativen: die Voll-Schiene direkt in dieser Session fahren
-   (/dtb:feature-discover {Argument} bzw. /dtb:feature-fast {Argument}) oder den
-   Arbeitsplatz manuell einrichten (git worktree add + Session von Hand starten).
+   Alternativen: die Voll-Schiene direkt in dieser Session fahren (Befehl je nach
+   Stand — Tabelle Schritt 1b) oder den Arbeitsplatz manuell einrichten
+   (git worktree add + Session von Hand starten).
    Dein Ziel geht nicht verloren — in einer Herdr-Session absetzen:
    /dtb:pane-start {Argument}
 ```
@@ -133,7 +135,7 @@ Reihenfolge:
 3. **Kein Argument** → Abbruch (unten). Dieser Skill raet kein Ziel: welcher Change einen
    eigenen Arbeitsplatz bekommt, ist eine Entscheidung, keine Ableitung.
 
-**Abbruch bei unauflösbarem Argument** — die `Geprueft:`-Zeilen nennen NUR die
+**Abbruch bei unaufloesbarem Argument** — die `Geprueft:`-Zeilen nennen NUR die
 tatsaechlich gelaufenen Pruefungen des jeweiligen Zweigs (keine Behauptungen):
 
 ```
@@ -151,7 +153,8 @@ tatsaechlich gelaufenen Pruefungen des jeweiligen Zweigs (keine Behauptungen):
 | Ordner existiert nicht (INBOX-Einstieg) | `/dtb:feature-discover {N}` — bei erkennbar kleinem Zuschnitt alternativ `/dtb:feature-fast {N}` |
 | `discovery.md` vorhanden, kein `spec.md` | `/dtb:feature-plan {slug}` |
 | `spec.md` vorhanden, kein `plan.md` | `/dtb:impl-plan {slug}` |
-| `plan.md` vorhanden, `## Progress` teilweise/leer | `/dtb:implement {slug}` |
+| `plan.md` mit Kopf-Status `Entwurf` (§7) | `/dtb:plan-review {slug}` |
+| `plan.md` `Reviewed`, `## Progress` teilweise/leer | `/dtb:implement {slug}` |
 | `plan.md` vollstaendig abgehakt | `/dtb:impl-review {slug}` |
 
 Zeige den Vorschlag mit einem Satz Begruendung und lass ihn bestaetigen oder ersetzen. Der
@@ -179,6 +182,9 @@ waehlt der Mensch.
    ⚠ Weitere Session im Haupt-Checkout gefunden ({pane-id}) — der Worktree-Guard
      deckt diesen Fall nicht (bekannte Grenze: er erkennt nur verlinkte Worktrees).
    ```
+
+   (Wortlaut gespiegelt aus `skills/dtb-worker/SKILL.md` → „Hinweg: Vorbedingungen" —
+   Aenderung dort mitziehen.)
 
 ## Struktur-Check (Kopplungs-Waechter)
 
@@ -247,10 +253,11 @@ Skill und sind beim Ausfuehren einzusetzen:
 |-------|----------------------|------|
 | Branch | `task/{slug}` | **`feature/{slug}`** — die Voll-Schiene arbeitet an einem Feature-Change, und der Branchname ist der Merge-Anker |
 | Zugestellter Text | Pane-Auftrag (autonome Arbeitsanweisung) | **Begruessungstext** (unten) |
+| Worktree-Pfad | `.dtb-worktrees/worker-{slug}` | **`.dtb-worktrees/pane-{slug}`** — interaktive Arbeitsplaetze bleiben in `git worktree list` von autonomen unterscheidbar |
 
-Alles andere — Pfad-Schema des Worktrees, Pane-Teilung ohne Fokuswechsel, Startweg ueber die
-Pane-Shell statt ueber den Agent-Start, Erkennungs-Warten mit einem Wiederholungsversuch,
-Zustellung als EINE Nachricht — gilt unveraendert wie in der Quelle beschrieben.
+Alles andere — Pane-Teilung ohne Fokuswechsel, Startweg ueber die Pane-Shell statt ueber
+den Agent-Start, Erkennungs-Warten mit einem Wiederholungsversuch, Zustellung als EINE
+Nachricht — gilt unveraendert wie in der Quelle beschrieben.
 
 **Nach der Zustellung** kehrst du zur eigenen Arbeit zurueck: KEIN blockierendes Warten. Der
 Rueckweg laeuft wie beim Worker-Traeger (der Hand-off-Block erreicht diese Session von
@@ -301,8 +308,13 @@ Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empf
   nimmt, laesst diese Zeilen ersatzlos weg
 - **Rueckweg-Anweisung woertlich uebernehmen.** Das Blockformat selbst wird NICHT hier
   gepflegt: es steht in `dtb:workflow-checkpoint` → `### Hand-off-Block (Format — die eine
-  Quelle)`. Die Session liest es dort, wenn sie den Block baut — sie ruft den Skill nicht auf,
-  um das Format zu lesen
+  Quelle)`. Die Session erhaelt den Block ueber den `/dtb:workflow-checkpoint`-Aufruf am
+  Session-Ende — die Sende-Seite seines Worktree-Guards erzeugt ihn; das Format liest sie
+  nie separat, gepflegt wird es nur dort
+- **Die Rueckweg-Kommandozeile der Vorlage ist ein DEKLARIERTER SPIEGEL** der
+  Rueckweg-Zeile im Pane-Auftrag von `dtb:worker` (die einzige erlaubte Kommando-Zeile in
+  diesem Skill — sie ist zugestellter Text, nicht Start-Sequenz). Drift an der
+  Zustell-Syntax wird in `dtb:worker` korrigiert und HIER mitgezogen
 - **Fortsetzungsfall:** Liegen im Change-Ordner schon Artefakte, nennt „Stand des Change"
   den abgeleiteten naechsten Schritt (Tabelle in Schritt 1b) statt eines Neustarts
 

@@ -188,7 +188,9 @@ schaetzen: Erzeugt ein Skill NEUE Change-Ordner oder schreibt er quer (zentrale 
 fremde Changes) → **Voll-Guard**. Arbeitet er am eigenen Change und zieht global nur
 Status/Links nach → **Teil-Guard**. Schreibt er nur den eigenen Change-Ordner →
 **worktree-faehig**. Ein NEUER Skill mit globalen `produces`-Eintraegen uebernimmt die
-Guard-Vorlage ab dem ersten Tag.
+Guard-Vorlage ab dem ersten Tag. Betrieblich begruendete Ausnahmen schlagen das
+`produces`-Kriterium — sie stehen als benannter Sonderfall direkt in der Tabelle
+(derzeit nur `pane-start`: legt Worktrees vom Haupt-Checkout an).
 
 ### Worktree-Guard (kanonische Vorlage)
 

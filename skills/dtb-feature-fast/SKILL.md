@@ -12,7 +12,7 @@ argument-hint: "[INBOX-Nummer oder Stichwort]"
 allowed-tools: Read, Write, Glob, Grep, Bash
 pipeline:
   stage: planning
-  after: [dtb:idea-review, dtb:feature-discover]
+  after: [dtb:idea-review, dtb:feature-discover, dtb:pane-start]
   next: [dtb:plan-review]
   consumes: [INBOX.md, workflow.config.yaml, features/*/discovery.md, features/*/spec.md, features/*/plan.md, project-rules/lessons.md]
   produces: [features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/fast-draft.md, INBOX.md, BACKLOG.md]
