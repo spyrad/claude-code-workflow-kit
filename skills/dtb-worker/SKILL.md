@@ -167,6 +167,10 @@ ist der Subagent:
 
 ### Pane-Auftrag (Vorlage — die eine Quelle)
 
+> **Kopplungs-Hinweis:** `dtb:pane-start` nutzt diese Vorlage als Aufbau-Muster fuer seinen
+> Begruessungstext und greppt auf den Sektions-Titel `### Pane-Auftrag` (Struktur-Check).
+> Umbenennung oder Umbau dieser Sektion → `skills/dtb-pane-start/SKILL.md` mitziehen.
+
 Der Auftragstext traegt ALLES, was die Worker-Session wissen muss — Rolle, Ort, Adressen,
 Rueckkanal. Es gibt bewusst KEINE Team-Registry und keine persistierten Pane-IDs
 (fluechtige Adressen; eine Datei waere eine Zustandsaussage ohne Pfleger). Die
@@ -209,6 +213,12 @@ eine Branch-Referenz — nie pushen, keine anderen Branches) und liefert den
 Hand-off-Block statt eines Reports.
 
 ### Pane-Ausfuehrung (Traeger `pane`)
+
+> **Kopplungs-Hinweis:** `dtb:pane-start` liest die Start-Sequenz dieser Sektion zur
+> Laufzeit (statt sie zu kopieren) und greppt auf den Sektions-Titel `### Pane-Ausfuehrung`
+> (Struktur-Check). Aenderungen an Sequenz oder Titel → `skills/dtb-pane-start/SKILL.md`
+> mitziehen. Dessen bewusste Abweichungen (Branch `feature/{slug}`, Begruessungstext statt
+> Auftrag) stehen dort — Herdr-Kommandos werden weiterhin NUR hier korrigiert.
 
 **`{default-branch}`** bezeichnet in dieser Sektion den Zielbranch des Haupt-Checkouts:
 `parallel.default_branch` aus `workflow.config.yaml`, falls gesetzt; sonst der aktuelle

@@ -130,6 +130,12 @@ Anweisungs-Ebene — kein harter Timer; der Bericht weist die Laufzeit je Versuc
 Die Worktree-Grenze der Worker ist die Worker-Instanz der kitweiten
 **Schreibgrenzen-Regel** (naechste Sektion) — dort ist sie kanonisch formuliert.
 
+**Abgrenzung `dtb:pane-start`:** Der interaktive Pane-Start faellt NICHT unter diese Regel —
+er stellt keinen autonomen Auftrag zu, sondern einen Begruessungstext an eine Session, in der
+ein **Mensch** arbeitet. Deckelung, Tauglichkeitsraster und Berichtspflicht entfallen dort
+ersatzlos; es gelten nur Schreibgrenzen-Regel und Worktree-Guard wie fuer jede
+Orchestrator-Session.
+
 ## Parallele Sessions (Schreibgrenze, Orchestrator-Muster, Worktree-Guard)
 
 ### Schreibgrenzen-Regel (die eine Quelle)
@@ -172,7 +178,7 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 
 | Kategorie | Verhalten im verlinkten Worktree | Skills |
 |-----------|----------------------------------|--------|
-| **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint`, `idea`, `idea-review`, `archive`, `lesson`, `meeting-dump`, `task`, `bug-report` |
+| **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint`, `idea`, `idea-review`, `archive`, `lesson`, `meeting-dump`, `task`, `bug-report`, `pane-start` (Sonderfall: `produces` leer — Voll-Guard aus betrieblichem Grund, verlinkte Worktrees legt man nur vom Haupt-Checkout aus an) |
 | **Teil-Guard** (hybrid) | Laeuft normal am EIGENEN Change, ueberspringt aber die globalen Schreibschritte (INBOX-Status/-Link, BACKLOG-Eintrag) mit einer Hinweiszeile; das Uebersprungene gehoert in den Hand-off | `feature-discover`, `feature-plan`, `feature-fast` |
 | **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `feature-start`, `debug-plan`, `impl-review`, `open-question` |
 | **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `no-loss-check`, `pipeline-graph`, … |
