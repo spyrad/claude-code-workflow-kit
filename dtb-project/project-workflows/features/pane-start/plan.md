@@ -167,12 +167,12 @@ Wartepflicht — und der Skill ist verteilt und katalogisiert.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Skill-Grundgeruest, Guard und Gate
-- [x] 1.2 Begruessungstext-Vorlage und Start-Ablauf
-- [x] 1.3 Struktur-Check der Mechanik-Quelle
-- [x] 1.4 Kopplung und Einordnung in die Konventionen
-- [ ] 2.1 Fixture-Setup und -Abbau
-- [ ] 2.2 Drei blinde Abbruch-Laeufe
+- [x] 1.1 Skill-Grundgeruest, Guard und Gate — `cad078f`
+- [x] 1.2 Begruessungstext-Vorlage und Start-Ablauf — `cad078f`
+- [x] 1.3 Struktur-Check der Mechanik-Quelle — `cad078f`
+- [x] 1.4 Kopplung und Einordnung in die Konventionen — `cad078f`
+- [x] 2.1 Fixture-Setup und -Abbau
+- [x] 2.2 Drei blinde Abbruch-Laeufe
 - [ ] 2.3 Echter Pane-Start (Ende-zu-Ende)
 - [ ] 2.4 Katalog und Verteilung
 

@@ -16,6 +16,7 @@
 | feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 | output-style-gezielt | Fertig zum Testen | Mittel | features/output-style-gezielt/spec.md | Eine global geltende, schaltbare Stil-Vorgabe als versioniertes Kit-Artefakt ausliefern, die Claudes Fliesstext auf Orientierung statt Vollstaendigkeit ausrichtet — worum es geht, was der Stand ist, was zu entscheiden ist; Gegner sind Vorwegnahme und Redundanz, nicht Erklaerung |
 | feature-start-statusfeld | Fertig zum Testen | Hoch | features/feature-start-statusfeld/spec.md | `dtb:feature-start` schreibt keine Anzeigefelder mehr — der Start behauptet keinen Status, den die Ableitung nicht traegt, damit die Feld-Konfliktmeldung wieder ein Befund ist statt Dauerrauschen (INBOX #50, via Fast-Track) |
+| pane-start | Geplant | Hoch | features/pane-start/spec.md | Interaktive Voll-Schiene-Sessions per Befehl in eigener Pane + Worktree starten: der Skill richtet den Arbeitsplatz ein und stellt EINEN Begruessungstext zu (Arbeitsplatz, Startbefehl, Orchestrator-Adresse, Rueckweg-Pflicht); Herdr-Mechanik referenziert statt kopiert, keine Autonomie-Governance (INBOX #68, via Fast-Track) |
 
 ---
 

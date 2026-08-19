@@ -71,18 +71,28 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
 > die Kategorie folgt hier nicht dem `produces`-Kriterium, sondern dem Betrieb: einen
 > verlinkten Worktree legt man vom Haupt-Checkout aus an, nie aus einem anderen Worktree.
 > Bewusste Abweichung vom Einteilungs-Kriterium in `skills/CLAUDE.md` → `### Skill-Kategorien`.
+> Der Satz „schreibt globale Dateien" in Rahmenprosa und ⛔-Fence ist **Vorlagen-Wortlaut**
+> (byte-identische Uebernahme der kanonischen Guard-Vorlage, nur der Skill-Name variiert) —
+> real schuetzt der Guard hier die Worktree-Anlage, nicht Datei-Schreibzugriffe.
 
 ## Herdr-Gate (hart)
 
-**Eligibility-Gate:** `HERDR_ENV` = `1` UND `herdr` im PATH (`command -v herdr`).
-Sonst Abbruch — KEINE stille Degradierung auf einen anderen Weg:
+**Eligibility-Gate:** `HERDR_ENV` = `1` UND `herdr` im PATH (`command -v herdr`) UND
+`$HERDR_PANE_ID` nicht leer (ohne eigene Pane-Adresse gibt es keinen Rueckkanal — der
+Begruessungstext braucht die Orchestrator-Adresse; eine Herdr-CLI ausserhalb einer Pane
+genuegt nicht). Sonst Abbruch — KEINE stille Degradierung auf einen anderen Weg:
 
 ```
-⛔ dtb:pane-start braucht Herdr (HERDR_ENV=1 + herdr-CLI), hier nicht verfuegbar.
+⛔ dtb:pane-start braucht Herdr (HERDR_ENV=1 + herdr-CLI + eigene Pane-Adresse
+   $HERDR_PANE_ID), hier nicht verfuegbar.
    Alternativen: die Voll-Schiene direkt in dieser Session fahren
-   (/dtb:feature-discover bzw. /dtb:feature-fast) oder den Arbeitsplatz manuell
-   einrichten (git worktree add + Session von Hand starten).
+   (/dtb:feature-discover {Argument} bzw. /dtb:feature-fast {Argument}) oder den
+   Arbeitsplatz manuell einrichten (git worktree add + Session von Hand starten).
+   Dein Ziel geht nicht verloren — in einer Herdr-Session absetzen:
+   /dtb:pane-start {Argument}
 ```
+
+Wurde kein Argument uebergeben, entfallen die `{Argument}`-Anteile der Meldung ersatzlos.
 
 Der Skill hat bewusst **keinen** Ersatzpfad: sein ganzer Zweck ist der Pane-Hinweg. Ohne
 Pane gibt es nichts zu verkuerzen, und ein halb eingerichteter Arbeitsplatz waere schlechter
@@ -97,6 +107,10 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 Relevante Werte: `paths.workflows`, `paths.rules`, `parallel.default_branch` (fuer die
 Branch-Pruefung des Guards und als Basis des Worktree-Stands).
 
+**Fehlende Keys** (nicht nur fehlende Datei): `paths.rules` fehlt in aelteren Configs →
+Fallback `dtb-project/project-rules/`. Fehlt `parallel.default_branch` → wie `null`
+behandeln (Branch-Pruefung entfaellt).
+
 ## Schritt 1: Argument aufloesen und Vorbedingungen pruefen
 
 ### 1a: Argument aufloesen (zwei Einstiegspunkte, ein Argument)
@@ -106,22 +120,26 @@ Reihenfolge:
 
 1. **Rein numerisch** → als INBOX-Nummer behandeln: Eintrag in
    `{config.paths.workflows}/INBOX.md` suchen.
-   - Treffer → Slug nach `{config.paths.rules}/DERIVED_STATE_RULES.md` §4 ableiten und dem
+   - Treffer → Slug nach `{config.paths.rules}/DERIVED_STATE_RULES.md` §4 ableiten
+     (Fallback: `dtb-project/project-rules/DERIVED_STATE_RULES.md`) und dem
      Nutzer zur Bestaetigung zeigen (kein Auto-Suffix bei Kollision, §4)
    - Kein Treffer → Abbruch (unten)
 2. **Nicht numerisch** → als Change-Slug behandeln: existiert
    `{config.paths.workflows}/features/{slug}/`?
    - Ja → Fortsetzung eines angefangenen Change
-   - Nein → Abbruch (unten)
+   - Nein → VOR dem Abbruch einmal die INBOX per Stichwort greppen (das Argument als
+     Suchbegriff); genau ein Treffer → als Fund behandeln und zur Bestaetigung zeigen,
+     sonst Abbruch (unten)
 3. **Kein Argument** → Abbruch (unten). Dieser Skill raet kein Ziel: welcher Change einen
    eigenen Arbeitsplatz bekommt, ist eine Entscheidung, keine Ableitung.
 
-**Abbruch bei unauflösbarem Argument:**
+**Abbruch bei unauflösbarem Argument** — die `Geprueft:`-Zeilen nennen NUR die
+tatsaechlich gelaufenen Pruefungen des jeweiligen Zweigs (keine Behauptungen):
 
 ```
 ⛔ Kein Ziel aufloesbar: "{Argument}"
-   Geprueft: {config.paths.workflows}/INBOX.md (als Nummer) und
-             {config.paths.workflows}/features/{Argument}/ (als Slug)
+   Geprueft: {je nach Zweig: INBOX.md als Nummer | features/{Argument}/ als Slug
+             + INBOX.md als Stichwort}
    → Idee zuerst erfassen: /dtb:idea {Beschreibung}
    → oder vorhandene Ziele sehen: /dtb:backlog-status
 ```
@@ -144,7 +162,8 @@ waehlt der Mensch.
 
 1. **Zielarbeit committet?** (L18) Der Worktree entsteht aus einem Commit und sieht
    Uncommittetes nicht. `git status --short -- {config.paths.workflows}/features/{slug}/`
-   muss leer sein (beim INBOX-Einstieg zusaetzlich `INBOX.md`, falls der Eintrag frisch ist).
+   muss leer sein; beim INBOX-Einstieg zusaetzlich IMMER
+   `git status --short -- {config.paths.workflows}/INBOX.md` (mechanisch statt Ermessen).
    Sonst Abbruch mit Hinweis: erst committen, z.B. via `/dtb:commit-and-push`
 2. **Branch frei?** `git branch --list feature/{slug}` muss leer sein. Existiert der Branch,
    melden und Entscheidung einholen (fortsetzen mit bestehendem Branch / anderen Namen /
@@ -163,10 +182,12 @@ waehlt der Mensch.
 
 ## Struktur-Check (Kopplungs-Waechter)
 
-Dieser Skill traegt die Start-Sequenz nicht selbst — er MUSS deshalb vor jedem Lauf pruefen,
-dass seine Quelle existiert und ihre Anker-Sektionen noch traegt. Ohne diesen Check gaebe es
-weder Fallback noch Diagnose: die Quelle koennte fehlen oder umgebaut sein, und der Ausfall
-bliebe stumm bis mitten in die Einrichtung.
+Dieser Skill traegt die Start-Sequenz nicht selbst — er MUSS deshalb **vor jeder
+Einrichtung** (nach der Argument-Aufloesung und den Vorbedingungen aus Schritt 1, vor dem
+ersten Kommando der Herdr-Mechanik) pruefen, dass seine Quelle existiert und ihre
+Anker-Sektionen noch traegt. Endet ein Lauf schon in Guard, Gate oder Schritt 1, laeuft der
+Check planmaessig nie. Ohne ihn gaebe es weder Fallback noch Diagnose: die Quelle koennte
+fehlen oder umgebaut sein, und der Ausfall bliebe stumm bis mitten in die Einrichtung.
 
 **Aufloesung der Quelle** (Muster: `dtb:feature-fast` Schritt 2): zuerst die installierte
 Kopie `~/.claude/skills/dtb-worker/SKILL.md`, sonst Fallback auf `skills/dtb-worker/SKILL.md`
@@ -209,7 +230,7 @@ Rohtext) auf beide Sektionen:
 ## Herdr-Mechanik (referenziert, nicht dupliziert)
 
 > **Die Start-Sequenz steht NICHT hier.** Quelle ist `dtb:worker` →
-> `### Pane-Ausfuehrung (Traeger `pane`)`, Unterabschnitt „Hinweg: Start-Sequenz" (vier
+> `### Pane-Ausfuehrung`, Unterabschnitt „Hinweg: Start-Sequenz" (vier
 > Kommandos: `worktree add`, Pane teilen, Session ueber die Pane-Shell starten inkl.
 > Erkennungs-Warten, Auftrag als EINE Nachricht zustellen). Aufloesung und
 > Existenz-Pruefung der Quelle: `## Struktur-Check`.
