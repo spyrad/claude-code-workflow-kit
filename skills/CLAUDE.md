@@ -112,6 +112,129 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | `archive` | archivierbare Kandidaten vorhanden | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu archivieren" (nativ in Schritt 3) |
 | `migrate-change-folders` | flache Alt-Dateien (`features/*.md`) | kein Redirect (`after: null`) → ehrliche Meldung „nichts zu migrieren" (nativ in Schritt 1) |
 
+## Duplikat-Schutz (Capture-Skills)
+
+Ein **Capture-Skill** prueft VOR dem ersten Schreiben, ob der erfasste Inhalt bereits im
+Zielbestand steht. Drei Skills bekamen diesen Schutz je einzeln in ihren Features (`lesson-loop`,
+`fachfragen-erfassung`, `meeting-dump`), drei aus dem Grundbestand erbten die Luecke (INBOX #48) —
+diese Konvention macht den Schutz zur Autoren-Pflicht, damit der naechste Capture-Skill ihn nicht
+erneut vergisst.
+
+### Einteilungsregel (welcher Skill ist Capture-Skill)
+
+Mechanisch pruefen, nie schaetzen — ein Skill faellt unter diese Konvention, wenn ALLE drei
+Merkmale zutreffen:
+
+1. Er speichert einen **vom Menschen formulierten Freitext** als neuen Eintrag (nicht: vom Modell
+   erzeugte Zusammenfassungen, aus Dokumenten extrahierte Fakten).
+2. Das Ziel ist eine **Sammlung gleichartiger Eintraege** (Tabelle wie `INBOX.md`/`lessons.md`,
+   Sektions-Liste wie `## Offene Punkte`, Datei-Familie wie `features/*/task.md`).
+3. Der Eintrag bringt **keine von aussen vergebene Identitaet** mit (laufende Nummern, die der
+   Skill selbst vergibt, zaehlen nicht als Identitaet).
+
+Gegenprobe am Bestand: `docs-extract` scheitert an (1) — es extrahiert aus Dokumenten;
+`workflow-checkpoint` scheitert an (1) — der Session-Log ist Modell-Zusammenfassung. Beide
+brauchen keinen Check. Die sechs Treffer stehen in der Zuordnungstabelle unten.
+
+### Ersetzungsprobe (Kanon)
+
+> **Zwei Eintraege sind eine Dublette, wenn der eine den anderen ohne
+> Informationsverlust ersetzen koennte** — gleicher Gegenstand **und** gleiche Aussage.
+> Trifft der Bestand denselben Gegenstand, aber eine **andere** Aussage → keine Dublette.
+
+**Keine Prozent-Schwelle:** eine Quote („ab 60 % Stichwort-Ueberlappung") suggeriert eine
+Messbarkeit, die es nicht gibt — zwei Laeufe zaehlen Inhaltswoerter unterschiedlich, und niemand
+rechnet die Zahl nach. Die Ersetzungsprobe ist eine Frage, die bei jedem Lauf gleich gestellt und
+vom Menschen nachvollzogen werden kann.
+
+**Zweifelsregel (kontexteigen, am billigeren Fehler ausgerichtet):** Laesst sich die
+Ersetzungsfrage nicht klar beantworten, gilt:
+
+- `no-loss-check` (Report-Kontext): im Zweifel **melden** — eine zu strenge Unterdrueckung
+  faellt niemandem auf, das ist dort der teurere Fehler.
+- Capture-Skills (Flow-Kontext): im Zweifel **kein Duplikat**, still durchlassen — eine
+  Rueckfrage bei jedem vage aehnlichen Eintrag erodiert das Vertrauen in den Check, bis er
+  weggeklickt wird und nichts mehr schuetzt.
+
+> **Kopplungs-Hinweis (Spiegel):** `skills/dtb-no-loss-check/SKILL.md` („Die
+> Unterdrueckungs-Regel: Ersetzungsprobe") traegt die vollstaendige operative Fassung dieser
+> Probe — installierte Skills laufen ohne diese Datei hier (Laufzeit-Autarkie unten). Aenderst
+> du den Kanon, den Spiegel im selben Zug mitziehen und per Grep auf den fettgedruckten
+> Regelsatz verifizieren (Zielzahl 2: Kanon + Spiegel, keine dritte Stelle).
+
+### Kopplungsregel: Meldeform folgt Vergleichsschaerfe
+
+> Unscharfer Vergleich (Ersetzungsprobe) → Treffer **melden und fragen** (Ja/Abbrechen), nie
+> selbst entscheiden. Exakter Vergleich (Textgleichheit nach Normalisierung) → **melden und
+> ueberspringen** ist zulaessig, weil ein Falsch-Positiv ausgeschlossen ist.
+
+Begruendung: ein unscharfer Vergleich hat Falsch-Positive per Konstruktion — ein Mechanismus, der
+sich irren kann, darf nicht allein entscheiden. Ein exakter Vergleich hat keine; die Rueckfrage
+waere Zeremonie. Der Bestand folgt dieser Regel bereits: `lesson` (unscharf) fragt,
+`open-question` und `meeting-dump` (exakt) ueberspringen.
+
+**Nie hart blocken. Wiederkehr ist legitim** — Housekeeping-Aufgaben und Regressions-Bugs
+wiederholen sich naturgemaess; die Entscheidung liegt immer beim Menschen.
+
+### Meldeform-Schema (Slots statt Wortlaut)
+
+Kein byte-identischer Spiegel-Text: jedes Ziel hat einen eigenen Suchraum, woertliche Spiegel
+waeren Wartungsschuld (Kopplungs-Regel unten in den Mechanik-Regeln). Jeder Skill fuellt dieses
+Schema mit seinen Werten:
+
+```
+{Aehnlicher|Identischer} {Eintragstyp} steht schon in {Fundstelle}: "{Bestandstext, gekuerzt}"
+{unscharf: Trotzdem speichern? (Ja / Abbrechen)} | {exakt: Nichts geschrieben.}
+```
+
+- **Fundstelle:** das natuerliche Zitier-Handle des Ziels (INBOX-Nummer, Ordnerpfad, L-Nummer).
+- **Kuerzung (Pflicht):** Bestandstext auf ~120 Zeichen + `…` (INBOX-Zeilen erreichen 5900+
+  Zeichen; der Anker im Hinweis ist die Fundstelle, nicht der Text).
+- **Kappung:** max. 3 Treffer zeigen, Rest als `+N weitere`.
+- **Kein Treffer → keine Ausgabe.** Kein „Duplikat-Check: ok", keine Bestaetigungszeile — der
+  Check ist im Normalfall unsichtbar (wie der Worktree-Guard) und laesst das
+  Stoerungsfreiheits-Versprechen der Capture-Skills unangetastet.
+- **Fail-open:** fehlendes/leeres Ziel (keine `INBOX.md`, leeres `features/`) → Check still
+  ueberspringen, kein Fehler, kein Hinweis.
+
+### Abgrenzung zur Slug-Kollision (§4)
+
+`DERIVED_STATE_RULES.md` §4 regelt die **Namens**-Kollision (zwei Namen leiten denselben Slug ab:
+Abbruch, kein Auto-Suffix). Diese Konvention regelt die **Inhalts**-Dublette (gleicher Sachverhalt,
+beliebiger Name). Beide koennen gleichzeitig auftreten und bleiben getrennte Pruefungen; bei
+`task`/`bug-report` laeuft der Inhalts-Check VOR der Slug-Vergabe — ein erkanntes Duplikat braucht
+keinen Namen mehr.
+
+### Laufzeit-Autarkie
+
+Installierte Skills laufen in Zielprojekten, wo `skills/CLAUDE.md` **nicht existiert**. Jeder
+Capture-Skill traegt deshalb alles zur Laufzeit Noetige **inline**: Suchraum, operative Kurzform
+der Probe („gleicher Gegenstand + gleiche Aussage → Rueckfrage; gleicher Gegenstand, andere
+Aussage → durchlassen"), Meldeform. Verweise auf diese Konvention sind Autoren-Doku, nie
+Laufzeit-Pfad.
+
+### Verbindliche Zuordnungstabelle (v1)
+
+Ist-Stand verifiziert 2026-08-19. **Anker neuer und nachgezogener Skills:** Sektion
+`## Duplikat-Check` — bewusst OHNE Schritt-Nummer (die Skills haben unterschiedlich viele
+Schritte, eine feste Nummer waere ambig; gleiche Begruendung wie beim Worktree-Guard). Position:
+nach der Erfassung, vor dem ersten Schreiben. Verifikation: Grep auf `^## Duplikat-Check` ueber
+`skills/dtb-*/SKILL.md` — Zielzahl = Anzahl Tabellenzeilen mit diesem Anker (derzeit **3**).
+Bestands-Skills behalten ihre gewachsene Form (kein Umbau); ihre Anker stehen daneben.
+
+| Skill | Vergleichsziel (Suchraum) | Schaerfe | Meldeform | Anker |
+|-------|---------------------------|----------|-----------|-------|
+| `idea` | `INBOX.md`, Spalte „Idee" (alle Status) | unscharf | fragen | `## Duplikat-Check` |
+| `task` | `features/*/task.md` aktiv, `## Beschreibung`/`## Begruendung` | unscharf | fragen | `## Duplikat-Check` |
+| `bug-report` | `features/*/bug.md` aktiv, `## Symptom` | unscharf | fragen | `## Duplikat-Check` |
+| `lesson` | `project-rules/lessons.md`, `Rule`-Spalte | unscharf (Stichwort-grep) | fragen („Trotzdem speichern?") | `## Schritt 3: Duplikat-Check` (Bestand) |
+| `open-question` | `## Offene Punkte` in `spec.md` UND `discovery.md` des Ziel-Features | exakt (nach Normalisierung) | ueberspringen | Schritt 4 Punkt 2 (Bestand, eingefaltet) |
+| `meeting-dump` | Tagesdatei (Dump-Text) + Frage-Block (§6.1 „je Meeting einer") | exakt | ueberspringen | „Doppel-Lauf-Schutz" (Bestand) |
+
+`archive/` ist fuer ALLE Ziele ausgeschlossen (Kit-Konvention, wie `meeting-agenda`/
+`meeting-dump`/`worker`). Die Wiedererfassung einer schon umgesetzten Sache ist damit bewusst
+akzeptierte Restluecke — Regressions-Erkennung waere ein eigenes Feature, keine Dublette.
+
 ## Autonomie-Regel (dtb:worker)
 
 Autonome Ausfuehrung gilt ausschliesslich **zwischen expliziter Freigabe und Abnahme**.

@@ -157,6 +157,12 @@ melden.
 
 ### Die Unterdrueckungs-Regel: Ersetzungsprobe
 
+> **Kopplungs-Hinweis (Spiegel):** Der Kanon dieser Probe steht in `skills/CLAUDE.md` →
+> „Duplikat-Schutz (Capture-Skills)" → „Ersetzungsprobe (Kanon)" (Kit-Repo; in Zielprojekten
+> existiert die Datei nicht — dieser Abschnitt bleibt deshalb die vollstaendige operative
+> Fassung). Aenderung am Kanon → diesen Spiegel im selben Zug mitziehen und per Grep auf den
+> fettgedruckten Regelsatz verifizieren (Zielzahl 2, keine dritte Stelle).
+
 Der Check formuliert Funde neu — ein exakter Textvergleich (wie ihn `dtb:open-question` fuehrt)
 griffe hier nie. Der Vergleich ist deshalb unscharf, und die Schwelle lautet:
 
