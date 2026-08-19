@@ -84,6 +84,34 @@ Aus dem Freitext oder den Antworten extrahiere:
 
 ---
 
+## Duplikat-Check
+
+Vor Prioritaet und Slug-Vergabe (ein erkanntes Duplikat braucht keinen Namen mehr): pruefe die
+erfasste Aufgabe **unscharf** gegen die Abschnitte `## Beschreibung` und `## Begruendung` aller
+`{config.paths.workflows}/features/*/task.md` (nur aktive Changes; `archive/` wird NIE
+durchsucht). Vergleich per Grep nach dem Kern der Aufgabe (Stichworte), Bewertung je Kandidat:
+
+> Gleicher Gegenstand **und** gleiche Aussage — die bestehende Aufgabe koennte die neue Erfassung
+> vollstaendig ersetzen → Treffer. Gleicher Gegenstand, andere Aussage → kein Duplikat.
+> Im Zweifel: kein Duplikat, still durchlassen.
+
+- **Treffer** (max. 3 zeigen, Rest als `+N weitere`; Bestandstext auf ~120 Zeichen + `…` kuerzen):
+  ```
+  Aehnliche Aufgabe steht schon in features/{slug}/task.md: "{Bestandstext, gekuerzt}"
+  Trotzdem als neue Aufgabe erfassen? (Ja / Abbrechen)
+  ```
+  Die Entscheidung liegt beim Menschen — **nie hart blocken** (wiederkehrende
+  Housekeeping-Aufgaben sind legitim).
+- **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
+  unsichtbar, das „max. 1-2 Rueckfragen"-Versprechen dieses Skills bleibt unangetastet.
+- **Fail-open:** kein `features/`-Ordner oder keine `task.md` vorhanden → Check still
+  ueberspringen, kein Hinweis.
+
+(Autoren-Doku: Konvention in `skills/CLAUDE.md` → „Duplikat-Schutz (Capture-Skills)" — dieser
+Abschnitt ist zur Laufzeit autark.)
+
+---
+
 ## Schritt 2: Prioritaet einschaetzen
 
 Schlage eine Prioritaet vor basierend auf der Beschreibung:
@@ -113,6 +141,8 @@ Leite einen kurzen, beschreibenden Namen aus der Aufgaben-Beschreibung ab.
 
 - Pfad: `{config.paths.workflows}/features/{slug}/task.md` (Ordner bei Bedarf anlegen)
 - Falls Datei bereits existiert: Frage "Aufgabe existiert bereits. Aktualisieren oder neuen Namen waehlen?"
+  (Das ist die **Namens**-Kollision — `DERIVED_STATE_RULES.md` §4; die **Inhalts**-Dublette prueft
+  der Duplikat-Check oben, beide Pruefungen bleiben getrennt.)
 
 ### Template
 

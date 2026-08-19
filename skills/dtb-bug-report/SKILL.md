@@ -83,6 +83,36 @@ Aus dem Freitext oder den Antworten extrahiere:
 
 ---
 
+## Duplikat-Check
+
+Vor Severity und Slug-Vergabe (ein erkanntes Duplikat braucht keinen Namen mehr): pruefe das
+erfasste Symptom **unscharf** gegen den Abschnitt `## Symptom` aller
+`{config.paths.workflows}/features/*/bug.md` (nur aktive Changes; `archive/` wird NIE durchsucht —
+ein Treffer auf einen dort abgeschlossenen Bug waere ein Regressions-Signal, keine Dublette, und
+Regressions-Erkennung ist bewusst nicht Teil dieses Checks). Vergleich per Grep nach dem Kern des
+Symptoms (Stichworte), Bewertung je Kandidat:
+
+> Gleicher Gegenstand **und** gleiche Aussage — der bestehende Bug-Report koennte die neue
+> Erfassung vollstaendig ersetzen → Treffer. Gleicher Gegenstand, andere Aussage (z.B. gleiches
+> Modul, anderes Symptom) → kein Duplikat. Im Zweifel: kein Duplikat, still durchlassen.
+
+- **Treffer** (max. 3 zeigen, Rest als `+N weitere`; Bestandstext auf ~120 Zeichen + `…` kuerzen):
+  ```
+  Aehnlicher Bug steht schon in features/{slug}/bug.md: "{Bestandstext, gekuerzt}"
+  Trotzdem als neuen Bug erfassen? (Ja / Abbrechen)
+  ```
+  Die Entscheidung liegt beim Menschen — **nie hart blocken** (ein wiederkehrender Fehler darf
+  legitim erneut erfasst werden).
+- **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
+  unsichtbar, das „max. 1-2 Rueckfragen"-Versprechen dieses Skills bleibt unangetastet.
+- **Fail-open:** kein `features/`-Ordner oder keine `bug.md` vorhanden → Check still
+  ueberspringen, kein Hinweis.
+
+(Autoren-Doku: Konvention in `skills/CLAUDE.md` → „Duplikat-Schutz (Capture-Skills)" — dieser
+Abschnitt ist zur Laufzeit autark.)
+
+---
+
 ## Schritt 2: Severity einschaetzen
 
 Schlage eine Severity vor basierend auf der Beschreibung:
@@ -113,6 +143,8 @@ Leite einen kurzen, beschreibenden Namen aus der Bug-Beschreibung ab.
 
 - Pfad: `{config.paths.workflows}/features/{slug}/bug.md` (Ordner bei Bedarf anlegen)
 - Falls Datei bereits existiert: Frage "Bug-Report existiert bereits. Aktualisieren oder neuen Namen waehlen?"
+  (Das ist die **Namens**-Kollision — `DERIVED_STATE_RULES.md` §4; die **Inhalts**-Dublette prueft
+  der Duplikat-Check oben, beide Pruefungen bleiben getrennt.)
 
 ### Template
 

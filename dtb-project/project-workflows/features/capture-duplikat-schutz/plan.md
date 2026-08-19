@@ -333,13 +333,13 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Ersetzungsprobe heben + Rueckverweis
-- [x] 1.2 Konventions-Sektion (Einteilung, Kopplung, Meldeform, §4-Abgrenzung)
-- [x] 1.3 Zuordnungstabelle + Grep-Anker
-- [ ] 2.1 `dtb:idea` haerten (inkl. Frontmatter)
-- [ ] 2.2 `dtb:task` haerten
-- [ ] 2.3 `dtb:bug-report` haerten
-- [ ] 2.4 Mechanische Selbstpruefung
+- [x] 1.1 Ersetzungsprobe heben + Rueckverweis — `6f858a2`
+- [x] 1.2 Konventions-Sektion (Einteilung, Kopplung, Meldeform, §4-Abgrenzung) — `6f858a2`
+- [x] 1.3 Zuordnungstabelle + Grep-Anker — `6f858a2`
+- [x] 2.1 `dtb:idea` haerten (inkl. Frontmatter)
+- [x] 2.2 `dtb:task` haerten
+- [x] 2.3 `dtb:bug-report` haerten
+- [x] 2.4 Mechanische Selbstpruefung
 - [ ] 3.1 Mechanik-Beleg `idea`
 - [ ] 3.2 Mechanik-Beleg `task`/`bug-report` (angelegte Test-Situation)
 - [ ] 3.3 Ausschluss-Nachweise

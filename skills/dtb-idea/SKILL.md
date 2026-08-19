@@ -6,7 +6,7 @@ description: >-
   into the project inbox without interrupting the current workflow.
 disable-model-invocation: true
 argument-hint: "[Idee als Freitext]"
-allowed-tools: Read, Write
+allowed-tools: Read, Write, Grep
 pipeline:
   stage: idea
   after: null
@@ -70,6 +70,31 @@ Falls kein Freitext angegeben wurde:
 ```
 Welche Idee moechtest du festhalten? (Freitext)
 ```
+
+---
+
+## Duplikat-Check
+
+Vor dem Schreiben: pruefe die erfasste Idee **unscharf** gegen die Spalte „Idee" ALLER Zeilen in
+`{config.paths.workflows}/INBOX.md` (alle Status; `archive/` wird NIE durchsucht). Vergleich per
+Grep nach dem Kern der Idee (Stichworte), Bewertung je Kandidat:
+
+> Gleicher Gegenstand **und** gleiche Aussage — der bestehende Eintrag koennte die neue Erfassung
+> vollstaendig ersetzen → Treffer. Gleicher Gegenstand, andere Aussage → kein Duplikat.
+> Im Zweifel: kein Duplikat, still durchlassen.
+
+- **Treffer** (max. 3 zeigen, Rest als `+N weitere`; Bestandstext auf ~120 Zeichen + `…` kuerzen):
+  ```
+  Aehnliche Idee steht schon in der INBOX (#{N}): "{Bestandstext, gekuerzt}"
+  Trotzdem als neuen Eintrag speichern? (Ja / Abbrechen)
+  ```
+  Die Entscheidung liegt beim Menschen — **nie hart blocken** (Wiederkehr kann legitim sein).
+- **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
+  unsichtbar, das „Keine Rueckfragen"-Versprechen dieses Skills bleibt unangetastet.
+- **Fail-open:** `INBOX.md` fehlt oder ist leer → Check still ueberspringen, kein Hinweis.
+
+(Autoren-Doku: Konvention in `skills/CLAUDE.md` → „Duplikat-Schutz (Capture-Skills)" — dieser
+Abschnitt ist zur Laufzeit autark.)
 
 ---
 
