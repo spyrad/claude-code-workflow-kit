@@ -7,7 +7,7 @@ description: >-
   features/<slug>/task.md in the features directory.
 disable-model-invocation: true
 argument-hint: "[Aufgaben-Beschreibung als Freitext]"
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Glob, Grep, Bash
 pipeline:
   stage: idea
   after: [dtb:idea-review]
@@ -103,7 +103,8 @@ durchsucht). Vergleich per Grep nach dem Kern der Aufgabe (Stichworte), Bewertun
   Die Entscheidung liegt beim Menschen — **nie hart blocken** (wiederkehrende
   Housekeeping-Aufgaben sind legitim).
 - **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
-  unsichtbar, das „max. 1-2 Rueckfragen"-Versprechen dieses Skills bleibt unangetastet.
+  unsichtbar; im Trefferfall kommt genau eine Rueckfrage hinzu (die Richtlinie unten nennt
+  diese Ausnahme).
 - **Fail-open:** kein `features/`-Ordner oder keine `task.md` vorhanden → Check still
   ueberspringen, kein Hinweis.
 
@@ -247,6 +248,7 @@ Naechste Schritte:
 ## Richtlinien
 
 - **Schnell:** Aufgabe erfassen soll den Flow nicht unterbrechen — max. 1-2 Rueckfragen
+  (ein Duplikat-Treffer kann eine weitere hinzufuegen; ohne Treffer bleibt der Check still)
 - **Konkret:** Checkliste mit konkreten Schritten, keine vagen Beschreibungen
 - **Leichtgewichtig:** Kein Plan oder Spec noetig — Aufgaben sind direkte Action-Items
 - **Deutsch:** Alle Texte auf Deutsch

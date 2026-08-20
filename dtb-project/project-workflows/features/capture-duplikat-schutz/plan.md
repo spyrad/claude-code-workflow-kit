@@ -215,7 +215,10 @@ die drei geschuetzten Skills unberuehrt.
 #### Manual
 - [ ] Die drei Meldeformen lesen sich als dieselbe Form mit anderen Slots, nicht als drei
       Eigenkonstruktionen
-- [ ] Das Stoerungsfreiheits-Versprechen ist in keinem der drei Skill-Texte relativiert worden
+- [ ] Das Stoerungsfreiheits-Versprechen ist **korrekt qualifiziert** statt relativiert oder
+      falsch behauptet: jeder der drei Skills nennt die Trefferfall-Rueckfrage als benannte Ausnahme
+      seiner Zusage (Korrektur aus dem impl-review, F8 — das Kriterium forderte vorher
+      Nicht-Relativierung und war damit selbst der Widerspruch)
 
 ---
 
@@ -276,7 +279,7 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
   es zwischen die Sessions
 - **Dateien:** `features/capture-duplikat-schutz/plan.md` (Ergaenzung am Ende) bzw. der Hand-off-Block
 - **Input:** Schreibgrenzen-Regel; die uebersprungenen Schritte aus Discovery und Spec
-- **Output:** Liste mit sechs Punkten: (1) echter Lauf je Skill im Haupt-Checkout nach dem
+- **Output:** Liste mit sechs Punkten (Punkt 7 nachtraeglich aus dem impl-review, F1): (1) echter Lauf je Skill im Haupt-Checkout nach dem
   Zusammenfuehren; (2) `dtb:kit-sync` danach, Drift der drei verteilten Artefakte aufloesen;
   (3) Eintrag #48 auf `Ausgearbeitet` setzen und beide Artefakt-Links anhaengen; (4) Backlog-Zeile
   fuer das Feature; (5) Folge-Idee „Regressions-Erkennung fuer `bug-report`" erfassen; (6) Folge-Idee
@@ -288,7 +291,7 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
 ### Deliverables
 - [ ] Protokoll Treffer-/Blind-Fall fuer alle drei Skills (Vier-Zeilen-Format)
 - [ ] Drei Ausschluss-Nachweise (Archiv, Kappung, Stille)
-- [ ] Uebergabe-Notiz mit sechs Punkten
+- [ ] Uebergabe-Notiz mit sechs Punkten (+1 aus dem Review)
 
 ### Checkpoint-Kriterien
 
@@ -302,7 +305,7 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
 - [ ] Die Test-Artefakte aus Schritt 3.2 existieren nicht mehr; der Arbeitsbaum enthaelt ausser den
       drei Skill-Dateien, `skills/CLAUDE.md`, `dtb-no-loss-check` und den drei Change-Artefakten
       keine Aenderung
-- [ ] Die Uebergabe-Notiz nennt alle sechs Punkte
+- [ ] Die Uebergabe-Notiz nennt alle sechs geplanten Punkte (+ Punkt 7 aus dem impl-review)
 
 #### Manual
 - [ ] Die Trennung „hier belegt" vs. „nach dem Zusammenfuehren zu belegen" ist im Hand-off
@@ -323,7 +326,7 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
 | Anker-Form | A: `## Duplikat-Check` ohne Nummer · B: numerierter Schritt | **A** | Die Skills haben 3/6/6 Schritte, `lesson` nennt es „Schritt 3", `open-question` faltet es ein — eine feste Nummer kann es nicht geben |
 | E2E-Beleg | A: echter Skill-Lauf hier · B: Mechanik-Beleg hier + echter Lauf nach dem Zusammenfuehren · C: Guard umgehen | **B** | Alle drei Skills sind Voll-Guard und brechen hier ab; C ist ausgeschlossen (Schreibgrenzen-Regel) |
 | Zeitpunkt der Verteilung | A: in dieser Session · B: nach dem Zusammenfuehren | **B** | `dtb:kit-sync` hat keinen Guard und wuerde hier den Branch-Stand global installieren |
-| Beruehrung `CLAUDE.md` (Repo-Root) | A: Konvention im Katalogtext erwaehnen · B: nicht anfassen | **Offen** | Niedrige Relevanz; entscheidbar am Ende von Phase 1, wenn der Wortlaut der Konvention steht |
+| Beruehrung `CLAUDE.md` (Repo-Root) | A: Konvention im Katalogtext erwaehnen · B: nicht anfassen | **B** (entschieden im impl-review, F13) | Der Katalogtext beschreibt Skills, nicht Autoren-Konventionen — die Eligibility-Gates stehen dort ebenfalls nicht. Datei bleibt unberuehrt |
 
 ---
 
@@ -340,10 +343,10 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
 - [x] 2.2 `dtb:task` haerten — `f971cdd`
 - [x] 2.3 `dtb:bug-report` haerten — `f971cdd`
 - [x] 2.4 Mechanische Selbstpruefung — `f971cdd`
-- [x] 3.1 Mechanik-Beleg `idea`
-- [x] 3.2 Mechanik-Beleg `task`/`bug-report` (angelegte Test-Situation)
-- [x] 3.3 Ausschluss-Nachweise
-- [x] 3.4 Uebergabe-Notiz
+- [x] 3.1 Mechanik-Beleg `idea` — `ca38d97`
+- [x] 3.2 Mechanik-Beleg `task`/`bug-report` (angelegte Test-Situation) — `ca38d97`
+- [x] 3.3 Ausschluss-Nachweise — `ca38d97`
+- [x] 3.4 Uebergabe-Notiz — `ca38d97`
 
 ---
 
@@ -357,9 +360,87 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 ---
 
+## Beleg-Protokolle (Phase 3)
+
+> Nachgetragen aus dem impl-review (F3): die Protokolle lagen zuerst nur im Gespraechsverlauf, der
+> Changelog gehoert diesem Worktree nicht. Format wie in Phase 3 vorgeschrieben:
+> Kommando → Treffer → Ersetzungsprobe → erwartete Meldung. **Mechanik-Beleg, KEIN E2E-Lauf**
+> (die drei Skills sind Voll-Guard, siehe Uebergabe-Notiz Punkt 1).
+
+**3.1a `idea` / Treffer** — Kandidat „Triage-Sicht nach Aufwand und Nutzen fuer die Inbox"
+1. `grep -in "triage" INBOX.md` (gegen die echte `INBOX.md`, 33 Eintraege)
+2. Kandidatenzeile mit **#33** („Aufwand×Nutzen-Triage-Sicht als eigener Skill … vier Toepfe …
+   empfohlene Bearbeitungs-Reihenfolge als Fazit")
+3. Ersetzungsprobe: gleicher Gegenstand (Triage-Sicht) **und** gleiche Aussage (vier Toepfe +
+   Reihenfolge-Empfehlung) → #33 ersetzt den Kandidaten ohne Rest → **TREFFER**
+4. `Aehnliche Idee steht schon in der INBOX (#33): "**Aufwand×Nutzen-Triage-Sicht als eigener Skill**
+   (z.B. `/dtb:idea-triage`) oder als Modus von `dtb:idea-review`: sicht…" / Trotzdem als neuen
+   Eintrag speichern? (Ja / Abbrechen)`
+
+**3.1b `idea` / Blind** — Kandidat „idea-review verliert bei Abbruch mitten in der Triage die
+getroffenen Entscheidungen"
+1. `grep -in "idea-review" INBOX.md` → 3 Kandidatenzeilen
+2. Relevantester Kandidat: **#33** (idea-review als Traeger der Triage-Sicht)
+3. Ersetzungsprobe: gleicher Gegenstand, **andere Aussage** (Sicht bauen vs. Zustandsverlust bei
+   Abbruch) → #33 kann den Kandidaten nicht ersetzen → **KEIN DUPLIKAT**
+4. **keine Ausgabe** (weiter zu Schritt 2)
+
+**3.1c Kuerzungs-Nachweis** — laengste INBOX-Zeile ist **#35 mit 5944 Zeichen**; im Hinweis
+erscheint sie auf **120 Zeichen + `…`** gekuerzt (`"**Handoff-Block und WORKFLOW_STATUS haben keine
+Gueltigkeitsbedingung** — der „Naechster Befehl" ist eingefrorener Z…"`).
+
+**3.2a `task` / Treffer** — Kandidat „Reporting-Views auf Namenskonvention pruefen,
+Abweichungsliste erstellen", Test-Situation `features/zz-test-hana-schema-audit/task.md`
+1. `grep -il "namenskonvention" features/*/task.md` → 1 Treffer
+2. `features/zz-test-hana-schema-audit/task.md` — gefunden **vor** der Slug-Vergabe
+3. Ersetzungsprobe: gleicher Gegenstand + gleiche Aussage → **TREFFER**
+4. `Aehnliche Aufgabe steht schon in features/zz-test-hana-schema-audit/task.md: "Alle HANA-Views des
+   Reporting-Pakets gegen die Namenskonvention pruefen und Abweichungen listen.…" / Trotzdem als neue
+   Aufgabe erfassen? (Ja / Abbrechen)`
+
+**3.2b `task` / Blind** — Kandidat „HANA-Backup-Job auf taegliche Ausfuehrung umstellen"
+1. `grep -il "backup" features/*/task.md` → 0; `grep -il "hana"` → zz-test-hana-schema-audit
+2. Kandidat: zz-test-hana-schema-audit
+3. Ersetzungsprobe: gleicher Bereich (HANA), **andere Aussage** (Audit vs. Backup-Frequenz) →
+   **KEIN DUPLIKAT**
+4. **keine Ausgabe**
+
+**3.2c `bug-report` / Treffer** — Kandidat „Nach kurzer Wartezeit auf der Login-Seite kommt man beim
+Anmelden auf eine weisse Seite, keine Meldung", Test-Situation `features/zz-test-login-timeout/bug.md`
+1. `grep -il "login" features/*/bug.md` → 1 Treffer
+2. `features/zz-test-login-timeout/bug.md` — gefunden **vor** Severity- und Slug-Vergabe
+3. Ersetzungsprobe: gleicher Gegenstand (Login-Timeout) + gleiche Aussage (leere Seite ohne
+   Fehlermeldung) → **TREFFER**
+4. `Aehnlicher Bug steht schon in features/zz-test-login-timeout/bug.md: "Nach 30 Sekunden
+   Inaktivitaet auf der Login-Seite laeuft die Session ab und der Nutzer landet ohne Fehlermeldung auf
+   ein…" / Trotzdem als neuen Bug erfassen? (Ja / Abbrechen)`
+
+**3.2d `bug-report` / Blind** — Kandidat „Passwort-Feld zeigt Klartext beim Einfuegen aus der
+Zwischenablage"
+1. `grep -il "login" features/*/bug.md` → zz-test-login-timeout
+2. Kandidat: zz-test-login-timeout
+3. Ersetzungsprobe: gleicher Gegenstand (Login-Seite), **andere Aussage** (Klartext vs. Timeout) →
+   **KEIN DUPLIKAT**
+4. **keine Ausgabe**
+
+**3.3 Ausschluss-Nachweise**
+- **Archiv:** Kandidat „Pipeline-Kante zwischen worker und checkpoint nachziehen" →
+  `grep -il "pipeline-kante" features/*/task.md` = **0 Treffer → keine Meldung**; Gegenprobe
+  ausserhalb des Suchraums `archive/*/task.md` = **2 Treffer** (existiert dort, wird
+  konventionsgemaess nicht gesehen).
+- **Kappung:** generischer Kandidat „Neuer Skill fuer den Workflow" → 25 Zeilen mit Stichwort;
+  gezeigt wuerden 3 Fundstellen + `+N weitere` + genau eine Rueckfrage. (Ein so generischer Kandidat
+  scheitert real meist schon an der Ersetzungsprobe — der Nachweis belegt die Form.)
+- **Stille:** belegt durch die drei Blind-Faelle oben; zusaetzlich tragen alle drei Skills die
+  Vorschrift „Kein Treffer → keine Ausgabe" (3 Treffer).
+- **Ruecknahme:** `features/zz-test-*` = 0 Reste; Arbeitsbaum nach Phase 3 nur `plan.md` (SHA-Nachtrag).
+
+---
+
 ## Uebergabe-Notiz (Orchestrator)
 
-> Geschrieben von Schritt 3.4 (Plan-Schritt benennt diese Datei als Ziel). Diese sechs Punkte kann
+> Geschrieben von Schritt 3.4 (Plan-Schritt benennt diese Datei als Ziel). Punkt 7 kam aus dem
+> impl-review (F1) hinzu. Diese sieben Punkte kann
 > der Worktree strukturell nicht leisten — sie gehoeren zur Abnahme im Haupt-Checkout, NACH dem
 > Zusammenfuehren von `feature/capture-duplikat-schutz`:
 
@@ -382,6 +463,11 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
    Pre-Mortem-Restluecke: einen SIEBTEN Capture-Skill erwischen Zuordnungstabelle und
    Anker-Zielzahl nicht automatisch; nur eine Pruefung „erfuellt Einteilungskriterium, traegt
    aber keinen `## Duplikat-Check`-Anker → WARNUNG" schliesst das.
+7. **Folge-Idee erfassen (Befund aus dem impl-review, F1):** **6 von 9 Guard-Skills deklarieren
+   `Bash` nicht**, obwohl der Worktree-Guard einen Bash-Block vorschreibt — `dtb:project-health`
+   warnt darauf. Dieser Change hat die drei Zielskills (`idea`, `task`, `bug-report`) nachgezogen;
+   `idea-review`, `lesson` und `meeting-dump` stehen weiterhin ohne Deklaration (bewusst nicht
+   angefasst — die Spec schliesst Umbau der geschuetzten Skills aus).
 
 ---
 

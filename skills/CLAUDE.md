@@ -132,15 +132,21 @@ Merkmale zutreffen:
 3. Der Eintrag bringt **keine von aussen vergebene Identitaet** mit (laufende Nummern, die der
    Skill selbst vergibt, zaehlen nicht als Identitaet).
 
-Gegenprobe am Bestand: `docs-extract` scheitert an (1) — es extrahiert aus Dokumenten;
-`workflow-checkpoint` scheitert an (1) — der Session-Log ist Modell-Zusammenfassung. Beide
-brauchen keinen Check. Die sechs Treffer stehen in der Zuordnungstabelle unten.
+Gegenprobe am Bestand — alle vier scheitern an **Merkmal 1**, keiner braucht einen Check:
+`docs-extract` extrahiert aus Dokumenten (kein erfasster Freitext); `workflow-checkpoint` schreibt
+eine Modell-Zusammenfassung; **`feature-discover`, `feature-plan` und `feature-fast`** speichern
+**Interview-Synthesen** — das Modell verdichtet einen Dialog zu `discovery.md`/`spec.md`, es
+speichert nicht die Formulierung des Menschen. Wichtig, weil Merkmal 2 sie NICHT ausschliesst:
+`features/*/discovery.md` ist formgleich mit `features/*/task.md`. Die sechs Treffer stehen in der
+Zuordnungstabelle unten.
 
 ### Ersetzungsprobe (Kanon)
 
-> **Zwei Eintraege sind eine Dublette, wenn der eine den anderen ohne
+> **Eine Erfassung ist eine Dublette, wenn der VORHANDENE Eintrag sie ohne
 > Informationsverlust ersetzen koennte** — gleicher Gegenstand **und** gleiche Aussage.
 > Trifft der Bestand denselben Gegenstand, aber eine **andere** Aussage → keine Dublette.
+> Die Richtung ist Teil der Regel: bringt die neue Erfassung mehr mit als der Bestand, ist sie
+> **keine** Dublette (eine symmetrische Lesart wuerde hier abweichend entscheiden).
 
 **Keine Prozent-Schwelle:** eine Quote („ab 60 % Stichwort-Ueberlappung") suggeriert eine
 Messbarkeit, die es nicht gibt — zwei Laeufe zaehlen Inhaltswoerter unterschiedlich, und niemand
@@ -156,11 +162,23 @@ Ersetzungsfrage nicht klar beantworten, gilt:
   Rueckfrage bei jedem vage aehnlichen Eintrag erodiert das Vertrauen in den Check, bis er
   weggeklickt wird und nichts mehr schuetzt.
 
-> **Kopplungs-Hinweis (Spiegel):** `skills/dtb-no-loss-check/SKILL.md` („Die
-> Unterdrueckungs-Regel: Ersetzungsprobe") traegt die vollstaendige operative Fassung dieser
-> Probe — installierte Skills laufen ohne diese Datei hier (Laufzeit-Autarkie unten). Aenderst
-> du den Kanon, den Spiegel im selben Zug mitziehen und per Grep auf den fettgedruckten
-> Regelsatz verifizieren (Zielzahl 2: Kanon + Spiegel, keine dritte Stelle).
+> **Kopplungs-Hinweis (Spiegel — ZWEI Stufen).** Installierte Skills laufen ohne diese Datei hier
+> (Laufzeit-Autarkie unten), deshalb existiert diese Regel bewusst mehrfach. Aenderst du den Kanon,
+> beide Stufen im selben Zug mitziehen und BEIDE Zielzahlen pruefen:
+>
+> 1. **Vollwortlaut** — `skills/dtb-no-loss-check/SKILL.md` („Die Unterdrueckungs-Regel:
+>    Ersetzungsprobe") traegt die vollstaendige operative Fassung. **Woertlich** mitziehen.
+>    Verifikation: Grep `Informationsverlust ersetzen koennte` ueber `skills/` → **Zielzahl 3**
+>    = Kanon-Regelsatz + Spiegel + diese Hinweiszeile (der Anker steht hier woertlich und zaehlt
+>    mit — beim Nachzaehlen nicht als vierte Fassung missdeuten).
+> 2. **Laufzeit-Kurzformen** — `idea`, `task` und `bug-report` tragen je eine gekuerzte Fassung
+>    inline (absichtlich eigener Wortlaut, wird vom Vollwortlaut-Grep daher NICHT erfasst; in
+>    Zielprojekten sind sie die einzig wirksamen Fassungen). **Inhaltlich** mitziehen.
+>    Verifikation: Grep `gleiche Aussage` ueber `skills/` → **Zielzahl 7** = 3 Kurzformen +
+>    Kanon-Regelsatz + Einteilungs-/Kopplungsprosa + Spiegel + diese Hinweiszeile.
+>
+> Ein Grep, der nur Stufe 1 prueft, meldet Vollstaendigkeit und laesst drei global verteilte
+> Laufzeit-Regeln veralten — genau der Praxisfall 2026-07-30/31 weiter unten.
 
 ### Kopplungsregel: Meldeform folgt Vergleichsschaerfe
 
@@ -184,13 +202,17 @@ Schema mit seinen Werten:
 
 ```
 {Aehnlicher|Identischer} {Eintragstyp} steht schon in {Fundstelle}: "{Bestandstext, gekuerzt}"
-{unscharf: Trotzdem speichern? (Ja / Abbrechen)} | {exakt: Nichts geschrieben.}
+Trotzdem speichern? (Ja / Abbrechen)
 ```
 
-- **Fundstelle:** das natuerliche Zitier-Handle des Ziels (INBOX-Nummer, Ordnerpfad, L-Nummer).
+- **Fundstelle:** das natuerliche Zitier-Handle des Ziels (INBOX-Nummer, Ordnerpfad, L-Nummer) —
+  plus den Status, wo er entscheidungsrelevant ist (`#{N}, Verworfen` sagt mehr als `#{N}`).
 - **Kuerzung (Pflicht):** Bestandstext auf ~120 Zeichen + `…` (INBOX-Zeilen erreichen 5900+
   Zeichen; der Anker im Hinweis ist die Fundstelle, nicht der Text).
-- **Kappung:** max. 3 Treffer zeigen, Rest als `+N weitere`.
+- **Kappung + Rendering:** max. 3 Treffer zeigen — **je Treffer eine Fundstellen-Zeile**, danach
+  `+N weitere`, danach **genau EINE** Entscheidungsfrage (nie eine Frage pro Treffer).
+- Die Entscheidungsfrage-Zeile entfaellt bei exaktem Vergleich (dort wird uebersprungen statt
+  gefragt — siehe Kopplungsregel oben).
 - **Kein Treffer → keine Ausgabe.** Kein „Duplikat-Check: ok", keine Bestaetigungszeile — der
   Check ist im Normalfall unsichtbar (wie der Worktree-Guard) und laesst das
   Stoerungsfreiheits-Versprechen der Capture-Skills unangetastet.
@@ -221,12 +243,16 @@ Schritte, eine feste Nummer waere ambig; gleiche Begruendung wie beim Worktree-G
 nach der Erfassung, vor dem ersten Schreiben. Verifikation: Grep auf `^## Duplikat-Check` ueber
 `skills/dtb-*/SKILL.md` — Zielzahl = Anzahl Tabellenzeilen mit diesem Anker (derzeit **3**).
 Bestands-Skills behalten ihre gewachsene Form (kein Umbau); ihre Anker stehen daneben.
+**Diese Form ist Alt-Bestand, nicht Alternative:** ein NEUER Capture-Skill folgt immer dem
+Meldeform-Schema oben, und bei der naechsten inhaltlichen Beruehrung von `lesson`/`open-question`/
+`meeting-dump` wird ihre Form aufs Schema gezogen (`lesson` fehlen heute Kuerzung, Kappung und
+Fail-open).
 
 | Skill | Vergleichsziel (Suchraum) | Schaerfe | Meldeform | Anker |
 |-------|---------------------------|----------|-----------|-------|
 | `idea` | `INBOX.md`, Spalte „Idee" (alle Status) | unscharf | fragen | `## Duplikat-Check` |
 | `task` | `features/*/task.md` aktiv, `## Beschreibung`/`## Begruendung` | unscharf | fragen | `## Duplikat-Check` |
-| `bug-report` | `features/*/bug.md` aktiv, `## Symptom` | unscharf | fragen | `## Duplikat-Check` |
+| `bug-report` | `features/*/bug.md` aktiv, nur `## Symptom` — das Symptom ist die Identitaet eines Bugs; `## Erwartetes Verhalten` folgt daraus und wuerde nur Rauschen beitragen | unscharf | fragen | `## Duplikat-Check` |
 | `lesson` | `project-rules/lessons.md`, `Rule`-Spalte | unscharf (Stichwort-grep) | fragen („Trotzdem speichern?") | `## Schritt 3: Duplikat-Check` (Bestand) |
 | `open-question` | `## Offene Punkte` in `spec.md` UND `discovery.md` des Ziel-Features | exakt (nach Normalisierung) | ueberspringen | Schritt 4 Punkt 2 (Bestand, eingefaltet) |
 | `meeting-dump` | Tagesdatei (Dump-Text) + Frage-Block (§6.1 „je Meeting einer") | exakt | ueberspringen | „Doppel-Lauf-Schutz" (Bestand) |

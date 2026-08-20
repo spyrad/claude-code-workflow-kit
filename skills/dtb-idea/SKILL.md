@@ -6,7 +6,7 @@ description: >-
   into the project inbox without interrupting the current workflow.
 disable-model-invocation: true
 argument-hint: "[Idee als Freitext]"
-allowed-tools: Read, Write, Grep
+allowed-tools: Read, Write, Grep, Bash
 pipeline:
   stage: idea
   after: null
@@ -17,7 +17,7 @@ pipeline:
 
 # Idee schnell erfassen
 
-Du erfasst eine Idee oder einen Gedanken in der Projekt-Inbox. Keine Rueckfragen, keine Ausarbeitung — nur speichern.
+Du erfasst eine Idee oder einen Gedanken in der Projekt-Inbox. Keine Rueckfragen (einzige Ausnahme: ein Duplikat-Treffer fragt genau einmal), keine Ausarbeitung — nur speichern.
 
 ## Worktree-Guard
 
@@ -76,7 +76,7 @@ Welche Idee moechtest du festhalten? (Freitext)
 ## Duplikat-Check
 
 Vor dem Schreiben: pruefe die erfasste Idee **unscharf** gegen die Spalte „Idee" ALLER Zeilen in
-`{config.paths.workflows}/INBOX.md` (alle Status; `archive/` wird NIE durchsucht). Vergleich per
+`{config.paths.workflows}/INBOX.md` — alle Status, `archive/` wird NIE durchsucht. Vergleich per
 Grep nach dem Kern der Idee (Stichworte), Bewertung je Kandidat:
 
 > Gleicher Gegenstand **und** gleiche Aussage — der bestehende Eintrag koennte die neue Erfassung
@@ -85,12 +85,15 @@ Grep nach dem Kern der Idee (Stichworte), Bewertung je Kandidat:
 
 - **Treffer** (max. 3 zeigen, Rest als `+N weitere`; Bestandstext auf ~120 Zeichen + `…` kuerzen):
   ```
-  Aehnliche Idee steht schon in der INBOX (#{N}): "{Bestandstext, gekuerzt}"
+  Aehnliche Idee steht schon in der INBOX (#{N}, {Status}): "{Bestandstext, gekuerzt}"
   Trotzdem als neuen Eintrag speichern? (Ja / Abbrechen)
   ```
+  Den **Status mitnennen** (`Offen` / `In Arbeit` / `Ausgearbeitet` / `Verworfen`) — ob ein Treffer
+  noch offen, laengst ausgearbeitet oder bewusst verworfen ist, entscheidet der Mensch anders.
   Die Entscheidung liegt beim Menschen — **nie hart blocken** (Wiederkehr kann legitim sein).
 - **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
-  unsichtbar, das „Keine Rueckfragen"-Versprechen dieses Skills bleibt unangetastet.
+  unsichtbar; im Trefferfall kommt genau eine Rueckfrage hinzu (der Skill-Kopf nennt diese
+  Ausnahme).
 - **Fail-open:** `INBOX.md` fehlt oder ist leer → Check still ueberspringen, kein Hinweis.
 
 (Autoren-Doku: Konvention in `skills/CLAUDE.md` → „Duplikat-Schutz (Capture-Skills)" — dieser
