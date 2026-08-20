@@ -166,14 +166,20 @@ Ersetzungsfrage nicht klar beantworten, gilt:
 > (Laufzeit-Autarkie unten), deshalb existiert diese Regel bewusst mehrfach. Aenderst du den Kanon,
 > beide Stufen im selben Zug mitziehen und BEIDE Zielzahlen pruefen:
 >
-> 1. **Vollwortlaut** — `skills/dtb-no-loss-check/SKILL.md` („Die Unterdrueckungs-Regel:
->    Ersetzungsprobe") traegt die vollstaendige operative Fassung. **Woertlich** mitziehen.
->    Verifikation: Grep `Informationsverlust ersetzen koennte` ueber `skills/` → **Zielzahl 3**
->    = Kanon-Regelsatz + Spiegel + diese Hinweiszeile (der Anker steht hier woertlich und zaehlt
->    mit — beim Nachzaehlen nicht als vierte Fassung missdeuten).
-> 2. **Laufzeit-Kurzformen** — `idea`, `task` und `bug-report` tragen je eine gekuerzte Fassung
->    inline (absichtlich eigener Wortlaut, wird vom Vollwortlaut-Grep daher NICHT erfasst; in
->    Zielprojekten sind sie die einzig wirksamen Fassungen). **Inhaltlich** mitziehen.
+> 1. **Vollfassung** — `skills/dtb-no-loss-check/SKILL.md` („Die Unterdrueckungs-Regel:
+>    Ersetzungsprobe") traegt die Probe **vollstaendig**: Schwelle, Begruendung gegen die
+>    Prozent-Schwelle, Beispiele. **Vollstaendig mitziehen** — der Wortlaut darf kontextangepasst
+>    sein (der Spiegel formuliert aus der Unterdrueckungs-Richtung: „unterdruecken"/„melden" statt
+>    „Dublette"), die Aussage muss deckungsgleich bleiben. Keine Verkuerzung.
+>    Verifikation: Grep `Informationsverlust ersetzen koennte` ueber `skills/` → **Zielzahl 4**
+>    = Kanon-Regelsatz + diese Hinweiszeile + Spiegel-Regelsatz + Spiegel-Hinweiszeile. Die beiden
+>    Hinweiszeilen nennen den Anker woertlich und zaehlen mit — es gibt genau **zwei**
+>    Regel-Fassungen.
+> 2. **Laufzeit-Kurzformen** — `idea`, `task` und `bug-report` tragen je eine **verkuerzte** Fassung
+>    inline: nur die Entscheidungsfrage, ohne Begruendung und Beispiele, mit eigenem Wortlaut (wird
+>    vom Vollfassungs-Grep daher NICHT erfasst; in Zielprojekten sind sie die einzig wirksamen
+>    Fassungen). **Verkuerzt mitziehen** — die Entscheidung muss identisch ausfallen, der Umfang
+>    bleibt bewusst kleiner als Stufe 1.
 >    Verifikation: Grep `gleiche Aussage` ueber `skills/` → **Zielzahl 7** = 3 Kurzformen +
 >    Kanon-Regelsatz + Einteilungs-/Kopplungsprosa + Spiegel + diese Hinweiszeile.
 >

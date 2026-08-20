@@ -160,8 +160,16 @@ melden.
 > **Kopplungs-Hinweis (Spiegel):** Der Kanon dieser Probe steht in `skills/CLAUDE.md` →
 > „Duplikat-Schutz (Capture-Skills)" → „Ersetzungsprobe (Kanon)" (Kit-Repo; in Zielprojekten
 > existiert die Datei nicht — dieser Abschnitt bleibt deshalb die vollstaendige operative
-> Fassung). Aenderung am Kanon → diesen Spiegel im selben Zug mitziehen und per Grep auf den
-> fettgedruckten Regelsatz verifizieren (Zielzahl 2, keine dritte Stelle).
+> Fassung, bewusst aus der **Unterdrueckungs-Richtung** formuliert: „unterdruecken"/„melden"
+> statt „Dublette"). Aenderung am Kanon → diesen Spiegel im selben Zug mitziehen: Schwelle UND
+> Begruendung vollstaendig, Wortlaut darf kontextangepasst bleiben, die Aussage muss
+> deckungsgleich sein.
+>
+> Verifikation: Grep `Informationsverlust ersetzen koennte` ueber `skills/` → **Zielzahl 4**
+> = Kanon-Regelsatz + Kanon-Hinweiszeile (dortige Stufe 1) + dieser Spiegel-Regelsatz + diese
+> Hinweiszeile. Die beiden Hinweiszeilen nennen den Anker woertlich und zaehlen deshalb mit —
+> beim Nachzaehlen nicht als weitere Regel-Fassungen missdeuten. Es gibt genau **zwei**
+> Regel-Fassungen (Kanon + dieser Spiegel).
 
 Der Check formuliert Funde neu — ein exakter Textvergleich (wie ihn `dtb:open-question` fuehrt)
 griffe hier nie. Der Vergleich ist deshalb unscharf, und die Schwelle lautet:
