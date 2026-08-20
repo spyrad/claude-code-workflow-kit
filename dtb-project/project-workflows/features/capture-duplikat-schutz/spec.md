@@ -3,7 +3,7 @@
 **Erstellt:** 2026-08-19
 **Ziel:** Die drei ungeschuetzten Capture-Skills des Grundbestands (`idea`, `task`, `bug-report`) pruefen vor dem Schreiben auf eine inhaltliche Dublette — getragen von einer Konvention, die auch jeder kuenftige Capture-Skill erbt.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
