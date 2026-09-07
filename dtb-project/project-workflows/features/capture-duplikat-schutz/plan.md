@@ -128,10 +128,10 @@ gehaertet waere.
       `skills/dtb-no-loss-check/SKILL.md` ist in dieser Phase geaendert (Aenderungsliste = 2 Dateien)
 
 #### Manual
-- [ ] Die Einteilungsregel ist scharf genug, um ohne Ermessen ueber einen neuen Skill zu entscheiden —
+- [x] Die Einteilungsregel ist scharf genug, um ohne Ermessen ueber einen neuen Skill zu entscheiden —
       Probe an zwei Grenzfaellen aus dem Bestand (`docs-extract` schreibt extrahierte Fakten,
       `workflow-checkpoint` schreibt einen Session-Log: beide duerfen **nicht** unter die Regel fallen)
-- [ ] Die Kopplungsregel erklaert alle drei Bestandsformen widerspruchsfrei
+- [x] Die Kopplungsregel erklaert alle drei Bestandsformen widerspruchsfrei
 
 ---
 
@@ -217,9 +217,9 @@ die drei geschuetzten Skills unberuehrt.
       Reihenfolge der Ueberschriften
 
 #### Manual
-- [ ] Die drei Meldeformen lesen sich als dieselbe Form mit anderen Slots, nicht als drei
+- [x] Die drei Meldeformen lesen sich als dieselbe Form mit anderen Slots, nicht als drei
       Eigenkonstruktionen
-- [ ] Das Stoerungsfreiheits-Versprechen ist **korrekt qualifiziert** statt relativiert oder
+- [x] Das Stoerungsfreiheits-Versprechen ist **korrekt qualifiziert** statt relativiert oder
       falsch behauptet: jeder der drei Skills nennt die Trefferfall-Rueckfrage als benannte Ausnahme
       seiner Zusage (Korrektur aus dem impl-review, F8 — das Kriterium forderte vorher
       Nicht-Relativierung und war damit selbst der Widerspruch)
@@ -312,7 +312,7 @@ Arbeitsplatz **nicht** belegbar ist, damit die Abnahme nicht auf einer Luecke st
 - [ ] Die Uebergabe-Notiz nennt alle sechs geplanten Punkte (+ Punkt 7 aus dem impl-review)
 
 #### Manual
-- [ ] Die Trennung „hier belegt" vs. „nach dem Zusammenfuehren zu belegen" ist im Hand-off
+- [x] Die Trennung „hier belegt" vs. „nach dem Zusammenfuehren zu belegen" ist im Hand-off
       unmissverstaendlich — die Abnahme darf den Mechanik-Beleg nicht fuer den End-zu-End-Lauf halten
 
 ---
@@ -380,6 +380,11 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 4. `Aehnliche Idee steht schon in der INBOX (#33): "**Aufwand×Nutzen-Triage-Sicht als eigener Skill**
    (z.B. `/dtb:idea-triage`) oder als Modus von `dtb:idea-review`: sicht…" / Trotzdem als neuen
    Eintrag speichern? (Ja / Abbrechen)`
+   **Wirklauf 2026-09-07 (Haupt-Checkout, `dtb-idea` @ Lock `b9e0b57`) — BESTANDEN:**
+   `/dtb:idea "Triage-Sicht nach Aufwand und Nutzen fuer die Inbox"` → Guard `HAUPT-CHECKOUT` still,
+   Grep gegen 34 Zeilen, genau 1 Treffer **#33 (Offen)**, eine Fundstellen-Zeile mit Status + gekuerztem
+   Bestandstext, eine Rueckfrage; Antwort `Abbrechen` → `Nicht gespeichert — Bestand: #33`, INBOX
+   unveraendert (`git status` sauber). Abweichung zur Vorlage: keine (Status-Nennung ist F4-Nachzug).
 
 **3.1b `idea` / Blind** — Kandidat „idea-review verliert bei Abbruch mitten in der Triage die
 getroffenen Entscheidungen"
@@ -388,6 +393,11 @@ getroffenen Entscheidungen"
 3. Ersetzungsprobe: gleicher Gegenstand, **andere Aussage** (Sicht bauen vs. Zustandsverlust bei
    Abbruch) → #33 kann den Kandidaten nicht ersetzen → **KEIN DUPLIKAT**
 4. **keine Ausgabe** (weiter zu Schritt 2)
+   **Wirklauf 2026-09-07 (Haupt-Checkout, `dtb-idea` @ Lock `b9e0b57`) — BESTANDEN:**
+   `/dtb:idea "idea-review verliert bei Abbruch mitten in der Triage die getroffenen Entscheidungen"`
+   → Grep (`idea-review|abbruch|triage|entscheidung`) lieferte 16 Kandidatenzeilen, relevanteste #33
+   und #57; Ersetzungsprobe je negativ (gleicher Gegenstand, andere Aussage) → kein Hinweis, keine
+   Rueckfrage, direkt gespeichert als **#71** (`Offen`, oberste Datenzeile). Abweichung zur Vorlage: keine.
 
 **3.1c Kuerzungs-Nachweis** — laengste INBOX-Zeile ist **#35 mit 5944 Zeichen**; im Hinweis
 erscheint sie auf **120 Zeichen + `…`** gekuerzt (`"**Handoff-Block und WORKFLOW_STATUS haben keine
@@ -401,6 +411,11 @@ Abweichungsliste erstellen", Test-Situation `features/zz-test-hana-schema-audit/
 4. `Aehnliche Aufgabe steht schon in features/zz-test-hana-schema-audit/task.md: "Alle HANA-Views des
    Reporting-Pakets gegen die Namenskonvention pruefen und Abweichungen listen.…" / Trotzdem als neue
    Aufgabe erfassen? (Ja / Abbrechen)`
+   **Wirklauf 2026-09-07 (Haupt-Checkout, Lock `b9e0b57`) — BESTANDEN:**
+   Test-Ordner `zz-test-hana-schema-audit/task.md` angelegt; `/dtb:task "Reporting-Views auf Namenskonvention
+   pruefen, Abweichungsliste erstellen"` → Grep 1 Kandidat, `## Beschreibung` gelesen, Ersetzungsprobe positiv →
+   eine Fundstellen-Zeile, eine Rueckfrage; `Abbrechen` → `Nicht gespeichert — Bestand: features/zz-test-hana-
+   schema-audit/task.md`, nichts geschrieben. Abweichung zur Vorlage: keine.
 
 **3.2b `task` / Blind** — Kandidat „HANA-Backup-Job auf taegliche Ausfuehrung umstellen"
 1. `grep -il "backup" features/*/task.md` → 0; `grep -il "hana"` → zz-test-hana-schema-audit
@@ -408,6 +423,10 @@ Abweichungsliste erstellen", Test-Situation `features/zz-test-hana-schema-audit/
 3. Ersetzungsprobe: gleicher Bereich (HANA), **andere Aussage** (Audit vs. Backup-Frequenz) →
    **KEIN DUPLIKAT**
 4. **keine Ausgabe**
+   **Wirklauf 2026-09-07 (Haupt-Checkout, Lock `b9e0b57`) — BESTANDEN:**
+   `/dtb:task "HANA-Backup-Job auf taegliche Ausfuehrung umstellen"` → `backup` 0 Treffer, `hana` 1 Kandidat
+   (zz-test), Ersetzungsprobe negativ → kein Hinweis; Prio Mittel, Slug `hana-backup-taeglich`, `task.md`
+   geschrieben, Backlog-Frage mit `Nein` beantwortet. Abweichung zur Vorlage: keine.
 
 **3.2c `bug-report` / Treffer** — Kandidat „Nach kurzer Wartezeit auf der Login-Seite kommt man beim
 Anmelden auf eine weisse Seite, keine Meldung", Test-Situation `features/zz-test-login-timeout/bug.md`
@@ -418,6 +437,11 @@ Anmelden auf eine weisse Seite, keine Meldung", Test-Situation `features/zz-test
 4. `Aehnlicher Bug steht schon in features/zz-test-login-timeout/bug.md: "Nach 30 Sekunden
    Inaktivitaet auf der Login-Seite laeuft die Session ab und der Nutzer landet ohne Fehlermeldung auf
    ein…" / Trotzdem als neuen Bug erfassen? (Ja / Abbrechen)`
+   **Wirklauf 2026-09-07 (Haupt-Checkout, Lock `b9e0b57`) — BESTANDEN:**
+   Test-Ordner `zz-test-login-timeout/bug.md` angelegt; `/dtb:bug-report "Nach kurzer Wartezeit auf der
+   Login-Seite kommt man beim Anmelden auf eine weisse Seite, keine Meldung"` → Grep 1 Kandidat, `## Symptom`
+   gelesen, Ersetzungsprobe positiv → eine Fundstellen-Zeile (120 Zeichen + `…`), eine Rueckfrage; `Abbrechen` →
+   `Nicht gespeichert — Bestand: features/zz-test-login-timeout/bug.md`. Abweichung zur Vorlage: keine.
 
 **3.2d `bug-report` / Blind** — Kandidat „Passwort-Feld zeigt Klartext beim Einfuegen aus der
 Zwischenablage"
@@ -426,6 +450,14 @@ Zwischenablage"
 3. Ersetzungsprobe: gleicher Gegenstand (Login-Seite), **andere Aussage** (Klartext vs. Timeout) →
    **KEIN DUPLIKAT**
 4. **keine Ausgabe**
+   **Wirklauf 2026-09-07 (Haupt-Checkout, Lock `b9e0b57`) — BESTANDEN:**
+   `/dtb:bug-report "Passwort-Feld zeigt Klartext beim Einfuegen aus der Zwischenablage"` → `passwort|klartext|
+   zwischenablage` 0 Treffer, `login` 1 Kandidat (zz-test), Ersetzungsprobe negativ → kein Hinweis; Severity Hoch,
+   Slug `passwort-klartext-paste`, `bug.md` geschrieben, Backlog-Frage `Nein`. Abweichung zur Vorlage: keine.
+
+   **Aufraeumen 2026-09-07:** die vier Ordner `zz-test-hana-schema-audit/`, `zz-test-login-timeout/`,
+   `hana-backup-taeglich/`, `passwort-klartext-paste/` waren Testartefakte und wurden nach den Wirklaeufen
+   ungetrackt geloescht (nie committet).
 
 **3.3 Ausschluss-Nachweise**
 - **Archiv:** Kandidat „Pipeline-Kante zwischen worker und checkpoint nachziehen" →
