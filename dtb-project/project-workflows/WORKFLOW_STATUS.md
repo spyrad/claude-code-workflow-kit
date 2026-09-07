@@ -9,15 +9,13 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| capture-duplikat-schutz (#48) | Abgenommen | 11/11 | `/dtb:archive` |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung, dann Abnahme |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Vier `review.md` mit eingefrorenem Verdikt REJECTED, Triage-Bilanzen zeigen alle Findings behoben (#35);
-`capture-duplikat-schutz` traegt den Zweitlauf NEEDS ATTENTION, 10/10 FIXED — mit der Abnahme erledigt.
+⚠ Vier `review.md` mit eingefrorenem Verdikt REJECTED, Triage-Bilanzen zeigen alle Findings behoben (#35).
 
 ---
 
@@ -27,13 +25,12 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 |----------|------|
 | **Blocker** | Keine |
 | **Erreicht (2026-09-07)** | S1: `pane-start` archiviert, Review-Zweitlauf 10/10 FIXED · S2: kit-sync-Richtigstellung, Lock 47 @ `b9e0b57` · **S3: `capture-duplikat-schutz` abgenommen — 6/6 Wirklaeufe bestanden**, Session-2-Nachtraege committet (`7b4e95e`) |
-| **Notizen** | Handoff-Befehl griff heute erstmals ohne Verfall (L23/#35 Gegenbeleg). Blind-Fall 3.1b hinterliess Idee **#71** (aus Testvorlage, Bewertung offen). Verlustpruefung S3: 2 Funde offen; S1: 7 Funde offen. Ideen 34 offen, 1 `Ausgearbeitet` (#48). ROADMAP-§5-Sync zum **17.** Mal leer |
+| **Notizen** | Handoff-Befehl griff heute erstmals ohne Verfall (L23/#35 Gegenbeleg). Blind-Fall 3.1b hinterliess Idee **#71** (aus Testvorlage, Bewertung offen). Verlustpruefung S3: 2 Funde offen; S1: 7 Funde offen. Ideen 34 offen, 0 `Ausgearbeitet` (#48 archiviert). ROADMAP-§5-Sync zum **17.** Mal leer |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:archive`** — `capture-duplikat-schutz` (Abgenommen, 11/11) + INBOX #48 archivieren
 - [ ] **Idee #71 bewerten** — behalten oder `Verworfen`; entstand aus der Wirklauf-Vorlage 3.1b
 - [ ] **2 Verlustfunde S3 absetzen** — Lektion (Blind-Faelle von Capture-Skills schreiben echte Artefakte), Idee (Richtigstellungs-Konvention im Session-Log)
 - [ ] **7 Verlustfunde S1 absetzen** — 1 Lektion (Anker-Zielzahl ≠ Deckungsgleichheit), 6 Ideen (4e-Reichweite, Aufraeum-Aufgaben an Zustaende ankern, STYLE.md/Rules-Dimension, Zweitlauf-Scope, Konvention auf Altbestand, Archiv-Regel `Ausgearbeitet`)
@@ -67,6 +64,6 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — dieser Checkpoint hinterlaesst Log, Status, BACKLOG, INBOX, spec.md und plan.md uncommittet.
+**Naechster Befehl:** `/dtb:commit-and-push` — die Archivierung von `capture-duplikat-schutz` (+ INBOX #48) ist uncommittet.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen Befehl.
-**Gueltigkeitsbedingung:** Der Commit-Befehl gilt, solange `git status --short` nicht leer ist; danach ist der naechste Schritt `/dtb:archive` (`capture-duplikat-schutz` + INBOX #48). Er gilt, solange `features/capture-duplikat-schutz/spec.md` `Abgenommen` traegt und der Ordner unter `features/` liegt; liegt er unter `archive/`, ist der naechste Schritt `/dtb:workflow-next`.
+**Gueltigkeitsbedingung:** Der Commit-Befehl gilt, solange `git status --short` nicht leer ist; danach ist der naechste Schritt `/dtb:workflow-next` (kein aktives Item mit eindeutigem Folgebefehl — vier Restabnahmen offen).
