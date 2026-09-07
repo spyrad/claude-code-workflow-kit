@@ -177,6 +177,8 @@ griffe hier nie. Der Vergleich ist deshalb unscharf, und die Schwelle lautet:
 > **Unterdruecke einen Kandidaten nur dann, wenn der vorhandene Eintrag ihn ohne
 > Informationsverlust ersetzen koennte** — gleicher Gegenstand **und** gleiche Aussage.
 > Trifft der Bestand denselben Gegenstand, aber eine **andere** Aussage → melden.
+> Die Richtung ist Teil der Regel: bringt der Kandidat mehr mit als der Bestand, wird er
+> **gemeldet** (eine symmetrische Lesart wuerde hier abweichend entscheiden).
 
 Beispiele:
 

@@ -89,19 +89,22 @@ Aus dem Freitext oder den Antworten extrahiere:
 Vor Prioritaet und Slug-Vergabe (ein erkanntes Duplikat braucht keinen Namen mehr): pruefe die
 erfasste Aufgabe **unscharf** gegen die Abschnitte `## Beschreibung` und `## Begruendung` aller
 `{config.paths.workflows}/features/*/task.md` (nur aktive Changes; `archive/` wird NIE
-durchsucht). Vergleich per Grep nach dem Kern der Aufgabe (Stichworte), Bewertung je Kandidat:
+durchsucht). Kandidaten per Grep nach dem Kern der Aufgabe (Stichworte) finden, dann den genannten
+Abschnitt lesen und je Kandidat bewerten:
 
 > Gleicher Gegenstand **und** gleiche Aussage — die bestehende Aufgabe koennte die neue Erfassung
 > vollstaendig ersetzen → Treffer. Gleicher Gegenstand, andere Aussage → kein Duplikat.
 > Im Zweifel: kein Duplikat, still durchlassen.
 
-- **Treffer** (max. 3 zeigen, Rest als `+N weitere`; Bestandstext auf ~120 Zeichen + `…` kuerzen):
+- **Treffer** (max. 3 zeigen — je Treffer eine Fundstellen-Zeile, Rest als `+N weitere`, die
+  Entscheidungsfrage genau einmal am Ende; Bestandstext auf ~120 Zeichen + `…` kuerzen):
   ```
   Aehnliche Aufgabe steht schon in features/{slug}/task.md: "{Bestandstext, gekuerzt}"
   Trotzdem als neue Aufgabe erfassen? (Ja / Abbrechen)
   ```
   Die Entscheidung liegt beim Menschen — **nie hart blocken** (wiederkehrende
   Housekeeping-Aufgaben sind legitim).
+  **Abbrechen** → eine Zeile `Nicht gespeichert — Bestand: features/{slug}/task.md`, Skill endet.
 - **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
   unsichtbar; im Trefferfall kommt genau eine Rueckfrage hinzu (die Richtlinie unten nennt
   diese Ausnahme).

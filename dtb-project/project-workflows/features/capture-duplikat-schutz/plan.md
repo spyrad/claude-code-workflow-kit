@@ -154,6 +154,8 @@ die drei geschuetzten Skills unberuehrt.
   1 (Erfassung) und **vor** Schritt 2 (Schreiben), mit unscharfem Vergleich der erfassten Idee gegen
   die `Idee`-Spalte der Sammel-Datei nach der Ersetzungsprobe, Fundstelle = Eintragsnummer,
   Bestandstext gekuerzt, Entscheidung Ja/Abbrechen; (c) kein Treffer → keine Ausgabe
+  — Nachtrag (impl-review F1, 2026-08-19): zusaetzlich `Bash` in `allowed-tools`, der
+  Guard-Bash-Block war bisher undeklariert
 - **Randbedingung:** Der Worktree-Guard-Block bleibt unangetastet — `dtb:idea` ist seine
   Referenz-Instanz, jede Abweichung waere ein Befund und wuerde ueber die Verteilung mitreisen
 
@@ -168,6 +170,7 @@ die drei geschuetzten Skills unberuehrt.
   `archive/` bleibt ausgeschlossen. Fundstelle = Ordnerpfad. Die bestehende Datei-Existenz-Pruefung in
   Schritt 4 bleibt unveraendert daneben stehen (Namens-Kollision, §4) — die Abgrenzung wird an der
   Stelle mit einem Satz benannt
+  — Nachtrag (impl-review F1, 2026-08-19): Frontmatter `Bash` in `allowed-tools` nachgezogen
 
 #### Schritt 2.3: `dtb:bug-report` haerten
 - **Zweck:** Dritter Kollisionsort, gleiche Struktur wie `task`, anderer Vergleichsanker
@@ -178,6 +181,7 @@ die drei geschuetzten Skills unberuehrt.
   wird gegen die Symptom-Abschnitte vorhandener Bug-Dateien der aktiven Changes. Zusaetzlich der
   Hinweis, dass ein wiederkehrender Fehler legitim erneut erfasst werden darf (Entscheidung beim
   Menschen) — und dass ein Treffer im Archiv bewusst **nicht** geprueft wird
+  — Nachtrag (impl-review F1, 2026-08-19): Frontmatter `Bash` in `allowed-tools` nachgezogen
 
 > **3x3-Block:** Nach Schritt 2.3 → Zusammenfassung + Feedback einholen
 
@@ -437,6 +441,20 @@ Zwischenablage"
 
 ---
 
+**2.4 Mechanische Selbstpruefung** — nachgetragen 2026-09-07 aus dem impl-review-Zweitlauf (F3):
+nur Nachweis (1) war protokolliert (`2026-08-20.md`), (2)-(4) heute gegen `09be913` gemessen.
+1. Anker `^## Duplikat-Check` ueber `skills/` (CR-normalisiert) → 3 Treffer = Zielzahl
+2. Werkzeug-Deklaration (project-health-Kriterium „Body referenziert Bash/Write, nicht deklariert" —
+   mechanischer Kern, kein voller `/dtb:project-health`-Lauf): `idea` Body {Bash, Grep} ⊂
+   `allowed-tools: Read, Write, Grep, Bash` · `task`/`bug-report` Body {Bash, Grep} ⊂
+   `Read, Write, Glob, Grep, Bash` → 0 Warnungen
+3. Guard-Block `dtb-idea` Z. 22-55 gegen `49e1b55`: `diff` = 0 Zeilen (identisch);
+   Diff-Hunks liegen nur bei Z. 6 (description), 17 (allowed-tools), 73+ (Duplikat-Check)
+4. Aenderungsliste `f971cdd` = `dtb-idea`, `dtb-task`, `dtb-bug-report` + `plan.md`;
+   `dtb-lesson`, `dtb-open-question`, `dtb-meeting-dump` nicht darunter
+
+---
+
 ## Uebergabe-Notiz (Orchestrator)
 
 > Geschrieben von Schritt 3.4 (Plan-Schritt benennt diese Datei als Ziel). Punkt 7 kam aus dem
@@ -446,7 +464,7 @@ Zwischenablage"
 
 1. **Echter Skill-Lauf je Zielskill** (`/dtb:idea`, `/dtb:task`, `/dtb:bug-report`) im
    Haupt-Checkout — die Skills sind Voll-Guard und brachen hier vor dem Check ab; belegt ist
-   bisher nur die Mechanik (Protokolle siehe Session-Log). Je ein Treffer- und ein Blind-Fall,
+   bisher nur die Mechanik (Protokolle: `## Beleg-Protokolle (Phase 3)` oben). Je ein Treffer- und ein Blind-Fall,
    Vorlagen: die sechs Protokoll-Faelle aus Phase 3.
 2. **`/dtb:kit-sync` ausfuehren** — drei Klasse-A-Artefakte geaendert (`dtb-idea`, `dtb-task`,
    `dtb-bug-report`), dazu `dtb-no-loss-check`; die Drift-Erkennung meldet die installierten

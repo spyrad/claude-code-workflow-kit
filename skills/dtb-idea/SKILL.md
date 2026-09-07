@@ -17,7 +17,7 @@ pipeline:
 
 # Idee schnell erfassen
 
-Du erfasst eine Idee oder einen Gedanken in der Projekt-Inbox. Keine Rueckfragen (einzige Ausnahme: ein Duplikat-Treffer fragt genau einmal), keine Ausarbeitung — nur speichern.
+Du erfasst eine Idee oder einen Gedanken in der Projekt-Inbox. Keine Rueckfragen (Ausnahme: ein Duplikat-Treffer fragt genau einmal), keine Ausarbeitung — nur speichern.
 
 ## Worktree-Guard
 
@@ -83,7 +83,8 @@ Grep nach dem Kern der Idee (Stichworte), Bewertung je Kandidat:
 > vollstaendig ersetzen → Treffer. Gleicher Gegenstand, andere Aussage → kein Duplikat.
 > Im Zweifel: kein Duplikat, still durchlassen.
 
-- **Treffer** (max. 3 zeigen, Rest als `+N weitere`; Bestandstext auf ~120 Zeichen + `…` kuerzen):
+- **Treffer** (max. 3 zeigen — je Treffer eine Fundstellen-Zeile, Rest als `+N weitere`, die
+  Entscheidungsfrage genau einmal am Ende; Bestandstext auf ~120 Zeichen + `…` kuerzen):
   ```
   Aehnliche Idee steht schon in der INBOX (#{N}, {Status}): "{Bestandstext, gekuerzt}"
   Trotzdem als neuen Eintrag speichern? (Ja / Abbrechen)
@@ -91,6 +92,7 @@ Grep nach dem Kern der Idee (Stichworte), Bewertung je Kandidat:
   Den **Status mitnennen** (`Offen` / `In Arbeit` / `Ausgearbeitet` / `Verworfen`) — ob ein Treffer
   noch offen, laengst ausgearbeitet oder bewusst verworfen ist, entscheidet der Mensch anders.
   Die Entscheidung liegt beim Menschen — **nie hart blocken** (Wiederkehr kann legitim sein).
+  **Abbrechen** → eine Zeile `Nicht gespeichert — Bestand: #{N}`, Skill endet.
 - **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
   unsichtbar; im Trefferfall kommt genau eine Rueckfrage hinzu (der Skill-Kopf nennt diese
   Ausnahme).

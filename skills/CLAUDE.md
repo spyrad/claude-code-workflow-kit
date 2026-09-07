@@ -181,7 +181,8 @@ Ersetzungsfrage nicht klar beantworten, gilt:
 >    Fassungen). **Verkuerzt mitziehen** — die Entscheidung muss identisch ausfallen, der Umfang
 >    bleibt bewusst kleiner als Stufe 1.
 >    Verifikation: Grep `gleiche Aussage` ueber `skills/` → **Zielzahl 7** = 3 Kurzformen +
->    Kanon-Regelsatz + Einteilungs-/Kopplungsprosa + Spiegel + diese Hinweiszeile.
+>    Kanon-Regelsatz + Spiegel + diese Hinweiszeile + die beilaeufige Nennung in
+>    `### Laufzeit-Autarkie` (Prosa, keine Regel-Fassung — zaehlt mit, weil der Grep sie trifft).
 >
 > Ein Grep, der nur Stufe 1 prueft, meldet Vollstaendigkeit und laesst drei global verteilte
 > Laufzeit-Regeln veralten — genau der Praxisfall 2026-07-30/31 weiter unten.
@@ -211,12 +212,18 @@ Schema mit seinen Werten:
 Trotzdem speichern? (Ja / Abbrechen)
 ```
 
+`Identischer` ist ein Vorgriff: heute fuellt kein Skill den Slot so (alle drei neuen vergleichen
+unscharf → `Aehnlicher`); er greift, sobald `open-question`/`meeting-dump` auf das Schema gezogen
+werden (siehe Zuordnungstabelle).
+
 - **Fundstelle:** das natuerliche Zitier-Handle des Ziels (INBOX-Nummer, Ordnerpfad, L-Nummer) —
   plus den Status, wo er entscheidungsrelevant ist (`#{N}, Verworfen` sagt mehr als `#{N}`).
 - **Kuerzung (Pflicht):** Bestandstext auf ~120 Zeichen + `…` (INBOX-Zeilen erreichen 5900+
   Zeichen; der Anker im Hinweis ist die Fundstelle, nicht der Text).
 - **Kappung + Rendering:** max. 3 Treffer zeigen — **je Treffer eine Fundstellen-Zeile**, danach
   `+N weitere`, danach **genau EINE** Entscheidungsfrage (nie eine Frage pro Treffer).
+- **Abbrechen:** genau eine Zeile `Nicht gespeichert — Bestand: {Fundstelle}`, dann endet der
+  Skill; der erfasste Text wird nicht geechot (der Mensch hat ihn im Verlauf).
 - Die Entscheidungsfrage-Zeile entfaellt bei exaktem Vergleich (dort wird uebersprungen statt
   gefragt — siehe Kopplungsregel oben).
 - **Kein Treffer → keine Ausgabe.** Kein „Duplikat-Check: ok", keine Bestaetigungszeile — der

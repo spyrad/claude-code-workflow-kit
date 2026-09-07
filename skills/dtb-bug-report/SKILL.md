@@ -89,20 +89,22 @@ Vor Severity und Slug-Vergabe (ein erkanntes Duplikat braucht keinen Namen mehr)
 erfasste Symptom **unscharf** gegen den Abschnitt `## Symptom` aller
 `{config.paths.workflows}/features/*/bug.md` (nur aktive Changes; `archive/` wird NIE durchsucht —
 ein Treffer auf einen dort abgeschlossenen Bug waere ein Regressions-Signal, keine Dublette, und
-Regressions-Erkennung ist bewusst nicht Teil dieses Checks). Vergleich per Grep nach dem Kern des
-Symptoms (Stichworte), Bewertung je Kandidat:
+Regressions-Erkennung ist bewusst nicht Teil dieses Checks). Kandidaten per Grep nach dem Kern des
+Symptoms (Stichworte) finden, dann `## Symptom` lesen und je Kandidat bewerten:
 
 > Gleicher Gegenstand **und** gleiche Aussage — der bestehende Bug-Report koennte die neue
 > Erfassung vollstaendig ersetzen → Treffer. Gleicher Gegenstand, andere Aussage (z.B. gleiches
 > Modul, anderes Symptom) → kein Duplikat. Im Zweifel: kein Duplikat, still durchlassen.
 
-- **Treffer** (max. 3 zeigen, Rest als `+N weitere`; Bestandstext auf ~120 Zeichen + `…` kuerzen):
+- **Treffer** (max. 3 zeigen — je Treffer eine Fundstellen-Zeile, Rest als `+N weitere`, die
+  Entscheidungsfrage genau einmal am Ende; Bestandstext auf ~120 Zeichen + `…` kuerzen):
   ```
   Aehnlicher Bug steht schon in features/{slug}/bug.md: "{Bestandstext, gekuerzt}"
   Trotzdem als neuen Bug erfassen? (Ja / Abbrechen)
   ```
   Die Entscheidung liegt beim Menschen — **nie hart blocken** (ein wiederkehrender Fehler darf
   legitim erneut erfasst werden).
+  **Abbrechen** → eine Zeile `Nicht gespeichert — Bestand: features/{slug}/bug.md`, Skill endet.
 - **Kein Treffer → keine Ausgabe**, direkt weiter zu Schritt 2 — der Check ist im Normalfall
   unsichtbar; im Trefferfall kommt genau eine Rueckfrage hinzu (die Richtlinie unten nennt
   diese Ausnahme).
