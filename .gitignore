@@ -7,13 +7,13 @@ dtb-project/*
 !dtb-project/project-strategy/
 # project-rules bleibt lokal — Ausnahme: DERIVED_STATE_RULES.md ist Kit-Bestandteil
 # (zentrale Ableitungsregel, Vorlage fuer project-init)
-# lessons.md bleibt bewusst ungetrackt — auch hier im Kit-Repo selbst: es ist ein
-# entwicklungsbegleitendes Laufzeit-Artefakt, kein auszulieferndes Kit-Teil. Folge
-# (bewusst akzeptiert, Entscheidung 2026-07-18): Lessons sind klon-lokal und reisen nicht
-# ueber Arbeitsorte mit. Nicht erneut als offene Frage aufmachen.
+# lessons.md ist seit 2026-09-07 versioniert (Revision der Entscheidung 2026-07-18, INBOX #34):
+# die Zwei-Maschinen-Divergenz (#64: L15-L21 fehlten auf Maschine 2) hat den Nutzen der
+# klon-lokalen Variante widerlegt. Lessons reisen jetzt mit dem Repo.
 !dtb-project/project-rules/
 dtb-project/project-rules/*
 !dtb-project/project-rules/DERIVED_STATE_RULES.md
+!dtb-project/project-rules/lessons.md
 .obsidian/
 # Lokale Claude-Code-Einstellungen (Permission-Cache), maschinenspezifisch
 .claude/settings.local.json

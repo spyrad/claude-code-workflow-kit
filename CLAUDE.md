@@ -89,8 +89,8 @@ Currently the kit ships no command — the directory and the `commands/dtb-*.md`
 - `dtb-project/project-workflows/INBOX.md` — Idea inbox (managed by `dtb:idea` and `dtb:idea-review`); stays a flat per-project file (not a change folder)
 - `dtb-project/project-workflows/archive/<slug>/` — Archived changes (whole folder moved via `git mv`, or filesystem move + backup in non-git projects), plus archive log
 - `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)
-- `dtb-project/project-rules/DERIVED_STATE_RULES.md` — Zentrale Statusableitungs-Regeln (Kit-Bestandteil, von project-init verteilt; einzige versionierte Datei in project-rules/)
-- `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (Laufzeit-Artefakt, angelegt von `dtb:lesson`; Prior für impl-plan/debug-plan/plan-review/impl-review; keine Coding-Rule)
+- `dtb-project/project-rules/DERIVED_STATE_RULES.md` — Zentrale Statusableitungs-Regeln (Kit-Bestandteil, von project-init verteilt; neben `lessons.md` eine der zwei versionierten Dateien in project-rules/)
+- `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (versioniert seit 2026-09-07, angelegt von `dtb:lesson`; Prior für impl-plan/debug-plan/plan-review/impl-review; keine Coding-Rule)
 - `dtb-project/project-rules/UI.md` — UI-/Design-Guideline (eine der Bereichs-Regeln, generiert von `dtb:generate-rules ui`; von `dtb:impl-review` als Review-Dimension geprüft). Bei etablierter Design-Sprache die maßgebliche Referenz; ihre Token-Assets liegen in `project-design/`
 - `dtb-project/project-design/` — Importierbare Design-Assets (Design-Tokens als `*.css`/`*.json`, ggf. weitere), referenziert von `project-rules/UI.md`. Assets, kein Markdown-/Regel-Bucket; von `dtb:project-init` angelegt, leer wenn das Projekt keine geteilten Design-Assets hat
 - `dtb-project/project-infrastructure/input/` — Drop-Zone für Infra-Dokumente (PDFs, Configs, Exports)
