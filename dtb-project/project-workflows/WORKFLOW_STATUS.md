@@ -27,14 +27,14 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 |----------|------|
 | **Blocker** | Keine |
 | **Erreicht (2026-09-07)** | `pane-start` (#68) archiviert (`09be913`); `capture-duplikat-schutz` Review-Zweitlauf REJECTED → NEEDS ATTENTION, 10/10 FIXED (`153506e`), Zielzahlen 4/7/3 unveraendert; **Lock 47 @ `153506e`, 47/47 synchron** |
-| **Notizen** | Vierter Handoff-Verfall belegt (L23/#35). kit-sync-Nachverifikation lieferte erst 47/47 Schein-Abweichungen (CRLF in der Pruefer-TSV) — L12/L25-Familie, neue Facette. Verlustpruefung 8 Funde, alle offen. Ideen 33 offen, 1 `Ausgearbeitet` (#48). ROADMAP-§5-Sync zum **16.** Mal leer |
+| **Notizen** | ⚠ **Die kit-sync-Erfolgsmeldung von Session 1 war falsch** — es wurde nichts geschrieben (Lock stand bis Session 2 auf `d43d5a2` vom 16.08., Kopien vom 14.08./06.08.); `dtb-idea` lief ohne `## Duplikat-Check`. Session 2 hat verteilt: **Lock 47 @ `b9e0b57`, 47/47 verifiziert**. Neue Lektionen **L35** (Verteilungserfolg an unabhaengigen Zeugen binden) und **L36** (`$'\r'` in verschachtelter Kommandosubstitution matcht den Buchstaben `r`). Fuenfter Handoff-Verfall belegt (L23/#35). Verlustpruefung 7 Funde offen. Ideen 33 offen, 1 `Ausgearbeitet` (#48). ROADMAP-§5-Sync zum **16.** Mal leer |
 
 ---
 
 ## Offene Aufgaben
 
 - [ ] **Wirklauf je Zielskill** (`/dtb:idea`, `/dtb:task`, `/dtb:bug-report`) im Haupt-Checkout — Treffer- und Blind-Fall, Vorlagen `plan.md` → `## Beleg-Protokolle (Phase 3)`; Voraussetzung fuer die Abnahme (L29)
-- [ ] **8 Verlustfunde vom 2026-09-07 absetzen** — 2 Lektionen (Pruefer-TSV CRLF; Anker-Zielzahl ≠ Deckungsgleichheit), 6 Ideen (4e-Reichweite, Aufraeum-Aufgaben an Zustaende ankern, STYLE.md/Rules-Dimension, Zweitlauf-Scope, Konvention auf Altbestand, Archiv-Regel `Ausgearbeitet`)
+- [ ] **7 Verlustfunde vom 2026-09-07 absetzen** — 1 Lektion (Anker-Zielzahl ≠ Deckungsgleichheit), 6 Ideen (4e-Reichweite, Aufraeum-Aufgaben an Zustaende ankern, STYLE.md/Rules-Dimension, Zweitlauf-Scope, Konvention auf Altbestand, Archiv-Regel `Ausgearbeitet`) — Lektion „Pruefer-TSV CRLF" abgesetzt als **L36** (korrigierte Fassung)
 - [ ] **INBOX #54 reparieren** — bare Pipes brechen das Rendering (Teil von #70)
 - [ ] **3 Verlustfunde vom 2026-08-19 absetzen** — Config-vor-Guard, `{Grund}`-Platzhalter (F8), `stage`-Enum
 - [ ] **F4-Nachlauf** — Branch-Prosa in `dtb-workflow-checkpoint`; Quelle: `archive/herdr-worker-automation/spec.md`
