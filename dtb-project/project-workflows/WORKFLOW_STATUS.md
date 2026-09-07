@@ -9,7 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| pane-start (#68) | Abgenommen | 8/8 | `/dtb:archive` — Arbeitsplatz vorher abbauen (Pane `w3:p6`, Worktree, Branch) |
 | capture-duplikat-schutz (#48) | Fertig zum Testen | 11/11 | `/dtb:impl-review capture-duplikat-schutz` (Zweitlauf), dann echter Skill-Lauf im Haupt-Checkout |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
@@ -17,7 +16,7 @@
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Alle fuenf `review.md` mit negativem Verdikt (4x REJECTED, `pane-start` NEEDS ATTENTION) —
+⚠ Alle vier `review.md` mit negativem Verdikt (4x REJECTED) —
 Triage-Bilanzen zeigen alle Findings behoben oder entschieden: eingefrorene Verdikt-Felder (#35).
 ⚠ `capture-duplikat-schutz`: die Handoff-Regel „review.md REJECTED → `/dtb:implement`" trifft hier
 nicht — alle 13 Findings sind behoben, faellig ist der Review-Zweitlauf (dieselbe Familie #35).
@@ -71,4 +70,4 @@ nicht — alle 13 Findings sind behoben, faellig ist der Review-Zweitlauf (diese
 
 **Naechster Befehl:** `/dtb:commit-and-push` — dieser Checkpoint hinterlaesst Log, Status, BACKLOG, INBOX und zwei `spec.md` uncommittet.
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen Befehl.
-**Gueltigkeitsbedingung:** Der Commit-Befehl gilt, solange `git status --short` nicht leer ist; danach ist der naechste Schritt der **Abbau des Arbeitsplatzes** (Pane `w3:p6`, Worktree, Branch — pruefbar an `git worktree list`, `git branch --list "feature/*"`, `herdr agent list`), gefolgt von `/dtb:archive` fuer das abgenommene `pane-start`. Der Review-Zweitlauf `/dtb:impl-review capture-duplikat-schutz` gilt, solange `features/capture-duplikat-schutz/review.md` das Verdikt des Erstlaufs traegt.
+**Gueltigkeitsbedingung:** Der Commit-Befehl gilt, solange `git status --short` nicht leer ist; danach ist der naechste Schritt der **Abbau des Arbeitsplatzes** (Pane `w3:p6`, Worktree, Branch — pruefbar an `git worktree list`, `git branch --list "feature/*"`, `herdr agent list`). Der Review-Zweitlauf `/dtb:impl-review capture-duplikat-schutz` gilt, solange `features/capture-duplikat-schutz/review.md` das Verdikt des Erstlaufs traegt.
