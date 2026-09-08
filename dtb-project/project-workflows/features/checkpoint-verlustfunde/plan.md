@@ -232,9 +232,9 @@ Alle Beschreibungen des Checkpoints und der Verlustpruefung im Repo sind nachgez
 - [x] 1.1 Anker + Kopplungs-Hinweise `dtb:lesson` — `e6cbb3a`
 - [x] 1.2 Anker + Kopplungs-Hinweise `dtb:idea` — `e6cbb3a`
 - [x] 1.3 Format-Kopplung + Zuordnungstabelle `dtb:no-loss-check` — `e6cbb3a`
-- [ ] 2.1 Frontmatter Checkpoint (produces/consumes/allowed-tools)
-- [ ] 2.2 Unterabschnitt „Dringende Funde erfassen"
-- [ ] 2.3 Pflicht-Log-Zeile Teil 1
+- [x] 2.1 Frontmatter Checkpoint (produces/consumes/allowed-tools)
+- [x] 2.2 Unterabschnitt „Dringende Funde erfassen"
+- [x] 2.3 Pflicht-Log-Zeile Teil 1
 - [ ] 3.1 Doku-Nachzug (CLAUDE.md, skills/CLAUDE.md)
 - [ ] 3.2 kit-sync + mtime-Zeuge
 - [ ] 3.3 Wirklauf Fall-Set a-e

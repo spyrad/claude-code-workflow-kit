@@ -5,13 +5,13 @@ description: >-
   "Session dokumentieren". Documents the current development session with
   a session log entry and updates WORKFLOW_STATUS.md.
 disable-model-invocation: true
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Edit, Grep, Bash
 pipeline:
   stage: session
   after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
   next: [dtb:workflow-resume]
-  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, ROADMAP.md]
-  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md]
+  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)
@@ -132,6 +132,7 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 ### Implementiert
 - Feature/Fix/Aenderung 1
 - Feature/Fix/Aenderung 2
+- Verlustpruefung: {D} dringend → {L…, #…} erfasst · {W} kann warten (Befehle im Report) · {S} gefiltert
 
 ### Dateien
 - `pfad/zur/datei.py` - Kurzbeschreibung der Aenderung
@@ -149,6 +150,9 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 - **Praezise**: Was genau wurde geaendert, nicht nur "Code optimiert"
 - **Kontext**: Kurz erklaeren warum, nicht nur was
 - **Deutsch**: Alle Texte auf Deutsch
+- **Verlustpruefung (Pflicht, auch bei 0/0/0)**: letzter Bullet unter `### Implementiert` im festen
+  Format oben (Quelle: Schritt 0). Bei `D = 0` → `0 dringend`; wurde die Pruefung uebersprungen →
+  `Verlustpruefung uebersprungen — {Grund}` statt der Zaehl-Zeile
 
 ---
 
@@ -265,13 +269,104 @@ Skill angestossen werden.
 - Skill nicht installiert (kein `dtb:no-loss-check` verfuegbar) → **eine** Hinweiszeile
   (`Verlustpruefung uebersprungen — dtb:no-loss-check nicht installiert (/dtb:kit-sync)`),
   danach unveraendert weiter mit Schritt 1
-- Funde gemeldet → die kopierfertigen Befehle stehen im Report; der Mensch entscheidet, ob er
-  sie absetzt. **Der Checkpoint wartet nicht darauf und bricht nie ab** — `no-loss-check` ist
-  empfehlend, nicht blockierend
+- Funde gemeldet → die Gruppe „Vor dem Checkpoint erledigen" laeuft durch die Sammelvorlage
+  (Unterabschnitt unten), „Kann warten" bleibt kopierfertige Befehle im Report; der Mensch
+  entscheidet. **Der Checkpoint bricht nie ab** — `no-loss-check` ist empfehlend, nicht
+  blockierend; die Vorlage ist ein Kontrollpunkt, kein Gate
 - Lief die Pruefung in dieser Sitzung bereits, laeuft sie hier **trotzdem erneut** — dieser Lauf
   sieht alles, was seither dazugekommen ist. Den Zweitlauf regelt `dtb:no-loss-check` (Randfall 3:
   der frueherer Report ist keine Kandidatenquelle, bereits Verworfenes wird nicht unveraendert
   wiederholt)
+
+#### Dringende Funde erfassen (Sammelvorlage)
+
+**Eingang:** In die Vorlage kommen nur die Funde unter `## Vor dem Checkpoint erledigen`; je
+Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile den Typ (`lesson` → Lektion, `idea` → Idee)
+und den Freitext. Fehlt die Ueberschrift (Gruppe leer), entfaellt dieser Block **still** —
+weiter mit Schritt 1. `## Kann warten` bleibt unveraendert: Befehle im Report, hier nichts.
+
+> **Wartungs-Hinweis (Format-Kopplung):** Dieser Block liest das Ausgabe-Muster von
+> `dtb:no-loss-check` (die beiden `## `-Gruppen-Ueberschriften, je Fund die `→`-Zeile).
+> Aendert sich das Format dort, diesen Parser mitziehen — der Gegen-Hinweis steht am
+> Ausgabe-Muster in `skills/dtb-no-loss-check/SKILL.md`.
+
+**Struktur-Check (Kopplungs-Waechter):** Die Erfassungsregeln stehen NICHT hier, sondern in
+`dtb:lesson`/`dtb:idea` — vor dem ersten Schreiben muss die Quelle existieren und ihre Anker tragen:
+
+- **Quelle aufloesen — Repo zuerst, dann Installation:** `skills/dtb-{lesson,idea}/SKILL.md`
+  relativ zum Projekt-Root, sonst `~/.claude/skills/dtb-{lesson,idea}/SKILL.md`. Bewusst umgekehrt
+  zu `dtb:pane-start`: im Kit-Repo ist das Repo die Quelle, aus der `kit-sync` verteilt — die
+  installierte Kopie waere waehrend eines Umbaus der Stand von gestern; Zielprojekte haben kein
+  `skills/`. Nur die Quellen aufloesen, deren Typ in der dringenden Gruppe vorkommt
+- **Anker-Grep** (zeilenende-normalisiert — `tr -d '\r'` vorschalten) auf die Sektions-Titel:
+
+  | Quelle | Anker (woertlich) | Traegt |
+  |--------|-------------------|--------|
+  | `dtb:lesson` | `## Schritt 2: In 4 Felder strukturieren` | Feld-Ableitung |
+  | `dtb:lesson` | `## Schritt 3: Duplikat-Check` | Duplikat-Bewertung Lektion |
+  | `dtb:lesson` | `## Schritt 4: Append-only speichern` | Schreibmechanik `lessons.md` |
+  | `dtb:idea` | `## Duplikat-Check` | Duplikat-Bewertung Idee |
+  | `dtb:idea` | `## Schritt 2: In INBOX.md speichern` | Schreibmechanik `INBOX.md` |
+
+- Alle Anker gefunden → eine Statuszeile, weiter:
+  `🧩 Struktur-Check: {n}/{n} Anker in {aufgeloeste Quelle(n)} gefunden`
+- **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift);
+  beide enden im **Rueckfall**: Funde bleiben Befehle im Report, nichts geschrieben, weiter mit Schritt 1:
+
+  1. Datei in beiden Quellen nicht gefunden → Installations-Problem:
+     ```
+     ⚠ Erfassungs-Quelle dtb:{lesson|idea} weder im Projekt (skills/) noch global
+        (~/.claude/skills/) gefunden. → /dtb:kit-sync sync, Funde bleiben Befehle im Report.
+     ```
+  2. Datei vorhanden, Anker fehlt → Struktur-Drift:
+     ```
+     ⚠ Struktur-Check fehlgeschlagen: {Quelle} — Anker "{Anker}" nicht gefunden.
+        dtb:{lesson|idea} wurde umgebaut; ich schreibe NICHT auf veralteter Basis. → diesen
+        Block anpassen (die Kopplungs-Hinweise dort nennen diesen Leser). Funde bleiben Befehle.
+     ```
+
+> **Benanntes Restrisiko:** Der Check prueft Anker-EXISTENZ, nicht Regel-INHALT. Gegen
+> inhaltliche Drift verteidigen die Kopplungs-Hinweise an den fuenf Sektionen — bei
+> Aenderungen dort muss dieser Block mitgezogen werden.
+
+**Vorbereitung je Fund (per Referenz — die Regeln dort lesen, nicht hier):**
+- Lektion → `## Schritt 2: In 4 Felder strukturieren` und `## Schritt 3: Duplikat-Check` aus
+  `dtb:lesson`; Idee → `## Duplikat-Check` aus `dtb:idea` (Read auf die aufgeloeste Quelle)
+- Duplikat-Treffer werden **nicht** einzeln gefragt (das waere die zweite Rueckfrage-Runde, die
+  die Vorlage abloest): der Fund erscheint **vorgestrichen** mit Fundstelle in der Vorlage
+
+**Sammelvorlage** (Kurzfassung je Fund — nie der volle Wortlaut der vier Felder):
+
+```
+# Verlustfunde erfassen — {D} dringend
+1  Lektion  {Rule-Satz gekuerzt}                    → lessons.md L{naechste}
+2  Idee     {Idee-Satz gekuerzt}                    → INBOX.md #{naechste}
+~~3~~ Lektion {…} — aehnlich L23 (vorgestrichen; "behalte 3" nimmt sie auf)
+Ok fuer alle nicht gestrichenen? (Ok / streiche {Nr,…} / behalte {Nr} / Abbruch)
+```
+
+Antwortregeln:
+- `Ok` → alle nicht gestrichenen Zeilen werden geschrieben
+- `streiche 2` / `behalte 3` als Freitext, kombinierbar; nur das Geaenderte kurz
+  rueckbestaetigen, nicht die ganze Vorlage erneut zeigen (Muster `dtb:feature-fast`)
+- `Abbruch` → nichts schreiben, eine Meldezeile, weiter mit Schritt 1
+- **Fallback:** jede andere Antwort gilt als NICHT bestaetigt — genau eine Rueckfrage
+  (`Ok / streiche {Nr} / behalte {Nr} / Abbruch?`); bleibt sie unklar → `Abbruch`, nie stiller Auto-Write
+- Mehr als 10 dringende Funde → keine Vorlage, Rueckfall auf Befehle mit einer Hinweiszeile
+
+**Schreiben (per Referenz):** je bestaetigtem Fund
+- Lektion → `## Schritt 4: Append-only speichern` aus `dtb:lesson`
+- Idee → `## Schritt 2: In INBOX.md speichern` aus `dtb:idea`
+- **Herkunfts-Marker** als Suffix im Textfeld, Wortlaut `(via Checkpoint {YYYY-MM-DD})`:
+  lessons → Ende von `Context`, INBOX → Ende des Idee-Texts. Keine neue Spalte
+- Schreibfehler mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben —
+  **nie zurueckrollen** (append-only)
+
+**Meldung:** eine Zeile je Eintrag — `✔ L{N} → lessons.md` / `✔ #{N} → INBOX.md`;
+alle gestrichen → `Nichts erfasst — {D} Fund(e) bleiben als Befehle im Report`.
+
+**Selbstpruefung (L15):** Dieser Block **beschreibt** nirgends, wie Felder abgeleitet, Duplikate
+bewertet oder Zeilen angehaengt werden — er benennt nur die Anker. Ein solcher Satz hier waere ein Spiegel.
 
 ### Schritt 1: Informationen sammeln
 
