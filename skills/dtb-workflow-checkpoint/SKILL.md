@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Edit, Grep, Bash
 pipeline:
   stage: session
   after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
-  next: [dtb:workflow-resume]
+  next: [dtb:workflow-resume, dtb:idea-triage]
   consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md]
 ---
