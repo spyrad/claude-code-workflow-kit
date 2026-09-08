@@ -9,15 +9,13 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| checkpoint-verlustfunde (#72) | Abgenommen | 9/9 | /dtb:archive |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung, dann Abnahme |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-1 Feature abgenommen — wartet auf /dtb:archive.
-⚠ Vier `review.md` mit eingefrorenem Verdikt REJECTED, Triage-Bilanzen zeigen alle Findings behoben (#35) — jetzt fuenf (checkpoint-verlustfunde 9/10 FIXED).
+⚠ Vier `review.md` mit eingefrorenem Verdikt REJECTED, Triage-Bilanzen zeigen alle Findings behoben (#35). Die fuenfte (`checkpoint-verlustfunde`) ist mit dem Feature nach `archive/` gewandert.
 
 ---
 
@@ -33,7 +31,6 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Offene Aufgaben
 
-- [ ] **Archivieren** — `checkpoint-verlustfunde` (abgenommen) + INBOX #72 → `/dtb:archive`
 - [ ] **Abnahme-Sync committen** — spec/BACKLOG/Status/Log S11 → `/dtb:commit-and-push`
 - [ ] **5 Kann-warten-Funde + 3 Review-nits** — Befehle in Log S11 / `review.md`
 - [ ] **Erster Alltagslauf der Triage-Fassung** (`e2b00ce`) — offener Restbeleg der Abnahme
@@ -65,6 +62,6 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive` — `checkpoint-verlustfunde` ist abgenommen (§1.2), INBOX #72 `Ausgearbeitet`; vorher oder danach `/dtb:commit-and-push` fuer den Abnahme-Sync (spec/BACKLOG/Status/Log S11 uncommittet).
-**Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen Befehl.
-**Gueltigkeitsbedingung:** Gilt, solange `features/checkpoint-verlustfunde/` existiert; nach dem Archivieren ist der naechste Schritt `/dtb:workflow-next` (kein aktives Item, vier Bestands-Features Fertig zum Testen).
+**Naechster Befehl:** `/dtb:feature-plan Ideen-Becken` — Discovery zu #76 liegt vor (`features/ideen-becken/discovery.md`); `checkpoint-verlustfunde` ist am 2026-09-08 archiviert, die Vorbedingung dafuer ist damit erfuellt.
+**Empfehlung:** Vorher `/dtb:commit-and-push` — Archivierung, INBOX #76 und die Discovery sind uncommittet.
+**Gueltigkeitsbedingung:** Gilt, solange `features/ideen-becken/plan.md` fehlt; sobald der Plan steht, ist der naechste Schritt `/dtb:plan-review`.
