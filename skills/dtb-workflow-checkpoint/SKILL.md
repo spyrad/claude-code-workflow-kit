@@ -151,8 +151,9 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 - **Kontext**: Kurz erklaeren warum, nicht nur was
 - **Deutsch**: Alle Texte auf Deutsch
 - **Verlustpruefung (Pflicht, auch bei 0/0/0)**: letzter Bullet unter `### Implementiert` im festen
-  Format oben (Quelle: Schritt 0). Bei `D = 0` → `0 dringend`; wurde die Pruefung uebersprungen →
-  `Verlustpruefung uebersprungen — {Grund}` statt der Zaehl-Zeile
+  Format oben (Quelle: Schritt 0). Pfeil-Slot: `→ {L…, #…} erfasst` oder `→ nichts erfasst ({Abbruch|alle
+  gestrichen|Rueckfall Pfad 1|Rueckfall Pfad 2|>10 Funde})`; bei `D = 0` entfaellt der Pfeil-Teil; wurde die
+  Pruefung uebersprungen → `Verlustpruefung uebersprungen — {Grund}` statt der Zaehl-Zeile
 
 ---
 
@@ -272,7 +273,7 @@ Skill angestossen werden.
 - Funde gemeldet → die Gruppe „Vor dem Checkpoint erledigen" laeuft durch die Sammelvorlage
   (Unterabschnitt unten), „Kann warten" bleibt kopierfertige Befehle im Report; der Mensch
   entscheidet. **Der Checkpoint bricht nie ab** — `no-loss-check` ist empfehlend, nicht
-  blockierend; die Vorlage ist ein Kontrollpunkt, kein Gate
+  blockierend; die Vorlage ist der eine Kontrollpunkt und ersetzt dessen Abschlussfrage
 - Lief die Pruefung in dieser Sitzung bereits, laeuft sie hier **trotzdem erneut** — dieser Lauf
   sieht alles, was seither dazugekommen ist. Den Zweitlauf regelt `dtb:no-loss-check` (Randfall 3:
   der frueherer Report ist keine Kandidatenquelle, bereits Verworfenes wird nicht unveraendert
@@ -282,8 +283,9 @@ Skill angestossen werden.
 
 **Eingang:** In die Vorlage kommen nur die Funde unter `## Vor dem Checkpoint erledigen`; je
 Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile den Typ (`lesson` → Lektion, `idea` → Idee)
-und den Freitext. Fehlt die Ueberschrift (Gruppe leer), entfaellt dieser Block **still** —
-weiter mit Schritt 1. `## Kann warten` bleibt unveraendert: Befehle im Report, hier nichts.
+und den Freitext; andere Skills (`open-question`) kommen nicht in die Vorlage, bleiben Befehle im
+Report und zaehlen in `{D}` mit, nie unter „erfasst". Fehlt die Ueberschrift (Gruppe leer), entfaellt
+dieser Block **still** — weiter mit Schritt 1. `## Kann warten` bleibt unveraendert: Befehle im Report.
 
 > **Wartungs-Hinweis (Format-Kopplung):** Dieser Block liest das Ausgabe-Muster von
 > `dtb:no-loss-check` (die beiden `## `-Gruppen-Ueberschriften, je Fund die `→`-Zeile).
@@ -298,7 +300,9 @@ weiter mit Schritt 1. `## Kann warten` bleibt unveraendert: Befehle im Report, h
   zu `dtb:pane-start`: im Kit-Repo ist das Repo die Quelle, aus der `kit-sync` verteilt — die
   installierte Kopie waere waehrend eines Umbaus der Stand von gestern; Zielprojekte haben kein
   `skills/`. Nur die Quellen aufloesen, deren Typ in der dringenden Gruppe vorkommt
-- **Anker-Grep** (zeilenende-normalisiert — `tr -d '\r'` vorschalten) auf die Sektions-Titel:
+- **Anker-Grep** zeilenverankert auf den ganzen Titel (`tr -d '\r' | grep -x -F`), nie als
+  Substring — die Kopplungs-Hinweise darunter zitieren den Titel selbst und wuerden ein
+  falsches Gruen liefern:
 
   | Quelle | Anker (woertlich) | Traegt |
   |--------|-------------------|--------|
@@ -308,10 +312,10 @@ weiter mit Schritt 1. `## Kann warten` bleibt unveraendert: Befehle im Report, h
   | `dtb:idea` | `## Duplikat-Check` | Duplikat-Bewertung Idee |
   | `dtb:idea` | `## Schritt 2: In INBOX.md speichern` | Schreibmechanik `INBOX.md` |
 
-- Alle Anker gefunden → eine Statuszeile, weiter:
-  `🧩 Struktur-Check: {n}/{n} Anker in {aufgeloeste Quelle(n)} gefunden`
+- Alle Anker gefunden → eine Statuszeile, weiter: `🧩 Struktur-Check: {n}/{n} Anker in {aufgeloeste Quelle(n)} gefunden`
 - **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift);
-  beide enden im **Rueckfall**: Funde bleiben Befehle im Report, nichts geschrieben, weiter mit Schritt 1:
+  beide enden im **Rueckfall je Quelle**: die Funde des gefallenen Typs bleiben Befehle im Report,
+  die Vorlage traegt nur Typen mit gruener Quelle; faellt jede Quelle, weiter mit Schritt 1:
 
   1. Datei in beiden Quellen nicht gefunden → Installations-Problem:
      ```
@@ -332,15 +336,14 @@ weiter mit Schritt 1. `## Kann warten` bleibt unveraendert: Befehle im Report, h
 **Vorbereitung je Fund (per Referenz — die Regeln dort lesen, nicht hier):**
 - Lektion → `## Schritt 2: In 4 Felder strukturieren` und `## Schritt 3: Duplikat-Check` aus
   `dtb:lesson`; Idee → `## Duplikat-Check` aus `dtb:idea` (Read auf die aufgeloeste Quelle)
-- Duplikat-Treffer werden **nicht** einzeln gefragt (das waere die zweite Rueckfrage-Runde, die
-  die Vorlage abloest): der Fund erscheint **vorgestrichen** mit Fundstelle in der Vorlage
+- Duplikat-Treffer werden **nicht** einzeln gefragt (zweite Rueckfrage-Runde): der Fund erscheint **vorgestrichen** mit Fundstelle
 
 **Sammelvorlage** (Kurzfassung je Fund — nie der volle Wortlaut der vier Felder):
 
 ```
 # Verlustfunde erfassen — {D} dringend
-1  Lektion  {Rule-Satz gekuerzt}                    → lessons.md L{naechste}
-2  Idee     {Idee-Satz gekuerzt}                    → INBOX.md #{naechste}
+1  Lektion  {Rule-Satz gekuerzt}                    → lessons.md
+2  Idee     {Idee-Satz gekuerzt}                    → INBOX.md
 ~~3~~ Lektion {…} — aehnlich L23 (vorgestrichen; "behalte 3" nimmt sie auf)
 Ok fuer alle nicht gestrichenen? (Ok / streiche {Nr,…} / behalte {Nr} / Abbruch)
 ```
@@ -349,6 +352,8 @@ Antwortregeln:
 - `Ok` → alle nicht gestrichenen Zeilen werden geschrieben
 - `streiche 2` / `behalte 3` als Freitext, kombinierbar; nur das Geaenderte kurz
   rueckbestaetigen, nicht die ganze Vorlage erneut zeigen (Muster `dtb:feature-fast`)
+- `streiche` heisst verwerfen, nicht vertagen (Randfall 3 von `no-loss-check`) — wer nur vertagen
+  will, setzt den Befehl aus dem Report ab
 - `Abbruch` → nichts schreiben, eine Meldezeile, weiter mit Schritt 1
 - **Fallback:** jede andere Antwort gilt als NICHT bestaetigt — genau eine Rueckfrage
   (`Ok / streiche {Nr} / behalte {Nr} / Abbruch?`); bleibt sie unklar → `Abbruch`, nie stiller Auto-Write
@@ -357,16 +362,13 @@ Antwortregeln:
 **Schreiben (per Referenz):** je bestaetigtem Fund
 - Lektion → `## Schritt 4: Append-only speichern` aus `dtb:lesson`
 - Idee → `## Schritt 2: In INBOX.md speichern` aus `dtb:idea`
-- **Herkunfts-Marker** als Suffix im Textfeld, Wortlaut `(via Checkpoint {YYYY-MM-DD})`:
-  lessons → Ende von `Context`, INBOX → Ende des Idee-Texts. Keine neue Spalte
-- Schreibfehler mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben —
-  **nie zurueckrollen** (append-only)
+- **Herkunfts-Marker** als Suffix im Textfeld, Wortlaut `(via Checkpoint {YYYY-MM-DD})`: lessons → Ende von `Context`, INBOX → Ende des Idee-Texts; keine neue Spalte
+- Schreibfehler mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben — **nie zurueckrollen** (append-only)
 
 **Meldung:** eine Zeile je Eintrag — `✔ L{N} → lessons.md` / `✔ #{N} → INBOX.md`;
 alle gestrichen → `Nichts erfasst — {D} Fund(e) bleiben als Befehle im Report`.
 
-**Selbstpruefung (L15):** Dieser Block **beschreibt** nirgends, wie Felder abgeleitet, Duplikate
-bewertet oder Zeilen angehaengt werden — er benennt nur die Anker. Ein solcher Satz hier waere ein Spiegel.
+**Selbstpruefung (L15):** Dieser Block **beschreibt** nirgends, wie Felder abgeleitet, Duplikate bewertet oder Zeilen angehaengt werden — nur Anker; ein solcher Satz waere ein Spiegel.
 
 ### Schritt 1: Informationen sammeln
 

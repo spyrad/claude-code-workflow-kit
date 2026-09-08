@@ -303,7 +303,8 @@ trifft keine zu, beginnt der Report mit `Verlustpruefung — {N} Fund(e)`.
 
 **Die Abschlussfrage ist Pflicht, das Warten darauf nicht.** Sie ist der eine Moment, an dem der
 Mensch innehaelt — aber der Skill blockiert nichts: Kommt keine Antwort, gilt das als „ja". Im
-Leer-Fall entfaellt sie (dort gibt es nichts zu erfassen).
+Leer-Fall entfaellt sie (dort gibt es nichts zu erfassen) — ebenso beim Aufruf aus
+`dtb:workflow-checkpoint` mit nicht-leerer dringender Gruppe: dort ist die Sammelvorlage die eine Frage.
 
 ### Sammelzeile fuer Unterdruecktes (Pflicht, auch bei 0)
 

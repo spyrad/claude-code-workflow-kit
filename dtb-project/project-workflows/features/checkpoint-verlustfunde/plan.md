@@ -235,9 +235,9 @@ Alle Beschreibungen des Checkpoints und der Verlustpruefung im Repo sind nachgez
 - [x] 2.1 Frontmatter Checkpoint (produces/consumes/allowed-tools) — `4988263`
 - [x] 2.2 Unterabschnitt „Dringende Funde erfassen" — `4988263`
 - [x] 2.3 Pflicht-Log-Zeile Teil 1 — `4988263`
-- [x] 3.1 Doku-Nachzug (CLAUDE.md, skills/CLAUDE.md)
-- [x] 3.2 kit-sync + mtime-Zeuge
-- [x] 3.3 Wirklauf Fall-Set a-e
+- [x] 3.1 Doku-Nachzug (CLAUDE.md, skills/CLAUDE.md) — `96a7b3f`
+- [x] 3.2 kit-sync + mtime-Zeuge — `96a7b3f`
+- [x] 3.3 Wirklauf Fall-Set a-e — `96a7b3f`
 
 ---
 

@@ -140,7 +140,9 @@ Speichern? (Ja / Anpassen)
 
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
 > Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den Sektions-Titel
-> `## Schritt 3: Duplikat-Check` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
+> `## Schritt 3: Duplikat-Check` (Struktur-Check). Die Rueckfrage unten ersetzt der
+> Checkpoint durch eine vorgestrichene Zeile in seiner Vorlage — die Bewertung selbst bleibt
+> hier die eine Quelle. Umbenennung oder Umbau dieser Sektion →
 > `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
 
 Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
