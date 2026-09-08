@@ -258,8 +258,8 @@ belegt statt behauptet.
 
 | Thema | Optionen | Entscheidung | Begruendung |
 |-------|----------|-------------|-------------|
-| Referenz-Kopplung Checkpoint → Schreibmechanik | A: `dtb:idea` bekommt einen zieloffenen Schreib-Abschnitt · B: `dtb:idea-triage` bekommt eine eigene Schreibmechanik als Referenzquelle | **Offen** — in Schritt 2.1 zu entscheiden | Beide vermeiden die Spiegel-Kopplung; A haelt einen Referenzort, B trennt die Ziele sauber |
-| Standardwert `becken_schwelle` | 5 · 8 · 10 · hoch starten und messen | **hoch starten (10), nach 4 Sessions nachjustieren** | Der Wert ist nicht belegt — die Zahl der Funde pro Session wurde nie gemessen. Ein zu kleiner Wert macht die Handoff-Zeile zur Tapete. Also bewusst hoch anfangen und die tatsaechliche Rate abwarten, statt jetzt zu raten |
+| Referenz-Kopplung Checkpoint → Schreibmechanik | A: `dtb:idea` bekommt einen zieloffenen Schreib-Abschnitt · B: `dtb:idea-triage` bekommt eine eigene Schreibmechanik als Referenzquelle | **B** (2026-09-08) | `dtb:idea` schreibt tatsaechlich immer nach `INBOX.md` — sein Sektions-Titel ist dort korrekt und bleibt unangetastet. B kostet 2 Dateien statt 4 Fundstellen und macht die Zustaendigkeit sauber: wer die Datei besitzt, beschreibt das Schreiben. Umgesetzt: neuer Abschnitt `## Schreibmechanik INBOX-BEFUNDE.md` in `dtb:idea-triage`, Anker-Tabelle und Schreib-Referenz im Checkpoint umgehaengt, Quellen-Aufloesung um `idea-triage` erweitert |
+| Standardwert `becken_schwelle` | 5 · 8 · 10 · hoch starten und messen | **10, gesetzt 2026-09-08; nach 4 Sessions nachjustieren** | Der Wert ist nicht belegt — die Zahl der Funde pro Session wurde nie gemessen. Ein zu kleiner Wert macht die Handoff-Zeile zur Tapete. Also bewusst hoch anfangen und die tatsaechliche Rate abwarten, statt jetzt zu raten |
 | Dateiname des Beckens | `INBOX-BEFUNDE.md` · `BEFUNDE.md` | `INBOX-BEFUNDE.md` | Das Praefix bindet die Datei sichtbar an die INBOX und sortiert daneben |
 | Werte der Sichtung-Spalte | leer · `L1 YYYY-MM-DD` · `Altbestand` | uebernommen | Einfachste greppbare Form; `L1` traegt das Datum, damit der Folgelauf die Zwangsentscheidung begruenden kann |
 | Zweiteilung dringend/kann-warten fuer Ideen | beibehalten · aufloesen | aufloesen | Das Becken IST der Ort fuer „kann warten" — die Zweiteilung erzeugte die Wiederholung aus #75 |
@@ -282,16 +282,16 @@ belegt statt behauptet.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Becken-Format festlegen und Datei anlegen
-- [x] 1.2 Skill-Geruest mit Guards
-- [x] 1.3 Sichtungs-Regel und Dreifach-Entscheidung
-- [x] 1.4 Befoerderung, Archiv-Ausgang, Alterungshinweis
-- [x] 1.5 Abschluss-Bilanz und Pipeline-Kanten beidseitig
-- [ ] 2.1 Referenz-Kopplung entscheiden und umbauen
-- [ ] 2.2 Zielwechsel Schritt 0 im Checkpoint
-- [ ] 2.3 Nummernvergabe ueber beide Dateien
-- [ ] 2.4 Verlustpruefung liest beide Dateien
-- [ ] 2.5 Handoff-Zeile, Config-Block und Zeilenbudget
+- [x] 1.1 Becken-Format festlegen und Datei anlegen — `03b1e6d`
+- [x] 1.2 Skill-Geruest mit Guards — `03b1e6d`
+- [x] 1.3 Sichtungs-Regel und Dreifach-Entscheidung — `03b1e6d`
+- [x] 1.4 Befoerderung, Archiv-Ausgang, Alterungshinweis — `03b1e6d`
+- [x] 1.5 Abschluss-Bilanz und Pipeline-Kanten beidseitig — `03b1e6d`
+- [x] 2.1 Referenz-Kopplung entscheiden und umbauen
+- [x] 2.2 Zielwechsel Schritt 0 im Checkpoint
+- [x] 2.3 Nummernvergabe ueber beide Dateien
+- [x] 2.4 Verlustpruefung liest beide Dateien
+- [x] 2.5 Handoff-Zeile, Config-Block und Zeilenbudget
 - [ ] 3.1 Seed, Integritaets-Pruefung und Regel-Zeile
 - [ ] 3.2 Doku nachziehen
 - [ ] 3.3 Wirklaeufe gegen die Erfolgskriterien

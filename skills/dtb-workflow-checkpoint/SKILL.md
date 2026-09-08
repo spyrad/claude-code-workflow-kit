@@ -235,15 +235,18 @@ Session-Log oder den Kontextblock.
 ### Handoff generieren (Schritt 4)
 
 Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:workflow-resume` liest ihn).
-- **Naechster Befehl** wird aus dem abgeleiteten Stand bestimmt: Feature „Geplant" (0/Y) →
-  `/dtb:feature-start`; Feature „In Arbeit" (erster nicht abgehakter `## Progress`-Schritt) →
-  `/dtb:implement {NAME}`; Feature „Fertig zum Testen" (Y/Y) ∧ **keine** `features/{slug}/review.md` →
-  `/dtb:impl-review {NAME}` (Feature-End-Review vor der Abnahme); existiert `features/{slug}/review.md`
-  mit Gesamt-Verdikt **REJECTED** → `/dtb:implement {NAME}` (Rueckweg zur Nacharbeit, danach frisches
-  Review); PLAN fehlt → `/dtb:impl-plan {NAME}`; kein aktives Item → `/dtb:workflow-next`
+- **Naechster Befehl** aus dem abgeleiteten Stand: „Geplant" (0/Y) → `/dtb:feature-start`; „In Arbeit"
+  (erster offener `## Progress`-Schritt) → `/dtb:implement {NAME}`; „Fertig zum Testen" (Y/Y) ohne
+  `features/{slug}/review.md` → `/dtb:impl-review {NAME}` (End-Review vor der Abnahme), mit `review.md`
+  Verdikt **REJECTED** → `/dtb:implement {NAME}` (Nacharbeit, danach frisches Review); PLAN fehlt →
+  `/dtb:impl-plan {NAME}`; kein aktives Item → `/dtb:workflow-next`
 - **Fallback:** Ist kein naechster Befehl eindeutig ableitbar, KEINEN erfinden — schreibe
   `Naechster Befehl: — offen — (mit /dtb:workflow-next bestimmen)`
 - Format stabil halten (Zeilen `**Naechster Befehl:**` / `**Empfehlung:**`), damit die Empfangs-Seite es zuverlaessig liest
+- **Becken-Erinnerung:** Zaehle die ungesichteten Zeilen in `INBOX-BEFUNDE.md` (Sichtung-Spalte
+  leer oder `L1 …`). Ab `idea_triage.becken_schwelle` (Default 10) genau EINE Zeile anhaengen:
+  `**Becken:** {N} ungesichtet → /dtb:idea-triage`. Darunter keine Zeile — eine Erinnerung, die
+  jedes Mal kommt, wird zur Tapete. Fehlt die Datei → keine Zeile, kein Hinweis
 
 ### Kernprinzip
 - **Statusblock = generiert**, Kontextblock = manuell — niemals mischen
@@ -257,35 +260,32 @@ Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:work
 
 ### Schritt 0: Verlustpruefung (vorgeschaltet)
 
-Bevor du Informationen sammelst, laeuft `/dtb:no-loss-check` — er vergleicht den
-Gespraechsverlauf gegen den Artefakt-Stand und meldet, was nur im Chat lebt (Lektionen,
-Fach-Fragen, Ideen ohne Ablage). Der Grund fuer die Position: **nur hier** kann ein Fund den
-Inhalt dieses Checkpoints noch beeinflussen; nach Schritt 3 ist der Log geschrieben.
+Bevor du Informationen sammelst, laeuft `/dtb:no-loss-check` — er vergleicht den Gespraechsverlauf
+gegen den Artefakt-Stand und meldet, was nur im Chat lebt (Lektionen, Fach-Fragen, Ideen ohne
+Ablage). Position-Grund: **nur hier** beeinflusst ein Fund noch diesen Checkpoint; nach Schritt 3 steht der Log.
 
-Der Aufruf ist moeglich, obwohl dieser Skill selbst gegen Modell-Aufrufe gesperrt ist —
-`dtb:no-loss-check` traegt `disable-model-invocation: false` und darf aus einem laufenden
-Skill angestossen werden.
+Der Aufruf ist moeglich, obwohl dieser Skill gegen Modell-Aufrufe gesperrt ist —
+`dtb:no-loss-check` traegt `disable-model-invocation: false` und darf aus einem Skill kommen.
 
 **Weich, nie blockierend:**
-- Skill nicht installiert (kein `dtb:no-loss-check` verfuegbar) → **eine** Hinweiszeile
-  (`Verlustpruefung uebersprungen — dtb:no-loss-check nicht installiert (/dtb:kit-sync)`),
-  danach unveraendert weiter mit Schritt 1
+- Skill nicht installiert → **eine** Hinweiszeile (`Verlustpruefung uebersprungen —
+  dtb:no-loss-check nicht installiert (/dtb:kit-sync)`), danach unveraendert weiter mit Schritt 1
 - Funde gemeldet → die Gruppe „Vor dem Checkpoint erledigen" laeuft durch die Sammelvorlage
-  (Unterabschnitt unten), „Kann warten" bleibt kopierfertige Befehle im Report; der Mensch
-  entscheidet. **Der Checkpoint bricht nie ab** — `no-loss-check` ist empfehlend, nicht
-  blockierend; die Vorlage ist der eine Kontrollpunkt und ersetzt dessen Abschlussfrage
-- Lief die Pruefung in dieser Sitzung bereits, laeuft sie hier **trotzdem erneut** — dieser Lauf
-  sieht alles, was seither dazugekommen ist. Den Zweitlauf regelt `dtb:no-loss-check` (Randfall 3:
-  der frueherer Report ist keine Kandidatenquelle, bereits Verworfenes wird nicht unveraendert
-  wiederholt)
+  (Unterabschnitt unten); aus „Kann warten" kommen nur die **Ideen**-Funde dazu, der Rest bleibt
+  kopierfertige Befehle im Report. **Der Checkpoint bricht nie ab** — `no-loss-check` ist
+  empfehlend, nicht blockierend; die Vorlage ist der eine Kontrollpunkt und ersetzt dessen Abschlussfrage
+- Lief die Pruefung in dieser Sitzung bereits, laeuft sie hier **trotzdem erneut** — dieser Lauf sieht
+  alles seither Dazugekommene. Den Zweitlauf regelt `dtb:no-loss-check` (Randfall 3: ein frueherer
+  Report ist keine Kandidatenquelle, bereits Verworfenes wird nicht unveraendert wiederholt)
 
 #### Dringende Funde erfassen (Sammelvorlage)
 
-**Eingang:** In die Vorlage kommen nur die Funde unter `## Vor dem Checkpoint erledigen`; je
-Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile den Typ (`lesson` → Lektion, `idea` → Idee)
-und den Freitext; andere Skills (`open-question`) kommen nicht in die Vorlage, bleiben Befehle im
-Report und zaehlen in `{D}` mit, nie unter „erfasst". Fehlt die Ueberschrift (Gruppe leer), entfaellt
-dieser Block **still** — weiter mit Schritt 1. `## Kann warten` bleibt unveraendert: Befehle im Report.
+**Eingang:** In die Vorlage kommen alle Funde unter `## Vor dem Checkpoint erledigen` **plus die
+Ideen-Funde aus `## Kann warten`** — das Becken IST der Ort fuer „kann warten", damit entfaellt die
+wortgleiche Wiederholung derselben Idee in Folge-Reports (#75); Lektionen bleiben dringend-only.
+Je Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile Typ (`lesson`/`idea`) und Freitext; andere
+Skills (`open-question`) kommen nicht in die Vorlage, bleiben Befehle im Report und zaehlen in `{D}`
+mit, nie unter „erfasst". Ohne vorlage-faehigen Fund entfaellt dieser Block **still** (weiter: Schritt 1).
 
 > **Wartungs-Hinweis (Format-Kopplung):** Dieser Block liest das Ausgabe-Muster von
 > `dtb:no-loss-check` (die beiden `## `-Gruppen-Ueberschriften, je Fund die `→`-Zeile).
@@ -293,10 +293,10 @@ dieser Block **still** — weiter mit Schritt 1. `## Kann warten` bleibt unverae
 > Ausgabe-Muster in `skills/dtb-no-loss-check/SKILL.md`.
 
 **Struktur-Check (Kopplungs-Waechter):** Die Erfassungsregeln stehen NICHT hier, sondern in
-`dtb:lesson`/`dtb:idea` — vor dem ersten Schreiben muss die Quelle existieren und ihre Anker tragen:
+`dtb:lesson`/`dtb:idea-triage` — vor dem ersten Schreiben muss die Quelle existieren und ihre Anker tragen:
 
-- **Quelle aufloesen — Repo zuerst, dann Installation:** `skills/dtb-{lesson,idea}/SKILL.md`
-  relativ zum Projekt-Root, sonst `~/.claude/skills/dtb-{lesson,idea}/SKILL.md`. Bewusst umgekehrt
+- **Quelle aufloesen — Repo zuerst, dann Installation:** `skills/dtb-{lesson,idea,idea-triage}/SKILL.md`
+  relativ zum Projekt-Root, sonst `~/.claude/skills/dtb-{lesson,idea,idea-triage}/SKILL.md`. Bewusst umgekehrt
   zu `dtb:pane-start`: im Kit-Repo ist das Repo die Quelle, aus der `kit-sync` verteilt — die
   installierte Kopie waere waehrend eines Umbaus der Stand von gestern; Zielprojekte haben kein
   `skills/`. Nur die Quellen aufloesen, deren Typ in der dringenden Gruppe vorkommt
@@ -310,7 +310,7 @@ dieser Block **still** — weiter mit Schritt 1. `## Kann warten` bleibt unverae
   | `dtb:lesson` | `## Schritt 3: Duplikat-Check` | Duplikat-Bewertung Lektion |
   | `dtb:lesson` | `## Schritt 4: Append-only speichern` | Schreibmechanik `lessons.md` |
   | `dtb:idea` | `## Duplikat-Check` | Duplikat-Bewertung Idee |
-  | `dtb:idea` | `## Schritt 2: In INBOX.md speichern` | Schreibmechanik `INBOX.md` |
+  | `dtb:idea-triage` | `## Schreibmechanik INBOX-BEFUNDE.md` | Schreibmechanik Becken + Nummernkreis |
 
 - Alle Anker gefunden → eine Statuszeile, weiter: `🧩 Struktur-Check: {n}/{n} Anker in {aufgeloeste Quelle(n)} gefunden`
 - **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift);
@@ -335,7 +335,7 @@ dieser Block **still** — weiter mit Schritt 1. `## Kann warten` bleibt unverae
 
 **Vorbereitung je Fund (per Referenz — die Regeln dort lesen, nicht hier):**
 - Lektion → `## Schritt 2: In 4 Felder strukturieren` und `## Schritt 3: Duplikat-Check` aus
-  `dtb:lesson`; Idee → `## Duplikat-Check` aus `dtb:idea` (Read auf die aufgeloeste Quelle)
+  `dtb:lesson`; Idee → `## Duplikat-Check` aus `dtb:idea`, verglichen gegen **beide** Dateien (`INBOX.md` UND `INBOX-BEFUNDE.md`) — sonst wird ein schon im Becken stehender Fund erneut geschrieben
 - Duplikat-Treffer werden **nicht** einzeln gefragt (zweite Rueckfrage-Runde): der Fund erscheint **vorgestrichen** mit Fundstelle
 
 **Sammelvorlage** (Kurzfassung je Fund — nie der volle Wortlaut der vier Felder):
@@ -343,7 +343,7 @@ dieser Block **still** — weiter mit Schritt 1. `## Kann warten` bleibt unverae
 ```
 # Verlustfunde erfassen — {D} dringend
 1  Lektion  {Rule-Satz gekuerzt}                    → lessons.md
-2  Idee     {Idee-Satz gekuerzt}                    → INBOX.md
+2  Idee     {Idee-Satz gekuerzt}                    → INBOX-BEFUNDE.md
 ~~3~~ Lektion {…} — aehnlich L23 (vorgestrichen; "behalte 3" nimmt sie auf)
 Ok fuer alle nicht gestrichenen? (Ok / streiche {Nr,…} / behalte {Nr} / Abbruch)
 ```
@@ -361,11 +361,11 @@ Antwortregeln:
 
 **Schreiben (per Referenz):** je bestaetigtem Fund
 - Lektion → `## Schritt 4: Append-only speichern` aus `dtb:lesson`
-- Idee → `## Schritt 2: In INBOX.md speichern` aus `dtb:idea`
-- **Herkunfts-Marker** als Suffix im Textfeld, Wortlaut `(via Checkpoint {YYYY-MM-DD})`: lessons → Ende von `Context`, INBOX → Ende des Idee-Texts; keine neue Spalte
+- Idee → `## Schreibmechanik INBOX-BEFUNDE.md` aus `dtb:idea-triage` (legt die Datei bei Fehlen an)
+- **Herkunfts-Marker** nur fuer Lektionen: `(via Checkpoint {YYYY-MM-DD})` ans Ende von `Context`, keine neue Spalte. Ideen brauchen keinen — die Herkunft sagt bereits die Datei
 - Schreibfehler mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben — **nie zurueckrollen** (append-only)
 
-**Meldung:** eine Zeile je Eintrag — `✔ L{N} → lessons.md` / `✔ #{N} → INBOX.md`;
+**Meldung:** eine Zeile je Eintrag — `✔ L{N} → lessons.md` / `✔ #{N} → INBOX-BEFUNDE.md`;
 alle gestrichen → `Nichts erfasst — {D} Fund(e) bleiben als Befehle im Report`.
 
 **Selbstpruefung (L15):** Dieser Block **beschreibt** nirgends, wie Felder abgeleitet, Duplikate bewertet oder Zeilen angehaengt werden — nur Anker; ein solcher Satz waere ein Spiegel.

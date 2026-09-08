@@ -327,6 +327,46 @@ Abgebrochen nach Eintrag {K} von {N} — die {K} getroffenen Entscheidungen sind
 
 ---
 
+## Schreibmechanik INBOX-BEFUNDE.md
+
+> **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Abschnitt fuer seine
+> Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt zeilenverankert auf den
+> Sektions-Titel `## Schreibmechanik INBOX-BEFUNDE.md` (Struktur-Check). Umbenennung oder Umbau
+> dieses Abschnitts → `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+>
+> Dieser Abschnitt liegt hier und nicht in `dtb:idea`, weil `dtb:idea` ausschliesslich nach
+> `INBOX.md` schreibt — sein Sektions-Titel ist dort korrekt und bleibt unangetastet. Wer die
+> Datei besitzt, beschreibt, wie man in sie hineinschreibt.
+
+### Datei
+- Pfad: `{config.paths.workflows}/INBOX-BEFUNDE.md`
+- Fehlt sie → mit dem Kopf aus Schritt 1 anlegen, dann schreiben (Seed-Skew, INBOX #22)
+
+### Nummernvergabe (gemeinsamer Nummernkreis)
+
+Die naechste Nummer ist das **Maximum ueber BEIDE Dateien plus eins** — `INBOX.md` UND
+`INBOX-BEFUNDE.md`. Wird nur eine Datei gezaehlt, vergibt der jeweils andere Schreiber dieselbe
+Nummer ein zweites Mal, und zwei verschiedene Vorgaenge tragen dieselbe ID.
+
+Fehlt eine der beiden Dateien → nur die vorhandene zaehlen (fail-open, kein Abbruch).
+
+Den Zaehl-Ausdruck vor der Vergabe gegen eine **Stichprobe der getroffenen Zeilen** pruefen,
+nicht nur gegen die Zahl (L17) — eine einmal vergebene Nummer wird nicht mehr hinterfragt.
+
+### Zeile schreiben
+- Neue Zeile **direkt unter der Tabellen-Trennzeile** einfuegen (das Becken ist absteigend
+  sortiert), nicht ans Tabellenende
+- Felder: `| {Nr} | {heutiges Datum} | {Befund-Text} | |` — die Sichtung-Spalte bleibt **leer**
+  (= neu, noch nie gesichtet)
+- **Kein Herkunfts-Marker.** Ein `(via Checkpoint …)`-Suffix waere hier redundant: dass der Fund
+  maschinell erfasst wurde, sagt bereits die Datei, in der er steht
+- Literale Pipes im Befund-Text escapen; nach dem Schreiben die Spaltenzahl gegen die
+  Nachbarzeilen pruefen
+- Schreibfehler mitten in einer Serie → melden, was geschrieben ist, Rest als Befehle ausgeben —
+  **nie zurueckrollen**
+
+---
+
 ## Wichtig
 
 - **Nie das ganze Becken sichten:** Die Portionierung (Schritt 2) ist der Grund, warum die

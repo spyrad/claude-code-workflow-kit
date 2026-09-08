@@ -125,7 +125,7 @@ eine Sammelzeile im Report.
 |-------|-----------------|---------------------|
 | Lektion | `{config.paths.rules}/lessons.md` (Fallback `dtb-project/project-rules/lessons.md`) | Spalte `Rule` jeder Datenzeile unter der `\|---\|`-Trennzeile |
 | Fach-Frage | `{config.paths.workflows}/features/*/spec.md` und `.../discovery.md` | **Alle** Inhaltszeilen innerhalb von `## Offene Punkte` — die §6-Kanonform `- [ ] [Fach] …`, ihre beantwortete Form `- [x] [Fach] …` **und** untagged Bullets. Sektionsgrenze wie in `dtb:meeting-agenda`: ab der Ueberschrift bis zur naechsten `## `-Ueberschrift bzw. zum Dateiende |
-| Idee/Entscheidung | `{config.paths.workflows}/INBOX.md` | Idee-Spalte **jeder** Zeile, unabhaengig vom Status |
+| Idee/Entscheidung | `{config.paths.workflows}/INBOX.md` **und** `.../INBOX-BEFUNDE.md` | Idee- bzw. Befund-Spalte **jeder** Zeile beider Dateien, unabhaengig vom Status/Sichtung |
 
 **Drei Ausschluesse — jeder mit Grund:**
 
@@ -142,6 +142,11 @@ eine Sammelzeile im Report.
 > Ablage-Ort ist derselbe. Wer nur die Kanonform liest, meldet jede als normalen Bullet
 > festgehaltene Frage bei **jedem** Lauf erneut. Das Tag entscheidet, ob eine Frage ins Meeting
 > geht (§6), nicht ob sie erfasst ist.
+
+**Beide Dateien, sonst Dubletten:** Der Checkpoint schreibt Ideen-Funde ins Becken
+(`INBOX-BEFUNDE.md`). Wird nur `INBOX.md` gelesen, meldet der naechste Lauf jeden dorthin
+geschriebenen Fund erneut als nicht erfasst — und er wird ein zweites Mal geschrieben. Fehlt das
+Becken, zaehlt nur die vorhandene Datei (fail-open, kein Hinweis).
 
 **Status ist beim Abgleich egal — mit einer Nuance:** Ein INBOX-Eintrag mit Status `Verworfen`
 gilt als **erfasst** (die Entscheidung ist gefallen, erneutes Melden waere Rauschen) und zaehlt

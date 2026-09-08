@@ -138,7 +138,11 @@ Abschnitt ist zur Laufzeit autark.)
 ### Format bei bestehender Datei
 
 - Fuege eine neue Zeile in die Tabelle ein
-- Naechste laufende Nummer vergeben
+- **Naechste Nummer = Maximum ueber BEIDE Dateien plus eins** — `INBOX.md` UND
+  `{config.paths.workflows}/INBOX-BEFUNDE.md` (das Becken teilt sich den Nummernkreis).
+  Wird nur eine Datei gezaehlt, vergibt der jeweils andere Schreiber dieselbe Nummer ein
+  zweites Mal. Fehlt das Becken → nur `INBOX.md` zaehlen (fail-open). Den Zaehl-Ausdruck vor
+  der Vergabe gegen eine Stichprobe der getroffenen Zeilen pruefen, nicht nur gegen die Zahl (L17)
 - Status: `Offen`
 - Datum: Aktuelles Datum
 

@@ -15,6 +15,10 @@ repos:
     test_command: null
     build_command: null
 
+idea_triage:
+  becken_schwelle: 10   # dtb:workflow-checkpoint — ab N ungesichteten Becken-Eintraegen Handoff-Zeile
+  altbestand_pro_lauf: 5  # dtb:idea-triage — Altbestands-Eintraege je Lauf
+
 worker:
   max_attempts: 3   # dtb:worker — Versuche pro Task
   max_minutes: 30   # dtb:worker — Minuten pro Task (Anweisungs-Ebene)
