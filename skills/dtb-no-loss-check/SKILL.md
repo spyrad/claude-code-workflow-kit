@@ -242,7 +242,7 @@ Vor dem Absetzen muss sichtbar sein, wohin der Inhalt wandert. Die Zuordnung ist
 |--------------|---------|
 | `INBOX.md` | versioniert — reist ueber jeden Push mit |
 | `features/*` | versioniert |
-| `project-rules/lessons.md` | nicht versioniert — bleibt lokal (Idee #34) |
+| `project-rules/lessons.md` | versioniert — seit 2026-09-07 (`f75979d`, Entscheidung #34 revidiert) |
 
 **Vorbehalt (Hinweis an den Menschen, keine Anweisung an diesen Skill):** Das ist die
 Standardverteilung des Kits. Traegt ein Zielprojekt eine abweichende `.gitignore`, kann die Angabe
@@ -275,7 +275,7 @@ Verlustpruefung — {N} Fund(e)
   → /dtb:lesson "Checkpoint liest Git in Schritt 1 und schreibt in 3/4 — eine
     'Arbeitsbaum sauber'-Aussage im Handoff ist im Moment des Schreibens falsch,
     ausser es folgt ein Commit."
-  Ziel: dtb-project/project-rules/lessons.md (nicht versioniert)
+  Ziel: dtb-project/project-rules/lessons.md (versioniert)
 
 ## Kann warten
 
@@ -287,6 +287,12 @@ Verlustpruefung — {N} Fund(e)
 
 Trotzdem weiter zum Checkpoint? (ja / erst erfassen)
 ```
+
+> **Wartungs-Hinweis (Format-Kopplung):** `dtb:workflow-checkpoint` (Schritt 0, Sammelvorlage)
+> parst diesen Report: die beiden `## `-Gruppen-Ueberschriften bestimmen, welche Funde in die
+> Vorlage kommen, und je Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile Typ und Freitext.
+> Aenderst du Ueberschriften, Fund-Format oder die `→`-Zeile, den Parser in
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen (Gegen-Hinweis steht dort).
 
 Ist eine Gruppe leer, entfaellt ihre Ueberschrift — nie eine leere Ueberschrift ausgeben.
 Die beiden bedingten Kopfzeilen stehen in genau dieser Reihenfolge **ueber** der Titelzeile;

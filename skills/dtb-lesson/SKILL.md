@@ -96,6 +96,11 @@ strukturierte Eintrag (Schritt 2) gezeigt und bestaetigt wurde.
 
 ## Schritt 2: In 4 Felder strukturieren
 
+> **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
+> Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den Sektions-Titel
+> `## Schritt 2: In 4 Felder strukturieren` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+
 Leite aus dem Freitext die vier Felder ab. Halte jedes Feld **knapp** (1 Satz).
 
 **Feld-Hygiene (Pflicht — sonst bricht die Tabelle):** Jedes Feld muss einzeilig sein.
@@ -133,6 +138,11 @@ Speichern? (Ja / Anpassen)
 
 ## Schritt 3: Duplikat-Check
 
+> **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
+> Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den Sektions-Titel
+> `## Schritt 3: Duplikat-Check` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+
 Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 - **Aehnlicher Eintrag gefunden:** Hinweis zeigen, aber **nicht hart blocken** —
   ```
@@ -144,6 +154,11 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 ---
 
 ## Schritt 4: Append-only speichern
+
+> **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
+> Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den Sektions-Titel
+> `## Schritt 4: Append-only speichern` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
 
 ### Datei
 - Pfad: `{config.paths.rules}/lessons.md`

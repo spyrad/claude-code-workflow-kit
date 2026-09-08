@@ -75,6 +75,13 @@ Welche Idee moechtest du festhalten? (Freitext)
 
 ## Duplikat-Check
 
+> **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt die Bewertung dieses Checks fuer
+> dringende Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den
+> Sektions-Titel `## Duplikat-Check` (Struktur-Check). Die Rueckfrage unten ersetzt der
+> Checkpoint durch eine vorgestrichene Zeile in seiner Vorlage — die Bewertung selbst bleibt
+> hier die eine Quelle. Umbenennung oder Umbau dieser Sektion →
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+
 Vor dem Schreiben: pruefe die erfasste Idee **unscharf** gegen die Spalte „Idee" ALLER Zeilen in
 `{config.paths.workflows}/INBOX.md` — alle Status, `archive/` wird NIE durchsucht. Vergleich per
 Grep nach dem Kern der Idee (Stichworte), Bewertung je Kandidat:
@@ -104,6 +111,11 @@ Abschnitt ist zur Laufzeit autark.)
 ---
 
 ## Schritt 2: In INBOX.md speichern
+
+> **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
+> Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den Sektions-Titel
+> `## Schritt 2: In INBOX.md speichern` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
 
 ### Datei
 - Pfad: `{config.paths.workflows}/INBOX.md`
