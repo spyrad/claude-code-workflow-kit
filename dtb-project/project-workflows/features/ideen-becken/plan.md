@@ -320,7 +320,7 @@ Stelle im neuen Text erzeugt die Klasse erneut.
 - [x] 3.1 Seed, Integritaets-Pruefung und Regel-Zeile
 - [x] 3.2 Doku nachziehen
 - [x] 3.3 Wirklaeufe gegen die Erfolgskriterien
-- [ ] 3.4 Verteilung
+- [x] 3.4 Verteilung
 
 ---
 
