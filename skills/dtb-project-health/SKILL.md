@@ -90,6 +90,13 @@ nicht parsbares YAML), bricht den Gesamt-Report NICHT ab. Melde ihn als `⚠️`
 - Pruefe ob alle Eintraege einen gueltigen Status haben (Offen, In Arbeit, Ausgearbeitet, Verworfen)
 - Luecken in den Nummern sind erlaubt (entstehen durch Archivierung)
 
+**INBOX-BEFUNDE Integritaet** (Becken, falls vorhanden — fehlt es, still ueberspringen):
+- Pruefe die Sichtung-Spalte jeder Zeile: erlaubt sind leer, `L1 YYYY-MM-DD` und `Altbestand`
+- Pruefe die Spaltenzahl jeder Zeile gegen den Tabellenkopf (bare Pipes im Befund-Text brechen die Zeile)
+- **Nummernkreis:** melde jede Nummer, die in `INBOX.md` UND `INBOX-BEFUNDE.md` vorkommt — eine
+  doppelt vergebene Nummer laesst zwei Vorgaenge dieselbe ID tragen
+- Zaehle die ungesichteten Eintraege (Sichtung leer oder `L1`) und melde sie als eine Zeile
+
 **Archiv-Integritaet:**
 - Falls `{config.paths.workflows}/archive/` existiert:
   - Pruefe ob ARCHIVE_LOG.md vorhanden ist

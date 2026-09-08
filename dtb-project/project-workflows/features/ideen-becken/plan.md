@@ -273,6 +273,31 @@ belegt statt behauptet.
 
 | Datum | Kriterium | Lauf | Ergebnis |
 |-------|-----------|------|----------|
+| 2026-09-08 | Fehlt das Becken, wird es angelegt | W1 Sandbox: Schreibmechanik auf leeres Verzeichnis | GRUEN — Datei angelegt, erste Nummer 77 (INBOX-Maximum 76) |
+| 2026-09-08 | Nummer wird nicht doppelt vergeben | W2 Sandbox: Becken-Schreibung, dann Haupt-INBOX-Schreibung | GRUEN — vergeben 75/76/77/78/79, keine Dublette |
+| 2026-09-08 | Ein Lauf sichtet nur Neue + Faellige + max. 5 Altbestand, aelteste zuerst | W3 Sandbox: 9 Eintraege, davon 6 Altbestand | GRUEN — 8 von 9 im Lauf, genau 5 Altbestand, aeltester (#60) zuerst |
+| 2026-09-08 | Befoerderung: Nummer bleibt, Zeile unter die Trennzeile, Vermerk | W4 Sandbox | GRUEN — #77 behalten, oberste Zeile, `(befoerdert 2026-09-08)` gesetzt |
+| 2026-09-08 | Verwerfen verlangt eine Begruendung, Archivdatei entsteht bei Bedarf | W5 Sandbox: leere Begruendung + gueltige Begruendung | GRUEN — leere abgewiesen, Archivdatei angelegt, Zeile entfernt |
+| 2026-09-08 | Liegenlassen genau einmal, danach Zwangsentscheidung | W6 Sandbox: #60 (leer) und #66 (bereits `L1`) | GRUEN — #60 auf `L1 2026-09-08`; #66 verweigert das zweite Liegenlassen |
+| 2026-09-08 | Abbruch nach Entscheidung 2 laesst genau 2 Entscheidungen fest | W7 Sandbox: befoerdern + verwerfen, dann Abbruch | GRUEN — 7 → 5 Eintraege, Rest unberuehrt |
+| 2026-09-08 | Handoff-Zeile erst ab Schwelle, darunter keine | W8 Sandbox: 2 ungesichtet gegen Schwelle 10 | GRUEN — keine Zeile erzeugt |
+| 2026-09-08 | `/dtb:idea-review` zeigt unveraendert nur die Haupt-INBOX | W9 statisch: `consumes`/`produces` + Becken-Grep | GRUEN — `[INBOX.md]`, 0 Becken-Treffer im Ablauf |
+| 2026-09-08 | Verlustpruefung meldet Becken-Funde nicht erneut | W10 statisch: Abgleich-Quellenzeile Z. 128 | GRUEN — Zeile nennt beide Dateien |
+| 2026-09-08 | Drei Pipeline-Kanten beidseitig, keine halbseitige | W11 statisch: je Frontmatter-Block gegrept | GRUEN — 4/4 Kantenenden gesetzt |
+| 2026-09-08 | Ein Becken-Eintrag wird nie gearbeitet | W12 statisch: `dtb:worker` gegen Becken gegrept | GRUEN — 0 Treffer, Worker sieht nur `INBOX.md` |
+
+**Offener Restbeleg (bewusst, nicht behauptet):** Zwei Erfolgskriterien der Spec verlangen einen
+**echten Sitzungslauf** und sind mit Sandbox/Statik nicht abgedeckt:
+(1) ein Verlustfund aus einem tatsaechlichen `/dtb:workflow-checkpoint`-Lauf landet im Becken;
+(2) ein zweiter `/dtb:no-loss-check`-Lauf meldet denselben Fund nicht erneut.
+Beides zeigt sich beim naechsten realen Checkpoint dieser Session — bis dahin ist die
+Integration begruendet erwartbar, aber unbelegt. Muster: bei #72 brauchte es dafuer 9 Wirklaeufe.
+
+**Selbstpruefung gegen die eigene Fehlerklasse (L15):** Das Feature beseitigt „Funde ertraenken
+die Ideenliste und werden wortgleich wiederholt". Der neue Text selbst wurde dagegen geprueft:
+die Portionierung deckelt die Sichtungsmenge je Lauf (W3), die Kann-warten-Ideen wandern ins
+Becken statt in jeden Folge-Report (#75), und der Abgleich liest beide Dateien (W10) — keine
+Stelle im neuen Text erzeugt die Klasse erneut.
 
 ---
 
@@ -287,14 +312,14 @@ belegt statt behauptet.
 - [x] 1.3 Sichtungs-Regel und Dreifach-Entscheidung — `03b1e6d`
 - [x] 1.4 Befoerderung, Archiv-Ausgang, Alterungshinweis — `03b1e6d`
 - [x] 1.5 Abschluss-Bilanz und Pipeline-Kanten beidseitig — `03b1e6d`
-- [x] 2.1 Referenz-Kopplung entscheiden und umbauen
-- [x] 2.2 Zielwechsel Schritt 0 im Checkpoint
-- [x] 2.3 Nummernvergabe ueber beide Dateien
-- [x] 2.4 Verlustpruefung liest beide Dateien
-- [x] 2.5 Handoff-Zeile, Config-Block und Zeilenbudget
-- [ ] 3.1 Seed, Integritaets-Pruefung und Regel-Zeile
-- [ ] 3.2 Doku nachziehen
-- [ ] 3.3 Wirklaeufe gegen die Erfolgskriterien
+- [x] 2.1 Referenz-Kopplung entscheiden und umbauen — `b19dc82`
+- [x] 2.2 Zielwechsel Schritt 0 im Checkpoint — `b19dc82`
+- [x] 2.3 Nummernvergabe ueber beide Dateien — `b19dc82`
+- [x] 2.4 Verlustpruefung liest beide Dateien — `b19dc82`
+- [x] 2.5 Handoff-Zeile, Config-Block und Zeilenbudget — `b19dc82`
+- [x] 3.1 Seed, Integritaets-Pruefung und Regel-Zeile
+- [x] 3.2 Doku nachziehen
+- [x] 3.3 Wirklaeufe gegen die Erfolgskriterien
 - [ ] 3.4 Verteilung
 
 ---

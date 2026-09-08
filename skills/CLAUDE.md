@@ -277,6 +277,30 @@ Fail-open).
 `meeting-dump`/`worker`). Die Wiedererfassung einer schon umgesetzten Sache ist damit bewusst
 akzeptierte Restluecke — Regressions-Erkennung waere ein eigenes Feature, keine Dublette.
 
+## Zwei-Becken-Regel (wer schreibt wohin)
+
+Ideen liegen in **zwei** Dateien, und welche es ist, entscheidet **der Schreiber** — nicht ein
+Herkunftsfeld:
+
+| Schreiber | Ziel | Warum eindeutig |
+|-----------|------|-----------------|
+| `dtb:idea` | `INBOX.md` | traegt `disable-model-invocation: true` — was dort landet, hat ein Mensch getippt |
+| `dtb:workflow-checkpoint` (Schritt 0) | `INBOX-BEFUNDE.md` | maschinelle Verlustfunde, nie von Hand erfasst |
+| `dtb:idea-triage` (Befoerderung) | `INBOX.md` | ein Mensch hat den Fund bewusst zum Vorgang gemacht |
+
+Daraus folgt, verbindlich fuer neue und geaenderte Skills:
+
+- **Ein Becken-Eintrag wird nie gearbeitet.** Lese-Skills und Arbeits-Ansichten
+  (`dtb:worker`, `dtb:workflow-next`, `dtb:idea-review`, `dtb:feature-*`) lesen ausschliesslich
+  `INBOX.md`. Wer das Becken in eine Arbeits-Ansicht aufnimmt, hebt die Zulauf-Bremse auf
+- **Abgleiche lesen beide Dateien.** Duplikat-Checks und Verlustpruefung vergleichen gegen
+  `INBOX.md` UND `INBOX-BEFUNDE.md` — sonst wird ein bereits im Becken stehender Fund erneut
+  erfasst. Fehlt eine Datei: nur die vorhandene zaehlen (fail-open)
+- **Nummernkreis ist gemeinsam.** Die naechste Nummer ist das Maximum ueber beide Dateien plus
+  eins; die Nummer bleibt bei der Befoerderung erhalten (Logs referenzieren sie)
+- **Beide Dateien legen ihre Schreiber selbst an**, nicht `dtb:project-init` — Seeds erreichen
+  Bestandsprojekte nicht (INBOX #22)
+
 ## Autonomie-Regel (dtb:worker)
 
 Autonome Ausfuehrung gilt ausschliesslich **zwischen expliziter Freigabe und Abnahme**.

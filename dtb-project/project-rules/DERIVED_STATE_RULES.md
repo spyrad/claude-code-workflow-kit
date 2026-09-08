@@ -279,6 +279,17 @@ die Feature-Statusableitung (§1) und nicht fuer das Verifikations-Gate (§2). N
 Sektion analog zu `review.md` (status-neutrale Ordner-Datei). Der `dtb:implement`-Loop und alle
 Lese-Skills bleiben **blind** gegen `## Offene Punkte`-Checkboxen.
 
+### 6.4 Becken-Eintraege (`INBOX-BEFUNDE.md`) sind status-neutral
+
+Ein Eintrag im Befund-Becken ist **kein Vorgang** und **keine Idee** im Sinne der Ableitung:
+die Tabelle in §1 („kein Ordner, nur INBOX-Eintrag → Idee") gilt allein fuer `INBOX.md`. Ein
+Becken-Eintrag zaehlt nirgends — nicht fuer die Feature-Statusableitung (§1), nicht fuer das
+Verifikations-Gate (§2), nicht fuer Arbeits-Ansichten. Er wird zum Vorgang erst durch die
+**Befoerderung** nach `INBOX.md` (`dtb:idea-triage`), und dort ist er dann eine normale Idee
+mit Status `Offen`. Die Sichtung-Spalte (leer / `L1 YYYY-MM-DD` / `Altbestand`) ist ein
+Arbeitsvermerk der Triage, kein Status. Verhaelt sich damit analog zu den Fach-Fragen (§6.2)
+und zu `review.md` — sichtbar, aber ableitungsblind.
+
 ### 6.3 Rueckwaertskompatibilitaet & Abgrenzung
 
 - Ein Bullet **ohne** `[Fach]`-Tag ist ein normaler „selbst-zu-klaeren"-Punkt (reiner Bullet

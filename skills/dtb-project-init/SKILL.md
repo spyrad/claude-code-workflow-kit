@@ -127,7 +127,9 @@ dtb-project/
 ├── project-changelog/
 ├── project-rules/
 ├── project-workflows/
-│   └── features/
+│   ├── features/
+│   └── INBOX-BEFUNDE.md   (Becken; legen dtb:workflow-checkpoint/dtb:idea-triage selbst an,
+│                           wie INBOX.md — hier nur zur Verortung genannt)
 ├── project-strategy/
 │   └── input/
 ├── project-testing/
