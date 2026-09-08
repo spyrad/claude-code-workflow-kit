@@ -229,9 +229,9 @@ Alle Beschreibungen des Checkpoints und der Verlustpruefung im Repo sind nachgez
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Anker + Kopplungs-Hinweise `dtb:lesson`
-- [x] 1.2 Anker + Kopplungs-Hinweise `dtb:idea`
-- [x] 1.3 Format-Kopplung + Zuordnungstabelle `dtb:no-loss-check`
+- [x] 1.1 Anker + Kopplungs-Hinweise `dtb:lesson` — `e6cbb3a`
+- [x] 1.2 Anker + Kopplungs-Hinweise `dtb:idea` — `e6cbb3a`
+- [x] 1.3 Format-Kopplung + Zuordnungstabelle `dtb:no-loss-check` — `e6cbb3a`
 - [ ] 2.1 Frontmatter Checkpoint (produces/consumes/allowed-tools)
 - [ ] 2.2 Unterabschnitt „Dringende Funde erfassen"
 - [ ] 2.3 Pflicht-Log-Zeile Teil 1

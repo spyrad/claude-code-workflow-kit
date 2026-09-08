@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-08
 **Ziel:** Der Checkpoint erfasst die dringenden Verlustfunde nach einer einmal bestaetigten, zeilenweise streichbaren Sammelvorlage selbst, statt sie als Befehle zurueckzugeben, die liegen bleiben.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** In Arbeit <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
