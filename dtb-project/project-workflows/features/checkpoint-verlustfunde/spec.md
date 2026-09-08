@@ -35,6 +35,7 @@ auf deren Schritte, nicht per Kopie. Die Gruppe „Kann warten" bleibt wie heute
 - **Randfaelle:** leere dringende Gruppe → keine Vorlage; Duplikat-Treffer → Zeile markiert und vorgestrichen, nicht geblockt; alle gestrichen → nichts geschrieben, eine Meldezeile; Schreibfehler mitten drin → melden, was geschrieben wurde, Rest als Befehle; mehr als 10 dringende Funde → Rueckfall auf Befehle
 - **Verteilung:** `kit-sync`-Nachlauf ist Teil der Abnahme — die installierte Kopie ist die, die laeuft
 - **Korrektur der Zuordnungstabelle in `dtb:no-loss-check`** (`lessons.md` versioniert seit `f75979d`) — Nachtrag plan-review 2026-09-08: die Zeile steht im Block, den der Checkpoint in die Vorlage uebernimmt
+- **Doku-Nachzug in `CLAUDE.md`/`skills/CLAUDE.md`/`README.md` (L3)** — Nachtrag Phase 3, 2026-09-08: Beschreibungen von Checkpoint („writes a session log AND …") und `no-loss-check` („writes nothing") tragen den neuen Schreibpfad; Duplikat-Schutz-Konvention nennt den Checkpoint als vierten Anwender per Referenz
 
 ### Nicht enthalten
 - Die Gruppe **„Kann warten"** — bleibt kopierfertige Befehle im Report

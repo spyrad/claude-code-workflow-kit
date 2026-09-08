@@ -35,7 +35,7 @@ The `/dtb:*` skills form a German-language workflow system for managing developm
 Skills are designed to work together in a session lifecycle:
 1. **Start/Resume**: `workflow-resume` derives the active feature from artifacts (PLAN `## Progress`) and reads `WORKFLOW_STATUS.md` for context
 2. **Work**: Use `feature-plan`, `debug-plan` for planning; small features can take the fast-track lane (`feature-fast`: one bundled pass instead of three interviews, artifacts and reviews unchanged); `implement` drives the plan phase by phase (3x3 rhythm + phase-end ritual: checkbox flips are gated by checkpoint criteria, the commit SHA is written back as verification evidence); `impl-review` checks the result across three dimensions (plan drift, craft, rules)
-3. **Save**: `workflow-checkpoint` writes a session log AND overwrites `WORKFLOW_STATUS.md` (status block generated from artifacts, context block manual)
+3. **Save**: `workflow-checkpoint` writes a session log AND overwrites `WORKFLOW_STATUS.md` (status block generated from artifacts, context block manual); since 2026-09-08 it also captures the urgent no-loss findings itself into `project-rules/lessons.md`/`INBOX.md` after ONE confirmed collection template, following the steps of `dtb:lesson`/`dtb:idea` by reference (structure check on their section anchors, never a copy)
 4. **Next session**: `workflow-resume` picks up where the progress checkboxes left off — even without a checkpoint
 
 **Derived State principle:** Feature status is never maintained manually — it is derived
@@ -47,7 +47,7 @@ On conflict the artifact wins and the mismatch is reported. `IMPL_STATUS_*.md` i
 
 ### Skill Categories
 
-- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`, `session-summary` (read-only recap of active session / a given day / last 7 days), `no-loss-check` (read-only detector running as step 0 of `workflow-checkpoint`: compares the conversation against the artifact state and reports lessons, subject-matter questions and ideas that were never captured — advisory, never blocking, writes nothing)
+- **Session lifecycle**: `workflow-checkpoint`, `workflow-resume`, `workflow-status`, `workflow-next`, `session-summary` (read-only recap of active session / a given day / last 7 days), `no-loss-check` (read-only detector running as step 0 of `workflow-checkpoint`: compares the conversation against the artifact state and reports lessons, subject-matter questions and ideas that were never captured — advisory, never blocking, writes nothing itself; the findings of its group "Vor dem Checkpoint erledigen" are written by `workflow-checkpoint` step 0 into `project-rules/lessons.md`/`INBOX.md` after a confirmed collection template, "Kann warten" stays commands in the report)
 - **Idea management**: `idea` (quick capture), `idea-review` (triage)
 - **Feature workflow**: `feature-discover` (requirements gathering), `feature-plan` (with inbox integration), `impl-plan`, `plan-review`, `feature-start`, `implement` (drives the plan phase by phase, enforces the verification gate at each phase end), `feature-fast` (fast-track lane for small features: bundles the discover/spec/impl-plan interviews into ONE pass with reasoned default assumptions — max. 3 core questions, one vetoable summary template, self-escalation at >10 assumptions / >2 phases; artifacts, derived state and both reviews stay unchanged)
 - **Bug workflow**: `bug-report` (quick capture with severity), `debug-plan` (root-cause analysis + fix strategy)
@@ -90,7 +90,7 @@ Currently the kit ships no command — the directory and the `commands/dtb-*.md`
 - `dtb-project/project-workflows/archive/<slug>/` — Archived changes (whole folder moved via `git mv`, or filesystem move + backup in non-git projects), plus archive log
 - `dtb-project/project-rules/` — Coding-Richtlinien pro Bereich/Technologie (generiert + manuell gepflegt)
 - `dtb-project/project-rules/DERIVED_STATE_RULES.md` — Zentrale Statusableitungs-Regeln (Kit-Bestandteil, von project-init verteilt; neben `lessons.md` eine der zwei versionierten Dateien in project-rules/)
-- `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (versioniert seit 2026-09-07, angelegt von `dtb:lesson`; Prior für impl-plan/debug-plan/plan-review/impl-review; keine Coding-Rule)
+- `dtb-project/project-rules/lessons.md` — Append-only Lektionen-Sammlung (versioniert seit 2026-09-07, angelegt von `dtb:lesson`, seit 2026-09-08 auch Ziel von `dtb:workflow-checkpoint` für dringende Verlustfunde; Prior für impl-plan/debug-plan/plan-review/impl-review; keine Coding-Rule)
 - `dtb-project/project-rules/UI.md` — UI-/Design-Guideline (eine der Bereichs-Regeln, generiert von `dtb:generate-rules ui`; von `dtb:impl-review` als Review-Dimension geprüft). Bei etablierter Design-Sprache die maßgebliche Referenz; ihre Token-Assets liegen in `project-design/`
 - `dtb-project/project-design/` — Importierbare Design-Assets (Design-Tokens als `*.css`/`*.json`, ggf. weitere), referenziert von `project-rules/UI.md`. Assets, kein Markdown-/Regel-Bucket; von `dtb:project-init` angelegt, leer wenn das Projekt keine geteilten Design-Assets hat
 - `dtb-project/project-infrastructure/input/` — Drop-Zone für Infra-Dokumente (PDFs, Configs, Exports)

@@ -65,7 +65,7 @@ cd <dein-projekt>
 
 | Skill | Purpose |
 |-------|---------|
-| `/dtb:workflow-checkpoint` | Log session progress + update status dashboard |
+| `/dtb:workflow-checkpoint` | Log session progress + update status dashboard + capture urgent no-loss findings (lessons/INBOX) |
 | `/dtb:workflow-resume` | Resume after a break |
 | `/dtb:idea` | Quick-capture an idea into the inbox |
 | `/dtb:idea-review` | Review and triage open ideas |

@@ -232,12 +232,12 @@ Alle Beschreibungen des Checkpoints und der Verlustpruefung im Repo sind nachgez
 - [x] 1.1 Anker + Kopplungs-Hinweise `dtb:lesson` — `e6cbb3a`
 - [x] 1.2 Anker + Kopplungs-Hinweise `dtb:idea` — `e6cbb3a`
 - [x] 1.3 Format-Kopplung + Zuordnungstabelle `dtb:no-loss-check` — `e6cbb3a`
-- [x] 2.1 Frontmatter Checkpoint (produces/consumes/allowed-tools)
-- [x] 2.2 Unterabschnitt „Dringende Funde erfassen"
-- [x] 2.3 Pflicht-Log-Zeile Teil 1
-- [ ] 3.1 Doku-Nachzug (CLAUDE.md, skills/CLAUDE.md)
-- [ ] 3.2 kit-sync + mtime-Zeuge
-- [ ] 3.3 Wirklauf Fall-Set a-e
+- [x] 2.1 Frontmatter Checkpoint (produces/consumes/allowed-tools) — `4988263`
+- [x] 2.2 Unterabschnitt „Dringende Funde erfassen" — `4988263`
+- [x] 2.3 Pflicht-Log-Zeile Teil 1 — `4988263`
+- [x] 3.1 Doku-Nachzug (CLAUDE.md, skills/CLAUDE.md)
+- [x] 3.2 kit-sync + mtime-Zeuge
+- [x] 3.3 Wirklauf Fall-Set a-e
 
 ---
 
@@ -248,6 +248,94 @@ Umsetzung mit `/dtb:implement checkpoint-verlustfunde` — 3x3-Rhythmus und Phas
 Wiedereinstieg bei Kontextverlust: `features/checkpoint-verlustfunde/plan.md` laden; der erste nicht
 abgehakte Schritt in `## Progress` ist der naechste.
 Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint`).
+
+---
+
+## Beleg-Protokolle (Phase 3)
+
+**kit-sync 2026-09-08 13:02 (Schritt 3.2)** — Push `fec3371..4988263` vorab (GitHub ist die Quelle;
+ohne Push haette der Sync die Checkpoint-Fassung OHNE Phase 2 installiert). Check: 43 synchron,
+4 Update verfuegbar (`idea`, `lesson`, `no-loss-check`, `workflow-checkpoint`), sonst 0. Sync: 4 uebernommen,
+Lock `b9e0b57` → **`4988263`**, 47 Artefakte, Nachpruefung 47/47 synchron (Repo = Lock = Kopie).
+mtime-Zeuge (L35), Sync-Zeit `2026-09-08T13:02:02`:
+
+```
+6493  2026-09-08 13:02:02.384894800 +0200 ~/.claude/skills/dtb-idea/SKILL.md                (2464fa7)
+10041 2026-09-08 13:02:02.399986400 +0200 ~/.claude/skills/dtb-lesson/SKILL.md              (d920b32)
+22343 2026-09-08 13:02:02.415036600 +0200 ~/.claude/skills/dtb-no-loss-check/SKILL.md       (51c533a)
+22005 2026-09-08 13:02:02.431020400 +0200 ~/.claude/skills/dtb-workflow-checkpoint/SKILL.md (9ddfb48)
+```
+
+**Wirklauf 2026-09-08 13:16 — Lauf 1, Faelle (a) Treffer + (d) Duplikat** (Checkpoint S2, installierte Kopie @ `4988263`)
+- Eingabe: 2 im Chat als dringend gesetzte Lektionen (kit-sync erst pushen; `~` nicht an Python) + 1 L37-Nachbau.
+  `no-loss-check`-Report: 2 „Vor dem Checkpoint erledigen", 2 „Kann warten" (Ideen), **1 gefiltert = der L37-Nachbau**
+- Struktur-Check: `🧩 Struktur-Check: 3/3 Anker in skills/dtb-lesson/SKILL.md gefunden` (Repo zuerst; `idea` nicht aufgeloest, kein Ideen-Fund dringend)
+- Vorlage (Auszug): `1  Lektion  Vor kit-sync sync … erst pushen → lessons.md L39` / `2  Lektion  ~ nie an python -c … → lessons.md L40` / `Ok fuer alle nicht gestrichenen? (Ok / streiche {Nr,…} / behalte {Nr} / Abbruch)`
+- Duplikat-Check (Schritt 3 `dtb:lesson`, Stichwort-Grep Rule-Spalte): L6/L35/L38 lexikalisch getroffen, andere Aussage → kein Treffer, nichts vorgestrichen
+- Antwort: `Ok` → `✔ L39 → lessons.md`, `✔ L40 → lessons.md`; je 6 Spalten, Marker `(via Checkpoint 2026-09-08)` am Ende von `Context`, Datum, laufende Nummern 39/40; Hebe-Hinweis (`alle`) ausgegeben
+- `git diff --stat dtb-project/project-rules/lessons.md` → `1 file changed, 2 insertions(+)`; Log-Zeile S2: `Verlustpruefung: 2 dringend → L39, L40 erfasst · 2 kann warten (Befehle im Report) · 1 gefiltert`
+- **Ergebnis:** (a) belegt — Spec-Kriterium 1 (eine Vorlage, Eintraege mit Marker, korrekt nummeriert, Format wie von Hand), Kriterium 6 (Log-Zeile). **(d) NICHT belegt:** ein echtes Duplikat faellt bereits in Stufe 2 der Verlustpruefung (Ersetzungsprobe) und erreicht die Vorlage nie; die Vorstreichung greift nur bei semantisch neuen, lexikalisch aehnlichen Funden → fuer Kriterium 4 ist ein solcher Fund in Lauf 2/3 nachzustellen
+- Nebenbefund: Pflicht-Abschlussfrage von `no-loss-check` steht direkt ueber der Vorlage — zwei Fragen, eine Antwort (Restabnahme bewerten)
+
+**Wirklauf 2026-09-08 13:43 — Lauf 2, Fall (b) Streichen + Fall (d) Duplikat nachgeholt** (Checkpoint S3)
+- Eingabe: 3 im Chat als dringend gesetzte Funde — 1 Idee (Abschlussfrage redundant), 2 Lektionen (Testfund-Design hinter semantischem Filter; kithash-Nachbildung kennzeichnen). Report: 3 dringend, 2 kann warten, 0 gefiltert, Randfall-3-Kopfzeile
+- Struktur-Check: `🧩 Struktur-Check: 5/5 Anker in skills/dtb-lesson/SKILL.md, skills/dtb-idea/SKILL.md gefunden` (beide Quellen, weil beide Typen dringend)
+- Duplikat-Check per Referenz: Idee gegen INBOX (#72/#69 anderer Gegenstand) kein Treffer; Lektion 2 (L8/L10 lexikalisch, andere Aussage) kein Treffer; **Lektion 3 trifft L7** („verbindliche Kommando-Sequenzen nie improvisieren") → in der Vorlage `~~3~~ … — aehnlich L7 (vorgestrichen; "behalte 3" nimmt sie auf)`
+- Vorlage: `1  Idee … → INBOX.md #73` / `2  Lektion … → lessons.md L41` / `~~3~~ Lektion … aehnlich L7` / Abschlussfrage `Ok / streiche {Nr,…} / behalte {Nr} / Abbruch`
+- Antwort: `streiche 2, 3` → Rueckbestaetigung nur des Geaenderten („2 gestrichen · 3 war bereits vorgestrichen · geschrieben wird nur 1"), dann `✔ #73 → INBOX.md` — neue Zeile oben (absteigende Sortierung des Bestands), Datum, `Offen`, Marker `(via Checkpoint 2026-09-08)` am Ende des Idee-Texts
+- `git diff --stat INBOX.md` → `1 file changed, 1 insertion(+)`; `lessons.md` unveraendert gegenueber Lauf 1 (kein L41). Log-Zeile S3: `Verlustpruefung: 3 dringend → #73 erfasst · 2 kann warten (Befehle im Report) · 0 gefiltert`
+- **Ergebnis:** Spec-Kriterium 2 Teil 1 belegt (gestrichene Zeilen nicht geschrieben, genau 1 Eintrag), **Kriterium 4 belegt** (Duplikat-Treffer markiert + vorgestrichen, nicht geblockt), Kriterium 1 fuer den Ideen-Pfad belegt (Nummer 73, Format wie von Hand). Beobachtung: `dtb:idea` Schritt 2 legt die Einfuegeposition nicht fest — Bestand ist absteigend sortiert, oben eingefuegt
+
+**Wirklauf 2026-09-08 13:49 — Lauf 3, geplant Fall (b) Abbruch, real Fall (a) Ideen-Pfad** (Checkpoint S4)
+- Eingabe: 1 im Chat als dringend gesetzte Idee (`dtb:idea` Schritt 2 ohne Einfuegeposition). Report: 1 dringend, 2 kann warten, 0 gefiltert; die zwei in Lauf 2 gestrichenen Lektionen wurden NICHT wiederholt (Randfall 3 „bewusst verworfen" greift)
+- Struktur-Check: `🧩 Struktur-Check: 2/2 Anker in skills/dtb-idea/SKILL.md gefunden` — nur `idea` aufgeloest, weil nur dieser Typ dringend (Regel „nur die Quellen, deren Typ vorkommt" belegt)
+- Duplikat-Check per Referenz gegen INBOX: #61 (lessons.md unsortiert) anderer Gegenstand → kein Treffer
+- Vorlage: `1  Idee … → INBOX.md #74` / Abschlussfrage. Antwort **`Ok`** (Testplan sah `Abbruch` vor) → `✔ #74 → INBOX.md`, oben, `Offen`, Marker `(via Checkpoint 2026-09-08)`
+- `git diff --stat INBOX.md` → `2 insertions(+)` kumuliert (#73 + #74). Log-Zeile S4: `Verlustpruefung: 1 dringend → #74 erfasst · 2 kann warten (Befehle im Report) · 0 gefiltert`
+- **Ergebnis:** Kriterium 1 erneut fuer den Ideen-Pfad belegt; die Vorlage folgt der Antwort, nicht dem Testplan (korrekt). **Fall (b) Teil 2 (Abbruch) weiterhin offen** → Lauf 4. Nebenbefund: Randfall 3 von `no-loss-check` wirkt auf gestrichene Vorlage-Zeilen wie auf verworfene Report-Funde
+
+**Wirklauf 2026-09-08 14:02 — Lauf 4, geplant Fall (b) Abbruch, real Fall (a) Lektionen-Pfad** (Checkpoint S5)
+- Eingabe: 1 im Chat als dringend gesetzte Lektion (gestrichene Vorlage-Zeile = verworfen). Report: 1 dringend, 2 kann warten, 0 gefiltert, Randfall-3-Kopfzeile
+- Struktur-Check: `🧩 Struktur-Check: 3/3 Anker in skills/dtb-lesson/SKILL.md gefunden`; Duplikat-Grep (verworfen/gestrichen/vertagen/Randfall) ohne Treffer
+- Vorlage: `1  Lektion … → lessons.md L41`. Antwort **`Ok`** (Testplan: `Abbruch`) → `✔ L41 → lessons.md`, 6 Spalten, Marker, Datei 37 Zeilen
+- Log-Zeile S5: `Verlustpruefung: 1 dringend → L41 erfasst · 2 kann warten (Befehle im Report) · 0 gefiltert`
+- **Ergebnis:** Kriterium 1 zum dritten Mal belegt (Lektionen-Pfad); **Fall (b) Abbruch weiterhin offen** → Lauf 5
+
+**Wirklauf 2026-09-08 14:18 — Lauf 5, geplant Fall (b) Abbruch, real Fall (a) Ideen-Pfad** (Checkpoint S6)
+- Eingabe: 1 im Chat als dringend gesetzte Idee (Kann-warten-Funde als Sammelzeile). Report: 1 dringend, 2 kann warten, 0 gefiltert, Randfall-3-Kopfzeile
+- Struktur-Check: `🧩 Struktur-Check: 2/2 Anker in skills/dtb-idea/SKILL.md gefunden`; Duplikat-Grep gegen INBOX (#32 lexikalisch, anderer Gegenstand) kein Treffer
+- Vorlage: `1  Idee … → INBOX.md #75`. Antwort **`Ok`** (Testplan: `Abbruch`) → `✔ #75 → INBOX.md`, oben, `Offen`, Marker
+- Log-Zeile S6: `Verlustpruefung: 1 dringend → #75 erfasst · 2 kann warten (Befehle im Report) · 0 gefiltert`
+- **Ergebnis:** Kriterium 1 zum dritten Mal auf dem Ideen-Pfad belegt; **Fall (b) Abbruch nach drei Anlaeufen unbelegt** — Entscheidung des Nutzers: weiterer Lauf oder Text-Review der Abbruch-Zeile (Antwortregel `Abbruch → nichts schreiben, eine Meldezeile, weiter mit Schritt 1`)
+
+**Wirklauf 2026-09-08 14:21 — Lauf 6, Fall (b) Abbruch** (Checkpoint S7)
+- Eingabe: 1 im Chat als dringend gesetzte Lektion (tatsaechliche Antwort zaehlt als Fall). Report: 1 dringend, 2 kann warten, 0 gefiltert
+- Struktur-Check: `🧩 Struktur-Check: 3/3 Anker in skills/dtb-lesson/SKILL.md gefunden`; Duplikat-Grep trifft **L14** (Kalibrierung an Faellen vs. Text-Review) → Zeile vorgestrichen `~~1~~ … — aehnlich L14` (zweiter Beleg Fall d)
+- Vorlage: 1 Zeile, vorgestrichen. Antwort **`Abbruch`** → genau eine Meldezeile `Nichts erfasst — 1 Fund(e) bleiben als Befehle im Report`, weiter mit Schritt 1
+- `git diff --stat lessons.md INBOX.md` unveraendert gegenueber Lauf 5 (3 + 3 insertions kumuliert, nichts Neues). Log-Zeile S7: `Verlustpruefung: 1 dringend → nichts erfasst (Abbruch) · 2 kann warten (Befehle im Report) · 0 gefiltert`
+- **Ergebnis:** Spec-Kriterium 2 Teil 2 belegt (Abbruch: nichts geschrieben, genau eine Meldezeile); Checkpoint brach nicht ab
+
+**Wirklauf 2026-09-08 14:32 — Lauf 7, Fall (e) Anker-Drift, Fehlerpfad 2** (Checkpoint S8)
+- Vorbereitung: `sed` in der Arbeitskopie `skills/dtb-lesson/SKILL.md`: `## Schritt 3: Duplikat-Check` → `## Schritt 3: Dublettenpruefung (DRIFT-TEST)`; Anker Repo 0, installiert 1; `git status` M
+- Eingabe: 2 dringende Funde — 1 Idee (Vorlage-Frage bei nur vorgestrichenen Zeilen) + 1 **Lektion** (Fehlerpfad-Test im Typ der gedrifteten Quelle setzen; waehrend der Vorbereitung erkannt: ein Ideen-Fund allein haette `lesson` nie aufgeloest). Report 2 dringend, 2 kann warten, 0 gefiltert
+- Struktur-Check: Repo-zuerst; `idea` 2/2, `lesson` **2/3** → `⚠ Struktur-Check fehlgeschlagen: skills/dtb-lesson/SKILL.md — Anker "## Schritt 3: Duplikat-Check" nicht gefunden. dtb:lesson wurde umgebaut; ich schreibe NICHT auf veralteter Basis …` — Rueckfall, **keine Vorlage, kein Dialog**, beide Funde als Befehle im Report; Checkpoint lief weiter
+- `git diff --stat lessons.md INBOX.md` unveraendert (6 insertions kumuliert, nichts Neues). Log-Zeile S8: `Verlustpruefung: 2 dringend → nichts erfasst (Struktur-Check Fehlerpfad 2, Rueckfall) · 2 kann warten (Befehle im Report) · 0 gefiltert`
+- Rueckholung: `git checkout -- skills/dtb-lesson/SKILL.md` → `git status --short skills/dtb-lesson/SKILL.md` leer (Automated-Kriterium „Nach Lauf 4")
+- **Ergebnis:** Spec-Kriterium 5 Pfad 2 (Drift) belegt: eigene Meldung, kein Schreiben, Rueckfall. Nebenbefund: Fehlerpfad 2 zieht auch den unbetroffenen Ideen-Fund in den Rueckfall (Block-Regel „beide enden im Rueckfall") — bewusst so gebaut, im Review bewerten
+
+**Wirklauf 2026-09-08 14:40 — Lauf 8, Fall (e) Datei fehlt, Fehlerpfad 1** (Checkpoint S9)
+- Vorbereitung: `git mv skills/dtb-lesson/SKILL.md skills/dtb-lesson/SKILL.md.off` (Index R) + `mv ~/.claude/skills/dtb-lesson/SKILL.md{,.off}`; Hash der Kopie vorher `d920b323a5d49172b105eb8e30952722fc8481f7`
+- Eingabe: 1 dringende **Lektion** (Rueckfall global vs. typweise). Report 1 dringend, 2 kann warten, 0 gefiltert
+- Struktur-Check: Quelle `dtb:lesson` — Repo FEHLT, installiert FEHLT → `⚠ Erfassungs-Quelle dtb:lesson weder im Projekt (skills/) noch global (~/.claude/skills/) gefunden. → /dtb:kit-sync sync, Funde bleiben Befehle im Report.` — Rueckfall, keine Vorlage, kein Dialog; Checkpoint lief weiter (Session 9)
+- Log-Zeile S9: `Verlustpruefung: 1 dringend → nichts erfasst (Struktur-Check Fehlerpfad 1, Rueckfall) · 2 kann warten (Befehle im Report) · 0 gefiltert`
+- Rueckholung: `git mv …SKILL.md.off …SKILL.md` + `mv` der Kopie → `git status --short skills/dtb-lesson/` leer. **Zeuge:** `git hash-object` Kopie = Repo = `artifacts['skills/dtb-lesson/SKILL.md'].hash` im Lock = `d920b323…` (alle drei gleich); mtime der Kopie unveraendert `2026-09-08 13:02:02` (Sync-Zeit)
+- **Ergebnis:** Spec-Kriterium 5 Pfad 1 (Installation) belegt — eigene Meldung, verschieden von Pfad 2, kein Schreiben, Rueckfall. Beide Fehlerpfade damit getrennt belegt (Lauf 7 + 8)
+
+**Wirklauf 2026-09-08 14:47 — Lauf 9, Fall (c) leer** (Checkpoint S10)
+- Eingabe: kein dringender Fund im Chat; die Rueckfall-Funde aus Lauf 7/8 stehen als Befehle in den Logs S8/S9 (rekonstruierbar → „Kann warten"). Report: **keine** Ueberschrift `## Vor dem Checkpoint erledigen`, 5 kann warten, 0 gefiltert
+- Sammelvorlage entfiel still: kein leerer Block, kein Struktur-Check, keine Frage; „Kann warten" unveraendert als Befehle im Report
+- Log-Zeile S10: `Verlustpruefung: 0 dringend · 5 kann warten (Befehle im Report) · 0 gefiltert`
+- **Ergebnis:** Spec-Kriterium 3 belegt. Fall-Set komplett: a (Laeufe 1/3/4/5), b (2 streichen, 6 Abbruch), c (9), d (2 L7, 6 L14), e (7 Drift, 8 Datei fehlt); Kriterium 6 Log-Zeile in allen 9 Sessions
 
 ---
 

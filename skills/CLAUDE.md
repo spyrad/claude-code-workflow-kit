@@ -138,7 +138,10 @@ eine Modell-Zusammenfassung; **`feature-discover`, `feature-plan` und `feature-f
 **Interview-Synthesen** — das Modell verdichtet einen Dialog zu `discovery.md`/`spec.md`, es
 speichert nicht die Formulierung des Menschen. Wichtig, weil Merkmal 2 sie NICHT ausschliesst:
 `features/*/discovery.md` ist formgleich mit `features/*/task.md`. Die sechs Treffer stehen in der
-Zuordnungstabelle unten.
+Zuordnungstabelle unten. **Vierter Anwender per Referenz (2026-09-08):** `workflow-checkpoint`
+bleibt kein Capture-Skill, fuehrt aber fuer dringende Verlustfunde den Duplikat-Check von
+`lesson`/`idea` aus deren Anker-Sektionen aus (Struktur-Check in Schritt 0) — kein eigener
+Tabelleneintrag, die Regeln leben dort.
 
 ### Ersetzungsprobe (Kanon)
 
@@ -316,7 +319,9 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 ### Orchestrator-Muster
 
 - Genau EINE Orchestrator-Session pro Projekt-Checkout: sie fuehrt alle global
-  schreibenden Skills aus (Checkpoint, INBOX, Backlog, Archiv, Lektionen, Meetings)
+  schreibenden Skills aus (Checkpoint, INBOX, Backlog, Archiv, Lektionen, Meetings) — der
+  Checkpoint schreibt seit 2026-09-08 auch selbst nach `project-rules/lessons.md`/`INBOX.md`
+  (dringende Verlustfunde per Sammelvorlage)
 - N Worker-Sessions, je eine pro Change, je in einem eigenen Worktree — empfohlener Weg
   sind die nativen CC-Worktree-Tools (`EnterWorktree`/`ExitWorktree`, Subagents mit
   `isolation: worktree`); sie uebernehmen Pfad, Branch-Anlage und Aufraeumen
