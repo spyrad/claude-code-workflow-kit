@@ -317,10 +317,10 @@ Stelle im neuen Text erzeugt die Klasse erneut.
 - [x] 2.3 Nummernvergabe ueber beide Dateien — `b19dc82`
 - [x] 2.4 Verlustpruefung liest beide Dateien — `b19dc82`
 - [x] 2.5 Handoff-Zeile, Config-Block und Zeilenbudget — `b19dc82`
-- [x] 3.1 Seed, Integritaets-Pruefung und Regel-Zeile
-- [x] 3.2 Doku nachziehen
-- [x] 3.3 Wirklaeufe gegen die Erfolgskriterien
-- [x] 3.4 Verteilung
+- [x] 3.1 Seed, Integritaets-Pruefung und Regel-Zeile — `4392719`
+- [x] 3.2 Doku nachziehen — `4392719`
+- [x] 3.3 Wirklaeufe gegen die Erfolgskriterien — `4392719`
+- [x] 3.4 Verteilung — `d5e8dad`
 
 ---
 

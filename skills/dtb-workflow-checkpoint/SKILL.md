@@ -10,8 +10,8 @@ pipeline:
   stage: session
   after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
   next: [dtb:workflow-resume, dtb:idea-triage]
-  consumes: [BACKLOG.md, INBOX.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md]
-  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md]
+  consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)
@@ -243,8 +243,8 @@ Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:work
 - **Fallback:** Ist kein naechster Befehl eindeutig ableitbar, KEINEN erfinden — schreibe
   `Naechster Befehl: — offen — (mit /dtb:workflow-next bestimmen)`
 - Format stabil halten (Zeilen `**Naechster Befehl:**` / `**Empfehlung:**`), damit die Empfangs-Seite es zuverlaessig liest
-- **Becken-Erinnerung:** Zaehle die ungesichteten Zeilen in `INBOX-BEFUNDE.md` (Sichtung-Spalte
-  leer oder `L1 …`). Ab `idea_triage.becken_schwelle` (Default 10) genau EINE Zeile anhaengen:
+- **Becken-Erinnerung:** Zaehle die ungesichteten Zeilen in `INBOX-BEFUNDE.md` — ungesichtet =
+  Sichtung-Spalte `leer` ODER `L1 …` ODER `Altbestand` (Definition im Becken-Kopf). Ab `idea_triage.becken_schwelle` (Default 10) genau EINE Zeile anhaengen:
   `**Becken:** {N} ungesichtet → /dtb:idea-triage`. Darunter keine Zeile — eine Erinnerung, die
   jedes Mal kommt, wird zur Tapete. Fehlt die Datei → keine Zeile, kein Hinweis
 
@@ -278,7 +278,7 @@ Der Aufruf ist moeglich, obwohl dieser Skill gegen Modell-Aufrufe gesperrt ist �
   alles seither Dazugekommene. Den Zweitlauf regelt `dtb:no-loss-check` (Randfall 3: ein frueherer
   Report ist keine Kandidatenquelle, bereits Verworfenes wird nicht unveraendert wiederholt)
 
-#### Dringende Funde erfassen (Sammelvorlage)
+#### Funde erfassen (Sammelvorlage)
 
 **Eingang:** In die Vorlage kommen alle Funde unter `## Vor dem Checkpoint erledigen` **plus die
 Ideen-Funde aus `## Kann warten`** — das Becken IST der Ort fuer „kann warten", damit entfaellt die
@@ -299,7 +299,7 @@ mit, nie unter „erfasst". Ohne vorlage-faehigen Fund entfaellt dieser Block **
   relativ zum Projekt-Root, sonst `~/.claude/skills/dtb-{lesson,idea,idea-triage}/SKILL.md`. Bewusst umgekehrt
   zu `dtb:pane-start`: im Kit-Repo ist das Repo die Quelle, aus der `kit-sync` verteilt — die
   installierte Kopie waere waehrend eines Umbaus der Stand von gestern; Zielprojekte haben kein
-  `skills/`. Nur die Quellen aufloesen, deren Typ in der dringenden Gruppe vorkommt
+  `skills/`. Nur die Quellen aufloesen, deren Typ in der **Vorlage** vorkommt — nicht nur der dringenden Gruppe (Ideen kommen auch aus `## Kann warten`, ihr Anker muss mitgeprueft werden)
 - **Anker-Grep** zeilenverankert auf den ganzen Titel (`tr -d '\r' | grep -x -F`), nie als
   Substring — die Kopplungs-Hinweise darunter zitieren den Titel selbst und wuerden ein
   falsches Gruen liefern:
@@ -319,13 +319,13 @@ mit, nie unter „erfasst". Ohne vorlage-faehigen Fund entfaellt dieser Block **
 
   1. Datei in beiden Quellen nicht gefunden → Installations-Problem:
      ```
-     ⚠ Erfassungs-Quelle dtb:{lesson|idea} weder im Projekt (skills/) noch global
+     ⚠ Erfassungs-Quelle dtb:{lesson|idea|idea-triage} weder im Projekt (skills/) noch global
         (~/.claude/skills/) gefunden. → /dtb:kit-sync sync, Funde bleiben Befehle im Report.
      ```
   2. Datei vorhanden, Anker fehlt → Struktur-Drift:
      ```
      ⚠ Struktur-Check fehlgeschlagen: {Quelle} — Anker "{Anker}" nicht gefunden.
-        dtb:{lesson|idea} wurde umgebaut; ich schreibe NICHT auf veralteter Basis. → diesen
+        dtb:{lesson|idea|idea-triage} wurde umgebaut; ich schreibe NICHT auf veralteter Basis. → diesen
         Block anpassen (die Kopplungs-Hinweise dort nennen diesen Leser). Funde bleiben Befehle.
      ```
 
@@ -338,10 +338,10 @@ mit, nie unter „erfasst". Ohne vorlage-faehigen Fund entfaellt dieser Block **
   `dtb:lesson`; Idee → `## Duplikat-Check` aus `dtb:idea`, verglichen gegen **beide** Dateien (`INBOX.md` UND `INBOX-BEFUNDE.md`) — sonst wird ein schon im Becken stehender Fund erneut geschrieben
 - Duplikat-Treffer werden **nicht** einzeln gefragt (zweite Rueckfrage-Runde): der Fund erscheint **vorgestrichen** mit Fundstelle
 
-**Sammelvorlage** (Kurzfassung je Fund — nie der volle Wortlaut der vier Felder):
+**Sammelvorlage** (Kurzfassung je Fund — nie der volle Wortlaut der vier Felder). `{V}` = Zeilen in der Vorlage (dringende Funde + Ideen aus `## Kann warten`), `{D}` = davon dringend:
 
 ```
-# Verlustfunde erfassen — {D} dringend
+# Verlustfunde erfassen — {V} Eintraege ({D} dringend)
 1  Lektion  {Rule-Satz gekuerzt}                    → lessons.md
 2  Idee     {Idee-Satz gekuerzt}                    → INBOX-BEFUNDE.md
 ~~3~~ Lektion {…} — aehnlich L23 (vorgestrichen; "behalte 3" nimmt sie auf)
@@ -357,7 +357,7 @@ Antwortregeln:
 - `Abbruch` → nichts schreiben, eine Meldezeile, weiter mit Schritt 1
 - **Fallback:** jede andere Antwort gilt als NICHT bestaetigt — genau eine Rueckfrage
   (`Ok / streiche {Nr} / behalte {Nr} / Abbruch?`); bleibt sie unklar → `Abbruch`, nie stiller Auto-Write
-- Mehr als 10 dringende Funde → keine Vorlage, Rueckfall auf Befehle mit einer Hinweiszeile
+- Mehr als 10 Eintraege in der Vorlage (`{V}`, nicht nur die dringenden) → keine Vorlage, Rueckfall auf Befehle mit einer Hinweiszeile
 
 **Schreiben (per Referenz):** je bestaetigtem Fund
 - Lektion → `## Schritt 4: Append-only speichern` aus `dtb:lesson`
@@ -366,7 +366,7 @@ Antwortregeln:
 - Schreibfehler mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben — **nie zurueckrollen** (append-only)
 
 **Meldung:** eine Zeile je Eintrag — `✔ L{N} → lessons.md` / `✔ #{N} → INBOX-BEFUNDE.md`;
-alle gestrichen → `Nichts erfasst — {D} Fund(e) bleiben als Befehle im Report`.
+alle gestrichen → `Nichts erfasst — {V} Fund(e) bleiben als Befehle im Report`.
 
 **Selbstpruefung (L15):** Dieser Block **beschreibt** nirgends, wie Felder abgeleitet, Duplikate bewertet oder Zeilen angehaengt werden — nur Anker; ein solcher Satz waere ein Spiegel.
 

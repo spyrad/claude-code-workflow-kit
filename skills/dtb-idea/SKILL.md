@@ -11,7 +11,7 @@ pipeline:
   stage: idea
   after: null
   next: [dtb:idea-review]
-  consumes: [INBOX.md]
+  consumes: [INBOX.md, INBOX-BEFUNDE.md]
   produces: [INBOX.md]
 ---
 
@@ -137,7 +137,9 @@ Abschnitt ist zur Laufzeit autark.)
 
 ### Format bei bestehender Datei
 
-- Fuege eine neue Zeile in die Tabelle ein
+- Fuege die neue Zeile **direkt unter der Tabellen-Trennzeile** ein, nicht ans Tabellenende:
+  die INBOX ist absteigend sortiert (INBOX #74). Dieselbe Regel gilt fuer die Befoerderung in
+  `dtb:idea-triage` — die Ordnung haelt nur, wenn beide Schreiber sie halten
 - **Naechste Nummer = Maximum ueber BEIDE Dateien plus eins** — `INBOX.md` UND
   `{config.paths.workflows}/INBOX-BEFUNDE.md` (das Becken teilt sich den Nummernkreis).
   Wird nur eine Datei gezaehlt, vergibt der jeweils andere Schreiber dieselbe Nummer ein

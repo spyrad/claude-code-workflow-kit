@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-08
 **Ziel:** Maschinell erfasste Verlustfunde von den Fach-Wuenschen trennen, damit die Haupt-INBOX handhabbar bleibt und nur Befoerdertes je gearbeitet wird.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

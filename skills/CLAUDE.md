@@ -293,9 +293,14 @@ Daraus folgt, verbindlich fuer neue und geaenderte Skills:
 - **Ein Becken-Eintrag wird nie gearbeitet.** Lese-Skills und Arbeits-Ansichten
   (`dtb:worker`, `dtb:workflow-next`, `dtb:idea-review`, `dtb:feature-*`) lesen ausschliesslich
   `INBOX.md`. Wer das Becken in eine Arbeits-Ansicht aufnimmt, hebt die Zulauf-Bremse auf
-- **Abgleiche lesen beide Dateien.** Duplikat-Checks und Verlustpruefung vergleichen gegen
+- **Abgleiche lesen beide Dateien — mit einer benannten Ausnahme.** Die Verlustpruefung
+  (`dtb:no-loss-check`) und der Ideen-Duplikat-Check des Checkpoints vergleichen gegen
   `INBOX.md` UND `INBOX-BEFUNDE.md` — sonst wird ein bereits im Becken stehender Fund erneut
-  erfasst. Fehlt eine Datei: nur die vorhandene zaehlen (fail-open)
+  erfasst. Fehlt eine Datei: nur die vorhandene zaehlen (fail-open).
+  **Ausnahme:** die Befoerderung in `dtb:idea-triage` prueft absichtlich NUR `INBOX.md` — sie
+  vergleicht einen Eintrag, der selbst im Becken steht; ein Treffer gegen die eigene Herkunft
+  waere immer positiv. Faustregel: gegen beide Dateien vergleicht, wer pruefen will, ob etwas
+  IRGENDWO schon erfasst ist; gegen eine, wer aus der einen in die andere schreibt
 - **Nummernkreis ist gemeinsam.** Die naechste Nummer ist das Maximum ueber beide Dateien plus
   eins; die Nummer bleibt bei der Befoerderung erhalten (Logs referenzieren sie)
 - **Beide Dateien legen ihre Schreiber selbst an**, nicht `dtb:project-init` — Seeds erreichen

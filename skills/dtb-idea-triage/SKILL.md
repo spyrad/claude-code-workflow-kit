@@ -95,6 +95,11 @@ muss in einem Projekt laufen koennen, das `project-init` vor Monaten gesehen hat
 **Sichtung-Spalte:** leer = neu, noch nie gesichtet · `L1 YYYY-MM-DD` = einmal liegengelassen,
 der naechste Lauf erzwingt die Entscheidung · `Altbestand` = aus der Migration uebernommen.
 
+**„Ungesichtet" heisst: noch nicht endgueltig entschieden** — also `leer` ODER `L1 …` ODER
+`Altbestand`. Diese eine Definition gilt fuer alle Zaehler (Handoff-Erinnerung des Checkpoints,
+`dtb:project-health`, Abschluss-Bilanz der Triage). Entschieden ist ein Eintrag erst, wenn er das
+Becken verlassen hat — durch Befoerderung oder Verwerfen.
+
 **Nummernkreis:** gemeinsam mit `INBOX.md` — eine Nummer wird nie zweimal vergeben, und sie
 bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).
 
@@ -259,15 +264,28 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
    Aehnliche Idee steht schon in der INBOX (#{N}, {Status}): "{Bestandstext, gekuerzt}"
    Trotzdem befoerdern? (Ja / stattdessen verwerfen)
    ```
+   `stattdessen verwerfen` → **weiter mit 5b**, unveraendert: die Begruendung bleibt Pflicht,
+   der Eintrag geht mit ihr ins Archiv. Kein eigener Kurzpfad, keine Ausnahme.
    Kein Treffer → keine Ausgabe, direkt weiter.
-2. **Zeile aus dem Becken entfernen.**
-3. **Zeile in `INBOX.md` einfuegen — direkt unter der Tabellen-Trennzeile**, nicht ans
+
+   > **Schema-Abweichung (begruendet):** Das Meldeform-Schema in `skills/CLAUDE.md` sieht
+   > `(Ja / Abbrechen)` vor. Hier steht `stattdessen verwerfen` statt `Abbrechen`, weil
+   > „Abbrechen" den Eintrag im Becken liesse — und derselbe Lauf legt ihn unmittelbar danach
+   > wieder vor. Der Duplikat-Treffer ist ein Argument FUER eine Entscheidung, nicht gegen sie.
+   > Wer die Entscheidung wirklich vertagen will, waehlt in Schritt 4 „Liegenlassen".
+2. **Zeile in `INBOX.md` einfuegen — direkt unter der Tabellen-Trennzeile**, nicht ans
    Tabellenende: die INBOX ist absteigend sortiert (setzt INBOX #74 um).
-4. **Nummer bleibt.** Sie wird nicht neu vergeben — Session-Logs, Plaene und Archiv-Eintraege
-   referenzieren sie.
-5. **Status `Offen`**, Textfeld unveraendert plus Suffix `(befoerdert {YYYY-MM-DD})`.
-6. **Spaltenzahl nach dem Schreiben pruefen** (Feld-Hygiene): die neue Zeile muss so viele
-   Felder haben wie ihre Nachbarn. Bare Pipes im uebernommenen Text escapen.
+   **Nummer bleibt** — sie wird nicht neu vergeben, Session-Logs, Plaene und Archiv-Eintraege
+   referenzieren sie. **Status `Offen`**, Textfeld unveraendert plus Suffix
+   `(befoerdert {YYYY-MM-DD})`.
+3. **Spaltenzahl der neuen Zeile pruefen** (Feld-Hygiene): so viele Felder wie die Nachbarn,
+   bare Pipes im uebernommenen Text escapen.
+4. **ERST JETZT die Zeile aus dem Becken entfernen.**
+
+> **Die Reihenfolge ist bindend, nicht kosmetisch** (dieselbe wie in 5b): Ziel schreiben, dann
+> Quelle loeschen. Bricht der Lauf dazwischen ab, steht der Eintrag doppelt — und die Dublette
+> sieht der Duplikat-Check des naechsten Laufs. Umgekehrt waere der Eintrag ersatzlos weg, und
+> die Zusage „nie zurueckrollen" machte den Verlust endgueltig.
 
 Meldung: `✔ #{N} befoerdert → INBOX.md`
 
@@ -309,7 +327,7 @@ Becken-Triage abgeschlossen:
   Verworfen:       {N}
   Liegengelassen:  {N}
 
-Im Becken verbleibend: {N} ({M} davon Altbestand, noch nicht gesichtet)
+Im Becken verbleibend: {N} ungesichtet ({M} davon Altbestand)
 ```
 
 **Genau eine Hinweiszeile, nur wenn befoerdert wurde:**

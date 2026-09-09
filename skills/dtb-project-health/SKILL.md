@@ -10,7 +10,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [workflow.config.yaml, BACKLOG.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, INBOX.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md, ~/.claude/dtb-lock.json, ~/.claude/settings.json]
+  consumes: [workflow.config.yaml, BACKLOG.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, INBOX.md, INBOX-BEFUNDE.md, WORKFLOW_STATUS.md, CLAUDE.md, project-rules/*.md, project-rules/DERIVED_STATE_RULES.md, ~/.claude/dtb-lock.json, ~/.claude/settings.json]
   produces: []
 ---
 
@@ -95,7 +95,8 @@ nicht parsbares YAML), bricht den Gesamt-Report NICHT ab. Melde ihn als `⚠️`
 - Pruefe die Spaltenzahl jeder Zeile gegen den Tabellenkopf (bare Pipes im Befund-Text brechen die Zeile)
 - **Nummernkreis:** melde jede Nummer, die in `INBOX.md` UND `INBOX-BEFUNDE.md` vorkommt — eine
   doppelt vergebene Nummer laesst zwei Vorgaenge dieselbe ID tragen
-- Zaehle die ungesichteten Eintraege (Sichtung leer oder `L1`) und melde sie als eine Zeile
+- Zaehle die ungesichteten Eintraege — ungesichtet = Sichtung `leer` ODER `L1 …` ODER
+  `Altbestand` (Definition im Becken-Kopf) — und melde sie als eine Zeile
 
 **Archiv-Integritaet:**
 - Falls `{config.paths.workflows}/archive/` existiert:

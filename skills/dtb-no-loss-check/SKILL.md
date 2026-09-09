@@ -14,7 +14,7 @@ pipeline:
   stage: session
   after: null
   next: [dtb:workflow-checkpoint]
-  consumes: [workflow.config.yaml, project-rules/lessons.md, features/*/spec.md, features/*/discovery.md, INBOX.md]
+  consumes: [workflow.config.yaml, project-rules/lessons.md, features/*/spec.md, features/*/discovery.md, INBOX.md, INBOX-BEFUNDE.md]
   produces: []
 ---
 
@@ -241,11 +241,15 @@ Praefix in der Fund-Zeile.
 
 ### Versioniert oder nicht (Pflichtangabe je Fund)
 
-Vor dem Absetzen muss sichtbar sein, wohin der Inhalt wandert. Die Zuordnung ist **fest**:
+Vor dem Absetzen muss sichtbar sein, wohin der Inhalt wandert. Die Zuordnung ist **fest** —
+mit einer Verzweigung: ein Ideen-Fund landet im Becken, wenn ihn die Checkpoint-Vorlage
+schreibt, und in `INBOX.md`, wenn der Mensch den `/dtb:idea`-Befehl selbst tippt (die
+Zwei-Becken-Regel entscheidet ueber den Schreiber, nicht ueber den Fund):
 
 | Zielartefakt | Zustand |
 |--------------|---------|
 | `INBOX.md` | versioniert — reist ueber jeden Push mit |
+| `INBOX-BEFUNDE.md` | versioniert — Becken der maschinellen Funde; Ziel des Checkpoint-Pfads |
 | `features/*` | versioniert |
 | `project-rules/lessons.md` | versioniert — seit 2026-09-07 (`f75979d`, Entscheidung #34 revidiert) |
 
@@ -286,7 +290,8 @@ Verlustpruefung — {N} Fund(e)
 
 - Reziprozitaet der Pipeline-Kanten wird nirgends geprueft.
   → /dtb:idea "Lint fuer halbseitige Pipeline-Kanten in dtb:project-health."
-  Ziel: dtb-project/project-workflows/INBOX.md (versioniert)
+  Ziel: .../INBOX-BEFUNDE.md ueber die Checkpoint-Vorlage; .../INBOX.md, wenn du den
+        Befehl selbst tippst (beide versioniert)
 
 2 Kandidaten als bereits erfasst gefiltert
 
@@ -309,7 +314,10 @@ trifft keine zu, beginnt der Report mit `Verlustpruefung — {N} Fund(e)`.
 **Die Abschlussfrage ist Pflicht, das Warten darauf nicht.** Sie ist der eine Moment, an dem der
 Mensch innehaelt — aber der Skill blockiert nichts: Kommt keine Antwort, gilt das als „ja". Im
 Leer-Fall entfaellt sie (dort gibt es nichts zu erfassen) — ebenso beim Aufruf aus
-`dtb:workflow-checkpoint` mit nicht-leerer dringender Gruppe: dort ist die Sammelvorlage die eine Frage.
+`dtb:workflow-checkpoint` mit **nicht-leerer Vorlage** (dringende Gruppe ODER Ideen-Funde aus
+`## Kann warten`): dort ist die Sammelvorlage die eine Frage. Die Bedingung ist wortgleich zur
+Checkpoint-Seite zu halten — laufen die beiden Saetze auseinander, stehen wieder zwei Fragen
+uebereinander, auf die eine Antwort folgt (INBOX #73).
 
 ### Sammelzeile fuer Unterdruecktes (Pflicht, auch bei 0)
 
@@ -390,7 +398,8 @@ seine eigene Blindheit verschweigt, ist schlimmer als keiner.
 ```
 - {Frage} — urspruenglich eine Fach-Frage; kein Feature mit spec.md/discovery.md als Ablage-Ort.
   → /dtb:idea "[Fach-Frage ohne Ablage-Ort] {Frage}"
-  Ziel: dtb-project/project-workflows/INBOX.md (versioniert)
+  Ziel: .../INBOX-BEFUNDE.md ueber die Checkpoint-Vorlage; .../INBOX.md, wenn du den
+        Befehl selbst tippst (beide versioniert)
 ```
 
 ### 3. Weiterer Lauf in derselben Sitzung
