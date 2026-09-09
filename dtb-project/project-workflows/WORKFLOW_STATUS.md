@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
 **Letztes Update:** 2026-09-09
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-09.md` (Session 1)
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-09.md` (Session 2)
 
 ---
 
@@ -9,14 +9,16 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| ideen-becken (#76) | Fertig zum Testen | 14/14 | Commit + kit-sync, dann Alltagslauf der gefixten Fassung |
+| ideen-becken (#76) | Abgenommen | 14/14 | /dtb:archive |
 | feature-fast (#37) | Fertig zum Testen | 11/11 | Restabnahme: 2 UX-Urteile + Lauf mit gefixter Fassung (`1eec2ea`) |
 | output-style-gezielt (#40) | Fertig zum Testen | 11/11 | Im Alltag beobachten, dann Abnahme im Checkpoint |
 | feature-start-statusfeld (#50) | Fertig zum Testen | 5/5 | Verhaltenstests gegen die gefixte Fassung, dann Abnahme |
 | meeting-agenda (#25) | Fertig zum Testen | 5/5 | Restabnahme dreigeteilt — Positiv-Lauf nur ausserhalb des Kits moeglich |
+| idea-review-sofortschreiben | Offen | 0/6 | /dtb:feature-start |
 
 Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
-⚠ Fuenf `review.md` mit eingefrorenem Verdikt REJECTED, Triage-Bilanzen zeigen alle Findings behoben (#35) — `ideen-becken` ist der fuenfte Fall (10/10 FIXED).
+1 Feature abgenommen — wartet auf /dtb:archive.
+⚠ Fuenf `review.md` mit eingefrorenem Verdikt REJECTED, Triage-Bilanzen zeigen alle Findings behoben (#35).
 
 ---
 
@@ -25,22 +27,22 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Erreicht (2026-09-09)** | **#76 `ideen-becken` von der Diagnose bis 14/14 an einem Zug:** 3 Phasen (`03b1e6d`, `b19dc82`, `4392719`/`d5e8dad`), plan-review REVISE → 6 WARNs behoben, impl-review REJECTED → Triage 10/10 FIXED, Lock 48 @ `4392719`. Erster echter Becken-Lauf im selben Checkpoint: 6 Funde (#77-#82) + 4 Lektionen (L42-L45), Nummernkreis kollisionsfrei |
-| **Notizen** | Installierte Kopie ist `4392719` — VOR der Triage; der heutige Lauf testete die ungefixte Fassung. Checkpoint weiterhin 470/470 (jede neue Zeile kompensiert). Ideen 37 offen in `INBOX.md`, 6 ungesichtet im Becken. ROADMAP-§5-Sync zum **21.** Mal leer |
+| **Erreicht (2026-09-09)** | **#76 `ideen-becken` von der Diagnose bis zur Abnahme an einem Tag:** 3 Phasen (`03b1e6d`, `b19dc82`, `4392719`/`d5e8dad`), plan-review REVISE → 6 WARNs behoben, impl-review REJECTED → Triage 10/10 FIXED (`6d0ef00`), Lock 48 @ `6d0ef00`. Zwei echte Becken-Laeufe: 7 Funde (#77-#83) + 6 Lektionen (L42-L47), Nummernkreis kollisionsfrei. Dazu Ideen-Review (37→34) und Aufgabe aus #71 |
+| **Notizen** | `{D}`/`{V}` im Checkpoint zweifach definiert (L47, aus dem Alltagslauf) — Kopfzeilen-Zahl, kein Datenpfad. Checkpoint 470/470. Becken 7 ungesichtet (< Schwelle 10). ROADMAP-§5-Sync zum **22.** Mal leer |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Commit + Verteilung** — 10 Triage-Fixes, Schritt-0-Funde, Status-Sync → `/dtb:commit-and-push`, dann `/dtb:kit-sync sync`
-- [ ] **Abnahme `ideen-becken`** — bewusst zurueckgestellt bis zum Alltagslauf der gefixten Fassung
-- [ ] **2 Fach-Fragen absetzen** — Filter-Alternative gegenrechnen · Rueckweg nach der Verteilung (Wortlaut im S1-Report)
+- [ ] **Archivieren** — `ideen-becken` (abgenommen) + INBOX #76 → `/dtb:archive`
+- [ ] **`{D}`/`{V}`-Widerspruch beheben** (L47) — Z. 287 und Z. 341 in `dtb-workflow-checkpoint`
+- [ ] **Becken-Triage zu Ende fuehren** — 7 ungesichtet (#77-#83), Lauf bei #77 abgebrochen
+- [ ] **2 Fach-Fragen absetzen** — Filter-Alternative gegenrechnen · Rueckweg nach der Verteilung
 - [ ] **5 Findings unter dem Review-Cap** — Befehle in `features/ideen-becken/review.md`
 - [ ] **Log-Formatzeile der Verlustpruefung nachziehen** — unterstellt noch, dass „Kann warten" Befehle bleibt
-- [ ] **#34 schliessen, #64 eindampfen, #71 bewerten** — per `/dtb:idea-review`
-- [ ] **9 Verlustfunde vom 2026-09-07** · **INBOX #54** · **3 Funde 2026-08-19** · **F4-Nachlauf** · **aeltere Funde**
-- [ ] **L11-L45 nach `skills/CLAUDE.md` heben** (#34/#64)
-- [ ] Restabnahmen der vier Bestands-Features · Config-Platzhalter fuellen · ROADMAP.md befuellen oder entfernen
+- [ ] **Restabnahmen der vier Bestands-Features** — aeltestes (`meeting-agenda`) seit 5 Wochen fertig
+- [ ] **#34 schliessen, #64 eindampfen** · **9 Verlustfunde 2026-09-07** · **INBOX #54** · **aeltere Funde**
+- [ ] **L11-L47 nach `skills/CLAUDE.md` heben** (#34/#64) · Config-Platzhalter · ROADMAP.md befuellen oder entfernen
 
 ---
 
@@ -48,7 +50,7 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-09-09 | `ideen-becken` (#76) Diagnose → 14/14 | 3 Phasen, 12 Wirklaeufe, Triage 10/10 FIXED, Lock 48; erster Becken-Lauf 6 Funde | `2026-09/2026-09-09.md` (S1) |
+| 2026-09-09 | `ideen-becken` (#76) Diagnose → Abgenommen | 14/14, 12 Wirklaeufe + 2 Alltagslaeufe, Triage 10/10 FIXED, Lock 48 | `2026-09/2026-09-09.md` (S1-S2) |
 | 2026-09-08 | `checkpoint-verlustfunde` (#72) abgenommen + archiviert | 9/9, 9 Wirklaeufe, Triage 9/10 `e2b00ce` | `2026-09/2026-09-08.md` (S2-S11) |
 | 2026-09-07 | `capture-duplikat-schutz` (#48) abgenommen + archiviert | 6/6 Wirklaeufe; `lessons.md` versioniert (`f75979d`) | `2026-09/2026-09-07.md` (S3) |
 
@@ -64,7 +66,6 @@ Anzeigefelder synchron zur Ableitung. Keine Feld-Konflikte.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — 10 Triage-Fixes, Session-Log, Status-Sync und die Schritt-0-Funde (L42-L45, #77-#82) sind uncommittet; direkt danach `/dtb:kit-sync sync`, damit die gefixte Fassung ueberhaupt laeuft.
+**Naechster Befehl:** `/dtb:archive` — `ideen-becken` ist abgenommen (§1.2), INBOX #76 steht auf `Ausgearbeitet`; vorher `/dtb:commit-and-push` fuer den Abnahme-Sync (spec/BACKLOG/Status/Log S2 und die Schritt-0-Funde sind uncommittet).
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume`, danach obigen Befehl.
-**Gueltigkeitsbedingung:** Gilt, solange der Arbeitsbaum uncommittete Aenderungen traegt; danach ist der naechste Schritt der Alltagslauf der gefixten Fassung, dann die Abnahme im Checkpoint.
-⚠ Die Ableitung wuerde fuer `ideen-becken` `/dtb:implement` vorschlagen (Y/Y + `review.md` mit REJECTED). Das Verdikt ist eingefroren, alle 10 Findings sind FIXED — Nacharbeit steht NICHT an (#35).
+**Gueltigkeitsbedingung:** Gilt, solange `features/ideen-becken/` existiert; nach dem Archivieren ist der naechste Schritt `/dtb:idea-triage` (7 ungesichtete Becken-Eintraege) oder `/dtb:workflow-next`.

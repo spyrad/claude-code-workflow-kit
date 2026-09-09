@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-09 (`/dtb:task`: Aufgabe `idea-review-sofortschreiben` aus INBOX #71; zuvor `/dtb:workflow-checkpoint` Session 1 und `/dtb:idea-review`)
+**Letzte Aktualisierung:** 2026-09-09 (`/dtb:workflow-checkpoint` Session 2: **`ideen-becken` (#76) abgenommen** nach dem Alltagslauf der Fassung `6d0ef00`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| ideen-becken | Fertig zum Testen | Hoch | features/ideen-becken/spec.md | Maschinelle Verlustfunde in ein eigenes Becken trennen; nur Befoerdertes wird gearbeitet |
+| ideen-becken | Abgenommen | Hoch | features/ideen-becken/spec.md | Maschinelle Verlustfunde in ein eigenes Becken trennen; nur Befoerdertes wird gearbeitet |
 | meeting-agenda | Fertig zum Testen | Mittel | features/meeting-agenda/spec.md | Rein lesende Agenda-Sicht: sammelt offene `[Fach]`-Fragen aus features/*/{discovery,spec}.md, gruppiert nach Feature — die fehlende Lese-Ansicht der Fachfragen-Kette (#13→#26→#25→#24); via Fast-Track geplant |
 | feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
 | output-style-gezielt | Fertig zum Testen | Mittel | features/output-style-gezielt/spec.md | Eine global geltende, schaltbare Stil-Vorgabe als versioniertes Kit-Artefakt ausliefern, die Claudes Fliesstext auf Orientierung statt Vollstaendigkeit ausrichtet — worum es geht, was der Stand ist, was zu entscheiden ist; Gegner sind Vorwegnahme und Redundanz, nicht Erklaerung |
