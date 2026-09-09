@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-09 (`/dtb:workflow-checkpoint` Session 2: **`ideen-becken` (#76) abgenommen** nach dem Alltagslauf der Fassung `6d0ef00`)
+**Letzte Aktualisierung:** 2026-09-09 (`/dtb:workflow-checkpoint` Session 3: **INBOX-Migration ins Becken** — 27 Altbestands-Funde getrennt, 11 Fach-Wuensche verbleiben)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -24,6 +24,7 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
+| INBOX-Migration ins Becken | In Arbeit | Hoch | features/inbox-becken-migration/task.md | Altbestand der maschinellen Verlustfunde nach `INBOX-BEFUNDE.md` trennen (Folgevorgang zu #76); 27 migriert, offen: Commit + `#81` verwerfen |
 | idea-review Sofort-Schreiben | Offen | Mittel | features/idea-review-sofortschreiben/task.md | Sofort-Schreiben-Absatz aus `dtb:idea-triage` Schritt 4 nach `dtb:idea-review` uebertragen (INBOX #71) |
 
 ---
