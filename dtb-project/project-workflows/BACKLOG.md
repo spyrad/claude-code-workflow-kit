@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-09 (`/dtb:workflow-checkpoint` Session 1: **`ideen-becken` (#76) 14/14 umgesetzt**, impl-review 10/10 FIXED, erster echter Becken-Lauf mit 6 Funden)
+**Letzte Aktualisierung:** 2026-09-09 (`/dtb:task`: Aufgabe `idea-review-sofortschreiben` aus INBOX #71; zuvor `/dtb:workflow-checkpoint` Session 1 und `/dtb:idea-review`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -24,6 +24,7 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
+| idea-review Sofort-Schreiben | Offen | Mittel | features/idea-review-sofortschreiben/task.md | Sofort-Schreiben-Absatz aus `dtb:idea-triage` Schritt 4 nach `dtb:idea-review` uebertragen (INBOX #71) |
 
 ---
 
