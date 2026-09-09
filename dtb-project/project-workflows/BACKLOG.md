@@ -24,7 +24,7 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| INBOX-Migration ins Becken | In Arbeit | Hoch | features/inbox-becken-migration/task.md | Altbestand der maschinellen Verlustfunde nach `INBOX-BEFUNDE.md` trennen (Folgevorgang zu #76); 27 migriert, offen: Commit + `#81` verwerfen |
+| INBOX-Migration ins Becken | Erledigt | Hoch | features/inbox-becken-migration/task.md | Altbestand der maschinellen Verlustfunde nach `INBOX-BEFUNDE.md` getrennt (Folgevorgang zu #76): 27 migriert, 11 verbleiben, #70/#54 repariert |
 | idea-review Sofort-Schreiben | Offen | Mittel | features/idea-review-sofortschreiben/task.md | Sofort-Schreiben-Absatz aus `dtb:idea-triage` Schritt 4 nach `dtb:idea-review` uebertragen (INBOX #71) |
 
 ---

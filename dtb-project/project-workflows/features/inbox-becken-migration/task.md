@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-09-09
 **Prioritaet:** Mittel
-**Status:** In Arbeit
+**Status:** Erledigt
 **Bereich:** Projekt-Artefakte — `dtb-project/project-workflows/INBOX.md`, `INBOX-BEFUNDE.md`
 
 ---
@@ -85,9 +85,11 @@ Beleg-Muster. #18 und #60 waren in der Erhebung zunaechst Grenzfaelle und wurden
       sie ausdruecklich als zulaessig, append-only gilt nur fuer `lessons.md`)
 - [x] Migrierte Zeilen aus `INBOX.md` entfernen, Tabellenintegritaet beider Dateien pruefen
       (Spaltenzahl je Zeile, keine Nummer doppelt ueber beide Dateien)
-- [ ] `WORKFLOW_STATUS.md` und Session-Log ueber `/dtb:workflow-checkpoint` nachziehen
-- [ ] Ersten `/dtb:idea-triage`-Lauf ansetzen: 31 `Altbestand`-Eintraege bei Default
-      `altbestand_pro_lauf` bedeuten mehrere Laeufe — die Erwartung im Log festhalten
+- [x] `WORKFLOW_STATUS.md` und Session-Log ueber `/dtb:workflow-checkpoint` nachziehen
+      (Session 3 vom 2026-09-09, Commit `daf7e24`)
+- [x] Ersten `/dtb:idea-triage`-Lauf ansetzen: 27 migrierte `Altbestand`-Eintraege, 35
+      ungesichtete Becken-Zeilen bei `altbestand_pro_lauf: 5` bedeuten mehrere Laeufe — die
+      Erwartung steht im Session-Log S3 und als Handoff-Zeile `Becken: 35 ungesichtet`
 
 ## Durchfuehrung 2026-09-09
 
