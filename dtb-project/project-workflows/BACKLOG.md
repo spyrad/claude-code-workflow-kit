@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-11 (`/dtb:workflow-checkpoint` Session 1: Archivierung `ideen-becken` + `inbox-becken-migration`; Abnahme `feature-fast`, `meeting-agenda`, `output-style-gezielt`)
+**Letzte Aktualisierung:** 2026-09-11 (`/dtb:workflow-checkpoint` Session 2: `idea-review-sofortschreiben` erledigt 6/6; drei Features archiviert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -20,7 +20,7 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| idea-review Sofort-Schreiben | Offen | Mittel | features/idea-review-sofortschreiben/task.md | Sofort-Schreiben-Absatz aus `dtb:idea-triage` Schritt 4 nach `dtb:idea-review` uebertragen (INBOX #71) |
+| idea-review Sofort-Schreiben | Erledigt | Mittel | features/idea-review-sofortschreiben/task.md | Sofort-Schreiben-Absatz aus `dtb:idea-triage` Schritt 4 nach `dtb:idea-review` uebertragen (INBOX #71) |
 
 ---
 

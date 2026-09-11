@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-09-09
 **Prioritaet:** Mittel
-**Status:** Offen
+**Status:** Erledigt
 **Bereich:** Kit-Skills — `skills/dtb-idea-review/SKILL.md`
 
 ---
