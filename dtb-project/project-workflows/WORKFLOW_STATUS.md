@@ -10,7 +10,7 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 | feature-start-statusfeld | Fertig zum Testen | 5/5 | /dtb:workflow-checkpoint |
-| idea-review-sofortschreiben (#71) | Offen | 0/6 | /dtb:implement idea-review-sofortschreiben |
+| idea-review-sofortschreiben (#71) | In Arbeit | 5/6 | 5: /dtb:kit-sync sync |
 
 ---
 
@@ -25,7 +25,6 @@
 
 ## Offene Aufgaben
 
-- [ ] **Commit** — Kontext: Archivierung `feature-fast`, `meeting-agenda`, `output-style-gezielt` (2026-09-11)
 - [ ] **`#81` verwerfen** — Kontext: der Becken-Eintrag IST der erledigte Migrationsauftrag, Ausgang via `/dtb:idea-triage`
 - [ ] **5 Findings unter dem Review-Cap** — Kontext: Befehle in `archive/ideen-becken/review.md`
 - [ ] **L52 heben** — Kontext: Applies-to `alle`, dauerhafte Regel → `skills/CLAUDE.md` „Mechanik-Regeln"
@@ -51,7 +50,7 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — Archivierung `feature-fast`, `meeting-agenda`, `output-style-gezielt` ist uncommittet; danach `/dtb:implement idea-review-sofortschreiben`
+**Naechster Befehl:** `/dtb:kit-sync sync` — neue `dtb:idea-review`-Fassung verteilen (Schritt 5 von `idea-review-sofortschreiben`), danach `/dtb:workflow-checkpoint`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Gueltigkeitsbedingung:** Gilt, solange die Archivierung uncommittet ist.
+**Gueltigkeitsbedingung:** Gilt, solange Schritt 5 in `features/idea-review-sofortschreiben/task.md` offen ist.
 **Becken:** 38 ungesichtet → /dtb:idea-triage

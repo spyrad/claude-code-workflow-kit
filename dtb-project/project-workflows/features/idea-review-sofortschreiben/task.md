@@ -36,16 +36,16 @@ Lauf die Anweisung auslegt.
 
 ## Schritte
 
-- [ ] `skills/dtb-idea-triage/SKILL.md` Schritt 4 als Vorlage lesen (Absatz „Jede Entscheidung
+- [x] `skills/dtb-idea-triage/SKILL.md` Schritt 4 als Vorlage lesen (Absatz „Jede Entscheidung
       wird SOFORT geschrieben…", inkl. Abbruch-Begruendung und der verbindlichen Reihenfolge)
-- [ ] Den Absatz nach `skills/dtb-idea-review/SKILL.md` Schritt 3 uebertragen, an den dortigen
+- [x] Den Absatz nach `skills/dtb-idea-review/SKILL.md` Schritt 3 uebertragen, an den dortigen
       Kontext angepasst (Status-Aenderung in `INBOX.md` statt Becken-Zeile); Bezug auf L43 setzen
-- [ ] Pruefen, ob eine Abbruch-Meldezeile noetig ist (Muster `dtb:idea-triage` Schritt 6:
+- [x] Pruefen, ob eine Abbruch-Meldezeile noetig ist (Muster `dtb:idea-triage` Schritt 6:
       „Abgebrochen nach Eintrag {K} von {N} — die {K} getroffenen Entscheidungen sind geschrieben")
-- [ ] Kein Spiegel-Text: `dtb:idea-triage` bleibt die ausfuehrliche Fassung, `idea-review` bekommt
+- [x] Kein Spiegel-Text: `dtb:idea-triage` bleibt die ausfuehrliche Fassung, `idea-review` bekommt
       die eigene knappe — beide muessen dieselbe Entscheidung erzwingen (L43)
 - [ ] `/dtb:kit-sync sync` — sonst laeuft im Alltag weiter die alte Fassung
-- [ ] INBOX #71 nach der Umsetzung schliessen (Umsetzungsvermerk wie bei #73/#74)
+- [x] INBOX #71 nach der Umsetzung schliessen (Umsetzungsvermerk wie bei #73/#74)
 
 ## Ergebnis
 

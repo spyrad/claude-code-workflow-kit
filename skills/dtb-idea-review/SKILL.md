@@ -116,6 +116,14 @@ Gehe ich einzeln durch? (Ja / Nummern zum Ueberspringen / Alle verwerfen)
 
 ## Schritt 3: Einzeln durchgehen
 
+**Jede Statusaenderung wird sofort in `INBOX.md` geschrieben, bevor die naechste Idee
+erscheint — nie gesammelt am Ende.** Ein Review ueber viele Ideen wird eher abgebrochen als zu
+Ende gefuehrt; wer bis zum Schluss sammelt, verliert bei jedem Abbruch alles schon Entschiedene
+(INBOX #71). Verbindlich: entscheiden → schreiben → naechste Idee. Beruehrt eine Entscheidung
+zwei Zeilen (**Zusammenlegen**), gilt Ziel vor Quelle: erst die Ziel-Idee ergaenzen, dann die
+aktuelle auf `Verworfen` setzen — ein Abbruch dazwischen hinterlaesst eine erkennbare Dublette
+statt eines Lochs (L43).
+
 Fuer jede offene Idee zeige:
 
 ```
@@ -178,6 +186,8 @@ Naechster Schritt: {/dtb:task | /dtb:feature-fast | /dtb:feature-discover}
 
 ## Schritt 4: Zusammenfassung
 
+Nach der letzten Idee — oder nach einem Abbruch durch den Nutzer:
+
 ```
 Ideen-Review abgeschlossen:
 
@@ -187,4 +197,9 @@ Ideen-Review abgeschlossen:
   Zusammengelegt: {N}
 
 Offene Ideen gesamt: {N}
+```
+
+Bei Abbruch mitten im Durchgang zusaetzlich eine Zeile:
+```
+Abgebrochen nach Idee {K} von {N} — die bis dahin getroffenen Entscheidungen stehen in INBOX.md.
 ```
