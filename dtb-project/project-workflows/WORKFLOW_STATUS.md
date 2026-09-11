@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-09-10
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-10.md`
+**Letztes Update:** 2026-09-11
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-11.md`
 
 ---
 
@@ -9,13 +9,11 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| ideen-becken (#76) | Abgenommen | 14/14 | /dtb:archive |
-| inbox-becken-migration | Erledigt | 8/8 | /dtb:archive |
+| feature-fast | Abgenommen | 11/11 | /dtb:archive |
+| meeting-agenda | Abgenommen | 5/5 | /dtb:archive |
+| output-style-gezielt | Abgenommen | 11/11 | /dtb:archive |
+| feature-start-statusfeld | Fertig zum Testen | 5/5 | /dtb:workflow-checkpoint |
 | idea-review-sofortschreiben (#71) | Offen | 0/6 | /dtb:implement idea-review-sofortschreiben |
-| meeting-agenda | Fertig zum Testen | 5/5 | /dtb:impl-review meeting-agenda |
-| feature-fast | Fertig zum Testen | 11/11 | /dtb:impl-review feature-fast |
-| output-style-gezielt | Fertig zum Testen | 11/11 | /dtb:impl-review output-style-gezielt |
-| feature-start-statusfeld | Fertig zum Testen | 5/5 | /dtb:impl-review feature-start-statusfeld |
 
 ---
 
@@ -24,16 +22,17 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #41 Sprachausgabe lokal unter `~/.claude/` umgesetzt (Katja + Hedda-Fallback), Kit-Uebernahme offen (#85) |
+| **Notizen** | `feature-start-statusfeld`: Review triagiert (9 Fixed) — fehlt nur die Abnahme mit Beleg; Ableitungsluecke dazu #86 |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Commit** — Kontext: lessons.md (L48-L51), INBOX-BEFUNDE.md (#85), Session-Log, Status; INBOX.md nur Editor-Umformatierung
+- [ ] **Commit** — Kontext: Archivierung, drei Abnahmen, L52, #86-#89, Session-Log 2026-09-11
+- [ ] **Archivieren** — Kontext: `feature-fast`, `meeting-agenda`, `output-style-gezielt` abgenommen
 - [ ] **`#81` verwerfen** — Kontext: der Becken-Eintrag IST der erledigte Migrationsauftrag, Ausgang via `/dtb:idea-triage`
-- [ ] **Archivieren** — Kontext: `ideen-becken` abgenommen, `inbox-becken-migration` erledigt + 4 INBOX-Eintraege (#76, #74, #73, #71)
-- [ ] **5 Findings unter dem Review-Cap** — Kontext: Befehle in `features/ideen-becken/review.md`
+- [ ] **5 Findings unter dem Review-Cap** — Kontext: Befehle in `archive/ideen-becken/review.md`
+- [ ] **L52 heben** — Kontext: Applies-to `alle`, dauerhafte Regel → `skills/CLAUDE.md` „Mechanik-Regeln"
 - [ ] **Sprachausgabe auf dem Arbeitsrechner** — Kontext: `install-claude-tts.ps1` (Desktop) ausfuehren, dann `/hooks`
 
 ---
@@ -42,15 +41,21 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-09-11 | Abnahme feature-fast, meeting-agenda, output-style-gezielt | 3 Features seit August fertig → abgenommen mit Beleg | `2026-09/2026-09-11.md` (S1) |
+| 2026-09-11 | Archivierung ideen-becken + inbox-becken-migration | 2 Change-Ordner + INBOX #76/#74/#73 im Archiv | `archive/ARCHIVE_LOG.md` |
 | 2026-09-10 | Sprachausgabe #41 (lokal) | Katja via edge-tts, Hedda-Fallback, Installer fuer weitere Rechner | `2026-09/2026-09-10.md` (S1) |
-| 2026-09-09 | INBOX-Migration ins Becken | 27 nach `INBOX-BEFUNDE.md` (`Altbestand`), 11 verbleiben; Aufgabe 8/8 | `features/inbox-becken-migration/task.md` |
-| 2026-09-09 | `ideen-becken` (#76) Diagnose → Abgenommen | 14/14, Triage 10/10 FIXED, Lock 48 @ `f656b51` | `2026-09/2026-09-09.md` (S1-S2) |
+
+---
+
+## Pausierte Themen
+
+Keine.
 
 ---
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — 4 Pfade uncommittet (+ INBOX.md-Umformatierung); danach `/dtb:archive` (`ideen-becken`, `inbox-becken-migration`, 4 INBOX-Kandidaten)
+**Naechster Befehl:** `/dtb:commit-and-push` — Archivierung, Abnahmen, L52, #86-#89 und Session-Log sind uncommittet; danach `/dtb:archive` (`feature-fast`, `meeting-agenda`, `output-style-gezielt`)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Gueltigkeitsbedingung:** Gilt, solange die Pfade uncommittet sind und `features/ideen-becken/` existiert.
-**Becken:** 34 ungesichtet → /dtb:idea-triage
+**Gueltigkeitsbedingung:** Gilt, solange die Pfade uncommittet sind und `features/feature-fast/` existiert.
+**Becken:** 38 ungesichtet → /dtb:idea-triage

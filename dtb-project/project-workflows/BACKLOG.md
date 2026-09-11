@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-09 (`/dtb:workflow-checkpoint` Session 3: **INBOX-Migration ins Becken** — 27 Altbestands-Funde getrennt, 11 Fach-Wuensche verbleiben)
+**Letzte Aktualisierung:** 2026-09-11 (`/dtb:workflow-checkpoint` Session 1: Archivierung `ideen-becken` + `inbox-becken-migration`; Abnahme `feature-fast`, `meeting-agenda`, `output-style-gezielt`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,10 +12,9 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| ideen-becken | Abgenommen | Hoch | features/ideen-becken/spec.md | Maschinelle Verlustfunde in ein eigenes Becken trennen; nur Befoerdertes wird gearbeitet |
-| meeting-agenda | Fertig zum Testen | Mittel | features/meeting-agenda/spec.md | Rein lesende Agenda-Sicht: sammelt offene `[Fach]`-Fragen aus features/*/{discovery,spec}.md, gruppiert nach Feature — die fehlende Lese-Ansicht der Fachfragen-Kette (#13→#26→#25→#24); via Fast-Track geplant |
-| feature-fast | Fertig zum Testen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
-| output-style-gezielt | Fertig zum Testen | Mittel | features/output-style-gezielt/spec.md | Eine global geltende, schaltbare Stil-Vorgabe als versioniertes Kit-Artefakt ausliefern, die Claudes Fliesstext auf Orientierung statt Vollstaendigkeit ausrichtet — worum es geht, was der Stand ist, was zu entscheiden ist; Gegner sind Vorwegnahme und Redundanz, nicht Erklaerung |
+| meeting-agenda | Abgenommen | Mittel | features/meeting-agenda/spec.md | Rein lesende Agenda-Sicht: sammelt offene `[Fach]`-Fragen aus features/*/{discovery,spec}.md, gruppiert nach Feature — die fehlende Lese-Ansicht der Fachfragen-Kette (#13→#26→#25→#24); via Fast-Track geplant |
+| feature-fast | Abgenommen | Hoch | features/feature-fast/spec.md | Kleine Features durchlaufen die Erhebungsphase in einem Durchgang mit Default-Annahmen statt drei Interviews — ohne Abstriche an Artefakten, Derived State oder Reviews |
+| output-style-gezielt | Abgenommen | Mittel | features/output-style-gezielt/spec.md | Eine global geltende, schaltbare Stil-Vorgabe als versioniertes Kit-Artefakt ausliefern, die Claudes Fliesstext auf Orientierung statt Vollstaendigkeit ausrichtet — worum es geht, was der Stand ist, was zu entscheiden ist; Gegner sind Vorwegnahme und Redundanz, nicht Erklaerung |
 | feature-start-statusfeld | Fertig zum Testen | Hoch | features/feature-start-statusfeld/spec.md | `dtb:feature-start` schreibt keine Anzeigefelder mehr — der Start behauptet keinen Status, den die Ableitung nicht traegt, damit die Feld-Konfliktmeldung wieder ein Befund ist statt Dauerrauschen (INBOX #50, via Fast-Track) |
 
 ---
@@ -24,7 +23,6 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| INBOX-Migration ins Becken | Erledigt | Hoch | features/inbox-becken-migration/task.md | Altbestand der maschinellen Verlustfunde nach `INBOX-BEFUNDE.md` getrennt (Folgevorgang zu #76): 27 migriert, 11 verbleiben, #70/#54 repariert |
 | idea-review Sofort-Schreiben | Offen | Mittel | features/idea-review-sofortschreiben/task.md | Sofort-Schreiben-Absatz aus `dtb:idea-triage` Schritt 4 nach `dtb:idea-review` uebertragen (INBOX #71) |
 
 ---
