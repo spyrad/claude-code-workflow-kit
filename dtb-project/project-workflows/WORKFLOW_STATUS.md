@@ -9,9 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| feature-fast | Abgenommen | 11/11 | /dtb:archive |
-| meeting-agenda | Abgenommen | 5/5 | /dtb:archive |
-| output-style-gezielt | Abgenommen | 11/11 | /dtb:archive |
 | feature-start-statusfeld | Fertig zum Testen | 5/5 | /dtb:workflow-checkpoint |
 | idea-review-sofortschreiben (#71) | Offen | 0/6 | /dtb:implement idea-review-sofortschreiben |
 
@@ -28,8 +25,7 @@
 
 ## Offene Aufgaben
 
-- [ ] **Commit** — Kontext: Archivierung, drei Abnahmen, L52, #86-#89, Session-Log 2026-09-11
-- [ ] **Archivieren** — Kontext: `feature-fast`, `meeting-agenda`, `output-style-gezielt` abgenommen
+- [ ] **Commit** — Kontext: Archivierung `feature-fast`, `meeting-agenda`, `output-style-gezielt` (2026-09-11)
 - [ ] **`#81` verwerfen** — Kontext: der Becken-Eintrag IST der erledigte Migrationsauftrag, Ausgang via `/dtb:idea-triage`
 - [ ] **5 Findings unter dem Review-Cap** — Kontext: Befehle in `archive/ideen-becken/review.md`
 - [ ] **L52 heben** — Kontext: Applies-to `alle`, dauerhafte Regel → `skills/CLAUDE.md` „Mechanik-Regeln"
@@ -41,7 +37,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-09-11 | Abnahme feature-fast, meeting-agenda, output-style-gezielt | 3 Features seit August fertig → abgenommen mit Beleg | `2026-09/2026-09-11.md` (S1) |
+| 2026-09-11 | Abnahme feature-fast, meeting-agenda, output-style-gezielt | 3 Features seit August fertig → abgenommen mit Beleg, archiviert | `archive/ARCHIVE_LOG.md` |
 | 2026-09-11 | Archivierung ideen-becken + inbox-becken-migration | 2 Change-Ordner + INBOX #76/#74/#73 im Archiv | `archive/ARCHIVE_LOG.md` |
 | 2026-09-10 | Sprachausgabe #41 (lokal) | Katja via edge-tts, Hedda-Fallback, Installer fuer weitere Rechner | `2026-09/2026-09-10.md` (S1) |
 
@@ -55,7 +51,7 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — Archivierung, Abnahmen, L52, #86-#89 und Session-Log sind uncommittet; danach `/dtb:archive` (`feature-fast`, `meeting-agenda`, `output-style-gezielt`)
+**Naechster Befehl:** `/dtb:commit-and-push` — Archivierung `feature-fast`, `meeting-agenda`, `output-style-gezielt` ist uncommittet; danach `/dtb:implement idea-review-sofortschreiben`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Gueltigkeitsbedingung:** Gilt, solange die Pfade uncommittet sind und `features/feature-fast/` existiert.
+**Gueltigkeitsbedingung:** Gilt, solange die Archivierung uncommittet ist.
 **Becken:** 38 ungesichtet → /dtb:idea-triage
