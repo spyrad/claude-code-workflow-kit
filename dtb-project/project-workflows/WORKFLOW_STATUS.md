@@ -10,7 +10,6 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 | feature-start-statusfeld | Fertig zum Testen | 5/5 | /dtb:workflow-checkpoint |
-| idea-review-sofortschreiben (#71) | Abgenommen | 6/6 | /dtb:archive |
 
 ---
 
@@ -38,7 +37,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-09-12 | Abnahme idea-review Sofort-Schreiben (#71) | Wirklauf in 2 Laeufen belegt, Restluecke Zusammenlegen (L43) | `features/idea-review-sofortschreiben/task.md` |
+| 2026-09-12 | Abnahme idea-review Sofort-Schreiben (#71) | Wirklauf in 2 Laeufen belegt, Restluecke Zusammenlegen (L43) | `archive/idea-review-sofortschreiben/task.md` |
 | 2026-09-11 | Sprachausgabe veroeffentlicht | Oeffentliches Repo `spyrad/claude-code-tts` (Einzeiler, Stopp-Hotkey, Uninstall) | `2026-09/2026-09-11.md` (S2) |
 | 2026-09-11 | Abnahme + Archiv feature-fast, meeting-agenda, output-style-gezielt | 3 Features seit August abgenommen und archiviert | `archive/ARCHIVE_LOG.md` |
 
@@ -52,7 +51,7 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` — Checkpoint 2026-09-12 S1 (L56, #92/#93, INBOX #41, Abnahme, Session-Log) ist uncommittet; danach `/dtb:archive` fuer `idea-review-sofortschreiben`
+**Naechster Befehl:** `/dtb:commit-and-push` — Archivierung 2026-09-12 (`idea-review-sofortschreiben` → `archive/`, INBOX #41/#71 entfernt) ist uncommittet; danach Abnahme `feature-start-statusfeld`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Gueltigkeitsbedingung:** Gilt, solange die Checkpoint-Pfade uncommittet sind und `features/idea-review-sofortschreiben/` existiert.
+**Gueltigkeitsbedingung:** Gilt, solange die Archiv-Pfade uncommittet sind.
 **Becken:** 42 ungesichtet → /dtb:idea-triage

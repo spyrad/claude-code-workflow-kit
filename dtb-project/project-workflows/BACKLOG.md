@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-12 (`/dtb:workflow-checkpoint` Session 1: `idea-review-sofortschreiben` abgenommen nach Wirklauf)
+**Letzte Aktualisierung:** 2026-09-12 (`/dtb:archive`: Aufgabe `idea-review-sofortschreiben` archiviert, INBOX #41/#71 entfernt)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -20,7 +20,6 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| idea-review Sofort-Schreiben | Abgenommen | Mittel | features/idea-review-sofortschreiben/task.md | Sofort-Schreiben-Absatz aus `dtb:idea-triage` Schritt 4 nach `dtb:idea-review` uebertragen (INBOX #71) |
 
 ---
 
