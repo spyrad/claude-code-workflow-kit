@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-09-09
 **Prioritaet:** Mittel
-**Status:** Erledigt
+**Status:** Abgenommen
 **Bereich:** Kit-Skills — `skills/dtb-idea-review/SKILL.md`
 
 ---
@@ -53,6 +53,23 @@ Lauf die Anweisung auslegt.
 unmittelbar geschrieben wird, mit derselben Wirkung wie in `dtb:idea-triage` Schritt 4. Ein
 Abbruch mitten im Review laesst alle bis dahin getroffenen Entscheidungen fest geschrieben
 zurueck — nachweisbar an einem Lauf, der nach der zweiten Entscheidung abgebrochen wird.
+
+## Abnahme-Beleg
+
+Wirklauf 2026-09-12, installierte Fassung (`~/.claude/skills/dtb-idea-review`, Lock 48 @ `e4e436d`),
+zwei Durchgaenge ueber die 7 offenen INBOX-Ideen:
+
+- **Lauf 1** — #57, #45, #39 behalten, #41 „Ausarbeiten" ohne Bestaetigung, dann Abbruch:
+  `INBOX.md` unveraendert (kein Diff, mtime 2026-09-11 06:54) — korrekt, denn keine Entscheidung
+  schreibt. Zusammenfassung + Zeile „Abgebrochen nach Idee 4 von 7" erschienen (Schritt 4)
+- **Lauf 2** — #57, #45, #39 uebersprungen, #41 verworfen, Abbruch bei #33: die Statusaenderung
+  von #41 stand in `INBOX.md`, BEVOR #33 angezeigt wurde (`git diff --stat`: 1 Zeile); nach dem
+  Abbruch #41 `Verworfen` mit Umsetzungsvermerk, alle anderen 6 unveraendert `Offen`.
+  Zusammenfassung + Zeile „Abgebrochen nach Idee 1 von 4" erschienen
+
+Ergebnis: Sofort-Schreiben (entscheiden → schreiben → naechste Idee) und die Abbruch-Zeile sind
+belegt. **Restluecke:** „Ziel vor Quelle" beim Zusammenlegen (L43) wurde nicht im Wirklauf
+ausgeuebt — nur per Text geprueft.
 
 ---
 
