@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-09-12
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-12.md`
+**Letztes Update:** 2026-09-14
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-14.md`
 
 ---
 
@@ -17,15 +17,16 @@
 
 | Kennzahl | Wert |
 |----------|------|
-| **Blocker** | Keine |
-| **Notizen** | `feature-start-statusfeld`: Review triagiert, Abnahme braucht die 4 Manual-Kriterien (realer Start: `gitattributes-eol` nicht mehr unter `features/` → Ersatz suchen); Ableitungsluecke #86 |
+| **Blocker** | Abnahme `feature-start-statusfeld` blockiert: das Manual-Kriterium „Realer Start" verweist auf `gitattributes-eol` (archiviert), im Bestand existiert kein startbarer Ersatz — Ersatz-Objekt muss erst bestimmt werden (L57) |
+| **Notizen** | Becken nachgezaehlt: 44 ungesichtet (bisher 42 ausgewiesen); Ableitungsluecke #86 unveraendert |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Abnahme `feature-start-statusfeld`** — Kontext: 4 Manual-Kriterien in `features/feature-start-statusfeld/plan.md`, inkl. Wegwerf-Test Progress-Nachruestung
-- [ ] **`/dtb:idea-triage`** — Kontext: 42 ungesichtet; #85 mit Vermerk aus #91 verwerfen, #81 verwerfen, #92/#93
+- [ ] **Ersatz-Objekt fuer „Realer Start" bestimmen** — Kontext: Wegwerf-Item anlegen oder INBOX-Idee real starten; Voraussetzung fuer die Abnahme
+- [ ] **Abnahme `feature-start-statusfeld`** — Kontext: 4 Manual-Kriterien in `features/feature-start-statusfeld/plan.md`
+- [ ] **`/dtb:idea-triage`** — Kontext: 44 ungesichtet; #85 mit Vermerk aus #91 verwerfen, #81 verwerfen, #92/#93
 - [ ] **5 Findings unter dem Review-Cap** — Kontext: Befehle in `archive/ideen-becken/review.md`
 - [ ] **L52/L53 heben** — Kontext: Applies-to `alle` → `skills/CLAUDE.md` „Mechanik-Regeln"
 - [ ] **Veraltete TTS-Dateien loeschen** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1` (Quelle jetzt `claude-code-tts`)
@@ -51,7 +52,7 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-checkpoint` — Abnahme `feature-start-statusfeld`, nachdem die 4 Manual-Kriterien ausgeuebt sind (mechanische Regel ergaebe `/dtb:implement` wegen REJECTED, die Triage ist aber komplett — #86); vorher `/dtb:commit-and-push` fuer diesen Checkpoint (Log S2 + Status), falls noch nicht geschehen
+**Naechster Befehl:** `/dtb:commit-and-push` (Log + Status + L57 dieser Session), danach Ersatz-Objekt fuer das Manual-Kriterium „Realer Start" bestimmen — erst damit wird `/dtb:workflow-checkpoint` (Abnahme) ausfuehrbar; die mechanische Regel ergaebe hier `/dtb:impl-review`, die Triage ist aber komplett (#86)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Gueltigkeitsbedingung:** Gilt, solange `features/feature-start-statusfeld/` existiert und dort kein `Abgenommen` gesetzt ist.
-**Becken:** 42 ungesichtet → /dtb:idea-triage
+**Becken:** 44 ungesichtet → /dtb:idea-triage
