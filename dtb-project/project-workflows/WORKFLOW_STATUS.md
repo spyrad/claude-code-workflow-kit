@@ -1,6 +1,6 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-09-16
+**Letztes Update:** 2026-09-16 (`/dtb:archive`)
 **Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-16.md`
 
 ---
@@ -9,7 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| feature-start-statusfeld | Abgenommen | 5/5 | /dtb:archive |
 
 ---
 
@@ -24,7 +23,6 @@
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:archive feature-start-statusfeld`** — Kontext: abgenommen 2026-09-16, wartet auf Archivierung
 - [ ] **`/dtb:idea-triage`** — Kontext: 44 ungesichtet; #85 mit Vermerk aus #91 verwerfen, #81 verwerfen, #92/#93
 - [ ] **Idee erfassen: Kriterien-Checkboxen ohne Pfleger** — Kontext: `dtb:implement` prueft Checkpoint-Kriterien, flippt aber nur `## Progress` (Befehl im Verlustpruefungs-Report 2026-09-16)
 - [ ] **5 Findings unter dem Review-Cap** — Kontext: Befehle in `archive/ideen-becken/review.md`
@@ -52,7 +50,7 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push` (Abnahme-Aenderungen dieser Session: `plan.md`, `spec.md`, `BACKLOG.md`, `lessons.md` L59, Log + Status), danach `/dtb:archive feature-start-statusfeld`
+**Naechster Befehl:** `/dtb:commit-and-push` (Archiv-Aenderungen dieser Session: Ordner-Move nach `archive/feature-start-statusfeld/`, `ARCHIVE_LOG.md`, `BACKLOG.md`, Status), danach `/dtb:idea-triage` (44 ungesichtet)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Gueltigkeitsbedingung:** Gilt, solange `features/feature-start-statusfeld/` existiert und dort `Abgenommen` gesetzt ist.
+**Gueltigkeitsbedingung:** Gilt, solange die Archiv-Aenderungen nicht committet sind und das Becken ungesichtet ist.
 **Becken:** 44 ungesichtet → /dtb:idea-triage
