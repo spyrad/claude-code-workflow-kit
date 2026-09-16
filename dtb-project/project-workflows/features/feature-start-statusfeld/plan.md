@@ -78,7 +78,7 @@ Lanes; Frontmatter und Ausgabe-Texte beschreiben die neue Wirkung korrekt.
 - [ ] Auswahlregel unangetastet: `grep -c 'keine "In Arbeit"' skills/dtb-feature-start/SKILL.md` ≥ **1** (Z. 186 nennt den Begriff legitim — deshalb kein dateiweiter Negativ-Grep)
 
 #### Manual
-- [ ] Der umgebaute Schritt 4 liest sich als geschlossene Anweisung (kein Rest-Satz, der auf einen entfernten Schritt verweist) — Nachbarschaft gegengelesen (Lektion 12)
+- [x] Der umgebaute Schritt 4 liest sich als geschlossene Anweisung (kein Rest-Satz, der auf einen entfernten Schritt verweist) — Nachbarschaft gegengelesen (Lektion 12). **Geprueft 2026-09-16:** Ueberschrift „Artefakte lesen“ (nicht mehr „Aktivieren“), Einstiegssatz schliesst mit „— mehr nicht“, der Kasten benennt Nicht-Zustaendigkeit UND Pfleger je Datei, alle drei Lanes verweisen nur auf Schritt 5 (existiert). Kein Verweis auf einen entfernten Schritt
 
 ---
 
@@ -118,9 +118,9 @@ Kopien vor und ist an einem realen Start belegt.
 - [ ] **(Nachlauf)** Abschluss-`check`: 0 Abweichungen ueber alle Artefakte
 
 #### Manual
-- [ ] **Realer Start** der Aufgabe `gitattributes-eol` (0/6, einziger startbarer Kandidat im Bestand) gefolgt von `/dtb:workflow-resume`: **kein** Feldkonflikt gemeldet, Status bleibt `Offen` (das eigentliche Erfolgskriterium — die Automated-Kriterien pruefen nur den Text). Bewusst ein echtes Item statt einer Attrappe: der Start ist ohnehin faellig und veraendert nur einen Anzeigewert, der nach diesem Feature gar nicht mehr geschrieben wird
-- [ ] **Progress-Nachruestung per Wegwerf-Test** (Muster aus `output-style-gezielt` 2.4, plan-review 2026-08-07): temporaeren Plan ohne `## Progress` anlegen → `feature-start` darauf ausfuehren → Nachruest-Angebot erscheint und schreibt korrekt → Wegwerf-Datei wieder loeschen. Ohne diese Datei ist das Kriterium nicht ausfuehrbar, weil jeder Bestandsplan eine `## Progress`-Sektion hat (Senior Dev, Runde 3)
-- [ ] Rueckweg einmal gedanklich durchgespielt: die Zeilen unter `## Rueckweg` reichen aus, um den alten Zustand ohne Rueckgriff auf diesen Chat wiederherzustellen
+- [x] **Realer Start** eines Items im Zustand `Offen` gefolgt von `/dtb:workflow-resume`: **kein** Feldkonflikt gemeldet, Status bleibt `Offen` (das eigentliche Erfolgskriterium — die Automated-Kriterien pruefen nur den Text). **Belegt 2026-09-16** am Wegwerf-Item `abnahmeprobe-start` (Aufgabe, 0/3 Schritte): md5 von `BACKLOG.md`, `WORKFLOW_STATUS.md` und `task.md` vor und nach dem Start identisch (`f9198bb2…` / `4b6783bf…` / `99721990…`), anschliessender `workflow-resume`-Lauf ohne Konfliktzeile, abgeleiteter Status unveraendert `Offen`. Wegwerf-Item danach geloescht. **Kriterium umformuliert (L57):** das urspruenglich benannte Bestands-Item `gitattributes-eol` wurde am 2026-08-10 archiviert und machte das Kriterium unausfuehrbar — der Beleg haengt jetzt an einem Objekt, das der Abnahme-Lauf selbst erzeugt, nicht an fremdem Bestand
+- [x] **Progress-Nachruestung per Wegwerf-Test** (Muster aus `output-style-gezielt` 2.4, plan-review 2026-08-07): temporaeren Plan ohne `## Progress` anlegen → `feature-start` darauf ausfuehren → Nachruest-Angebot erscheint und schreibt korrekt → Wegwerf-Datei wieder loeschen. Ohne diese Datei ist das Kriterium nicht ausfuehrbar, weil jeder Bestandsplan eine `## Progress`-Sektion hat (Senior Dev, Runde 3). **Belegt 2026-09-16** am Wegwerf-Feature `abnahmeprobe-nachruestung` (Plan mit 4 Schritten, ohne `## Progress`): Der Skill bot die Nachruestung an (statt sie still zu tun) und schrieb nach Bestaetigung eine §2-konforme Sektion — 4 Zeilen `- [ ]`, Nummerierung 1.1/1.2/2.1/2.2 identisch zu den Plan-Schritten, keine SHAs. Ausgefuehrt mit `Edit` (kein `Write` noetig — belegt die Technische Entscheidung „`Edit` behalten“). md5: `plan.md` `46a01015…` → `580f01b9…`, `BACKLOG.md` (`8c97bd7c…`) und `WORKFLOW_STATUS.md` (`4b6783bf…`) unveraendert. Abgeleiteter Stand danach 0/4 = `Geplant`, deckungsgleich mit BACKLOG und spec. Wegwerf-Feature danach geloescht
+- [x] Rueckweg einmal gedanklich durchgespielt: die Zeilen unter `## Rueckweg` reichen aus, um den alten Zustand ohne Rueckgriff auf diesen Chat wiederherzustellen. **Erster Durchgang 2026-09-16: NICHT bestanden** — der Block behauptete „vollstaendig in zwei Commits an zwei Dateien“ (tatsaechlich drei Commits, vier Dateien; `b5e11e4` fehlte) und nannte die SHAs nur als Platzhalter `{SHA der Phase 1}`. **Nach der Korrektur bestanden:** der Block nennt jetzt alle drei SHAs, warnt vor dem blanken `git revert` (Fremdanteile: Feature-Artefakte in `43e9c9a`, Session-Log/BACKLOG/INBOX/STATUS in `b5e11e4`) und gibt einen pfadgezielten Weg in 5 Schritten. Beide darin genannten Kommandos trocken verifiziert: `git log --oneline b5e11e4.. -- skills/dtb-feature-start/SKILL.md` ist leer, und `git show 43e9c9a^:skills/dtb-feature-start/SKILL.md` traegt 10× „In Arbeit“ — also wirklich den Vorzustand
 
 ---
 
@@ -144,12 +144,35 @@ Kopien vor und ist an einem realen Start belegt.
 
 Erweist sich der Wegfall der Sichtbarkeit im Alltag als Fehler:
 
-1. `git revert {SHA der Phase 1}` bzw. `git revert {SHA der Phase 2}` im Kit-Repo — die
-   Aenderung liegt vollstaendig in zwei Commits an zwei Dateien, es gibt keinen Datenanteil
-2. Pushen, dann `/dtb:kit-sync sync` — die installierten Kopien fallen auf die alte Fassung
-   zurueck; der `check` danach muss 0 Abweichungen melden
-3. Bereits gestartete Items bleiben unberuehrt: ihr abgeleiteter Status haengt an `## Progress`
-   bzw. den Checklisten, nicht am Anzeigefeld
+**Nicht per `git revert` der Phasen-Commits** — die Aenderung liegt in **drei** Commits
+(`43e9c9a` Phase 1, `4047ea3` Phase 2, `b5e11e4` impl-review-Triage mit 9 Findings) und beruehrt
+**vier** Skill-Dateien. Zwei der drei Commits tragen ausserdem Fremdanteile, die ein Revert mit
+zurueckdrehen wuerde: `43e9c9a` legt die Feature-Artefakte (`discovery.md`/`spec.md`/`plan.md`)
+neu an, `b5e11e4` enthaelt Session-Log, `BACKLOG.md`, `INBOX.md` und `WORKFLOW_STATUS.md`.
+Der Rueckweg ist deshalb **pfadgezielt** (belegt per `git show --stat` 2026-09-16):
+
+1. **Vorpruefung** — gab es seit `b5e11e4` weitere Commits an der Hauptdatei?
+   `git log --oneline b5e11e4.. -- skills/dtb-feature-start/SKILL.md`
+   Leer (Stand 2026-09-16) → Schritt 2 gilt. Nicht leer → diese Commits erst einzeln bewerten
+2. **Hauptdatei zurueckholen:** `git checkout 43e9c9a^ -- skills/dtb-feature-start/SKILL.md`
+   — stellt die Fassung mit Anzeigefeld-Schreibung wieder her (der `^` ist der Stand davor)
+3. **Drei Spiegel-Zeilen von Hand zurueckdrehen** — nicht per `checkout`, weil diese Dateien
+   seither von anderen Features geaendert wurden (`skills/CLAUDE.md` z.B. durch
+   `autonome-schiene`). Die alten Wortlaute zeigen:
+   `git show 4047ea3 -- skills/CLAUDE.md skills/dtb-implement/SKILL.md` (je 1 Tabellenzeile) und
+   `git show b5e11e4 -- skills/CLAUDE.md skills/dtb-plan-review/SKILL.md` (1 Tabellenzeile +
+   Gate-Meldeblock). Die `-`-Zeilen des Diffs sind der Zielzustand
+4. **Verteilen:** committen, pushen, dann `/dtb:kit-sync sync` — die installierten Kopien fallen
+   auf die alte Fassung zurueck; der `check` danach muss 0 Abweichungen melden. Vor dem `sync`
+   `git status -sb` pruefen: steht der Branch auf `ahead`, erst pushen (Lektion 39)
+5. **Bereits gestartete Items bleiben unberuehrt:** ihr abgeleiteter Status haengt an
+   `## Progress` bzw. den Checklisten, nicht am Anzeigefeld
+
+> **Warum so ausfuehrlich (Befund der Abnahme 2026-09-16):** Die erste Fassung dieses Blocks sagte
+> „die Aenderung liegt vollstaendig in zwei Commits an zwei Dateien“ und nannte die SHAs nur als
+> Platzhalter `{SHA der Phase 1}`. Beides trug nicht — der Triage-Commit fehlte, zwei weitere
+> Dateien fehlten, und die Platzhalter waren nie aufgeloest worden. Genau das sollte das
+> Manual-Kriterium „Rueckweg gedanklich durchgespielt“ finden; es fand es erst beim zweiten Anlauf.
 
 **Fehlermodus benennen (Betriebs-Waechter, Runde 3):** Faellt spaeter auf, dass ein Pfad ein
 entzogenes Werkzeug doch braucht, bricht der Lauf mitten in der Arbeit ab statt vorab zu warnen.
