@@ -1,0 +1,24 @@
+name: Notify Site
+
+# Stoesst nach jedem Push auf master den Deploy der persoenlichen Website an,
+# damit deren Workflow-Kennzahlen sofort den neuen Kit-Stand zeigen.
+# Ziel-Repo und Token liegen nur als Secrets vor. Der Token hat ausschliesslich
+# Actions: write auf das Ziel-Repo: er kann Laeufe starten, aber keinen Code
+# aendern. Die Gegenseite nimmt kit_ref nur an, wenn der Commit auf Kit-master liegt.
+on:
+  push:
+    branches: [master]
+
+permissions: {}
+
+jobs:
+  notify:
+    # Forks haben weder Secrets noch ein Ziel: dort still ueberspringen statt rot laufen.
+    if: github.repository == 'spyrad/claude-code-workflow-kit'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Site-Deploy ausloesen
+        env:
+          GH_TOKEN: ${{ secrets.SITE_DISPATCH_TOKEN }}
+          SITE_REPO: ${{ secrets.SITE_REPO }}
+        run: gh workflow run deploy.yml --repo "$SITE_REPO" --ref master -f kit_ref="$GITHUB_SHA"
