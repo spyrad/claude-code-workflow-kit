@@ -15,7 +15,7 @@ pipeline:
   stage: idea
   after: null
   next: [dtb:idea-review]
-  consumes: [INBOX.md, BACKLOG.md, features/*/spec.md, features/*/plan.md, workflow.config.yaml]
+  consumes: [INBOX.md, BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/bug.md, project-rules/DERIVED_STATE_RULES.md, workflow.config.yaml]
   produces: []
 ---
 
@@ -50,26 +50,22 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 Lies `{config.paths.workflows}/INBOX.md`.
 
-- **Datei fehlt oder hat keine Datenzeile** →
+- **Datei fehlt** →
   ```
   Keine Inbox vorhanden — nichts zu ranken. Ideen erfassen mit /dtb:idea
   ```
-  Ende.
+  Ende. Eine vorhandene Datei **ohne Datenzeile** laeuft normal weiter: Schritt 2 meldet
+  genannte Nummern als nicht vorhanden und endet dann in „nichts zu ranken".
 - **Kandidaten:** alle Eintraege mit Status `Offen`. „Offen" ist genau dieser Status-Wert
   der Inbox — keine eigene Auslegung (weder `In Arbeit` noch `Ausgearbeitet` zaehlen).
-- **Keine `Offen`-Eintraege** →
-  ```
-  Keine offenen Ideen in der Inbox — nichts zu ranken.
-  Geprueft: {config.paths.workflows}/INBOX.md (Status "Offen")
-  ```
-  Ende.
+  Ob Kandidaten uebrig bleiben, prueft erst Schritt 2 — nach der Argument-Auswertung.
 - **Eintraege mit Status `In Arbeit`** merken — sie werden nicht gerankt, dienen aber als
   Blocker-Kontext (Schritt 4).
 
 **Das Befund-Becken `INBOX-BEFUNDE.md` wird NICHT gelesen.** Becken-Eintraege sind bis zu
 ihrer Befoerderung fuer keine Arbeitssicht sichtbar (`DERIVED_STATE_RULES.md` §6.4). Weil das
 Becken ungelesen bleibt, ist eine Becken-Nummer im Idee-Text nicht von einer archivierten
-Idee unterscheidbar — beide behandelt Schritt 4.3 als **Verweis ausserhalb der Inbox**.
+Idee unterscheidbar — beide behandelt Schritt 4.2 als **Verweis ausserhalb der Inbox**.
 
 ## Schritt 2: Argument auswerten
 
@@ -84,17 +80,32 @@ Report — der Rest wird normal gerankt:
 - existiert nicht → `⚠ #{N} nicht in der Inbox — uebersprungen`
 - anderer Status → `⚠ #{N} hat Status "{Status}" — nur "Offen" wird gerankt`
 
-Bleibt keine Idee uebrig → nur die Hinweiszeilen ausgeben, Ende.
+**Nichts zu ranken** (mit oder ohne Argument bleibt keine `Offen`-Idee im Umfang) → die
+⚠-Hinweiszeilen (falls vorhanden), dann:
+```
+Keine offenen Ideen im Umfang — nichts zu ranken.
+Geprueft: {config.paths.workflows}/INBOX.md (Status "Offen"{, Teilmenge: #a, #b})
+```
+Ende. Die Reihenfolge ist Absicht: Wer Nummern nennt, erfaehrt auch bei leerem Ergebnis,
+warum sie nicht gerankt werden.
 
 Bei einer Teilmenge werden Abhaengigkeiten zu Ideen **ausserhalb** der Teilmenge trotzdem
-genannt (mit Nummer), nur nicht selbst gerankt.
+genannt (mit Nummer), nur nicht selbst gerankt. Eine `Offen`-Vorbedingung ausserhalb der
+Teilmenge zaehlt als nicht erfuellt (4.2), weil ihre Arbeitsbereitschaft in diesem Lauf nicht
+geprueft wird — ein Lauf ohne Argument kann dieselbe Idee deshalb in einem Arbeits-Topf zeigen.
+Das ist Absicht, kein Widerspruch.
 
 ## Schritt 3: Querbelege lesen
 
 Lies read-only, um Blocker und Ueberschneidungen zu erkennen:
 
-- `{config.paths.workflows}/features/*/spec.md` und `plan.md` — laufende Changes (Ziel,
-  Scope, `## Progress`-Stand grob: begonnen / nicht begonnen)
+- `{config.paths.rules}/DERIVED_STATE_RULES.md` §1 (Fallback:
+  `dtb-project/project-rules/DERIVED_STATE_RULES.md`) — der Status eines Change wird nach
+  diesen Regeln abgeleitet, nie selbst definiert. Fehlt die Datei → Hinweiszeile
+  `⚠ DERIVED_STATE_RULES.md nicht gefunden — Change-Status aus plan.md/spec.md grob abgeleitet`
+- `{config.paths.workflows}/features/*/spec.md`, `plan.md`, `task.md` und `bug.md` — laufende
+  Changes (Ziel, Scope, abgeleiteter Status nach §1; Aufgaben und Bugs nach §1.5 —
+  hat ein Ordner auch `plan.md`, gilt die plan-basierte Ableitung)
 - `{config.paths.workflows}/BACKLOG.md` — geplante Features und Aufgaben
 
 `archive/` und das Changelog werden nicht gelesen: Belege aus frueheren Sessions stehen in
@@ -112,7 +123,40 @@ Traegt eine `Offen`-Idee einen Vermerk, dass ein Teil bereits geroutet ist (Task
 zu einem Teilaspekt), bewerte **nur den ungerouteten Rest** und markiere die Zeile mit
 `(Rest nach Teil-Routing)`.
 
-### 4.2 Stufen je Idee
+### 4.2 Abhaengigkeiten erkennen
+
+Eine Abhaengigkeit ist ein gerichtetes Paar `#A vor #B` mit Grund. Quellen:
+
+- **ausdruecklich im Text** — Nennung einer anderen Nummer mit Reihenfolge-Aussage („nach",
+  „setzt voraus", „blockiert", „erst wenn") → `zwingend`
+- **Querbeleg** — die Idee aendert, was ein laufender Change gerade baut, oder braucht
+  dessen Ergebnis → `zwingend`, wenn der Text es sagt; sonst `sinnvoll (Vermutung)`
+- **inhaltlich geschlossen** — zwei Ideen beruehren dieselbe Stelle, eine sollte zuerst
+  → `sinnvoll (Vermutung)`
+- **externe Voraussetzung, ausdruecklich im Text** (Release, Entscheidung, Werkzeug) →
+  `zwingend`, nicht erfuellt, bis Text oder Querbeleg das Gegenteil zeigen
+
+**Vorbedingung → Wirkung** (Change-Status nach `DERIVED_STATE_RULES.md` §1, Aufgaben/Bugs §1.5):
+
+| Vorbedingung | Wirkung |
+|--------------|---------|
+| Change unter `features/` (Ordner existiert, gleich mit welcher der vier Dateien), Status `Fertig zum Testen`, `Erledigt`, `Behoben` oder `Abgenommen` | erfuellt — kein Blocker |
+| Change unter `features/`, jeder andere Status | nicht erfuellt (blockiert nur bei `zwingend`, Regel 1 in 4.4) |
+| Inbox-Idee `Offen`, im selben Lauf gerankt | **Reihenfolge-Kante** — Wirkung in 4.4 (Durchgang 2) |
+| Inbox-Idee `Offen` ausserhalb der Teilmenge, oder `In Arbeit` | nicht erfuellt (blockiert nur bei `zwingend`, Regel 1 in 4.4) |
+| Inbox-Idee `Ausgearbeitet` mit Change-Link (`→ features/{slug}/…`) | wie der verlinkte Change (Zeilen 1-2) |
+| Inbox-Idee `Verworfen` | kein Blocker; `↪ Vorbedingung verworfen — Abhaengigkeit pruefen` |
+| **nicht pruefbar** — Nummer steht nicht in `INBOX.md` · Change nicht unter `features/` · `Ausgearbeitet` ohne Change-Link · unbekannter Status | kein Blocker, keine Abhaengigkeit, Nummer **nicht** in den Report; `↪ {Grund} — Reihenfolge nicht pruefbar` mit {Grund} aus: `Verweis ausserhalb der Inbox` · `Verweis ausserhalb der laufenden Changes` · `Vorbedingung ausgearbeitet, Change nicht verlinkt` · `Vorbedingung mit unbekanntem Status` |
+
+Warum `Ausgearbeitet` nicht pauschal erfuellt: der Status heisst „Change angelegt", nicht
+„umgesetzt" — `dtb:idea-review` setzt ihn in der Task-Lane sogar vor `/dtb:task`.
+
+Warum eine Nummer ausserhalb der Inbox nicht pruefbar ist: sie kann eine archivierte Idee oder
+ein Becken-Eintrag sein — ohne das Becken zu lesen, ist das nicht entscheidbar, und ein
+Becken-Eintrag darf in keiner Arbeitssicht erscheinen (§6.4). Ebenso unterscheidet der Skill
+ohne `archive/` nicht zwischen archiviertem und nicht existentem Change.
+
+### 4.3 Stufen je Idee
 
 Jede Idee bekommt genau eine Aufwand- und eine Nutzen-Stufe mit 1-Satz-Begruendung. Grobe
 Stufen, keine Zahlen oder Prozentwerte — eine Zahl suggeriert eine Messbarkeit, die kein Lauf
@@ -130,7 +174,7 @@ einloest.
 
 | Stufe | Merkmal |
 |-------|---------|
-| `hoch` | beseitigt einen belegt wiederkehrenden Schmerz oder eine Fehlerklasse (Beleg im Text: Datum, Anzahl, Session), oder ist Vorbedingung anderer Ideen |
+| `hoch` | beseitigt einen belegt wiederkehrenden Schmerz oder eine Fehlerklasse (Beleg im Text: Datum, Anzahl, Session), oder ist ueber eine **zwingende** Abhaengigkeit aus 4.2 Vorbedingung anderer Ideen (eine `sinnvoll (Vermutung)`-Kante zaehlt nicht) |
 | `mittel` | spuerbare Verbesserung eines regelmaessig genutzten Ablaufs, ohne belegte Wiederholung |
 | `niedrig` | wuenschenswert, aber kein belegter Bedarf; Erkundung ohne konkreten Anlass |
 
@@ -138,37 +182,16 @@ Grenzfall zwischen zwei Stufen → die **niedrigere** Nutzen- bzw. die **hoehere
 Aufwand-Stufe waehlen. Die Rangliste soll eher zu vorsichtig empfehlen als eine Idee zum
 Quick Win hochzureden.
 
-### 4.3 Abhaengigkeiten erkennen
-
-Eine Abhaengigkeit ist ein gerichtetes Paar `#A vor #B` mit Grund. Quellen:
-
-- **ausdruecklich im Text** — Nennung einer anderen Nummer mit Reihenfolge-Aussage („nach",
-  „setzt voraus", „blockiert", „erst wenn") → `zwingend`
-- **Querbeleg** — die Idee aendert, was ein laufender Change gerade baut, oder braucht
-  dessen Ergebnis → `zwingend`, wenn der Text es sagt; sonst `sinnvoll (Vermutung)`
-- **inhaltlich geschlossen** — zwei Ideen beruehren dieselbe Stelle, eine sollte zuerst
-  → `sinnvoll (Vermutung)`
-
-Ein Blocker ist **erfuellt**, wenn die benannte Idee `Ausgearbeitet` ist bzw. der benannte
-Change abgeschlossen ist (`## Progress` vollstaendig). `In Arbeit` und laufende Changes
-blockieren weiter.
-
-**Verweis ausserhalb der Inbox** (die genannte Nummer steht nicht in `INBOX.md`): daraus
-entsteht **keine** Abhaengigkeit und kein Blocker, und die Nummer wird **nicht** in den Report
-uebernommen. Die Nummer kann eine archivierte Idee oder ein Becken-Eintrag sein — ohne das
-Becken zu lesen, ist das nicht entscheidbar, und ein Becken-Eintrag darf in keiner Arbeitssicht
-erscheinen (§6.4). Stattdessen traegt die Zeile der verweisenden Idee den Zusatz
-`↪ Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar`. Probelauf 2026-09-17: ohne diese
-Regel stand eine Idee dauerhaft als „blockiert, Stand unklar" hinter einem nie befoerderten
-Becken-Eintrag.
-
 ### 4.4 Topf-Zuordnung (feste Reihenfolge, erster Treffer gilt)
 
-Jede Idee landet in **genau einem** Topf. Pruefe die Regeln in dieser Reihenfolge:
+Jede Idee landet in **genau einem** Topf. Die Zuordnung laeuft in zwei Durchgaengen.
+
+**Durchgang 1** — pruefe je Idee die Regeln in dieser Reihenfolge (Reihenfolge-Kanten aus 4.2
+bleiben hier unberuecksichtigt):
 
 | # | Bedingung | Topf |
 |---|-----------|------|
-| 1 | Mindestens ein **zwingender**, nicht erfuellter Blocker (Idee, laufender Change, externe Voraussetzung) | **wartend/blockiert** |
+| 1 | Mindestens ein **zwingender**, nicht erfuellter Blocker nach 4.2 (jede **zwingende** Kante auf eine Zeile mit Wirkung `nicht erfuellt` aus der Tabelle „Vorbedingung → Wirkung" in 4.2, dazu externe Voraussetzungen) | **wartend/blockiert** |
 | 2 | Nutzen `niedrig` | **wartend/blockiert** — Vorbedingung „Anlass/Bedarf" |
 | 3 | Aufwand `gross` | **braucht eigenen Fokus** |
 | 4 | Aufwand `klein` | **Quick Wins** |
@@ -178,20 +201,41 @@ Warum diese Reihenfolge: Ein Blocker macht jede andere Einstufung gegenstandslos
 Eine Idee ohne belegten Bedarf lohnt auch bei kleinem Aufwand nicht vorab — sie wartet auf
 einen Anlass (Regel 2; Praxis 2026-07-30: „#25/#18 warten auf Anlass"). Grosser Aufwand ist
 nie nebenbei zu haben, auch bei hohem Nutzen (Regel 3). Erst danach entscheidet der Aufwand
-allein zwischen den beiden Arbeits-Toepfen (Regeln 4/5). `sinnvoll`-Abhaengigkeiten aendern
-den Topf nicht — sie wirken nur auf die Reihenfolge (Schritt 4.5).
+allein zwischen den beiden Arbeits-Toepfen (Regeln 4/5).
+
+**Durchgang 2** — zwingende Reihenfolge-Kanten `#A vor #B` zwischen zwei gerankten Ideen:
+
+| Topf von `#A` nach Durchgang 1 | Wirkung auf `#B` |
+|--------------------------------|------------------|
+| ein Arbeits-Topf (Quick Wins, strategisch wertvoll, braucht eigenen Fokus) | `#B` bleibt in seinem Topf; `#A` rueckt in 4.5 vor `#B` |
+| wartend/blockiert | `#B` → **wartend/blockiert**, `⏳ wartet auf: #A` |
+
+Durchgang 2 wiederholen, bis sich kein Topf mehr aendert (Ketten `#A vor #B vor #C`).
+`sinnvoll`-Abhaengigkeiten aendern den Topf nie — sie wirken nur auf die Reihenfolge (4.5).
+
+Warum zwei Durchgaenge: Ist die Vorbedingung selbst arbeitsbereit, wird aus „#B wartet" die
+brauchbarere Empfehlung „erst #A, dann #B"; wartet die Vorbedingung, darf `#B` nicht als
+arbeitsbereit davor stehen.
 
 ### 4.5 Empfohlene Reihenfolge
 
 Nummerierte Liste ueber die Ideen der drei Arbeits-Toepfe, gebildet so:
 
 1. Quick Wins, dann strategisch wertvoll, dann braucht eigenen Fokus
-2. Innerhalb eines Topfs: Nutzen `hoch` vor `mittel`; bei Gleichstand die aeltere Idee zuerst
-3. Jede Abhaengigkeit `#A vor #B` wird eingehalten — auch ueber Topf-Grenzen hinweg
-   (dann rueckt `#A` vor `#B`, mit Vermerk)
+2. Innerhalb eines Topfs: Nutzen `hoch` vor `mittel`; bei Gleichstand die aeltere Idee zuerst (Datum,
+   bei gleichem Datum die niedrigere Nummer)
+3. Jede Abhaengigkeit `#A vor #B`, bei der **beide** Ideen in der nummerierten Liste stehen,
+   wird eingehalten — auch ueber Topf-Grenzen hinweg (dann rueckt `#A` vor `#B`, mit Vermerk).
+   Kanten zu Ideen ausserhalb der Liste (wartend, ausserhalb der Teilmenge) erscheinen nur
+   unter `## Abhaengigkeiten`
 
-Ideen aus **wartend/blockiert** erscheinen nicht in der nummerierten Liste, sondern darunter
-mit ihrer Freigabe-Bedingung („nach #A", „bei Anlass").
+**Zyklus** (`#A vor #B` und `#B vor #A`, auch ueber Ketten): zuerst die `sinnvoll`-Kanten des
+Zyklus verwerfen. Bleibt ein Zyklus aus zwingenden Kanten, gilt fuer die beteiligten Ideen nur
+die Sortierung aus 4.5 Punkt 2 (Nutzen, dann Datum, dann Nummer), und unter `## Abhaengigkeiten` steht
+`⚠ Zyklus #A ↔ #B — Reihenfolge widerspruechlich, im Review klaeren`.
+
+Ideen aus **wartend/blockiert** erscheinen nicht in der nummerierten Liste; ihre
+Freigabe-Bedingung steht nur in der ⏳-Zeile im Topf.
 
 ## Schritt 5: Ausgeben
 
@@ -216,18 +260,15 @@ ist, dass der Topf geprueft wurde.
 ## Wartend/blockiert
 - **#{N}** {Kurztitel} — Aufwand {Stufe} · Nutzen {Stufe} — {1-Satz-Begruendung}
   ⏳ wartet auf: {#A (Status) | Change {slug} | Anlass/Bedarf | externe Voraussetzung}
-  {↪ Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar   ← nur falls zutreffend, in jedem Topf}
 
 ## Abhaengigkeiten
-- #{A} vor #{B} — {zwingend | sinnvoll (Vermutung)}: {Grund}
+- {#A | Change {slug}} vor #{B} — {zwingend | sinnvoll (Vermutung)}: {Grund}
+{⚠ Zyklus #A ↔ #B — Reihenfolge widerspruechlich, im Review klaeren}
 {oder: _(keine erkannt)_}
 
 ## Empfohlene Reihenfolge
 1. #{N} {Kurztitel}
 2. #{N} {Kurztitel}{ — vorgezogen: Vorbedingung fuer #B}
-
-Danach, sobald freigegeben:
-- #{N} — {Freigabe-Bedingung}
 
 ---
 
@@ -237,6 +278,13 @@ Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-revi
 **Kurztitel:** der fett gesetzte Anfang des Idee-Texts, sonst dessen erste ~8 Woerter —
 nicht umformulieren.
 
+**Zusaetze je Idee-Zeile (alle Toepfe):**
+
+- `(Rest nach Teil-Routing)` — direkt hinter den Kurztitel (Schritt 4.1)
+- `↪ {Hinweis}` — eingerueckt unter der Idee-Zeile, je Hinweis eine Zeile; Wortlaut unveraendert
+  aus der Tabelle „Vorbedingung → Wirkung" in 4.2
+- `⏳ wartet auf: …` — nur im Topf wartend/blockiert, wie in der Vorlage
+
 ## Wichtig
 
 - **Rein lesend:** Dieser Skill aendert keine Datei — kein Statuswechsel, kein Link, kein
@@ -244,7 +292,7 @@ nicht umformulieren.
 - **Kein zweiter Speicherort:** Die Rangliste ist ein Chat-Report, keine Datei. Sie veraltet
   mit jeder neuen Idee; jeder Aufruf bewertet frisch und schreibt keine fruehere Rangliste fort
 - **Becken bleibt draussen:** `INBOX-BEFUNDE.md` wird nicht gelesen (§6.4)
-- **Jede Idee genau einmal:** in genau einem Topf; die Zuordnung folgt der Tabelle in 4.4,
+- **Jede Idee in genau einem Topf:** die Zuordnung folgt den Tabellen in 4.4,
   nicht dem Gesamteindruck
 - **Laeuft ueberall:** auch in einem verlinkten Worktree unveraendert (Read-only-Sicht) —
   der Lesestand kann dort aelter sein als im Haupt-Checkout

@@ -134,6 +134,7 @@ Der Skill ist in allen Uebersichten eingetragen, die Pipeline-Kante ist beidseit
 | Bewertungsskala | Zahlen / grobe Stufen | grobe Stufen | Lektion #10 (keine Schein-Messbarkeit) |
 | Pipeline-Einordnung | monitoring ohne Kanten / idea mit `next: idea-review` | `stage: idea`, `next: [dtb:idea-review]` | Vorstufe des Reviews sichtbar im Graph; per Veto-Vorlage bestaetigt 2026-09-17 |
 | Ausloesung | nur manuell / auch natuerlich-sprachlich | natuerlich-sprachlich | Read-only-Sichten sind gefahrlos (Vorbild meeting-agenda) |
+| Regel-Reihenfolge Topf-Zuordnung | Aufwand vor Nutzen / Nutzen niedrig vor Aufwand gross | Nutzen niedrig vor Aufwand gross | Eine Idee ohne belegten Bedarf wartet auf Anlass, auch wenn sie gross ist (Praxis 2026-07-30); weicht von der Vorrang-Kette in Schritt 1.2 ab — Manual-Gate Phase 1 bestaetigt 2026-09-17, nachgetragen aus impl-review Lauf 2 |
 
 ---
 
@@ -146,9 +147,9 @@ Der Skill ist in allen Uebersichten eingetragen, die Pipeline-Kante ist beidseit
 - [x] 1.1 Frontmatter und Geruest — `fedfac6`
 - [x] 1.2 Topf-Logik und Ausgabeformat — `fedfac6`
 - [x] 1.3 Randfaelle und Schlussregeln — `fedfac6`
-- [x] 2.1 CLAUDE.md und skills/CLAUDE.md
-- [x] 2.2 README und idea-review-Gegenkante
-- [x] 2.3 Probelauf gegen die Inbox
+- [x] 2.1 CLAUDE.md und skills/CLAUDE.md — `3563fce`
+- [x] 2.2 README und idea-review-Gegenkante — `3563fce`
+- [x] 2.3 Probelauf gegen die Inbox — `3563fce`
 
 ---
 
@@ -167,7 +168,7 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 **Lauf:** Repo-Fassung `skills/dtb-idea-rank/SKILL.md`, gelesen und befolgt im Worktree `pane-idea-rank`; ohne
 Argument. Quellen: `INBOX.md` (7 × `Offen`, 0 × `In Arbeit`), `BACKLOG.md` (alle Tabellen leer), `features/*/`
 (nur `idea-rank`). Becken nicht gelesen. Zwei Durchgaenge: Lauf 1 gegen Stand `fedfac6`, Lauf 2 nach der
-Regel-Korrektur in 4.3 (Mismatch-Entscheid 2026-09-17, Option 1a).
+Regel-Korrektur in 4.2 (vor dem Abschnittstausch im impl-review: 4.3) (Mismatch-Entscheid 2026-09-17, Option 1a).
 
 | Idee | Aufwand | Nutzen | Regel (4.4) | Topf |
 |------|---------|--------|-------------|------|
@@ -185,7 +186,7 @@ Jede der 7 Ideen genau einmal zugeordnet. Quick Wins leer. Reihenfolge: #33 → 
 **Auffaelligkeiten:**
 
 1. **Lauf 1 — Verweis ins Becken als Blocker gefuehrt (behoben).** #27 nennt eine Reihenfolge-Abhaengigkeit zu
-   einer Nummer, die nicht in `INBOX.md` steht. Lauf 1 fuehrte sie nach der alten 4.3-Regel als Blocker „Stand
+   einer Nummer, die nicht in `INBOX.md` steht. Lauf 1 fuehrte sie nach der alten Regel in 4.2 (vor dem Abschnittstausch im impl-review: 4.3) als Blocker „Stand
    unklar" und als Abhaengigkeit — tatsaechlich ist es ein nie befoerderter Becken-Eintrag (Altbestand). Das
    Automated-Kriterium „kein Becken-Eintrag im Report" schlug an. Ursache: Der Skill darf das Becken nicht lesen,
    kann Becken-Nummern also nicht von archivierten Ideen unterscheiden. Korrektur: Verweise ausserhalb der Inbox
@@ -198,6 +199,11 @@ Jede der 7 Ideen genau einmal zugeordnet. Quick Wins leer. Reihenfolge: #33 → 
    niedrig) greift vor Regel 3 — regelkonform und begruendet (schwacher Nutzungsfrequenz-Test laut Text).
 4. **Stufen-Grenzfaelle entschieden per Vorsichtsregel:** #39 Aufwand mittel/gross → gross; #15 Nutzen
    mittel/niedrig → niedrig.
+5. **Repo-weiter Grep (2.2, Lektion #3): zwei Kandidaten bewusst ausgelassen.**
+   `skills/dtb-workflow-status/SKILL.md` — die Tabelle „Beteiligte Skills & Agents" fuehrt nur Uebergaenge der
+   Hauptpipeline; `idea-triage` steht dort ebenfalls nicht, eine optionale Lese-Vorstufe gehoert nicht hinein.
+   `skills/dtb-pipeline-graph/SKILL.md` Zeile 199 — Textzeile der Hauptpipeline, ebenfalls ohne optionale
+   Vorstufen. (Nachgetragen aus impl-review 2026-09-17, Befund F6.)
 
 ---
 
