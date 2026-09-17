@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-17
 **Ziel:** Die wiederholt von Hand gebaute Aufwand×Nutzen-Sicht ueber offene Ideen als eigenen, rein lesenden Skill `dtb:idea-rank` bereitstellen.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

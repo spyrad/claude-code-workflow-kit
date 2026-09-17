@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-16 (`/dtb:archive`: `feature-start-statusfeld` archiviert)
+**Letzte Aktualisierung:** 2026-09-17 (`/dtb:workflow-checkpoint`: `idea-rank` Fertig zum Testen eingetragen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,6 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
+| idea-rank | Fertig zum Testen | Mittel | features/idea-rank/ | Rein lesende Aufwand×Nutzen-Rangliste der offenen Ideen als Skill `dtb:idea-rank` |
 
 ---
 
