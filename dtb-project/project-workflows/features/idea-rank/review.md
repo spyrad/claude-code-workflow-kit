@@ -1,55 +1,54 @@
 # Review-Snapshot: idea-rank
-Scope: skills/dtb-idea-rank/SKILL.md, skills/dtb-idea-review/SKILL.md, CLAUDE.md, skills/CLAUDE.md, README.md, features/idea-rank/{discovery,spec,plan}.md · Geprueft bis: `3563fce` + Triage-Fixes Lauf 1 (Working Tree) · Datum: 2026-09-17
-Gesamt-Verdikt: NEEDS ATTENTION
-Vorlauf: Lauf 1 (2026-09-17, REJECTED) — 10 Findings, 10 FIXED
+Scope: skills/dtb-idea-rank/SKILL.md, skills/dtb-idea-review/SKILL.md, CLAUDE.md, skills/CLAUDE.md, README.md, features/idea-rank/{discovery,spec,plan}.md · Geprueft bis: `8f2b197` + uncommittete Triage-Fixes Lauf 3 · Datum: 2026-09-17
+Gesamt-Verdikt: NEEDS ATTENTION (0 blocking; Lauf 4 = Folgelauf nach strukturellen Fixes, L62 — Lauf 3: 10 FIXED, Vorlaeufe 1+2: 20 FIXED, Snapshots ueberschrieben)
 
 ## Findings
-### F1 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-idea-rank/SKILL.md:199 vs. 133-150 — Klammer in Topf-Regel 1 wirkt abschliessend, ist es nicht: `Ausgearbeitet` mit unfertigem Change fehlt; „externe Voraussetzung" hat in 4.2 keine Quelle.
-Fix: Klammer → „(jede Zeile mit Wirkung `blockiert` aus den Tabellen in 4.2)"; in 4.2 Quelle „im Text genannte externe Voraussetzung → `zwingend`, nicht erfuellt" ergaenzen.
+### F1 — Safety & Quality — [S:Mittel × I:Hoch]
+skills/dtb-idea-rank/SKILL.md:195-203 — Wichtigkeit weiter nicht trennscharf: „>=2 Daten" grammatisch nur an „Schmerz"; „falsche Ergebnisse" ohne Belegpflicht (umgekehrtes Beleg-Gefaelle zu mittel-hoch); Fussnote deckelt woertlich auch hoch, Skill-Liste unvollstaendig, Zielprojekte pauschal niedrig-mittel.
+Fix: hoch = falsche Ergebnisse/Fehlerklasse/Schmerz jeweils mit Beleg >=2 Daten/Sessions, ein Beleg → mittel-hoch; Fussnoten-Deckel nur fuer mittel-hoch/mittel; regelmaessig genutzt = pipeline.stage ∈ {idea, planning, implementation, development, session} bzw. im Zielprojekt laut Idee-Text.
 Decision: FIXED
 
 ### F2 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-idea-rank/SKILL.md:182 — Nutzen `hoch` fuer „Vorbedingung anderer Ideen" zaehlt auch `sinnvoll (Vermutung)`-Kanten; eine Vermutung hebt eine Idee an Regel 2 vorbei.
-Fix: „… oder ist ueber eine **zwingende** Abhaengigkeit aus 4.2 Vorbedingung anderer Ideen".
+skills/dtb-idea-rank/SKILL.md:283 ↔ 95-97 — sinnvoll-Kanten auf Ziele ausserhalb der Tabelle (laufender Change, Idee ausserhalb Teilmenge) erscheinen nirgends; Schritt 2 verspricht „trotzdem genannt".
+Fix: Ziel ausserhalb: zwingend → Teil 1 Blocker; sinnvoll → `Sinnvoll erst nach {#A|Change {slug}} (Vermutung)`; Vorbedingung fuer Idee ausserhalb → `Vorbedingung fuer #B`.
 Decision: FIXED
 
-### F3 — Safety & Quality — [S:Mittel × I:Niedrig]
-skills/dtb-idea-rank/SKILL.md:128-129, 138, 270 — Kanten zu einem laufenden Change haben keinen Ausgabeort (Template nur `#A vor #B`); beide Blocker-Tabellen sagen pauschal „blockiert", obwohl Regel 1 nur zwingende Kanten zaehlt.
-Fix: Template `- {#A | Change {slug}} vor #{B} — …`; in den Tabellen „blockiert" → „nicht erfuellt (blockiert nur bei `zwingend`, Regel 1)".
+### F3 — Architecture — [S:Mittel × I:Mittel]
+skills/dtb-idea-rank/SKILL.md:231-235 — Zyklus-Fallback markiert Nicht-Beteiligte und verletzt gueltige Kanten; Lesart „Vorgaenger alle schon stehen" bei Vorgaengern ausserhalb der Tabelle mehrdeutig.
+Fix: Zyklus-Kanten vor dem Aufbau als nicht zwingend behandeln, alle Beteiligten mit `⚠ Zyklus mit #…` markieren, Fallback entfaellt; „Vorgaenger unter den Tabellen-Ideen".
 Decision: FIXED
 
-### F4 — Plan Adherence — [S:Niedrig × I:Mittel]
-features/idea-rank/plan.md Schritt 1.2, Z.170/188 — Regel-Reihenfolge weicht vom Plan ab („Nutzen niedrig → wartend" vor „Aufwand gross → Fokus"), begruendet im Skill, aber nicht in Plan/Technischen Entscheidungen; Protokoll verweist noch auf alte Nummer 4.3.
-Fix: Zeile „Regel-Reihenfolge" in Technische Entscheidungen; beide Verweise auf 4.2 korrigieren.
+### F4 — Plan Adherence — [S:Mittel × I:Mittel]
+features/idea-rank/plan.md Schritt 3.1/3.2, Ziel-Absatz Phase 3, Phase-1-Manual-Kriterium, Schritt 1.1 (consumes-Erweiterung aus 19a7ea0 undokumentiert); spec.md:70 `nach #A` — Plan beschreibt durch Lauf-3-Fixes abgeloeste Regeln.
+Fix: Abloese-Vermerke (impl-review Lauf 3, F…) an 3.1/3.2/Ziel/Phase-1-Manual; consumes-Nachtrag 1.1; spec „Erst nach #A".
 Decision: FIXED
 
-### F5 — Safety & Quality — [S:Niedrig × I:Niedrig]
-skills/dtb-idea-rank/SKILL.md:238-239 — Zyklus-Regel „gilt nur Regel 2" kollidiert mit „Regel 2" aus 4.4 (Nutzen niedrig → wartend).
-Fix: „… gilt nur die Sortierung aus 4.5 Punkt 2 (Nutzen, dann Datum)".
+### F5 — Plan Adherence — [S:Mittel × I:Niedrig]
+features/idea-rank/plan.md `## Probelauf 2026-09-17 (Phase 3)` — inhaltlich veraltet (#39/#45 Aufwand, Sortierung #15, #95-Stufe/Bemerkungsformat, Auffaelligkeit 1 behoben).
+Fix: Vermerk „durch impl-review Lauf 3 ueberholt — neuer Stand im Abnahme-Lauf"; Auffaelligkeit 1 als erledigt (F2 Lauf 3) markieren.
 Decision: FIXED
 
-### F6 — Safety & Quality — [S:Niedrig × I:Niedrig]
-skills/dtb-idea-rank/SKILL.md:53-57 — `INBOX.md` ohne Datenzeile → falsche Meldung „Keine Inbox vorhanden" und Abbruch vor Schritt 2 (keine ⚠-Zeilen fuer genannte Nummern).
-Fix: Schritt 1 bricht nur bei fehlender Datei ab; leere Datei laeuft in „nichts zu ranken" von Schritt 2.
+### F6 — Safety & Quality — [S:Mittel × I:Niedrig]
+skills/dtb-idea-rank/SKILL.md:176-177 — `0,5–1 Tag` (Fast-Track) vs. `1–2 Tage` (bis zwei Phasen) ueberlappen (Unter-Cap-Finding Lauf 3).
+Fix: `0,5–1 Tag` = eigener Change, eine Phase; `1–2 Tage` = eigener Change, zwei Phasen; „Fast-Track" als Merkmal streichen.
 Decision: FIXED
 
-### F7 — Safety & Quality — [S:Niedrig × I:Niedrig]
-skills/dtb-idea-rank/SKILL.md:146 vs. 221-223 — Dieselbe Idee #B landet mit bzw. ohne Teilmenge in verschiedenen Toepfen (Reihenfolge-Kante vs. Blocker); vertretbar, aber nicht als Absicht benannt.
-Fix: Satz mit Begruendung in Schritt 2 (Arbeitsbereitschaft von #A ungeprueft).
+### F7 — Safety & Quality — [S:Mittel × I:Niedrig]
+skills/dtb-idea-rank/SKILL.md:180-183 ↔ 190 — bei Grundsatzfragen offen, ob Wichtigkeit Entscheidung oder Gegenstand bewertet.
+Fix: Satz „Die Wichtigkeit bewertet den Gegenstand der Frage, nicht die Entscheidungsarbeit."
 Decision: FIXED
 
-### F8 — Architecture — [S:Niedrig × I:Niedrig]
-skills/dtb-idea-rank/SKILL.md:242-243, 265-267, 278-279, 304-305 — Wartende Ideen erscheinen doppelt mit verschiedenem Wortlaut (⏳ im Topf + „Danach, sobald freigegeben"); „Wichtig" sagt „Jede Idee genau einmal".
-Fix: Block „Danach, sobald freigegeben" streichen; „Wichtig" → „in genau einem Topf".
+### F8 — Pattern Consistency — [S:Niedrig × I:Niedrig]
+skills/dtb-idea-rank/SKILL.md:147, 149, 212-215 — Blocker-Definition steht in 4.3, Verweise zeigen auf 4.3 statt Schritt 5 Teil 1.
+Fix: Definition unter die 4.2-Tabelle, Verweise auf „Schritt 5, Teil 1".
 Decision: FIXED
 
-### F9 — Architecture — [S:Niedrig × I:Niedrig]
-skills/dtb-idea-rank/SKILL.md:133-162 — 4.2 verteilt auf zwei Tabellen, Prosa-Absatz mit Probelauf-Anekdote und vier ↪-Varianten (drei davon inhaltsgleich).
-Fix: Eine Tabelle „Vorbedingung → Wirkung" (erfuellt / nicht erfuellt / Reihenfolge-Kante / nicht pruefbar mit Grund aus fester Liste); Anekdote nach plan.md.
+### F9 — Pattern Consistency — [S:Niedrig × I:Niedrig]
+skills/dtb-idea-rank/SKILL.md:151-152 ↔ 284 — `↪` in 4.2 ist tote Notation (Teil 4 zieht es ab).
+Fix: `↪` in 4.2 streichen, Teil 4 „im Wortlaut der Tabelle".
 Decision: FIXED
 
-### F10 — Architecture — [S:Niedrig × I:Niedrig]
-CLAUDE.md:51 — idea-rank-Eintrag nennt `produces: []`, wiederholt die idea-triage-Abgrenzung, ~3x laenger als Nachbarn.
-Fix: Kuerzen auf „read-only effort×value ranking of open `INBOX.md` ideas into four pots with dependencies and a recommended order; optional precursor of `idea-review`".
+### F10 — Safety & Quality — [S:Niedrig × I:Niedrig]
+skills/dtb-idea-rank/SKILL.md:272 — kein Trenner fuer mehrere Blocker, `Change {slug}` ohne Status.
+Fix: `Blockiert: {Liste mit ", "; je #A (Status) / Change {slug} (Status) / externe Voraussetzung}`.
 Decision: FIXED

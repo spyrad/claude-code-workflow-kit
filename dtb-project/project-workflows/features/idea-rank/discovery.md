@@ -1,6 +1,8 @@
 # Discovery: idea-rank
 <!-- resume: done -->
 
+> Stand der Discovery 2026-09-17. Die Ausgabeform wurde in Phase 3 geaendert (eine Tabelle statt vier Toepfe) — massgeblich sind `spec.md` und `plan.md` Phase 3.
+
 **Erstellt:** 2026-09-17
 **Idee-Referenz:** Inbox #33 — "Aufwand×Nutzen-Triage-Sicht als eigener Skill: sichtet alle offenen INBOX-Ideen und liefert eine priorisierte Ansicht in vier Toepfen (Quick Wins / strategisch wertvoll / wartend-blockiert / braucht eigenen Fokus), je Idee Aufwand- und Nutzen-Einschaetzung, Abhaengigkeiten, empfohlene Reihenfolge — rein lesend. Name entschieden 2026-09-17: `dtb:idea-rank`"
 **Status:** Abgeschlossen

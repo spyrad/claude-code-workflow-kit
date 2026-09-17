@@ -1,7 +1,7 @@
 # Feature: idea-rank
 
 **Erstellt:** 2026-09-17
-**Ziel:** Die wiederholt von Hand gebaute Aufwand×Nutzen-Sicht ueber offene Ideen als eigenen, rein lesenden Skill `dtb:idea-rank` bereitstellen.
+**Ziel:** Die wiederholt von Hand gebaute Priorisierungs-Sicht ueber offene Ideen (Aufwand, Wichtigkeit, Blocker) als eigenen, rein lesenden Skill `dtb:idea-rank` bereitstellen.
 **Prioritaet:** Mittel
 **Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
@@ -23,7 +23,7 @@ Abnahme am 2026-09-17 auf die Tabellen-Form umgestellt, Phase 3 in `plan.md`.) D
 - Rangliste aller offenen Inbox-Ideen (oder einer per Nummern benannten Teilmenge) als **eine Tabelle**
   `# | Idee (kurz) | Aufwand | Wichtigkeit | Bemerkung`, sortiert nach Wichtigkeit
 - Je Idee Aufwand als Zeitspanne und Wichtigkeit in 6 Stufen / 4 Farben
-- Blocker und Abhaengigkeiten als Teil der Bemerkung (ein Satz je Idee)
+- Blocker und Abhaengigkeiten als Teil der Bemerkung (eine Zelle je Idee, Teile mit `; ` getrennt)
 - Zeilen-Reihenfolge als Empfehlung plus Uebergabe-Hinweis auf `dtb:idea-review`
 - Einbindung in die Kit-Uebersichten (Skill-Kategorien, Worktree-Kategorien, Skills-Tabelle) und Pipeline-Kante zu `dtb:idea-review`
 
@@ -67,7 +67,7 @@ Abnahme am 2026-09-17 auf die Tabellen-Form umgestellt, Phase 3 in `plan.md`.) D
 **Das Feature gilt als erfolgreich wenn:**
 - [ ] Ein Lauf ueber die aktuelle Inbox zeigt jede offene Idee als genau eine Tabellenzeile, je mit Aufwand-Spanne, Wichtigkeit und Bemerkung
 - [ ] Die Inbox ist nach dem Lauf unveraendert (kein Statuswechsel, keine Aenderung)
-- [ ] Blockierte Ideen nennen ihre Vorbedingung konkret in der Bemerkung, Abhaengigkeiten mit Richtung (`Vorbedingung fuer #B` / `nach #A`)
+- [ ] Blockierte Ideen nennen ihre Vorbedingung konkret in der Bemerkung, Abhaengigkeiten mit Richtung (`Vorbedingung fuer #B` / `Erst nach #A`)
 - [ ] Die Tabelle ist nach Wichtigkeit sortiert und der Report endet mit dem Hinweis auf `dtb:idea-review`
 - [ ] Becken-Eintraege tauchen im Report nicht auf
 - [ ] Der Skill ist in allen Kit-Uebersichten eingetragen und die Pipeline-Kante zu `dtb:idea-review` ist beidseitig deklariert
@@ -76,7 +76,7 @@ Abnahme am 2026-09-17 auf die Tabellen-Form umgestellt, Phase 3 in `plan.md`.) D
 
 ## Offene Punkte
 
-- Zuordnungsregel fuer Grenzfaelle (z.B. kleiner Aufwand bei niedrigem Nutzen — Quick Win oder nicht?) beim Bau festlegen und im Probelauf pruefen
+- ~~Zuordnungsregel fuer Grenzfaelle (z.B. kleiner Aufwand bei niedrigem Nutzen — Quick Win oder nicht?) beim Bau festlegen und im Probelauf pruefen~~ → erledigt durch Phase 3 (2026-09-17): keine Toepfe mehr; Grenzfall-Regeln in SKILL.md 4.3, Sortierung 4.4
 
 ---
 

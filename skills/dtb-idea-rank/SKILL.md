@@ -5,7 +5,7 @@ description: >-
   "was lohnt sich zuerst", "welche Idee zuerst", "idea rank". Read-only
   ranking of all open ideas in INBOX.md as one table sorted by importance —
   columns number, short title, effort as a time range, importance (six levels,
-  four colors) and a one-sentence remark carrying blockers and dependencies.
+  four colors) and a remark cell carrying blockers and dependencies.
   Changes nothing. Not for the machine basin INBOX-BEFUNDE.md (that is dtb:idea-triage)
   and not for per-idea decisions (that is dtb:idea-review).
 disable-model-invocation: false
@@ -123,8 +123,8 @@ Bemerkung mit `(Vermutung)`.
 ### 4.1 Teil-Routing beachten
 
 Traegt eine `Offen`-Idee einen Vermerk, dass ein Teil bereits geroutet ist (Task-/Feature-Link
-zu einem Teilaspekt), bewerte **nur den ungerouteten Rest** und markiere die Zeile mit
-`(Rest nach Teil-Routing)`.
+zu einem Teilaspekt), bewerte **nur den ungerouteten Rest**; der Kurztitel erhaelt den Zusatz
+`(Rest)` (Schritt 5).
 
 ### 4.2 Abhaengigkeiten erkennen
 
@@ -144,12 +144,15 @@ Eine Abhaengigkeit ist ein gerichtetes Paar `#A vor #B` mit Grund. Quellen:
 | Vorbedingung | Wirkung |
 |--------------|---------|
 | Change unter `features/` (Ordner existiert, gleich mit welcher der vier Dateien), Status `Fertig zum Testen`, `Erledigt`, `Behoben` oder `Abgenommen` | erfuellt — kein Blocker |
-| Change unter `features/`, jeder andere Status | nicht erfuellt (blockiert nur bei `zwingend` → `Blockiert: …` in der Bemerkung, 4.3) |
+| Change unter `features/`, jeder andere Status | nicht erfuellt (blockiert nur bei `zwingend` → Schritt 5, Teil 1) |
 | Inbox-Idee `Offen`, im selben Lauf gerankt | **Reihenfolge-Kante** — Wirkung in 4.4 (zwingende Kanten) |
-| Inbox-Idee `Offen` ausserhalb der Teilmenge, oder `In Arbeit` | nicht erfuellt (blockiert nur bei `zwingend` → `Blockiert: …` in der Bemerkung, 4.3) |
+| Inbox-Idee `Offen` ausserhalb der Teilmenge, oder `In Arbeit` | nicht erfuellt (blockiert nur bei `zwingend` → Schritt 5, Teil 1) |
 | Inbox-Idee `Ausgearbeitet` mit Change-Link (`→ features/{slug}/…`) | wie der verlinkte Change (Zeilen 1-2) |
-| Inbox-Idee `Verworfen` | kein Blocker; `↪ Vorbedingung verworfen — Abhaengigkeit pruefen` |
-| **nicht pruefbar** — Nummer steht nicht in `INBOX.md` · Change nicht unter `features/` · `Ausgearbeitet` ohne Change-Link · unbekannter Status | kein Blocker, keine Abhaengigkeit, Nummer **nicht** in den Report; `↪ {Grund} — Reihenfolge nicht pruefbar` mit {Grund} aus: `Verweis ausserhalb der Inbox` · `Verweis ausserhalb der laufenden Changes` · `Vorbedingung ausgearbeitet, Change nicht verlinkt` · `Vorbedingung mit unbekanntem Status` |
+| Inbox-Idee `Verworfen` | kein Blocker; `Vorbedingung #A verworfen — Abhaengigkeit pruefen` |
+| **nicht pruefbar** — Nummer steht nicht in `INBOX.md` · Change nicht unter `features/` · `Ausgearbeitet` ohne Change-Link · unbekannter Status | kein Blocker, keine Abhaengigkeit, Nummer **nicht** in den Report; `{Grund} — Reihenfolge nicht pruefbar` mit {Grund} aus: `Verweis ausserhalb der Inbox` · `Verweis ausserhalb der laufenden Changes` · `Vorbedingung ausgearbeitet, Change nicht verlinkt` · `Vorbedingung mit unbekanntem Status` |
+
+**Blocker** = jede **zwingende** Kante auf eine Zeile mit Wirkung `nicht erfuellt`, dazu externe
+Voraussetzungen (ausdruecklich im Text).
 
 Warum `Ausgearbeitet` nicht pauschal erfuellt: der Status heisst „Change angelegt", nicht
 „umgesetzt" — `dtb:idea-review` setzt ihn in der Task-Lane sogar vor `/dtb:task`.
@@ -173,23 +176,37 @@ direkt in die Tabelle (Schritt 5), die Begruendung in die Spalte „Bemerkung".
 | `~1 h` | rein mechanisch, eine Datei, Fix-Muster bekannt |
 | `1–2 h` | eine Session, wenige Dateien, kein neues Konzept |
 | `2–4 h` | eine Session, mehrere Dateien oder ein kleiner Nachweis/Probelauf |
-| `0,5–1 Tag` | eigener kleiner Change (Fast-Track), Design-Fragen benannt und eingrenzbar |
-| `1–2 Tage` | eigener Change mit Plan, bis zwei Phasen |
-| `3+ Tage` | mehrere Phasen oder Changes, kit-weite Querwirkung, oder die Idee ist selbst noch eine offene Grundsatzfrage („pruefen, ob …", „wo passt …") |
+| `0,5–1 Tag` | eigener Change, eine Phase; Design-Fragen benannt und eingrenzbar |
+| `1–2 Tage` | eigener Change, zwei Phasen |
+| `3+ Tage` | mehrere Phasen oder Changes, kit-weite Querwirkung |
 
-Optional ein kurzer Zusatz, wenn der Aufwand an etwas haengt: `2–4 h nach Input`,
-`15 Min Frage + 0,5–1 Tag Fix`, `1–2 Tage + Discovery`.
+**Offene Grundsatzfrage** („pruefen, ob …", „wo passt …", „integrieren?"): Die Idee ist mit der
+Entscheidung abgeschlossen — angegeben wird der Aufwand **bis zur Entscheidung** (meist `1–2 h`
+oder `2–4 h`) mit dem Zusatz `+ Umsetzung offen`. Der Umsetzungsaufwand entsteht erst, wenn die
+Entscheidung „bauen" lautet, und gehoert dann zu einer neuen Idee bzw. einem Change.
+Die Wichtigkeit bewertet den Gegenstand der Frage (was verloren geht, wenn nie entschieden
+wird), nicht die Entscheidungsarbeit.
+
+**Genau eine Spanne je Zelle.** Mehrteiliger Aufwand („kurze Frage + Fix") wird zu einer
+Spanne zusammengefasst, im Grenzfall die groessere. Optional ein Zusatz **ohne Zeitangabe**, wenn
+der Aufwand an etwas haengt: `2–4 h nach Input`, `1–2 Tage + Discovery offen`,
+`1–2 h + Umsetzung offen`. Sortiert wird nur nach der Spanne (4.4).
 
 **Wichtigkeit** — Probe: „Was geht verloren, wenn die Idee nie umgesetzt wird?"
 
 | Stufe | Merkmal |
 |-------|---------|
-| 🔴 `sehr hoch` | blockiert laufende Arbeit (Abnahme/Umsetzung eines Change unter `features/`) oder erzeugt jetzt falsche Ergebnisse — Beleg im Text oder Querbeleg |
-| 🔴 `hoch` | beseitigt einen belegt wiederkehrenden Schmerz oder eine Fehlerklasse (Beleg im Text: Datum, Anzahl, Session), oder ist ueber eine **zwingende** Abhaengigkeit aus 4.2 Vorbedingung anderer Ideen (eine `sinnvoll (Vermutung)`-Kante zaehlt nicht) |
-| 🟠 `mittel-hoch` | spuerbare Verbesserung eines regelmaessig genutzten Ablaufs mit **einem** Beleg (einmal aufgetreten, nicht wiederkehrend) |
-| 🟡 `mittel` | spuerbare Verbesserung eines regelmaessig genutzten Ablaufs, ohne Beleg |
-| 🟢 `niedrig-mittel` | konkreter, aber kleiner Gewinn — z.B. Aufraeumen, Nachdokumentation, Verlustschutz fuer einen seltenen Fall |
-| 🟢 `niedrig` | wuenschenswert, aber kein belegter Bedarf; Erkundung ohne konkreten Anlass; Workaround existiert und reicht |
+| 🔴 `sehr hoch` | blockiert laufende Arbeit: Abnahme oder Umsetzung eines Change unter `features/` haengt an der Idee (Beleg im Text oder Querbeleg) |
+| 🔴 `hoch` | erzeugt jetzt falsche Ergebnisse, beseitigt eine Fehlerklasse oder einen Schmerz — **jeweils** belegt mit mindestens **zwei verschiedenen** Daten oder Sessions |
+| 🟠 `mittel-hoch` | dasselbe mit **genau einem** Beleg, oder Verbesserung eines regelmaessig genutzten Ablaufs\* mit einem Beleg |
+| 🟡 `mittel` | Verbesserung eines regelmaessig genutzten Ablaufs\*, ohne Beleg |
+| 🟢 `niedrig-mittel` | konkreter, aber kleiner Gewinn — Aufraeumen, Nachdokumentation, Verlustschutz fuer einen seltenen Fall |
+| 🟢 `niedrig` | kein belegter Bedarf; Erkundung ohne konkreten Anlass; Workaround existiert und reicht |
+
+\* **Regelmaessig genutzter Ablauf** = ein Skill mit `pipeline.stage` ∈ {`idea`, `planning`,
+`implementation`, `development`, `session`}; im Zielprojekt ein Ablauf, den der Idee-Text als
+regelmaessig genutzt belegt. Die Bedingung gilt nur fuer `mittel-hoch` (zweite Haelfte) und
+`mittel` — trifft sie nicht zu, hoechstens `niedrig-mittel`.
 
 Die Farbe gehoert fest zur Stufe und steht immer davor (`🟠 mittel-hoch`).
 
@@ -197,11 +214,10 @@ Grenzfall zwischen zwei Stufen → die **niedrigere** Wichtigkeit bzw. die **gro
 Aufwand-Spanne waehlen. Die Tabelle soll eher zu vorsichtig empfehlen als eine Idee
 hochzureden.
 
-**Blocker aendern die Wichtigkeit nicht.** Eine Idee mit zwingendem, nicht erfuelltem Blocker
-nach 4.2 (jede **zwingende** Kante auf eine Zeile mit Wirkung `nicht erfuellt` aus der Tabelle
-„Vorbedingung → Wirkung", dazu externe Voraussetzungen) behaelt ihre Stufe; der Blocker steht
-am Anfang ihrer Bemerkung (`Blockiert: …`, Schritt 5). So bleibt sichtbar, dass eine wichtige
-Idee wartet.
+**Abhaengigkeiten aendern die Wichtigkeit nicht** — weder ein Blocker (4.2) noch die Rolle als
+Vorbedingung anderer Ideen (die Reihenfolge regelt 4.4). Eine blockierte Idee behaelt ihre Stufe;
+der Blocker steht am Anfang ihrer Bemerkung (Schritt 5, Teil 1). So bleibt sichtbar, dass eine
+wichtige Idee wartet.
 
 ### 4.4 Sortierung (feste Reihenfolge der Schluessel)
 
@@ -213,16 +229,21 @@ keine getrennte Reihenfolge-Liste. Sortiert wird so:
    ein Zusatz wie `nach Input` aendert die Spanne nicht)
 3. bei gleichem Aufwand: aeltere Idee zuerst (Datum, bei gleichem Datum die niedrigere Nummer)
 
-**Zwingende Kanten** `#A vor #B`, bei denen **beide** Ideen in der Tabelle stehen, werden danach
-eingehalten: steht `#A` unter `#B`, rueckt `#A` direkt vor `#B` (ihre Wichtigkeit bleibt; die
-Bemerkung von `#A` nennt `Vorbedingung fuer #B`). Ketten (`#A vor #B vor #C`) wiederholen den
-Schritt, bis sich nichts mehr aendert. `sinnvoll`-Kanten verschieben keine Zeile — sie stehen
-nur in der Bemerkung.
+**Zwingende Kanten** `#A vor #B` (beide Ideen in der Tabelle) werden eingehalten, indem die
+Tabelle **Zeile fuer Zeile aufgebaut** wird:
 
-**Zyklus** (`#A vor #B` und `#B vor #A`, auch ueber Ketten): zuerst die `sinnvoll`-Kanten des
-Zyklus verwerfen. Bleibt ein Zyklus aus zwingenden Kanten, gilt fuer die beteiligten Ideen nur
-die Sortierung aus 1–3, und ihre Bemerkungen tragen
-`⚠ Zyklus mit #A — Reihenfolge widerspruechlich, im Review klaeren`.
+0. **Zyklen zuerst:** Liegen zwingende Kanten in einem Zyklus (`#A vor #B vor … vor #A`), gelten
+   sie fuer den Aufbau als nicht zwingend. **Jede** beteiligte Idee traegt in ihrer Bemerkung
+   `⚠ Zyklus mit #X, #Y — Reihenfolge widerspruechlich, im Review klaeren`
+   (X, Y = die anderen Beteiligten)
+1. Naechste Zeile = die oberste noch nicht gesetzte Idee nach den Schluesseln 1–3, deren
+   zwingende Vorgaenger **unter den Tabellen-Ideen** alle schon gesetzt sind (Vorgaenger
+   ausserhalb der Tabelle sind Blocker, 4.2 — sie halten den Aufbau nicht auf)
+2. Wiederholen, bis alle Ideen stehen — nach Schritt 0 bleibt der Aufbau nie haengen
+
+Ohne Kanten ergibt das genau die Sortierung 1–3; Ketten und mehrere Vorgaenger derselben Idee
+brauchen keine Sonderregel. Die Wichtigkeit einer Idee aendert sich dabei nie.
+`sinnvoll`-Kanten verschieben keine Zeile — sie stehen nur in der Bemerkung (Schritt 5).
 
 ## Schritt 5: Ausgeben
 
@@ -251,13 +272,33 @@ Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-revi
   Zusatz `(Rest)`
 - **Aufwand** — Spanne aus 4.3, ggf. mit Zusatz
 - **Wichtigkeit** — Farbe + Stufe aus 4.3 (`🔴 hoch`)
-- **Bemerkung** — **ein** Satz, der die Einstufung begruendet und zeigt, was man vor dem
-  Anfangen wissen muss. Teile in dieser Reihenfolge, mit `;` verbunden:
-  1. Blocker, falls vorhanden: `Blockiert: {#A (Status) | Change {slug} | externe Voraussetzung}`
+- **Bemerkung** — **eine** Zelle, die die Einstufung begruendet und zeigt, was man vor dem
+  Anfangen wissen muss. Teile in dieser Reihenfolge, getrennt mit `; ` (innerhalb eines Teils
+  kein `;`), leere Teile entfallen:
+  1. Blocker, falls vorhanden: `Blockiert: {Liste, getrennt mit ", "}` — je Eintrag `#A (Status)` /
+     `Change {slug} (Status)` / `{externe Voraussetzung}`, z.B.
+     `Blockiert: #12 (In Arbeit), Change foo (In Arbeit)`
   2. Grund der Wichtigkeit (Beleg aus Text/Querbeleg, Vermutungen mit `(Vermutung)`)
-  3. Reihenfolge, falls vorhanden: `Vorbedingung fuer #B` · `Sinnvoll erst nach #A (Vermutung)`
-     · `⚠ Zyklus mit #A — Reihenfolge widerspruechlich, im Review klaeren`
-  4. Hinweise aus 4.2 im Wortlaut der Tabelle „Vorbedingung → Wirkung" ohne `↪`
+  3. Reihenfolge — fuer **jede** Kante `#A vor #B` zwischen zwei Tabellenzeilen, auf **beiden**
+     Seiten, unabhaengig davon, ob eine Zeile verschoben wurde:
+
+     | Kante | bei `#A` | bei `#B` |
+     |-------|----------|----------|
+     | zwingend | `Vorbedingung fuer #B` | `Erst nach #A` |
+     | sinnvoll (Vermutung) | `Vorbedingung fuer #B (Vermutung)` | `Sinnvoll erst nach #A (Vermutung)` |
+
+     dazu bei Zyklus-Beteiligten der Vermerk aus 4.4 (`⚠ Zyklus mit #X, #Y — …`).
+
+     **Ziel ausserhalb der Tabelle** (laufender Change, Idee ausserhalb der Teilmenge):
+
+     | Fall | Bemerkung |
+     |------|-----------|
+     | zwingend, Vorbedingung ausserhalb, nicht erfuellt (4.2) | Blocker in Teil 1 |
+     | sinnvoll, Vorbedingung ausserhalb | `Sinnvoll erst nach {#A / Change {slug}} (Vermutung)` |
+     | Idee dieser Zeile ist Vorbedingung einer Idee ausserhalb | `Vorbedingung fuer #B`, bei sinnvoll mit `(Vermutung)` |
+
+     Eine erfuellte Vorbedingung (4.2) erzeugt keinen Text
+  4. Hinweise aus 4.2 im Wortlaut der Tabelle „Vorbedingung → Wirkung"
      (z.B. `Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar`); eine nicht
      pruefbare Nummer wird dabei nie genannt
 

@@ -44,6 +44,7 @@ Eine vollstaendige, rein lesende `SKILL.md`, die offene Inbox-Ideen in vier Toep
 - **Dateien:** `skills/dtb-idea-rank/SKILL.md` (neu)
 - **Input:** Vorbild `skills/dtb-meeting-agenda/SKILL.md`, spec.md Scope
 - **Output:** Frontmatter (`name: dtb:idea-rank`, `description` mit Ausloese-Phrasen ohne „Triage"/„Becken" und ausdruecklicher Abgrenzung zu `dtb:idea-triage`, `disable-model-invocation: false`, `argument-hint: "[Ideen-Nummern]"`, `allowed-tools: Read, Glob, Grep`, `pipeline: stage: idea, after: null, next: [dtb:idea-review], consumes: [INBOX.md, BACKLOG.md, features/*/spec.md, features/*/plan.md, workflow.config.yaml], produces: []`), Einleitung mit Abgrenzung, Schritt 0 Config laden
+  - **Nachtrag (impl-review 2026-09-17, `19a7ea0`):** `consumes` zusaetzlich um `features/*/task.md`, `features/*/bug.md` und `project-rules/DERIVED_STATE_RULES.md` erweitert — der Skill leitet den Status laufender Changes nach §1/§1.5 ab
 
 #### Schritt 1.2: Bewertungs- und Topf-Logik + Ausgabeformat
 - **Zweck:** Kern des Skills — reproduzierbare Zuordnung statt Bauchgefuehl
@@ -69,11 +70,11 @@ Eine vollstaendige, rein lesende `SKILL.md`, die offene Inbox-Ideen in vier Toep
 - [ ] `grep -c "^name: dtb:idea-rank$" skills/dtb-idea-rank/SKILL.md` = 1
 - [ ] `grep -c "^  produces: \[\]$" skills/dtb-idea-rank/SKILL.md` = 1
 - [ ] `grep -E "^allowed-tools:" skills/dtb-idea-rank/SKILL.md` enthaelt weder `Write` noch `Edit` noch `Bash`
-- [ ] Alle vier Topf-Namen im Skill, je ein eigener Grep >= 1: `grep -c "Quick Wins"`, `grep -c "strategisch wertvoll"`, `grep -c "wartend/blockiert"`, `grep -c "braucht eigenen Fokus"` (jeweils auf `skills/dtb-idea-rank/SKILL.md`)
+- [ ] Alle vier Topf-Namen im Skill, je ein eigener Grep >= 1: `grep -c "Quick Wins"`, `grep -c "strategisch wertvoll"`, `grep -c "wartend/blockiert"`, `grep -c "braucht eigenen Fokus"` (jeweils auf `skills/dtb-idea-rank/SKILL.md`) — **abgeloest durch Phase 3 (2026-09-17):** Topf-Form entfernt, Ersatz-Kriterien dort; seit `8f2b197` bewusst 0
 - [ ] Becken-Ausschluss verankert: `grep -c "INBOX-BEFUNDE.md" skills/dtb-idea-rank/SKILL.md` >= 1
 
 #### Manual
-- [ ] Zuordnungsregel fuer Grenzfaelle ist eindeutig (zwei Leser kaemen zum selben Topf)
+- [ ] Zuordnungsregel fuer Grenzfaelle ist eindeutig (zwei Leser kaemen zum selben Topf) — **abgeloest durch Phase 3 (2026-09-17):** keine Toepfe mehr; Nachfolger ist das Manual-Kriterium von Phase 3
 
 ---
 
@@ -139,6 +140,13 @@ Entscheidungen einzeln bestaetigt 2026-09-17: Weg = Phase 3; Wichtigkeit 6 Stufe
 Zeitspanne; Kurztitel = eigene Kurzfassung.
 
 ### Schritte
+
+> **In Teilen abgeloest durch impl-review 2026-09-17 (Lauf 3+4, `review.md`):** Abhaengigkeiten heben
+> die Wichtigkeit NICHT (4.1/4.2 speisen nur die Bemerkung); Zeilenaufbau mit Zyklus-Vorbehandlung statt
+> „`#A` rueckt vor `#B`"; Bemerkung = eine Zelle mit `; `-Teilen statt „ein Satz"; beidseitige
+> Kanten-Texte (`Vorbedingung fuer #B` / `Erst nach #A`) statt `Reihenfolge haengt an #A`; offene
+> Grundsatzfrage = Aufwand bis zur Entscheidung + `Umsetzung offen`; Zusatz ohne Zeitangabe;
+> Wichtigkeit `hoch` braucht Belege aus >=2 Daten. Massgeblich ist `skills/dtb-idea-rank/SKILL.md`.
 
 #### Schritt 3.1: Bewertung umbauen (SKILL.md Schritt 4)
 - **Zweck:** Werte liefern, die direkt in die Tabelle gehen
@@ -217,7 +225,7 @@ Zeitspanne; Kurztitel = eigene Kurzfassung.
 | Kurztitel | woertlich gekuerzt / eigene Kurzfassung | eigene Kurzfassung, max. ~6 Woerter (Phase 3) | Schmale Tabelle; Nummer + INBOX bleiben die Quelle — vom Nutzer bestaetigt 2026-09-17 |
 | Pipeline-Einordnung | monitoring ohne Kanten / idea mit `next: idea-review` | `stage: idea`, `next: [dtb:idea-review]` | Vorstufe des Reviews sichtbar im Graph; per Veto-Vorlage bestaetigt 2026-09-17 |
 | Ausloesung | nur manuell / auch natuerlich-sprachlich | natuerlich-sprachlich | Read-only-Sichten sind gefahrlos (Vorbild meeting-agenda) |
-| Regel-Reihenfolge Topf-Zuordnung | Aufwand vor Nutzen / Nutzen niedrig vor Aufwand gross | Nutzen niedrig vor Aufwand gross | Eine Idee ohne belegten Bedarf wartet auf Anlass, auch wenn sie gross ist (Praxis 2026-07-30); weicht von der Vorrang-Kette in Schritt 1.2 ab — Manual-Gate Phase 1 bestaetigt 2026-09-17, nachgetragen aus impl-review Lauf 2 |
+| Regel-Reihenfolge Topf-Zuordnung | Aufwand vor Nutzen / Nutzen niedrig vor Aufwand gross | ~~Nutzen niedrig vor Aufwand gross~~ → **abgeloest durch Phase 3 (2026-09-17):** keine Topf-Zuordnung mehr, Sortierung nach Wichtigkeit (SKILL.md 4.4) | Eine Idee ohne belegten Bedarf wartet auf Anlass, auch wenn sie gross ist (Praxis 2026-07-30); weicht von der Vorrang-Kette in Schritt 1.2 ab — Manual-Gate Phase 1 bestaetigt 2026-09-17, nachgetragen aus impl-review Lauf 2 |
 
 ---
 
@@ -233,9 +241,9 @@ Zeitspanne; Kurztitel = eigene Kurzfassung.
 - [x] 2.1 CLAUDE.md und skills/CLAUDE.md — `3563fce`
 - [x] 2.2 README und idea-review-Gegenkante — `3563fce`
 - [x] 2.3 Probelauf gegen die Inbox — `3563fce`
-- [x] 3.1 Bewertung umbauen (Aufwand-Spanne, Wichtigkeit, Sortierung)
-- [x] 3.2 Ausgabe-Template und Frontmatter
-- [x] 3.3 Spiegel nachziehen + Probelauf
+- [x] 3.1 Bewertung umbauen (Aufwand-Spanne, Wichtigkeit, Sortierung) — `8f2b197`
+- [x] 3.2 Ausgabe-Template und Frontmatter — `8f2b197`
+- [x] 3.3 Spiegel nachziehen + Probelauf — `8f2b197`
 
 ---
 
@@ -299,6 +307,10 @@ Jede der 7 Ideen genau einmal zugeordnet. Quick Wins leer. Reihenfolge: #33 → 
 
 ## Probelauf 2026-09-17 (Phase 3)
 
+> **Ueberholt durch impl-review 2026-09-17 (Lauf 3+4):** Aufwand von #39/#45 (Grundsatzfrage), Sortierung,
+> Stufe #95 (>=2-Daten-Regel) und Bemerkungs-Format entsprechen nicht mehr `SKILL.md`. Neuer Stand: Abnahme-Lauf
+> nach `dtb:kit-sync`.
+
 **Lauf:** Repo-Fassung `skills/dtb-idea-rank/SKILL.md` nach Schritt 3.2, gelesen und befolgt im Haupt-Checkout; ohne
 Argument. Quellen: `INBOX.md` (6 × `Offen`, 0 × `In Arbeit`), `BACKLOG.md` (nur `idea-rank`), `features/*/` (nur
 `idea-rank`, abgeleitet In Arbeit — keine Idee haengt daran). Becken nicht gelesen.
@@ -324,6 +336,7 @@ zwischen Tabellenzeilen: keine.
    `3+ Tage`, obwohl eine Entscheidung „nicht verfolgen" in 1–2 h faellt. Regelkonform (Grenzfall → groessere
    Spanne), fuer die Sortierung folgenlos (beide `niedrig`, ganz unten) — aber die Spalte liest sich teurer als
    der naechste Schritt. Kandidat fuer die Abnahme-Rueckmeldung, nicht still geaendert.
+   → **erledigt** (impl-review Lauf 3, F2)
 2. **Kurztitel sind eigene Verdichtungen.** Alle 6 verlassen den Inbox-Wortlaut (#57 statt 16 Woertern 6); die
    Aussage bleibt je Idee erhalten, die Nummer fuehrt zum Volltext.
 3. **Zusammenhang Topf → Tabelle belegt:** Die Reihenfolge entspricht der Topf-Fassung (#95 vor #57, die vier
