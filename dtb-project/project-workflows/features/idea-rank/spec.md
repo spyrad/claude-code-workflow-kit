@@ -11,19 +11,20 @@
 
 Am 2026-07-30 wurde ein angesetztes `dtb:idea-review` dreimal in eine Priorisierungs-Sicht umgelenkt, am
 2026-08-08 entstand dieselbe Sicht erneut von Hand (vier Toepfe, Abhaengigkeiten, Reihenfolge). `dtb:idea-rank`
-formalisiert dieses Muster: Der Skill ordnet alle offenen Ideen der Inbox nach Aufwand und Nutzen in vier Toepfe
-und empfiehlt eine Reihenfolge — ohne irgendetwas zu veraendern. Die Entscheidung je Idee bleibt bei `dtb:idea-review`.
+formalisiert dieses Muster: Der Skill zeigt alle offenen Ideen der Inbox als eine nach Wichtigkeit sortierte Tabelle
+mit Aufwand und Bemerkung — ohne irgendetwas zu veraendern. (Urspruenglich vier Toepfe; nach nicht bestandener
+Abnahme am 2026-09-17 auf die Tabellen-Form umgestellt, Phase 3 in `plan.md`.) Die Entscheidung je Idee bleibt bei `dtb:idea-review`.
 
 ---
 
 ## Scope / Abgrenzung
 
 ### Enthalten
-- Rangliste aller offenen Inbox-Ideen (oder einer per Nummern benannten Teilmenge) in vier Toepfen:
-  Quick Wins, strategisch wertvoll, wartend/blockiert, braucht eigenen Fokus
-- Je Idee grobe Aufwand- und Nutzen-Stufe mit 1-Satz-Begruendung
-- Ausgewiesene Abhaengigkeiten zwischen Ideen und benannte Blocker
-- Empfohlene Reihenfolge als Fazit plus Uebergabe-Hinweis auf `dtb:idea-review`
+- Rangliste aller offenen Inbox-Ideen (oder einer per Nummern benannten Teilmenge) als **eine Tabelle**
+  `# | Idee (kurz) | Aufwand | Wichtigkeit | Bemerkung`, sortiert nach Wichtigkeit
+- Je Idee Aufwand als Zeitspanne und Wichtigkeit in 6 Stufen / 4 Farben
+- Blocker und Abhaengigkeiten als Teil der Bemerkung (ein Satz je Idee)
+- Zeilen-Reihenfolge als Empfehlung plus Uebergabe-Hinweis auf `dtb:idea-review`
 - Einbindung in die Kit-Uebersichten (Skill-Kategorien, Worktree-Kategorien, Skills-Tabelle) und Pipeline-Kante zu `dtb:idea-review`
 
 ### Nicht enthalten
@@ -40,7 +41,7 @@ und empfiehlt eine Reihenfolge — ohne irgendetwas zu veraendern. Die Entscheid
 | Risiko | Wahrscheinlichkeit | Impact | Mitigation |
 |--------|-------------------|--------|------------|
 | Verwechslung mit `dtb:idea-triage` (aehnlicher Zweckbegriff, 2026-09-09 schon einmal passiert) | Mittel | Mittel | Abgrenzung in Beschreibung und Skill-Einleitung ausdruecklich benennen; Ausloese-Phrasen ohne „Triage"/„Becken" |
-| Schein-Genauigkeit der Bewertung | Mittel | Niedrig | Grobe Stufen mit Begruendung statt Zahlen (Lektion #10) |
+| Schein-Genauigkeit der Bewertung | Mittel | Niedrig | Aufwand immer als Spanne, nie Einzelzahl; Wichtigkeit an Belege gebunden, Grenzfall → niedrigere Stufe (seit Phase 3 statt grober Stufen) |
 | Rangliste veraltet, wird aber spaeter als gueltig zitiert | Niedrig | Mittel | Keine Ablage; Report traegt Datum und Anzahl bewerteter Ideen |
 | Skill schreibt versehentlich doch (z.B. Status-Flip aus Gewohnheit von idea-review) | Niedrig | Hoch | Werkzeugfreigabe ohne Schreibwerkzeuge; Success Criterion „Inbox unveraendert" im Probelauf geprueft |
 | Uebersichts-Skills kennen den neuen Skill nicht | Mittel | Niedrig | Repo-weiter Namens-Grep vor Abschluss (Lektion #3) |
@@ -64,10 +65,10 @@ und empfiehlt eine Reihenfolge — ohne irgendetwas zu veraendern. Die Entscheid
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] Ein Lauf ueber die aktuelle Inbox ordnet jede offene Idee genau einem der vier Toepfe zu, je mit Aufwand, Nutzen und Begruendung
+- [ ] Ein Lauf ueber die aktuelle Inbox zeigt jede offene Idee als genau eine Tabellenzeile, je mit Aufwand-Spanne, Wichtigkeit und Bemerkung
 - [ ] Die Inbox ist nach dem Lauf unveraendert (kein Statuswechsel, keine Aenderung)
-- [ ] Blockierte Ideen nennen ihre Vorbedingung konkret, Abhaengigkeiten stehen als gerichtete Paare
-- [ ] Der Report endet mit einer Reihenfolge-Empfehlung und dem Hinweis auf `dtb:idea-review`
+- [ ] Blockierte Ideen nennen ihre Vorbedingung konkret in der Bemerkung, Abhaengigkeiten mit Richtung (`Vorbedingung fuer #B` / `nach #A`)
+- [ ] Die Tabelle ist nach Wichtigkeit sortiert und der Report endet mit dem Hinweis auf `dtb:idea-review`
 - [ ] Becken-Eintraege tauchen im Report nicht auf
 - [ ] Der Skill ist in allen Kit-Uebersichten eingetragen und die Pipeline-Kante zu `dtb:idea-review` ist beidseitig deklariert
 

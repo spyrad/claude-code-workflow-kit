@@ -2,11 +2,11 @@
 name: dtb:idea-rank
 description: >-
   Use when: "Ideen priorisieren", "Rangliste der Ideen", "Aufwand Nutzen",
-  "was lohnt sich zuerst", "Quick Wins in der Inbox", "idea rank". Read-only
-  ranking of all open ideas in INBOX.md: sorts each into one of four pots
-  (Quick Wins / strategisch wertvoll / wartend/blockiert / braucht eigenen Fokus)
-  with effort and value, lists dependencies and recommends an order. Changes
-  nothing. Not for the machine basin INBOX-BEFUNDE.md (that is dtb:idea-triage)
+  "was lohnt sich zuerst", "welche Idee zuerst", "idea rank". Read-only
+  ranking of all open ideas in INBOX.md as one table sorted by importance —
+  columns number, short title, effort as a time range, importance (six levels,
+  four colors) and a one-sentence remark carrying blockers and dependencies.
+  Changes nothing. Not for the machine basin INBOX-BEFUNDE.md (that is dtb:idea-triage)
   and not for per-idea decisions (that is dtb:idea-review).
 disable-model-invocation: false
 argument-hint: "[Ideen-Nummern, z.B. 27 33 45]"
@@ -21,13 +21,16 @@ pipeline:
 
 # DTB Idea-Rank
 
-Ordnet alle offenen Ideen der Inbox nach Aufwand und Nutzen in vier Toepfe und empfiehlt
-eine Bearbeitungs-Reihenfolge — rein lesend, als Chat-Report.
+Zeigt alle offenen Ideen der Inbox als **eine Tabelle**, sortiert nach Wichtigkeit — je Idee
+Aufwand als Zeitspanne, Wichtigkeit und eine Bemerkung mit Blockern und Abhaengigkeiten. Die
+Zeilen-Reihenfolge ist die Empfehlung. Rein lesend, als Chat-Report.
 
 **Warum es diesen Skill gibt:** Dieselbe Sicht wurde mehrfach von Hand gebaut — am
 2026-07-30 wurde ein angesetztes `dtb:idea-review` dreimal in genau diese Priorisierung
 umgelenkt, am 2026-08-08 lief sie erneut ueber 26 Ideen. Das Muster ist formalisiert,
-damit jeder Lauf nach denselben Regeln einsortiert.
+damit jeder Lauf nach denselben Regeln einsortiert. Die Ausgabe ist seit 2026-09-17 eine
+Tabelle statt vier Toepfen — die Topf-Form verteilte die Einschaetzung auf drei Bloecke und
+half bei der Entscheidung „was zuerst" nicht (Abnahme-Lauf 2026-09-17).
 
 **Abgrenzung (nicht verwechseln):**
 
@@ -92,7 +95,7 @@ warum sie nicht gerankt werden.
 Bei einer Teilmenge werden Abhaengigkeiten zu Ideen **ausserhalb** der Teilmenge trotzdem
 genannt (mit Nummer), nur nicht selbst gerankt. Eine `Offen`-Vorbedingung ausserhalb der
 Teilmenge zaehlt als nicht erfuellt (4.2), weil ihre Arbeitsbereitschaft in diesem Lauf nicht
-geprueft wird — ein Lauf ohne Argument kann dieselbe Idee deshalb in einem Arbeits-Topf zeigen.
+geprueft wird — ein Lauf ohne Argument kann dieselbe Idee deshalb ohne `Blockiert:` zeigen.
 Das ist Absicht, kein Widerspruch.
 
 ## Schritt 3: Querbelege lesen
@@ -113,7 +116,7 @@ der Praxis bereits im Idee-Text, und der Lauf soll schnell bleiben.
 
 **Fakt vs. Vermutung:** Was im Idee-Text oder einem Querbeleg steht, ist Fakt. Was du nur
 schliesst (z.B. „ueberschneidet sich vermutlich mit Feature X"), kennzeichnest du in der
-Begruendung mit `(Vermutung)`.
+Bemerkung mit `(Vermutung)`.
 
 ## Schritt 4: Bewerten
 
@@ -141,9 +144,9 @@ Eine Abhaengigkeit ist ein gerichtetes Paar `#A vor #B` mit Grund. Quellen:
 | Vorbedingung | Wirkung |
 |--------------|---------|
 | Change unter `features/` (Ordner existiert, gleich mit welcher der vier Dateien), Status `Fertig zum Testen`, `Erledigt`, `Behoben` oder `Abgenommen` | erfuellt — kein Blocker |
-| Change unter `features/`, jeder andere Status | nicht erfuellt (blockiert nur bei `zwingend`, Regel 1 in 4.4) |
-| Inbox-Idee `Offen`, im selben Lauf gerankt | **Reihenfolge-Kante** — Wirkung in 4.4 (Durchgang 2) |
-| Inbox-Idee `Offen` ausserhalb der Teilmenge, oder `In Arbeit` | nicht erfuellt (blockiert nur bei `zwingend`, Regel 1 in 4.4) |
+| Change unter `features/`, jeder andere Status | nicht erfuellt (blockiert nur bei `zwingend` → `Blockiert: …` in der Bemerkung, 4.3) |
+| Inbox-Idee `Offen`, im selben Lauf gerankt | **Reihenfolge-Kante** — Wirkung in 4.4 (zwingende Kanten) |
+| Inbox-Idee `Offen` ausserhalb der Teilmenge, oder `In Arbeit` | nicht erfuellt (blockiert nur bei `zwingend` → `Blockiert: …` in der Bemerkung, 4.3) |
 | Inbox-Idee `Ausgearbeitet` mit Change-Link (`→ features/{slug}/…`) | wie der verlinkte Change (Zeilen 1-2) |
 | Inbox-Idee `Verworfen` | kein Blocker; `↪ Vorbedingung verworfen — Abhaengigkeit pruefen` |
 | **nicht pruefbar** — Nummer steht nicht in `INBOX.md` · Change nicht unter `features/` · `Ausgearbeitet` ohne Change-Link · unbekannter Status | kein Blocker, keine Abhaengigkeit, Nummer **nicht** in den Report; `↪ {Grund} — Reihenfolge nicht pruefbar` mit {Grund} aus: `Verweis ausserhalb der Inbox` · `Verweis ausserhalb der laufenden Changes` · `Vorbedingung ausgearbeitet, Change nicht verlinkt` · `Vorbedingung mit unbekanntem Status` |
@@ -156,91 +159,75 @@ ein Becken-Eintrag sein — ohne das Becken zu lesen, ist das nicht entscheidbar
 Becken-Eintrag darf in keiner Arbeitssicht erscheinen (§6.4). Ebenso unterscheidet der Skill
 ohne `archive/` nicht zwischen archiviertem und nicht existentem Change.
 
-### 4.3 Stufen je Idee
+### 4.3 Aufwand und Wichtigkeit je Idee
 
-Jede Idee bekommt genau eine Aufwand- und eine Nutzen-Stufe mit 1-Satz-Begruendung. Grobe
-Stufen, keine Zahlen oder Prozentwerte — eine Zahl suggeriert eine Messbarkeit, die kein Lauf
-einloest.
+Jede Idee bekommt genau einen Aufwand-Wert und genau eine Wichtigkeit-Stufe. Beide fliessen
+direkt in die Tabelle (Schritt 5), die Begruendung in die Spalte „Bemerkung".
 
-**Aufwand** — Probe: „Was muesste man tun, um die Idee abzuschliessen?"
+**Aufwand** — Probe: „Was muesste man tun, um die Idee abzuschliessen?" Angabe immer als
+**Zeitspanne, nie als Einzelzahl** — die Spanne haelt die Schaetz-Unschaerfe sichtbar
+(einzige Ausnahme: die kleinste Stufe `~1 h`).
+
+| Spanne | Merkmal |
+|--------|---------|
+| `~1 h` | rein mechanisch, eine Datei, Fix-Muster bekannt |
+| `1–2 h` | eine Session, wenige Dateien, kein neues Konzept |
+| `2–4 h` | eine Session, mehrere Dateien oder ein kleiner Nachweis/Probelauf |
+| `0,5–1 Tag` | eigener kleiner Change (Fast-Track), Design-Fragen benannt und eingrenzbar |
+| `1–2 Tage` | eigener Change mit Plan, bis zwei Phasen |
+| `3+ Tage` | mehrere Phasen oder Changes, kit-weite Querwirkung, oder die Idee ist selbst noch eine offene Grundsatzfrage („pruefen, ob …", „wo passt …") |
+
+Optional ein kurzer Zusatz, wenn der Aufwand an etwas haengt: `2–4 h nach Input`,
+`15 Min Frage + 0,5–1 Tag Fix`, `1–2 Tage + Discovery`.
+
+**Wichtigkeit** — Probe: „Was geht verloren, wenn die Idee nie umgesetzt wird?"
 
 | Stufe | Merkmal |
 |-------|---------|
-| `klein` | in einer Session erledigt; eine bis wenige Dateien, kein neues Konzept, keine offene Design-Frage |
-| `mittel` | eigener Change mit Plan (Fast-Track oder Voll-Schiene), hoechstens zwei Phasen; Design-Fragen sind benannt und eingrenzbar |
-| `gross` | mehrere Phasen oder Changes, kit-weite Querwirkung, oder die Idee selbst ist noch eine offene Grundsatzfrage („pruefen, ob …", „wo passt …") |
+| 🔴 `sehr hoch` | blockiert laufende Arbeit (Abnahme/Umsetzung eines Change unter `features/`) oder erzeugt jetzt falsche Ergebnisse — Beleg im Text oder Querbeleg |
+| 🔴 `hoch` | beseitigt einen belegt wiederkehrenden Schmerz oder eine Fehlerklasse (Beleg im Text: Datum, Anzahl, Session), oder ist ueber eine **zwingende** Abhaengigkeit aus 4.2 Vorbedingung anderer Ideen (eine `sinnvoll (Vermutung)`-Kante zaehlt nicht) |
+| 🟠 `mittel-hoch` | spuerbare Verbesserung eines regelmaessig genutzten Ablaufs mit **einem** Beleg (einmal aufgetreten, nicht wiederkehrend) |
+| 🟡 `mittel` | spuerbare Verbesserung eines regelmaessig genutzten Ablaufs, ohne Beleg |
+| 🟢 `niedrig-mittel` | konkreter, aber kleiner Gewinn — z.B. Aufraeumen, Nachdokumentation, Verlustschutz fuer einen seltenen Fall |
+| 🟢 `niedrig` | wuenschenswert, aber kein belegter Bedarf; Erkundung ohne konkreten Anlass; Workaround existiert und reicht |
 
-**Nutzen** — Probe: „Was geht verloren, wenn die Idee nie umgesetzt wird?"
+Die Farbe gehoert fest zur Stufe und steht immer davor (`🟠 mittel-hoch`).
 
-| Stufe | Merkmal |
-|-------|---------|
-| `hoch` | beseitigt einen belegt wiederkehrenden Schmerz oder eine Fehlerklasse (Beleg im Text: Datum, Anzahl, Session), oder ist ueber eine **zwingende** Abhaengigkeit aus 4.2 Vorbedingung anderer Ideen (eine `sinnvoll (Vermutung)`-Kante zaehlt nicht) |
-| `mittel` | spuerbare Verbesserung eines regelmaessig genutzten Ablaufs, ohne belegte Wiederholung |
-| `niedrig` | wuenschenswert, aber kein belegter Bedarf; Erkundung ohne konkreten Anlass |
+Grenzfall zwischen zwei Stufen → die **niedrigere** Wichtigkeit bzw. die **groessere**
+Aufwand-Spanne waehlen. Die Tabelle soll eher zu vorsichtig empfehlen als eine Idee
+hochzureden.
 
-Grenzfall zwischen zwei Stufen → die **niedrigere** Nutzen- bzw. die **hoehere**
-Aufwand-Stufe waehlen. Die Rangliste soll eher zu vorsichtig empfehlen als eine Idee zum
-Quick Win hochzureden.
+**Blocker aendern die Wichtigkeit nicht.** Eine Idee mit zwingendem, nicht erfuelltem Blocker
+nach 4.2 (jede **zwingende** Kante auf eine Zeile mit Wirkung `nicht erfuellt` aus der Tabelle
+„Vorbedingung → Wirkung", dazu externe Voraussetzungen) behaelt ihre Stufe; der Blocker steht
+am Anfang ihrer Bemerkung (`Blockiert: …`, Schritt 5). So bleibt sichtbar, dass eine wichtige
+Idee wartet.
 
-### 4.4 Topf-Zuordnung (feste Reihenfolge, erster Treffer gilt)
+### 4.4 Sortierung (feste Reihenfolge der Schluessel)
 
-Jede Idee landet in **genau einem** Topf. Die Zuordnung laeuft in zwei Durchgaengen.
+Jede Idee ist genau **eine** Tabellenzeile. Die Zeilen-Reihenfolge ist die Empfehlung — es gibt
+keine getrennte Reihenfolge-Liste. Sortiert wird so:
 
-**Durchgang 1** — pruefe je Idee die Regeln in dieser Reihenfolge (Reihenfolge-Kanten aus 4.2
-bleiben hier unberuecksichtigt):
+1. Wichtigkeit absteigend (`sehr hoch` → `hoch` → `mittel-hoch` → `mittel` → `niedrig-mittel` → `niedrig`)
+2. bei gleicher Wichtigkeit: kleinere Aufwand-Spanne zuerst (Reihenfolge der Tabelle in 4.3;
+   ein Zusatz wie `nach Input` aendert die Spanne nicht)
+3. bei gleichem Aufwand: aeltere Idee zuerst (Datum, bei gleichem Datum die niedrigere Nummer)
 
-| # | Bedingung | Topf |
-|---|-----------|------|
-| 1 | Mindestens ein **zwingender**, nicht erfuellter Blocker nach 4.2 (jede **zwingende** Kante auf eine Zeile mit Wirkung `nicht erfuellt` aus der Tabelle „Vorbedingung → Wirkung" in 4.2, dazu externe Voraussetzungen) | **wartend/blockiert** |
-| 2 | Nutzen `niedrig` | **wartend/blockiert** — Vorbedingung „Anlass/Bedarf" |
-| 3 | Aufwand `gross` | **braucht eigenen Fokus** |
-| 4 | Aufwand `klein` | **Quick Wins** |
-| 5 | Aufwand `mittel` | **strategisch wertvoll** |
-
-Warum diese Reihenfolge: Ein Blocker macht jede andere Einstufung gegenstandslos (Regel 1).
-Eine Idee ohne belegten Bedarf lohnt auch bei kleinem Aufwand nicht vorab — sie wartet auf
-einen Anlass (Regel 2; Praxis 2026-07-30: „#25/#18 warten auf Anlass"). Grosser Aufwand ist
-nie nebenbei zu haben, auch bei hohem Nutzen (Regel 3). Erst danach entscheidet der Aufwand
-allein zwischen den beiden Arbeits-Toepfen (Regeln 4/5).
-
-**Durchgang 2** — zwingende Reihenfolge-Kanten `#A vor #B` zwischen zwei gerankten Ideen:
-
-| Topf von `#A` nach Durchgang 1 | Wirkung auf `#B` |
-|--------------------------------|------------------|
-| ein Arbeits-Topf (Quick Wins, strategisch wertvoll, braucht eigenen Fokus) | `#B` bleibt in seinem Topf; `#A` rueckt in 4.5 vor `#B` |
-| wartend/blockiert | `#B` → **wartend/blockiert**, `⏳ wartet auf: #A` |
-
-Durchgang 2 wiederholen, bis sich kein Topf mehr aendert (Ketten `#A vor #B vor #C`).
-`sinnvoll`-Abhaengigkeiten aendern den Topf nie — sie wirken nur auf die Reihenfolge (4.5).
-
-Warum zwei Durchgaenge: Ist die Vorbedingung selbst arbeitsbereit, wird aus „#B wartet" die
-brauchbarere Empfehlung „erst #A, dann #B"; wartet die Vorbedingung, darf `#B` nicht als
-arbeitsbereit davor stehen.
-
-### 4.5 Empfohlene Reihenfolge
-
-Nummerierte Liste ueber die Ideen der drei Arbeits-Toepfe, gebildet so:
-
-1. Quick Wins, dann strategisch wertvoll, dann braucht eigenen Fokus
-2. Innerhalb eines Topfs: Nutzen `hoch` vor `mittel`; bei Gleichstand die aeltere Idee zuerst (Datum,
-   bei gleichem Datum die niedrigere Nummer)
-3. Jede Abhaengigkeit `#A vor #B`, bei der **beide** Ideen in der nummerierten Liste stehen,
-   wird eingehalten — auch ueber Topf-Grenzen hinweg (dann rueckt `#A` vor `#B`, mit Vermerk).
-   Kanten zu Ideen ausserhalb der Liste (wartend, ausserhalb der Teilmenge) erscheinen nur
-   unter `## Abhaengigkeiten`
+**Zwingende Kanten** `#A vor #B`, bei denen **beide** Ideen in der Tabelle stehen, werden danach
+eingehalten: steht `#A` unter `#B`, rueckt `#A` direkt vor `#B` (ihre Wichtigkeit bleibt; die
+Bemerkung von `#A` nennt `Vorbedingung fuer #B`). Ketten (`#A vor #B vor #C`) wiederholen den
+Schritt, bis sich nichts mehr aendert. `sinnvoll`-Kanten verschieben keine Zeile — sie stehen
+nur in der Bemerkung.
 
 **Zyklus** (`#A vor #B` und `#B vor #A`, auch ueber Ketten): zuerst die `sinnvoll`-Kanten des
 Zyklus verwerfen. Bleibt ein Zyklus aus zwingenden Kanten, gilt fuer die beteiligten Ideen nur
-die Sortierung aus 4.5 Punkt 2 (Nutzen, dann Datum, dann Nummer), und unter `## Abhaengigkeiten` steht
-`⚠ Zyklus #A ↔ #B — Reihenfolge widerspruechlich, im Review klaeren`.
-
-Ideen aus **wartend/blockiert** erscheinen nicht in der nummerierten Liste; ihre
-Freigabe-Bedingung steht nur in der ⏳-Zeile im Topf.
+die Sortierung aus 1–3, und ihre Bemerkungen tragen
+`⚠ Zyklus mit #A — Reihenfolge widerspruechlich, im Review klaeren`.
 
 ## Schritt 5: Ausgeben
 
-Keine Rueckfragen — sofort ausgeben. Leere Toepfe erscheinen mit `_(leer)_`, damit sichtbar
-ist, dass der Topf geprueft wurde.
+Keine Rueckfragen — sofort ausgeben. **Eine** Tabelle, sortiert nach 4.4; jede Idee im Umfang
+ist genau eine Zeile.
 
 ```
 # Ideen-Rangliste
@@ -248,42 +235,34 @@ ist, dass der Topf geprueft wurde.
 **Stand:** {YYYY-MM-DD} · {N} offene Ideen bewertet{ (Teilmenge: #a, #b)}
 {⚠-Hinweiszeilen aus Schritt 2, falls vorhanden}
 
-## Quick Wins
-- **#{N}** {Kurztitel} — Aufwand klein · Nutzen {Stufe} — {1-Satz-Begruendung}
-
-## Strategisch wertvoll
-- **#{N}** {Kurztitel} — Aufwand mittel · Nutzen {Stufe} — {1-Satz-Begruendung}
-
-## Braucht eigenen Fokus
-- **#{N}** {Kurztitel} — Aufwand gross · Nutzen {Stufe} — {1-Satz-Begruendung}
-
-## Wartend/blockiert
-- **#{N}** {Kurztitel} — Aufwand {Stufe} · Nutzen {Stufe} — {1-Satz-Begruendung}
-  ⏳ wartet auf: {#A (Status) | Change {slug} | Anlass/Bedarf | externe Voraussetzung}
-
-## Abhaengigkeiten
-- {#A | Change {slug}} vor #{B} — {zwingend | sinnvoll (Vermutung)}: {Grund}
-{⚠ Zyklus #A ↔ #B — Reihenfolge widerspruechlich, im Review klaeren}
-{oder: _(keine erkannt)_}
-
-## Empfohlene Reihenfolge
-1. #{N} {Kurztitel}
-2. #{N} {Kurztitel}{ — vorgezogen: Vorbedingung fuer #B}
-
----
+| # | Idee (kurz) | Aufwand | Wichtigkeit | Bemerkung |
+|---|---|---|---|---|
+| {N} | {Kurztitel} | {Spanne} | {Farbe} {Stufe} | {Bemerkung} |
 
 Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-review
 ```
 
-**Kurztitel:** der fett gesetzte Anfang des Idee-Texts, sonst dessen erste ~8 Woerter —
-nicht umformulieren.
+**Spalten:**
 
-**Zusaetze je Idee-Zeile (alle Toepfe):**
+- **#** — Inbox-Nummer ohne `#`
+- **Idee (kurz)** — eigene Kurzfassung, hoechstens ~6 Woerter, sinngemaess aus dem Idee-Text
+  verdichtet (Kern der Idee, keine neue Aussage; Skill-/Dateinamen in Backticks). Der volle
+  Text bleibt ueber die Nummer in `INBOX.md` erreichbar. Bei Teil-Routing (4.1) mit
+  Zusatz `(Rest)`
+- **Aufwand** — Spanne aus 4.3, ggf. mit Zusatz
+- **Wichtigkeit** — Farbe + Stufe aus 4.3 (`🔴 hoch`)
+- **Bemerkung** — **ein** Satz, der die Einstufung begruendet und zeigt, was man vor dem
+  Anfangen wissen muss. Teile in dieser Reihenfolge, mit `;` verbunden:
+  1. Blocker, falls vorhanden: `Blockiert: {#A (Status) | Change {slug} | externe Voraussetzung}`
+  2. Grund der Wichtigkeit (Beleg aus Text/Querbeleg, Vermutungen mit `(Vermutung)`)
+  3. Reihenfolge, falls vorhanden: `Vorbedingung fuer #B` · `Sinnvoll erst nach #A (Vermutung)`
+     · `⚠ Zyklus mit #A — Reihenfolge widerspruechlich, im Review klaeren`
+  4. Hinweise aus 4.2 im Wortlaut der Tabelle „Vorbedingung → Wirkung" ohne `↪`
+     (z.B. `Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar`); eine nicht
+     pruefbare Nummer wird dabei nie genannt
 
-- `(Rest nach Teil-Routing)` — direkt hinter den Kurztitel (Schritt 4.1)
-- `↪ {Hinweis}` — eingerueckt unter der Idee-Zeile, je Hinweis eine Zeile; Wortlaut unveraendert
-  aus der Tabelle „Vorbedingung → Wirkung" in 4.2
-- `⏳ wartet auf: …` — nur im Topf wartend/blockiert, wie in der Vorlage
+Keine Zeilen unter der Tabelle ausser der Fusszeile — keine Topf-, Abhaengigkeits- oder
+Reihenfolge-Abschnitte. `|` im Zellentext als `/` schreiben, damit die Tabelle nicht bricht.
 
 ## Wichtig
 
@@ -292,7 +271,7 @@ nicht umformulieren.
 - **Kein zweiter Speicherort:** Die Rangliste ist ein Chat-Report, keine Datei. Sie veraltet
   mit jeder neuen Idee; jeder Aufruf bewertet frisch und schreibt keine fruehere Rangliste fort
 - **Becken bleibt draussen:** `INBOX-BEFUNDE.md` wird nicht gelesen (§6.4)
-- **Jede Idee in genau einem Topf:** die Zuordnung folgt den Tabellen in 4.4,
+- **Jede Idee genau eine Zeile:** Stufen und Sortierung folgen den Tabellen in 4.3/4.4,
   nicht dem Gesamteindruck
 - **Laeuft ueberall:** auch in einem verlinkten Worktree unveraendert (Read-only-Sicht) —
   der Lesestand kann dort aelter sein als im Haupt-Checkout

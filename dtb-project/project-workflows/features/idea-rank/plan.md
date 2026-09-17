@@ -13,6 +13,7 @@
 |-------|-------------|-------|--------|
 | Phase 1 | Skill `dtb:idea-rank` bauen | ca. 1,5 h | Geplant |
 | Phase 2 | Einbindung ins Kit + Probelauf | ca. 1 h | Geplant |
+| Phase 3 | Ausgabe als eine Tabelle (Abnahme-Nachbesserung) | ca. 1 h | Geplant |
 
 ---
 
@@ -124,6 +125,86 @@ Der Skill ist in allen Uebersichten eingetragen, die Pipeline-Kante ist beidseit
 
 ---
 
+## Phase 3: Ausgabe als eine Tabelle (Abnahme-Nachbesserung)
+
+### Ziel
+Der Report ist **eine** nach Wichtigkeit sortierte Tabelle `# | Idee (kurz) | Aufwand | Wichtigkeit | Bemerkung`
+— statt vier Toepfen, Abhaengigkeits-Abschnitt und getrennter Reihenfolge.
+
+**Anlass:** Abnahme-Lauf 2026-09-17 nicht bestanden. Nutzer-Befund: „ich habe keine Ahnung, wie es mir helfen
+soll" — die Einschaetzung je Idee ist richtig, aber auf drei Bloecke verteilt; die Reihenfolge-Empfehlung steht
+getrennt von den Werten. Vorbild: Tabelle aus einem anderen Projekt (Nutzer-Screenshot 2026-09-17) — sortiert
+nach Wichtigkeit, Aufwand als Zeitspanne, Blocker/Abhaengigkeit als ein Satz in „Bemerkung".
+Entscheidungen einzeln bestaetigt 2026-09-17: Weg = Phase 3; Wichtigkeit 6 Stufen/4 Farben; Aufwand =
+Zeitspanne; Kurztitel = eigene Kurzfassung.
+
+### Schritte
+
+#### Schritt 3.1: Bewertung umbauen (SKILL.md Schritt 4)
+- **Zweck:** Werte liefern, die direkt in die Tabelle gehen
+- **Dateien:** `skills/dtb-idea-rank/SKILL.md`
+- **Input:** Entscheidungen oben, bestehende Abschnitte 4.1–4.5
+- **Output:**
+  - 4.1 (Teil-Routing) und 4.2 (Abhaengigkeiten, Tabelle „Vorbedingung → Wirkung") **bleiben** — sie speisen
+    jetzt Bemerkung und Wichtigkeit; nicht pruefbare Verweise bleiben aus dem Report (Nummer nie nennen)
+  - 4.3 **Aufwand** = Zeitspanne, nie Einzelzahl (`~1 h`, `1–2 h`, `2–4 h`, `0,5–1 Tag`, `1–2 Tage`, `3+ Tage`),
+    optional mit Zusatz (`nach Input`, `+ Discovery`); Grenzfall → hoehere Spanne
+  - 4.3 **Wichtigkeit** = 6 Stufen mit Merkmal je Stufe: 🔴 `sehr hoch` / `hoch` · 🟠 `mittel-hoch` ·
+    🟡 `mittel` · 🟢 `niedrig-mittel` / `niedrig`; Beleg-Regel (belegte Fehlerklasse/Wiederholung, Vorbedingung
+    anderer Ideen per zwingender Kante hebt) und Grenzfall → niedrigere Stufe bleiben
+  - 4.4 Topf-Zuordnung und 4.5 Reihenfolge **entfallen**; ersetzt durch **Sortierung**: Wichtigkeit absteigend →
+    kleinerer Aufwand zuerst → aeltere Idee → niedrigere Nummer; zwingende Kante `#A vor #B` zwischen zwei
+    Tabellenzeilen wird eingehalten (`#A` rueckt vor `#B`)
+  - Blockierte Ideen bleiben in der Tabelle an ihrer Sortierposition; der Blocker steht in der Bemerkung
+
+#### Schritt 3.2: Ausgabe-Template und Frontmatter (SKILL.md Schritt 5)
+- **Zweck:** Die Ausgabe sieht aus wie das Vorbild
+- **Dateien:** `skills/dtb-idea-rank/SKILL.md`
+- **Input:** Schritt 3.1
+- **Output:**
+  - Template: Kopfzeile (Datum, Anzahl, Teilmenge, ⚠-Zeilen) → **eine** Tabelle → Fusszeile
+    `Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-review`
+  - **Idee (kurz):** eigene Kurzfassung, max. ~6 Woerter, sinngemaess (Nummer + INBOX bleiben Quelle)
+  - **Bemerkung:** genau ein Satz — Grund der Wichtigkeit; Blocker (`Blockiert: …`), Abhaengigkeit
+    (`Sinnvoll erst nach #A`, `Reihenfolge haengt an #A`) und ↪-Hinweise dort eingefaltet, keine Extra-Zeilen
+  - Frontmatter-`description` und Einleitung ohne Toepfe (Tabelle nach Wichtigkeit mit Aufwand);
+    Trigger „Quick Wins in der Inbox" ersetzen; Abschnitt „Wichtig" nachziehen („genau einem Topf" entfaellt)
+
+#### Schritt 3.3: Spiegel nachziehen + Probelauf
+- **Zweck:** Kit-Doku konsistent, Wirkung belegt (Lektion #14)
+- **Dateien:** `CLAUDE.md`, `README.md`, `features/idea-rank/spec.md` (Scope, Success Criteria), dieser Plan
+  (`## Technische Entscheidungen`, `## Probelauf … (Phase 3)`)
+- **Input:** repo-weiter Grep auf `four pots`, `vier Toepfe`, `Quick Wins` ausserhalb `archive/`, Changelog und
+  `INBOX.md` (Historie bleibt unveraendert)
+- **Output:** Beschreibungen auf Tabellen-Form; Probelauf mit der Repo-Fassung gegen die echte INBOX, Report als
+  Protokoll + Auffaelligkeiten
+
+> **3x3-Block:** Nach Schritt 3.3 → Zusammenfassung + Feedback einholen
+
+### Deliverables
+- [ ] `skills/dtb-idea-rank/SKILL.md` auf Tabellen-Ausgabe umgebaut
+- [ ] Spiegel in `CLAUDE.md`, `README.md`, `spec.md` nachgezogen
+- [ ] Probelauf-Protokoll Phase 3
+
+### Checkpoint-Kriterien
+
+#### Automated
+- [ ] Tabellenkopf im Template: `grep -c "^| # | Idee (kurz) | Aufwand | Wichtigkeit | Bemerkung |$" skills/dtb-idea-rank/SKILL.md` = 1
+- [ ] Topf-Ueberschriften aus dem Template entfernt (Wirkstelle = Ueberschriftszeilen): `grep -cE "^## (Quick Wins|Strategisch wertvoll|Braucht eigenen Fokus|Wartend/blockiert|Empfohlene Reihenfolge)$" skills/dtb-idea-rank/SKILL.md` = 0
+- [ ] Vier Farben, je eigener Grep >= 1: `🔴`, `🟠`, `🟡`, `🟢` (auf `skills/dtb-idea-rank/SKILL.md`)
+- [ ] Sechs Stufen-Namen, je eigener Grep >= 1: `sehr hoch`, `mittel-hoch`, `niedrig-mittel` (die drei uebrigen sind Teilstrings)
+- [ ] Unveraendert rein lesend: `grep -c "^  produces: \[\]$"` = 1; `grep -E "^allowed-tools:"` ohne `Write`/`Edit`/`Bash`
+- [ ] Frontmatter ohne Toepfe: `sed -n '1,/^---$/{p}' skills/dtb-idea-rank/SKILL.md | sed -n '2,20p' | grep -c "four pots"` = 0
+- [ ] Spiegel ohne Toepfe: `grep "^- \*\*Idea management\*\*" CLAUDE.md | grep -c "four pots"` = 0 und `grep "^| \`/dtb:idea-rank\`" README.md | grep -c "four pots"` = 0
+- [ ] `grep -c "^## Probelauf .*(Phase 3)" dtb-project/project-workflows/features/idea-rank/plan.md` = 1
+- [ ] Inbox unveraendert: `git diff --exit-code -- dtb-project/project-workflows/INBOX.md` → Exit 0
+- [ ] Kein Becken-Eintrag im Phase-3-Protokoll: Nummern aus `INBOX-BEFUNDE.md` minus `INBOX.md` → Liste nicht leer (Gate, Lektion #7), dann jede als `#{N}\b` bzw. `^| {N} |` im Abschnitt `## Probelauf … (Phase 3)` → 0 Treffer
+
+#### Manual
+- [ ] Probelauf-Tabelle hat die Form des Vorbilds (eine Tabelle, fuenf Spalten, nach Wichtigkeit sortiert) und hilft beim Entscheiden, was zuerst dran ist
+
+---
+
 ## Technische Entscheidungen
 
 | Thema | Optionen | Entscheidung | Begruendung |
@@ -131,7 +212,9 @@ Der Skill ist in allen Uebersichten eingetragen, die Pipeline-Kante ist beidseit
 | Traeger | eigener Skill / Modus von idea-review | eigener Skill | Name 2026-09-17 entschieden; keine Vermischung lesend/schreibend |
 | Persistenz | Chat-only / Datei | Chat-only | Rangliste veraltet schnell; per Veto-Vorlage bestaetigt 2026-09-17 |
 | Bewertungsquellen | nur Inbox / + features+BACKLOG / + Changelog | Inbox + features + BACKLOG | Blocker erkennbar, Lauf bleibt schnell; per Veto-Vorlage bestaetigt 2026-09-17 |
-| Bewertungsskala | Zahlen / grobe Stufen | grobe Stufen | Lektion #10 (keine Schein-Messbarkeit) |
+| Bewertungsskala | Zahlen / grobe Stufen | ~~grobe Stufen~~ → **revidiert 2026-09-17 (Phase 3):** Aufwand als Zeitspanne, Wichtigkeit 6 Stufen/4 Farben | Urspruenglich Lektion #10 (keine Schein-Messbarkeit). Abnahme zeigte: Stufen `klein/mittel/gross` helfen nicht bei der Entscheidung. Spanne statt Einzelzahl haelt die Unschaerfe sichtbar — vom Nutzer bestaetigt |
+| Ausgabeform | vier Toepfe + Abhaengigkeiten + Reihenfolge / eine sortierte Tabelle | eine Tabelle nach Wichtigkeit (Phase 3) | Abnahme 2026-09-17 nicht bestanden: Werte auf drei Bloecke verteilt; Vorbild-Tabelle aus anderem Projekt |
+| Kurztitel | woertlich gekuerzt / eigene Kurzfassung | eigene Kurzfassung, max. ~6 Woerter (Phase 3) | Schmale Tabelle; Nummer + INBOX bleiben die Quelle — vom Nutzer bestaetigt 2026-09-17 |
 | Pipeline-Einordnung | monitoring ohne Kanten / idea mit `next: idea-review` | `stage: idea`, `next: [dtb:idea-review]` | Vorstufe des Reviews sichtbar im Graph; per Veto-Vorlage bestaetigt 2026-09-17 |
 | Ausloesung | nur manuell / auch natuerlich-sprachlich | natuerlich-sprachlich | Read-only-Sichten sind gefahrlos (Vorbild meeting-agenda) |
 | Regel-Reihenfolge Topf-Zuordnung | Aufwand vor Nutzen / Nutzen niedrig vor Aufwand gross | Nutzen niedrig vor Aufwand gross | Eine Idee ohne belegten Bedarf wartet auf Anlass, auch wenn sie gross ist (Praxis 2026-07-30); weicht von der Vorrang-Kette in Schritt 1.2 ab — Manual-Gate Phase 1 bestaetigt 2026-09-17, nachgetragen aus impl-review Lauf 2 |
@@ -150,6 +233,9 @@ Der Skill ist in allen Uebersichten eingetragen, die Pipeline-Kante ist beidseit
 - [x] 2.1 CLAUDE.md und skills/CLAUDE.md — `3563fce`
 - [x] 2.2 README und idea-review-Gegenkante — `3563fce`
 - [x] 2.3 Probelauf gegen die Inbox — `3563fce`
+- [x] 3.1 Bewertung umbauen (Aufwand-Spanne, Wichtigkeit, Sortierung)
+- [x] 3.2 Ausgabe-Template und Frontmatter
+- [x] 3.3 Spiegel nachziehen + Probelauf
 
 ---
 
@@ -208,3 +294,37 @@ Jede der 7 Ideen genau einmal zugeordnet. Quick Wins leer. Reihenfolge: #33 → 
 ---
 
 **Erstellt mit:** /dtb:feature-fast (Fast-Track, Sammelvorlage bestaetigt 2026-09-17)
+
+---
+
+## Probelauf 2026-09-17 (Phase 3)
+
+**Lauf:** Repo-Fassung `skills/dtb-idea-rank/SKILL.md` nach Schritt 3.2, gelesen und befolgt im Haupt-Checkout; ohne
+Argument. Quellen: `INBOX.md` (6 × `Offen`, 0 × `In Arbeit`), `BACKLOG.md` (nur `idea-rank`), `features/*/` (nur
+`idea-rank`, abgeleitet In Arbeit — keine Idee haengt daran). Becken nicht gelesen.
+
+**Report (Wortlaut der Tabelle):**
+
+| # | Idee (kurz) | Aufwand | Wichtigkeit | Bemerkung |
+|---|---|---|---|---|
+| 95 | Statusverlust-Luecken schliessen | 3+ Tage | 🔴 hoch | Belegte Fehlerklasse (18 Status-Versionen, 0× abgehakt; Befund 2026-09-17), vier getrennte Luecken in mehreren Skills; Vorbedingung fuer #57 nur als Vermutung |
+| 57 | Schein-Rueckfragen der Voll-Schiene automatisieren | 3+ Tage | 🟡 mittel | Regelmaessig genutzte Schiene, aber „immer Ja" ist laut Text selbst noch unbelegt; Sinnvoll erst nach #95 (Vermutung) |
+| 27 | `grill-me` gegen Greenfield-Stack abgrenzen | 1–2 h | 🟢 niedrig | Ohne Bau entscheidbar, Skill schon installiert, kein konkreter Anlass; Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar |
+| 15 | Brownfield-Health-Check bauen | 3+ Tage | 🟢 niedrig | Vorpruefung ergab schwachen Nutzungsfrequenz-Test, und der ganze Brownfield-Ast fehlt als Vorstufe |
+| 39 | Stitch als UI-Entwurfswerkzeug anbinden? | 3+ Tage | 🟢 niedrig | Offene Grundsatzfrage (Skill, Konvention oder Doku-Verweis) ohne Projekt, das gerade UI-Entwuerfe braucht |
+| 45 | Claude-Code-Hooks im Kit pruefen | 3+ Tage | 🟢 niedrig | Erkundung ohne Anlass; ein Hook-Kandidat wurde schon begruendet verworfen |
+
+Jede der 6 Ideen genau eine Zeile. Sortierung: hoch → mittel → niedrig; innerhalb `niedrig` kleinere Spanne zuerst
+(#27), danach Gleichstand `3+ Tage` nach Datum (#15 2026-07-14, #39 2026-08-05, #45 2026-08-06). Zwingende Kanten
+zwischen Tabellenzeilen: keine.
+
+**Auffaelligkeiten:**
+
+1. **Grundsatzfrage-Regel blaeht Erkundungen auf.** #39 und #45 landen per Merkmal „offene Grundsatzfrage" in
+   `3+ Tage`, obwohl eine Entscheidung „nicht verfolgen" in 1–2 h faellt. Regelkonform (Grenzfall → groessere
+   Spanne), fuer die Sortierung folgenlos (beide `niedrig`, ganz unten) — aber die Spalte liest sich teurer als
+   der naechste Schritt. Kandidat fuer die Abnahme-Rueckmeldung, nicht still geaendert.
+2. **Kurztitel sind eigene Verdichtungen.** Alle 6 verlassen den Inbox-Wortlaut (#57 statt 16 Woertern 6); die
+   Aussage bleibt je Idee erhalten, die Nummer fuehrt zum Volltext.
+3. **Zusammenhang Topf → Tabelle belegt:** Die Reihenfolge entspricht der Topf-Fassung (#95 vor #57, die vier
+   wartenden unten); neu ist, dass #27 als billigste der niedrigen Ideen oben in ihrem Block steht.
