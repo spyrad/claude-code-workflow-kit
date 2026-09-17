@@ -19,7 +19,7 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | `idea-rank` abgenommen und archiviert (`archive/idea-rank/`); kein aktives Feature |
+| **Notizen** | `idea-rank` abgenommen, archiviert und gepusht (`6e511c5`); kein aktives Feature |
 
 ---
 
@@ -39,7 +39,7 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-09-17 | Abnahme `idea-rank` | Lauf ueber 6 Ideen „passt" → Abgenommen | `2026-09/2026-09-17.md` |
+| 2026-09-17 | Abnahme + Archiv `idea-rank` | Lauf ueber 6 Ideen „passt" → Abgenommen → `archive/idea-rank/` (`6e511c5`) | `2026-09/2026-09-17.md` |
 | 2026-09-17 | `idea-rank` Phase 3: Tabelle nach Wichtigkeit | Abnahme 1 nicht bestanden → Phase 3 `8f2b197`, Review-Laeufe 3+4 (20 FIXED), Push `c7e8f45`, kit-sync | `2026-09/2026-09-17.md` |
 | 2026-09-17 | `idea-rank` via Pane gebaut (#33) | 6/6, impl-review 2 Laeufe (20 FIXED), ff-Merge + Push `19a7ea0`, kit-sync | `2026-09/2026-09-17.md` |
 
