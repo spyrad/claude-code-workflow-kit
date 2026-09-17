@@ -143,12 +143,12 @@ Der Skill ist in allen Uebersichten eingetragen, die Pipeline-Kante ist beidseit
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Frontmatter und Geruest
-- [x] 1.2 Topf-Logik und Ausgabeformat
-- [x] 1.3 Randfaelle und Schlussregeln
-- [ ] 2.1 CLAUDE.md und skills/CLAUDE.md
-- [ ] 2.2 README und idea-review-Gegenkante
-- [ ] 2.3 Probelauf gegen die Inbox
+- [x] 1.1 Frontmatter und Geruest — `fedfac6`
+- [x] 1.2 Topf-Logik und Ausgabeformat — `fedfac6`
+- [x] 1.3 Randfaelle und Schlussregeln — `fedfac6`
+- [x] 2.1 CLAUDE.md und skills/CLAUDE.md
+- [x] 2.2 README und idea-review-Gegenkante
+- [x] 2.3 Probelauf gegen die Inbox
 
 ---
 
@@ -159,6 +159,45 @@ Umsetzung mit `/dtb:implement idea-rank` — 3x3-Rhythmus und Phasen-Ende-Ritual
 Wiedereinstieg bei Kontextverlust: `features/idea-rank/plan.md` laden; der erste nicht
 abgehakte Schritt in `## Progress` ist der naechste.
 Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint`).
+
+---
+
+## Probelauf 2026-09-17
+
+**Lauf:** Repo-Fassung `skills/dtb-idea-rank/SKILL.md`, gelesen und befolgt im Worktree `pane-idea-rank`; ohne
+Argument. Quellen: `INBOX.md` (7 × `Offen`, 0 × `In Arbeit`), `BACKLOG.md` (alle Tabellen leer), `features/*/`
+(nur `idea-rank`). Becken nicht gelesen. Zwei Durchgaenge: Lauf 1 gegen Stand `fedfac6`, Lauf 2 nach der
+Regel-Korrektur in 4.3 (Mismatch-Entscheid 2026-09-17, Option 1a).
+
+| Idee | Aufwand | Nutzen | Regel (4.4) | Topf |
+|------|---------|--------|-------------|------|
+| #33 | mittel | hoch | 5 | strategisch wertvoll |
+| #95 | gross | hoch | 3 | braucht eigenen Fokus |
+| #57 | gross | mittel | 3 | braucht eigenen Fokus |
+| #27 | klein | niedrig | 2 (+ ↪ Verweis ausserhalb der Inbox) | wartend/blockiert |
+| #45 | gross | niedrig | 2 | wartend/blockiert |
+| #39 | gross | niedrig | 2 | wartend/blockiert |
+| #15 | gross | niedrig | 2 | wartend/blockiert |
+
+Jede der 7 Ideen genau einmal zugeordnet. Quick Wins leer. Reihenfolge: #33 → #95 → #57; danach #27, #45, #39,
+#15 bei Anlass. Abhaengigkeiten: keine erkannt.
+
+**Auffaelligkeiten:**
+
+1. **Lauf 1 — Verweis ins Becken als Blocker gefuehrt (behoben).** #27 nennt eine Reihenfolge-Abhaengigkeit zu
+   einer Nummer, die nicht in `INBOX.md` steht. Lauf 1 fuehrte sie nach der alten 4.3-Regel als Blocker „Stand
+   unklar" und als Abhaengigkeit — tatsaechlich ist es ein nie befoerderter Becken-Eintrag (Altbestand). Das
+   Automated-Kriterium „kein Becken-Eintrag im Report" schlug an. Ursache: Der Skill darf das Becken nicht lesen,
+   kann Becken-Nummern also nicht von archivierten Ideen unterscheiden. Korrektur: Verweise ausserhalb der Inbox
+   erzeugen keine Abhaengigkeit, die Nummer wird nicht uebernommen, die Zeile traegt einen `↪`-Hinweis. Topf von
+   #27 unveraendert (Regel 2 greift ohnehin).
+2. **#33 wird als offen gerankt, obwohl er in diesem Worktree bearbeitet wird.** Der `In Arbeit`-Flip ist per
+   Teil-Guard auf den Hand-off verschoben — der Skill sieht korrekt den Inbox-Stand. Kein Skill-Fehler; derselbe
+   Befund wie #95 Punkt (4) (Worktree-Fortschritt unsichtbar bis Merge).
+3. **#15 nennt sich selbst „braucht zusammenhaengenden Fokus", landet aber in wartend/blockiert.** Regel 2 (Nutzen
+   niedrig) greift vor Regel 3 — regelkonform und begruendet (schwacher Nutzungsfrequenz-Test laut Text).
+4. **Stufen-Grenzfaelle entschieden per Vorsichtsregel:** #39 Aufwand mittel/gross → gross; #15 Nutzen
+   mittel/niedrig → niedrig.
 
 ---
 

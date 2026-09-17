@@ -69,6 +69,7 @@ cd <dein-projekt>
 | `/dtb:workflow-resume` | Resume after a break |
 | `/dtb:idea` | Quick-capture an idea into the inbox |
 | `/dtb:idea-review` | Review and triage open ideas |
+| `/dtb:idea-rank` | Read-only effort×value ranking of open ideas in four pots with dependencies and a recommended order |
 | `/dtb:bug-report` | Capture bug report with severity and reproduction steps |
 | `/dtb:debug-plan` | Root-cause analysis and fix strategy for an existing bug |
 | `/dtb:feature-discover` | Analyze idea, scan codebase, gather requirements before spec writing |

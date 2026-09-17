@@ -67,9 +67,9 @@ Lies `{config.paths.workflows}/INBOX.md`.
   Blocker-Kontext (Schritt 4).
 
 **Das Befund-Becken `INBOX-BEFUNDE.md` wird NICHT gelesen.** Becken-Eintraege sind bis zu
-ihrer Befoerderung fuer keine Arbeitssicht sichtbar (`DERIVED_STATE_RULES.md` §6.4). Nennt
-eine offene Idee eine Becken-Nummer im Text, bleibt das Text — der Becken-Eintrag selbst
-wird weder gerankt noch als Abhaengigkeit gefuehrt.
+ihrer Befoerderung fuer keine Arbeitssicht sichtbar (`DERIVED_STATE_RULES.md` §6.4). Weil das
+Becken ungelesen bleibt, ist eine Becken-Nummer im Idee-Text nicht von einer archivierten
+Idee unterscheidbar — beide behandelt Schritt 4.3 als **Verweis ausserhalb der Inbox**.
 
 ## Schritt 2: Argument auswerten
 
@@ -151,7 +151,16 @@ Eine Abhaengigkeit ist ein gerichtetes Paar `#A vor #B` mit Grund. Quellen:
 
 Ein Blocker ist **erfuellt**, wenn die benannte Idee `Ausgearbeitet` ist bzw. der benannte
 Change abgeschlossen ist (`## Progress` vollstaendig). `In Arbeit` und laufende Changes
-blockieren weiter. Ist der Stand nicht erkennbar → als Blocker fuehren, mit `(Stand unklar)`.
+blockieren weiter.
+
+**Verweis ausserhalb der Inbox** (die genannte Nummer steht nicht in `INBOX.md`): daraus
+entsteht **keine** Abhaengigkeit und kein Blocker, und die Nummer wird **nicht** in den Report
+uebernommen. Die Nummer kann eine archivierte Idee oder ein Becken-Eintrag sein — ohne das
+Becken zu lesen, ist das nicht entscheidbar, und ein Becken-Eintrag darf in keiner Arbeitssicht
+erscheinen (§6.4). Stattdessen traegt die Zeile der verweisenden Idee den Zusatz
+`↪ Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar`. Probelauf 2026-09-17: ohne diese
+Regel stand eine Idee dauerhaft als „blockiert, Stand unklar" hinter einem nie befoerderten
+Becken-Eintrag.
 
 ### 4.4 Topf-Zuordnung (feste Reihenfolge, erster Treffer gilt)
 
@@ -207,6 +216,7 @@ ist, dass der Topf geprueft wurde.
 ## Wartend/blockiert
 - **#{N}** {Kurztitel} — Aufwand {Stufe} · Nutzen {Stufe} — {1-Satz-Begruendung}
   ⏳ wartet auf: {#A (Status) | Change {slug} | Anlass/Bedarf | externe Voraussetzung}
+  {↪ Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar   ← nur falls zutreffend, in jedem Topf}
 
 ## Abhaengigkeiten
 - #{A} vor #{B} — {zwingend | sinnvoll (Vermutung)}: {Grund}

@@ -377,7 +377,7 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 | **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint`, `idea`, `idea-review`, `archive`, `lesson`, `meeting-dump`, `task`, `bug-report`, `pane-start` (Sonderfall: `produces` leer — Voll-Guard aus betrieblichem Grund, verlinkte Worktrees legt man nur vom Haupt-Checkout aus an) |
 | **Teil-Guard** (hybrid) | Laeuft normal am EIGENEN Change, ueberspringt aber die globalen Schreibschritte (INBOX-Status/-Link, BACKLOG-Eintrag) mit einer Hinweiszeile; das Uebersprungene gehoert in den Hand-off | `feature-discover`, `feature-plan`, `feature-fast` |
 | **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `feature-start`, `debug-plan`, `impl-review`, `open-question` |
-| **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `no-loss-check`, `pipeline-graph`, … |
+| **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `idea-rank`, `no-loss-check`, `pipeline-graph`, … |
 
 Einteilungs-Kriterium ist das `produces:`-Frontmatter — mechanisch pruefen, nie
 schaetzen: Erzeugt ein Skill NEUE Change-Ordner oder schreibt er quer (zentrale Dateien,
