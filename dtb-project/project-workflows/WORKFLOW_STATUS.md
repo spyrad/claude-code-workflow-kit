@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| idea-rank | Abgenommen | 9/9 | /dtb:archive |
+
+Kein aktives Feature.
 
 ---
 
@@ -18,13 +19,12 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | `idea-rank` im zweiten Abnahme-Lauf bestanden (Tabellen-Fassung, „passt"); wartet auf Archivierung |
+| **Notizen** | `idea-rank` abgenommen und archiviert (`archive/idea-rank/`); kein aktives Feature |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:archive` fuer `idea-rank`** — Kontext: Abgenommen 2026-09-17, INBOX #33 (Ausgearbeitet) mitnehmen
 - [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 6 offene Ideen, Rangliste empfiehlt #95 zuerst
 - [ ] **`/dtb:idea-triage`** — Kontext: 46 ungesichtet; #85 mit Vermerk aus #91 verwerfen, #81 verwerfen, #92–#94, #96; #27-Verweis mitsichten
 - [ ] **Idee erfassen: Kriterien-Checkboxen ohne Pfleger** — Kontext: `dtb:implement` prueft Checkpoint-Kriterien, flippt aber nur `## Progress` (Beleg idea-rank)
@@ -53,6 +53,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive idea-rank`
+**Naechster Befehl:** `/dtb:workflow-next` — inhaltlich vorgesehen: `/dtb:idea-review` (Rangliste empfiehlt #95)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 46 ungesichtet → /dtb:idea-triage

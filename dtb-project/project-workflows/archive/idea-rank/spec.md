@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-17
 **Ziel:** Die wiederholt von Hand gebaute Priorisierungs-Sicht ueber offene Ideen (Aufwand, Wichtigkeit, Blocker) als eigenen, rein lesenden Skill `dtb:idea-rank` bereitstellen.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

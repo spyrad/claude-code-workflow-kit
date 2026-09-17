@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-17 (`/dtb:workflow-checkpoint`: `idea-rank` Abgenommen)
+**Letzte Aktualisierung:** 2026-09-17 (`/dtb:archive`: `idea-rank` archiviert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,6 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| idea-rank | Abgenommen | Mittel | features/idea-rank/ | Rein lesende Rangliste der offenen Ideen als eine Tabelle nach Wichtigkeit (Skill `dtb:idea-rank`) |
 
 ---
 
