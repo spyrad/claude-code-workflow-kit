@@ -33,12 +33,12 @@ ganze Achse Vermutung.
 
 ## Schritte
 
-- [ ] 1. Auszaehlen, wie oft ein von `dtb:feature-discover` bzw. `dtb:feature-fast` vorgeschlagener Slug abgelehnt oder geaendert wurde — je Fundstelle Datum und Logzeile notieren
-- [ ] 2. Auszaehlen, wie oft die Backlog-Frage aus `dtb:task` mit Nein beantwortet wurde — je Fundstelle Datum und Logzeile
-- [ ] 3. Auszaehlen, wie oft real nach dem Pane-/Worktree-Stand gefragt wurde (Beleg fuer #97 Punkt 8) — je Fundstelle Datum und Logzeile
-- [ ] 4. Die Voll-Schiene (`feature-discover`, `feature-plan`, `impl-plan`, `plan-review`, `feature-start`, `implement`, `impl-review`) nach weiteren Rueckfragen durchsuchen, deren Antwort keine Festlegung traegt, und je Fundstelle dieselbe Auszaehlung machen
-- [ ] 5. Aus den Zahlen das Abgrenzungskriterium formulieren (Kandidat aus #57: traegt die Antwort eine Festlegung, die spaeter teuer zu revidieren ist?) und je Fragetyp eine Delegations-Policy festlegen: nie automatisch / automatisch mit Veto / automatisch ab Schwellwert
-- [ ] 6. Die Auszaehlung als Eval-Set fuer #99 aufbereiten: je Fragetyp die Faelle mit der tatsaechlich gegebenen Antwort, damit eine behauptete Kalibrierung spaeter messbar ist
+- [x] 1. Auszaehlen, wie oft ein von `dtb:feature-discover` bzw. `dtb:feature-fast` vorgeschlagener Slug abgelehnt oder geaendert wurde — je Fundstelle Datum und Logzeile notieren
+- [x] 2. Auszaehlen, wie oft die Backlog-Frage aus `dtb:task` mit Nein beantwortet wurde — je Fundstelle Datum und Logzeile
+- [x] 3. Auszaehlen, wie oft real nach dem Pane-/Worktree-Stand gefragt wurde (Beleg fuer #97 Punkt 8) — je Fundstelle Datum und Logzeile
+- [x] 4. Die Voll-Schiene (`feature-discover`, `feature-plan`, `impl-plan`, `plan-review`, `feature-start`, `implement`, `impl-review`) nach weiteren Rueckfragen durchsuchen, deren Antwort keine Festlegung traegt, und je Fundstelle dieselbe Auszaehlung machen
+- [x] 5. Aus den Zahlen das Abgrenzungskriterium formulieren (Kandidat aus #57: traegt die Antwort eine Festlegung, die spaeter teuer zu revidieren ist?) und je Fragetyp eine Delegations-Policy festlegen: nie automatisch / automatisch mit Veto / automatisch ab Schwellwert
+- [x] 6. Die Auszaehlung als Eval-Set fuer #99 aufbereiten: je Fragetyp die Faelle mit der tatsaechlich gegebenen Antwort, damit eine behauptete Kalibrierung spaeter messbar ist
 
 ## Ergebnis
 
