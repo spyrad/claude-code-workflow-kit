@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-21 (`/dtb:task`: `rueckfragen-erhebung` angelegt)
+**Letzte Aktualisierung:** 2026-09-21 (Checkpoint: `rueckfragen-erhebung` Fertig zum Testen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -19,7 +19,7 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| Rueckfragen-Erhebung (Autonomie-Achse, Station 1) | Offen | Mittel | features/rueckfragen-erhebung/task.md | Session-Logs auszaehlen (Slug, Backlog-Frage, Pane-Stand), Abgrenzungskriterium + Delegations-Policy ableiten, Eval-Set fuer #99 — Vorarbeit fuer #57/#97/#98/#99 |
+| Rueckfragen-Erhebung (Autonomie-Achse, Station 1) | Fertig zum Testen | Mittel | features/rueckfragen-erhebung/task.md | Session-Logs auszaehlen (Slug, Backlog-Frage, Pane-Stand), Abgrenzungskriterium + Delegations-Policy ableiten, Eval-Set fuer #99 — Vorarbeit fuer #57/#97/#98/#99 |
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-09-21
 **Prioritaet:** Mittel
-**Status:** Offen
+**Status:** Fertig zum Testen
 **Bereich:** DTB-Workflow — Voll-Schiene und Pane-/Worktree-Ueberwachung (Kit-Skills als Untersuchungsgegenstand, keine Aenderung an ihnen)
 
 ---
