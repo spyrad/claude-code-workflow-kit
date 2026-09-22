@@ -51,6 +51,11 @@ Eine Entscheidungs-Notiz `features/rueckfragen-erhebung/erhebung.md` mit:
 Definition of Done: alle sechs Schritte abgehakt, die Notiz existiert, und jede Zahl darin
 ist auf eine konkrete Logzeile rueckfuehrbar.
 
+**Festlegung 2026-09-22:** Kriterium und Policy-Tabelle sind abgenommen — verbindliche Fassung
+in `erhebung.md` unter `## Festlegung 2026-09-22 (verbindlich)` (17 Zeilen: 6 Veto, 4 Schwellwert,
+5 beim Menschen, 1 entfaellt, 1 wird nicht gebaut). Station 2 (`/dtb:feature-fast` fuer #57) ist
+damit startklar; INBOX #97 Punkt 8 ist ohne Beleg und steht in `/dtb:idea-review` zur Entscheidung.
+
 ---
 
 **Erfasst mit:** `/dtb:task`

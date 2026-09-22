@@ -340,6 +340,45 @@ Policies: **nie automatisch** (Mensch entscheidet) · **automatisch mit Veto** (
 
 ---
 
+## Festlegung 2026-09-22 (verbindlich)
+
+Der Mensch hat die Vorschläge oben in dieser Sitzung abgenommen. Das Abgrenzungskriterium gilt
+unverändert wie formuliert (Rücknahmekosten der Folge, nicht Häufigkeit der Abweichung). Die
+Policy je Fragetyp ist damit festgelegt — die Tabelle oben ist die Begründung, diese hier die
+Entscheidung. Vier Zeilen wurden einzeln entschieden und sind unten mit **E** markiert.
+
+| # | Fragetyp | Festlegung | Anmerkung |
+|---|----------|-----------|-----------|
+| 1 | Slug-Vorschlag | automatisch mit Veto | Default-Regel ergänzen: Kit-Skill → Slug = englischer Skill-Name |
+| 2 | Backlog-Frage `dtb:task` | automatisch ab Schwellwert | **E** Default Ja; Ausnahme nur bei Ordner-Präfix `zz-test-*`/`abnahmeprobe-*` |
+| 3 | Backlog-Frage `feature-plan`/`feature-fast` | automatisch ab Schwellwert | **E** dieselbe Präfix-Ausnahme |
+| 4 | Pane-/Worktree-Stand | wird nicht gebaut | **E** 0 Nachfragen in 5 Läufen → INBOX #97 Punkt 8 verliert seine Vorbedingung; Entscheidung über #97 in `/dtb:idea-review` |
+| 5 | Kleinfall-Weiche „Fast-Track nehmen?" | nie automatisch | Datenlage leer, Festlegung ist Scope-nah |
+| 6 | Escape-Hatch „trotzdem fortfahren" | nie automatisch | 0 Umgehungen — Gate erfüllt seinen Zweck |
+| 7 | plan-review „Anpassungen? (Ja/Nein)" | automatisch ab Schwellwert | bei REVISE/REJECTED direkt in die Finding-Runde; Findings selbst nie automatisch |
+| 8 | implement Manual-Gate | nie automatisch, je Phase | **E** keine Bündelung (#98 (f) verworfen); teuerste Rücknahme der Tabelle, L64 |
+| 9 | implement Staging bei dirty paths | automatisch mit Veto | Default 1 |
+| 10 | implement Commit-Message | automatisch mit Veto | Vorschlag anzeigen, „weiter" übernimmt |
+| 11 | implement Nächste-Phase | automatisch ab Schwellwert | Default (1); Schwelle = Kontext-/Session-Budget oder Nutzer-Stopp → (2) |
+| 12 | implement Mismatch-Dialog | nie automatisch | Abweichung vom reviewten Plan |
+| 13 | impl-review Triage | automatisch mit Veto (non-blocking) / nie automatisch (blocking) | Fix-Default in EINER Sammelvorlage, Skip per Zeile |
+| 14 | Codebase-Scan-Bestätigung | automatisch mit Veto | Liste anzeigen, weiter |
+| 15 | feature-start „Bereit? Los" | entfällt | **E** bei vorliegender `plan.md` direkt `/dtb:implement` anschliessen |
+| 16 | Lektion-Kandidat | automatisch mit Veto, Default umgekehrt | Kandidat wird erfasst statt verworfen (seit 2026-09-08 im Checkpoint) |
+| 17 | feature-fast Sammelvorlage | unverändert (automatisch mit Veto) | max. 3 Kernfragen bleiben nie automatisch |
+
+**Bilanz: 6 delegierbar mit Veto · 4 ab Schwellwert · 5 beim Menschen · 1 entfällt · 1 wird nicht gebaut.**
+
+**Form-Auflage für alle automatischen Zeilen:** Ein Veto-Default muss sichtbar sein und ein
+eindeutiges „weiter" haben; stiller Default ohne Anzeige ist bei Slug und Backlog vertretbar,
+bei allem, was einen Commit auslöst, nicht (Lehre 2026-07-30).
+
+**Was diese Festlegung freigibt:** Station 2 (`/dtb:feature-fast` für #57) kann starten — das
+Kriterium und die 17 Zeilen sind die Vorgabe. Diese Notiz ändert keine Skills; die Umsetzung
+je Zeile ist Gegenstand von #57 bzw. #98.
+
+---
+
 ## Eval-Set für #99
 
 Zweck: ein maschinelles Urteil (typisiert + Konfidenz) muss je Fall die tatsächlich gegebene Antwort reproduzieren. „Soll" = die belegte Antwort; ein Kalibrierungs-Anspruch ist nur so gut wie seine Trefferquote auf dieser Tabelle. Die Fälle mit `abweichend = ja` sind die harten Fälle.
