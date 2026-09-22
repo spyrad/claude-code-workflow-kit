@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-09-21
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-21.md`
+**Letztes Update:** 2026-09-22
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-22.md`
 
 ---
 
@@ -9,7 +9,9 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| rueckfragen-erhebung (Task) | Fertig zum Testen | 6/6 | Policy-Tabelle festlegen (`erhebung.md:314`), dann /dtb:idea-review |
+| rueckfragen-erhebung (Task) | Abgenommen | 6/6 | `/dtb:archive` — bewusst zurueckgestellt bis nach Station 2 |
+
+Kein aktives Feature.
 
 ---
 
@@ -18,19 +20,19 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | Autonomie-Achse #57→#98→#97→#99 in drei Stationen; Station 1 (Erhebung) per Worker durch, Kriterium/Policy sind Vorschlaege |
+| **Notizen** | Station 1 der Autonomie-Achse (#57→#98→#97→#99) abgeschlossen: Kriterium + 17 Policy-Zeilen sind festgelegt, Station 2 (#57) startklar |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Policy-Tabelle festlegen** — Kontext: 16 Fragetypen in `features/rueckfragen-erhebung/erhebung.md` ab Z. 314; Vorbedingung fuer Station 2 (`/dtb:feature-fast` #57)
-- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 9 offene Ideen; #97 ohne Beleg (0 Pane-Nachfragen in 5 Laeufen) → verwerfen oder mit #95 (4) zusammenlegen
+- [ ] **`/dtb:idea-review`** — Kontext: 9 offene Ideen; #97 hat seinen Beleg verloren (0 Pane-Nachfragen in 5 Laeufen) → verwerfen oder mit #95 (4) zusammenlegen
+- [ ] **INBOX #57/#97 um den Ergebnis-Stand ergaenzen** — Kontext: beide tragen nur den Hin-Verweis auf `task.md`, nicht das Ergebnis von Station 1
+- [ ] **Station 2 starten** — Kontext: 11 Policy-Zeilen in ~8 Skill-Dateien; Lane offen, Empfehlung Voll-Schiene statt `feature-fast` (L70)
+- [ ] **`/dtb:archive rueckfragen-erhebung`** — Kontext: erst NACH Station 2, `erhebung.md` ist bis dahin die Vorgabe
 - [ ] **`/dtb:idea-triage`** — Kontext: 46 ungesichtet; Worker-Buendel-Kandidaten #89→#46+58→#88, #93 ∥; #70/#54 vorher von bare Pipes befreien
-- [ ] **Report-Kandidaten selbst erfassen (optional)** — Kontext: 2 Lektionen + 3 Ideen, Befehle im Log 2026-09-21
-- [ ] **Veraltete TTS-Dateien loeschen** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1`; per `! rm {pfad}` (L58)
-- [ ] **Sprachausgabe auf dem Arbeitsrechner** — Kontext: Einzeiler aus github.com/spyrad/claude-code-tts, ggf. `-OfflineOnly`
-- [ ] **Fremder Ordner `..\.dtb-worktrees\pane-artikel-sdd-was-ist-das`** — Kontext: nicht registriert, 2026-09-21 16:44, nicht aus dieser Session
+- [ ] **Veraltete TTS-Dateien loeschen + Sprachausgabe einrichten** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1` (L58)
+- [ ] **Fremder Ordner `..\.dtb-worktrees\pane-artikel-sdd-was-ist-das`** — Kontext: nicht registriert, 2026-09-21 16:44, nicht aus einer eigenen Session
 
 ---
 
@@ -38,8 +40,8 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-09-21 | Station 1 Autonomie-Achse: Erhebung per Worker | 16 Rueckfrage-Typen ausgezaehlt, Kriterium-Vorschlag „Ruecknahmekosten statt Haeufigkeit", #97 P8 nicht bestaetigt; erster Worker-Lauf ueber Urteils-Schritte gruen (`c946bf5`) | `2026-09/2026-09-21.md` |
-| 2026-09-21 | Autonomie-Achse eingeordnet | #99 (TypeSafe) erfasst, #57/#97/#98/#99 mit Rolle + Stationen-Zuschnitt; TypeSafe-Installation abgelehnt, L68/L69 | `2026-09/2026-09-21.md` |
+| 2026-09-22 | Station 1 Autonomie-Achse abgeschlossen | 17 Rueckfrage-Typen entschieden: 6 Veto / 4 Schwellwert / 5 beim Menschen / 1 entfaellt / 1 nicht gebaut; #97 (8) ohne Vorbedingung; Task abgenommen (`eb9c982`, `63973ae`) | `2026-09/2026-09-22.md` |
+| 2026-09-21 | Station 1: Erhebung per Worker | 16 Rueckfrage-Typen ausgezaehlt, Kriterium-Vorschlag „Ruecknahmekosten statt Haeufigkeit", erster Worker-Lauf ueber Urteils-Schritte gruen (`c946bf5`) | `2026-09/2026-09-21.md` |
 | 2026-09-18 | Autopilot-Machbarkeit geklaert | Wand ist `dtb:implement:215`, nicht Herdr; kein Harness-Schalter; Ideen #97/#98 | `2026-09/2026-09-18.md` |
 | 2026-09-17 | Abnahme + Archiv `idea-rank` | Lauf ueber 6 Ideen „passt" → Abgenommen → `archive/idea-rank/` (`6e511c5`) | `2026-09/2026-09-17.md` |
 
