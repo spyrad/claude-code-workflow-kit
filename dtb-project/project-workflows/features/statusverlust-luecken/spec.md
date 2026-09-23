@@ -113,7 +113,9 @@ Offene Aufgaben / Naechste Schritte, Change im Worktree.
 
 ## Offene Punkte
 
-- — keine — (die fuenf Punkte aus der Spec-Erstellung sind in `/dtb:impl-plan` am 2026-09-23 entschieden; siehe `plan.md` → `## Technische Entscheidungen`)
+- Die fuenf Punkte aus der Spec-Erstellung sind in `/dtb:impl-plan` am 2026-09-23 entschieden; siehe `plan.md` → `## Technische Entscheidungen`
+- Beim Hand-off nachziehen (im Worktree uebersprungene globale Updates, 2026-09-23): INBOX #95 → Link `→ features/statusverlust-luecken/discovery.md` + `→ features/statusverlust-luecken/spec.md`, Status `Ausgearbeitet` (Teil-Guard `feature-discover` Schritt 7 / `feature-plan` Schritt 9); BACKLOG-Zeile `| Statusverlust-Luecken schliessen | {abgeleitet} | Hoch | features/statusverlust-luecken/spec.md | … |` (`feature-plan` Schritt 10)
+- Beim Hand-off nachziehen — Lektion-Kandidat (2026-09-23, noch nicht entschieden): „Probelaeufe geaenderter Skills gegen die Repo-Fassung der SKILL.md fahren, nie gegen die installierte `~/.claude/`-Kopie — die ist bis zum kit-sync nach dem Merge der alte Stand" (Entscheidung T8 in `plan.md`) → dem Orchestrator als `/dtb:lesson`-Vorschlag mitgeben
 
 ---
 
