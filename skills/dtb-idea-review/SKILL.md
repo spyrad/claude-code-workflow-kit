@@ -160,10 +160,12 @@ Uebernehmen? (Ja / lieber {Alternative 1} / lieber {Alternative 2})
 
 Nach der Bestaetigung:
 - **Task-Lane:** Setze Status direkt auf `Ausgearbeitet` mit Vermerk
-  `→ als Aufgabe geroutet ({Datum}); task.md-Link ergaenzt /dtb:task` — KEIN `In Arbeit`.
+  `→ als Aufgabe geroutet ({Datum}); task.md ausstehend — /dtb:task {N}` — KEIN `In Arbeit`.
   Grund: dtb:task schliesst die Erfassung einschrittig ab; ein dauerhaftes "In Arbeit"
   wuerde von argumentlosen feature-fast-/feature-discover-Laeufen automatisch geladen
-  (impl-review F2, 2026-08-02)
+  (impl-review F2, 2026-08-02). Bis `dtb:task` den Link setzt, gilt die Idee als
+  „Ausgearbeitet, Change fehlt" und bleibt offen sichtbar (`DERIVED_STATE_RULES.md` §8) —
+  `dtb:archive` entsorgt sie nicht
 - **Fast-Track- oder Voll-Schiene:** Setze Status auf `In Arbeit`
 - Beende den Review
 - Weise auf den gewaehlten Skill als naechsten Schritt hin

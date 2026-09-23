@@ -64,6 +64,15 @@ Lies `{config.paths.workflows}/INBOX.md`.
   Ob Kandidaten uebrig bleiben, prueft erst Schritt 2 — nach der Argument-Auswertung.
 - **Eintraege mit Status `In Arbeit`** merken — sie werden nicht gerankt, dienen aber als
   Blocker-Kontext (Schritt 4).
+- **Eintraege `Ausgearbeitet` ohne gueltigen Change-Link** merken — nicht gerankt (die Tabelle
+  bleibt bei `Offen`), aber als EINE Hinweiszeile unter der Tabelle ausgegeben (Schritt 5).
+  Operative Kopie von `DERIVED_STATE_RULES.md` §8 — Kernsatz: `Ausgearbeitet` ohne gueltigen Change-Link (8.1) ist „Ausgearbeitet, Change fehlt" und zaehlt als offen.
+  Gueltig ist `→ features/{slug}/{spec|task|bug}.md` mit existierender Datei oder
+  `→ archive/{slug}/…` mit existierendem Ordner; ein Link nur auf `discovery.md` belegt nicht.
+  Links stehen in der Spalte „Idee", Pfade relativ zu `{config.paths.workflows}`; mindestens ein gueltiger Link genuegt (ein zusaetzlicher toter Link macht die Zeile nicht ungueltig); ein toter `features/{slug}/`-Link gilt als belegt, wenn `archive/{slug}/` existiert (Change inzwischen archiviert).
+  Naechster Schritt bei „Change fehlt" (erster zutreffender Zweig gilt): Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; Link auf `features/{slug}/` mit vorhandener `discovery.md` → `/dtb:feature-plan {slug}`; sonst → `/dtb:feature-discover {N}`.
+  **Wartungs-Hinweis (Format-Kopplung):** spiegelt §8 (Kopie ist Absicht — Seed erreicht
+  Bestandsprojekte nicht automatisch, INBOX #22, §8); Aenderung dort → hier mitziehen.
 
 **Das Befund-Becken `INBOX-BEFUNDE.md` wird NICHT gelesen.** Becken-Eintraege sind bis zu
 ihrer Befoerderung fuer keine Arbeitssicht sichtbar (`DERIVED_STATE_RULES.md` §6.4). Weil das
@@ -147,9 +156,11 @@ Eine Abhaengigkeit ist ein gerichtetes Paar `#A vor #B` mit Grund. Quellen:
 | Change unter `features/`, jeder andere Status | nicht erfuellt (blockiert nur bei `zwingend` → Schritt 5, Teil 1) |
 | Inbox-Idee `Offen`, im selben Lauf gerankt | **Reihenfolge-Kante** — Wirkung in 4.4 (zwingende Kanten) |
 | Inbox-Idee `Offen` ausserhalb der Teilmenge, oder `In Arbeit` | nicht erfuellt (blockiert nur bei `zwingend` → Schritt 5, Teil 1) |
-| Inbox-Idee `Ausgearbeitet` mit Change-Link (`→ features/{slug}/…`) | wie der verlinkte Change (Zeilen 1-2) |
+| Inbox-Idee `Ausgearbeitet` mit gueltigem Change-Link (§8) auf `features/{slug}/…` | wie der verlinkte Change (Zeilen 1-2) |
+| Inbox-Idee `Ausgearbeitet` mit gueltigem Link auf `archive/{slug}/…` (bzw. totem `features/`-Link bei vorhandenem `archive/{slug}/`) | erfuellt — kein Blocker (Change abgeschlossen) |
+| Inbox-Idee `Ausgearbeitet`, Change fehlt (§8: kein oder kein gueltiger Link) | nicht erfuellt (blockiert nur bei `zwingend` → Schritt 5, Teil 1) |
 | Inbox-Idee `Verworfen` | kein Blocker; `Vorbedingung #A verworfen — Abhaengigkeit pruefen` |
-| **nicht pruefbar** — Nummer steht nicht in `INBOX.md` · Change nicht unter `features/` · `Ausgearbeitet` ohne Change-Link · unbekannter Status | kein Blocker, keine Abhaengigkeit, Nummer **nicht** in den Report; `{Grund} — Reihenfolge nicht pruefbar` mit {Grund} aus: `Verweis ausserhalb der Inbox` · `Verweis ausserhalb der laufenden Changes` · `Vorbedingung ausgearbeitet, Change nicht verlinkt` · `Vorbedingung mit unbekanntem Status` |
+| **nicht pruefbar** — Nummer steht nicht in `INBOX.md` · Change nicht unter `features/` · unbekannter Status | kein Blocker, keine Abhaengigkeit, Nummer **nicht** in den Report; `{Grund} — Reihenfolge nicht pruefbar` mit {Grund} aus: `Verweis ausserhalb der Inbox` · `Verweis ausserhalb der laufenden Changes` · `Vorbedingung mit unbekanntem Status` |
 
 **Blocker** = jede **zwingende** Kante auf eine Zeile mit Wirkung `nicht erfuellt`, dazu externe
 Voraussetzungen (ausdruecklich im Text).
@@ -260,6 +271,8 @@ ist genau eine Zeile.
 |---|---|---|---|---|
 | {N} | {Kurztitel} | {Spanne} | {Farbe} {Stufe} | {Bemerkung} |
 
+{falls vorhanden: offen, Change fehlt: #{N} → {naechster Schritt}, #{M} → {naechster Schritt}}
+
 Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-review
 ```
 
@@ -302,8 +315,10 @@ Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-revi
      (z.B. `Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar`); eine nicht
      pruefbare Nummer wird dabei nie genannt
 
-Keine Zeilen unter der Tabelle ausser der Fusszeile — keine Topf-, Abhaengigkeits- oder
-Reihenfolge-Abschnitte. `|` im Zellentext als `/` schreiben, damit die Tabelle nicht bricht.
+Keine Zeilen unter der Tabelle ausser der Fusszeile und der optionalen Zeile
+„offen, Change fehlt: …" (§8; entfaellt ohne Treffer, alle Treffer in EINER Zeile, naechster
+Schritt je Nummer nach der Regel in Schritt 1)
+— keine Topf-, Abhaengigkeits- oder Reihenfolge-Abschnitte. `|` im Zellentext als `/` schreiben, damit die Tabelle nicht bricht.
 
 ## Wichtig
 

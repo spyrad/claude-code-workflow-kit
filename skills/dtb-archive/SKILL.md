@@ -68,7 +68,22 @@ Pruefe die folgenden Quellen und sammle alle Kandidaten:
 
 ### INBOX.md
 - Eintraege mit Status `Verworfen`
-- Eintraege mit Status `Ausgearbeitet` (bereits als Feature-Plan vorhanden)
+- Eintraege mit Status `Ausgearbeitet` **mit gueltigem Change-Link** (Regel unten) — nur sie sind Kandidaten
+
+**Change-Link-Pflicht (operative Kopie von `DERIVED_STATE_RULES.md` §8):**
+Kernsatz: `Ausgearbeitet` ohne gueltigen Change-Link (8.1) ist „Ausgearbeitet, Change fehlt" und zaehlt als offen.
+- **Gueltig** ist ein Link `→ features/{slug}/spec.md`, `→ features/{slug}/task.md` oder
+  `→ features/{slug}/bug.md`, dessen Datei existiert, oder `→ archive/{slug}/…`, dessen Ordner
+  existiert. Ein Link nur auf `discovery.md` belegt NICHT
+- Links stehen in der Spalte „Idee", Pfade relativ zu `{config.paths.workflows}`; mindestens ein gueltiger Link genuegt (ein zusaetzlicher toter Link macht die Zeile nicht ungueltig); ein toter `features/{slug}/`-Link gilt als belegt, wenn `archive/{slug}/` existiert (Change inzwischen archiviert).
+- **Change fehlt** (kein oder kein gueltiger Link) → **kein** Archiv-Kandidat. Eintrag in Schritt 3
+  im Block „Nicht archiviert — Change fehlt" melden. Das Feld bleibt unveraendert (kein
+  Status-Flip durch archive).
+  Naechster Schritt bei „Change fehlt" (erster zutreffender Zweig gilt): Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; Link auf `features/{slug}/` mit vorhandener `discovery.md` → `/dtb:feature-plan {slug}`; sonst → `/dtb:feature-discover {N}`.
+
+> **Wartungs-Hinweis (Format-Kopplung):** Diese Regel spiegelt `DERIVED_STATE_RULES.md` §8
+> (Kopie ist Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22, §8);
+> Aenderung dort → hier mitziehen.
 
 ### BACKLOG.md
 - Features im Abschnitt "Abgeschlossen"
@@ -94,7 +109,7 @@ Archiv-Kandidaten gefunden:
 
 Inbox:
   - #{N} "{Idee-Text}" (Verworfen)
-  - #{N} "{Idee-Text}" (Ausgearbeitet → features/{slug}/spec.md)
+  - #{N} "{Idee-Text}" (Ausgearbeitet → {features/{slug}/{spec|task|bug}.md | archive/{slug}/…})
 
 Backlog:
   - {Feature-Name} (Abgeschlossen, {Datum})
@@ -104,7 +119,22 @@ Change-Ordner:
   - features/{slug}/ (Bug, Behoben)
   - features/{slug}/ (Aufgabe, Erledigt)
 
+Nicht archiviert — Change fehlt:
+  - #{N} "{Idee-Text}" (Ausgearbeitet, kein gueltiger Change-Link) → {naechster Schritt nach der Regel in Schritt 2}
+
 Alles archivieren? (Ja / Auswahl treffen / Abbrechen)
+```
+
+Der Block „Nicht archiviert — Change fehlt" erscheint nur bei Treffern und ist **keine**
+Auswahloption — diese Eintraege sind offen und werden nie archiviert. Leere Bloecke
+(Inbox/Backlog/Change-Ordner ohne Eintrag) entfallen. Gibt es NUR „Change fehlt"-Eintraege und
+sonst keine Kandidaten, entfallen die Kopfzeile „Archiv-Kandidaten gefunden:" und die
+Abschlussfrage; stattdessen:
+```
+Nichts zu archivieren — keine archivierbaren Eintraege.
+
+Nicht archiviert — Change fehlt:
+  - #{N} "{Idee-Text}" (Ausgearbeitet, kein gueltiger Change-Link) → {naechster Schritt}
 ```
 
 **Eligibility-Gate (Fit-Check):** Dies IST der Gate von `archive` (Konvention: `skills/CLAUDE.md` →
@@ -130,7 +160,7 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 | Datum | Typ | Name | Herkunft | Grund |
 |-------|-----|------|----------|-------|
 | YYYY-MM-DD | Idee | #{N} "{Text}" | INBOX.md | Verworfen |
-| YYYY-MM-DD | Idee | #{N} "{Text}" | INBOX.md | Ausgearbeitet → features/{slug}/spec.md |
+| YYYY-MM-DD | Idee | #{N} "{Text}" | INBOX.md | Ausgearbeitet → features/{slug}/{spec,task,bug}.md bzw. archive/{slug}/ |
 | YYYY-MM-DD | Feature | {slug} | BACKLOG.md | Abgeschlossen |
 | YYYY-MM-DD | Bug | {slug} | features/{slug}/bug.md | Behoben |
 | YYYY-MM-DD | Aufgabe | {slug} | features/{slug}/task.md | Erledigt |
@@ -201,7 +231,7 @@ Verbleibend in BACKLOG.md: {N} aktive Features
 
 ## Richtlinien
 
-- **Keine aktiven Eintraege archivieren:** Nur Status "Verworfen", "Ausgearbeitet" (Inbox) sowie "Abgenommen" und "Abgeschlossen" (Backlog/Features — konsistent zur Kandidat-Regel oben; `Abgenommen` ist der Eingang der Archivierung, `Abgeschlossen` wird beim Verschieben gesetzt)
+- **Keine aktiven Eintraege archivieren:** Nur Status "Verworfen", "Ausgearbeitet" mit gueltigem Change-Link (Inbox — ohne Link: „Change fehlt", offen, §8) sowie "Abgenommen" und "Abgeschlossen" (Backlog/Features — konsistent zur Kandidat-Regel oben; `Abgenommen` ist der Eingang der Archivierung, `Abgeschlossen` wird beim Verschieben gesetzt)
 - **Immer bestaetigen:** Nichts archivieren ohne explizites OK vom Benutzer
 - **Nummern beibehalten:** Inbox-Nummern sind IDs und werden nie wiederverwendet
 - **Archiv-Log ist append-only:** Neue Eintraege anhaengen, nie ueberschreiben

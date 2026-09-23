@@ -355,16 +355,16 @@ Die drei Lese-Sichten zeigen jeden Zusatz-Worktree mit Stand; gemergte als „au
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 DSR §8 Change-Link-Pflicht
-- [x] 1.2 DSR §9 Lebenslauf offener Aufgaben
-- [x] 1.3 DSR §10 Worktree-Stand
-- [x] 1.4 Config-Key alter_schwelle_tage
-- [x] 1.5 Beispielausgaben (Abnahme-Gate)
-- [ ] 2.1 archive Sperre + Meldung
-- [ ] 2.2 project-health Link-Pruefung
-- [ ] 2.3 next/status/idea-rank als offen
-- [ ] 2.4 idea-review Vermerk
-- [ ] 2.5 Eigenpruefung Task-Lane
+- [x] 1.1 DSR §8 Change-Link-Pflicht — `c2176d9`
+- [x] 1.2 DSR §9 Lebenslauf offener Aufgaben — `c2176d9`
+- [x] 1.3 DSR §10 Worktree-Stand — `c2176d9`
+- [x] 1.4 Config-Key alter_schwelle_tage — `c2176d9`
+- [x] 1.5 Beispielausgaben (Abnahme-Gate) — `c2176d9`
+- [x] 2.1 archive Sperre + Meldung
+- [x] 2.2 project-health Link-Pruefung
+- [x] 2.3 next/status/idea-rank als offen
+- [x] 2.4 idea-review Vermerk
+- [x] 2.5 Eigenpruefung Task-Lane
 - [ ] 3.1 Checkpoint Vergleich
 - [ ] 3.2 Log Aufgaben-Abgaenge
 - [ ] 3.3 ⏳-Sammelvorlage

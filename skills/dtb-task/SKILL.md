@@ -191,7 +191,10 @@ Stammt die Aufgabe aus einer INBOX-Idee (Dreier-Weiche von `dtb:idea-review`, Ar
 nennt eine Nummer, oder der Chat-Kontext zeigt es):
 
 - Haenge an die Idee-Zeile in `{config.paths.workflows}/INBOX.md` den Link
-  `→ features/{slug}/task.md` an
+  `→ features/{slug}/task.md` an. Traegt die Zeile den Vermerk der Task-Lane
+  `task.md ausstehend — /dtb:task {N}`, ersetze genau diesen Teil durch den Link (der Rest des
+  Vermerks — `→ als Aufgabe geroutet ({Datum})` — bleibt stehen). Damit endet der Zustand
+  „Ausgearbeitet, Change fehlt" (`DERIVED_STATE_RULES.md` §8)
 - Steht die Idee noch nicht auf `Ausgearbeitet`, setze sie darauf (die Weiche hat das
   im Regelfall schon getan — hier nur nachziehen, nie zurueckstufen)
 

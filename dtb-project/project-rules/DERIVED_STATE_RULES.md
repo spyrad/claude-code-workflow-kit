@@ -431,7 +431,10 @@ traegt und das Ziel existiert:
   verlinkte Datei existiert
 - `→ archive/{slug}/…` — der Ordner `archive/{slug}/` existiert (Change abgeschlossen)
 
-Ein Link nur auf `discovery.md` belegt NICHT (Discovery laeuft = `In Arbeit`, §1.1).
+Ein Link nur auf `discovery.md` belegt NICHT (Discovery laeuft = `In Arbeit`, §1.1) — die Diagnose
+`dtb:project-health` haengt dann den Hinweis `(nur Discovery verlinkt — Status waere In Arbeit)` an
+(die Anzeige-Sichten nicht: fuer sie genuegt der naechste Schritt `/dtb:feature-plan {slug}`).
+Links stehen in der Spalte „Idee", Pfade relativ zu `{config.paths.workflows}`; mindestens ein gueltiger Link genuegt (ein zusaetzlicher toter Link macht die Zeile nicht ungueltig); ein toter `features/{slug}/`-Link gilt als belegt, wenn `archive/{slug}/` existiert (Change inzwischen archiviert).
 
 ### 8.2 Anzeige-Zustand „Ausgearbeitet, Change fehlt"
 
@@ -439,8 +442,8 @@ Ein Link nur auf `discovery.md` belegt NICHT (Discovery laeuft = `In Arbeit`, §
 - **Kein neuer Statuswert:** Das Feld bleibt `Ausgearbeitet`; „Change fehlt" ist ein abgeleiteter
   Anzeige-Zustand. Lese-Skills korrigieren nichts (§1.3). Geheilt wird er, sobald der Change
   entsteht: `dtb:task` Schritt 4b bzw. `dtb:feature-plan` Schritt 9 haengen den Link an.
-- **Naechster Schritt:** Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; sonst
-  `/dtb:feature-plan` (bzw. `/dtb:feature-discover {N}`, wenn nicht einmal eine Discovery existiert).
+- **Naechster Schritt (deterministisch, eine Zeile, Grep-Anker):**
+  Naechster Schritt bei „Change fehlt" (erster zutreffender Zweig gilt): Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; Link auf `features/{slug}/` mit vorhandener `discovery.md` → `/dtb:feature-plan {slug}`; sonst → `/dtb:feature-discover {N}`.
 - **Task-Lane:** `dtb:idea-review` setzt bei der Task-Lane weiterhin `Ausgearbeitet` (Entscheidung
   impl-review F2, 2026-08-02 — kein `In Arbeit`), mit Vermerk
   `→ als Aufgabe geroutet ({Datum}); task.md ausstehend — /dtb:task {N}`. Genau dieser
@@ -450,10 +453,10 @@ Ein Link nur auf `discovery.md` belegt NICHT (Discovery laeuft = `In Arbeit`, §
 | Konsument | Verhalten bei „Change fehlt" |
 |-----------|------------------------------|
 | `dtb:archive` | kein Archiv-Kandidat; eigener Meldeblock „Nicht archiviert — Change fehlt: #{N} → {naechster Schritt}" |
-| `dtb:project-health` | WARNUNG „#{N} Ausgearbeitet, Change fehlt" (Link fehlt oder Ziel existiert nicht) |
-| `dtb:workflow-next` | Pipeline-Zeile „INBOX `Ausgearbeitet`, Change fehlt" → naechster Schritt |
-| `dtb:workflow-status` | zaehlt pipeline-relevant (wie `Offen`/`In Arbeit`) |
-| `dtb:idea-rank` | EINE Hinweiszeile unter der Tabelle „offen, Change fehlt: #{N}" — die Tabelle selbst bleibt bei `Offen` |
+| `dtb:project-health` | WARNUNG „#{N} Ausgearbeitet, Change fehlt" (Report-Zeile ⚠, nicht ❌); zaehlt NICHT als archivierbar |
+| `dtb:workflow-next` | Pipeline-Zeile „INBOX `Ausgearbeitet`, Change fehlt" → naechster Schritt — nur wenn zum verlinkten Slug KEIN Change-Ordner existiert (sonst traegt der Ordner-Eintrag den Hinweis); ans Ende sortiert |
+| `dtb:workflow-status` | zaehlt pipeline-relevant (Queue-Zeile „Inbox (Change fehlt)"); mit Change-Ordner zum Slug NICHT separat gezaehlt |
+| `dtb:idea-rank` | EINE Hinweiszeile unter der Tabelle „offen, Change fehlt: #{N}" — die Tabelle selbst bleibt bei `Offen`; als Vorbedingung: nicht erfuellt |
 
 ---
 

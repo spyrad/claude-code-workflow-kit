@@ -40,7 +40,16 @@ Scanne alle relevanten Dateien und zaehle Items pro Stufe:
 **INBOX.md** (`{config.paths.workflows}/INBOX.md`):
 - Zaehle Eintraege nach Status: `Offen`, `In Arbeit`, `Ausgearbeitet`, `Verworfen`
 - Nur `Offen` und `In Arbeit` sind Pipeline-relevant (INBOX-Status wird von den
-  Idea-Skills gepflegt und gilt als Artefakt-Zustand)
+  Idea-Skills gepflegt und gilt als Artefakt-Zustand) — plus `Ausgearbeitet` OHNE gueltigen
+  Change-Link (operative Kopie von Regel-Datei §8). Kernsatz: `Ausgearbeitet` ohne gueltigen Change-Link (8.1) ist „Ausgearbeitet, Change fehlt" und zaehlt als offen.
+  Gueltig ist `→ features/{slug}/{spec|task|bug}.md` mit existierender Datei oder
+  `→ archive/{slug}/…` mit existierendem Ordner. Solche Eintraege separat als „Change fehlt"
+  zaehlen (Queue-Zeile „Inbox (Change fehlt)"). Existiert zum verlinkten Slug ein Change-Ordner
+  (z.B. nur `discovery.md`), zaehlt der Eintrag NICHT separat — er steckt schon in der Stufe des Ordners.
+  Links stehen in der Spalte „Idee", Pfade relativ zu `{config.paths.workflows}`; mindestens ein gueltiger Link genuegt (ein zusaetzlicher toter Link macht die Zeile nicht ungueltig); ein toter `features/{slug}/`-Link gilt als belegt, wenn `archive/{slug}/` existiert (Change inzwischen archiviert).
+  Naechster Schritt bei „Change fehlt" (erster zutreffender Zweig gilt): Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; Link auf `features/{slug}/` mit vorhandener `discovery.md` → `/dtb:feature-plan {slug}`; sonst → `/dtb:feature-discover {N}`.
+  **Wartungs-Hinweis (Format-Kopplung):** spiegelt §8 (Kopie ist Absicht, INBOX #22, §8) —
+  Aenderung dort hier mitziehen
 
 **discovery.md** (`{config.paths.workflows}/features/*/discovery.md`):
 - Zaehle vorhandene Discovery-Dateien
@@ -189,6 +198,7 @@ flowchart LR
 |-------|--------|---------|-----------------|
 | Inbox (Offen) | {n} | {aeltester} | `/dtb:idea-review` |
 | Inbox (In Arbeit) | {n} | {aeltester} | `/dtb:feature-discover` |
+| Inbox (Change fehlt) | {n} | {aeltester} | je Eintrag verschieden → `/dtb:workflow-next` (Zeile entfaellt bei 0) |
 | Discovery | {n} | {aeltester} | `/dtb:feature-plan` |
 | Feature-Spec (ohne Plan) | {n} | {aeltester} | `/dtb:impl-plan` |
 | Impl-Plan (Entwurf, 0/Y) | {n} | {aeltester} | `/dtb:plan-review` |

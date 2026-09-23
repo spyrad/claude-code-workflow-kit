@@ -83,8 +83,21 @@ nicht parsbares YAML), bricht den Gesamt-Report NICHT ab. Melde ihn als `⚠️`
 
 **INBOX → Features:**
 - Lies INBOX.md, filtere Eintraege mit Status `Ausgearbeitet`
-- Pruefe ob die verlinkte `features/<slug>/spec.md` existiert
+- Pruefe den Change-Link (operative Kopie von `DERIVED_STATE_RULES.md` §8): gueltig ist
+  `→ features/<slug>/spec.md`, `→ features/<slug>/task.md` oder `→ features/<slug>/bug.md` mit
+  existierender Datei, oder `→ archive/<slug>/…` mit existierendem Ordner (ein Link nur auf
+  `discovery.md` belegt nicht — dann Zusatz `(nur Discovery verlinkt — Status waere In Arbeit)`)
+- Links stehen in der Spalte „Idee", Pfade relativ zu `{config.paths.workflows}`; mindestens ein gueltiger Link genuegt (ein zusaetzlicher toter Link macht die Zeile nicht ungueltig); ein toter `features/{slug}/`-Link gilt als belegt, wenn `archive/{slug}/` existiert (Change inzwischen archiviert).
+- Kein oder kein gueltiger Link = WARNUNG `#{N} Ausgearbeitet, Change fehlt` (Report-Zeile ⚠).
+  Kernsatz: `Ausgearbeitet` ohne gueltigen Change-Link (8.1) ist „Ausgearbeitet, Change fehlt" und zaehlt als offen.
+  Naechster Schritt bei „Change fehlt" (erster zutreffender Zweig gilt): Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; Link auf `features/{slug}/` mit vorhandener `discovery.md` → `/dtb:feature-plan {slug}`; sonst → `/dtb:feature-discover {N}`.
+  Read-only: das Feld wird nicht korrigiert. Jede Idee bekommt genau EINE Warnung (die Pruefung
+  „INBOX ↔ Feature-Status" unten verweist nur hierher und meldet nicht erneut)
 - Eintraege mit Status `Offen` oder `Verworfen` brauchen keinen Link
+
+> **Wartungs-Hinweis (Format-Kopplung):** spiegelt `DERIVED_STATE_RULES.md` §8
+> (Kopie ist Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22, §8);
+> Aenderung dort → hier mitziehen.
 
 **INBOX Integritaet:**
 - Pruefe ob alle Eintraege einen gueltigen Status haben (Offen, In Arbeit, Ausgearbeitet, Verworfen)
@@ -105,7 +118,7 @@ nicht parsbares YAML), bricht den Gesamt-Report NICHT ab. Melde ihn als `⚠️`
   - Warnung bei verwaisten Changes im Archiv (ohne Log-Eintrag)
 
 **Archiv-Empfehlung:**
-- Zaehle verworfene/ausgearbeitete Eintraege in INBOX.md, abgeschlossene Features in BACKLOG.md und behobene Bugs
+- Zaehle verworfene Eintraege und ausgearbeitete Eintraege MIT gueltigem Change-Link (§8) in INBOX.md, abgeschlossene Features in BACKLOG.md und behobene Bugs — „Change fehlt" zaehlt NICHT (offen, von `dtb:archive` nicht archivierbar)
 - Warnung wenn mehr als 5 archivierbare Eintraege vorhanden → Empfehlung: `/dtb:archive`
 
 **WORKFLOW_STATUS → Logs:**
@@ -145,7 +158,7 @@ den Artefakten ab (Artefakt-Existenz + `## Progress`-Checkboxen) und pruefe:
 
 **INBOX ↔ Feature-Status:**
 - Idee "In Arbeit" → es sollte noch keine `features/<slug>/spec.md` existieren (sonst muesste Status "Ausgearbeitet" sein). Ein `discovery.md`-Link ist erlaubt (Discovery-Phase laeuft)
-- Idee "Ausgearbeitet" → die verlinkte `features/<slug>/spec.md` muss existieren
+- Idee "Ausgearbeitet" → gueltiger Change-Link nach §8 (spec/task/bug oder archive); ohne Link ist die Warnung bereits unter „INBOX → Features" gemeldet — hier nicht erneut
 
 #### Check 4: Namenskonventionen
 
@@ -287,7 +300,8 @@ Erstelle einen kompakten Report (max 80 Zeilen) im folgenden Format. Zeige Detai
 - ✅/⚠️ Bug-Status: {N}/{M} konsistent
 - ✅/ℹ️ Tasks → BACKLOG: {N} Aufgaben, davon {M} ohne Backlog-Eintrag
 - ✅/⚠️ Task-Status: {N}/{M} konsistent
-- ✅/❌ INBOX → Features: {X}/{Y} ausgearbeitete Ideen mit gueltigem Link
+- ✅/⚠️ INBOX → Features: {X}/{Y} ausgearbeitete Ideen mit gueltigem Link{; Change fehlt: #N, #M}
+  {je „Change fehlt" eine Detailzeile: `  - #{N} → {naechster Schritt}{ (nur Discovery verlinkt — Status waere In Arbeit)}`}
 - ✅/❌ Archiv: {Status}
 - ✅/⚠️ Archivierbare Eintraege: {N} (Empfehlung: /dtb:archive bei >5)
 - ✅/❌ WORKFLOW_STATUS → Logs: {Status}

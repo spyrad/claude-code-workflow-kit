@@ -34,7 +34,17 @@ uebernommen — verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES
 Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 
 **Quellen:**
-- `{config.paths.workflows}/INBOX.md` — Eintraege mit Status `In Arbeit`
+- `{config.paths.workflows}/INBOX.md` — Eintraege mit Status `In Arbeit`, dazu Eintraege mit Status
+  `Ausgearbeitet` OHNE gueltigen Change-Link (operative Kopie von Regel-Datei §8).
+  Kernsatz: `Ausgearbeitet` ohne gueltigen Change-Link (8.1) ist „Ausgearbeitet, Change fehlt" und zaehlt als offen.
+  Gueltig ist `→ features/{slug}/{spec|task|bug}.md` mit existierender Datei oder `→ archive/{slug}/…`
+  mit existierendem Ordner; ein Link nur auf `discovery.md` belegt nicht.
+  Links stehen in der Spalte „Idee", Pfade relativ zu `{config.paths.workflows}`; mindestens ein gueltiger Link genuegt (ein zusaetzlicher toter Link macht die Zeile nicht ungueltig); ein toter `features/{slug}/`-Link gilt als belegt, wenn `archive/{slug}/` existiert (Change inzwischen archiviert).
+  Naechster Schritt bei „Change fehlt" (erster zutreffender Zweig gilt): Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; Link auf `features/{slug}/` mit vorhandener `discovery.md` → `/dtb:feature-plan {slug}`; sonst → `/dtb:feature-discover {N}`.
+  Existiert zum verlinkten Slug ein Change-Ordner (z.B. nur `discovery.md`), erscheint die Idee
+  NICHT als eigene Zeile — der Ordner-Eintrag traegt den Zusatz `(INBOX #{N} Ausgearbeitet, Change fehlt)`.
+  **Wartungs-Hinweis (Format-Kopplung):** spiegelt §8 (Kopie ist Absicht — Seed erreicht
+  Bestandsprojekte nicht automatisch, INBOX #22, §8); Aenderung dort → hier mitziehen.
 - `{config.paths.workflows}/features/*/discovery.md` — Discovery-Dokumente
 - `{config.paths.workflows}/features/*/spec.md` — Feature-Specs
 - `{config.paths.workflows}/features/*/plan.md` — Implementierungsplaene: `## Progress`-Checkboxen zaehlen (X von Y abgehakt); Kopf-Statusfeld (`Entwurf`/`Reviewed`) = die `**Status:**`-Zeile in den **ersten 10 Zeilen** (Definitionsfenster, Regel-Datei §7.1 — Zeilen ausserhalb zaehlen nicht). Lese-Toleranz nach §7.3:
@@ -60,6 +70,7 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 | Abgeleiteter Zustand | Pipeline-Position | Naechster Skill |
 |---|---|---|
 | INBOX `In Arbeit`, kein Change-Ordner | Discovery ausstehend | `/dtb:feature-discover` |
+| INBOX `Ausgearbeitet`, Change fehlt (§8), kein Change-Ordner zum Slug | Change fehlt | naechster Schritt nach der Regel in den Quellen (oben) |
 | `discovery.md` vorhanden, kein `spec.md` | Spec ausstehend | `/dtb:feature-plan [NAME]` |
 | `spec.md` vorhanden, kein `plan.md` | Plan ausstehend | `/dtb:impl-plan [NAME]` |
 | `plan.md` Status `Entwurf`, **0/Y Checkboxen** | Review ausstehend | `/dtb:plan-review [NAME]` |
@@ -128,6 +139,9 @@ Umsetzungsstand). Sonst erzeugte der haeufigste Altbestand dauerhaft eine ⚠-Ze
 
 - Abgeleitet "In Entwicklung" zuerst — die sind am weitesten
 - Dann nach Pipeline-Position absteigend (weiter fortgeschritten = hoehere Prio)
+- INBOX-Zeilen „Change fehlt" ganz ans Ende (sie stehen vor Beginn der Pipeline), untereinander nach
+  INBOX-Nummer aufsteigend; Name: `#{N} {Kurztitel}` — Kurztitel = eigene Verdichtung des Idee-Texts,
+  hoechstens ~6 Woerter (wie `dtb:idea-rank`)
 - Falls ein Argument uebergeben wurde: Nur dieses Feature zeigen
 
 ## Schritt 4: Kompakt ausgeben
