@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-23
 **Ziel:** Der Status jeder Aufgabe wird ueber ihre gesamte Lebensdauer eindeutig festgehalten — nichts verschwindet mehr unbemerkt aus allen Sichten.
 **Prioritaet:** Hoch <!-- Quelle: dtb:idea-rank 2026-09-17, #95 🟠 mittel-hoch, Rang 1 der offenen Ideen -->
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
