@@ -479,6 +479,8 @@ Eine offene Aufgabe verschwindet nie ohne Spur und weiss, seit wann sie offen is
 - **`seit`** wird beim Uebertrag **woertlich** mitgenommen, nie neu gesetzt. Neue Punkte bekommen
   das heutige Datum.
 - Die Checkboxen dieser Liste sind **status-neutral** (analog §6.2): sie speisen keine Ableitung.
+- **Vorrang vor der Zeilengrenze** von `WORKFLOW_STATUS.md` (60-80 Zeilen): die Liste wird nie still gekuerzt;
+  sie schrumpft nur ueber Abgangsvermerke (9.3), Ueberlauf baut die ⏳-Vorlage (9.4) ab.
 
 ### 9.2 Vergleich (vor dem Log-Schreiben)
 
@@ -506,7 +508,8 @@ Muster WORKTREE-HANDOFF-Block). Der Abschnitt entfaellt bei 0 Abgaengen.
 - **`verworfen` ohne Grund ist unzulaessig** (Muster `archive/INBOX-BEFUNDE-verworfen.md`).
 - **Welcher Vermerk:** belegt die Session die Erledigung → `erledigt`; deutet sie einen Abgang ohne
   Beleg an → Rueckfrage; ohne Session-Signal wird der Punkt still weitergetragen — nie still gestrichen.
-- **Zusammengelegt/aufgeteilt/ersetzt** (auch 1:1 durch einen Nachfolger mit anderem Inhalt): Vermerk
+- **Zusammengelegt/aufgeteilt/ersetzt** (ersetzt = 1:1 durch einen Nachfolger, NUR wenn die Session die Abloesung
+  ausdruecklich nennt; sonst alter Punkt `erledigt`/weiter + neuer Punkt `seit` heute, unsicher → Rueckfrage): Vermerk
   `aufgegangen in …` (Vorrang vor „neuer Punkt" aus 9.2); der Ziel-Punkt erbt das **aelteste** `seit` der beteiligten Punkte — sonst liesse
   sich das Alter durch Umformulieren zuruecksetzen.
 
@@ -559,8 +562,9 @@ Diese Regel macht beides beim Aufruf sichtbar — rein lesend, ohne Ueberwachung
 - **Kernsatz (eine Zeile, Grep-Anker der Kopplung):** Die Sichten zeigen unter `In Worktrees` je verlinktem Worktree genau eine Zeile — gelesen, nie beschrieben.
 - **Quelle:** `git worktree list --porcelain`. Der **erste** Eintrag ist der Haupt-Checkout und
   wird nicht gelistet; die Zeilen folgen der Reihenfolge der Liste.
-- **Block entfaellt still**, wenn das Projekt kein Git-Repo ist oder es keinen weiteren Worktree
-  gibt (kein „keine"-Rauschen).
+- **Block entfaellt still**, wenn das Projekt kein Git-Repo ist (`git rev-parse --git-dir` scheitert) oder es
+  keinen weiteren Worktree gibt (kein „keine"-Rauschen). Scheitert `git worktree list` dagegen IM Git-Repo →
+  genau eine Zeile `In Worktrees: nicht lesbar ({Fehler})` — ein geschluckter Fehler wuerde alle Worktree-Arbeit verbergen.
 - **Slug:** Verzeichnisname ohne Praefix `pane-`/`worker-`; sonst der Verzeichnisname.
 - **Art:** Praefix `pane-` → `interaktiv (pane)`; `worker-` mit Branch → `autonom (pane)`;
   `worker-` ohne Branch (detached) → `autonom (subagent)`; alles andere (von Hand, Harness) → `manuell`.
@@ -588,15 +592,17 @@ In Worktrees:
 | Zustand | Erkennung | Anzeige im Feld „Stand" |
 |---------|-----------|-------------------------|
 | verwaist | Eintrag traegt `prunable` bzw. Pfad fehlt | `verwaist → git worktree prune` (Rest der Zeile entfaellt) |
-| gemergt | Branch hatte eigene Commits (Branch-Reflog hat mehr als den Anlage-Eintrag) UND n = 0 | `gemergt → aufraeumen (git worktree remove "{pfad}")`; bei uncommitted > 0 stattdessen `gemergt, {N} uncommitted → erst sichern` — nie zum Entfernen raten, solange Arbeit ungesichert ist (Rest der Zeile entfaellt in beiden Faellen) |
-| frisch | Branch-Reflog hat nur den Anlage-Eintrag (keine eigenen Commits) | `frisch` — nie „aufraeumen" |
-| laufend | alles andere | `+{n} Commits, zuletzt YYYY-MM-DD` |
+| laufend | n > 0 (Commits des Branches, die nicht im Hauptbranch sind) | `+{n} Commits, zuletzt YYYY-MM-DD` |
+| gemergt | n = 0 UND Branch hatte eigene Commits (Branch-Reflog hat mehr als den Anlage-Eintrag) | `gemergt → aufraeumen (git worktree remove "{pfad}")`; bei uncommitted > 0 stattdessen `gemergt, {N} uncommitted → erst sichern` — nie zum Entfernen raten, solange Arbeit ungesichert ist (Rest der Zeile entfaellt in beiden Faellen) |
+| frisch | alles andere (n = 0, Reflog nur mit Anlage-Eintrag oder fehlend) | `frisch` — nie „aufraeumen" |
 
 - **Warum der Reflog:** Ein frisch angelegter Branch und ein gemergter Branch haben beide 0 Commits
   gegenueber dem Hauptbranch; nur die Branch-Historie unterscheidet sie. Fehlt der Reflog (z.B.
   deaktiviert) → im Zweifel `frisch` (nie faelschlich „aufraeumen").
-- **⏳** haengt an `frisch`/`laufend`, wenn der letzte Commit (bei `frisch`: die Anlage) aelter ist
-  als `status.alter_schwelle_tage` (§9.4, Default 7).
+- **Grenze Squash-/Rebase-Merge:** die Commits des Branches erscheinen nicht im Hauptbranch → n > 0, der
+  Worktree bleibt `laufend` (auch mit ⏳). Ob er erledigt ist, entscheidet der Mensch — nie als offene Arbeit werten.
+- **⏳** haengt an `frisch`/`laufend`, wenn der letzte Commit (bei `frisch`: die Anlage) ≥
+  `status.alter_schwelle_tage` Tage alt ist (gleicher Vergleich wie §9.4, Default 7).
 - „aufraeumen" und „prune" sind **Hinweise**; abbauen tut der Mensch bzw. der zustaendige Skill.
 
 ### 10.4 Hauptbranch & Lese-Grenze
@@ -604,7 +610,7 @@ In Worktrees:
 - **Hauptbranch:** `parallel.default_branch` aus `workflow.config.yaml`, falls gesetzt; sonst der
   Branch des ersten `git worktree list`-Eintrags (Haupt-Checkout). Kein Raten zwischen master/main.
 - **Erlaubt (nur lesend):** `git worktree list --porcelain`, `git rev-list --count`, `git log -1`,
-  `git reflog show`, `git -C {pfad} status --porcelain`, Dateien unter `{pfad}` lesen.
+  `git reflog show`, `git rev-parse --git-dir`, `git -C {pfad} status --porcelain`, Dateien unter `{pfad}` lesen.
 - **Nie:** `checkout`, `add`, `commit`, `stash`, `worktree remove`/`prune` ausfuehren oder
   Dateien im Worktree schreiben — Schreibgrenzen-Regel (`skills/CLAUDE.md` → „Parallele Sessions")
   und Worktree-Guard bleiben unveraendert.

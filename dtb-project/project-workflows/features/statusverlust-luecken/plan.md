@@ -370,12 +370,12 @@ Die drei Lese-Sichten zeigen jeden Zusatz-Worktree mit Stand; gemergte als „au
 - [x] 3.3 ⏳-Sammelvorlage — `e97b002`
 - [x] 3.4 Vertraeglichkeit der Leser — `e97b002`
 - [x] 3.5 Probe-Checkpoint — `e97b002`
-- [x] 4.1 resume Worktree-Stand
-- [x] 4.2 next In Worktrees
-- [x] 4.3 backlog-status In Worktrees
-- [x] 4.4 Frontmatter + Doku
-- [x] 4.5 Abnahme Wegwerf-Worktree
-- [x] 4.6 Kopie-Kanon + Robustheit
+- [x] 4.1 resume Worktree-Stand — `83b4ce2`
+- [x] 4.2 next In Worktrees — `83b4ce2`
+- [x] 4.3 backlog-status In Worktrees — `83b4ce2`
+- [x] 4.4 Frontmatter + Doku — `83b4ce2`
+- [x] 4.5 Abnahme Wegwerf-Worktree — `83b4ce2`
+- [x] 4.6 Kopie-Kanon + Robustheit — `83b4ce2`
 
 ---
 

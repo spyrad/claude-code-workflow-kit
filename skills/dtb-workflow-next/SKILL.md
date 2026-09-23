@@ -122,8 +122,9 @@ Naechste Schritte beruecksichtigen auch Arbeit, die bis zum Merge nicht im Arbei
 **Worktree-Stand (operative Kopie von Regel-Datei §10 — rein lesend).**
 Kernsatz: Die Sichten zeigen unter `In Worktrees` je verlinktem Worktree genau eine Zeile — gelesen, nie beschrieben.
 - **Quelle:** `git worktree list --porcelain`; der **erste** Eintrag ist der Haupt-Checkout und wird nicht
-  gelistet; die Zeilen folgen der Reihenfolge der Liste. Kein Git-Repo, Kommando scheitert oder kein weiterer
-  Worktree → Block entfaellt still (kein „keine")
+  gelistet; die Zeilen folgen der Reihenfolge der Liste. Kein Git-Repo (`git rev-parse --git-dir` scheitert) oder
+  kein weiterer Worktree → Block entfaellt still (kein „keine"); scheitert `worktree list` IM Git-Repo → genau eine
+  Zeile `In Worktrees: nicht lesbar ({Fehler})` — nie still schlucken
 - **Slug / Art:** Verzeichnisname ohne Praefix `pane-`/`worker-`. `pane-` → `interaktiv (pane)`; `worker-` mit
   Branch → `autonom (pane)`; `worker-` detached → `autonom (subagent)`; alles andere → `manuell`
 - **Hauptbranch:** `parallel.default_branch` aus `workflow.config.yaml`, sonst Branch des ersten Eintrags — nie
@@ -131,20 +132,20 @@ Kernsatz: Die Sichten zeigen unter `In Worktrees` je verlinktem Worktree genau e
 - **Stand** — erster zutreffender Zustand gilt; n = `git rev-list --count {haupt}..{branch}`, Reflog =
   `git reflog show refs/heads/{branch}`:
   1. Eintrag traegt `prunable` oder Pfad fehlt → `verwaist → git worktree prune` (Rest der Zeile entfaellt)
-  2. Reflog hat mehr als den Anlage-Eintrag UND n = 0 → `gemergt → aufraeumen (git worktree remove "{pfad}")`;
+  2. n > 0 → `+{n} Commits, zuletzt YYYY-MM-DD` (`git log -1 --format=%cs {branch}`) — `laufend`
+  3. n = 0 UND Reflog hat mehr als den Anlage-Eintrag → `gemergt → aufraeumen (git worktree remove "{pfad}")`;
      bei uncommitted > 0 stattdessen `gemergt, {N} uncommitted → erst sichern` (nie zum Entfernen raten, solange
      Arbeit ungesichert ist); in beiden Faellen entfaellt der Rest der Zeile
-  3. Reflog hat nur den Anlage-Eintrag (oder fehlt) → `frisch` — nie „aufraeumen"
-  4. sonst → `+{n} Commits, zuletzt YYYY-MM-DD` (`git log -1 --format=%cs {branch}`)
+  4. sonst (n = 0, Reflog nur mit Anlage-Eintrag oder fehlend) → `frisch` — nie „aufraeumen"
 - **uncommitted:** Zeilen von `git -C {pfad} status --porcelain`. **Fortschritt** aus dem Worktree-Pfad (inkl.
   uncommitteter Flips): `{pfad}/{config.paths.workflows}/features/{slug}/plan.md` `## Progress` → `Progress X/Y` ·
   sonst `task.md` `## Schritte` → `Schritte X/Y` · sonst Stage-Name (Regel-Datei §1.1, z.B. `Discovery`) · sonst `—`
 - **Detached** (Subagent-Worker): Branch-Feld `detached @{sha7}`, Feld „Stand" entfaellt, statt Fortschritt
   `worker-report {vorhanden | fehlt}` (Datei im Change-Ordner unter `{pfad}`)
-- **⏳** am Zeilenende bei `frisch` und Zustand 4, wenn der letzte Commit (bei `frisch`: der Anlage-Eintrag im
-  Reflog) aelter ist als `status.alter_schwelle_tage` (Default 7)
+- **⏳** am Zeilenende bei `laufend` und `frisch`, wenn der letzte Commit (bei `frisch`: der Anlage-Eintrag im
+  Reflog) ≥ `status.alter_schwelle_tage` Tage alt ist (Default 7)
 - **Nur lesend:** erlaubt sind ausschliesslich die Kommandos oben (`worktree list`, `rev-list --count`,
-  `log -1`, `reflog show`, `-C {pfad} status --porcelain`) und das Lesen von Dateien unter `{pfad}`. Nie
+  `log -1`, `reflog show`, `rev-parse --git-dir`, `-C {pfad} status --porcelain`) und das Lesen von Dateien unter `{pfad}`. Nie
   `checkout`, `add`, `commit`, `stash`, `worktree remove`/`prune` — „aufraeumen"/„prune" sind Hinweise an den Menschen
 
 ```
@@ -183,7 +184,8 @@ Umsetzungsstand). Sonst erzeugte der haeufigste Altbestand dauerhaft eine ⚠-Ze
 - Dann nach Pipeline-Position absteigend (weiter fortgeschritten = hoehere Prio)
 - INBOX-Zeilen „Change fehlt" ganz ans Ende (sie stehen vor Beginn der Pipeline), untereinander nach
   INBOX-Nummer aufsteigend; Name: `#{N} {Kurztitel}` — Kurztitel = eigene Verdichtung des Idee-Texts,
-  hoechstens ~6 Woerter (wie `dtb:idea-rank`)
+  hoechstens ~6 Woerter (wie `dtb:idea-rank`). Passen sie nicht mehr ins Zeilenlimit, ersetzt EINE Sammelzeile
+  `{K} Ideen Ausgearbeitet, Change fehlt → /dtb:project-health` die abgeschnittenen — nie still weglassen
 - Falls ein Argument uebergeben wurde: Nur dieses Feature zeigen
 
 ## Schritt 4: Kompakt ausgeben
@@ -200,6 +202,7 @@ Naechste Schritte:
 ...
 
 {N} weitere Feature-Specs ohne Plan → /dtb:impl-plan
+{falls abgeschnitten: {K} Ideen Ausgearbeitet, Change fehlt → /dtb:project-health}
 
 In Worktrees:
   {Zeilen aus Schritt 2b}
@@ -228,7 +231,7 @@ Der Worktree-Block steht am Ende und entfaellt still (Schritt 2b). Zeilen mit `g
 ## Richtlinien
 
 - **Read-Only**: Dieser Skill aendert keine Dateien; Bash nur fuer die lesenden Git-Kommandos aus Schritt 2b
-- **Kompakt**: Max 15 Zeilen Output (ohne Argument, zuzueglich Worktree-Block), max 12 Zeilen (mit Argument)
+- **Kompakt**: Max 15 Zeilen Output (ohne Argument, zuzueglich Worktree-Block und „Change fehlt"-Sammelzeile), max 12 Zeilen (mit Argument)
 - **Keine Rueckfragen**: Sofort Output liefern
 - **Deutsch**: Alle Texte auf Deutsch
 - **Leer-Zustand**: Bei 0 aktiven Features/Bugs/Aufgaben: "Keine aktiven Features, Bugs oder Aufgaben. Starte mit `/dtb:idea`, `/dtb:feature-plan`, `/dtb:bug-report` oder `/dtb:task`."

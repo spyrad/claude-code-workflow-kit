@@ -170,7 +170,7 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 ### Datei
 - Pfad: `{config.paths.workflows}/WORKFLOW_STATUS.md`
 - **IMMER UEBERSCHREIBEN** (nicht anhaengen)
-- **Max 60-80 Zeilen** — keine Detail-Tabellen, nur 1-Zeilen-Zusammenfassungen mit Links
+- **Max 60-80 Zeilen** — keine Detail-Tabellen, nur 1-Zeilen-Zusammenfassungen mit Links; `## Offene Aufgaben` hat Vorrang (nie still kuerzen, Abbau nur ueber ⏳ §9.4)
 
 ### Aufbau: generierter Statusblock + manueller Kontextblock
 
@@ -413,7 +413,7 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
   unsicher → Rueckfrage „ist X = Y?", nie raten. Naechste Schritte aus dem Chat ohne alten Punkt = neu, `seit` = heute
 - **Abgang:** Session belegt die Erledigung → `erledigt`; Hinweis auf Abgang ohne Beleg → Rueckfrage; ohne
   Session-Signal still weitertragen — nie still streichen. `verworfen` nur mit Grund; zusammengelegt/
-  aufgeteilt/ersetzt (auch 1:1 durch einen Nachfolger — Vorrang vor „neu") → `aufgegangen in „{Ziel}"`,
+  aufgeteilt/ersetzt (1:1 nur bei ausdruecklich genannter Abloesung — dann Vorrang vor „neu") → `aufgegangen in „{Ziel}"`,
   das Ziel erbt das **aelteste** `seit`
 - **Uebergang:** Punkt ohne `seit` → Datum des ersten Auftretens im Session-Log als `(seit ≤YYYY-MM-DD)`,
   nichts gefunden → heute mit `≤`. Im verlinkten Worktree laeuft kein Vergleich (Guard oben bricht ab) —
@@ -488,7 +488,7 @@ Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Te
 
 ### Schritt 5: Archiv-Hinweis pruefen
 
-Zaehle in INBOX.md (Status `Verworfen` + `Ausgearbeitet`) und BACKLOG.md (Abschnitt "Abgeschlossen") die archivierbaren Eintraege.
+Zaehle in INBOX.md (Status `Verworfen` + `Ausgearbeitet` nur mit gueltigem Change-Link — §8, „Change fehlt" zaehlt nicht) und BACKLOG.md (Abschnitt "Abgeschlossen") die archivierbaren Eintraege.
 
 - Falls >5 archivierbare Eintraege: Hinweis in die Bestaetigung aufnehmen
 - Falls <=5: Keinen Hinweis zeigen

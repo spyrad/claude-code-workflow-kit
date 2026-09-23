@@ -12,8 +12,8 @@ pipeline:
   stage: idea
   after: [dtb:idea-review]
   next: [dtb:worker]
-  consumes: [BACKLOG.md]
-  produces: [features/*/task.md, BACKLOG.md]
+  consumes: [BACKLOG.md, INBOX.md]
+  produces: [features/*/task.md, BACKLOG.md, INBOX.md]
 ---
 
 # Aufgabe erfassen
@@ -66,6 +66,8 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 ## Schritt 1: Aufgaben-Informationen sammeln
 
 **Input:** Der Freitext nach dem Command-Aufruf ist die Aufgaben-Beschreibung.
+Ist das Argument eine reine Zahl (`95` oder `#95`, so geben es die „Change fehlt"-Sichten aus), lade die
+INBOX-Zeile #N (Spalte „Idee") als Beschreibung — fehlt die Nummer in `INBOX.md` → melden, nicht raten.
 
 Falls kein Freitext angegeben wurde oder die Beschreibung zu knapp ist, frage gezielt:
 

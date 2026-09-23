@@ -129,6 +129,10 @@ Kopien: bei uncommitted > 0 `gemergt, {N} uncommitted → erst sichern`, nie zum
 gleicher md5). **Abweichung vom Plan:** `workflow-next` bekam `Bash` in `allowed-tools`
 (Nutzerentscheid Option 1, 2026-09-23 — vorher kein Git-Zugriff moeglich).
 
+**Abweichung vom Plan (Schritt 1.3, nachgetragen aus impl-review F10):** Fortschritt wird aus dem
+Worktree-Pfad gelesen statt per `git show {branch}:…/plan.md` — zeigt uncommittete Flips (abgenommene
+Beispielausgabe (a): `5/21` statt `0/21`); `git show` steht deshalb nicht in der Liste der erlaubten Kommandos.
+
 **Bewusst offen (ohne Wirkung / Ermessen):** `+1 Commits` im Singular; `0 uncommitted` wird angezeigt
 (wie Beispielausgabe); Slug aus dem Verzeichnisnamen, nicht aus dem Branch (Harness-/Handarbeits-Worktrees
 ohne Praefix zeigen dann `—`); der eigene Pane-Worktree wird mitgelistet (gewollt: die Orchestrator-Sicht
