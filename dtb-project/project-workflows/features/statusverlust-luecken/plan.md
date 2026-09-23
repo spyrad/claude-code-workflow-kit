@@ -360,11 +360,11 @@ Die drei Lese-Sichten zeigen jeden Zusatz-Worktree mit Stand; gemergte als „au
 - [x] 1.3 DSR §10 Worktree-Stand — `c2176d9`
 - [x] 1.4 Config-Key alter_schwelle_tage — `c2176d9`
 - [x] 1.5 Beispielausgaben (Abnahme-Gate) — `c2176d9`
-- [x] 2.1 archive Sperre + Meldung
-- [x] 2.2 project-health Link-Pruefung
-- [x] 2.3 next/status/idea-rank als offen
-- [x] 2.4 idea-review Vermerk
-- [x] 2.5 Eigenpruefung Task-Lane
+- [x] 2.1 archive Sperre + Meldung — `b60105f`
+- [x] 2.2 project-health Link-Pruefung — `b60105f`
+- [x] 2.3 next/status/idea-rank als offen — `b60105f`
+- [x] 2.4 idea-review Vermerk — `b60105f`
+- [x] 2.5 Eigenpruefung Task-Lane — `b60105f`
 - [ ] 3.1 Checkpoint Vergleich
 - [ ] 3.2 Log Aufgaben-Abgaenge
 - [ ] 3.3 ⏳-Sammelvorlage
