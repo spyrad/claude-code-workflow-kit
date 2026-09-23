@@ -105,6 +105,9 @@ worker:
 
 parallel:
   default_branch: null  # Worktree-Guard — optional: Branch des Haupt-Checkouts; null = nur Worktree-Check (Verhalten wie ohne Key)
+
+status:
+  alter_schwelle_tage: 7  # DERIVED_STATE_RULES §9/§10 — ⏳ fuer offene Aufgaben und Worktrees ab N Tagen
 ```
 
 **Regeln:**
@@ -115,6 +118,7 @@ parallel:
 - `parallel.default_branch`: Optional (Default `null` = nur Worktree-Check, Verhalten wie ohne Key — Bestandsprojekte ohne den Key sind gueltig). Gesetzt aktiviert er die Branch-Pruefung der Worktree-Guards (`skills/CLAUDE.md` → „Parallele Sessions")
 - `test_command` / `build_command`: Konkrete Shell-Commands oder `null` falls nicht vorhanden
 - `worker`: Deckelung fuer `dtb:worker` (Versuche/Minuten pro Task); Defaults 3/30, projektweit anpassbar
+- `status.alter_schwelle_tage`: Optional (Default 7 bei fehlendem Key — Bestandsprojekte ohne den Key sind gueltig). Ab dieser Liegezeit markieren `dtb:workflow-checkpoint` offene Aufgaben und die Worktree-Sicht Worktrees mit ⏳ (`DERIVED_STATE_RULES.md` §9/§10)
 
 ---
 

@@ -412,6 +412,197 @@ Der `dtb:implement`-Loop bleibt gegen dieses Feld blind.
 
 ---
 
+## 8. INBOX-Status `Ausgearbeitet` — Change-Link-Pflicht
+
+`Ausgearbeitet` heisst „Change angelegt". Die Aussage gilt nur mit Beleg — sonst faellt eine
+Idee, deren Change nie entstanden ist, aus allen Sichten und wird archivierbar (INBOX #95 (1)).
+
+> **Wartungs-Hinweis (Format-Kopplung):** Kernsatz und Verhaltens-Tabelle sind gespiegelt in
+> `dtb:archive`, `dtb:project-health`, `dtb:workflow-next`, `dtb:workflow-status` und
+> `dtb:idea-rank` (Kopie ist Absicht — Seed erreicht Bestandsprojekte nicht automatisch,
+> INBOX #22). Aenderung hier → die fuenf Spiegel mitziehen (Grep-Anker: `Change fehlt`).
+
+### 8.1 Gueltiger Change-Link
+
+Eine INBOX-Zeile mit Status `Ausgearbeitet` ist **belegt**, wenn sie mindestens einen dieser Links
+traegt und das Ziel existiert:
+
+- `→ features/{slug}/spec.md`, `→ features/{slug}/task.md` oder `→ features/{slug}/bug.md` — die
+  verlinkte Datei existiert
+- `→ archive/{slug}/…` — der Ordner `archive/{slug}/` existiert (Change abgeschlossen)
+
+Ein Link nur auf `discovery.md` belegt NICHT (Discovery laeuft = `In Arbeit`, §1.1).
+
+### 8.2 Anzeige-Zustand „Ausgearbeitet, Change fehlt"
+
+- **Kernsatz (eine Zeile, Grep-Anker der Kopplung):** `Ausgearbeitet` ohne gueltigen Change-Link (8.1) ist „Ausgearbeitet, Change fehlt" und zaehlt als offen.
+- **Kein neuer Statuswert:** Das Feld bleibt `Ausgearbeitet`; „Change fehlt" ist ein abgeleiteter
+  Anzeige-Zustand. Lese-Skills korrigieren nichts (§1.3). Geheilt wird er, sobald der Change
+  entsteht: `dtb:task` Schritt 4b bzw. `dtb:feature-plan` Schritt 9 haengen den Link an.
+- **Naechster Schritt:** Vermerk „als Aufgabe geroutet" → `/dtb:task {N}`; sonst
+  `/dtb:feature-plan` (bzw. `/dtb:feature-discover {N}`, wenn nicht einmal eine Discovery existiert).
+- **Task-Lane:** `dtb:idea-review` setzt bei der Task-Lane weiterhin `Ausgearbeitet` (Entscheidung
+  impl-review F2, 2026-08-02 — kein `In Arbeit`), mit Vermerk
+  `→ als Aufgabe geroutet ({Datum}); task.md ausstehend — /dtb:task {N}`. Genau dieser
+  Zwischenzustand ist „Change fehlt", bis `dtb:task` laeuft.
+- **Teil-Routing** (Lektion L19) bleibt unberuehrt: eine teilweise geroutete Idee steht auf `Offen`.
+
+| Konsument | Verhalten bei „Change fehlt" |
+|-----------|------------------------------|
+| `dtb:archive` | kein Archiv-Kandidat; eigener Meldeblock „Nicht archiviert — Change fehlt: #{N} → {naechster Schritt}" |
+| `dtb:project-health` | WARNUNG „#{N} Ausgearbeitet, Change fehlt" (Link fehlt oder Ziel existiert nicht) |
+| `dtb:workflow-next` | Pipeline-Zeile „INBOX `Ausgearbeitet`, Change fehlt" → naechster Schritt |
+| `dtb:workflow-status` | zaehlt pipeline-relevant (wie `Offen`/`In Arbeit`) |
+| `dtb:idea-rank` | EINE Hinweiszeile unter der Tabelle „offen, Change fehlt: #{N}" — die Tabelle selbst bleibt bei `Offen` |
+
+---
+
+## 9. Lebenslauf offener Aufgaben (WORKFLOW_STATUS `## Offene Aufgaben`)
+
+Eine offene Aufgabe verschwindet nie ohne Spur und weiss, seit wann sie offen ist
+(INBOX #95 (2)+(3)). Beides ist EIN Mechanismus: der Vergleich im Checkpoint.
+
+> **Wartungs-Hinweis (Format-Kopplung):** Kernsatz, Zeilenformat, Abgangsvermerke und die
+> ⏳-Regel sind kompakt gespiegelt in `dtb:workflow-checkpoint` (Kopie ist Absicht — Seed
+> erreicht Bestandsprojekte nicht automatisch, INBOX #22). Aenderung hier → dort mitziehen
+> (Grep-Anker: `Aufgaben-Abgaenge`).
+
+### 9.1 Fuehrende Liste & Zeilenformat
+
+- **Fuehrend** ist `## Offene Aufgaben` in `WORKFLOW_STATUS.md` — die Liste, die von Checkpoint zu
+  Checkpoint weitergetragen wird. `### Naechste Schritte` im Session-Log ist eine Momentaufnahme
+  und uebernimmt die Punkte samt Datum.
+- **Zeilenformat:** `- [ ] {Aufgabe} — Kontext: {kurz} (seit YYYY-MM-DD[ · behalten YYYY-MM-DD])`
+- **`seit`** wird beim Uebertrag **woertlich** mitgenommen, nie neu gesetzt. Neue Punkte bekommen
+  das heutige Datum.
+- Die Checkboxen dieser Liste sind **status-neutral** (analog §6.2): sie speisen keine Ableitung.
+
+### 9.2 Vergleich (vor dem Log-Schreiben)
+
+- **Kernsatz (eine Zeile, Grep-Anker der Kopplung):** Jeder Punkt der bisherigen Liste wird entweder weitergetragen oder bekommt genau einen Abgangsvermerk in `### Aufgaben-Abgaenge` — kein Punkt verschwindet ohne Spur.
+- **Zeitpunkt:** beim Informationen-Sammeln, VOR dem Schreiben des Session-Logs (der Log braucht
+  die Abgaenge bereits).
+- **Basis:** die `WORKFLOW_STATUS.md` auf der Platte, gelesen VOR dem Ueberschreiben — kein Git
+  noetig. Fehlt die Datei oder die Sektion → kein Vergleich, alle Punkte gelten als neu.
+- **Zuordnung** nach Sinn, nicht nach Wortlaut: ein umformulierter Punkt ist derselbe Punkt, sein
+  `seit` wandert mit. Ist die Zuordnung unsicher → Rueckfrage („ist X = Y?"), nie raten.
+
+### 9.3 Abgangsvermerke (`### Aufgaben-Abgaenge` im Session-Log)
+
+Einfache Aufzaehlung, **KEINE Checkboxen** (nichts, das eine Ableitung mitzaehlen koennte —
+Muster WORKTREE-HANDOFF-Block). Der Abschnitt entfaellt bei 0 Abgaengen.
+
+```markdown
+### Aufgaben-Abgaenge
+- erledigt: {Aufgabe} (seit YYYY-MM-DD)
+- verworfen: {Aufgabe} (seit YYYY-MM-DD) — Grund: {Grund}
+- aufgegangen in „{Ziel}": {Aufgabe} (seit YYYY-MM-DD)
+```
+
+- **`verworfen` ohne Grund ist unzulaessig** (Muster `archive/INBOX-BEFUNDE-verworfen.md`).
+- **Welcher Vermerk:** belegt die Session die Erledigung → `erledigt`; sonst Rueckfrage — ein Punkt,
+  dessen Verbleib unklar ist, wird weitergetragen, nie still gestrichen.
+- **Zusammengelegt/aufgeteilt:** Vermerk `aufgegangen in …`; der Ziel-Punkt erbt das **aelteste**
+  `seit` der beteiligten Punkte.
+
+### 9.4 Alter & ⏳
+
+- **Schwelle:** `status.alter_schwelle_tage` in `workflow.config.yaml`, **Default 7** bei fehlendem Key.
+- **Faellig:** heute − (juengeres Datum von `seit` und `behalten`) ≥ Schwelle → Punkt wird mit ⏳
+  markiert.
+- **EINE Sammelvorlage** fuer alle faelligen Punkte (nie N Einzelfragen), Default „behalten":
+
+```
+⏳ {K} offene Aufgabe(n) liegen ≥ {S} Tage:
+  1. {Aufgabe} (seit YYYY-MM-DD, {T} Tage)
+  …
+Enter/„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerfen: {Grund}"
+```
+
+- **„behalten"** haengt `· behalten YYYY-MM-DD` an (`seit` bleibt) → naechste Frage erst nach der
+  naechsten Schwelle. **Abbruch** → alles bleibt unveraendert, die Frage kommt beim naechsten Mal.
+- Erledigen/Verwerfen erzeugt den Abgangsvermerk nach 9.3. Keine automatische Entscheidung.
+
+### 9.5 Sonderfaelle
+
+| Situation | Verhalten |
+|-----------|-----------|
+| erster Checkpoint nach Einfuehrung (Punkte ohne `seit`) | Datum aus dem ersten Auftreten im Session-Log rekonstruieren, Form `(seit ≤YYYY-MM-DD)`; nichts gefunden → heutiges Datum mit `≤` |
+| Punkte aus einem WORKTREE-HANDOFF | `seit` = Datum aus der Hand-off-Kopfzeile |
+| Checkpoint im verlinkten Worktree | kein Vergleich (Teil-Guard ueberspringt WORKFLOW_STATUS); holt der naechste Orchestrator-Checkpoint nach |
+| leere Liste | kein Vergleich, kein Vermerk |
+| Altbestand (alte `WORKFLOW_STATUS`-Versionen, alte Logs) | keine rueckwirkende Aufarbeitung |
+
+---
+
+## 10. Worktree-Stand (Arbeit ausserhalb des Haupt-Checkouts)
+
+Arbeit in verlinkten Worktrees (`dtb:pane-start`, `dtb:worker`) ist bis zum Merge fuer die
+Lese-Sichten unsichtbar, und erledigte Worktrees leben weiter (INBOX #95 (4) + Aufraeum-Luecke).
+Diese Regel macht beides beim Aufruf sichtbar — rein lesend, ohne Ueberwachung (#97).
+
+> **Wartungs-Hinweis (Format-Kopplung):** Kernsatz, Zeilenformat und Zustands-Tabelle sind
+> gespiegelt in `dtb:workflow-resume`, `dtb:workflow-next` und `dtb:backlog-status` (Kopie ist
+> Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22). Aenderung hier → die
+> drei Spiegel mitziehen (Grep-Anker: `In Worktrees`).
+
+### 10.1 Quelle & Umfang
+
+- **Kernsatz (eine Zeile, Grep-Anker der Kopplung):** Die Sichten zeigen unter `In Worktrees` je verlinktem Worktree genau eine Zeile — gelesen, nie beschrieben.
+- **Quelle:** `git worktree list --porcelain`. Der **erste** Eintrag ist der Haupt-Checkout und
+  wird nicht gelistet.
+- **Block entfaellt still**, wenn das Projekt kein Git-Repo ist oder es keinen weiteren Worktree
+  gibt (kein „keine"-Rauschen).
+- **Slug:** Verzeichnisname ohne Praefix `pane-`/`worker-`; sonst der Verzeichnisname.
+- **Art:** Praefix `pane-` → `interaktiv (pane)`; `worker-` mit Branch → `autonom (pane)`;
+  `worker-` ohne Branch (detached) → `autonom (subagent)`; alles andere (von Hand, Harness) → `manuell`.
+
+### 10.2 Zeilenformat
+
+```
+In Worktrees:
+  {slug}  {Art}  {branch | detached}  {Stand}  {N} uncommitted  {Fortschritt}[  ⏳]
+```
+
+- **Stand:** `+{n} Commits, zuletzt YYYY-MM-DD` (n = Commits des Branches, die nicht im Hauptbranch
+  sind; Datum des letzten Commits) — oder ein Zustand aus 10.3.
+- **uncommitted:** Zahl der Eintraege aus `git -C {pfad} status --porcelain`.
+- **Fortschritt** wird aus dem **Worktree-Pfad** gelesen (aktueller Stand inkl. uncommitteter
+  Flips), in dieser Reihenfolge: `{pfad}/{config.paths.workflows}/features/{slug}/plan.md` →
+  `## Progress` X/Y · sonst `task.md` → `## Schritte` X/Y · sonst Stage-Name nach §1.1 (z.B.
+  `Discovery`, `Spezifiziert`) · sonst `—`.
+- **Detached HEAD** (kein Branch, z.B. Subagent-Worker): Branch-Feld zeigt `detached @{sha7}`, das
+  Feld „Stand" entfaellt (ohne Branch keine Historie — weder `frisch` noch `gemergt`); statt
+  Fortschritt `worker-report {vorhanden | fehlt}` (Datei im Worktree-Pfad des Change-Ordners).
+
+### 10.3 Zustaende (Vorrang von oben nach unten)
+
+| Zustand | Erkennung | Anzeige im Feld „Stand" |
+|---------|-----------|-------------------------|
+| verwaist | Eintrag traegt `prunable` bzw. Pfad fehlt | `verwaist → git worktree prune` (Rest der Zeile entfaellt) |
+| gemergt | Branch hatte eigene Commits (Branch-Reflog hat mehr als den Anlage-Eintrag) UND n = 0 | `gemergt → aufraeumen (git worktree remove {pfad})` |
+| frisch | Branch-Reflog hat nur den Anlage-Eintrag (keine eigenen Commits) | `frisch` — nie „aufraeumen" |
+| laufend | alles andere | `+{n} Commits, zuletzt YYYY-MM-DD` |
+
+- **Warum der Reflog:** Ein frisch angelegter Branch und ein gemergter Branch haben beide 0 Commits
+  gegenueber dem Hauptbranch; nur die Branch-Historie unterscheidet sie. Fehlt der Reflog (z.B.
+  deaktiviert) → im Zweifel `frisch` (nie faelschlich „aufraeumen").
+- **⏳** haengt an `frisch`/`laufend`, wenn der letzte Commit (bei `frisch`: die Anlage) aelter ist
+  als `status.alter_schwelle_tage` (§9.4, Default 7).
+- „aufraeumen" und „prune" sind **Hinweise**; abbauen tut der Mensch bzw. der zustaendige Skill.
+
+### 10.4 Hauptbranch & Lese-Grenze
+
+- **Hauptbranch:** `parallel.default_branch` aus `workflow.config.yaml`, falls gesetzt; sonst der
+  Branch des ersten `git worktree list`-Eintrags (Haupt-Checkout). Kein Raten zwischen master/main.
+- **Erlaubt (nur lesend):** `git worktree list --porcelain`, `git rev-list --count`, `git log -1`,
+  `git reflog show`, `git -C {pfad} status --porcelain`, Dateien unter `{pfad}` lesen.
+- **Nie:** `checkout`, `add`, `commit`, `stash`, `worktree remove`/`prune` ausfuehren oder
+  Dateien im Worktree schreiben — Schreibgrenzen-Regel (`skills/CLAUDE.md` → „Parallele Sessions")
+  und Worktree-Guard bleiben unveraendert.
+
+---
+
 **Eingefuehrt mit:** Feature DERIVED_STATE (`features/FEATURE_DERIVED_STATE.md`), 2026-07-06
 **Umgestellt auf Change-Folder-Modell:** Feature CHANGE_FOLDER_MODELL, 2026-07-09
 **§5 Roadmap-Ableitung ergaenzt:** Feature greenfield-autoren-skills, 2026-07-13
@@ -432,3 +623,6 @@ vgl. INBOX #22 — **sechster** dokumentierter Skew-Fall)
 **`worker-report.md` als status-neutrale Ordner-Datei ergaenzt:** Feature autonome-schiene,
 2026-08-08 (Seed-Aenderung — erreicht Bestandsprojekte nicht automatisch, vgl. INBOX #22 —
 **siebter** dokumentierter Skew-Fall)
+**§8 Change-Link-Pflicht, §9 Lebenslauf offener Aufgaben, §10 Worktree-Stand ergaenzt:** Feature
+statusverlust-luecken, 2026-09-23 (Seed-Aenderung — die Konsumenten tragen operative Kopien,
+vgl. INBOX #22)

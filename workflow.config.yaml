@@ -25,3 +25,6 @@ worker:
 
 parallel:
   default_branch: null  # Worktree-Guard — optional: Branch des Haupt-Checkouts; null = nur Worktree-Check (Verhalten wie ohne Key)
+
+status:
+  alter_schwelle_tage: 7  # DERIVED_STATE_RULES §9/§10 — ⏳ fuer offene Aufgaben und Worktrees ab N Tagen
