@@ -474,7 +474,7 @@ Eine offene Aufgabe verschwindet nie ohne Spur und weiss, seit wann sie offen is
 
 - **Fuehrend** ist `## Offene Aufgaben` in `WORKFLOW_STATUS.md` — die Liste, die von Checkpoint zu
   Checkpoint weitergetragen wird. `### Naechste Schritte` im Session-Log ist eine Momentaufnahme
-  und uebernimmt die Punkte samt Datum.
+  und uebernimmt die Punkte samt `(seit …)` — ohne Kontext, `· behalten` und ⏳.
 - **Zeilenformat:** `- [ ] {Aufgabe} — Kontext: {kurz} (seit YYYY-MM-DD[ · behalten YYYY-MM-DD])`
 - **`seit`** wird beim Uebertrag **woertlich** mitgenommen, nie neu gesetzt. Neue Punkte bekommen
   das heutige Datum.
@@ -488,7 +488,8 @@ Eine offene Aufgabe verschwindet nie ohne Spur und weiss, seit wann sie offen is
 - **Basis:** die `WORKFLOW_STATUS.md` auf der Platte, gelesen VOR dem Ueberschreiben — kein Git
   noetig. Fehlt die Datei oder die Sektion → kein Vergleich, alle Punkte gelten als neu.
 - **Zuordnung** nach Sinn, nicht nach Wortlaut: ein umformulierter Punkt ist derselbe Punkt, sein
-  `seit` wandert mit. Ist die Zuordnung unsicher → Rueckfrage („ist X = Y?"), nie raten.
+  `seit` wandert mit. Ist die Zuordnung unsicher → Rueckfrage („ist X = Y?"), nie raten. Naechste
+  Schritte aus dem Chat, die keinem alten Punkt entsprechen, sind neue Punkte (`seit` = heute).
 
 ### 9.3 Abgangsvermerke (`### Aufgaben-Abgaenge` im Session-Log)
 
@@ -503,27 +504,31 @@ Muster WORKTREE-HANDOFF-Block). Der Abschnitt entfaellt bei 0 Abgaengen.
 ```
 
 - **`verworfen` ohne Grund ist unzulaessig** (Muster `archive/INBOX-BEFUNDE-verworfen.md`).
-- **Welcher Vermerk:** belegt die Session die Erledigung → `erledigt`; sonst Rueckfrage — ein Punkt,
-  dessen Verbleib unklar ist, wird weitergetragen, nie still gestrichen.
-- **Zusammengelegt/aufgeteilt:** Vermerk `aufgegangen in …`; der Ziel-Punkt erbt das **aelteste**
-  `seit` der beteiligten Punkte.
+- **Welcher Vermerk:** belegt die Session die Erledigung → `erledigt`; deutet sie einen Abgang ohne
+  Beleg an → Rueckfrage; ohne Session-Signal wird der Punkt still weitergetragen — nie still gestrichen.
+- **Zusammengelegt/aufgeteilt/ersetzt** (auch 1:1 durch einen Nachfolger mit anderem Inhalt): Vermerk
+  `aufgegangen in …` (Vorrang vor „neuer Punkt" aus 9.2); der Ziel-Punkt erbt das **aelteste** `seit` der beteiligten Punkte — sonst liesse
+  sich das Alter durch Umformulieren zuruecksetzen.
 
 ### 9.4 Alter & ⏳
 
 - **Schwelle:** `status.alter_schwelle_tage` in `workflow.config.yaml`, **Default 7** bei fehlendem Key.
 - **Faellig:** heute − (juengeres Datum von `seit` und `behalten`) ≥ Schwelle → Punkt wird mit ⏳
-  markiert.
+  vor dem Text markiert. Geprueft wird die **neue** Liste, nach den Zuordnungs-Rueckfragen aus 9.2
+  (deren Antwort bestimmt `seit`).
 - **EINE Sammelvorlage** fuer alle faelligen Punkte (nie N Einzelfragen), Default „behalten":
 
 ```
 ⏳ {K} offene Aufgabe(n) liegen ≥ {S} Tage:
   1. {Aufgabe} (seit YYYY-MM-DD, {T} Tage)
   …
-Enter/„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerfen: {Grund}"
+„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerfen: {Grund}" · „Abbruch"
 ```
 
-- **„behalten"** haengt `· behalten YYYY-MM-DD` an (`seit` bleibt) → naechste Frage erst nach der
-  naechsten Schwelle. **Abbruch** → alles bleibt unveraendert, die Frage kommt beim naechsten Mal.
+- **„behalten"** haengt `· behalten YYYY-MM-DD` an (`seit` bleibt, ⏳ entfaellt) → naechste Frage erst
+  nach der naechsten Schwelle. **Abbruch** → keine Entscheidung, die Punkte bleiben mit ⏳, die Frage
+  kommt beim naechsten Mal. **Andere Antwort** → genau eine Rueckfrage
+  (`passt / {Nr} erledigt / {Nr} verwerfen: {Grund} / Abbruch?`), bleibt sie unklar → Abbruch.
 - Erledigen/Verwerfen erzeugt den Abgangsvermerk nach 9.3. Keine automatische Entscheidung.
 
 ### 9.5 Sonderfaelle
@@ -532,7 +537,7 @@ Enter/„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerf
 |-----------|-----------|
 | erster Checkpoint nach Einfuehrung (Punkte ohne `seit`) | Datum aus dem ersten Auftreten im Session-Log rekonstruieren, Form `(seit ≤YYYY-MM-DD)`; nichts gefunden → heutiges Datum mit `≤` |
 | Punkte aus einem WORKTREE-HANDOFF | `seit` = Datum aus der Hand-off-Kopfzeile |
-| Checkpoint im verlinkten Worktree | kein Vergleich (Teil-Guard ueberspringt WORKFLOW_STATUS); holt der naechste Orchestrator-Checkpoint nach |
+| Checkpoint im verlinkten Worktree | kein Vergleich (Voll-Guard bricht ab); holt der naechste Orchestrator-Checkpoint nach |
 | leere Liste | kein Vergleich, kein Vermerk |
 | Altbestand (alte `WORKFLOW_STATUS`-Versionen, alte Logs) | keine rueckwirkende Aufarbeitung |
 

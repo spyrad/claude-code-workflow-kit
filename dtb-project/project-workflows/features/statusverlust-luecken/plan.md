@@ -365,11 +365,11 @@ Die drei Lese-Sichten zeigen jeden Zusatz-Worktree mit Stand; gemergte als „au
 - [x] 2.3 next/status/idea-rank als offen — `b60105f`
 - [x] 2.4 idea-review Vermerk — `b60105f`
 - [x] 2.5 Eigenpruefung Task-Lane — `b60105f`
-- [ ] 3.1 Checkpoint Vergleich
-- [ ] 3.2 Log Aufgaben-Abgaenge
-- [ ] 3.3 ⏳-Sammelvorlage
-- [ ] 3.4 Vertraeglichkeit der Leser
-- [ ] 3.5 Probe-Checkpoint
+- [x] 3.1 Checkpoint Vergleich
+- [x] 3.2 Log Aufgaben-Abgaenge
+- [x] 3.3 ⏳-Sammelvorlage
+- [x] 3.4 Vertraeglichkeit der Leser
+- [x] 3.5 Probe-Checkpoint
 - [ ] 4.1 resume Worktree-Stand
 - [ ] 4.2 next In Worktrees
 - [ ] 4.3 backlog-status In Worktrees

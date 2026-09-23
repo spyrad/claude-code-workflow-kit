@@ -199,6 +199,9 @@ Schreibe/ergaenze `{config.paths.workflows}/archive/ARCHIVE_LOG.md`:
 - **Entferne die Zeilen soeben archivierter Features, Bugs und Tasks aus der Status-Tabelle**
   sowie sonstige Referenzen auf sie. Der Statusblock ist generiert — eine stehengelassene Zeile
   waere schlicht falsch und wuerde beim naechsten `dtb:workflow-checkpoint` ohnehin verschwinden
+- **Ausnahme `## Offene Aufgaben`:** Zeilen dort bleiben stehen, auch wenn sie ein archiviertes Item
+  nennen — ihren Abgang vermerkt der naechste Checkpoint (`DERIVED_STATE_RULES.md` §9, `Aufgaben-Abgaenge`);
+  hier geloescht, verschwaenden sie ohne Spur
 - **Warnung nur bei Widerspruch:** Wird ein archiviertes Item dort als "In Arbeit" gefuehrt
   (teilweise abgehakter `## Progress`), Zeile trotzdem entfernen, aber Warnung ausgeben —
   archiviert und gleichzeitig in Arbeit ist ein Widerspruch, den der Benutzer sehen muss:

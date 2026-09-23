@@ -57,7 +57,7 @@ Die zugehoerige Sammelvorlage im Checkpoint:
   1. /dtb:idea-review fortsetzen (seit ≤2026-07-11, 74 Tage)
   2. /dtb:idea-triage (seit ≤2026-09-09, 14 Tage)
   3. Veraltete TTS-Dateien loeschen + Sprachausgabe einrichten (seit ≤2026-09-11, 12 Tage)
-Enter/„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerfen: {Grund}"
+„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerfen: {Grund}" · „Abbruch"
 ```
 
 Nach „passt" → `(seit ≤2026-07-11 · behalten 2026-09-23)`; naechste Frage fruehestens 2026-09-30.

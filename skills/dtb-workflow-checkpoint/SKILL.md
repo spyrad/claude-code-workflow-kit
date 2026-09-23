@@ -141,8 +141,13 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 1-2 Saetze: Warum diese Aenderungen? Welches Problem wurde geloest?
 
 ### Naechste Schritte
-- [ ] Offener Punkt 1
-- [ ] Offener Punkt 2
+- [ ] Offener Punkt 1 (seit YYYY-MM-DD)
+- [ ] Offener Punkt 2 (seit YYYY-MM-DD)
+
+### Aufgaben-Abgaenge
+- erledigt: {Aufgabe} (seit YYYY-MM-DD)
+- verworfen: {Aufgabe} (seit YYYY-MM-DD) — Grund: {Grund}
+- aufgegangen in „{Ziel}": {Aufgabe} (seit YYYY-MM-DD)
 ```
 
 ### Richtlinien
@@ -154,6 +159,9 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
   Format oben (Quelle: Schritt 0). Pfeil-Slot: `→ {L…, #…} erfasst` oder `→ nichts erfasst ({Abbruch|alle
   gestrichen|Rueckfall Pfad 1|Rueckfall Pfad 2|>10 Funde})`; bei `D = 0` entfaellt der Pfeil-Teil; wurde die
   Pruefung uebersprungen → `Verlustpruefung uebersprungen — {Grund}` statt der Zaehl-Zeile
+- **Naechste Schritte** uebernehmen die Punkte samt `(seit …)` aus der neuen Liste (ohne Kontext/`· behalten`/⏳, §9.1)
+- **Aufgaben-Abgaenge** aus dem Vergleich (Schritt 1): einfache Aufzaehlung, KEINE Checkboxen (nichts,
+  das eine Ableitung mitzaehlen koennte); der Abschnitt entfaellt bei 0 Abgaengen
 
 ---
 
@@ -205,8 +213,8 @@ Session-Log oder den Kontextblock.
 
 ## Offene Aufgaben
 
-- [ ] [Aufgabe 1] — Kontext: [kurz]
-- [ ] [Aufgabe 2] — Kontext: [kurz]
+- [ ] [Aufgabe 1] — Kontext: [kurz] (seit YYYY-MM-DD)
+- [ ] [Aufgabe 2] — Kontext: [kurz] (seit YYYY-MM-DD · behalten YYYY-MM-DD)
 
 ---
 
@@ -384,6 +392,7 @@ oder eingefuegter Text, erkennbar an der Kopfzeile `WORKTREE-HANDOFF (dtb) — Q
 4. `Uebersprungene globale Updates` aus dem Block als offene Punkte in
    `### Naechste Schritte` uebernehmen (dort ALS Checkboxen — der Block selbst traegt
    keine) bzw. direkt in diesem Lauf nachziehen, wenn trivial (z.B. INBOX-Link)
+5. Offene Punkte aus dem Block und nicht nachgezogene Updates (4) gehen in `## Offene Aufgaben` (fuehrend, §9.1) mit `seit = Hand-off-Datum` (Kopfzeile)
 Ohne Hand-off-Block: normal aus dem Chat-Verlauf (unten).
 
 **Aus Chat-Verlauf:**
@@ -396,6 +405,37 @@ Ohne Hand-off-Block: normal aus dem Chat-Verlauf (unten).
 ```bash
 git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 ```
+
+**Aufgaben-Vergleich (§9 — hier, VOR Teil 1: der Log braucht die Abgaenge):** Jeder Punkt der bisherigen Liste wird entweder weitergetragen oder bekommt genau einen Abgangsvermerk in `### Aufgaben-Abgaenge` — kein Punkt verschwindet ohne Spur.
+- **Basis:** `## Offene Aufgaben` der `WORKFLOW_STATUS.md` auf der Platte, gelesen VOR dem Ueberschreiben
+  (kein Git noetig). Datei/Sektion fehlt oder leer → kein Vergleich, alle Punkte gelten als neu
+- **Zuordnung nach Sinn, nicht Wortlaut:** umformuliert = derselbe Punkt, `seit` wandert woertlich mit;
+  unsicher → Rueckfrage „ist X = Y?", nie raten. Naechste Schritte aus dem Chat ohne alten Punkt = neu, `seit` = heute
+- **Abgang:** Session belegt die Erledigung → `erledigt`; Hinweis auf Abgang ohne Beleg → Rueckfrage; ohne
+  Session-Signal still weitertragen — nie still streichen. `verworfen` nur mit Grund; zusammengelegt/
+  aufgeteilt/ersetzt (auch 1:1 durch einen Nachfolger — Vorrang vor „neu") → `aufgegangen in „{Ziel}"`,
+  das Ziel erbt das **aelteste** `seit`
+- **Uebergang:** Punkt ohne `seit` → Datum des ersten Auftretens im Session-Log als `(seit ≤YYYY-MM-DD)`,
+  nichts gefunden → heute mit `≤`. Im verlinkten Worktree laeuft kein Vergleich (Guard oben bricht ab) —
+  holt der naechste Orchestrator-Checkpoint nach
+
+**⏳ Alter (§9.4) — auf der NEUEN Liste, nach den Zuordnungs-Rueckfragen:** Schwelle `status.alter_schwelle_tage`
+(Default 7 bei fehlendem Key); faellig = heute − juengeres Datum von `seit`/`behalten` ≥ Schwelle → ⏳ vor
+dem Text. Alle faelligen Punkte in EINER Vorlage, nie Einzelfragen — Default „behalten":
+
+```
+⏳ {K} offene Aufgabe(n) liegen ≥ {S} Tage:
+  1. {Aufgabe} (seit YYYY-MM-DD, {T} Tage)
+„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerfen: {Grund}" · „Abbruch"
+```
+
+„behalten" haengt `· behalten YYYY-MM-DD` an (`seit` bleibt, ⏳ entfaellt); erledigt/verworfen → Abgangsvermerk;
+Abbruch → keine Entscheidung, Punkte bleiben mit ⏳, Frage beim naechsten Mal. Andere Antwort → genau eine
+Rueckfrage (`passt / {Nr} erledigt / {Nr} verwerfen: {Grund} / Abbruch?`), unklar → Abbruch. Nie automatisch.
+
+> **Wartungs-Hinweis (Format-Kopplung):** kompakte Kopie von `DERIVED_STATE_RULES.md` §9 (Kopie ist
+> Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22, §9); Details nur dort.
+> Aenderung dort → hier mitziehen (Grep-Anker: `Aufgaben-Abgaenge`).
 
 ### Schritt 2: Status ableiten & Anzeige-Felder synchronisieren
 
