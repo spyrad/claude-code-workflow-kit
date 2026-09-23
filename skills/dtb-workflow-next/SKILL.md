@@ -7,12 +7,12 @@ description: >-
   artifact existence and pipeline position.
 disable-model-invocation: false
 argument-hint: "[Feature-Name]"
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read, Glob, Grep, Bash
 pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [INBOX.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, BACKLOG.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [INBOX.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, features/*/worker-report.md, BACKLOG.md, WORKFLOW_STATUS.md, project-rules/DERIVED_STATE_RULES.md, workflow.config.yaml]
   produces: []
 ---
 
@@ -62,6 +62,7 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
   Aenderung dort → hier mitziehen.
 - `{config.paths.workflows}/features/*/bug.md`, `task.md` — Checkliste in der Datei zaehlen (`## Fix-Schritte` bzw. `## Schritte`)
 - `{config.paths.workflows}/BACKLOG.md` — NUR fuer Konflikterkennung und Prio
+- Verlinkte Git-Worktrees — Schritt 2b (Bash ausschliesslich fuer die dort gelisteten lesenden Git-Kommandos)
 
 **Pipeline-Position pro Feature ermitteln (abgeleitet):**
 
@@ -114,6 +115,47 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 - Ordner mit `plan.md` ohne `spec.md` → als "Change ohne Spec" melden
 - Explizit `Pausiert` markierte Items → nicht anzeigen (ueberschreibt Ableitung)
 
+## Schritt 2b: Worktree-Stand (Arbeit ausserhalb des Haupt-Checkouts)
+
+Naechste Schritte beruecksichtigen auch Arbeit, die bis zum Merge nicht im Arbeitsbaum liegt.
+
+**Worktree-Stand (operative Kopie von Regel-Datei §10 — rein lesend).**
+Kernsatz: Die Sichten zeigen unter `In Worktrees` je verlinktem Worktree genau eine Zeile — gelesen, nie beschrieben.
+- **Quelle:** `git worktree list --porcelain`; der **erste** Eintrag ist der Haupt-Checkout und wird nicht
+  gelistet; die Zeilen folgen der Reihenfolge der Liste. Kein Git-Repo, Kommando scheitert oder kein weiterer
+  Worktree → Block entfaellt still (kein „keine")
+- **Slug / Art:** Verzeichnisname ohne Praefix `pane-`/`worker-`. `pane-` → `interaktiv (pane)`; `worker-` mit
+  Branch → `autonom (pane)`; `worker-` detached → `autonom (subagent)`; alles andere → `manuell`
+- **Hauptbranch:** `parallel.default_branch` aus `workflow.config.yaml`, sonst Branch des ersten Eintrags — nie
+  zwischen master/main raten
+- **Stand** — erster zutreffender Zustand gilt; n = `git rev-list --count {haupt}..{branch}`, Reflog =
+  `git reflog show refs/heads/{branch}`:
+  1. Eintrag traegt `prunable` oder Pfad fehlt → `verwaist → git worktree prune` (Rest der Zeile entfaellt)
+  2. Reflog hat mehr als den Anlage-Eintrag UND n = 0 → `gemergt → aufraeumen (git worktree remove "{pfad}")`;
+     bei uncommitted > 0 stattdessen `gemergt, {N} uncommitted → erst sichern` (nie zum Entfernen raten, solange
+     Arbeit ungesichert ist); in beiden Faellen entfaellt der Rest der Zeile
+  3. Reflog hat nur den Anlage-Eintrag (oder fehlt) → `frisch` — nie „aufraeumen"
+  4. sonst → `+{n} Commits, zuletzt YYYY-MM-DD` (`git log -1 --format=%cs {branch}`)
+- **uncommitted:** Zeilen von `git -C {pfad} status --porcelain`. **Fortschritt** aus dem Worktree-Pfad (inkl.
+  uncommitteter Flips): `{pfad}/{config.paths.workflows}/features/{slug}/plan.md` `## Progress` → `Progress X/Y` ·
+  sonst `task.md` `## Schritte` → `Schritte X/Y` · sonst Stage-Name (Regel-Datei §1.1, z.B. `Discovery`) · sonst `—`
+- **Detached** (Subagent-Worker): Branch-Feld `detached @{sha7}`, Feld „Stand" entfaellt, statt Fortschritt
+  `worker-report {vorhanden | fehlt}` (Datei im Change-Ordner unter `{pfad}`)
+- **⏳** am Zeilenende bei `frisch` und Zustand 4, wenn der letzte Commit (bei `frisch`: der Anlage-Eintrag im
+  Reflog) aelter ist als `status.alter_schwelle_tage` (Default 7)
+- **Nur lesend:** erlaubt sind ausschliesslich die Kommandos oben (`worktree list`, `rev-list --count`,
+  `log -1`, `reflog show`, `-C {pfad} status --porcelain`) und das Lesen von Dateien unter `{pfad}`. Nie
+  `checkout`, `add`, `commit`, `stash`, `worktree remove`/`prune` — „aufraeumen"/„prune" sind Hinweise an den Menschen
+
+```
+In Worktrees:
+  {slug}  {Art}  {branch | detached @sha7}  {Stand}  {N} uncommitted  {Fortschritt}[  ⏳]
+```
+
+> **Wartungs-Hinweis (Format-Kopplung):** spiegelt §10 (Kopie ist Absicht, §10 — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22);
+> Aenderung dort → hier UND in den beiden anderen Sichten mitziehen (`dtb:workflow-resume`, `dtb:workflow-next`,
+> `dtb:backlog-status` — der Block ist in allen dreien wortgleich; Grep-Anker: `In Worktrees`).
+
 ## Schritt 3: Konflikte erkennen, sortieren & priorisieren
 
 **Konfliktregel (Regel-Datei §1.3):** Weicht ein BACKLOG-Statusfeld vom abgeleiteten
@@ -158,7 +200,13 @@ Naechste Schritte:
 ...
 
 {N} weitere Feature-Specs ohne Plan → /dtb:impl-plan
+
+In Worktrees:
+  {Zeilen aus Schritt 2b}
 ```
+
+Der Worktree-Block steht am Ende und entfaellt still (Schritt 2b). Zeilen mit `gemergt → aufraeumen`,
+`verwaist → git worktree prune` oder ⏳ sind die naechsten Schritte dieses Blocks — nur anzeigen, nie ausfuehren.
 
 ### Mit Argument (ein Feature im Detail):
 
@@ -179,8 +227,8 @@ Naechste Schritte:
 
 ## Richtlinien
 
-- **Read-Only**: Dieser Skill aendert keine Dateien
-- **Kompakt**: Max 15 Zeilen Output (ohne Argument), max 12 Zeilen (mit Argument)
+- **Read-Only**: Dieser Skill aendert keine Dateien; Bash nur fuer die lesenden Git-Kommandos aus Schritt 2b
+- **Kompakt**: Max 15 Zeilen Output (ohne Argument, zuzueglich Worktree-Block), max 12 Zeilen (mit Argument)
 - **Keine Rueckfragen**: Sofort Output liefern
 - **Deutsch**: Alle Texte auf Deutsch
 - **Leer-Zustand**: Bei 0 aktiven Features/Bugs/Aufgaben: "Keine aktiven Features, Bugs oder Aufgaben. Starte mit `/dtb:idea`, `/dtb:feature-plan`, `/dtb:bug-report` oder `/dtb:task`."

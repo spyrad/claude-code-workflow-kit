@@ -514,7 +514,7 @@ Muster WORKTREE-HANDOFF-Block). Der Abschnitt entfaellt bei 0 Abgaengen.
 
 - **Schwelle:** `status.alter_schwelle_tage` in `workflow.config.yaml`, **Default 7** bei fehlendem Key.
 - **Faellig:** heute − (juengeres Datum von `seit` und `behalten`) ≥ Schwelle → Punkt wird mit ⏳
-  vor dem Text markiert. Geprueft wird die **neue** Liste, nach den Zuordnungs-Rueckfragen aus 9.2
+  am Zeilenende markiert (nach `(seit …)`). Geprueft wird die **neue** Liste, nach den Zuordnungs-Rueckfragen aus 9.2
   (deren Antwort bestimmt `seit`).
 - **EINE Sammelvorlage** fuer alle faelligen Punkte (nie N Einzelfragen), Default „behalten":
 
@@ -558,7 +558,7 @@ Diese Regel macht beides beim Aufruf sichtbar — rein lesend, ohne Ueberwachung
 
 - **Kernsatz (eine Zeile, Grep-Anker der Kopplung):** Die Sichten zeigen unter `In Worktrees` je verlinktem Worktree genau eine Zeile — gelesen, nie beschrieben.
 - **Quelle:** `git worktree list --porcelain`. Der **erste** Eintrag ist der Haupt-Checkout und
-  wird nicht gelistet.
+  wird nicht gelistet; die Zeilen folgen der Reihenfolge der Liste.
 - **Block entfaellt still**, wenn das Projekt kein Git-Repo ist oder es keinen weiteren Worktree
   gibt (kein „keine"-Rauschen).
 - **Slug:** Verzeichnisname ohne Praefix `pane-`/`worker-`; sonst der Verzeichnisname.
@@ -577,7 +577,7 @@ In Worktrees:
 - **uncommitted:** Zahl der Eintraege aus `git -C {pfad} status --porcelain`.
 - **Fortschritt** wird aus dem **Worktree-Pfad** gelesen (aktueller Stand inkl. uncommitteter
   Flips), in dieser Reihenfolge: `{pfad}/{config.paths.workflows}/features/{slug}/plan.md` →
-  `## Progress` X/Y · sonst `task.md` → `## Schritte` X/Y · sonst Stage-Name nach §1.1 (z.B.
+  `## Progress` → `Progress X/Y` · sonst `task.md` → `## Schritte` → `Schritte X/Y` · sonst Stage-Name nach §1.1 (z.B.
   `Discovery`, `Spezifiziert`) · sonst `—`.
 - **Detached HEAD** (kein Branch, z.B. Subagent-Worker): Branch-Feld zeigt `detached @{sha7}`, das
   Feld „Stand" entfaellt (ohne Branch keine Historie — weder `frisch` noch `gemergt`); statt
@@ -588,7 +588,7 @@ In Worktrees:
 | Zustand | Erkennung | Anzeige im Feld „Stand" |
 |---------|-----------|-------------------------|
 | verwaist | Eintrag traegt `prunable` bzw. Pfad fehlt | `verwaist → git worktree prune` (Rest der Zeile entfaellt) |
-| gemergt | Branch hatte eigene Commits (Branch-Reflog hat mehr als den Anlage-Eintrag) UND n = 0 | `gemergt → aufraeumen (git worktree remove {pfad})` |
+| gemergt | Branch hatte eigene Commits (Branch-Reflog hat mehr als den Anlage-Eintrag) UND n = 0 | `gemergt → aufraeumen (git worktree remove "{pfad}")`; bei uncommitted > 0 stattdessen `gemergt, {N} uncommitted → erst sichern` — nie zum Entfernen raten, solange Arbeit ungesichert ist (Rest der Zeile entfaellt in beiden Faellen) |
 | frisch | Branch-Reflog hat nur den Anlage-Eintrag (keine eigenen Commits) | `frisch` — nie „aufraeumen" |
 | laufend | alles andere | `+{n} Commits, zuletzt YYYY-MM-DD` |
 

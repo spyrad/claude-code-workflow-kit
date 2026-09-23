@@ -65,8 +65,8 @@ cd <dein-projekt>
 
 | Skill | Purpose |
 |-------|---------|
-| `/dtb:workflow-checkpoint` | Log session progress + update status dashboard + capture urgent no-loss findings (lessons/INBOX) |
-| `/dtb:workflow-resume` | Resume after a break |
+| `/dtb:workflow-checkpoint` | Log session progress + update status dashboard + capture urgent no-loss findings (lessons/INBOX); open tasks carry a `seit` date, every dropped task gets a departure note, overdue ones one ⏳ decision |
+| `/dtb:workflow-resume` | Resume after a break (incl. work in linked worktrees) |
 | `/dtb:idea` | Quick-capture an idea into the inbox |
 | `/dtb:idea-review` | Review and triage open ideas |
 | `/dtb:idea-rank` | Read-only ranking of open ideas as one table sorted by importance (effort as time range, remark with blockers and dependencies) |
@@ -81,10 +81,10 @@ cd <dein-projekt>
 | `/dtb:code-review` | Review code changes against project-specific rules |
 | `/dtb:generate-rules` | Generate coding rules/guidelines from codebase analysis |
 | `/dtb:workflow-status` | Pipeline visualization and queue analysis |
-| `/dtb:workflow-next` | Show next concrete action per active feature |
+| `/dtb:workflow-next` | Show next concrete action per active feature, plus an `In Worktrees` block |
 | `/dtb:session-summary` | Compact recap of work done (active session, a given day, or last 7 days) |
-| `/dtb:backlog-status` | Backlog overview |
-| `/dtb:archive` | Archive completed/discarded items from workflow files |
+| `/dtb:backlog-status` | Backlog overview (incl. `In Worktrees`) |
+| `/dtb:archive` | Archive completed/discarded items from workflow files (never an idea marked `Ausgearbeitet` whose change is missing) |
 | `/dtb:repo-sync` | Git status across configured project repos (not kit distribution) |
 | `/dtb:kit-sync` | Install/update kit copies under `~/.claude/` with lock-based drift detection |
 | `/dtb:project-init` | Initialize DTB workflow in a project |

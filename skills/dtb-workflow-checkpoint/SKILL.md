@@ -10,7 +10,7 @@ pipeline:
   stage: session
   after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
   next: [dtb:workflow-resume, dtb:idea-triage]
-  consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md]
+  consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md, workflow.config.yaml]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md]
 ---
 
@@ -420,8 +420,8 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
   holt der naechste Orchestrator-Checkpoint nach
 
 **⏳ Alter (§9.4) — auf der NEUEN Liste, nach den Zuordnungs-Rueckfragen:** Schwelle `status.alter_schwelle_tage`
-(Default 7 bei fehlendem Key); faellig = heute − juengeres Datum von `seit`/`behalten` ≥ Schwelle → ⏳ vor
-dem Text. Alle faelligen Punkte in EINER Vorlage, nie Einzelfragen — Default „behalten":
+(Default 7 bei fehlendem Key); faellig = heute − juengeres Datum von `seit`/`behalten` ≥ Schwelle → ⏳ am
+Zeilenende. Alle faelligen Punkte in EINER Vorlage, nie Einzelfragen — Default „behalten":
 
 ```
 ⏳ {K} offene Aufgabe(n) liegen ≥ {S} Tage:
