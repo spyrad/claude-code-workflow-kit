@@ -200,15 +200,16 @@ Kopie `~/.claude/skills/dtb-worker/SKILL.md`, sonst Fallback auf `skills/dtb-wor
 im Projekt-Root (Kit-Repo-Fall).
 
 **Anker-Grep** (zeilenende-normalisiert — `tr -d '\r'` vorschalten, nie `$`-Anker gegen den
-Rohtext) auf beide Sektionen:
+Rohtext) auf alle drei Anker:
 
 | Anker (Grep, woertlich) | Traegt |
 |-------------------------|--------|
 | `### Pane-Ausfuehrung` | Vorbedingungen, Start-Sequenz, Rueckweg, Abschluss |
 | `### Pane-Auftrag` | Vorlagen-Muster fuer den zugestellten Text |
+| `#### Rueckweg: Ueberwachungs-Tick` | Pruefliste, Meldungsform und Angebots-Vorlage des Ueberwachungs-Ticks |
 
-**Beide Anker gefunden** → eine Statuszeile und weiter:
-`🧩 Struktur-Check: 2/2 Anker in {aufgeloeste Quelle} gefunden`
+**Alle drei Anker gefunden** → eine Statuszeile und weiter:
+`🧩 Struktur-Check: 3/3 Anker in {aufgeloeste Quelle} gefunden`
 
 **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift):
 
@@ -259,9 +260,12 @@ Alles andere — Pane-Teilung ohne Fokuswechsel, Startweg ueber die Pane-Shell s
 den Agent-Start, Erkennungs-Warten mit einem Wiederholungsversuch, Zustellung als EINE
 Nachricht — gilt unveraendert wie in der Quelle beschrieben.
 
-**Nach der Zustellung** kehrst du zur eigenen Arbeit zurueck: KEIN blockierendes Warten. Der
-Rueckweg laeuft wie beim Worker-Traeger (der Hand-off-Block erreicht diese Session von
-selbst als Eingabe) — siehe `## Rueckweg und Abschluss`.
+**Nach der Zustellung** gibst du im eigenen Chat das Ueberwachungs-Angebot aus — Vorlage
+`dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick` („Angebot"), mit `{branch}` =
+`feature/{slug}` und der Pane-ID aus der Start-Sequenz. Du startest den Tick NIE selbst; der
+Mensch entscheidet, ob er ihn tippt. Danach kehrst du zur eigenen Arbeit zurueck: KEIN
+blockierendes Warten. Der Rueckweg laeuft wie beim Worker-Traeger (der Hand-off-Block
+erreicht diese Session von selbst als Eingabe) — siehe `## Rueckweg und Abschluss`.
 
 ## Begruessungstext (Vorlage — die eine Quelle dieses Skills)
 
@@ -320,8 +324,10 @@ Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empf
 
 ## Rueckweg und Abschluss
 
-- **Rueckweg:** Es laeuft kein blockierender Warteprozess. Anlassbezogen (der Mensch fragt
-  nach dem Stand) kann der Orchestrator den Pane-Zustand lesen; ein eingetroffener
+- **Rueckweg:** Es laeuft kein blockierender Warteprozess. Den Pane-Stand liest der
+  Orchestrator anlassbezogen (der Mensch fragt „Stand?") oder getaktet, falls der Mensch den
+  angebotenen Ueberwachungs-Tick gestartet hat — Pruefliste, Meldungsregel und Selbstende:
+  `dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick`; ein eingetroffener
   WORKTREE-HANDOFF-Block (Kopfzeile als Anker) wandert per `/dtb:workflow-checkpoint` in den
   Session-Log — die Empfangsseite dort bleibt unveraendert und traegerneutral.
 - **Abschluss (Merge, Diff-Abnahme, Abbau des Arbeitsplatzes):** gehoert NICHT in diesen

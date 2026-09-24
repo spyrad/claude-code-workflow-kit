@@ -224,7 +224,9 @@ Hand-off-Block statt eines Reports.
 > Laufzeit (statt sie zu kopieren) und greppt auf den Sektions-Titel `### Pane-Ausfuehrung`
 > (Struktur-Check). Aenderungen an Sequenz oder Titel → `skills/dtb-pane-start/SKILL.md`
 > mitziehen. Dessen bewusste Abweichungen (Branch `feature/{slug}`, Begruessungstext statt
-> Auftrag) stehen dort — Herdr-Kommandos werden weiterhin NUR hier korrigiert.
+> Auftrag) stehen dort — Herdr-Kommandos werden weiterhin NUR hier korrigiert. Zweiter
+> Leser: `dtb:pane-start` bietet den `#### Rueckweg: Ueberwachungs-Tick` dieser Sektion an
+> und prueft dessen Titel als eigenen Anker.
 
 **`{default-branch}`** bezeichnet in dieser Sektion den Zielbranch des Haupt-Checkouts:
 `parallel.default_branch` aus `workflow.config.yaml`, falls gesetzt; sonst der aktuelle
@@ -292,6 +294,103 @@ Zeit gegen `worker.max_minutes`. Drei Ausgaenge:
 - **(c) Zeit ueber `worker.max_minutes`** → wie (b): Pane lesen, melden, Mensch
   entscheidet. **KEIN Auto-Stopp** — ein Abbruch wuerfe moeglicherweise fast fertige
   Arbeit weg, und die Pane ist ja sichtbar (der Vorteil dieses Traegers)
+
+#### Rueckweg: Ueberwachungs-Tick
+
+> **Kopplungs-Hinweis:** `dtb:pane-start` bietet diesen Tick nach seiner Zustellung an,
+> verweist hierher und greppt auf den Titel `#### Rueckweg: Ueberwachungs-Tick`
+> (Struktur-Check). Umbenennung oder Umbau → `skills/dtb-pane-start/SKILL.md` mitziehen.
+> Signal 2 (Worktree-Stand) ist aus `DERIVED_STATE_RULES.md` §10.2 **gespiegelt** — die
+> Regel-Datei ist Klasse-B-Seed und fehlt in Bestandsprojekten mit altem Seed (INBOX #22);
+> Aenderung dort → hier mitziehen (der Gegen-Hinweis steht in §10).
+
+Der Tick ist die **getaktete** Form der anlassbezogenen Pruefung aus
+`#### Rueckweg: Warten ohne Warten`: dieselben Fragen in festen Abstaenden statt auf
+Nachfrage — nicht blockierend, rein lesend. Er gilt fuer beide Pane-Arbeitsplaetze: diesen
+Traeger (`task/{slug}`, `.dtb-worktrees/worker-{slug}`) und `dtb:pane-start`
+(`feature/{slug}`, `.dtb-worktrees/pane-{slug}`). Jeder Tick liest diese Sektion aus der
+installierten Kopie `~/.claude/skills/dtb-worker/SKILL.md` (Fallback:
+`skills/dtb-worker/SKILL.md` im Projekt-Root).
+
+**Parameter je beobachteter Pane:** `{pane-id}`, `{branch}`, `{worktree-pfad}`, `{slug}`.
+**Mehrere Panes eines Laufs** (Warteschlange) → EIN Tick prueft alle — die Kosten je Takt
+fallen einmal an statt N-mal; der Loop-Befehl traegt die Pane-Liste.
+
+**Pruefliste je Pane (nur lesen — der Tick schreibt nichts, startet nichts, stoppt nichts):**
+
+1. **Pane-Zustand:** `herdr agent get {pane-id}` → `agent_status` (`idle` / `working` /
+   `blocked` / `done` / `unknown`). Fehler `agent_not_found` (Exit 1) heisst **Pane weg** —
+   gilt fuer geschlossene Panes UND fuer Panes, deren Session beendet ist und in denen nur
+   noch die Shell laeuft (beides belegt 2026-09-24)
+2. **Worktree-Stand** (Format gespiegelt aus DSR §10.2; nur die Lese-Kommandos aus §10.4):
+   - Commits vor dem Hauptbranch: `git rev-list --count {default-branch}..{branch}`, Datum des
+     letzten: `git log -1 --format=%cs {branch}`
+   - uncommitted: Zahl der Zeilen aus `git -C {worktree-pfad} status --porcelain`
+   - Fortschritt, im Worktree-Pfad gelesen: `{config.paths.workflows}/features/{slug}/plan.md`
+     → `## Progress` → `Progress X/Y` · sonst `task.md` → `## Schritte` → `Schritte X/Y` ·
+     sonst `—`
+3. **Hand-off:** Ist seit dem letzten Tick ein Block mit der Kopfzeile
+   `WORKTREE-HANDOFF (dtb) — …` fuer `{slug}` in dieser Session eingetroffen? (Der Push
+   erreicht die Session von selbst als Eingabe.)
+
+**Meldungsregel — nur bei Aenderung:** Vergleichsbasis ist die letzte Tick-Zeile zu dieser
+Pane im Gespraechsverlauf, KEINE Zustandsdatei (sie waere eine Zustandsaussage ohne
+Pfleger). Der erste Tick zeigt je Pane die volle Zeile; danach erzeugt nur eine geaenderte
+Pane eine Zeile, geaenderte Felder als `alt → neu`. Keine Aenderung → keine Ausgabe. Nach
+einer Kontext-Komprimierung kann eine Zeile doppelt erscheinen — harmlos, kein Befund.
+
+**Ausgaenge:**
+
+| Befund | Tick-Verhalten |
+|--------|----------------|
+| Hand-off eingetroffen | Ende-Zeile; die Pane scheidet aus. Weiter mit `#### Rueckweg: Branch-Verifikation` |
+| Pane weg (`agent_not_found`) ohne Hand-off | Ende-Zeile mit Pruef-Hinweis auf den Branch; die Pane scheidet aus |
+| `blocked` | Blockade-Zeile genau einmal, bis der Zustand wechselt — kein Eingriff, der Mensch entscheidet |
+| Laufzeit ueber `worker.max_minutes` (nur Traeger `pane` von `dtb:worker`; Startzeit aus der Zustellung im Verlauf) | genau einmal melden wie Ausgang (c) — KEIN Auto-Stopp |
+| `unknown` | als Aenderung melden, NIE als Abschluss werten (Herdr: kein Beleg fuer Fertigstellung) |
+
+**Selbstende:** Sind alle beobachteten Panes ausgeschieden (Hand-off oder Pane weg), beendet
+der Tick den wiederkehrenden Lauf selbst und sagt es in seiner letzten Zeile. Laesst sich
+der Lauf nicht aus sich heraus beenden, nennt die letzte Zeile den Stopp-Weg fuer den
+Menschen — ein Tick ohne beobachtete Pane waere ein Dauerlaeufer ohne Pfleger.
+
+**Harness-Neutralitaet:** Der Kern ist die Pruefliste. `/loop` ist nur der Vorschlag fuer
+Claude Code; die Existenz des Befehls wird NICHT abgefragt. Ohne wiederkehrenden Lauf
+(z. B. Codex CLI) gilt der Rueckfall: auf Zuruf „Stand?" die Pruefliste einmal ausfuehren und
+je Pane die volle Zeile zeigen (Meldungsform 3).
+
+**Kosten:** Jeder Tick ist ein Modellaufruf im vollen Kontext der Orchestrator-Session —
+deshalb nur auf Wunsch, Vorschlagstakt 15 Minuten (Praxisbeleg 2026-09-23: 7 Ticks,
+3 echte Eingriffe — INBOX #102).
+
+**Angebot (Vorlage — nach der Zustellung im eigenen Chat ausgeben; NIE selbst starten, der
+Mensch tippt den Befehl):**
+
+```
+🔭 Ueberwachung (optional) — {slug} ({pane-id}, {branch})
+   /loop 15m Ueberwachungs-Tick fuer {pane-id} (Branch {branch}) — Pruefliste: dtb:worker → „#### Rueckweg: Ueberwachungs-Tick"
+   Kosten: 1 Modellaufruf je Tick im vollen Kontext dieser Session. Meldet nur Aenderungen, endet selbst bei Hand-off oder Pane weg.
+   Ohne wiederkehrenden Lauf: „Stand?" fragen — dieselbe Pruefung einmal.
+```
+
+Mehrere Panes: `{pane-id} (Branch {branch})` je Pane komma-getrennt in derselben Befehlszeile.
+
+**Meldungsform** (eine Zeile je Pane; abgenommen 2026-09-24 an echten Daten):
+
+```
+(1) Aenderung
+🔭 {slug} ({pane-id}): working → idle · +1 Commit (2026-09-24) · 0 uncommitted · Progress 0/6 → 3/6
+
+(1b) Blockade (einmal, bis sich der Zustand aendert)
+🔭 {slug} ({pane-id}): ⚠ blocked — Dialog wartet → herdr pane read {pane-id}, du entscheidest
+
+(2) Ende
+🔭 {slug} ({pane-id}): Tick-Ende — Hand-off eingetroffen → Branch-Verifikation, dann /dtb:workflow-checkpoint
+🔭 {slug} ({pane-id}): Tick-Ende — Pane weg (agent_not_found), kein Hand-off gesehen → git log {default-branch}..{branch} pruefen
+
+(3) Rueckfall auf „Stand?"
+Stand {slug} ({pane-id}, {branch}): working · +0 Commits · 1 uncommitted · Progress 0/6 · kein Hand-off
+```
 
 #### Rueckweg: Branch-Verifikation (vor dem Checkpoint)
 
