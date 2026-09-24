@@ -555,7 +555,10 @@ Diese Regel macht beides beim Aufruf sichtbar — rein lesend, ohne Ueberwachung
 > **Wartungs-Hinweis (Format-Kopplung):** Kernsatz, Zeilenformat und Zustands-Tabelle sind
 > gespiegelt in `dtb:workflow-resume`, `dtb:workflow-next` und `dtb:backlog-status` (Kopie ist
 > Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22). Aenderung hier → die
-> drei Spiegel mitziehen (Grep-Anker: `In Worktrees`).
+> drei Spiegel mitziehen (Grep-Anker: `In Worktrees`). **Vierter Spiegel (nur Stand-Felder
+> aus 10.2):** `dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick` (Signal 2 der Pruefliste —
+> Commits, uncommitted, Fortschritt; eigener Grep-Anker ist der Sektionstitel, da der Tick
+> keinen `In Worktrees`-Block ausgibt).
 
 ### 10.1 Quelle & Umfang
 

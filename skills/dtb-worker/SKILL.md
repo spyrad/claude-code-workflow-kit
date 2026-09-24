@@ -19,7 +19,7 @@ pipeline:
   stage: execution
   after: [dtb:task]
   next: [dtb:workflow-checkpoint]
-  consumes: [INBOX.md, features/*/task.md, workflow.config.yaml]
+  consumes: [INBOX.md, features/*/task.md, features/*/plan.md, workflow.config.yaml, project-rules/DERIVED_STATE_RULES.md]
   produces: [features/*/worker-report.md, features/*/task.md]
 ---
 
@@ -275,16 +275,21 @@ Drift-Risiko dokumentiert; Kommandos nur hier und in der Vorlage oben):
    mehrzeilig; als EIN Argument uebergeben (die Zustellung als eine Nachricht ist
    belegt — Zustellungs-Probe 2026-08-16)
 
-Danach kehrt der Orchestrator zur eigenen Arbeit zurueck — KEIN blockierendes Warten
-(Rueckweg: naechste Sektion).
+Danach gibt der Orchestrator im eigenen Chat das Ueberwachungs-Angebot aus (Vorlage in
+`#### Rueckweg: Ueberwachungs-Tick`, `{branch}` = `task/{slug}`; bei mehreren Panes der
+Warteschlange EIN Angebot mit allen Panes) — nie selbst starten — und kehrt zur eigenen
+Arbeit zurueck: KEIN blockierendes Warten (Rueckweg: naechste Sektion).
 
 #### Rueckweg: Warten ohne Warten
 
 Der Push des Workers erreicht die Orchestrator-Session von selbst als Eingabe (belegt
 2026-08-16) — es laeuft KEIN blockierender wait-Prozess. Stattdessen prueft der
 Orchestrator **anlassbezogen** (der Mensch fragt nach dem Stand, oder die naechste
-Aufgabe soll zugeteilt werden) per `herdr agent get {pane-id}` Status und verstrichene
-Zeit gegen `worker.max_minutes`. Drei Ausgaenge:
+Aufgabe soll zugeteilt werden) **oder getaktet**, falls der Mensch den angebotenen Tick
+gestartet hat (Ablauf: naechste Untersektion `#### Rueckweg: Ueberwachungs-Tick`), per
+`herdr agent get {pane-id}` den Status und die seit der Zustellung verstrichene Zeit gegen
+`worker.max_minutes` (die Antwort traegt kein Zeitfeld — die Startzeit steht als Zeitpunkt
+der Zustellung im Verlauf; belegt 2026-09-24). Drei Ausgaenge:
 
 - **(a) WORKTREE-HANDOFF-Block trifft ein** (Kopfzeile erkannt) → Branch-Verifikation
   (naechster Abschnitt)

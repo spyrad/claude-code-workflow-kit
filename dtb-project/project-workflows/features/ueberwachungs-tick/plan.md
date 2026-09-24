@@ -189,12 +189,12 @@ ihm, und ein echter Lauf belegt Stille, Meldung und Selbstende.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Beispiel-Tick-Meldung
-- [x] 1.2 worker-Untersektion Tick
-- [x] 1.3 pane-start Angebot + Struktur-Check
-- [ ] 2.1 worker-Anbindung
-- [ ] 2.2 Doku + Sweep
-- [ ] 2.3 Wirklauf
+- [x] 1.1 Beispiel-Tick-Meldung — `083ee1c`
+- [x] 1.2 worker-Untersektion Tick — `083ee1c`
+- [x] 1.3 pane-start Angebot + Struktur-Check — `083ee1c`
+- [x] 2.1 worker-Anbindung
+- [x] 2.2 Doku + Sweep
+- [x] 2.3 Wirklauf
 
 ---
 
