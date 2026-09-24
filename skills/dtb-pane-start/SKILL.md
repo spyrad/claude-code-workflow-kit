@@ -233,7 +233,7 @@ bliebe unbemerkt:
    ```
 
 > **Benanntes Restrisiko:** Der Check prueft Anker-EXISTENZ, nicht Sequenz-INHALT. Gegen
-> inhaltliche Drift verteidigen die Kopplungs-Hinweise in den beiden Sektionen von
+> inhaltliche Drift verteidigen die Kopplungs-Hinweise in den drei Sektionen von
 > `dtb:worker` — bei Aenderungen dort muss dieser Skill mitgezogen werden.
 
 ## Herdr-Mechanik (referenziert, nicht dupliziert)

@@ -19,7 +19,7 @@ pipeline:
   stage: execution
   after: [dtb:task]
   next: [dtb:workflow-checkpoint]
-  consumes: [INBOX.md, features/*/task.md, features/*/plan.md, workflow.config.yaml, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [INBOX.md, features/*/task.md, features/*/plan.md, workflow.config.yaml]
   produces: [features/*/worker-report.md, features/*/task.md]
 ---
 

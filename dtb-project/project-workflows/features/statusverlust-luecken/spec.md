@@ -101,13 +101,13 @@ Offene Aufgaben / Naechste Schritte, Change im Worktree.
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] Eine Idee `Ausgearbeitet` ohne gueltigen Change-Link wird von `dtb:archive` nicht archiviert, sondern gemeldet; `dtb:project-health` meldet sie fuer `spec.md` und `task.md`; `dtb:workflow-next` fuehrt sie als offen
-- [ ] Jeder Punkt, der aus den Offenen Aufgaben wegfaellt, hat im Session-Log genau einen Vermerk (`erledigt` / `verworfen: {Grund}` / `aufgegangen in …`) — kein Punkt verschwindet ohne Spur
-- [ ] Jeder offene Punkt traegt ein `seit`-Datum, das ueber Checkpoints hinweg unveraendert bleibt; ab Schwelle erscheint ⏳ mit genau einer Entscheidung je Schwelle
-- [ ] `dtb:workflow-next`, `-resume` und `dtb:backlog-status` zeigen jeden zusaetzlichen Worktree (pane, worker Pane-/Subagent-Traeger, manuell) mit Art, Stand, uncommitteten Aenderungen und Fortschritt; gemergte als „aufraeumen" — ohne einen Worktree zu beschreiben
-- [ ] Abnahme-Lauf: ein vom Abnahme-Lauf selbst angelegter Wegwerf-Worktree erscheint in der Worktree-Sicht aus dem Haupt-Checkout heraus korrekt (auch nach Merge als „aufraeumen")
-- [ ] Die Luecken-Schliessungen wirken auch mit einer alten `DERIVED_STATE_RULES.md`-Kopie (operative Kopie im Skill); ein Nicht-Git-Projekt zeigt keinen Worktree-Block und keinen Fehler
-- [ ] Nutzer-Test: ein Checkpoint mit umformuliertem, zusammengelegtem und verworfenem Punkt erzeugt die richtigen Vermerke und uebernimmt das aelteste Datum
+- [x] Eine Idee `Ausgearbeitet` ohne gueltigen Change-Link wird von `dtb:archive` nicht archiviert, sondern gemeldet; `dtb:project-health` meldet sie fuer `spec.md` und `task.md`; `dtb:workflow-next` fuehrt sie als offen
+- [x] Jeder Punkt, der aus den Offenen Aufgaben wegfaellt, hat im Session-Log genau einen Vermerk (`erledigt` / `verworfen: {Grund}` / `aufgegangen in …`) — kein Punkt verschwindet ohne Spur
+- [x] Jeder offene Punkt traegt ein `seit`-Datum, das ueber Checkpoints hinweg unveraendert bleibt; ab Schwelle erscheint ⏳ mit genau einer Entscheidung je Schwelle
+- [x] `dtb:workflow-next`, `-resume` und `dtb:backlog-status` zeigen jeden zusaetzlichen Worktree (pane, worker Pane-/Subagent-Traeger, manuell) mit Art, Stand, uncommitteten Aenderungen und Fortschritt; gemergte als „aufraeumen" — ohne einen Worktree zu beschreiben
+- [x] Abnahme-Lauf: ein vom Abnahme-Lauf selbst angelegter Wegwerf-Worktree erscheint in der Worktree-Sicht aus dem Haupt-Checkout heraus korrekt (auch nach Merge als „aufraeumen")
+- [x] Die Luecken-Schliessungen wirken auch mit einer alten `DERIVED_STATE_RULES.md`-Kopie (operative Kopie im Skill); ein Nicht-Git-Projekt zeigt keinen Worktree-Block und keinen Fehler
+- [ ] Nutzer-Test: ein Checkpoint mit umformuliertem, zusammengelegtem und verworfenem Punkt erzeugt die richtigen Vermerke und uebernimmt das aelteste Datum — offen: echter Checkpoint 2026-09-24 S2 (Nutzerentscheid)
 
 ---
 

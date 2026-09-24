@@ -58,7 +58,7 @@ in 7 Ticks 3 echte Eingriffe (#102).
 
 ### Referenz-Dokumente
 - `features/ueberwachungs-tick/discovery.md` - betroffene Module, Randfaelle
-- `dtb-project/project-rules/DERIVED_STATE_RULES.md` §10 - Worktree-Stand (Signalquelle, per Verweis)
+- `dtb-project/project-rules/DERIVED_STATE_RULES.md` §10 - Worktree-Stand (Signalquelle — *ueberholt 2026-09-24: autark gespiegelt in `dtb:worker`, kein Laufzeit-Verweis — #22*)
 - `dtb-project/project-workflows/INBOX-BEFUNDE.md` #102 - Praxisbeleg des Probelaufs 2026-09-23
 
 ---

@@ -69,7 +69,7 @@
 - Kosten: jeder Tick ist ein Modellaufruf im vollen Orchestrator-Kontext — steht im Angebot
 
 ### Integrationspunkte
-- DSR §10.2/§10.4 (Worktree-Stand, erlaubte Lese-Kommandos) — per Verweis
+- DSR §10.2/§10.4 (Worktree-Stand, erlaubte Lese-Kommandos) — per Verweis *(ueberholt 2026-09-24: autark gespiegelt in `dtb:worker`, kein Laufzeit-Verweis auf den Klasse-B-Seed — #22)*
 - `dtb:workflow-checkpoint` → `### Hand-off-Block` (Kopfzeile als Erkennungsanker) — unveraendert
 - worker `#### Rueckweg: Branch-Verifikation` folgt beim Hand-off wie bisher
 
