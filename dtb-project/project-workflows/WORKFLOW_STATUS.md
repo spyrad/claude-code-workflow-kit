@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-09-23
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-23.md`
+**Letztes Update:** 2026-09-24
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-09/2026-09-24.md`
 
 ---
 
@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| statusverlust-luecken | Fertig zum Testen | 21/21 | `/dtb:kit-sync sync`, dann Abnahme |
+| statusverlust-luecken | Fertig zum Testen | 21/21 | Abnahme |
+| ueberwachungs-tick | Abgenommen | 6/6 | `/dtb:archive` |
 | rueckfragen-erhebung (Task) | Abgenommen | 6/6 | `/dtb:archive` — bewusst zurueckgestellt bis nach Station 2 |
 
 ---
@@ -19,23 +20,25 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | Bis Merge + Push + `kit-sync` laeuft die ALTE Checkpoint-Fassung (ohne Aufgaben-Vergleich/seit-Daten) |
+| **Notizen** | Kit-Sync aktuell (Lock `e805278`, 49/49); Arbeitsplatz `pane-ueberwachungs-tick` steht noch |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **statusverlust-luecken ausrollen** — Kontext: gemergt + gepusht 2026-09-23; `/dtb:kit-sync sync` ausstehend (L39)
-- [ ] **Pane-Arbeitsplatz #95 abbauen** — Kontext: nach dem Merge `/exit` in `w3:pB`, `git worktree remove ../.dtb-worktrees/pane-statusverlust-luecken`, Branch loeschen
-- [ ] **Abnahme statusverlust-luecken** — Kontext: Belege `probelaeufe.md`, `review.md`
-- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: Start bei #97 (zusammenlegen mit #95 oder verwerfen; Praxisbeleg jetzt in #102)
-- [ ] **TypeSafe-Key rotieren (optional)** — Kontext: Key ist ueber die „file changed"-Meldung in den Session-Verlauf geraten (L71)
-- [ ] **INBOX #57/#97 um den Ergebnis-Stand ergaenzen** — Kontext: beide tragen nur den Hin-Verweis auf `task.md`, nicht das Ergebnis von Station 1
-- [ ] **Station 2 starten** — Kontext: 11 Policy-Zeilen in ~8 Skill-Dateien; Voll-Schiene statt `feature-fast` (L70)
-- [ ] **`/dtb:archive rueckfragen-erhebung`** — Kontext: erst NACH Station 2, `erhebung.md` ist bis dahin die Vorgabe
-- [ ] **`/dtb:idea-triage`** — Kontext: 48 ungesichtet (neu: #102); #70/#54 vorher von bare Pipes befreien
-- [ ] **Veraltete TTS-Dateien loeschen + Sprachausgabe einrichten** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1` (L58)
-- [ ] **Fremder Ordner `..\.dtb-worktrees\pane-artikel-sdd-was-ist-das`** — Kontext: laut Pane-Befund inzwischen ohne Vermerk verschwunden — pruefen und Punkt schliessen
+- [ ] **Arbeitsplatz ueberwachungs-tick abbauen** — Kontext: `/exit` in `w3:pA`, `git worktree remove ../.dtb-worktrees/pane-ueberwachungs-tick`, `git branch -d feature/ueberwachungs-tick`, Testdatei `Desktop/tick-wirklauf-test.txt` loeschen (seit 2026-09-24)
+- [ ] **`/dtb:archive ueberwachungs-tick`** — Kontext: abgenommen 2026-09-24 (seit 2026-09-24)
+- [ ] **Nacharbeit ueberwachungs-tick** — Kontext: 2 nits (worker `consumes` nennt DSR; pane-start:234 „beiden Sektionen") + discovery/spec-Satz „DSR per Verweis" ueberholt (seit 2026-09-24)
+- [ ] **Tick-Schritt 0 beobachten** — Kontext: Pane-Ermittlung ohne ID ist ungetestet, Wirklauf lief mit fester Pane-ID (seit 2026-09-24)
+- [ ] **2 Lesson-Kandidaten** — Kontext: `agent_not_found` = geschlossene Pane UND beendete Session; `blocked` per AskUserQuestion provozierbar (seit 2026-09-24)
+- [ ] **Abnahme statusverlust-luecken** — Kontext: Belege `probelaeufe.md`, `review.md` (seit ≤2026-09-23)
+- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 8 offene Ideen, #97 erledigt; Jev-Schattenbetrieb optional weiterfuehren (#103) (seit ≤2026-09-23)
+- [ ] **TypeSafe-Key rotieren (optional)** — Kontext: Key ist ueber die „file changed"-Meldung in den Session-Verlauf geraten (L71) (seit ≤2026-09-23)
+- [ ] **INBOX #57/#97 um den Ergebnis-Stand ergaenzen** — Kontext: beide tragen nur den Hin-Verweis auf `task.md`, nicht das Ergebnis von Station 1 (seit ≤2026-09-23)
+- [ ] **Station 2 starten** — Kontext: 11 Policy-Zeilen in ~8 Skill-Dateien; Voll-Schiene statt `feature-fast` (L70) (seit ≤2026-09-21)
+- [ ] **`/dtb:archive rueckfragen-erhebung`** — Kontext: erst NACH Station 2, `erhebung.md` ist bis dahin die Vorgabe (seit ≤2026-09-22)
+- [ ] **`/dtb:idea-triage`** — Kontext: 50 ungesichtet (neu: #103, #104); #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-09-24)
+- [ ] **Veraltete TTS-Dateien loeschen + Sprachausgabe einrichten** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1` (L58) (seit ≤2026-09-11 · behalten 2026-09-24)
 
 ---
 
@@ -43,10 +46,11 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-09-23 | statusverlust-luecken umgesetzt (#95) | 21/21 in 4 Phasen per Pane-Session, impl-review 10/10 FIXED; erster Durchlauf pane-start → Hand-off mit `/loop`-Rueckkanal; L74–L77 | `2026-09/2026-09-23.md` |
-| 2026-09-23 | TypeSafe-Anbindung getestet (#99) | HTTP 200, `jev-latest` = `jev-1.13.0`; Plugin v0.5.7 installiert; L71–L73 | `2026-09/2026-09-23.md` |
-| 2026-09-22 | Station 1 Autonomie-Achse abgeschlossen | 17 Rueckfrage-Typen entschieden; Task abgenommen (`eb9c982`, `63973ae`) | `2026-09/2026-09-22.md` |
-| 2026-09-21 | Station 1: Erhebung per Worker | 16 Rueckfrage-Typen ausgezaehlt (`c946bf5`) | `2026-09/2026-09-21.md` |
+| 2026-09-24 | Ueberwachungs-Tick umgesetzt + abgenommen (#97) | 6/6 per Pane-Session, Wirklauf mit Selbstende, impl-review 10/10 FIXED, gemergt `e805278`, kit-sync | `2026-09/2026-09-24.md` |
+| 2026-09-24 | Jev erstmals im Schattenbetrieb (#99) | Konfidenz schuetzt nicht vor fehlendem Kontext (L78) → #103 | `2026-09/2026-09-24.md` |
+| 2026-09-23 | statusverlust-luecken umgesetzt (#95) | 21/21 per Pane-Session, impl-review 10/10 FIXED; L74–L77 | `2026-09/2026-09-23.md` |
+| 2026-09-23 | TypeSafe-Anbindung getestet (#99) | HTTP 200, `jev-latest` = `jev-1.13.0`; L71–L73 | `2026-09/2026-09-23.md` |
+| 2026-09-22 | Station 1 Autonomie-Achse abgeschlossen | 17 Rueckfrage-Typen entschieden; Task abgenommen | `2026-09/2026-09-22.md` |
 
 ---
 
@@ -58,6 +62,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:kit-sync sync`
+**Naechster Befehl:** `/dtb:archive ueberwachungs-tick`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 48 ungesichtet → /dtb:idea-triage
+**Becken:** 50 ungesichtet → /dtb:idea-triage

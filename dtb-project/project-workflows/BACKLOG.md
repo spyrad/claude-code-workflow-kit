@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-23 (Checkpoint: `statusverlust-luecken` Fertig zum Testen)
+**Letzte Aktualisierung:** 2026-09-24 (Checkpoint: `ueberwachungs-tick` Abgenommen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -13,6 +13,7 @@
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
 | Statusverlust-Luecken schliessen | Fertig zum Testen | Hoch | features/statusverlust-luecken/spec.md | Status jeder Aufgabe ueber die ganze Lebensdauer eindeutig festhalten — nichts verschwindet unbemerkt aus allen Sichten (INBOX #95) |
+| Ueberwachungs-Tick | Abgenommen | Mittel | features/ueberwachungs-tick/spec.md | Orchestrator bemerkt Fortschritt, Blockaden und Ende einer Pane-Session ohne Nachfragen oder blockierendes Warten (INBOX #97) |
 
 ---
 

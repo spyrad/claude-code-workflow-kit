@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-24
 **Ziel:** Der Orchestrator bemerkt Fortschritt, Blockaden und das Ende einer Pane-Session, ohne nachfragen oder blockierend warten zu muessen.
 **Prioritaet:** Mittel <!-- per Veto-Vorlage bestaetigt 2026-09-24 -->
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
