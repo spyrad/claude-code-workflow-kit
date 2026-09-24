@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-23
 **Ziel:** Der Status jeder Aufgabe wird ueber ihre gesamte Lebensdauer eindeutig festgehalten — nichts verschwindet mehr unbemerkt aus allen Sichten.
 **Prioritaet:** Hoch <!-- Quelle: dtb:idea-rank 2026-09-17, #95 🟠 mittel-hoch, Rang 1 der offenen Ideen -->
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -107,7 +107,7 @@ Offene Aufgaben / Naechste Schritte, Change im Worktree.
 - [x] `dtb:workflow-next`, `-resume` und `dtb:backlog-status` zeigen jeden zusaetzlichen Worktree (pane, worker Pane-/Subagent-Traeger, manuell) mit Art, Stand, uncommitteten Aenderungen und Fortschritt; gemergte als „aufraeumen" — ohne einen Worktree zu beschreiben
 - [x] Abnahme-Lauf: ein vom Abnahme-Lauf selbst angelegter Wegwerf-Worktree erscheint in der Worktree-Sicht aus dem Haupt-Checkout heraus korrekt (auch nach Merge als „aufraeumen")
 - [x] Die Luecken-Schliessungen wirken auch mit einer alten `DERIVED_STATE_RULES.md`-Kopie (operative Kopie im Skill); ein Nicht-Git-Projekt zeigt keinen Worktree-Block und keinen Fehler
-- [ ] Nutzer-Test: ein Checkpoint mit umformuliertem, zusammengelegtem und verworfenem Punkt erzeugt die richtigen Vermerke und uebernimmt das aelteste Datum — offen: echter Checkpoint 2026-09-24 S2 (Nutzerentscheid)
+- [x] Nutzer-Test: ein Checkpoint mit umformuliertem, zusammengelegtem und verworfenem Punkt erzeugt die richtigen Vermerke und uebernimmt das aelteste Datum — bestanden im echten Checkpoint 2026-09-24 S2
 
 ---
 
