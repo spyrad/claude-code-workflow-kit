@@ -10,7 +10,6 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 | statusverlust-luecken | Fertig zum Testen | 21/21 | Abnahme |
-| ueberwachungs-tick | Abgenommen | 6/6 | `/dtb:archive` |
 | rueckfragen-erhebung (Task) | Abgenommen | 6/6 | `/dtb:archive` — bewusst zurueckgestellt bis nach Station 2 |
 
 ---
@@ -20,7 +19,7 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | Kit-Sync aktuell (Lock `e805278`, 49/49); Arbeitsplatz `pane-ueberwachungs-tick` steht noch |
+| **Notizen** | Kit-Sync aktuell (Lock `e805278`, 49/49); ueberwachungs-tick archiviert 2026-09-24 |
 
 ---
 
@@ -62,6 +61,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive ueberwachungs-tick`
+**Naechster Befehl:** — offen — (mit /dtb:workflow-next bestimmen)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 50 ungesichtet → /dtb:idea-triage

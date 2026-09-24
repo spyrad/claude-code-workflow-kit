@@ -13,7 +13,6 @@
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
 | Statusverlust-Luecken schliessen | Fertig zum Testen | Hoch | features/statusverlust-luecken/spec.md | Status jeder Aufgabe ueber die ganze Lebensdauer eindeutig festhalten — nichts verschwindet unbemerkt aus allen Sichten (INBOX #95) |
-| Ueberwachungs-Tick | Abgenommen | Mittel | features/ueberwachungs-tick/spec.md | Orchestrator bemerkt Fortschritt, Blockaden und Ende einer Pane-Session ohne Nachfragen oder blockierendes Warten (INBOX #97) |
 
 ---
 
