@@ -192,9 +192,9 @@ ihm, und ein echter Lauf belegt Stille, Meldung und Selbstende.
 - [x] 1.1 Beispiel-Tick-Meldung — `083ee1c`
 - [x] 1.2 worker-Untersektion Tick — `083ee1c`
 - [x] 1.3 pane-start Angebot + Struktur-Check — `083ee1c`
-- [x] 2.1 worker-Anbindung
-- [x] 2.2 Doku + Sweep
-- [x] 2.3 Wirklauf
+- [x] 2.1 worker-Anbindung — `3918193`
+- [x] 2.2 Doku + Sweep — `3918193`
+- [x] 2.3 Wirklauf — `3918193`
 
 ---
 

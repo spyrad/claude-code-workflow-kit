@@ -200,13 +200,15 @@ Kopie `~/.claude/skills/dtb-worker/SKILL.md`, sonst Fallback auf `skills/dtb-wor
 im Projekt-Root (Kit-Repo-Fall).
 
 **Anker-Grep** (zeilenende-normalisiert — `tr -d '\r'` vorschalten, nie `$`-Anker gegen den
-Rohtext) auf alle drei Anker:
+Rohtext) auf alle drei Anker, jeweils **am Zeilenanfang** verankert (`^### …` / `^#### …`) —
+sonst zaehlen Erwaehnungen in Prosa und Vorlagen mit, und eine umbenannte Ueberschrift
+bliebe unbemerkt:
 
-| Anker (Grep, woertlich) | Traegt |
-|-------------------------|--------|
-| `### Pane-Ausfuehrung` | Vorbedingungen, Start-Sequenz, Rueckweg, Abschluss |
-| `### Pane-Auftrag` | Vorlagen-Muster fuer den zugestellten Text |
-| `#### Rueckweg: Ueberwachungs-Tick` | Pruefliste, Meldungsform und Angebots-Vorlage des Ueberwachungs-Ticks |
+| Anker (Grep, woertlich, Zeilenanfang) | Traegt |
+|---------------------------------------|--------|
+| `^### Pane-Ausfuehrung` | Vorbedingungen, Start-Sequenz, Rueckweg, Abschluss |
+| `^### Pane-Auftrag` | Vorlagen-Muster fuer den zugestellten Text |
+| `^#### Rueckweg: Ueberwachungs-Tick` | Pruefliste, Meldungsform und Angebots-Vorlage des Ueberwachungs-Ticks |
 
 **Alle drei Anker gefunden** → eine Statuszeile und weiter:
 `🧩 Struktur-Check: 3/3 Anker in {aufgeloeste Quelle} gefunden`
@@ -261,8 +263,10 @@ den Agent-Start, Erkennungs-Warten mit einem Wiederholungsversuch, Zustellung al
 Nachricht — gilt unveraendert wie in der Quelle beschrieben.
 
 **Nach der Zustellung** gibst du im eigenen Chat das Ueberwachungs-Angebot aus — Vorlage
-`dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick` („Angebot"), mit `{branch}` =
-`feature/{slug}` und der Pane-ID aus der Start-Sequenz. Du startest den Tick NIE selbst; der
+`dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick` („Angebot"), Kopfzeile mit dem tatsaechlich
+angelegten Branch (Regel `feature/{slug}`, abweichend, falls in 1c.2 anders entschieden) und
+der Pane-ID aus der Start-Sequenz; laeuft schon ein Tick, nur die Kopfzeile (der Tick findet
+die neue Pane selbst). Du startest den Tick NIE selbst; der
 Mensch entscheidet, ob er ihn tippt. Danach kehrst du zur eigenen Arbeit zurueck: KEIN
 blockierendes Warten. Der Rueckweg laeuft wie beim Worker-Traeger (der Hand-off-Block
 erreicht diese Session von selbst als Eingabe) — siehe `## Rueckweg und Abschluss`.
