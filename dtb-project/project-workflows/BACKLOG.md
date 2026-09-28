@@ -12,7 +12,6 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Statusverlust-Luecken schliessen | Abgenommen | Hoch | features/statusverlust-luecken/spec.md | Status jeder Aufgabe ueber die ganze Lebensdauer eindeutig festhalten — nichts verschwindet unbemerkt aus allen Sichten (INBOX #95) |
 
 ---
 

@@ -9,7 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| statusverlust-luecken | Abgenommen | 21/21 | `/dtb:archive` |
 | rueckfragen-erhebung (Task) | Abgenommen | 6/6 | `/dtb:archive` — bewusst zurueckgestellt bis nach Station 2 |
 
 ---
