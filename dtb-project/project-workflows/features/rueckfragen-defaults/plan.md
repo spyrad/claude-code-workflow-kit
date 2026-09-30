@@ -304,10 +304,10 @@ Der neue Text erzeugt selbst keine neuen Schein-Rueckfragen und keine unsichtbar
 - [x] 2.2 Backlog feature-plan + feature-fast — `d2e8880`
 - [x] 2.3 Slug-Vorschlag + Namensregel — `d2e8880`
 - [x] 2.4 Scan-Bestaetigung discover + impl-plan — `d2e8880`
-- [ ] 3.1 plan-review Direkteinstieg
-- [ ] 3.2 Lektion-Vormerkung (+ lesson, no-loss-check)
-- [ ] 3.3 impl-review Sammelliste
-- [ ] 3.4 feature-start ohne Bereit
+- [x] 3.1 plan-review Direkteinstieg
+- [x] 3.2 Lektion-Vormerkung (+ lesson, no-loss-check)
+- [x] 3.3 impl-review Sammelliste
+- [x] 3.4 feature-start ohne Bereit
 - [ ] 4.1 Staging + Commit-Message Knopf
 - [ ] 4.2 Manual-Gate Auswahl
 - [ ] 4.3 Naechste Phase Schwelle

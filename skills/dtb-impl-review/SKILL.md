@@ -21,7 +21,8 @@ pipeline:
 Du reviewst ein **umgesetztes Feature** entlang drei Dimensionen — **Plan-Drift** (mechanischer
 Plan↔Code-Abgleich), **Craft** (Handwerks-Urteil aus zwei destillierten Reviewer-Linsen) und
 **Rules** (Abgleich gegen Projekt-Richtlinien). Ergebnis ist ein Report mit sechs Verdikt-Achsen,
-persistiert als `features/{slug}/review.md`, mit interaktiver Triage pro Finding.
+persistiert als `features/{slug}/review.md`, mit interaktiver Triage (schwere Findings einzeln,
+die uebrigen als eine vorbelegte Sammelliste).
 
 Anders als das abgeloeste `code-review` prueft dieser Skill nicht nur Rules, sondern auch ob der
 Code dem **Plan** folgt und ob er **handwerklich** traegt. Er fuehrt **keine** Verifikations-Laeufe
@@ -332,15 +333,43 @@ laeuft — der gespeicherte Stand ersetzt den frueheren Chat-Marker-Resume.
 
 ## Schritt 9: Triage-Loop + Lektion-Anschluss
 
-Findings entscheidbar machen — pro Finding in **Severity-Reihenfolge** eine `AskUserQuestion`:
+Findings entscheidbar machen — in **zwei Durchgaengen**. Grund: 94 % der Findings wurden in
+bisherigen Triagen wie vorgeschlagen gefixt; eine Einzelfrage je Finding kostet dort
+Aufmerksamkeit ohne Informationsgewinn. Die schweren bleiben einzeln.
 
-1. **Fix anwenden** — Vorschau des Edits zeigen, dann anwenden (nur nach expliziter Wahl —
-   nie stiller Auto-Fix). `Decision: FIXED`.
+**Abgrenzung (mechanisch, aus vorhandenen Feldern):** **Einzel-Finding** = `S:Hoch` ODER
+Finding aus einer Achse mit Verdikt **FAIL** (Tabelle „Verdikt-Achsen"). Alle anderen =
+**Sammel-Findings**. Kein neues Feld im `review.md`-Format.
+
+**Durchgang 1 — Einzel-Findings**, je Finding in **Severity-Reihenfolge** eine `AskUserQuestion`:
+
+1. **Fix anwenden** — Vorschau des Edits zeigen, dann anwenden (nur nach expliziter Wahl).
+   `Decision: FIXED`.
 2. **Anders fixen** — Nutzer beschreibt den Fix; anwenden wie gewaehlt. `Decision: FIXED`.
 3. **Skip** — unveraendert lassen. `Decision: SKIPPED`.
 4. **Als Lektion erfassen** — Context/Problem aus dem Finding **vorbefuellen** und an
    `/dtb:lesson` uebergeben (`Applies-to: impl-review`). Danach **Pflicht-Rueckfrage**
    „Fix trotzdem anwenden?" (Lektion ≠ Fix). `Decision: LESSON` (+ ggf. `FIXED`).
+
+**Durchgang 2 — Sammel-Findings als EINE Liste** (entfaellt, wenn es keine gibt). Alle
+nummeriert, je Zeile ID, Severity, Befund (1 Zeile) und geplanter Fix (1 Zeile), alle auf Fix
+vorbelegt — dann EINE `AskUserQuestion`:
+
+```
+{K} weitere Findings — alle werden wie vorgeschlagen gefixt:
+ 1. F{n} [S:{…}] {Befund}
+        → {Fix}
+ …
+```
+
+- **Alle uebernehmen (Vorschlag)** → jeden Fix anwenden, je Finding `Decision: FIXED`
+- **Nummern streichen** → danach Freitext, z.B. `3, 7` (gestrichen = `SKIPPED`) oder `7 Lektion`
+  (→ wie Option 4 oben); die uebrigen wie „Alle uebernehmen"
+- **Einzeln durchgehen** → Durchgang 1 fuer jedes Sammel-Finding
+
+**Nie ohne sichtbare Liste:** kein Fix wird angewendet, der nicht vorher in Durchgang 1 als
+Vorschau oder in Durchgang 2 als Listenzeile zu sehen war.
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z13.)
 
 Jede Entscheidung aktualisiert sofort das `Decision:`-Feld in `review.md`. Nach dem letzten
 Finding eine **Abschluss-Summary**: `{X} Fixed · {Y} Lesson · {Z} Skipped`.

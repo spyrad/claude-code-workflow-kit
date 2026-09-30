@@ -87,6 +87,11 @@ Stufe erzeugt Verdachtsfaelle — gefiltert wird erst in Stufe 2.
 - Eine als **allgemein erkannte Regel** („kuenftig zuerst X pruefen", „nie wieder Y ohne Z")
 - Eine **Korrektur, die beim zweiten Mal Zeit gespart haette** — der Umweg ist erkannt, aber nur
   im Gespraech beschrieben
+- Eine **Vormerk-Zeile** `💡 Lektion-Kandidat vorgemerkt: „{Regel}" → wird beim Checkpoint erfasst`
+  (von `impl-plan`/`debug-plan` statt einer Rueckfrage ausgegeben) — **immer** ein Kandidat mit
+  genau diesem Regeltext, nie nach Ermessen verworfen; in Stufe 2 faellt er nur durch einen
+  Treffer in `lessons.md` weg und gehoert sonst in die Gruppe **„Vor dem Checkpoint erledigen"**
+  (er lebt nur im Gespraech, und die Sammelvorlage des Checkpoints nimmt Lektionen nur aus dieser Gruppe)
 
 **Fach-Frage** — eine Frage, die ins Meeting gehoert (nicht sofort/allein beantwortbar):
 

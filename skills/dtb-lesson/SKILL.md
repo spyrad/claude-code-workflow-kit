@@ -85,9 +85,12 @@ Welche Lektion moechtest du festhalten? (Freitext — was ist passiert, was gilt
 
 ### Zwei Eingangskanaele
 1. **Manuell:** `/dtb:lesson "..."` — der bewusste Fall.
-2. **Agent-Vorschlag:** Ein anderer Skill (impl-plan/debug-plan/impl-review) hat waehrend der
-   Arbeit einen Lektion-Kandidaten erkannt und dich gefragt. Bei „ja" landet der vorgeschlagene
-   Text hier.
+2. **Agent-Vorschlag:** Ein anderer Skill hat waehrend der Arbeit einen Lektion-Kandidaten
+   erkannt. `impl-plan`/`debug-plan` fragen nicht mehr, sondern merken ihn mit der Zeile
+   `💡 Lektion-Kandidat vorgemerkt: „…" → wird beim Checkpoint erfasst` vor; erfasst wird er ueber
+   `/dtb:workflow-checkpoint` (Verlustpruefung + Sammelvorlage, die diese Schritte per Referenz
+   ausfuehrt) oder sofort per `/dtb:lesson "…"`. `impl-review` uebergibt aus der Triage
+   („Als Lektion erfassen") direkt hierher.
 
 **Immer mit Bestaetigung — nie stiller Auto-Write.** Der Skill schreibt erst, nachdem der
 strukturierte Eintrag (Schritt 2) gezeigt und bestaetigt wurde.

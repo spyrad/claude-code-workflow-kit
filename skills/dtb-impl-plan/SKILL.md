@@ -259,11 +259,16 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 Wenn dir waehrend der Planung eine nicht-offensichtliche, wiederverwendbare Erkenntnis auffaellt
 (Trigger-Frage: „Wuerde ich denselben Fehler nochmal machen, wenn das nur im Session-Log stuende?"),
-schlage sie zur Aufnahme vor — **nie stiller Auto-Write**:
+merke sie vor — **keine Rueckfrage, kein Auto-Write in `lessons.md`**. Genau eine Zeile im Chat:
 ```
-💡 Lektion-Kandidat: "{knappe Regel}". Nach lessons.md uebernehmen? (/dtb:lesson oder ja/nein)
+💡 Lektion-Kandidat vorgemerkt: „{knappe Regel}" → wird beim Checkpoint erfasst
 ```
-Bei „ja": den Text an `/dtb:lesson` uebergeben.
+Erfasst wird am Session-Ende: `/dtb:workflow-checkpoint` → Verlustpruefung (`dtb:no-loss-check`)
+fuehrt die Vormerk-Zeile als sicheren Kandidaten, der Mensch bestaetigt in der Sammelvorlage.
+Laeuft die Session in einem verlinkten Worktree (dort bricht der Checkpoint in den Hand-off ab,
+ohne Verlustpruefung), den Kandidaten in den Hand-off-Block unter „Offene Punkte" uebernehmen.
+Sofort erfassen bleibt jederzeit moeglich: `/dtb:lesson "{knappe Regel}"`.
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z16/C.)
 
 ## Verwandte Commands
 
