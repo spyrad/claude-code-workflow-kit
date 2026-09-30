@@ -322,7 +322,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30.
 
 | Z | Skill · Stelle | Frueher | Jetzt (Form) |
 |---|----------------|---------|--------------|
-| 1 | `feature-discover` Schritt 5 · `feature-fast` Schritt 3 — Slug | Optionsliste | **Textzeile**; Kollision bleibt echte Rueckfrage (§4) |
+| 1 | `feature-discover` Schritt 5 · `feature-fast` Schritt 1 Punkt 3 — Slug | discover: Optionsliste · fast: still abgeleitet | discover: **Textzeile** · fast: **keine eigene Frage** — Veto ueber die Kopfzeile `Ordner: …` der Sammelvorlage (Schritt 4); Kollision bleibt echte Rueckfrage (§4) |
 | 2 | `task` Schritt 5 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
 | 3 | `feature-plan` Schritt 10 · `feature-fast` Schritt 5.7 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
 | 7 | `plan-review` Schritt 5 — „Anpassungen? (Ja/Nein)" | Ja/Nein | bei REVISE/RETHINK **Stille Anzeige** + direkt in die Finding-Runde; bei SOUND unveraendert |

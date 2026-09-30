@@ -72,7 +72,7 @@ einer Discovery existiert — sonst wird sie uebernommen.
 vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
 `📂 Ist-Analyse aus discovery.md uebernommen ({N} Module, Pfade verifiziert)`
 
-**2b. Nicht verwertbar → Scan.** Schluesselwoerter aus der Spec → betroffene Module per Glob/Grep (read-only), Ergebnis zur Bestaetigung VOR der Planung zeigen (Muster: `feature-discover` Schritt 2 — `Codebase-Scan: {N} …` + Tabelle `| # | Pfad | Relevanz |` mit Ist-Befund + „Stimmt das so?"); auf Bestaetigung warten, Liste bereinigen.
+**2b. Nicht verwertbar → Scan.** Schluesselwoerter aus der Spec → betroffene Module per Glob/Grep (read-only), Ergebnis zur Bestaetigung VOR der Planung zeigen (Muster: `feature-discover` Schritt 2 — `Codebase-Scan: {N} …` + Tabelle `| # | Pfad | Relevanz |` mit Ist-Befund + Vorschlag mit Veto `→ weiter = Liste uebernehmen · oder Pfade nennen, die fehlen oder wegfallen`); „weiter" uebernimmt, genannte Pfade ergaenzen/streichen (neue per Glob verifizieren), dann planen.
 - **0 Treffer → Dialog, nie stumm:** aktive Frage nach den Modulen. Ausgaenge: (1) Nutzer nennt Pfade → per Glob verifizieren → uebernehmen; (2) Neubau → `## Ist-Analyse`-Zeile „keine betroffenen Bestandsmodule (Neubau)".
 - **Kappung bei 15:** nur die 15 relevantesten, Rest als Pflichtzeile „+ {M} weitere Treffer nicht gelistet" (nie still). **Priorisierung:** direkter Modul-Treffer (Schluesselwort im Pfad/Dateinamen) vor Streu-Treffer (nur im Inhalt/Doku/Tests). Viele Treffer = zu generisch → schaerfer nachscannen statt abkippen.
 

@@ -297,13 +297,13 @@ Der neue Text erzeugt selbst keine neuen Schein-Rueckfragen und keine unsichtbar
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Kanon-Sektion skills/CLAUDE.md
-- [x] 1.2 Beispielausgaben
-- [x] 1.3 Zuordnung gegenpruefen
-- [ ] 2.1 Backlog task + bug-report
-- [ ] 2.2 Backlog feature-plan + feature-fast
-- [ ] 2.3 Slug-Vorschlag + Namensregel
-- [ ] 2.4 Scan-Bestaetigung discover + impl-plan
+- [x] 1.1 Kanon-Sektion skills/CLAUDE.md — `30e64ea`
+- [x] 1.2 Beispielausgaben — `30e64ea`
+- [x] 1.3 Zuordnung gegenpruefen — `30e64ea`
+- [x] 2.1 Backlog task + bug-report
+- [x] 2.2 Backlog feature-plan + feature-fast
+- [x] 2.3 Slug-Vorschlag + Namensregel
+- [x] 2.4 Scan-Bestaetigung discover + impl-plan
 - [ ] 3.1 plan-review Direkteinstieg
 - [ ] 3.2 Lektion-Vormerkung (+ lesson, no-loss-check)
 - [ ] 3.3 impl-review Sammelliste

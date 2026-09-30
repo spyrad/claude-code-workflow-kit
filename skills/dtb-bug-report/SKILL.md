@@ -188,16 +188,25 @@ Leite einen kurzen, beschreibenden Namen aus der Bug-Beschreibung ab.
 
 ---
 
-## Schritt 5: Backlog-Eintrag anbieten
+## Schritt 5: Backlog-Eintrag (ohne Rueckfrage)
 
-Frage den Benutzer:
+Keine Frage — der Eintrag ist der Default (gleiche Datenlage wie bei `dtb:task`: „Nein" kam nur
+in Testlaeufen vor; eine BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung
+billig umkehrbar). Die Ausgabe endet mit genau einer Anzeige-Zeile:
+
 ```
 Bug gespeichert: {config.paths.workflows}/features/{slug}/bug.md
-
-Soll der Bug in BACKLOG.md eingetragen werden? (Ja/Nein)
+→ in BACKLOG.md eingetragen (Status: Offen)
 ```
 
-**Bei Ja:**
+**Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN Eintrag,
+stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
+
+**BACKLOG.md fehlt oder ist unlesbar** → kein Eintrag, kein Abbruch, genau die Zeile
+`⚠ BACKLOG.md fehlt oder ist unlesbar — kein Eintrag, weiter` (`/dtb:backlog-status` erkennt
+`features/*/bug.md` ohnehin).
+
+**Eintrag schreiben:**
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aktive Features" ein:
   `| Bug: {Bug-Name} | Offen | {Severity} | features/{slug}/bug.md | {Symptom-Einzeiler} |`
@@ -206,11 +215,7 @@ Soll der Bug in BACKLOG.md eingetragen werden? (Ja/Nein)
   gepflegt — Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
 - Aktualisiere das Datum in "Letzte Aktualisierung"
 
-**Bei Nein:**
-```
-OK, Bug nicht ins Backlog eingetragen.
-Du kannst ihn spaeter mit /dtb:backlog-status sehen (features/*/bug.md werden automatisch erkannt).
-```
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile A.)
 
 ---
 

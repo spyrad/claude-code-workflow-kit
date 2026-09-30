@@ -76,10 +76,12 @@ Codebase-Scan: {Anzahl} potenziell betroffene Dateien/Module
 | 1 | {Pfad} | {Kurzbeschreibung} |
 | ... | ... | ... |
 
-Stimmt das so? Fehlt etwas oder ist etwas irrelevant?
+→ weiter = Liste uebernehmen · oder Pfade nennen, die fehlen oder wegfallen
 ```
 
-Warte auf Benutzer-Feedback. Bereinige die Liste entsprechend.
+Die Liste ist ein **Vorschlag mit Veto** (Textzeile): „weiter" uebernimmt sie unveraendert,
+genannte Pfade werden ergaenzt bzw. gestrichen (neue Pfade per Glob verifizieren). Erst danach
+zu Schritt 3. (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z14.)
 
 > **Wartungs-Hinweis (Format-Kopplung):** Diese Liste wird in Schritt 6 als `## Betroffene Module`
 > in `discovery.md` geschrieben und von `dtb:impl-plan` als Ausloese-Kriterium seines
@@ -162,21 +164,27 @@ Abhaengigkeits-Check:
 
 ## Schritt 5: Feature-Name / Slug festlegen
 
+Der Name ist ein **Vorschlag mit Veto** (Textzeile, keine Optionsliste) — ein Slug ist per
+`git mv` billig umkehrbar, der Vorschlag wurde in 30 von 33 Laeufen unveraendert uebernommen:
+
 ```
-Feature-Name festlegen:
-  1. {Name basierend auf Idee-Text} (Recommended)  →  Ordner: features/{slug}/
-  2. Alternativer Name (angeben)
+Feature-Name: {Name}  →  Ordner: features/{slug}/  (Vorschlag)
+→ weiter = uebernehmen · oder anderen Namen nennen
 ```
+
+**Namens-Default:** Liefert das Feature etwas mit festem Namen (Skill, Datei, Befehl), uebernimmt
+der Slug diesen Namen — im Vorschlag kurz begruenden, z.B. „(Vorschlag — Feature liefert den Skill
+dtb:idea-rank)". Sonst: Name aus dem Idee-Text.
 
 Aus dem Namen wird der **kebab-case-Slug** abgeleitet (Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4).
 Der Change-Ordner `features/{slug}/` traegt die fixen Dateien `discovery.md`, `spec.md`, `plan.md`.
-Bei einer Slug-Kollision mit einem bestehenden Ordner (anderer Name, gleicher Slug) → melden und
-einen anderen Namen erfragen (kein Auto-Suffix, §4).
+Bei einer Slug-Kollision mit einem bestehenden Ordner (anderer Name, gleicher Slug) → **kein
+Vorschlag, echte Rueckfrage:** melden und einen anderen Namen erfragen (kein Auto-Suffix, §4).
 
-**„(Recommended)"-Muster:** An echten Auswahlpunkten dieses Skills — dem Namensvorschlag hier und
-einem etwaigen Scope-Schnitt (wenn eine Sammelidee in mehrere Features zerlegt wird) — die
-empfohlene Option als erste listen und mit `(Recommended)` markieren. Gilt NUR fuer solche
-Auswahlpunkte; die offenen Klaerungsfragen (3a-3e) bleiben Freitext ohne Optionsliste.
+**„(Recommended)"-Muster:** Gilt nur noch fuer einen etwaigen Scope-Schnitt (wenn eine Sammelidee
+in mehrere Features zerlegt wird) — die empfohlene Option als erste listen und mit `(Recommended)`
+markieren. Die offenen Klaerungsfragen (3a-3e) bleiben Freitext ohne Optionsliste.
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z1/B.)
 
 ---
 
