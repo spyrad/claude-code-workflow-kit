@@ -26,7 +26,6 @@
 ## Offene Aufgaben
 
 - [ ] **Station 2 (`rueckfragen-defaults`) fertig umsetzen und mergen, danach `/dtb:archive rueckfragen-erhebung`** — Kontext: Phase 1+2 von 5 committet (`30e64ea`, `d2e8880`), weiter mit Phase 3 in der Pane; Rollout = Merge → push → `/dtb:kit-sync` (seit ≤2026-09-21 · behalten 2026-09-28)
-- [ ] **`discovery.md`/`spec.md`/`plan.md` auf `feature/rueckfragen-defaults` committen** — Kontext: bewusst ausserhalb der Phasen-Commits, vor jedem Worktree-Abbau sichern (seit 2026-09-30)
 - [ ] **Beim Merge: INBOX #57 → Ausgearbeitet + Link, BACKLOG-Zeile anlegen, #107 abstimmen** — Kontext: Links waeren vor dem Merge tot (#114); #107 beruehrt dieselben vier Backlog-Stellen wie Phase 2 (seit 2026-09-30)
 - [ ] **Prioritaet in `rueckfragen-defaults/spec.md` festlegen** — Kontext: im Hand-off offen (seit 2026-09-30)
 - [ ] **Pane-Ermittlung ohne ID beim naechsten `/dtb:pane-start` pruefen** — Kontext: 2026-09-30 lief ein `/loop` mit fester Pane-ID statt des Ticks, Schritt 0 weiter ungetestet (seit 2026-09-24)
