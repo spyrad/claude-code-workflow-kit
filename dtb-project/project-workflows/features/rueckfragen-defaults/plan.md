@@ -300,10 +300,10 @@ Der neue Text erzeugt selbst keine neuen Schein-Rueckfragen und keine unsichtbar
 - [x] 1.1 Kanon-Sektion skills/CLAUDE.md — `30e64ea`
 - [x] 1.2 Beispielausgaben — `30e64ea`
 - [x] 1.3 Zuordnung gegenpruefen — `30e64ea`
-- [x] 2.1 Backlog task + bug-report
-- [x] 2.2 Backlog feature-plan + feature-fast
-- [x] 2.3 Slug-Vorschlag + Namensregel
-- [x] 2.4 Scan-Bestaetigung discover + impl-plan
+- [x] 2.1 Backlog task + bug-report — `d2e8880`
+- [x] 2.2 Backlog feature-plan + feature-fast — `d2e8880`
+- [x] 2.3 Slug-Vorschlag + Namensregel — `d2e8880`
+- [x] 2.4 Scan-Bestaetigung discover + impl-plan — `d2e8880`
 - [ ] 3.1 plan-review Direkteinstieg
 - [ ] 3.2 Lektion-Vormerkung (+ lesson, no-loss-check)
 - [ ] 3.3 impl-review Sammelliste
