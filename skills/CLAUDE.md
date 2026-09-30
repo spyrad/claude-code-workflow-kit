@@ -277,6 +277,80 @@ Fail-open).
 `meeting-dump`/`worker`). Die Wiedererfassung einer schon umgesetzten Sache ist damit bewusst
 akzeptierte Restluecke — Regressions-Erkennung waere ein eigenes Feature, keine Dublette.
 
+## Rueckfragen-Defaults (Veto-Form)
+
+Eine Rueckfrage, deren Antwort faktisch immer gleich ausfaellt, kostet Aufmerksamkeit ohne
+Qualitaet. Diese Konvention legt fest, **welche** Rueckfragen der Voll-Schiene durch einen
+sichtbaren Vorschlag oder einen stillen Default ersetzt sind und **in welcher Form**. Quelle der
+Entscheidung: `dtb-project/project-workflows/features/rueckfragen-erhebung/erhebung.md` →
+„Festlegung 2026-09-22 (verbindlich)"; Umsetzung: Change `rueckfragen-defaults`.
+
+**Abgrenzungskriterium (ein Satz):** Eine Rueckfrage ist delegierbar, wenn ihre Antwort keine
+Festlegung traegt, deren Ruecknahme mehr kostet als einen einzelnen, lokal umkehrbaren
+Schreibvorgang (`git mv`, eine Tabellenzeile, ein Feldwert, ein Staging-Set) — sobald die Antwort
+Scope, Verhalten oder verteilten Code festlegt oder ein Abnahme-Urteil ersetzt, bleibt sie beim
+Menschen. Massstab sind die **Ruecknahmekosten der Folge**, nicht die Haeufigkeit der Abweichung.
+
+### Die vier Formen
+
+| Form | Wann | Laufzeit-Wortlaut (Anker) |
+|------|------|---------------------------|
+| **Textzeile** (Einzel-Vorschlag) | Vorschlag ohne Commit-Folge | Vorschlag zeigen, darunter `→ weiter = uebernehmen · oder {Alternative} nennen`; „weiter" (oder leere Zustimmung) uebernimmt, Freitext korrigiert |
+| **Knopf** (Einzel-Vorschlag) | Vorschlag mit Commit-Folge | blockierende Auswahl (`AskUserQuestion`); **erste Option = Vorschlag**, markiert `(Vorschlag)`; weitere Optionen = die bisherigen Alternativen |
+| **Sammelliste** | viele gleichartige Entscheidungen mit Default | alle Eintraege nummeriert und vorbelegt, je Zeile Gegenstand + geplante Wirkung; Knopf `alle uebernehmen` / `Nummern streichen` / `einzeln durchgehen` |
+| **Stille Anzeige** | Default ohne Informationsgewinn einer Frage | keine Frage; genau eine Zeile im Abschluss, beginnend mit `→ ` (bzw. `⚠ ` bei Ausfall, `💡 ` bei Vormerkung) |
+
+**Bedienregel:** Knopf bei allem, was zu einem Commit fuehrt; Textzeile bei Kleinem ohne
+Commit-Folge. **Form-Auflage:** jeder Vorschlag ist sichtbar und hat ein eindeutiges „weiter";
+ein stiller Default ohne Anzeige ist nie zulaessig, und keiner loest einen Commit aus (Lehre
+2026-07-30: eine Freitext-Bestaetigung ohne Default wurde uebersehen, der Lauf versandete still).
+
+### Feste Zeilen (woertlich in jede Anwender-Stelle)
+
+- Backlog eingetragen: `→ in BACKLOG.md eingetragen (Status: {Status})`
+- Backlog ausgelassen: `→ kein BACKLOG-Eintrag (Testordner)`
+- Backlog nicht schreibbar: `⚠ BACKLOG.md fehlt oder ist unlesbar — kein Eintrag, weiter`
+- Lektion vorgemerkt: `💡 Lektion-Kandidat vorgemerkt: „{knappe Regel}" → wird beim Checkpoint erfasst`
+- **Testordner** = Slug beginnt mit `zz-test-` oder `abnahmeprobe-`
+
+Im verlinkten Worktree gilt weiterhin der Teil-/Voll-Guard des Skills (zentrale Dateien werden
+nicht beschrieben, der Backlog-Eintrag geht in den Hand-off) — diese Konvention aendert keinen Guard.
+
+### Verbindliche Zuordnung (v1)
+
+Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30.
+
+| Z | Skill · Stelle | Frueher | Jetzt (Form) |
+|---|----------------|---------|--------------|
+| 1 | `feature-discover` Schritt 5 · `feature-fast` Schritt 3 — Slug | Optionsliste | **Textzeile**; Kollision bleibt echte Rueckfrage (§4) |
+| 2 | `task` Schritt 5 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
+| 3 | `feature-plan` Schritt 10 · `feature-fast` Schritt 5.7 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
+| 7 | `plan-review` Schritt 5 — „Anpassungen? (Ja/Nein)" | Ja/Nein | bei REVISE/RETHINK **Stille Anzeige** + direkt in die Finding-Runde; bei SOUND unveraendert |
+| 9 | `implement` Ritual Punkt 3 — Staging bei fremden Pfaden | 1/2/3 | **Knopf**, Vorschlag = nur geplantes Set |
+| 10 | `implement` Ritual Punkt 6 — Commit-Message | Freitext-Korrektur | **Knopf**, Vorschlag = abgeleitete Message |
+| 11 | `implement` Ritual Punkt 11 — Naechste Phase | 1/2/3 | **Stille Anzeige** „weiter mit Phase N+1"; Schwelle 2 Phasen je Session oder Kontext verdichtet → Wiedereinstiegs-Kommando |
+| 13 | `impl-review` Schritt 9 — Triage | eine Frage je Finding | Einzel-Findings (`S:Hoch` oder FAIL-Achse) einzeln; Rest als **Sammelliste** |
+| 14 | `feature-discover` Schritt 2 · `impl-plan` 2b — Scan-Liste | „Stimmt das so?" | **Textzeile** |
+| 15 | `feature-start` Abschluss (Feature) | „Bereit? Starte …" | **Stille Anzeige** `→ Weiter mit: /dtb:implement {Name}` |
+| 16 | `impl-plan` · `debug-plan` — Lektion-Kandidat | ja/nein | **Stille Anzeige** (Vormerk-Zeile), siehe C |
+| A | `bug-report` Schritt 5 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
+| B | Slug-Default (zu Z1) | kit-spezifisch | „Liefert das Feature etwas mit festem Namen (Skill, Datei, Befehl), uebernimmt der Slug diesen Namen" — inline, NICHT in `DERIVED_STATE_RULES.md` (Klasse-B-Seed) |
+| C | Lektion-Kandidat (zu Z16) | Rueckfrage | Vormerk-Zeile; `no-loss-check` fuehrt sie als sicheren Kandidaten, `workflow-checkpoint` erfasst; Spiegel in `lesson` („Zwei Eingangskanaele") |
+| D | `implement` Ritual Punkt 2 — Manual-Gate | Freitext „passt" | **Knopf** `passt — Phasen-Commit` / `Korrekturen`; Entscheidung bleibt beim Menschen, je Phase |
+| E | `feature-start` Abschluss (Bug, Aufgabe) | „Bereit? Sage Los" | **Stille Anzeige** `→ Weiter mit: …` (passender Einstieg) |
+
+**Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
+„trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
+Mismatch-Dialog (Z12), Ueberschreib-Fragen, Kernfragen von `feature-fast` (Z17: Sammelvorlage
+unveraendert). **Nicht gebaut:** Pane-/Worktree-Stand-Nachfrage (Z4).
+
+### Laufzeit-Autarkie
+
+Wie beim Duplikat-Schutz: installierte Skills sehen diese Datei nicht. Jede Anwender-Stelle traegt
+ihre Form und ihre feste Zeile **inline**; diese Sektion ist Autoren-Doku und Pruefgrundlage, nie
+Laufzeit-Pfad. **Spiegel-Verifikation** (Kopplungsregel unten): Grep auf die festen Zeilen ueber
+`skills/dtb-*/SKILL.md`, Zielzahl je Zeile = Anzahl der Anwender-Stellen in der Tabelle oben.
+
 ## Zwei-Becken-Regel (wer schreibt wohin)
 
 Ideen liegen in **zwei** Dateien, und welche es ist, entscheidet **der Schreiber** — nicht ein
