@@ -207,13 +207,9 @@ Ohne INBOX-Herkunft: Schritt still ueberspringen.
 ## Schritt 5: Backlog-Eintrag (ohne Rueckfrage)
 
 Keine Frage — der Eintrag ist der Default (die Antwort war in allen realen Laeufen „Ja"; eine
-BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung billig umkehrbar). Die
-Ausgabe endet mit genau einer Anzeige-Zeile:
-
-```
-Aufgabe gespeichert: {config.paths.workflows}/features/{slug}/task.md
-→ in BACKLOG.md eingetragen (Status: Offen)
-```
+BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung billig umkehrbar). Ergebnis
+ist genau eine Anzeige-Zeile, die als `{Backlog-Zeile}` in der Bestaetigung (Schritt 6) erscheint:
+`→ in BACKLOG.md eingetragen (Status: Offen)`
 
 **Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN Eintrag,
 stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
@@ -248,6 +244,7 @@ stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
 ```
 Aufgabe erfasst: {config.paths.workflows}/features/{slug}/task.md
 Prioritaet: {Prioritaet}
+{Backlog-Zeile}
 
 Naechste Schritte:
   1. Direkt starten: /dtb:feature-start

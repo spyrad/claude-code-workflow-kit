@@ -192,12 +192,8 @@ Leite einen kurzen, beschreibenden Namen aus der Bug-Beschreibung ab.
 
 Keine Frage — der Eintrag ist der Default (gleiche Datenlage wie bei `dtb:task`: „Nein" kam nur
 in Testlaeufen vor; eine BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung
-billig umkehrbar). Die Ausgabe endet mit genau einer Anzeige-Zeile:
-
-```
-Bug gespeichert: {config.paths.workflows}/features/{slug}/bug.md
-→ in BACKLOG.md eingetragen (Status: Offen)
-```
+billig umkehrbar). Ergebnis ist genau eine Anzeige-Zeile, die als `{Backlog-Zeile}` in der
+Bestaetigung (Schritt 6) erscheint: `→ in BACKLOG.md eingetragen (Status: Offen)`
 
 **Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN Eintrag,
 stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
@@ -224,6 +220,7 @@ stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
 ```
 Bug erfasst: {config.paths.workflows}/features/{slug}/bug.md
 Severity: {Severity}
+{Backlog-Zeile}
 
 Naechste Schritte:
   1. Root-Cause analysieren: /dtb:debug-plan [Bug-Name]

@@ -14,7 +14,7 @@ pipeline:
   stage: session
   after: null
   next: [dtb:workflow-checkpoint]
-  consumes: [workflow.config.yaml, project-rules/lessons.md, features/*/spec.md, features/*/discovery.md, INBOX.md, INBOX-BEFUNDE.md]
+  consumes: [workflow.config.yaml, project-rules/lessons.md, features/*/spec.md, features/*/discovery.md, features/*/plan.md, features/*/bug.md, INBOX.md, INBOX-BEFUNDE.md]
   produces: []
 ---
 
@@ -87,11 +87,15 @@ Stufe erzeugt Verdachtsfaelle — gefiltert wird erst in Stufe 2.
 - Eine als **allgemein erkannte Regel** („kuenftig zuerst X pruefen", „nie wieder Y ohne Z")
 - Eine **Korrektur, die beim zweiten Mal Zeit gespart haette** — der Umweg ist erkannt, aber nur
   im Gespraech beschrieben
-- Eine **Vormerk-Zeile** `💡 Lektion-Kandidat vorgemerkt: „{Regel}" → wird beim Checkpoint erfasst`
-  (von `impl-plan`/`debug-plan` statt einer Rueckfrage ausgegeben) — **immer** ein Kandidat mit
-  genau diesem Regeltext, nie nach Ermessen verworfen; in Stufe 2 faellt er nur durch einen
-  Treffer in `lessons.md` weg und gehoert sonst in die Gruppe **„Vor dem Checkpoint erledigen"**
-  (er lebt nur im Gespraech, und die Sammelvorlage des Checkpoints nimmt Lektionen nur aus dieser Gruppe)
+- Ein **vorgemerkter Lektion-Kandidat** — zwei Quellen, beide gleich behandelt:
+  (a) im Gespraech die Zeile `💡 Lektion-Kandidat vorgemerkt: „{Regel}" → wird beim Checkpoint erfasst`,
+  (b) **ausserhalb des Gespraechs** jede Zeile unter `## Lektion-Kandidaten` in
+  `{config.paths.workflows}/features/*/plan.md` und `.../features/*/bug.md` (ohne `archive/`, ohne
+  Code-Fences) — dort legen `impl-plan`/`debug-plan` ihn dauerhaft ab, damit er Kompression,
+  Session-Ende und Worktree ueberlebt. **Immer** ein Kandidat mit genau diesem Regeltext, nie nach
+  Ermessen verworfen; in Stufe 2 faellt er nur durch einen Treffer in `lessons.md` **oder durch eine
+  Verwerfung im Verlauf dieser Sitzung (Randfall 3)** weg und gehoert sonst in die Gruppe **„Vor dem
+  Checkpoint erledigen"** (die Sammelvorlage des Checkpoints nimmt Lektionen nur aus dieser Gruppe)
 
 **Fach-Frage** — eine Frage, die ins Meeting gehoert (nicht sofort/allein beantwortbar):
 
@@ -140,7 +144,8 @@ eine Sammelzeile im Report.
 2. **Code-Fences bleiben draussen.** Beispiel-Zeilen in Doku (` ```- [ ] [Fach] … ``` `) sind
    keine erfassten Fragen — sonst filtert der Skill echte Funde anhand von Dokumentation weg.
 3. **`## Progress`, Statusfelder und Plan-Bloecke werden nicht gelesen.** Sie tragen keine
-   erfassten Inhalte, nur Zustaende.
+   erfassten Inhalte, nur Zustaende. Einzige Ausnahme: `## Lektion-Kandidaten` in `plan.md`/`bug.md`
+   ist eine **Kandidaten-Quelle** fuer Stufe 1 (siehe Signalklasse „Lektion"), kein Abgleich-Ziel.
 
 > **Warum beim Fach-Fragen-Abgleich auch untagged Bullets zaehlen** (Kalibrier-Befund
 > 2026-08-06): Fuer die Frage „steht das schon irgendwo?" ist das `[Fach]`-Tag irrelevant — der

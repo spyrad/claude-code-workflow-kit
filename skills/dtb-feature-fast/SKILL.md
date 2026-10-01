@@ -253,8 +253,9 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
 
 7. **BACKLOG eintragen** (analog feature-plan Schritt 10) — ohne Rueckfrage: Status-Spalte mit
    dem abgeleiteten Initial-Status **Geplant** eintragen (spec.md + plan.md existieren,
-   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`). Anzeige-Zeile im Abschluss:
-   `→ in BACKLOG.md eingetragen (Status: Geplant)`. **Testordner-Ausnahme:** Slug beginnt mit
+   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`). Anzeige-Zeile als `{Backlog-Zeile}`
+   im Abschluss (Punkt 8): `→ in BACKLOG.md eingetragen (Status: Geplant)` (im Worktree entfaellt
+   sie — dort steht die ↷-Hinweiszeile des Teil-Guards). **Testordner-Ausnahme:** Slug beginnt mit
    `zz-test-` oder `abnahmeprobe-` → kein Eintrag, Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
    **BACKLOG.md fehlt oder ist unlesbar** → kein Eintrag, kein Abbruch, Zeile
    `⚠ BACKLOG.md fehlt oder ist unlesbar — kein Eintrag, weiter`.
@@ -262,6 +263,7 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
 
    ```
    Fast-Track abgeschlossen: features/{slug}/ (discovery.md, spec.md, plan.md)
+   {Backlog-Zeile}
 
    Naechster Schritt: /dtb:plan-review {Feature-Name}
      (die Reviews laufen unveraendert — der Fast-Track verkuerzt nur die Erhebung)

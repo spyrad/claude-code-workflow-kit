@@ -311,6 +311,12 @@ Global sortiert **Severity vor Impact**. **Cap 10** — bei mehr genau eine Zeil
 Scope: {Dateiliste-Kurzform} · Geprueft bis: `{SHA}` · Datum: YYYY-MM-DD
 Gesamt-Verdikt: {…}
 
+## Verdikt-Achsen
+
+| Achse | Verdikt |
+|-------|---------|
+| {Achse} | {PASS/WARNING/FAIL/uebersprungen} |
+
 ## Findings
 ### F1 — {Achse} — [S:… × I:…]
 {Datei}:{Zeile} — {Beobachtung}
@@ -337,9 +343,11 @@ Findings entscheidbar machen — in **zwei Durchgaengen**. Grund: 94 % der Findi
 bisherigen Triagen wie vorgeschlagen gefixt; eine Einzelfrage je Finding kostet dort
 Aufmerksamkeit ohne Informationsgewinn. Die schweren bleiben einzeln.
 
-**Abgrenzung (mechanisch, aus vorhandenen Feldern):** **Einzel-Finding** = `S:Hoch` ODER
-Finding aus einer Achse mit Verdikt **FAIL** (Tabelle „Verdikt-Achsen"). Alle anderen =
-**Sammel-Findings**. Kein neues Feld im `review.md`-Format.
+**Abgrenzung (mechanisch, aus gespeicherten Feldern):** **Einzel-Finding** = `S:Hoch` ODER
+Finding aus einer Achse mit Verdikt **FAIL** (Tabelle `## Verdikt-Achsen` im Snapshot — auch
+beim Resume in neuer Session ableitbar) ODER Finding mit **zwei Fix-Optionen** (echter
+Tradeoff — die Wahl traegt Information und wird nie per „Alle uebernehmen" entschieden).
+Alle anderen = **Sammel-Findings**.
 
 **Durchgang 1 — Einzel-Findings**, je Finding in **Severity-Reihenfolge** eine `AskUserQuestion`:
 

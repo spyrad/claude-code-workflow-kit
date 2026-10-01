@@ -184,11 +184,9 @@ Verwende folgende Struktur:
 
    Keine Frage — der Eintrag ist der Default (0 belegte „Nein" in realen Laeufen; eine
    BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung billig umkehrbar).
-   Die Ausgabe endet mit genau einer Anzeige-Zeile:
-   ```
-   Feature gespeichert: {config.paths.workflows}/features/{slug}/spec.md
-   → in BACKLOG.md eingetragen (Status: Spezifiziert)
-   ```
+   Ergebnis ist genau eine Anzeige-Zeile, die als `{Backlog-Zeile}` in der Bestaetigung
+   (Punkt 11) erscheint: `→ in BACKLOG.md eingetragen (Status: Spezifiziert)`. Im Worktree
+   entfaellt sie — dort steht die ↷-Hinweiszeile des Teil-Guards (Punkt 9).
 
    **Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN
    Eintrag, stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
@@ -213,6 +211,9 @@ Verwende folgende Struktur:
 
 11. **Bestaetige:**
    ```
+   Feature gespeichert: {config.paths.workflows}/features/{slug}/spec.md
+   {Backlog-Zeile}
+
    Naechste Schritte:
    1. Implementierungsplan erstellen: /dtb:impl-plan [Feature-Name]
    2. Plan reviewen: /dtb:plan-review [Feature-Name]

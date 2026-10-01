@@ -329,14 +329,14 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30.
 | 9 | `implement` Ritual Punkt 3 — Staging bei fremden Pfaden | 1/2/3 | **Knopf**, Vorschlag = nur geplantes Set |
 | 10 | `implement` Ritual Punkt 6 — Commit-Message | Freitext-Korrektur | **Knopf**, Vorschlag = abgeleitete Message |
 | 11 | `implement` Ritual Punkt 11 — Naechste Phase | 1/2/3 | **Stille Anzeige** „weiter mit Phase N+1"; Schwelle 2 Phasen je Session oder Kontext verdichtet → Wiedereinstiegs-Kommando |
-| 13 | `impl-review` Schritt 9 — Triage | eine Frage je Finding | Einzel-Findings (`S:Hoch` oder FAIL-Achse) einzeln; Rest als **Sammelliste** |
+| 13 | `impl-review` Schritt 9 — Triage | eine Frage je Finding | Einzel-Findings (`S:Hoch`, FAIL-Achse oder zwei Fix-Optionen) einzeln; Rest als **Sammelliste**; Achsen-Verdikte stehen im Snapshot (Resume) |
 | 14 | `feature-discover` Schritt 2 · `impl-plan` 2b — Scan-Liste | „Stimmt das so?" | **Textzeile** |
 | 15 | `feature-start` Abschluss (Feature) | „Bereit? Starte …" | **Stille Anzeige** `→ Weiter mit: /dtb:implement {Name}` |
 | 16 | `impl-plan` · `debug-plan` — Lektion-Kandidat | ja/nein | **Stille Anzeige** (Vormerk-Zeile), siehe C |
 | A | `bug-report` Schritt 5 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
 | B | Slug-Default (zu Z1) | kit-spezifisch | „Liefert das Feature etwas mit festem Namen (Skill, Datei, Befehl), uebernimmt der Slug diesen Namen" — inline, NICHT in `DERIVED_STATE_RULES.md` (Klasse-B-Seed) |
-| C | Lektion-Kandidat (zu Z16) | Rueckfrage | Vormerk-Zeile; `no-loss-check` fuehrt sie als sicheren Kandidaten, `workflow-checkpoint` erfasst; Spiegel in `lesson` („Zwei Eingangskanaele") |
-| D | `implement` Ritual Punkt 2 — Manual-Gate | Freitext „passt" | **Knopf** `passt — Phasen-Commit` / `Korrekturen`; Entscheidung bleibt beim Menschen, je Phase |
+| C | Lektion-Kandidat (zu Z16) | Rueckfrage | Ablage unter `## Lektion-Kandidaten` in `plan.md`/`bug.md` (status-neutral, ueberlebt Kompression/Worktree) + Vormerk-Zeile im Chat; `no-loss-check` liest beide Quellen als sichere Kandidaten, `workflow-checkpoint` erfasst; Spiegel in `lesson` („Zwei Eingangskanaele") |
+| D | `implement` Ritual Punkt 2 — Manual-Gate | Freitext „passt" | **Knopf** `passt — Phasen-Commit` / `passt — Commit, dann Stopp` / `Korrekturen`; Entscheidung bleibt beim Menschen, je Phase; „Abbrechen" an Staging/Commit = Stopp mit Wiedereinstiegs-Zeile |
 | E | `feature-start` Abschluss (Bug, Aufgabe) | „Bereit? Sage Los" | **Stille Anzeige** `→ Weiter mit: …` (passender Einstieg) |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch

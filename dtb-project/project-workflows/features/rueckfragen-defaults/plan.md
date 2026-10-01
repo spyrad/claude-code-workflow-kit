@@ -311,9 +311,9 @@ Der neue Text erzeugt selbst keine neuen Schein-Rueckfragen und keine unsichtbar
 - [x] 4.1 Staging + Commit-Message Knopf — `0f1850c`
 - [x] 4.2 Manual-Gate Auswahl — `0f1850c`
 - [x] 4.3 Naechste Phase Schwelle — `0f1850c`
-- [x] 5.1 Eigen-Text-Pruefung
-- [x] 5.2 Doku CLAUDE.md
-- [x] 5.3 Abnahme-Probelauf
+- [x] 5.1 Eigen-Text-Pruefung — `2a7ba6b`
+- [x] 5.2 Doku CLAUDE.md — `2a7ba6b`
+- [x] 5.3 Abnahme-Probelauf — `2a7ba6b`
 
 ---
 

@@ -192,8 +192,9 @@ Erster Schritt laut `## Progress`: [erster nicht abgehakter Schritt N.M]
 **Abschlusszeile statt Start-Rueckfrage:** Jeder Block endet mit genau EINER Zeile `→ Weiter mit: …`
 — keine Rueckfrage (sie trug keine Festlegung, nur den Uebergang). Der Skill **startet nichts
 selbst**: kein Aufruf von `/dtb:implement` (gesperrt gegen Modell-Aufruf — eine Entsperrung waere
-INBOX #98), bei Bug/Aufgabe keine Code-Aenderung vor der naechsten Nutzer-Eingabe. Die naechste
-Eingabe des Nutzers — Befehl, „weiter" oder eine Frage — ist der Start.
+INBOX #98), bei Bug/Aufgabe keine Code-Aenderung vor der naechsten Nutzer-Eingabe. Gestartet
+wird nur durch einen Befehl oder „weiter"; eine **Frage** wird beantwortet, ohne zu starten
+(danach gilt die `→ Weiter mit: …`-Zeile unveraendert).
 (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z15/E.)
 
 ---

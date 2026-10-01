@@ -180,15 +180,20 @@ Naechste Schritte:
 
 Wenn dir waehrend der Analyse eine nicht-offensichtliche, wiederverwendbare Erkenntnis auffaellt
 (Trigger-Frage: „Wuerde ich denselben Fehler nochmal machen, wenn das nur im Session-Log stuende?"),
-merke sie vor — **keine Rueckfrage, kein Auto-Write in `lessons.md`**. Genau eine Zeile im Chat:
+merke sie vor — **keine Rueckfrage, kein Auto-Write in `lessons.md`**:
+1. **Im Artefakt ablegen** (dauerhaft, ueberlebt Kompression, Session-Ende und Worktree): am Ende
+   von `features/{slug}/bug.md` unter `## Lektion-Kandidaten` (Sektion anlegen, falls sie fehlt)
+   eine Zeile `- „{knappe Regel}" (vorgemerkt YYYY-MM-DD)` — **ohne Checkbox**, status-neutral
+   (zaehlt fuer keine Ableitung, die `## Fix-Schritte`-Checkliste bleibt allein massgeblich).
+2. **Genau eine Zeile im Chat:**
 ```
 💡 Lektion-Kandidat vorgemerkt: „{knappe Regel}" → wird beim Checkpoint erfasst
 ```
-Erfasst wird am Session-Ende: `/dtb:workflow-checkpoint` → Verlustpruefung (`dtb:no-loss-check`)
-fuehrt die Vormerk-Zeile als sicheren Kandidaten, der Mensch bestaetigt in der Sammelvorlage.
-Laeuft die Session in einem verlinkten Worktree (dort bricht der Checkpoint in den Hand-off ab,
-ohne Verlustpruefung), den Kandidaten in den Hand-off-Block unter „Offene Punkte" uebernehmen.
-Sofort erfassen bleibt jederzeit moeglich: `/dtb:lesson "{knappe Regel}"`.
+Erfasst wird beim naechsten `/dtb:workflow-checkpoint` im Haupt-Checkout: die Verlustpruefung
+(`dtb:no-loss-check`) liest `## Lektion-Kandidaten` als Quelle, der Mensch bestaetigt in der
+Sammelvorlage. Danach steht die Regel in `lessons.md` und der Kandidat gilt als erfasst. Wer einen
+Kandidaten endgueltig verwerfen will, loescht seine Zeile im Artefakt — sonst erscheint er in der
+naechsten Session erneut. Sofort erfassen bleibt jederzeit moeglich: `/dtb:lesson "{knappe Regel}"`.
 (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z16/C.)
 
 ---
