@@ -304,13 +304,13 @@ Der neue Text erzeugt selbst keine neuen Schein-Rueckfragen und keine unsichtbar
 - [x] 2.2 Backlog feature-plan + feature-fast — `d2e8880`
 - [x] 2.3 Slug-Vorschlag + Namensregel — `d2e8880`
 - [x] 2.4 Scan-Bestaetigung discover + impl-plan — `d2e8880`
-- [x] 3.1 plan-review Direkteinstieg
-- [x] 3.2 Lektion-Vormerkung (+ lesson, no-loss-check)
-- [x] 3.3 impl-review Sammelliste
-- [x] 3.4 feature-start ohne Bereit
-- [ ] 4.1 Staging + Commit-Message Knopf
-- [ ] 4.2 Manual-Gate Auswahl
-- [ ] 4.3 Naechste Phase Schwelle
+- [x] 3.1 plan-review Direkteinstieg — `a4aedc8`
+- [x] 3.2 Lektion-Vormerkung (+ lesson, no-loss-check) — `a4aedc8`
+- [x] 3.3 impl-review Sammelliste — `a4aedc8`
+- [x] 3.4 feature-start ohne Bereit — `a4aedc8`
+- [x] 4.1 Staging + Commit-Message Knopf
+- [x] 4.2 Manual-Gate Auswahl
+- [x] 4.3 Naechste Phase Schwelle
 - [ ] 5.1 Eigen-Text-Pruefung
 - [ ] 5.2 Doku CLAUDE.md
 - [ ] 5.3 Abnahme-Probelauf

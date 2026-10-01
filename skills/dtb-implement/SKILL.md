@@ -8,7 +8,7 @@ description: >-
   commit, SHA write-back into the flipped progress rows.
 disable-model-invocation: true
 argument-hint: "[Feature-Name oder Slug] [phase N]"
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 pipeline:
   stage: implementation
   after: [dtb:feature-start]
@@ -146,20 +146,24 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
    dieser Punkt entfaellt, alles wandert in Punkt 2)
 2. **Manuelles Bestaetigungs-Gate:** Die `#### Manual`-Kriterien der Phase auflisten und auf
    explizite Bestaetigung des Nutzers warten. Genau EINE Bestaetigung pro Phase (schlank —
-   nicht pro Schritt). Ohne Bestaetigung kein Commit:
+   nicht pro Schritt, keine Buendelung ueber Phasen). Ohne Bestaetigung kein Commit:
    ```
    Phase {N} umgesetzt — Automated-Kriterien gruen:
    - {Kriterium: Ergebnis}
 
    Manuelle Pruefungen laut Plan:
    - [ ] {Manual-Kriterium}
-
-   Bestaetige („passt") oder nenne Korrekturen — dann folgt der Phasen-Commit.
    ```
+   Danach als **Knopf** (`AskUserQuestion`, blockierend — eine Freitext-Bestaetigung ohne
+   Default wurde real uebersehen und liess den Lauf still versanden):
+   **passt — Phasen-Commit** · **Korrekturen** (Nutzer beschreibt sie; umsetzen, Automated-
+   Kriterien erneut pruefen, Gate erneut stellen). Die Entscheidung bleibt beim Menschen —
+   der Knopf ersetzt nur die Form, nie das Urteil
 3. **Staging-Set berechnen:** Touched-Set der Phase (Schritt 3, Punkt 5) ∪ `{plan.md}`.
-   Dann `git status --short`: dirty paths AUSSERHALB des Sets → melden und fragen —
-   (1) nur geplantes Set stagen (Empfehlung), (2) alles stagen (Nutzer verantwortet den
-   breiteren Scope), (3) abbrechen. Nie still mitbuendeln
+   Dann `git status --short`: dirty paths AUSSERHALB des Sets → die fremden Pfade auflisten
+   und als **Knopf** (`AskUserQuestion`, erste Option = Vorschlag) fragen:
+   **Nur geplantes Set stagen (Vorschlag)** · **Alles stagen** (Nutzer verantwortet den
+   breiteren Scope) · **Abbrechen**. Nie still mitbuendeln. Keine fremden Pfade → keine Frage
 4. **Explizit stagen:** `git add` mit den Pfaden des gewaehlten Sets — NIE `git add -A`
    oder `git add .`
 5. **Leerer Diff?** `git diff --cached --quiet` → Exit 0 heisst: nichts zu committen
@@ -167,7 +171,9 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
    SHA-los (§2 Regel 4)`, Ritual bei Punkt 9 fortsetzen
 6. **Commit-Message vorschlagen:** Repo-Stil aus `git log --oneline -5` ableiten; Default
    Conventional Commits: `<type>({slug}): <Phasen-Titel> (p{N})` mit kurzem Body
-   (beruehrte Dateien, Kernaenderung). Nutzer kann Subject/Body ueberschreiben
+   (beruehrte Dateien, Kernaenderung). Message vollstaendig im Chat zeigen, dann als **Knopf**
+   (`AskUserQuestion`): **Commit mit dieser Message (Vorschlag)** · **Message aendern**
+   (Nutzer nennt Subject/Body, dann committen) · **Abbrechen**
 7. **Committen — Sicherheitsregeln hart:** NIE `--force`, `--no-verify`, `--amend` oder
    Signing-Bypass. Schlaegt ein Hook fehl → Ursache fixen und NEUEN Commit erstellen.
    Shell-agnostisch: mehrzeilige Message per Bash-heredoc (`git commit -m "$(cat <<'EOF' …"`);
@@ -185,10 +191,18 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
    naechsten Phasen-Commit; nach der LETZTEN Phase im Session-/Checkpoint-Commit
    (Hinweis an den Nutzer ausgeben)
 10. **Touched-Set zuruecksetzen** — das Ritual ist pro Phase in sich geschlossen
-11. **Naechste-Phase-Entscheidung:** Falls eine weitere Phase folgt, fragen:
-    (1) direkt weiter mit Phase {N+1}, (2) Kontext klaeren — Wiedereinstiegs-Kommando
-    `/dtb:implement {slug} phase {N+1}` ausgeben, in neuer Session fortsetzen,
-    (3) erst Review (`/dtb:impl-review`)
+11. **Naechste Phase (ohne Rueckfrage):** Falls eine weitere Phase folgt, gilt eine zaehlbare
+    Schwelle statt einer Frage:
+    - **Unter der Schwelle → direkt weiter** mit Phase {N+1}, Anzeige-Zeile
+      `→ weiter mit Phase {N+1}: {Phasen-Titel}` (die Wahl ist jederzeit umkehrbar — das Gate der
+      naechsten Phase kommt ohnehin)
+    - **Schwelle erreicht** — in dieser Session wurden bereits **2 Phasen** mit Phasen-Commit
+      abgeschlossen, ODER der Verlauf wurde erkennbar verdichtet → nicht weitermachen, sondern
+      `→ Schwelle erreicht ({2 Phasen in dieser Session | Kontext verdichtet}) — weiter in neuer
+      Session: /dtb:implement {slug} phase {N+1}` ausgeben und stoppen
+    - **Nutzer-Stopp jederzeit:** „Stopp"/„Pause" → Wiedereinstiegs-Kommando wie oben;
+      „Review" → `/dtb:impl-review {slug}` empfehlen
+    (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z11.)
 
 ## Schritt 5: Multi-Repo & Abschluss
 
