@@ -155,4 +155,84 @@ Summe: 11 + 5 + 1 = 17 ✅ · Zusaetze 5/5 ✅ · Tabellenzeilen 11 + 5 = 16 ✅
 **Namens-Korrektur bei Z7:** Die Festlegung sagt „REVISE/REJECTED". `plan-review` kennt aber die
 Verdikte SOUND / REVISE / RETHINK — REJECTED ist ein `impl-review`-Verdikt. Die Kanon-Zeile
 verwendet deshalb REVISE/RETHINK (Sinn der Festlegung: „negatives Verdikt → direkt in die
-Finding-Runde") — zur Bestaetigung beim Menschen vorgelegt.
+Finding-Runde") — zur Bestaetigung beim Menschen vorgelegt. **Bestaetigt 2026-09-30** (Phase-1-Gate).
+
+---
+
+## Eigen-Text-Pruefung
+
+Plan Schritt 5.1 (L15/L14), Stand nach `0f1850c` (Phasen 1–4). Drei Fragen je geaenderter Stelle:
+**sichtbar?** (Default/Vorschlag erscheint vor der Wirkung) · **„weiter" eindeutig?** · **stiller
+Default mit Commit-Folge?** (darf nie vorkommen).
+
+| Stelle | Form | sichtbar | „weiter" eindeutig | stiller Commit-Default |
+|--------|------|----------|--------------------|------------------------|
+| `feature-discover` Schritt 5 — Slug | Textzeile | ✅ | ✅ `→ weiter = uebernehmen` | ✅ nein |
+| `feature-discover` Schritt 2 / `impl-plan` 2b — Scan | Textzeile | ✅ | ✅ `→ weiter = Liste uebernehmen` | ✅ nein |
+| `feature-fast` Schritt 1.3 — Slug | Kopfzeile der Sammelvorlage | ✅ `Ordner: …` | ✅ ueber das „Ok" der Vorlage | ✅ nein |
+| `task` / `bug-report` / `feature-plan` / `feature-fast` — Backlog | stille Anzeige | ✅ Anzeige-Zeile | n/a (keine Frage) | ✅ nein (schreibt BACKLOG, committet nicht; Worktree-Guard unveraendert) |
+| `plan-review` Schritt 5 — REVISE/RETHINK | stille Anzeige | ✅ | n/a; Findings einzeln | ✅ nein (Plan-Edits nur nach Bestaetigung je Empfehlung) |
+| `impl-plan` / `debug-plan` — Lektion | stille Anzeige (Vormerk-Zeile) | ✅ | n/a | ✅ nein (kein Write in `lessons.md`) |
+| `impl-review` Schritt 9 — Sammel-Findings | Sammelliste + Knopf | ✅ je Zeile Befund + Fix | ✅ `Alle uebernehmen (Vorschlag)` | ✅ nein (kein Commit; kein Fix ohne sichtbare Zeile) |
+| `feature-start` Abschluss | stille Anzeige | ✅ `→ Weiter mit: …` | n/a | ✅ nein (startet nichts selbst) |
+| `implement` Punkt 2 — Manual-Gate | Knopf | ✅ Kriterien gelistet | ✅ `passt — Phasen-Commit` | ✅ nein (Entscheidung beim Menschen) |
+| `implement` Punkt 3 — Staging | Knopf | ✅ fremde Pfade gelistet | ✅ `Nur geplantes Set (Vorschlag)` | ✅ nein |
+| `implement` Punkt 6 — Commit-Message | Knopf | ✅ Message vollstaendig | ✅ `Commit mit dieser Message (Vorschlag)` | ✅ nein |
+| `implement` Punkt 11 — Naechste Phase | stille Anzeige | ✅ `→ weiter mit Phase …` | n/a; „Stopp" jederzeit | ✅ nein (der naechste Commit braucht das naechste Gate) |
+
+**Widerspruchsfreiheit Kanon ↔ Inline:** alle 16 Zuordnungszeilen gegen die Inline-Texte gelesen —
+keine Abweichung im Verhalten. Zwei bewusste Formvarianten, kein Widerspruch: (a) die Scan-Textzeile
+fuellt den Slot `{Alternative}` mit „Pfade nennen, die fehlen oder wegfallen"; (b) der
+Manual-Gate-Knopf traegt KEIN `(Vorschlag)`, weil er kein Default ist, sondern eine Entscheidung
+beim Menschen (Z8, nie automatisch).
+
+**Siegel-Check** (Stellen „nie automatisch", Trefferzahl `master` = Arbeitsbaum):
+
+| Datei | Ankerphrase | master / jetzt |
+|-------|-------------|----------------|
+| `feature-discover` | „Kleinfall-Weiche" | 1 / 1 ✅ |
+| alle Skills | „Fehlalarm" (Escape-Hatch) | 7 / 7 ✅ |
+| `implement` | „Mismatch-Handling (Plan ≠ Realitaet)" | 1 / 1 ✅ |
+| `feature-plan` | „Soll ich die existierende Spec ueberschreiben oder aktualisieren?" | 1 / 1 ✅ |
+| `impl-plan` | „Implementierungsplan existiert bereits. Soll ich ueberschreiben" | 1 / 1 ✅ |
+| `impl-review` | „Ueberschreiben / Erst Triage fortsetzen / Abbrechen?" | 1 / 1 ✅ |
+| `feature-fast` | „Kernfragen-Budget (max. 3)" | 1 / 1 ✅ |
+
+0 Abweichungen. (Erster Zaehlversuch fuer „Fehlalarm" scheiterte am fehlenden `bc` — Werkzeug-,
+kein Datenbefund, L7; mit `awk` neu gezaehlt.)
+
+**Spiegel-Zaehlung** (feste Zeilen, Zielzahl = Anwender-Stellen):
+
+| Feste Zeile | Soll | Ist | Anmerkung |
+|-------------|------|-----|-----------|
+| `→ weiter =` (Textzeile) | 2 | 2 ✅ | discover, impl-plan — Soll von 3 auf 2 gesenkt (Mismatch 2.3: feature-fast ohne eigene Frage) |
+| Knopf-Stellen | 4 | 4 ✅ | implement 3 (Gate, Staging, Commit) + impl-review 1 (Sammelliste) |
+| `Lektion-Kandidat vorgemerkt` | 3 | 4 ✅ | impl-plan, debug-plan, no-loss-check + `lesson` (Spiegel aus Schritt 3.2, im Plan-Soll nicht mitgezaehlt) |
+| `→ in BACKLOG.md eingetragen (Status:` | 4 | 4 ✅ | task, bug-report, feature-plan, feature-fast |
+
+---
+
+## Abnahme-Probelauf
+
+Plan Schritt 5.3, 2026-10-01. **Ort:** Wegwerf-Clone `Projekte/.dtb-worktrees/zz-probe-rueckfragen`
+(Branch `feature/rueckfragen-defaults` @ `0f1850c`, Haupt-Checkout-Situation — Guards lassen durch;
+der Scratchpad der Session stand nicht mehr zur Verfuegung, Ort vom Menschen gewaehlt). Skills nach
+der **Repo-Fassung** im Clone gelesen und ausgefuehrt (L74), nicht nach der installierten Kopie.
+Alle Probe-Objekte vom Lauf selbst erzeugt (L57). Clone danach geloescht.
+
+| Stelle | Probe | Beobachtet | Befund |
+|--------|-------|------------|--------|
+| `task` Schritt 5 — Normalfall | Aufgabe `probe-rueckfragen` | keine Frage; BACKLOG-Zeile in „Aufgaben" (Status Offen), Datum aktualisiert; Anzeige `→ in BACKLOG.md eingetragen (Status: Offen)` | ✅ |
+| `task` Schritt 5 — Testordner | Aufgabe `zz-test-rueckfragen` | keine Frage, kein Eintrag; Anzeige `→ kein BACKLOG-Eintrag (Testordner)` | ✅ |
+| `feature-discover` Schritt 2 / 5 | Ausgabe nach Repo-Text, Daten INBOX #107 | Scan-Tabelle + `→ weiter = Liste uebernehmen …`; Slug-Vorschlag + `→ weiter = uebernehmen …` | ✅ (Form; kein Voll-Lauf) |
+| `implement` Punkt 2 — Manual-Gate | Mini-Plan `zz-test-mini`, Phase 1 | Knopf `passt — Phasen-Commit` / `Korrekturen` → Mensch: passt | ✅ |
+| `implement` Punkt 3 — Staging | fremde Datei `zz-fremd.txt` | Knopf mit fremdem Pfad gelistet, erste Option `Nur geplantes Set (Vorschlag)` → gewaehlt; `zz-fremd.txt` blieb liegen | ✅ |
+| `implement` Punkt 6 — Commit-Message | Message vollstaendig gezeigt | Knopf `Commit mit dieser Message (Vorschlag)` → gewaehlt; Commit `5837eab` im Clone, SHA zurueckgeschrieben | ✅ |
+| `implement` Punkt 11 — Naechste Phase | Mini-Plan hat Phase 2 | Schwelle erreicht (Session hatte bereits >2 Phasen) → `→ Schwelle erreicht (2 Phasen in dieser Session) — weiter in neuer Session: …`, Stopp | ✅ |
+
+**Eindruck des Menschen (Manual-Kriterium):** die drei Knoepfe hintereinander (Gate → Staging →
+Commit) sind **angenehmer** als die bisherigen Freitext-Antworten „passt / 1 / ok" (2026-10-01).
+
+**Grenze des Probelaufs:** `plan-review` (Direkteinstieg), `impl-review` (Sammelliste) und die
+Lektion-Vormerkung wurden nicht live gefahren — sie sind ueber die Beispielausgaben (Phase 1) und
+das Phase-3-Gate abgenommen; ihr erster echter Lauf ist das `/dtb:impl-review` dieses Changes.

@@ -308,12 +308,12 @@ Der neue Text erzeugt selbst keine neuen Schein-Rueckfragen und keine unsichtbar
 - [x] 3.2 Lektion-Vormerkung (+ lesson, no-loss-check) — `a4aedc8`
 - [x] 3.3 impl-review Sammelliste — `a4aedc8`
 - [x] 3.4 feature-start ohne Bereit — `a4aedc8`
-- [x] 4.1 Staging + Commit-Message Knopf
-- [x] 4.2 Manual-Gate Auswahl
-- [x] 4.3 Naechste Phase Schwelle
-- [ ] 5.1 Eigen-Text-Pruefung
-- [ ] 5.2 Doku CLAUDE.md
-- [ ] 5.3 Abnahme-Probelauf
+- [x] 4.1 Staging + Commit-Message Knopf — `0f1850c`
+- [x] 4.2 Manual-Gate Auswahl — `0f1850c`
+- [x] 4.3 Naechste Phase Schwelle — `0f1850c`
+- [x] 5.1 Eigen-Text-Pruefung
+- [x] 5.2 Doku CLAUDE.md
+- [x] 5.3 Abnahme-Probelauf
 
 ---
 
