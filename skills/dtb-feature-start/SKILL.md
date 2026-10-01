@@ -142,7 +142,7 @@ Umsetzung mit `/dtb:implement {Feature-Name}` — 3x3-Rhythmus und Phasen-Ende-R
 (Verifikations-Gate, SHA-Nachtrag nach §2) sind dort beschrieben (die eine Quelle).
 Erster Schritt laut `## Progress`: [erster nicht abgehakter Schritt N.M]
 
-Bereit? Starte mit `/dtb:implement {Feature-Name}` oder stelle Fragen.
+→ Weiter mit: /dtb:implement {Feature-Name}
 ```
 
 **Bei Bug:**
@@ -168,7 +168,7 @@ Bereit? Starte mit `/dtb:implement {Feature-Name}` oder stelle Fragen.
 
 [Testplan aus Analyse-Abschnitt]
 
-Bereit? Sage "Los" oder stelle Fragen.
+→ Weiter mit: Fix-Schritt 1 — {Kurzname des ersten offenen Fix-Schritts}
 ```
 
 **Bei Aufgabe:**
@@ -186,8 +186,16 @@ Bereit? Sage "Los" oder stelle Fragen.
 
 [Schritte-Checkliste aus `task.md`]
 
-Bereit? Sage "Los" oder stelle Fragen.
+→ Weiter mit: Schritt {N} — {Kurzname des ersten offenen Schritts}
 ```
+
+**Abschlusszeile statt Start-Rueckfrage:** Jeder Block endet mit genau EINER Zeile `→ Weiter mit: …`
+— keine Rueckfrage (sie trug keine Festlegung, nur den Uebergang). Der Skill **startet nichts
+selbst**: kein Aufruf von `/dtb:implement` (gesperrt gegen Modell-Aufruf — eine Entsperrung waere
+INBOX #98), bei Bug/Aufgabe keine Code-Aenderung vor der naechsten Nutzer-Eingabe. Gestartet
+wird nur durch einen Befehl oder „weiter"; eine **Frage** wird beantwortet, ohne zu starten
+(danach gilt die `→ Weiter mit: …`-Zeile unveraendert).
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z15/E.)
 
 ---
 

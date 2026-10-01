@@ -69,8 +69,13 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 
    Hier stoppen — die INBOX ist die einzige Erhebungsquelle des Fast-Track.
 3. **Slug ableiten** (kebab-case, Regeln: `{config.paths.rules}/DERIVED_STATE_RULES.md` §4).
-   Slug-Kollision mit bestehendem Ordner anderen Inhalts → melden und anderen Namen
-   erfragen (kein Auto-Suffix, §4).
+   **Namens-Default:** Liefert das Feature etwas mit festem Namen (Skill, Datei, Befehl),
+   uebernimmt der Slug diesen Namen; sonst Name aus dem Idee-Text. **Keine eigene Rueckfrage** —
+   das Veto liegt in der Kopfzeile `Ordner: …` der Sammelvorlage (Schritt 4). Korrigiert der
+   Nutzer dort den Ordner: `fast-draft.md` in den neuen Ordner verschieben (Kollision erneut
+   pruefen), dann weiter. Slug-Kollision mit bestehendem Ordner anderen Inhalts → melden und
+   anderen Namen erfragen (kein Auto-Suffix, §4).
+   (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z1/B.)
 4. **Bestandsaufnahme des Change-Ordners** `{config.paths.workflows}/features/{slug}/`:
    - `fast-draft.md` vorhanden → **Wiederaufnahme anbieten** (Schritt 4) statt neu zu erheben
    - Vorhandene Artefakte (`discovery.md`, `spec.md`, `plan.md`) auflisten und **uebernehmen**:
@@ -179,6 +184,7 @@ Dann zeige sie im Chat:
 
 ```
 # Fast-Track-Vorlage: {Feature-Name} (Inbox #{N})
+Ordner: features/{slug}/ — abweichen? In den Korrekturen nennen ("Ordner: …")
 
 ## Kurzfassung je Artefakt
 **discovery.md:** {3-5 Zeilen — Module, Scope-Kern, wichtigste Randfaelle}
@@ -245,13 +251,19 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
    aufnehmen` und normal weiterarbeiten (Schreibgrenzen-Regel: `skills/CLAUDE.md` →
    „Parallele Sessions"). Gilt auch fuer den `In Arbeit`-Flip in Schritt 4.
 
-7. **BACKLOG anbieten** (analog feature-plan Schritt 10). Bei Ja: Status-Spalte mit dem
-   abgeleiteten Initial-Status **Geplant** eintragen (spec.md + plan.md existieren,
-   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`).
+7. **BACKLOG eintragen** (analog feature-plan Schritt 10) — ohne Rueckfrage: Status-Spalte mit
+   dem abgeleiteten Initial-Status **Geplant** eintragen (spec.md + plan.md existieren,
+   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`). Anzeige-Zeile als `{Backlog-Zeile}`
+   im Abschluss (Punkt 8): `→ in BACKLOG.md eingetragen (Status: Geplant)` (im Worktree entfaellt
+   sie — dort steht die ↷-Hinweiszeile des Teil-Guards). **Testordner-Ausnahme:** Slug beginnt mit
+   `zz-test-` oder `abnahmeprobe-` → kein Eintrag, Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
+   **BACKLOG.md fehlt oder ist unlesbar** → kein Eintrag, kein Abbruch, Zeile
+   `⚠ BACKLOG.md fehlt oder ist unlesbar — kein Eintrag, weiter`.
 8. **Abschluss:**
 
    ```
    Fast-Track abgeschlossen: features/{slug}/ (discovery.md, spec.md, plan.md)
+   {Backlog-Zeile}
 
    Naechster Schritt: /dtb:plan-review {Feature-Name}
      (die Reviews laufen unveraendert — der Fast-Track verkuerzt nur die Erhebung)

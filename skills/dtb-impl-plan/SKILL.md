@@ -72,7 +72,7 @@ einer Discovery existiert — sonst wird sie uebernommen.
 vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
 `📂 Ist-Analyse aus discovery.md uebernommen ({N} Module, Pfade verifiziert)`
 
-**2b. Nicht verwertbar → Scan.** Schluesselwoerter aus der Spec → betroffene Module per Glob/Grep (read-only), Ergebnis zur Bestaetigung VOR der Planung zeigen (Muster: `feature-discover` Schritt 2 — `Codebase-Scan: {N} …` + Tabelle `| # | Pfad | Relevanz |` mit Ist-Befund + „Stimmt das so?"); auf Bestaetigung warten, Liste bereinigen.
+**2b. Nicht verwertbar → Scan.** Schluesselwoerter aus der Spec → betroffene Module per Glob/Grep (read-only), Ergebnis zur Bestaetigung VOR der Planung zeigen (Muster: `feature-discover` Schritt 2 — `Codebase-Scan: {N} …` + Tabelle `| # | Pfad | Relevanz |` mit Ist-Befund + Vorschlag mit Veto `→ weiter = Liste uebernehmen · oder Pfade nennen, die fehlen oder wegfallen`); „weiter" uebernimmt, genannte Pfade ergaenzen/streichen (neue per Glob verifizieren), dann planen.
 - **0 Treffer → Dialog, nie stumm:** aktive Frage nach den Modulen. Ausgaenge: (1) Nutzer nennt Pfade → per Glob verifizieren → uebernehmen; (2) Neubau → `## Ist-Analyse`-Zeile „keine betroffenen Bestandsmodule (Neubau)".
 - **Kappung bei 15:** nur die 15 relevantesten, Rest als Pflichtzeile „+ {M} weitere Treffer nicht gelistet" (nie still). **Priorisierung:** direkter Modul-Treffer (Schluesselwort im Pfad/Dateinamen) vor Streu-Treffer (nur im Inhalt/Doku/Tests). Viele Treffer = zu generisch → schaerfer nachscannen statt abkippen.
 
@@ -259,11 +259,21 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 Wenn dir waehrend der Planung eine nicht-offensichtliche, wiederverwendbare Erkenntnis auffaellt
 (Trigger-Frage: „Wuerde ich denselben Fehler nochmal machen, wenn das nur im Session-Log stuende?"),
-schlage sie zur Aufnahme vor — **nie stiller Auto-Write**:
+merke sie vor — **keine Rueckfrage, kein Auto-Write in `lessons.md`**:
+1. **Im Artefakt ablegen** (dauerhaft, ueberlebt Kompression, Session-Ende und Worktree): am Ende
+   von `features/{slug}/plan.md` unter `## Lektion-Kandidaten` (Sektion anlegen, falls sie fehlt)
+   eine Zeile `- „{knappe Regel}" (vorgemerkt YYYY-MM-DD)` — **ohne Checkbox**, status-neutral
+   (zaehlt fuer keine Ableitung, `## Progress` bleibt allein massgeblich).
+2. **Genau eine Zeile im Chat:**
 ```
-💡 Lektion-Kandidat: "{knappe Regel}". Nach lessons.md uebernehmen? (/dtb:lesson oder ja/nein)
+💡 Lektion-Kandidat vorgemerkt: „{knappe Regel}" → wird beim Checkpoint erfasst
 ```
-Bei „ja": den Text an `/dtb:lesson` uebergeben.
+Erfasst wird beim naechsten `/dtb:workflow-checkpoint` im Haupt-Checkout: die Verlustpruefung
+(`dtb:no-loss-check`) liest `## Lektion-Kandidaten` als Quelle, der Mensch bestaetigt in der
+Sammelvorlage. Danach steht die Regel in `lessons.md` und der Kandidat gilt als erfasst. Wer einen
+Kandidaten endgueltig verwerfen will, loescht seine Zeile im Artefakt — sonst erscheint er in der
+naechsten Session erneut. Sofort erfassen bleibt jederzeit moeglich: `/dtb:lesson "{knappe Regel}"`.
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z16/C.)
 
 ## Verwandte Commands
 

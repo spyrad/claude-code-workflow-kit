@@ -204,16 +204,21 @@ Ohne INBOX-Herkunft: Schritt still ueberspringen.
 
 ---
 
-## Schritt 5: Backlog-Eintrag anbieten
+## Schritt 5: Backlog-Eintrag (ohne Rueckfrage)
 
-Frage den Benutzer:
-```
-Aufgabe gespeichert: {config.paths.workflows}/features/{slug}/task.md
+Keine Frage — der Eintrag ist der Default (die Antwort war in allen realen Laeufen „Ja"; eine
+BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung billig umkehrbar). Ergebnis
+ist genau eine Anzeige-Zeile, die als `{Backlog-Zeile}` in der Bestaetigung (Schritt 6) erscheint:
+`→ in BACKLOG.md eingetragen (Status: Offen)`
 
-Soll die Aufgabe in BACKLOG.md eingetragen werden? (Ja/Nein)
-```
+**Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN Eintrag,
+stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
 
-**Bei Ja:**
+**BACKLOG.md fehlt oder ist unlesbar** → kein Eintrag, kein Abbruch, genau die Zeile
+`⚠ BACKLOG.md fehlt oder ist unlesbar — kein Eintrag, weiter` (`/dtb:backlog-status` erkennt
+`features/*/task.md` ohnehin).
+
+**Eintrag schreiben:**
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aufgaben" ein:
   `| {Aufgaben-Name} | Offen | {Prioritaet} | features/{slug}/task.md | {Beschreibung-Einzeiler} |`
@@ -230,11 +235,7 @@ Soll die Aufgabe in BACKLOG.md eingetragen werden? (Ja/Nein)
   ```
 - Aktualisiere das Datum in "Letzte Aktualisierung"
 
-**Bei Nein:**
-```
-OK, Aufgabe nicht ins Backlog eingetragen.
-Du kannst sie spaeter mit /dtb:backlog-status sehen (features/*/task.md werden automatisch erkannt).
-```
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z2.)
 
 ---
 
@@ -243,6 +244,7 @@ Du kannst sie spaeter mit /dtb:backlog-status sehen (features/*/task.md werden a
 ```
 Aufgabe erfasst: {config.paths.workflows}/features/{slug}/task.md
 Prioritaet: {Prioritaet}
+{Backlog-Zeile}
 
 Naechste Schritte:
   1. Direkt starten: /dtb:feature-start

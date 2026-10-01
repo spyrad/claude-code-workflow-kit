@@ -182,7 +182,18 @@ der Dimension — bei belegtem schwerwiegendem Fall wie FAIL.
 
 ## Schritt 5: Anpassungen anbieten
 
-Frage Damian ob Anpassungen am Implementierungsplan vorgenommen werden sollen.
+Abhaengig vom Gesamt-Verdikt:
+
+- **REVISE oder RETHINK → keine Ja/Nein-Frage.** Bei negativem Verdikt ist das „Ja" gesetzt
+  (0 „Nein" in 26 realen Laeufen). Der Report endet mit der Anzeige-Zeile
+  `→ Verdikt {REVISE|RETHINK}: direkt in die Finding-Runde` und es geht sofort weiter: die
+  Empfehlungen einzeln vorschlagen, der Mensch nimmt je Empfehlung an, aendert ab oder lehnt
+  ab. **Die Finding-Entscheidungen selbst bleiben einzeln beim Menschen** (sie legen Scope fest);
+  Ablehnen oder Vertagen ist jederzeit moeglich und fuehrt in Schritt 6 zu „Findings offen".
+- **SOUND → Frage bleibt:** „Moechtest du Anpassungen am Implementierungsplan vornehmen?
+  (Ja/Nein)" — ohne WARN ist sie eine echte Wahl.
+
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z7.)
 
 ## Schritt 6: Kopf-Statusfeld setzen (Pfleger-Pflicht)
 
@@ -239,7 +250,7 @@ umgekehrte Fehler kostet nur einen weiteren, billigen Review-Lauf.
 
 Nach der Anpassungs-Runde aus Schritt 5 — und erst dann — wird genau eine zusaetzliche Zeile
 ausgegeben: `📝 Kopf-Statusfeld → {neuer Wert}`. Sie steht **ausserhalb** des Output-Blocks
-unten (dessen letzte Zeile die noch unbeantwortete Anpassungs-Frage ist), macht die stille
+unten (dessen letzte Zeile die Anpassungs-Frage bzw. der Uebergang in die Finding-Runde ist), macht die stille
 Aenderung sichtbar und belegt, dass der Pfleger gelaufen ist.
 
 ---
@@ -333,12 +344,14 @@ Gib die Diskussion in folgendem Format aus:
 
 ---
 
-Moechtest du Anpassungen am Implementierungsplan vornehmen? (Ja/Nein)
+{SOUND:} Moechtest du Anpassungen am Implementierungsplan vornehmen? (Ja/Nein)
+{REVISE/RETHINK:} → Verdikt {REVISE|RETHINK}: direkt in die Finding-Runde
 ```
 
 Die Zeile `📝 Kopf-Statusfeld → {Wert}` gehoert bewusst **NICHT** in diesen Block: Der Feldwert
 haengt am Ausgang von Schritt 5 (wurden die Findings eingearbeitet?) und ist erst nach der
-Anpassungs-Runde bestimmbar. Der Block oben endet mit der noch unbeantworteten Frage; die
+Anpassungs-Runde bestimmbar. Der Block oben endet mit der noch unbeantworteten Frage (SOUND)
+bzw. mit dem Uebergang in die noch nicht gelaufene Finding-Runde (REVISE/RETHINK); die
 📝-Zeile folgt danach als eigene Ausgabe (Schritt 6.3). Sie hier einzusetzen wuerde den Wert
 festlegen, bevor die Antwort vorliegt — und damit die harte „behoben"-Bedingung aus 6.1 aushebeln.
 
@@ -357,4 +370,4 @@ festlegen, bevor die Antwort vorliegt — und damit die harte „behoben"-Beding
 - **Keine Datei-Erstellung:** Die Diskussion wird nur in der Konsole ausgegeben. Geschrieben wird
   ausschliesslich in `features/{slug}/plan.md`, und nur an zwei Stellen: Plan-Anpassungen nach
   Zustimmung in Schritt 5 und das Kopf-Statusfeld in Schritt 6 (Pfleger-Pflicht, still)
-- **Bei "Ja" zu Anpassungen:** Konkrete Aenderungen am Implementierungsplan vorschlagen und nach Bestaetigung umsetzen
+- **Finding-Runde (REVISE/RETHINK direkt, SOUND nach „Ja"):** Konkrete Aenderungen am Implementierungsplan vorschlagen und nach Bestaetigung umsetzen — je Empfehlung einzeln

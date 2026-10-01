@@ -30,7 +30,7 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 1. **Analysiere den Chat-Verlauf** und identifiziere den diskutierten Feature-Plan
 2. **Strukturiere den Plan** nach dem unten stehenden Template
 3. **Speichere** in `{config.paths.workflows}/features/{slug}/spec.md`
-4. **Frage den Benutzer** ob das Feature in BACKLOG.md eingetragen werden soll
+4. **Trage das Feature in BACKLOG.md ein** — ohne Rueckfrage, mit Anzeige-Zeile (Ausfuehrung Punkt 10)
 
 ## Template fuer spec.md
 
@@ -180,16 +180,22 @@ Verwende folgende Struktur:
      - Setze den Status in `INBOX.md` auf `Ausgearbeitet`
      - Ergaenze die Idee-Zeile um den Link: `→ features/{slug}/spec.md`
 
-10. **Backlog-Eintrag anbieten:**
+10. **Backlog-Eintrag (ohne Rueckfrage):**
 
-   Frage den Benutzer:
-   ```
-   Feature gespeichert: {config.paths.workflows}/features/{slug}/spec.md
+   Keine Frage — der Eintrag ist der Default (0 belegte „Nein" in realen Laeufen; eine
+   BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung billig umkehrbar).
+   Ergebnis ist genau eine Anzeige-Zeile, die als `{Backlog-Zeile}` in der Bestaetigung
+   (Punkt 11) erscheint: `→ in BACKLOG.md eingetragen (Status: Spezifiziert)`. Im Worktree
+   entfaellt sie — dort steht die ↷-Hinweiszeile des Teil-Guards (Punkt 9).
 
-   Soll das Feature in BACKLOG.md eingetragen werden? (Ja/Nein)
-   ```
+   **Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN
+   Eintrag, stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
 
-   **Bei Ja:**
+   **BACKLOG.md fehlt oder ist unlesbar** → kein Eintrag, kein Abbruch, genau die Zeile
+   `⚠ BACKLOG.md fehlt oder ist unlesbar — kein Eintrag, weiter` (`/dtb:backlog-status`
+   erkennt `features/*/spec.md` ohnehin).
+
+   **Eintrag schreiben:**
    - Lies `{config.paths.workflows}/BACKLOG.md`
    - Die Status-Spalte ist eine **abgeleitete Anzeige** (Regeln: `project-rules/DERIVED_STATE_RULES.md`):
      trage den initialen abgeleiteten Status ein — frisch erstellte Spec ohne Plan = `Spezifiziert`.
@@ -201,14 +207,13 @@ Verwende folgende Struktur:
      `| {Feature-Name} | Spezifiziert | {Prio} | features/{slug}/spec.md | {Ziel aus Executive Summary} |`
    - Aktualisiere das Datum in "Letzte Aktualisierung"
 
-   **Bei Nein:**
-   ```
-   OK, Feature nicht ins Backlog eingetragen.
-   Du kannst es spaeter mit /dtb:backlog-status sehen (features/*/spec.md werden automatisch erkannt).
-   ```
+   (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z3.)
 
 11. **Bestaetige:**
    ```
+   Feature gespeichert: {config.paths.workflows}/features/{slug}/spec.md
+   {Backlog-Zeile}
+
    Naechste Schritte:
    1. Implementierungsplan erstellen: /dtb:impl-plan [Feature-Name]
    2. Plan reviewen: /dtb:plan-review [Feature-Name]
