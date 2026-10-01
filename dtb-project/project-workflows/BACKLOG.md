@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-09-24 (Checkpoint S2: `statusverlust-luecken` Abgenommen)
+**Letzte Aktualisierung:** 2026-10-01 (Merge `rueckfragen-defaults` Abgenommen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,6 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
+| Rueckfragen-Defaults (Autonomie-Achse, Station 2, #57) | Abgenommen | offen | features/rueckfragen-defaults/plan.md | Rueckfragen mit immer gleicher Antwort als sichtbarer Vorschlag mit Veto statt Frage — Vorstufe fuer den Autopiloten #98 |
 
 ---
 

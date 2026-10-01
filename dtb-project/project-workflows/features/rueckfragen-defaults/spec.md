@@ -3,7 +3,7 @@
 **Erstellt:** 2026-09-30
 **Ziel:** Rueckfragen der Voll-Schiene, die keine teuer umkehrbare Festlegung tragen, durch sichtbare Vorschlaege mit Veto oder durch stille Defaults ersetzen — nach der verbindlichen Festlegung vom 2026-09-22.
 **Prioritaet:** offen (siehe Offene Punkte)
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
