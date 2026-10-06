@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| backlog-inbox-nummer | Abgenommen | 6/6 | /dtb:archive |
+
+Kein aktives Feature.
 
 ---
 
@@ -18,19 +19,17 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #107 abgenommen und nach master gemergt (`2f3cb09`), Push + kit-sync offen; naechste Autonomie-Station offen (#98/#99 in INBOX) |
+| **Notizen** | #107 (BACKLOG-Spalte `#`) abgeschlossen und archiviert; naechste Autonomie-Station offen (#98/#99 in INBOX) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **backlog-inbox-nummer: Worktree/Branch/Pane abbauen** — Kontext: gemergt 2026-10-06 (ff auf `2f3cb09`), Pane `w3:pC` erst `/exit`, dann `git worktree remove` + `git branch -d` (seit 2026-09-30)
-- [ ] **Commit + Push, dann `/dtb:kit-sync sync`** — Kontext: 7 Klasse-A-Skills geaendert; danach migriert der naechste Checkpoint BACKLOG.md auf Spalte `#` (Probe) (seit 2026-10-06)
 - [ ] **3 Rest-Befunde aus `archive/rueckfragen-defaults/review.md`** — Kontext: feature-start „Fix-Schritt 1", feature-fast leerer Altordner, beispielausgaben Spiegel-Soll 3→4 (seit 2026-10-01)
 - [ ] **1 Lesson-Kandidat** — Kontext: `agent_not_found` = geschlossene Pane UND beendete Session (seit 2026-09-24 · behalten 2026-10-01)
-- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 13 offene Ideen, fuenfter Start ohne Entscheidung (2026-10-06 fuer #107 unterbrochen) (seit ≤2026-09-23 · behalten 2026-09-30)
+- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 12 offene Ideen, fuenfter Start ohne Entscheidung (2026-10-06 fuer #107 unterbrochen) (seit ≤2026-09-23 · behalten 2026-09-30)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-05)
-- [ ] **`/dtb:idea-triage`** — Kontext: 71 ungesichtet; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-01)
+- [ ] **`/dtb:idea-triage`** — Kontext: 72 ungesichtet; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-01)
 - [ ] **Veraltete TTS-Dateien loeschen + Sprachausgabe einrichten** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1` (L58) (seit ≤2026-09-11 · behalten 2026-10-01)
 
 ---
@@ -39,7 +38,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-10-06 | #107 BACKLOG-Spalte `#` per `pane-start` umgesetzt | Fast-Track, 6/6, impl-review 10 Fixed, abgenommen (Trockenlauf); Merge offen; L87 | `2026-10/2026-10-06.md` |
+| 2026-10-06 | #107 BACKLOG-Spalte `#` ausgeliefert | per `pane-start` + Fast-Track, abgenommen, ff-Merge `2f3cb09`, kit-sync 50/50, archiviert; L87, #131/#132 | `2026-10/2026-10-06.md` |
 | 2026-10-06 | Station 1 + 2 der Autonomie-Achse archiviert | `rueckfragen-defaults` + `rueckfragen-erhebung` → `archive/`, INBOX #57 entfernt; #129/#130 erfasst | `2026-10/2026-10-06.md` |
 | 2026-10-05 | Rollout Station 2 (#57) bestaetigt | Merge `77d2dba`, push, kit-sync 50/50 synchron; Worktree/Branch/Pane abgebaut | `2026-10/2026-10-05.md` |
 | 2026-10-01 | Station 2 (#57) umgesetzt + abgenommen | Phase 3–5, impl-review 0 blocking / 10 Fixed; Abnahme mit Probelauf; L85–L86 | `2026-10/2026-10-01.md` |
@@ -56,6 +55,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:commit-and-push`
+**Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 71 ungesichtet → /dtb:idea-triage
+**Becken:** 72 ungesichtet → /dtb:idea-triage
