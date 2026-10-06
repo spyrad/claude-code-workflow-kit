@@ -47,7 +47,7 @@
 - Bestandsprojekt mit altem Tabellenkopf → Checkpoint ergaenzt Kopf + Trennzeile + jede Datenzeile
 - Bug ohne Idee → `—`
 - Voll-Schiene: feature-plan kennt die Nummer nur ueber discovery.md, wenn die Idee schon `In Arbeit` ist (feature-plan filtert die Inbox-Auswahl auf `Offen`)
-- Mehrere INBOX-Zeilen verlinken denselben Ordner (Teil-Routing) → offener Punkt, siehe unten
+- Mehrere INBOX-Zeilen verlinken denselben Ordner (Teil-Routing) → kleinste Nummer (geklaert im plan-review 2026-10-06)
 - Leere Tabellen (wie aktuell in der kit-eigenen BACKLOG.md) → nur Kopf und Trennzeile aendern sich
 
 ### Einschraenkungen

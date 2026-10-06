@@ -147,9 +147,9 @@ abgeleitete Anzeige (Quellen: INBOX-Change-Link, dann ARCHIVE_LOG; nie ueberschr
 - [x] 1.1 BACKLOG-Vorlage project-init — `be76836`
 - [x] 1.2 feature-plan + feature-fast — `be76836`
 - [x] 1.3 task + bug-report — `be76836`
-- [x] 2.1 Checkpoint zieht # nach
-- [x] 2.2 backlog-status zeigt #
-- [x] 2.3 Regel-Absatz DSR §3
+- [x] 2.1 Checkpoint zieht # nach — `06b8b6e`
+- [x] 2.2 backlog-status zeigt # — `06b8b6e`
+- [x] 2.3 Regel-Absatz DSR §3 — `06b8b6e`
 
 ---
 

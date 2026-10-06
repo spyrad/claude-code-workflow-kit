@@ -448,22 +448,30 @@ Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Te
 2. **Synchronisiere die Anzeige-Felder** mit dem abgeleiteten Status (dieser Skill ist der
    schreibende Skill aus Regel-Datei §1.3):
    - Status-Spalte in BACKLOG.md (Abschnitte "Aktive Features"/"Aufgaben")
-   - **Spalte `#` in BACKLOG.md** (INBOX-Nummer der Idee, abgeleitete Anzeige — alle vier
-     Tabellen):
+   - **Spalte `#` in BACKLOG.md** (INBOX-Nummer der Idee, abgeleitete Anzeige — alle Tabellen
+     mit Datei-Spalte: die vier Standardtabellen, ggf. Alt-Abschnitt "Bugs"):
      - **Spalte fehlt** in einer Tabelle (Bestandsprojekt) → Kopf um `| # |` und Trennzeile um
        `|---|` ergaenzen, jeder Datenzeile eine erste Zelle voranstellen (Wert wie unten)
-     - **Nur fehlende oder leere Zellen fuellen**, Quellen in dieser Reihenfolge — der Ordner
-       ist `features/<slug>/` aus der Datei-Spalte der Zeile:
-       1. `INBOX.md`: Zeile, deren Change-Link (`→ features/<slug>/…`) auf diesen Ordner zeigt
-          → deren Nummer
-       2. `archive/ARCHIVE_LOG.md`: `Idee`-Eintrag `#{N}` mit Link auf `features/<slug>/…` bzw.
-          `archive/<slug>/…` → dessen Nummer
-       3. sonst `—`
-       Treffen mehrere Ideen denselben Ordner (Teil-Routing) → die kleinste Nummer.
+     - **Einzelne Zeile im Altformat** unter einem Kopf mit `#` (weniger Zellen als der Kopf,
+       z.B. von einer noch nicht synchronisierten Skill-Kopie) → ebenso eine erste Zelle
+       voranstellen und den Wert ableiten — der Feature-Name ist nie eine Nummer
+     - **Kein Wert** = Zelle fehlt, ist leer oder traegt `—` → bei jedem Lauf neu ableiten.
+       Der Ordner ist `features/<slug>/` bzw. `archive/<slug>/` aus der Datei-Spalte der Zeile;
+       traegt die Datei-Spalte keinen solchen Pfad (`-`, flache Altdatei wie `FEATURE_*.md`)
+       → `—`, keinen Slug aus Altnamen raten. Quellen — Treffer aus BEIDEN zusammennehmen:
+       1. `INBOX.md`: Zeilen, deren Change-Link (`→ features/<slug>/…`) auf diesen Ordner zeigt
+       2. `archive/ARCHIVE_LOG.md`: `Idee`-Eintraege `#{N}` mit Link auf `features/<slug>/…`
+          bzw. `archive/<slug>/…` (Altlinks auf flache Dateien zaehlen nicht)
+       Ein oder mehrere Treffer (Teil-Routing) → die kleinste Nummer; kein Treffer → `—`.
        Nackte Zahl (`107`, nicht `#107`)
-     - **Eine vorhandene Nummer wird NIE ueberschrieben** — auch nicht mit `—`. `dtb:archive`
-       verschiebt INBOX-Zeilen `Ausgearbeitet` mit gueltigem Link, waehrend der Change noch
-       aktiv ist; die Quelle kann also verschwinden, die eingetragene Nummer bleibt richtig
+     - **Eine eingetragene Zahl wird NIE ueberschrieben** — weder mit einer anderen Zahl noch
+       mit `—`. `dtb:archive` verschiebt INBOX-Zeilen `Ausgearbeitet` mit gueltigem Link,
+       waehrend der Change noch aktiv ist; die Quelle kann also verschwinden, die eingetragene
+       Nummer bleibt richtig
+
+     > **Wartungs-Hinweis (Format-Kopplung):** operative Kopie von `DERIVED_STATE_RULES.md` §3
+     > (Kopie ist Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22).
+     > Aenderung dort → hier mitziehen (Grep-Anker: „Spalte `#` in BACKLOG.md").
    - `**Status:**`-Zeile in `features/<slug>/spec.md` bzw. `task.md`
    - Datum in "Letzte Aktualisierung"
    - **Falls `dtb-project/project-strategy/ROADMAP.md` existiert**: Statusspalte nach Regel-Datei §5

@@ -130,7 +130,7 @@ das Item keine BACKLOG-Zeile → `—`:
 | {Nr} | {Feature} | Geplant | {Prio} | ✅/❌ | {Datei} | {Ziel} |
 
 ## Ideen / Backlog
-- #{Nr} {Feature}: {Einzeiler-Beschreibung}
+- {#Nr }{Feature}: {Einzeiler-Beschreibung}   ← `#{Nr} ` nur bei einer Zahl, bei `—` weglassen
 
 ## Fertig zum Testen / Abgenommen
 | # | Feature | Status | Datei |

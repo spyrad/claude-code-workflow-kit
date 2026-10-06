@@ -253,8 +253,12 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
 
 7. **BACKLOG eintragen** (analog feature-plan Schritt 10) — ohne Rueckfrage: Status-Spalte mit
    dem abgeleiteten Initial-Status **Geplant** eintragen (spec.md + plan.md existieren,
-   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`). Spalte `#` = die INBOX-Nummer der
-   Idee aus Schritt 1 (Zeilenformat und Toleranz bei altem Kopf wie dort). Anzeige-Zeile als `{Backlog-Zeile}`
+   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`). Zeile in "Aktive Features":
+   `| {INBOX-Nr} | {Feature-Name} | Geplant | {Prio} | features/{slug}/spec.md | {Ziel aus Executive Summary} |`
+   — Spalte `#` = die INBOX-Nummer der Idee aus Schritt 1 als nackte Zahl (`107`; der Fast-Track
+   hat immer eine Idee). **Kopf ohne `#`** (Bestandsprojekt, Tabelle noch im alten Format) → Zeile
+   im alten Format ohne erste Spalte schreiben, nicht selbst umbauen — `dtb:workflow-checkpoint`
+   ergaenzt die Spalte und fuellt die Nummer nach. Anzeige-Zeile als `{Backlog-Zeile}`
    im Abschluss (Punkt 8): `→ in BACKLOG.md eingetragen (Status: Geplant)` (im Worktree entfaellt
    sie — dort steht die ↷-Hinweiszeile des Teil-Guards). **Testordner-Ausnahme:** Slug beginnt mit
    `zz-test-` oder `abnahmeprobe-` → kein Eintrag, Zeile `→ kein BACKLOG-Eintrag (Testordner)`.

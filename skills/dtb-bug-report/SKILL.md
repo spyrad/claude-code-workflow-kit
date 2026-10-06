@@ -209,10 +209,12 @@ stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
   (`Offen` = initialer abgeleiteter Status, kein Analyse-Abschnitt vorhanden. Die
   Status-Spalte ist abgeleitete Anzeige und wird danach von `dtb:workflow-checkpoint`
   gepflegt — Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
-- **Spalte `#` (INBOX-Nummer):** immer `—` — ein Bug entsteht ohne INBOX-Idee
+- **Spalte `#` (INBOX-Nummer):** Startwert `—` — dieser Skill kennt keine Idee;
+  `dtb:workflow-checkpoint` fuellt die Nummer nach, falls spaeter eine Idee auf diese
+  `bug.md` verlinkt
 - **Kopf ohne `#`** (Bestandsprojekt, Tabelle noch im alten Format) → Zeile im alten Format
   ohne erste Spalte schreiben, nicht selbst umbauen — `dtb:workflow-checkpoint` ergaenzt die
-  Spalte nach
+  Spalte und fuellt die Nummer nach
 - Aktualisiere das Datum in "Letzte Aktualisierung"
 
 (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile A.)

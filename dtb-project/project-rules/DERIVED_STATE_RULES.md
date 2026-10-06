@@ -176,14 +176,18 @@ Abgeleitete Zustaende und ihre Anzeige in Reports/BACKLOG:
 **Statusfeld in BACKLOG.md** ist abgeleitete **Anzeige**: schreibende Skills befuellen es
 beim naechsten Lauf nach diesen Regeln; manuell gepflegt werden nur Prio und Ziel.
 
-**Spalte `#` in BACKLOG.md** (erste Spalte aller vier Tabellen) traegt die INBOX-Nummer der
-Idee, aus der ein Change entstand — nackte Zahl, `—` ohne Idee (Bugs immer `—`). Auch sie ist
-abgeleitete **Anzeige**: die zeilenschreibenden Skills setzen den Startwert, `dtb:workflow-checkpoint`
-ergaenzt die Spalte in Bestandsprojekten und fuellt **nur fehlende Werte** nach (Quellen:
-INBOX-Change-Link nach §8, dann `archive/ARCHIVE_LOG.md`; mehrere Treffer → kleinste Nummer).
-Eine vorhandene Nummer wird **nie ueberschrieben** — `dtb:archive` kann die INBOX-Zeile vor dem
-Change archivieren, die Quelle verschwindet dann, die Nummer bleibt richtig. Der Laufzeittext
-steht inline im Checkpoint (diese Datei ist Seed und erreicht Bestandsprojekte nicht).
+**Spalte `#` in BACKLOG.md** (erste Spalte aller Tabellen mit Datei-Spalte — die vier
+Standardtabellen, ggf. Alt-Abschnitt "Bugs") traegt die INBOX-Nummer der Idee, aus der ein
+Change entstand — nackte Zahl, `—` ohne Idee. Auch sie ist abgeleitete **Anzeige**: die
+zeilenschreibenden Skills setzen den Startwert (`dtb:bug-report` immer `—`, er kennt keine
+Idee), `dtb:workflow-checkpoint` ergaenzt die Spalte in Bestandsprojekten und leitet bei jedem
+Lauf neu ab, solange **kein Wert** eingetragen ist (fehlend, leer oder `—`). Quellen: Treffer
+aus INBOX-Change-Link nach §8 UND `archive/ARCHIVE_LOG.md` zusammengenommen, kleinste Nummer;
+Datei-Spalte ohne `features/<slug>/`- bzw. `archive/<slug>/`-Pfad → `—`, kein Slug aus
+Altnamen. Eine eingetragene **Zahl** wird **nie ueberschrieben** — `dtb:archive` kann die
+INBOX-Zeile vor dem Change archivieren, die Quelle verschwindet dann, die Nummer bleibt
+richtig. Der Laufzeittext steht inline im Checkpoint (diese Datei ist Seed und erreicht
+Bestandsprojekte nicht).
 
 ---
 
