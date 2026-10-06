@@ -10,7 +10,7 @@ pipeline:
   stage: session
   after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
   next: [dtb:workflow-resume, dtb:idea-triage]
-  consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md, workflow.config.yaml]
+  consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, ARCHIVE_LOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md, workflow.config.yaml]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md]
 ---
 
@@ -448,6 +448,22 @@ Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Te
 2. **Synchronisiere die Anzeige-Felder** mit dem abgeleiteten Status (dieser Skill ist der
    schreibende Skill aus Regel-Datei §1.3):
    - Status-Spalte in BACKLOG.md (Abschnitte "Aktive Features"/"Aufgaben")
+   - **Spalte `#` in BACKLOG.md** (INBOX-Nummer der Idee, abgeleitete Anzeige — alle vier
+     Tabellen):
+     - **Spalte fehlt** in einer Tabelle (Bestandsprojekt) → Kopf um `| # |` und Trennzeile um
+       `|---|` ergaenzen, jeder Datenzeile eine erste Zelle voranstellen (Wert wie unten)
+     - **Nur fehlende oder leere Zellen fuellen**, Quellen in dieser Reihenfolge — der Ordner
+       ist `features/<slug>/` aus der Datei-Spalte der Zeile:
+       1. `INBOX.md`: Zeile, deren Change-Link (`→ features/<slug>/…`) auf diesen Ordner zeigt
+          → deren Nummer
+       2. `archive/ARCHIVE_LOG.md`: `Idee`-Eintrag `#{N}` mit Link auf `features/<slug>/…` bzw.
+          `archive/<slug>/…` → dessen Nummer
+       3. sonst `—`
+       Treffen mehrere Ideen denselben Ordner (Teil-Routing) → die kleinste Nummer.
+       Nackte Zahl (`107`, nicht `#107`)
+     - **Eine vorhandene Nummer wird NIE ueberschrieben** — auch nicht mit `—`. `dtb:archive`
+       verschiebt INBOX-Zeilen `Ausgearbeitet` mit gueltigem Link, waehrend der Change noch
+       aktiv ist; die Quelle kann also verschwinden, die eingetragene Nummer bleibt richtig
    - `**Status:**`-Zeile in `features/<slug>/spec.md` bzw. `task.md`
    - Datum in "Letzte Aktualisierung"
    - **Falls `dtb-project/project-strategy/ROADMAP.md` existiert**: Statusspalte nach Regel-Datei §5

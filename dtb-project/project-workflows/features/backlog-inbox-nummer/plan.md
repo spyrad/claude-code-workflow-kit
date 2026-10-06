@@ -144,12 +144,12 @@ abgeleitete Anzeige (Quellen: INBOX-Change-Link, dann ARCHIVE_LOG; nie ueberschr
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 BACKLOG-Vorlage project-init
-- [x] 1.2 feature-plan + feature-fast
-- [x] 1.3 task + bug-report
-- [ ] 2.1 Checkpoint zieht # nach
-- [ ] 2.2 backlog-status zeigt #
-- [ ] 2.3 Regel-Absatz DSR §3
+- [x] 1.1 BACKLOG-Vorlage project-init — `be76836`
+- [x] 1.2 feature-plan + feature-fast — `be76836`
+- [x] 1.3 task + bug-report — `be76836`
+- [x] 2.1 Checkpoint zieht # nach
+- [x] 2.2 backlog-status zeigt #
+- [x] 2.3 Regel-Absatz DSR §3
 
 ---
 

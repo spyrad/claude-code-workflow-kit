@@ -106,16 +106,18 @@ In Worktrees:
 
 ## Schritt 4: Backlog-Report erstellen
 
-Erstelle einen kompakten Report:
+Erstelle einen kompakten Report. Die Spalte `#` (INBOX-Nummer) wird aus BACKLOG.md uebernommen,
+nicht selbst abgeleitet — fehlt sie dort (Bestandsprojekt vor dem naechsten Checkpoint) oder hat
+das Item keine BACKLOG-Zeile → `—`:
 
 ```markdown
 # Backlog-Status
 **Datum:** {DD.MM.YYYY}
 
 ## Aktiv (in Arbeit)
-| Feature | Status (abgeleitet) | Prio | Fortschritt | Datei | Ziel |
-|---------|---------------------|------|-------------|-------|------|
-| {Feature} | {abgeleiteter Status} | {Prio} | {X/Y} | {Datei} | {Ziel} |
+| # | Feature | Status (abgeleitet) | Prio | Fortschritt | Datei | Ziel |
+|---|---------|---------------------|------|-------------|-------|------|
+| {Nr} | {Feature} | {abgeleiteter Status} | {Prio} | {X/Y} | {Datei} | {Ziel} |
 
 {Falls Konflikte: ⚠ {Item}: BACKLOG sagt "{Feld}", Artefakte zeigen "{abgeleitet}"}
 
@@ -123,22 +125,22 @@ Erstelle einen kompakten Report:
 {Zeilen aus Schritt 3b ohne Kopfzeile — Abschnitt entfaellt still, wenn der Block entfaellt}
 
 ## Geplant (priorisiert)
-| Feature | Status | Prio | Plan | Datei | Ziel |
-|---------|--------|------|------|-------|------|
-| {Feature} | Geplant | {Prio} | ✅/❌ | {Datei} | {Ziel} |
+| # | Feature | Status | Prio | Plan | Datei | Ziel |
+|---|---------|--------|------|------|-------|------|
+| {Nr} | {Feature} | Geplant | {Prio} | ✅/❌ | {Datei} | {Ziel} |
 
 ## Ideen / Backlog
-- {Feature}: {Einzeiler-Beschreibung}
+- #{Nr} {Feature}: {Einzeiler-Beschreibung}
 
 ## Fertig zum Testen / Abgenommen
-| Feature | Status | Datei |
-|---------|--------|-------|
-| {Feature} | {Status} | {Datei} |
+| # | Feature | Status | Datei |
+|---|---------|--------|-------|
+| {Nr} | {Feature} | {Status} | {Datei} |
 
 ## Abgeschlossen (letzte 5)
-| Feature | Abgeschlossen | Datei |
-|---------|---------------|-------|
-| {Feature} | {Datum} | {Datei} |
+| # | Feature | Abgeschlossen | Datei |
+|---|---------|---------------|-------|
+| {Nr} | {Feature} | {Datum} | {Datei} |
 
 ---
 
@@ -148,9 +150,9 @@ Erstelle einen kompakten Report:
 | {Bug-Name} | {Severity} | {Status} | ✅/❌ | {Datei} |
 
 ## Offene Aufgaben
-| Aufgabe | Prio | Status | Datei |
-|---------|------|--------|-------|
-| {Aufgaben-Name} | {Prio} | {Status} | {Datei} |
+| # | Aufgabe | Prio | Status | Datei |
+|---|---------|------|--------|-------|
+| {Nr} | {Aufgaben-Name} | {Prio} | {Status} | {Datei} |
 
 ## Nicht im Backlog (Change-Ordner mit spec.md / bug.md / task.md ohne Eintrag)
 | Datei | Titel | Status |

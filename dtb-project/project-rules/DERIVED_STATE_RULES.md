@@ -176,6 +176,15 @@ Abgeleitete Zustaende und ihre Anzeige in Reports/BACKLOG:
 **Statusfeld in BACKLOG.md** ist abgeleitete **Anzeige**: schreibende Skills befuellen es
 beim naechsten Lauf nach diesen Regeln; manuell gepflegt werden nur Prio und Ziel.
 
+**Spalte `#` in BACKLOG.md** (erste Spalte aller vier Tabellen) traegt die INBOX-Nummer der
+Idee, aus der ein Change entstand — nackte Zahl, `—` ohne Idee (Bugs immer `—`). Auch sie ist
+abgeleitete **Anzeige**: die zeilenschreibenden Skills setzen den Startwert, `dtb:workflow-checkpoint`
+ergaenzt die Spalte in Bestandsprojekten und fuellt **nur fehlende Werte** nach (Quellen:
+INBOX-Change-Link nach §8, dann `archive/ARCHIVE_LOG.md`; mehrere Treffer → kleinste Nummer).
+Eine vorhandene Nummer wird **nie ueberschrieben** — `dtb:archive` kann die INBOX-Zeile vor dem
+Change archivieren, die Quelle verschwindet dann, die Nummer bleibt richtig. Der Laufzeittext
+steht inline im Checkpoint (diese Datei ist Seed und erreicht Bestandsprojekte nicht).
+
 ---
 
 ## 4. Slug-Ableitung (Change-Ordnername)
@@ -642,4 +651,7 @@ vgl. INBOX #22 — **sechster** dokumentierter Skew-Fall)
 **siebter** dokumentierter Skew-Fall)
 **§8 Change-Link-Pflicht, §9 Lebenslauf offener Aufgaben, §10 Worktree-Stand ergaenzt:** Feature
 statusverlust-luecken, 2026-09-23 (Seed-Aenderung — die Konsumenten tragen operative Kopien,
+vgl. INBOX #22)
+**§3 Spalte `#` in BACKLOG.md ergaenzt (INBOX-Nummer, nur nachfuellen, nie ueberschreiben):** Feature
+backlog-inbox-nummer, 2026-10-06 (Seed-Aenderung — der Checkpoint traegt die operative Kopie,
 vgl. INBOX #22)
