@@ -253,7 +253,8 @@ Ok zum Schreiben? (Ok / Korrekturen / Voll-Schiene / Abbruch)
 
 7. **BACKLOG eintragen** (analog feature-plan Schritt 10) — ohne Rueckfrage: Status-Spalte mit
    dem abgeleiteten Initial-Status **Geplant** eintragen (spec.md + plan.md existieren,
-   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`). Anzeige-Zeile als `{Backlog-Zeile}`
+   0 Progress-Checkboxen — Regeln: `DERIVED_STATE_RULES.md`). Spalte `#` = die INBOX-Nummer der
+   Idee aus Schritt 1 (Zeilenformat und Toleranz bei altem Kopf wie dort). Anzeige-Zeile als `{Backlog-Zeile}`
    im Abschluss (Punkt 8): `→ in BACKLOG.md eingetragen (Status: Geplant)` (im Worktree entfaellt
    sie — dort steht die ↷-Hinweiszeile des Teil-Guards). **Testordner-Ausnahme:** Slug beginnt mit
    `zz-test-` oder `abnahmeprobe-` → kein Eintrag, Zeile `→ kein BACKLOG-Eintrag (Testordner)`.

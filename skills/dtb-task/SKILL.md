@@ -221,17 +221,23 @@ stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
 **Eintrag schreiben:**
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aufgaben" ein:
-  `| {Aufgaben-Name} | Offen | {Prioritaet} | features/{slug}/task.md | {Beschreibung-Einzeiler} |`
+  `| {INBOX-Nr oder —} | {Aufgaben-Name} | Offen | {Prioritaet} | features/{slug}/task.md | {Beschreibung-Einzeiler} |`
   (`Offen` = initialer abgeleiteter Status, 0 Schritte abgehakt. Die Status-Spalte ist
   abgeleitete Anzeige und wird danach von `dtb:workflow-checkpoint` gepflegt —
   Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
+- **Spalte `#` (INBOX-Nummer):** stammt die Aufgabe aus einer INBOX-Idee (Zahl-Argument aus
+  Schritt 1 oder INBOX-Herkunft wie in Schritt 4b) → deren Nummer als nackte Zahl (`107`);
+  sonst `—`
+- **Kopf ohne `#`** (Bestandsprojekt, Tabelle noch im alten Format) → Zeile im alten Format
+  ohne erste Spalte schreiben, nicht selbst umbauen — `dtb:workflow-checkpoint` ergaenzt die
+  Spalte und fuellt die Nummer nach
 - Falls die Sektion "Aufgaben" noch nicht existiert, fuege sie zwischen "Aktive Features" und "Ideen / Backlog" ein:
   ```markdown
   ## Aufgaben
 
-  | Aufgabe | Status | Prio | Datei | Beschreibung |
-  |---------|--------|------|-------|--------------|
-  | {Aufgaben-Name} | Offen | {Prioritaet} | features/{slug}/task.md | {Beschreibung-Einzeiler} |
+  | # | Aufgabe | Status | Prio | Datei | Beschreibung |
+  |---|---------|--------|------|-------|--------------|
+  | {INBOX-Nr oder —} | {Aufgaben-Name} | Offen | {Prioritaet} | features/{slug}/task.md | {Beschreibung-Einzeiler} |
   ```
 - Aktualisiere das Datum in "Letzte Aktualisierung"
 

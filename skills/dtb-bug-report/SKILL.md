@@ -205,10 +205,14 @@ stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
 **Eintrag schreiben:**
 - Lies `{config.paths.workflows}/BACKLOG.md`
 - Fuege eine neue Zeile in die Tabelle "Aktive Features" ein:
-  `| Bug: {Bug-Name} | Offen | {Severity} | features/{slug}/bug.md | {Symptom-Einzeiler} |`
+  `| — | Bug: {Bug-Name} | Offen | {Severity} | features/{slug}/bug.md | {Symptom-Einzeiler} |`
   (`Offen` = initialer abgeleiteter Status, kein Analyse-Abschnitt vorhanden. Die
   Status-Spalte ist abgeleitete Anzeige und wird danach von `dtb:workflow-checkpoint`
   gepflegt — Regeln: `project-rules/DERIVED_STATE_RULES.md` §1.5)
+- **Spalte `#` (INBOX-Nummer):** immer `—` — ein Bug entsteht ohne INBOX-Idee
+- **Kopf ohne `#`** (Bestandsprojekt, Tabelle noch im alten Format) → Zeile im alten Format
+  ohne erste Spalte schreiben, nicht selbst umbauen — `dtb:workflow-checkpoint` ergaenzt die
+  Spalte nach
 - Aktualisiere das Datum in "Letzte Aktualisierung"
 
 (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile A.)

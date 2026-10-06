@@ -449,34 +449,36 @@ Fuer neue Session: `/dtb:workflow-resume`
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
 > synchronisiert — nicht manuell pflegen. Manuell gepflegt werden nur **Prio** und **Ziel**.
+> Die Spalte **#** traegt die INBOX-Nummer der Idee (`—` ohne Idee) — ebenfalls abgeleitete
+> Anzeige, `dtb:workflow-checkpoint` fuellt fehlende Werte nach.
 
 ---
 
 ## Aktive Features
 
-| Feature | Status | Prio | Datei | Ziel |
-|---------|--------|------|-------|------|
+| # | Feature | Status | Prio | Datei | Ziel |
+|---|---------|--------|------|-------|------|
 
 ---
 
 ## Aufgaben
 
-| Aufgabe | Status | Prio | Datei | Beschreibung |
-|---------|--------|------|-------|--------------|
+| # | Aufgabe | Status | Prio | Datei | Beschreibung |
+|---|---------|--------|------|-------|--------------|
 
 ---
 
 ## Ideen / Backlog
 
-| Feature | Status | Prio | Datei | Beschreibung |
-|---------|--------|------|-------|--------------|
+| # | Feature | Status | Prio | Datei | Beschreibung |
+|---|---------|--------|------|-------|--------------|
 
 ---
 
 ## Abgeschlossen
 
-| Feature | Abgeschlossen | Datei |
-|---------|---------------|-------|
+| # | Feature | Abgeschlossen | Datei |
+|---|---------|---------------|-------|
 ```
 
 ---

@@ -204,7 +204,13 @@ Verwende folgende Struktur:
      - Status "Idee" → "Ideen / Backlog"
      - Alle anderen (Geplant, In Arbeit, etc.) → "Aktive Features"
    - Fuege eine neue Zeile in die entsprechende Tabelle ein:
-     `| {Feature-Name} | Spezifiziert | {Prio} | features/{slug}/spec.md | {Ziel aus Executive Summary} |`
+     `| {INBOX-Nr oder —} | {Feature-Name} | Spezifiziert | {Prio} | features/{slug}/spec.md | {Ziel aus Executive Summary} |`
+   - **Spalte `#` (INBOX-Nummer):** die Nummer der in Schritt 2 gewaehlten Idee; sonst die
+     Nummer aus `**Idee-Referenz:** Inbox #{N}` der `discovery.md` (Schritt 1); sonst `—`.
+     Nackte Zahl (`107`, nicht `#107`)
+   - **Kopf ohne `#`** (Bestandsprojekt, Tabelle noch im alten Format) → Zeile im alten Format
+     ohne erste Spalte schreiben, nicht selbst umbauen — `dtb:workflow-checkpoint` ergaenzt die
+     Spalte und fuellt die Nummer nach
    - Aktualisiere das Datum in "Letzte Aktualisierung"
 
    (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z3.)
