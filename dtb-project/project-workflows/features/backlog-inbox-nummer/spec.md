@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-06
 **Ziel:** Der Stand eines Changes ist in BACKLOG.md ueber die INBOX-Nummer seiner Idee nachschlagbar.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

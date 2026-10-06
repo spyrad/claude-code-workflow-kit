@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-10-06 (Archivierung `rueckfragen-defaults` + `rueckfragen-erhebung`)
+**Letzte Aktualisierung:** 2026-10-06 (Merge `backlog-inbox-nummer`, abgenommen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,6 +12,7 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
+| BACKLOG-Spalte # | Abgenommen | Mittel | features/backlog-inbox-nummer/spec.md | Stand eines Changes per INBOX-Nummer nachschlagbar |
 
 ---
 
