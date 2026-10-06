@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-10-01 (Merge `rueckfragen-defaults` Abgenommen)
+**Letzte Aktualisierung:** 2026-10-06 (Archivierung `rueckfragen-defaults` + `rueckfragen-erhebung`)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,6 @@
 
 | Feature | Status | Prio | Datei | Ziel |
 |---------|--------|------|-------|------|
-| Rueckfragen-Defaults (Autonomie-Achse, Station 2, #57) | Abgenommen | offen | features/rueckfragen-defaults/plan.md | Rueckfragen mit immer gleicher Antwort als sichtbarer Vorschlag mit Veto statt Frage — Vorstufe fuer den Autopiloten #98 |
 
 ---
 
@@ -20,7 +19,6 @@
 
 | Aufgabe | Status | Prio | Datei | Beschreibung |
 |---------|--------|------|-------|--------------|
-| Rueckfragen-Erhebung (Autonomie-Achse, Station 1) | Abgenommen | Mittel | features/rueckfragen-erhebung/task.md | Session-Logs auszaehlen (Slug, Backlog-Frage, Pane-Stand), Abgrenzungskriterium + Delegations-Policy ableiten, Eval-Set fuer #99 — Vorarbeit fuer #57/#97/#98/#99 |
 
 ---
 
