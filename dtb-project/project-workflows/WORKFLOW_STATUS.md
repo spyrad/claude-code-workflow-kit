@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-10-06
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-06.md`
+**Letztes Update:** 2026-10-08
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-08.md`
 
 ---
 
@@ -19,18 +19,18 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #107 (BACKLOG-Spalte `#`) abgeschlossen und archiviert; naechste Autonomie-Station offen (#98/#99 in INBOX) |
+| **Notizen** | #135 Projekt-Dashboard (lokale HTML-Seite) erfasst; naechste Autonomie-Station offen (#98/#99 in INBOX) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **3 Rest-Befunde aus `archive/rueckfragen-defaults/review.md`** — Kontext: feature-start „Fix-Schritt 1", feature-fast leerer Altordner, beispielausgaben Spiegel-Soll 3→4 (seit 2026-10-01)
-- [ ] **1 Lesson-Kandidat** — Kontext: `agent_not_found` = geschlossene Pane UND beendete Session (seit 2026-09-24 · behalten 2026-10-01)
-- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 12 offene Ideen, fuenfter Start ohne Entscheidung (2026-10-06 fuer #107 unterbrochen) (seit ≤2026-09-23 · behalten 2026-09-30)
+- [ ] **3 Rest-Befunde aus `archive/rueckfragen-defaults/review.md`** — Kontext: feature-start „Fix-Schritt 1", feature-fast leerer Altordner, beispielausgaben Spiegel-Soll 3→4 (seit 2026-10-01 · behalten 2026-10-08)
+- [ ] **1 Lesson-Kandidat** — Kontext: `agent_not_found` = geschlossene Pane UND beendete Session (seit 2026-09-24 · behalten 2026-10-08)
+- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 15 offene Ideen, sechster Start ohne Entscheidung (2026-10-08 fuer Checkpoint unterbrochen); Zusammenlege-Kandidaten #100+#105, #111+#112, #99→#98 (seit ≤2026-09-23 · behalten 2026-10-08)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-05)
-- [ ] **`/dtb:idea-triage`** — Kontext: 72 ungesichtet; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-01)
-- [ ] **Veraltete TTS-Dateien loeschen + Sprachausgabe einrichten** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1` (L58) (seit ≤2026-09-11 · behalten 2026-10-01)
+- [ ] **`/dtb:idea-triage`** — Kontext: 72 ungesichtet; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-08)
+- [ ] **Veraltete TTS-Dateien loeschen + Sprachausgabe einrichten** — Kontext: `Desktop\install-claude-tts.ps1`, `~/.claude/tts/install-template.ps1`, `build-installer.ps1` (L58) (seit ≤2026-09-11 · behalten 2026-10-08)
 
 ---
 
