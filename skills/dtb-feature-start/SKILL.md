@@ -168,7 +168,7 @@ Erster Schritt laut `## Progress`: [erster nicht abgehakter Schritt N.M]
 
 [Testplan aus Analyse-Abschnitt]
 
-→ Weiter mit: Fix-Schritt 1 — {Kurzname des ersten offenen Fix-Schritts}
+→ Weiter mit: Fix-Schritt {N} — {Kurzname des ersten offenen Fix-Schritts}
 ```
 
 **Bei Aufgabe:**

@@ -73,7 +73,10 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
    uebernimmt der Slug diesen Namen; sonst Name aus dem Idee-Text. **Keine eigene Rueckfrage** —
    das Veto liegt in der Kopfzeile `Ordner: …` der Sammelvorlage (Schritt 4). Korrigiert der
    Nutzer dort den Ordner: `fast-draft.md` in den neuen Ordner verschieben (Kollision erneut
-   pruefen), dann weiter. Slug-Kollision mit bestehendem Ordner anderen Inhalts → melden und
+   pruefen), danach den alten Ordner entfernen, falls er jetzt leer ist
+   (`rmdir {config.paths.workflows}/features/{alter-slug}`, Bash — `rmdir` scheitert bei
+   Restinhalt und laesst vorhandene Artefakte unangetastet; das ist gewollt), dann weiter.
+   Slug-Kollision mit bestehendem Ordner anderen Inhalts → melden und
    anderen Namen erfragen (kein Auto-Suffix, §4).
    (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z1/B.)
 4. **Bestandsaufnahme des Change-Ordners** `{config.paths.workflows}/features/{slug}/`:
