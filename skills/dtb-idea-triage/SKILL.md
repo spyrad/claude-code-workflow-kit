@@ -11,7 +11,7 @@ description: >-
   once. Writing — every confirmed decision is written immediately.
 disable-model-invocation: true
 argument-hint: "[optional: alle | anzahl]"
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, AskUserQuestion
 pipeline:
   stage: idea
   after: [dtb:workflow-checkpoint]
@@ -145,6 +145,9 @@ Checkpoint schreibt hier ebenfalls hinein (Orchestrator-Muster: `skills/CLAUDE.m
      - Inhalt identisch (nur mtime, z.B. touch/Checkout) → keine Warnung
    - Datei existiert nicht mehr → wie Abweichung behandeln:
      `⚠ INBOX-BEFUNDE.md seit dem Einlesen entfernt/verschoben — Entscheidung ggf. hinfaellig`
+   - **Nach jedem EIGENEN Schreibvorgang** am Becken die gemerkte mtime (und den gemerkten
+     Inhalt) auf den neuen Stand nachfuehren (L46) — sonst meldet die Pruefung ab dem zweiten
+     Eintrag jedes Mal die eigene Aenderung als fremde
 3. **Bewusste Restluecke:** Das Fenster zwischen Pruefung und eigenem Schreiben bleibt
    (kein Locking) — Konvention: `skills/CLAUDE.md` → „Parallele Sessions".
 
@@ -283,8 +286,60 @@ Sammelliste. Alles hier ist mechanisch aus den Feldern abgeleitet — keine neue
 
 ### 4a: Struktur-Check (vor der ersten Nutzung einer Quelle per Referenz)
 
-> Wird in Schritt 2.3 des Changes `triage-vorsortierung` gefuellt. Steht hier, nicht in
-> Schritt 7: Schritt 4c nutzt `dtb:lesson` bereits lesend, der Waechter muss davor laufen.
+Mehrere Regeln dieses Skills stehen NICHT hier, sondern in den Skills, denen sie gehoeren
+(`dtb:lesson`, `dtb:open-question`, `dtb:idea`). Bevor eine davon zum ersten Mal genutzt wird,
+muss die Quelle existieren und ihre Anker tragen. Der Check steht hier und nicht erst vor dem
+Schreiben (Schritt 7), weil 4c `dtb:lesson` bereits lesend nutzt. Muster:
+`dtb:workflow-checkpoint` Schritt 0 („Struktur-Check (Kopplungs-Waechter)").
+
+- **Nur benoetigte Quellen pruefen** — nach den Vorschlaegen ALLER Funde dieses Laufs (auch der
+  kuenftigen Einzelfaelle, L42): `Lektion` → `dtb:lesson`; `Fachfrage` → `dtb:open-question`;
+  `Befoerdern`, Buendel oder `Fachfrage —` → `dtb:idea`. `dtb:idea` wird immer geprueft, sobald
+  irgendein Fund in Schritt 6 befoerdert werden koennte — also in jedem Lauf mit Einzelfaellen
+- **Quelle aufloesen — Repo zuerst, dann Installation:** `skills/dtb-{lesson,open-question,idea}/SKILL.md`
+  relativ zum Projekt-Root, sonst `~/.claude/skills/dtb-{lesson,open-question,idea}/SKILL.md`. Im
+  Kit-Repo ist das Repo die Quelle, aus der `kit-sync` verteilt; Zielprojekte haben kein `skills/`
+- **Anker-Grep zeilenverankert** auf den ganzen Titel, nie als Substring (die
+  Kopplungs-Hinweise zitieren die Titel selbst und lieferten ein falsches Gruen) — je Anker in
+  EINEM selbstaendigen Bash-Block:
+  ```bash
+  tr -d '\r' < {quelle} | grep -c -x -F "{anker}"
+  ```
+
+  | Quelle | Anker (woertlich) | Genutzt in |
+  |--------|-------------------|------------|
+  | `dtb:lesson` | `## Schritt 2: In 4 Felder strukturieren` | 7f Punkt 1 |
+  | `dtb:lesson` | `## Schritt 3: Duplikat-Check` | 4c |
+  | `dtb:lesson` | `## Schritt 4: Append-only speichern` | 7f Punkt 2 |
+  | `dtb:open-question` | `## Schritt 3: Ziel-Datei waehlen` | 7g Punkt 2 |
+  | `dtb:open-question` | `## Schritt 4: Zeile formatieren, Duplikat pruefen, Ziel bestaetigen` | 7g Punkt 2 |
+  | `dtb:open-question` | `## Schritt 5: Schreiben + Abschluss` | 7g Punkt 3 |
+  | `dtb:idea` | `## Duplikat-Check` | 7a Punkt 1 |
+
+- Alle Anker gefunden → eine Statuszeile: `🧩 Struktur-Check: {n}/{n} Anker in {aufgeloeste Quelle(n)} gefunden`
+- **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift):
+  1. Datei in beiden Quellen nicht gefunden → Installations-Problem:
+     ```
+     ⚠ Quelle dtb:{lesson|open-question|idea} weder im Projekt (skills/) noch global
+        (~/.claude/skills/) gefunden. → /dtb:kit-sync sync
+     ```
+  2. Datei vorhanden, Anker fehlt → Struktur-Drift:
+     ```
+     ⚠ Struktur-Check fehlgeschlagen: {Quelle} — Anker "{Anker}" nicht gefunden.
+        dtb:{lesson|open-question|idea} wurde umgebaut; ich nutze die Regel NICHT auf veralteter
+        Basis. → diesen Abschnitt anpassen (die Kopplungs-Hinweise dort nennen diesen Leser).
+     ```
+- **Folge je gefallener Quelle:**
+  - `dtb:lesson` → alle `Lektion`-Vorschlaege werden Einzelfaelle (4d); in Schritt 6 nur
+    befoerdern, verwerfen oder liegenlassen — der Lektions-Weg ist in diesem Lauf gesperrt
+  - `dtb:open-question` → alle `Fachfrage`-Vorschlaege mit Slug werden Einzelfaelle; der
+    Fachfrage-Weg ist gesperrt
+  - `dtb:idea` → der Duplikat-Check in 7a entfaellt mit genau einer Zeile
+    `⚠ Duplikat-Check beim Befoerdern entfaellt (dtb:idea nicht pruefbar)` — er stellt nur eine
+    Frage, sein Ausfall schreibt nichts Falsches (fail-open wie bei den Capture-Skills)
+
+> **Benanntes Restrisiko:** Der Check prueft Anker-EXISTENZ, nicht Regel-INHALT. Gegen
+> inhaltliche Drift verteidigen die Kopplungs-Hinweise an den sieben Sektionen der Quellen.
 
 ### 4b: Buendel bilden
 
@@ -350,7 +405,47 @@ Kein „Weiter?" — die Sammelliste (Schritt 5) ist die naechste Entscheidung.
 
 ## Schritt 5: Sammelliste
 
-> Wird in Schritt 2.1 des Changes `triage-vorsortierung` gefuellt.
+Alle sicheren Vorschlaege als EINE Liste, vorbelegt — der Mensch bestaetigt einmal und
+streicht, was er selbst entscheiden will. Die Liste ist eine **Bestaetigung**, kein
+Sammel-Schreiben: geschrieben wird danach Zeile fuer Zeile, jede sofort (Schritt 7).
+
+Leere Sammelliste (alles Einzelfaelle) → dieser Schritt entfaellt still, weiter mit Schritt 6.
+
+**Vorlage** (Buendel oben, dann je Fund eine Zeile; Grund auf ~60, Beleg auf ~40 Zeichen
+gekuerzt — der volle Text steht im Becken):
+
+```
+Sammelliste — {S} Vorschlaege{, davon {B} Buendel}
+
+Buendel:
+ B1  #{T} traegt #{a}, #{b}{ (verwandt: #{c} {Vorschlag})}  → INBOX.md #{T}; Glieder → Archiv „gebuendelt in #{T}"
+
+ 1  #{N}  Befoerdern                 {Grund} · {Beleg}   → INBOX.md
+ 2  #{N}  Verwerfen: erledigt        {Grund} · {Beleg}   → Archiv
+ 3  #{N}  Nachtrag #{Z}              {Grund} · {Beleg}   → INBOX.md #{Z}
+ 4  #{N}  Lektion                    {Kern der Regel}    → lessons.md
+ 5  #{N}  Fachfrage {slug}           {Frage, gekuerzt}   → features/{slug}/
+ 6  #{N}  Fachfrage —                {Frage, gekuerzt}   → INBOX.md („Fachfrage: …")
+```
+
+Dann EINE blockierende Auswahl (`AskUserQuestion`), erste Option = Vorschlag:
+
+- **Alle uebernehmen (Vorschlag)** → jede Zeile wird in Schritt 7 ausgefuehrt
+- **Nummern streichen** → danach Freitext, z.B. `3, 7, B1`; nur das Gestrichene kurz
+  rueckbestaetigen (`Gestrichen: 3, 7, B1 → einzeln in Stufe 2`), nicht die ganze Liste erneut
+  zeigen. **Gestrichen heisst NICHT verworfen** — gestrichene Zeilen gehen als Einzelfaelle in
+  Schritt 6. Eine gestrichene Buendel-Zeile schickt alle ihre Glieder einzeln dorthin. Gestrichene
+  Zeilen zaehlen nicht gegen die Kappung `einzeln_pro_lauf`
+- **Einzeln durchgehen** → alle Zeilen der Liste werden Einzelfaelle (ohne Kappung)
+
+**Jede andere Antwort** gilt als nicht bestaetigt — genau eine Rueckfrage
+(`Alle uebernehmen / streiche {Nr} / einzeln / Abbruch?`); bleibt sie unklar oder lautet
+`Abbruch` → nichts schreiben, genau eine Zeile, Skill endet:
+```
+Nichts geschrieben — Vorschlaege verworfen, Becken unveraendert.
+```
+Nie stiller Auto-Write: ohne sichtbare Liste und ausdrueckliche Bestaetigung wird keine Zeile
+aus der Sammelliste geschrieben.
 
 ---
 
@@ -362,13 +457,25 @@ wieder an. Ein Sammel-Schreiben am Ende verliert bei jedem Abbruch alles, was sc
 war (INBOX #71) — deshalb ist die Reihenfolge hier verbindlich: entscheiden → schreiben →
 naechster Eintrag.
 
-Fuer jeden Eintrag der Sichtungsmenge:
+**Wer hierher kommt** — in dieser Reihenfolge, innerhalb jeder Gruppe aelteste zuerst:
+1. die gestrichenen Zeilen der Sammelliste (Schritt 5) und von Schritt 7 verschobene Zeilen
+   (Duplikat-Treffer beim Befoerdern, Nachtrag-Ziel nicht offen, aufgeloestes Buendel)
+2. die Einzelfaelle aus 4d, gekappt nach 4e
+
+Laeuft zeitlich NACH dem Schreiben der Sammelliste (Schritt 7): wer streicht, entscheidet die
+gestrichenen Zeilen hier, nachdem die sicheren schon festgeschrieben sind.
+
+Fuer jeden dieser Funde:
 
 ```
 Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
   "{Befund-Text, auf ~200 Zeichen gekuerzt}"
 
-  {Vorschlag, Grund und Beleg aus der Voranalyse (Schritt 3), falls vorhanden}
+  Vorschlag: {Vorschlag} ({Sicherheit}) — {Grund}
+  Beleg:     {Beleg}
+  {nur bei Unklar:}            Frage der Voranalyse: {Frage}
+  {nur ohne Vorschlag:}        Voranalyse ausgefallen — kein Vorschlag
+  {nur bei verschobener Zeile:} Verschoben aus Schritt 7: {Grund, z.B. aehnliche Idee #{M}}
 
   Aktion?
     1. Befoerdern → INBOX.md
@@ -383,7 +490,8 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
 **Verwerfen (2):**
 - **Begruendung ist Pflicht** — ein Satz genuegt. Sie landet in der Archivdatei und ist in
   sechs Monaten das Einzige, was den Vorgang noch erklaert. Ohne Begruendung nicht schreiben,
-  sondern einmal nachfragen.
+  sondern einmal nachfragen. Lag ein `Verwerfen`-Vorschlag vor, ist `{Grund} — Beleg: {Beleg}`
+  der Vorschlag: `→ weiter = uebernehmen · oder eigene Begruendung nennen`.
 - Ausfuehrung in Schritt 7.
 
 **Liegenlassen (3):**
@@ -399,6 +507,19 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
 ---
 
 ## Schritt 7: Entscheidung ausfuehren
+
+Fuehrt jede bestaetigte Zeile aus — aus der Sammelliste (Schritt 5) in Listen-Reihenfolge,
+Buendel zuerst, und danach jede Einzelentscheidung aus Schritt 6 sofort nach ihrer Wahl.
+
+**Regeln fuer jeden Weg:**
+- **Eine Zeile, ein Schreibvorgang, sofort** (INBOX #71) — nie am Ende gesammelt
+- **Ziel vor Quelle** (L43): erst am Ziel schreiben und pruefen, dann die Becken-Zeile entfernen.
+  Bricht der Lauf dazwischen ab, steht der Fund doppelt (sichtbar, heilbar) statt gar nicht
+- **Lesestand-Pruefung** vor jedem Schreiben (Abschnitt oben)
+- **Schreibfehler mitten drin** → melden, was geschrieben ist; die uebrigen Zeilen bleiben
+  unveraendert im Becken — **nie zurueckrollen**
+- **Archiv-Eintrag** = 7b Punkte 1–2 (Datei sicherstellen, anhaengen) mit der jeweils genannten
+  Begruendung
 
 ### 7a: Befoerdern
 
@@ -417,6 +538,9 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
    `stattdessen verwerfen` → **weiter mit 7b**, unveraendert: die Begruendung bleibt Pflicht,
    der Eintrag geht mit ihr ins Archiv. Kein eigener Kurzpfad, keine Ausnahme.
    Kein Treffer → keine Ausgabe, direkt weiter.
+   **Zeile aus der Sammelliste:** statt der Rueckfrage wird die Zeile nicht geschrieben, sondern
+   als Einzelfall nach Schritt 6 verschoben (mit dem Treffer als Hinweis) — keine Rueckfrage
+   mitten im Sammel-Durchgang.
 
    > **Schema-Abweichung (begruendet):** Das Meldeform-Schema in `skills/CLAUDE.md` sieht
    > `(Ja / Abbrechen)` vor. Hier steht `stattdessen verwerfen` statt `Abbrechen`, weil
@@ -427,10 +551,11 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
    Tabellenende: die INBOX ist absteigend sortiert (setzt INBOX #74 um).
    **Nummer bleibt** — sie wird nicht neu vergeben, Session-Logs, Plaene und Archiv-Eintraege
    referenzieren sie. **Status `Offen`**, Textfeld unveraendert plus Suffix
-   `(befoerdert {YYYY-MM-DD})`.
+   `(befoerdert {YYYY-MM-DD})`. Kommt der Fund aus dem Fachfrage-Rueckfall (7g), steht vor dem
+   Text `Fachfrage: `.
 3. **Spaltenzahl der neuen Zeile pruefen** (Feld-Hygiene): so viele Felder wie die Nachbarn,
    bare Pipes im uebernommenen Text escapen.
-4. **ERST JETZT die Zeile aus dem Becken entfernen.**
+4. **Zuletzt:** Becken-Zeile entfernen.
 
 > **Die Reihenfolge ist bindend, nicht kosmetisch** (dieselbe wie in 7b): Ziel schreiben, dann
 > Quelle loeschen. Bricht der Lauf dazwischen ab, steht der Eintrag doppelt — und die Dublette
@@ -453,8 +578,11 @@ Meldung: `✔ #{N} befoerdert → INBOX.md`
    |--------------|---|-------|--------|-------------|
    ```
 2. **Anhaengen** (append-only, nie ueberschreiben): heutiges Datum, Nummer, Befund-Datum,
-   Befund-Text, Begruendung.
-3. **Zeile aus dem Becken entfernen.**
+   Befund-Text, Begruendung. Aus der Sammelliste ist die Begruendung
+   `{Grund} — Beleg: {Beleg}` aus der Voranalyse (keine eigene Beleg-Spalte: die Datei ist
+   append-only, eine neue Spalte braeche bestehende Zeilen in Bestandsprojekten). Bare Pipes
+   escapen, Spaltenzahl gegen die Nachbarn pruefen.
+3. **Zuletzt:** Becken-Zeile entfernen.
 
 Meldung: `✔ #{N} verworfen → archive/INBOX-BEFUNDE-verworfen.md`
 
@@ -464,21 +592,89 @@ Sichtung-Spalte auf `L1 {heutiges Datum}` setzen, sonst nichts aendern.
 
 Meldung: `↷ #{N} liegengelassen — naechster Lauf erzwingt die Entscheidung`
 
+### 7d: Buendel
+
+1. **Traeger befoerdern** — 7a Punkte 1–3, Textfeld zusaetzlich mit Suffix
+   `(enthaelt #{a}, #{b}, …)`. Fuehrt der Duplikat-Check den Traeger nach Schritt 6, wird das
+   ganze Buendel aufgeloest: alle Glieder gehen einzeln nach Schritt 6, hier wird nichts weiter
+   geschrieben.
+2. **Je Glied:** Archiv-Eintrag mit Begruendung `gebuendelt in #{T}`, danach die Becken-Zeile
+   dieses Glieds entfernen (Ziel vor Quelle je Glied).
+3. **Zuletzt:** Becken-Zeile entfernen.
+
+Meldung: `✔ #{T} befoerdert → INBOX.md (Buendel mit #{a}, #{b}, …)`
+
+### 7e: Nachtrag
+
+1. **Ziel pruefen:** Die Ziel-Idee #{Z} steht in `INBOX.md` mit Status `Offen` oder `In Arbeit`.
+   Sonst (fehlt, `Verworfen`, `Ausgearbeitet`) → nichts schreiben, der Fund geht als Einzelfall
+   nach Schritt 6 (`Nachtrag-Ziel #{Z} nicht offen`).
+2. **Ziel-Idee ergaenzen** (Muster `dtb:idea-review` „Zusammenlegen"): an das Ende ihres
+   Textfelds ` **Nachtrag {YYYY-MM-DD} aus Befund #{N}:** {Befund-Text}` anhaengen; bare Pipes
+   escapen, Spaltenzahl der Zeile pruefen. Status der Ziel-Idee bleibt unveraendert.
+3. **Archiv-Eintrag** mit Begruendung `nachgetragen in #{Z}`.
+4. **Zuletzt:** Becken-Zeile entfernen.
+
+Meldung: `✔ #{N} nachgetragen → INBOX.md #{Z}`
+
+### 7f: Lektion
+
+> **Kopplungs-Hinweis:** Feld-Ableitung und Schreibmechanik stehen in `dtb:lesson`, nicht hier
+> (per Referenz — eine zweite Fassung wuerde auseinanderlaufen). Der Struktur-Check in 4a
+> prueft die Anker vor der ersten Nutzung.
+
+1. **Felder ableiten** nach `## Schritt 2: In 4 Felder strukturieren` in `dtb:lesson` — OHNE
+   dessen Bestaetigungsfrage (die Sammelliste bzw. die Einzelentscheidung ist die Bestaetigung)
+   und ohne Applies-to-Rueckfrage (nicht ableitbar → `alle`). Herkunfts-Marker ans Ende von
+   `Context`: `(via Triage {YYYY-MM-DD}, Befund #{N})`.
+2. **Schreiben** nach `## Schritt 4: Append-only speichern` in `dtb:lesson`.
+3. **Archiv-Eintrag** mit Begruendung `als Lektion L{N} erfasst`.
+4. **Zuletzt:** Becken-Zeile entfernen.
+
+Meldung: `✔ #{N} als Lektion L{N} → lessons.md`
+
+### 7g: Fachfrage
+
+> **Kopplungs-Hinweis:** Ziel-Datei, Zeilenform, Duplikat-Pruefung und Platzierung stehen in
+> `dtb:open-question`, nicht hier (per Referenz). Der Struktur-Check in 4a prueft die Anker.
+
+1. **Ziel:** der Slug aus dem Vorschlag. Slug `—`, Ordner fehlt, liegt unter `archive/` oder
+   traegt weder `spec.md` noch `discovery.md` → **Rueckfall:** Fund wird nach 7a befoerdert mit
+   Vorsatz `Fachfrage: ` (7a endet mit seiner eigenen Becken-Entfernung; hier nichts weiter).
+2. **Ziel-Datei** nach `## Schritt 3: Ziel-Datei waehlen`, **Zeile bilden und exakt pruefen**
+   nach `## Schritt 4: Zeile formatieren, Duplikat pruefen, Ziel bestaetigen` (Punkte 1–2; die
+   Ziel-Bestaetigung in Punkt 3 entfaellt — die Sammelliste bzw. Einzelentscheidung zeigte das
+   Ziel). Steht die Frage schon offen da → nichts schreiben, Archiv-Eintrag mit Begruendung
+   `Fachfrage steht schon in features/{slug}/{datei}`, dann weiter mit Punkt 5.
+3. **Schreiben** nach `## Schritt 5: Schreiben + Abschluss` (Punkte 1–4; statt der dortigen
+   Abschlussmeldung die Meldung unten).
+4. **Archiv-Eintrag** mit Begruendung `als Fachfrage in features/{slug}/{datei} erfasst`.
+5. **Zuletzt:** Becken-Zeile entfernen.
+
+Meldung: `✔ #{N} als Fachfrage → features/{slug}/{datei}`
+
 ---
 
 ## Schritt 8: Abschluss-Bilanz
 
-Nach dem letzten Eintrag der Sichtungsmenge — oder nach einem Abbruch durch den Nutzer:
+Nach dem letzten Fund aus Schritt 6 — oder nach einem Abbruch durch den Nutzer:
 
 ```
 Becken-Triage abgeschlossen:
 
-  Befoerdert:      {N}
+  Befoerdert:      {N}  (davon {B} Buendel-Traeger, {F} als „Fachfrage:")
+  Gebuendelt:      {G}  (archiviert „gebuendelt in #…")
+  Nachgetragen:    {N}
+  Lektionen:       {N}
+  Fachfragen:      {N}
   Verworfen:       {N}
   Liegengelassen:  {N}
+  Zurueckgestellt: {R}  (Kappung einzeln_pro_lauf → naechster Lauf)
 
 Im Becken verbleibend: {N} ungesichtet ({M} davon Altbestand)
 ```
+
+Zeilen mit `0` entfallen — die Bilanz zeigt nur, was passiert ist.
 
 **Genau eine Hinweiszeile, nur wenn befoerdert wurde:**
 ```
@@ -537,13 +733,17 @@ nicht nur gegen die Zahl (L17) — eine einmal vergebene Nummer wird nicht mehr 
 
 ## Wichtig
 
-- **Nie das ganze Becken sichten:** Die Portionierung (Schritt 2) ist der Grund, warum die
-  Triage nicht abbricht. Ein Lauf, der 150 Eintraege vorlegt, wird nie zu Ende gefuehrt
-- **Sofort schreiben, nie sammeln:** Jede Entscheidung geht einzeln in die Datei (INBOX #71)
-- **Der Alterungshinweis entscheidet nichts** — er ist ein Indiz, kein Urteil, und entfaellt
-  im Zweifel ersatzlos statt zu raten
+- **Nie das ganze Becken einzeln vorlegen:** Die Voranalyse liest alles, aber einzeln vorgelegt
+  werden hoechstens `einzeln_pro_lauf` Faelle (4e). Ein Lauf, der 150 Einzelentscheidungen
+  verlangt, wird nie zu Ende gefuehrt
+- **Sofort schreiben, nie sammeln:** Jede Entscheidung geht einzeln in die Datei (INBOX #71).
+  Die Sammelliste ist eine Bestaetigung, kein Sammel-Schreiben — nach ihr wird Zeile fuer Zeile
+  geschrieben
+- **Die Voranalyse entscheidet nichts** — sie schlaegt vor, mit Beleg. Agenten lesen nur; das
+  Alterungs-Indiz ist ein Indiz, kein Urteil
 - **Ein Becken-Eintrag wird nie gearbeitet:** kein Worker greift ihn, kein `feature-fast` laedt
-  ihn, er steht in keiner Arbeits-Ansicht. Erst die Befoerderung macht ihn zum Vorgang
+  ihn, er steht in keiner Arbeits-Ansicht. Er verlaesst das Becken nur nach Bestaetigung —
+  befoerdert, gebuendelt, nachgetragen, als Lektion oder Fach-Frage erfasst, oder verworfen
 - **Deutsch:** Alle Texte auf Deutsch
 
 ## Verwandte Skills
@@ -551,7 +751,8 @@ nicht nur gegen die Zahl (L17) — eine einmal vergebene Nummer wird nicht mehr 
 - `/dtb:workflow-checkpoint` — schreibt die Verlustfunde ins Becken (Vorgaenger)
 - `/dtb:idea-review` — sichtet die Haupt-INBOX; Ziel der Befoerderung (Nachfolger)
 - `/dtb:idea` — Erfassung durch den Menschen, schreibt immer nach `INBOX.md`
+- `/dtb:lesson`, `/dtb:open-question` — Ausgaenge fuer Lektionen und Fach-Fragen (per Referenz, 7f/7g)
 
 ---
 
-**Erstellt mit:** Kit-Feature `ideen-becken` (INBOX #76)
+**Erstellt mit:** Kit-Feature `ideen-becken` (INBOX #76); Vorsortierung: `triage-vorsortierung` (INBOX #137)

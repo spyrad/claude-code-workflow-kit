@@ -289,13 +289,13 @@ Belegen, dass der Umbau die Spec erfuellt — Schreibwege im Testprojekt, Vorsch
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Frontmatter, Config, Schritt 2
-- [x] 1.2 Voranalyse (Agenten-Auftrag)
-- [x] 1.3 Konsolidierung
-- [ ] 2.1 Sammelliste
-- [ ] 2.2 Schreibwege
-- [ ] 2.3 Struktur-Check
-- [ ] 2.4 Stufe 2 + Bilanz
+- [x] 1.1 Frontmatter, Config, Schritt 2 — `f0f7a45`
+- [x] 1.2 Voranalyse (Agenten-Auftrag) — `f0f7a45`
+- [x] 1.3 Konsolidierung — `f0f7a45`
+- [x] 2.1 Sammelliste
+- [x] 2.2 Schreibwege
+- [x] 2.3 Struktur-Check
+- [x] 2.4 Stufe 2 + Bilanz
 - [ ] 3.1 Kopplungs-Hinweise lesson/open-question
 - [ ] 3.2 skills/CLAUDE.md
 - [ ] 3.3 DSR §6.4, Root-CLAUDE.md, Sweep
