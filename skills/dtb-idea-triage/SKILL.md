@@ -2,25 +2,31 @@
 name: dtb:idea-triage
 description: >-
   Use when: "Becken sichten", "Befunde triagieren", "idea triage",
-  "Verlustfunde durchgehen", "was liegt im Becken". Sichtet die maschinell
-  erfassten Verlustfunde in INBOX-BEFUNDE.md portionsweise und entscheidet je
-  Eintrag: befoerdern nach INBOX.md, verwerfen ins Archiv, oder genau einmal
-  liegenlassen. Schreibend — jede Entscheidung wird sofort festgeschrieben.
+  "Verlustfunde durchgehen", "was liegt im Becken". Pre-sorts the machine
+  findings in INBOX-BEFUNDE.md with read-only background agents (checked against
+  the project state, related findings bundled, discards proposed with evidence,
+  lessons and subject-matter questions routed to their own targets), lets the
+  human confirm one pre-filled collection list with veto, then triages the rest
+  one by one: promote to INBOX.md, discard to the archive, or leave lying exactly
+  once. Writing — every confirmed decision is written immediately.
 disable-model-invocation: true
 argument-hint: "[optional: alle | anzahl]"
-allowed-tools: Read, Write, Edit, Grep, Bash
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 pipeline:
   stage: idea
   after: [dtb:workflow-checkpoint]
   next: [dtb:idea-review]
-  consumes: [INBOX-BEFUNDE.md, INBOX.md, workflow.config.yaml]
-  produces: [INBOX-BEFUNDE.md, INBOX.md, archive/INBOX-BEFUNDE-verworfen.md]
+  consumes: [INBOX-BEFUNDE.md, INBOX.md, workflow.config.yaml, ARCHIVE_LOG.md, archive/INBOX-BEFUNDE-verworfen.md, project-rules/lessons.md, features/*/spec.md, features/*/discovery.md]
+  produces: [INBOX-BEFUNDE.md, INBOX.md, archive/INBOX-BEFUNDE-verworfen.md, project-rules/lessons.md, features/*/spec.md, features/*/discovery.md]
 ---
 
 # Befund-Becken sichten (Triage)
 
-Du sichtest die maschinell erfassten Verlustfunde und entscheidest je Eintrag, ob er in die
-Haupt-INBOX befoerdert, verworfen oder ein einziges Mal liegengelassen wird.
+Du sortierst die maschinell erfassten Verlustfunde vor und laesst den Menschen entscheiden: Eine
+lesende Voranalyse schlaegt je Fund mit Beleg vor, ob er befoerdert, gebuendelt, verworfen,
+an eine bestehende Idee nachgetragen oder als Lektion bzw. Fach-Frage abgelegt wird. Der Mensch
+bestaetigt die sicheren Vorschlaege als EINE Sammelliste; der Rest laeuft einzeln — befoerdern,
+verwerfen oder ein einziges Mal liegenlassen.
 
 **Warum es dieses Becken gibt:** Die Verlustpruefung erfasst mehr Funde, als je abgearbeitet
 werden. Landeten sie in `INBOX.md`, stuenden sie zwischen den Fach-Wuenschen und machten jede
@@ -68,11 +74,12 @@ Lies zusaetzlich den optionalen Block `idea_triage`:
 ```yaml
 idea_triage:
   becken_schwelle: 10     # ab N ungesichteten Eintraegen meldet der Checkpoint (nur dort gelesen)
-  altbestand_pro_lauf: 5  # wieviele Altbestands-Eintraege ein Lauf zusaetzlich sichtet
+  einzeln_pro_lauf: 5     # wieviele Einzelfaelle (Schritt 6) ein Lauf hoechstens vorlegt
 ```
 
-Fehlt der Block oder ein Schluessel → Defaults `becken_schwelle: 10`, `altbestand_pro_lauf: 5`.
-Kein Hinweis, kein Abbruch.
+Fehlt `einzeln_pro_lauf` → Rueckfall auf den Alt-Schluessel `altbestand_pro_lauf` (bis
+2026-10 die Kappung des Altbestands; Bestandsprojekte tragen nur ihn), fehlen beide → `5`.
+Fehlt `becken_schwelle` → `10`. Kein Hinweis, kein Abbruch.
 
 ---
 
@@ -128,7 +135,7 @@ Checkpoint schreibt hier ebenfalls hinein (Orchestrator-Muster: `skills/CLAUDE.m
    ```bash
    ls -l --time-style=full-iso {pfad}/INBOX-BEFUNDE.md
    ```
-2. **Unmittelbar vor JEDER Statusentscheidung** (jedem Schreiben in Schritt 4) dieselbe Abfrage
+2. **Unmittelbar vor JEDER Statusentscheidung** (jedem Schreiben in Schritt 7) dieselbe Abfrage
    erneut ausfuehren und vergleichen:
    - mtime unveraendert → still weiterarbeiten (kein Output)
    - mtime veraendert → Datei NEU lesen und den Inhalt vergleichen:
@@ -145,66 +152,209 @@ Checkpoint schreibt hier ebenfalls hinein (Orchestrator-Muster: `skills/CLAUDE.m
 
 ## Schritt 2: Sichtungsmenge bestimmen
 
-Ein Lauf sichtet NIE das ganze Becken. Andernfalls waechst die Sichtungsarbeit mit dem
-Bestand, und genau dort bricht die Triage ab.
+Die Voranalyse (Schritt 3) liest **alles Ungesichtete** — Sichtung-Spalte leer (neu),
+`L1 …` (faellig, Zwangsentscheidung in Schritt 6) und `Altbestand`. Reihenfolge: **aelteste
+zuerst** (aufsteigend nach Datum, bei gleichem Datum nach Nummer).
 
-**Aufgenommen wird, in dieser Reihenfolge:**
+**Warum hier das ganze Becken, obwohl die Triage frueher nie alles sichtete:** Die alte Regel
+galt, weil jeder Eintrag einzeln entschieden wurde — die Sichtungsarbeit wuchs mit dem Bestand,
+und genau dort brach die Triage ab. Mit der Vorsortierung kostet ein sicherer Vorschlag in der
+Sammelliste (Schritt 5) nur einen Blick, und Buendel und Dubletten erkennt man nur im
+Gesamtbild. Die Portionierung lebt weiter — sie wandert an die **Einzelfaelle**: hoechstens
+`einzeln_pro_lauf` davon je Lauf (Schritt 4); der Rest bleibt ungesichtet im Becken und kommt
+im naechsten Lauf erneut in die Voranalyse.
 
-1. **Neue** — Sichtung-Spalte leer (noch nie gesichtet), ALLE davon
-2. **Faellige** — Sichtung-Spalte `L1 …` (einmal liegengelassen), ALLE davon;
-   fuer sie gilt die Zwangsentscheidung (Schritt 4)
-3. **Altbestand** — Sichtung-Spalte `Altbestand`, hoechstens `altbestand_pro_lauf` Stueck
-
-**Innerhalb jeder Gruppe: aelteste zuerst** (aufsteigend nach Datum, bei gleichem Datum nach
-Nummer). Der Kontext baut aufeinander auf, und der Altbestand schrumpft sichtbar.
-
-**Argument `alle`** → die Kappung auf `altbestand_pro_lauf` entfaellt; alles Ungesichtete kommt
-in den Lauf. **Argument als Zahl** → diese Zahl ersetzt `altbestand_pro_lauf`.
+**Argument `alle`** → die Kappung der Einzelfaelle entfaellt. **Argument als Zahl** → diese Zahl
+ersetzt `einzeln_pro_lauf`.
 
 **Leere Sichtungsmenge** (Becken leer, oder alles gesichtet und nichts faellig) → genau eine
-Zeile, Skill endet:
+Zeile, Skill endet — es werden keine Agenten gestartet:
 ```
 Nichts zu sichten — {N} Eintrag(e) im Becken, davon 0 neu und 0 faellig.
 ```
 
-**Uebersicht vor dem Durchgang:**
+---
+
+## Schritt 3: Voranalyse
+
+Je Fund entsteht ein **Vorschlag mit Beleg** — gelesen, nie geschrieben. Die Voranalyse
+entscheidet nichts: was mit einem Fund passiert, bestaetigt der Mensch in Schritt 5 oder 6.
+
+### 3a: Weiche — inline oder Hintergrund-Agenten
+
+- **Weniger als 5 Funde** in der Sichtungsmenge → keine Agenten; du fuehrst den Auftrag unten
+  selbst im Hauptkontext aus (gleiches Ergebnis-Format). Ein Agenten-Start lohnt sich hier nicht
+- **Sonst** → Sichtungsmenge in **Portionen zu hoechstens 25 Funden** teilen (aelteste zuerst,
+  Reihenfolge aus Schritt 2), je Portion **ein** Agent, alle parallel starten und auf alle
+  Ergebnisse warten
+- **Agenten-Typ:** `Explore` — er hat werkzeugseitig kein Edit/Write. Ist `Explore` in dieser
+  Umgebung nicht verfuegbar → `general-purpose` mit demselben Auftrag (das Schreibverbot steht
+  dann nur im Auftrag, wie bei den Sub-Agenten von `dtb:impl-review`) und genau eine Zeile:
+  ```
+  ⚠ Agenten-Typ Explore nicht verfuegbar — Voranalyse mit general-purpose, Schreibverbot nur im Auftrag
+  ```
+
+### 3b: Auftrag (je Portion)
+
+Platzhalter fuellen: `{root}` = absoluter Projekt-Root, `{wf}` = `{config.paths.workflows}`,
+`{rules}` = `{config.paths.rules}`, `{portion}` = die Zeilen der Portion im vollen Wortlaut,
+`{alle}` = **alle** Funde der Sichtungsmenge als `#{N} {erste ~80 Zeichen}` (macht Verwandtschaft
+ueber Portionsgrenzen sichtbar).
+
 ```
-Becken-Triage: {N} Eintrag(e) zu sichten
+Du pruefst maschinell erfasste Befunde gegen den aktuellen Projektstand und schlaegst je
+Befund vor, was mit ihm passieren soll. NUR LESEN: keine Datei anlegen, aendern oder loeschen,
+keine Kommandos mit Schreibwirkung. Du entscheidest nichts — du lieferst Vorschlaege mit Beleg.
 
-  Neu:        {N}
-  Faellig:    {N}  (einmal liegengelassen, Entscheidung jetzt erzwungen)
-  Altbestand: {N} von {M}  (Rest bleibt fuer spaetere Laeufe)
+Projekt-Root: {root}
 
-Einzeln durchgehen? (Ja / Abbrechen)
+Deine Befunde (vollstaendig):
+{portion}
+
+Alle Befunde dieses Laufs (nur Nummer + Anfang, fuer Verwandtschaft):
+{alle}
+
+Pruefe je Befund gegen:
+- den Code- und Skill-Bestand unter {root} (ist der beschriebene Zustand noch so?)
+- {wf}/archive/ inkl. ARCHIVE_LOG.md (umgesetzt, archiviert?)
+- {wf}/INBOX.md (steht die Sache dort schon, oder ergaenzt sie eine offene Idee?)
+- {wf}/archive/INBOX-BEFUNDE-verworfen.md (schon einmal verworfen?)
+- {rules}/lessons.md (steht die Erkenntnis schon als Lektion?)
+- Alterungs-Indiz: nennt der Befund einen Pfad, der existiert, pruefe
+  `git -C {root} log -1 --format=%ad --date=short -- {pfad}`. Ist die Datei NACH dem
+  Befund-Datum geaendert, nenne das im Grund ("Datei seit dem Befund geaendert") — ein Indiz,
+  kein Urteil. Kein Git, kein Pfad → entfaellt.
+
+Vorschlag — genau einer je Befund:
+- Befoerdern            — offener, echter Aenderungswunsch
+- Verwerfen: erledigt   — bereits umgesetzt
+- Verwerfen: ueberholt  — Bezug oder Anlass entfallen
+- Verwerfen: Dublette #N — die Sache steht schon als #N (INBOX, Becken oder Verworfen-Archiv)
+- Verwerfen: falsches Repo — gehoert nicht in dieses Projekt
+- Nachtrag #N           — ergaenzt die offene INBOX-Idee #N, traegt allein nicht
+- Lektion               — nicht-offensichtliche, wiederverwendbare Erkenntnis ohne
+                          Aenderungsauftrag (Kontext → Falle → kuenftige Regel)
+- Fachfrage {slug}      — nur fachlich (im Meeting) beantwortbare Frage; {slug} = passender
+                          Ordner unter {wf}/features/ mit spec.md oder discovery.md, sonst "—"
+- Unklar: {Frage}       — du kannst nicht einordnen; formuliere die eine Frage an den Menschen
+
+Dublette heisst: gleicher Gegenstand + gleiche Aussage — der vorhandene Eintrag koennte den
+Befund ohne Verlust ersetzen. Gleicher Gegenstand mit anderer Aussage ist KEINE Dublette
+(eher Nachtrag oder Verwandt).
+
+Beleg: wo du es gesehen hast. Bei JEDEM Verwerfen mindestens ein nachsehbarer Ort —
+Datei:Zeile oder Commit-SHA. Ohne Ort bleibt der Vorschlag ein Verdacht.
+
+Sicherheit: hoch | mittel | niedrig.
+Verwandt: andere Befund-Nummern AUS DER GESAMTLISTE, die denselben Gegenstand betreffen und
+gemeinsam zugeschnitten werden sollten (z.B. "#86, #118"), sonst "—".
+
+Ausgabe: GENAU eine Zeile je Befund, keine Kopfzeile, keine Prosa davor oder danach, Format:
+#{N} | {Vorschlag} | {Grund, 1 Satz} | {Beleg} | {Sicherheit} | {Verwandt}
+Literale Pipes in Grund oder Beleg immer als \| angeben.
+```
+
+### 3c: Ergebnis pruefen (Werkzeug-Fehlschlag ist kein Datenbefund)
+
+Je Portion, bevor irgendetwas weiterverarbeitet wird:
+
+1. **Zeilenzahl-Gate:** Anzahl der Ergebniszeilen, die mit `#` beginnen = Anzahl der Funde der
+   Portion. Weicht sie ab, liefert der Agent nichts, oder ist das Format unlesbar → **alle Funde
+   dieser Portion gelten als „ohne Vorschlag"**. Nie als „nichts gefunden" werten — ein
+   leeres Ergebnis ist ein Ausfall, kein Befund
+2. **Spaltenpruefung je Zeile:** genau **6 Spalten** — also genau 5 Trenner `|`, escapte `\|`
+   zaehlen nicht. Weicht eine Zeile ab → nur dieser Fund gilt als „ohne Vorschlag". Grund: ein
+   unescapter Trenner verschiebt die Spalten, ohne dass das Zeilenzahl-Gate anschlaegt
+3. **Bekannter Vorschlag:** Spalte 2 muss einer der Vorschlaege aus dem Auftrag sein; sonst
+   „ohne Vorschlag"
+
+Funde „ohne Vorschlag" gehen als Einzelfaelle in Schritt 6 (mit der Kennzeichnung
+`Voranalyse ausgefallen`). Faellt eine ganze Portion aus, genau eine Zeile:
+```
+⚠ Voranalyse fuer {K} Fund(e) ausgefallen (#{a}–#{b}) — sie kommen einzeln, ohne Vorschlag
 ```
 
 ---
 
-## Schritt 3: Alterungshinweis (optional, nie ein Urteil)
+## Schritt 4: Konsolidieren
 
-Maschinelle Befunde altern schnell: Sie beschreiben einen Zustand zu einem Zeitpunkt, und der
-genannte Ort wird oft spaeter umgebaut. Der Hinweis macht das sichtbar — **er entscheidet nichts**.
+Aus den Ergebniszeilen aller Portionen entsteht die Vorlage: Buendel, Einzelfaelle und
+Sammelliste. Alles hier ist mechanisch aus den Feldern abgeleitet — keine neue Bewertung.
 
-Je Eintrag:
-1. Ersten Datei-Pfad im Befund-Text suchen (Token, das wie ein repo-relativer Pfad aussieht,
-   Backticks optional). **Kein Pfad erkennbar → Hinweis entfaellt ersatzlos.**
-2. Existiert der Pfad nicht (mehr) → Hinweis entfaellt ersatzlos (nie raten, nie `--follow`-Ketten).
-3. Aenderungsdatum der Datei ermitteln:
-   ```bash
-   git -C {root} log -1 --format=%ad --date=short -- {pfad}
-   ```
-   Schlaegt das Kommando fehl (kein Git-Repo, keine Historie) → Hinweis entfaellt ersatzlos.
-4. Ist das Aenderungsdatum **juenger** als das Befund-Datum → genau eine Zeile ausgeben:
-   ```
-   ⓘ Moeglicherweise gegenstandslos: {pfad} zuletzt geaendert {datum} (nach dem Befund)
-   ```
+### 4a: Struktur-Check (vor der ersten Nutzung einer Quelle per Referenz)
 
-Der Hinweis ist bewusst schwach formuliert. Er sagt „koennte", nicht „ist" — die Datei kann aus
-ganz anderen Gruenden angefasst worden sein.
+> Wird in Schritt 2.3 des Changes `triage-vorsortierung` gefuellt. Steht hier, nicht in
+> Schritt 7: Schritt 4c nutzt `dtb:lesson` bereits lesend, der Waechter muss davor laufen.
+
+### 4b: Buendel bilden
+
+1. **Verwandtschaft als Graph:** jede `Verwandt`-Angabe ist eine Kante zwischen zwei Funden,
+   in beide Richtungen gueltig. Zusammenhaengende Gruppen bilden (transitiv: #a~#b und #b~#c →
+   eine Gruppe). Verweise auf Nummern ausserhalb der Sichtungsmenge werden ignoriert
+2. **Buendel-Glieder** sind die Funde einer Gruppe mit Vorschlag `Befoerdern`. Ein Buendel
+   entsteht nur bei **mindestens zwei** solchen Gliedern; Gruppenmitglieder mit anderem
+   Vorschlag (Verwerfen, Lektion …) behalten ihren eigenen Vorschlag und werden in der
+   Buendel-Zeile nur als „verwandt" genannt. Gruppen aus lauter Verwerfen-Vorschlaegen ergeben
+   kein Buendel
+3. **Traeger** = das **juengste Glied** (hoechste Nummer). Deterministisch, damit zwei Laeufe
+   denselben Traeger waehlen; wer einen anderen Traeger will, streicht die Buendel-Zeile in
+   Schritt 5 — die Glieder kommen dann einzeln in Schritt 6
+4. **Einzelfall schlaegt Buendel:** ein Glied, das nach 4d ein Einzelfall ist, faellt aus dem
+   Buendel heraus (bleibt ein Glied uebrig, entfaellt das Buendel)
+
+### 4c: Lektions-Vorschlaege gegen den Bestand pruefen
+
+Je Vorschlag `Lektion` die Duplikat-Bewertung aus `## Schritt 3: Duplikat-Check` in
+`dtb:lesson` ausfuehren (per Referenz — die Regel dort lesen, nicht hier; nur die Bewertung,
+ohne deren Rueckfrage). Treffer → der Vorschlag wird zu
+`Verwerfen: Lektion L{N} deckt ab` (Beleg `lessons.md` L{N}, Sicherheit unveraendert). Faellt die
+Quelle im Struktur-Check (4a) → alle `Lektion`-Vorschlaege werden Einzelfaelle.
+
+### 4d: Einzelfall oder Sammelliste (mechanisch)
+
+Ein Fund ist **Einzelfall** (Schritt 6), wenn mindestens eines gilt:
+- Vorschlag `Unklar: …`
+- Vorschlag `Verwerfen: …` mit Sicherheit ≠ `hoch`
+- Vorschlag `Verwerfen: …` **ohne pruefbaren Ort** im Beleg (kein `Datei:Zeile`, keine
+  Commit-SHA) — auch bei Sicherheit `hoch`: ein plausibler Beleg ohne Ort rutscht bei
+  „Alle uebernehmen" ungeprueft durch
+- **ohne Vorschlag** (Voranalyse ausgefallen, 3c)
+- Vorschlag eines Typs, dessen Quelle im Struktur-Check (4a) gefallen ist
+
+Alle anderen Funde kommen in die **Sammelliste** (Schritt 5). Die Sichtung-Spalte `L1 …`
+aendert daran nichts — ein faelliger Fund mit sicherem Vorschlag darf in die Sammelliste; wird
+er dort gestrichen, gilt in Schritt 6 die Zwangsentscheidung.
+
+### 4e: Kappung der Einzelfaelle
+
+Hoechstens `einzeln_pro_lauf` Einzelfaelle (Argument `alle` → keine Kappung; Zahl-Argument
+ersetzt den Wert), **aelteste zuerst**. Die uebrigen bleiben **unveraendert** im Becken
+(Sichtung-Spalte bleibt, wie sie ist) und kommen im naechsten Lauf erneut in die Voranalyse.
+Gestrichene Sammellisten-Zeilen (Schritt 5) zaehlen NICHT gegen die Kappung — wer streicht,
+hat sich die Einzelentscheidung bewusst geholt.
+
+### 4f: Uebersicht vor der Vorlage
+
+```
+Becken-Triage: {N} Fund(e) vorsortiert{ ({K} inline, ohne Agenten)}
+
+  Buendel:       {B} (mit {G} Gliedern)
+  Sammelliste:   {S}
+  Einzelfaelle:  {E}{ — davon {A} ohne Vorschlag (Voranalyse ausgefallen)}
+  Zurueckgestellt (Kappung): {R} → naechster Lauf
+```
+
+Kein „Weiter?" — die Sammelliste (Schritt 5) ist die naechste Entscheidung.
 
 ---
 
-## Schritt 4: Einzeln entscheiden
+## Schritt 5: Sammelliste
+
+> Wird in Schritt 2.1 des Changes `triage-vorsortierung` gefuellt.
+
+---
+
+## Schritt 6: Einzeln entscheiden (Stufe 2)
 
 **Jede Entscheidung wird SOFORT geschrieben, nicht am Lauf-Ende gesammelt.** Bricht der Lauf
 nach Eintrag 4 von 8 ab, sind vier Entscheidungen fest und vier stehen beim naechsten Lauf
@@ -218,7 +368,7 @@ Fuer jeden Eintrag der Sichtungsmenge:
 Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
   "{Befund-Text, auf ~200 Zeichen gekuerzt}"
 
-  {Alterungshinweis aus Schritt 3, falls vorhanden}
+  {Vorschlag, Grund und Beleg aus der Voranalyse (Schritt 3), falls vorhanden}
 
   Aktion?
     1. Befoerdern → INBOX.md
@@ -228,13 +378,13 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
 
 ### Aktionen
 
-**Befoerdern (1):** Ausfuehrung in Schritt 5.
+**Befoerdern (1):** Ausfuehrung in Schritt 7.
 
 **Verwerfen (2):**
 - **Begruendung ist Pflicht** — ein Satz genuegt. Sie landet in der Archivdatei und ist in
   sechs Monaten das Einzige, was den Vorgang noch erklaert. Ohne Begruendung nicht schreiben,
   sondern einmal nachfragen.
-- Ausfuehrung in Schritt 5.
+- Ausfuehrung in Schritt 7.
 
 **Liegenlassen (3):**
 - **Nur zulaessig, wenn die Sichtung-Spalte leer ist.** Bei `L1 …` ist die Option nicht im
@@ -248,9 +398,9 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
 
 ---
 
-## Schritt 5: Entscheidung ausfuehren (sofort schreiben)
+## Schritt 7: Entscheidung ausfuehren
 
-### 5a: Befoerdern
+### 7a: Befoerdern
 
 > **Kopplungs-Hinweis:** Der Duplikat-Check unten fuehrt die Bewertung aus `dtb:idea` per
 > Referenz aus und greppt auf deren Sektions-Titel `## Duplikat-Check` (Struktur-Check).
@@ -264,7 +414,7 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
    Aehnliche Idee steht schon in der INBOX (#{N}, {Status}): "{Bestandstext, gekuerzt}"
    Trotzdem befoerdern? (Ja / stattdessen verwerfen)
    ```
-   `stattdessen verwerfen` → **weiter mit 5b**, unveraendert: die Begruendung bleibt Pflicht,
+   `stattdessen verwerfen` → **weiter mit 7b**, unveraendert: die Begruendung bleibt Pflicht,
    der Eintrag geht mit ihr ins Archiv. Kein eigener Kurzpfad, keine Ausnahme.
    Kein Treffer → keine Ausgabe, direkt weiter.
 
@@ -272,7 +422,7 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
    > `(Ja / Abbrechen)` vor. Hier steht `stattdessen verwerfen` statt `Abbrechen`, weil
    > „Abbrechen" den Eintrag im Becken liesse — und derselbe Lauf legt ihn unmittelbar danach
    > wieder vor. Der Duplikat-Treffer ist ein Argument FUER eine Entscheidung, nicht gegen sie.
-   > Wer die Entscheidung wirklich vertagen will, waehlt in Schritt 4 „Liegenlassen".
+   > Wer die Entscheidung wirklich vertagen will, waehlt in Schritt 6 „Liegenlassen".
 2. **Zeile in `INBOX.md` einfuegen — direkt unter der Tabellen-Trennzeile**, nicht ans
    Tabellenende: die INBOX ist absteigend sortiert (setzt INBOX #74 um).
    **Nummer bleibt** — sie wird nicht neu vergeben, Session-Logs, Plaene und Archiv-Eintraege
@@ -282,14 +432,14 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
    bare Pipes im uebernommenen Text escapen.
 4. **ERST JETZT die Zeile aus dem Becken entfernen.**
 
-> **Die Reihenfolge ist bindend, nicht kosmetisch** (dieselbe wie in 5b): Ziel schreiben, dann
+> **Die Reihenfolge ist bindend, nicht kosmetisch** (dieselbe wie in 7b): Ziel schreiben, dann
 > Quelle loeschen. Bricht der Lauf dazwischen ab, steht der Eintrag doppelt — und die Dublette
 > sieht der Duplikat-Check des naechsten Laufs. Umgekehrt waere der Eintrag ersatzlos weg, und
 > die Zusage „nie zurueckrollen" machte den Verlust endgueltig.
 
 Meldung: `✔ #{N} befoerdert → INBOX.md`
 
-### 5b: Verwerfen
+### 7b: Verwerfen
 
 1. **Archivdatei sicherstellen:** `{config.paths.workflows}/archive/INBOX-BEFUNDE-verworfen.md`.
    Fehlt sie → mit diesem Kopf anlegen:
@@ -308,7 +458,7 @@ Meldung: `✔ #{N} befoerdert → INBOX.md`
 
 Meldung: `✔ #{N} verworfen → archive/INBOX-BEFUNDE-verworfen.md`
 
-### 5c: Liegenlassen
+### 7c: Liegenlassen
 
 Sichtung-Spalte auf `L1 {heutiges Datum}` setzen, sonst nichts aendern.
 
@@ -316,7 +466,7 @@ Meldung: `↷ #{N} liegengelassen — naechster Lauf erzwingt die Entscheidung`
 
 ---
 
-## Schritt 6: Abschluss-Bilanz
+## Schritt 8: Abschluss-Bilanz
 
 Nach dem letzten Eintrag der Sichtungsmenge — oder nach einem Abbruch durch den Nutzer:
 
