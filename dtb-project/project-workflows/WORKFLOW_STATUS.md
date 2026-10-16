@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-10-15
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-15.md`
+**Letztes Update:** 2026-10-16
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-16.md`
 
 ---
 
@@ -19,13 +19,13 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | Rest-Befunde behoben (`f256b0a`), edge-tts 7.3.1 auf DamiansDesk (L88); naechste Autonomie-Station offen (#98/#99 in INBOX) |
+| **Notizen** | Ideen-Review laeuft: #105 in #100 zusammengelegt, #15 bewusst getrennt; weiter bei #135 |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 15 offene Ideen, sechster Start ohne Entscheidung (2026-10-08 fuer Checkpoint unterbrochen); Zusammenlege-Kandidaten #100+#105, #111+#112, #99→#98 (seit ≤2026-09-23 · behalten 2026-10-15)
+- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 14 offene Ideen, weiter bei #135 (siebter Start 2026-10-16 nach 1 Entscheidung fuer Checkpoint unterbrochen); Zusammenlege-Kandidaten noch #111+#112, #99→#98 (seit ≤2026-09-23 · behalten 2026-10-15)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-15)
 - [ ] **`/dtb:idea-triage`** — Kontext: 73 ungesichtet; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-15)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: 403 bei 7.2.8 → Ersatzstimme; `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15)
@@ -36,12 +36,12 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-10-16 | Ideen-Review (Teil) | #105 → #100 zusammengelegt (Scan in zwei Stufen), #15 getrennt; Checkpoint 10-15 gepusht `36aeaaa` | `2026-10/2026-10-16.md` |
 | 2026-10-15 | Rest-Befunde `rueckfragen-defaults` + TTS-Stimme | feature-start/feature-fast gefixt `f256b0a`, kit-sync 50/50; edge-tts 403 behoben (L88, #136) | `2026-10/2026-10-15.md` |
 | 2026-10-06 | #107 BACKLOG-Spalte `#` ausgeliefert | per `pane-start` + Fast-Track, abgenommen, ff-Merge `2f3cb09`, kit-sync 50/50, archiviert; L87, #131/#132 | `2026-10/2026-10-06.md` |
 | 2026-10-06 | Station 1 + 2 der Autonomie-Achse archiviert | `rueckfragen-defaults` + `rueckfragen-erhebung` → `archive/`, INBOX #57 entfernt; #129/#130 erfasst | `2026-10/2026-10-06.md` |
 | 2026-10-05 | Rollout Station 2 (#57) bestaetigt | Merge `77d2dba`, push, kit-sync 50/50 synchron; Worktree/Branch/Pane abgebaut | `2026-10/2026-10-05.md` |
 | 2026-10-01 | Station 2 (#57) umgesetzt + abgenommen | Phase 3–5, impl-review 0 blocking / 10 Fixed; Abnahme mit Probelauf; L85–L86 | `2026-10/2026-10-01.md` |
-| 2026-09-30 | Station 2 gestartet (#57) per `pane-start` | Discovery → Spec → Plan (Reviewed) → Phase 1+2; L82–L84 | `2026-09/2026-09-30.md` |
 
 ---
 
