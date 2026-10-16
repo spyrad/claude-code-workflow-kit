@@ -5,7 +5,7 @@ description: >-
   diesen Fehler", "Erkenntnis speichern", "als Regel festhalten". Captures a
   non-obvious, reusable lesson (Context/Problem/Rule/Applies-to) append-only into
   project-rules/lessons.md, read later as a prior by the plan/review skills.
-disable-model-invocation: true
+disable-model-invocation: false
 argument-hint: "[Lektion als Freitext]"
 allowed-tools: Read, Write, Edit, Grep
 pipeline:

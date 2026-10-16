@@ -37,7 +37,7 @@ Skill, #24)**.
 > Hinweis steht in `dtb:open-question` (Kopplungs-Knoten).
 
 > **Kein formales Eligibility-Gate (bewusst):** meeting-dump ist ein Capture-Werkzeug wie
-> `/dtb:idea`/`/dtb:open-question` (`disable-model-invocation: true`) und hat **keine zwingende
+> `/dtb:idea`/`/dtb:open-question` (selbst `disable-model-invocation: true`) und hat **keine zwingende
 > Eingabe** — 0 offene Fach-Fragen ist ein definierter Pfad (Schritt 3: Beleg wird trotzdem
 > gespeichert, alles → „Nicht zugeordnet"), und der Skill laeuft config-los. Daher **kein
 > Hard-Gate** nach `skills/CLAUDE.md` und **kein** Eintrag in dessen Hard-Gate-Tabelle.

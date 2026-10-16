@@ -5,7 +5,7 @@ description: >-
   "Frage fuers Meeting notieren", "[Fach]-Frage erfassen". Captures a
   subject-matter question as a §6-conform `- [ ] [Fach] {Frage}` entry in the
   active feature's `## Offene Punkte` — quick, without interrupting the work.
-disable-model-invocation: true
+disable-model-invocation: false
 argument-hint: "[<feature-slug>] <Fach-Frage>"
 allowed-tools: Read, Glob, Grep, Edit
 pipeline:
@@ -115,7 +115,7 @@ beschrieben:
    ```
 
 > **Kein formales Eligibility-Gate (bewusst):** open-question ist ein Capture-Tool wie `/dtb:idea`
-> (`disable-model-invocation: true`). Der Abbruch oben ist ein **weicher Redirect**, kein Hard-Gate
+> (seit 2026-10-16 modell-aufrufbar, schreibt erst nach Bestaetigung). Der Abbruch oben ist ein **weicher Redirect**, kein Hard-Gate
 > nach `skills/CLAUDE.md` — der Ablage-Ort ist nicht erzwingbar, es gibt keine Escape-Hatch.
 
 ---
