@@ -292,13 +292,13 @@ Belegen, dass der Umbau die Spec erfuellt — Schreibwege im Testprojekt, Vorsch
 - [x] 1.1 Frontmatter, Config, Schritt 2 — `f0f7a45`
 - [x] 1.2 Voranalyse (Agenten-Auftrag) — `f0f7a45`
 - [x] 1.3 Konsolidierung — `f0f7a45`
-- [x] 2.1 Sammelliste
-- [x] 2.2 Schreibwege
-- [x] 2.3 Struktur-Check
-- [x] 2.4 Stufe 2 + Bilanz
-- [ ] 3.1 Kopplungs-Hinweise lesson/open-question
-- [ ] 3.2 skills/CLAUDE.md
-- [ ] 3.3 DSR §6.4, Root-CLAUDE.md, Sweep
+- [x] 2.1 Sammelliste — `d6eb24c`
+- [x] 2.2 Schreibwege — `d6eb24c`
+- [x] 2.3 Struktur-Check — `d6eb24c`
+- [x] 2.4 Stufe 2 + Bilanz — `d6eb24c`
+- [x] 3.1 Kopplungs-Hinweise lesson/open-question
+- [x] 3.2 skills/CLAUDE.md
+- [x] 3.3 DSR §6.4, Root-CLAUDE.md, Sweep
 - [ ] 4.1 Testprojekt
 - [ ] 4.2 Wirklauf Testprojekt
 - [ ] 4.3 Trockenlauf echtes Becken

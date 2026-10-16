@@ -80,7 +80,9 @@ Welche Idee moechtest du festhalten? (Freitext)
 > Sektions-Titel `## Duplikat-Check` (Struktur-Check). Die Rueckfrage unten ersetzt der
 > Checkpoint durch eine vorgestrichene Zeile in seiner Vorlage — die Bewertung selbst bleibt
 > hier die eine Quelle. Umbenennung oder Umbau dieser Sektion →
-> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
+> `dtb:idea-triage` (Befoerdern, Schritt 7a; Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md`
+> ebenfalls mitziehen.
 
 Vor dem Schreiben: pruefe die erfasste Idee **unscharf** gegen die Spalte „Idee" ALLER Zeilen in
 `{config.paths.workflows}/INBOX.md` — alle Status, `archive/` wird NIE durchsucht. Vergleich per

@@ -299,7 +299,10 @@ die Tabelle in §1 („kein Ordner, nur INBOX-Eintrag → Idee") gilt allein fue
 Becken-Eintrag zaehlt nirgends — nicht fuer die Feature-Statusableitung (§1), nicht fuer das
 Verifikations-Gate (§2), nicht fuer Arbeits-Ansichten. Er wird zum Vorgang erst durch die
 **Befoerderung** nach `INBOX.md` (`dtb:idea-triage`), und dort ist er dann eine normale Idee
-mit Status `Offen`. Die Sichtung-Spalte (leer / `L1 YYYY-MM-DD` / `Altbestand`) ist ein
+mit Status `Offen`. Die uebrigen Abgaenge — gebuendelt in eine befoerderte Idee, an eine
+bestehende Idee nachgetragen, als Lektion oder Fach-Frage erfasst, verworfen — machen ihn zu
+keinem eigenen Vorgang; jeder davon geschieht nur nach Bestaetigung durch den Menschen und
+hinterlaesst einen Eintrag in `archive/INBOX-BEFUNDE-verworfen.md`. Die Sichtung-Spalte (leer / `L1 YYYY-MM-DD` / `Altbestand`) ist ein
 Arbeitsvermerk der Triage, kein Status. Verhaelt sich damit analog zu den Fach-Fragen (§6.2)
 und zu `review.md` — sichtbar, aber ableitungsblind.
 

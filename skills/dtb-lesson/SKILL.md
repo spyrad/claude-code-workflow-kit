@@ -93,6 +93,11 @@ Welche Lektion moechtest du festhalten? (Freitext — was ist passiert, was gilt
    ausfuehrt) oder sofort per `/dtb:lesson "…"`. `impl-review` uebergibt aus der Triage
    („Als Lektion erfassen") direkt hierher.
 
+**Zusaetzlich per Referenz — Becken-Triage:** `dtb:idea-triage` legt Lektionen aus dem
+Befund-Becken an (Schritt 7f) und fuehrt dafuer die Schritte 2 und 4 per Referenz aus, die
+Duplikat-Bewertung aus Schritt 3 schon in der Vorsortierung (Schritt 4c). Bestaetigt wird dort
+ueber die Sammelliste bzw. die Einzelentscheidung — die Bestaetigungsfrage aus Schritt 2 entfaellt.
+
 **Immer mit Bestaetigung — nie stiller Auto-Write.** Der Skill schreibt erst, nachdem der
 strukturierte Eintrag (Schritt 2) gezeigt und bestaetigt wurde.
 
@@ -103,7 +108,8 @@ strukturierte Eintrag (Schritt 2) gezeigt und bestaetigt wurde.
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
 > Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den Sektions-Titel
 > `## Schritt 2: In 4 Felder strukturieren` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
-> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
+> `dtb:idea-triage` (Schritt 7f, Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md` ebenfalls mitziehen.
 
 Leite aus dem Freitext die vier Felder ab. Halte jedes Feld **knapp** (1 Satz).
 
@@ -147,7 +153,9 @@ Speichern? (Ja / Anpassen)
 > `## Schritt 3: Duplikat-Check` (Struktur-Check). Die Rueckfrage unten ersetzt der
 > Checkpoint durch eine vorgestrichene Zeile in seiner Vorlage — die Bewertung selbst bleibt
 > hier die eine Quelle. Umbenennung oder Umbau dieser Sektion →
-> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
+> `dtb:idea-triage` (Schritt 4c — Treffer wird dort zum Verwerfen-Vorschlag „Lektion L{N}
+> deckt ab", Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md` ebenfalls mitziehen.
 
 Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 - **Aehnlicher Eintrag gefunden:** Hinweis zeigen, aber **nicht hart blocken** —
@@ -164,7 +172,8 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
 > Verlustfunde per Referenz aus (Schritt 0, Sammelvorlage) und greppt auf den Sektions-Titel
 > `## Schritt 4: Append-only speichern` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
-> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
+> `dtb:idea-triage` (Schritt 7f, Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md` ebenfalls mitziehen.
 
 ### Datei
 - Pfad: `{config.paths.rules}/lessons.md`
