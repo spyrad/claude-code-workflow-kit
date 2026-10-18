@@ -105,7 +105,8 @@ der naechste Lauf erzwingt die Entscheidung · `Altbestand` = aus der Migration 
 **„Ungesichtet" heisst: noch nicht endgueltig entschieden** — also `leer` ODER `L1 …` ODER
 `Altbestand`. Diese eine Definition gilt fuer alle Zaehler (Handoff-Erinnerung des Checkpoints,
 `dtb:project-health`, Abschluss-Bilanz der Triage). Entschieden ist ein Eintrag erst, wenn er das
-Becken verlassen hat — durch Befoerderung oder Verwerfen.
+Becken verlassen hat — befoerdert (auch als Buendel-Traeger) oder mit Archiv-Eintrag verworfen,
+gebuendelt, nachgetragen oder als Lektion bzw. Fach-Frage erfasst.
 
 **Nummernkreis:** gemeinsam mit `INBOX.md` — eine Nummer wird nie zweimal vergeben, und sie
 bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).
@@ -143,6 +144,11 @@ Checkpoint schreibt hier ebenfalls hinein (Orchestrator-Muster: `skills/CLAUDE.m
        `⚠ INBOX-BEFUNDE.md wurde seit dem Einlesen geaendert ({neue mtime}) — Stand neu geladen`
        und mit dem FRISCHEN Stand weiterarbeiten (kein Abbruch, keine Nachfrage)
      - Inhalt identisch (nur mtime, z.B. touch/Checkout) → keine Warnung
+     - **Existenzprobe nach Neu-Laden:** steht die Zeile des Funds, der gerade geschrieben werden
+       soll, im frischen Stand nicht mehr oder mit anderem Befund-Text → fuer diesen Fund nichts
+       schreiben (auch nicht am Ziel — „Ziel vor Quelle" erzeugte sonst einen Eintrag ohne
+       Quelle), genau eine Zeile `⚠ #{N} nicht mehr unveraendert im Becken — uebersprungen`, weiter
+       mit dem naechsten
    - Datei existiert nicht mehr → wie Abweichung behandeln:
      `⚠ INBOX-BEFUNDE.md seit dem Einlesen entfernt/verschoben — Entscheidung ggf. hinfaellig`
    - **Nach jedem EIGENEN Schreibvorgang** am Becken die gemerkte mtime (und den gemerkten
@@ -261,13 +267,16 @@ Literale Pipes in Grund oder Beleg immer als \| angeben.
 
 Je Portion, bevor irgendetwas weiterverarbeitet wird:
 
-1. **Zeilenzahl-Gate:** Anzahl der Ergebniszeilen, die mit `#` beginnen = Anzahl der Funde der
-   Portion. Weicht sie ab, liefert der Agent nichts, oder ist das Format unlesbar → **alle Funde
-   dieser Portion gelten als „ohne Vorschlag"**. Nie als „nichts gefunden" werten — ein
-   leeres Ergebnis ist ein Ausfall, kein Befund
+1. **Nummern-Gate:** Die Nummern der Ergebniszeilen (Zeilen, die mit `#` und einer Ziffer
+   beginnen — eine Ueberschrift wie `# Ergebnis` zaehlt nicht) muessen **genau** die Nummern der
+   Portion sein: jede genau einmal, keine fremde. Fehlt eine, steht eine doppelt oder stammt eine
+   aus einer anderen Portion, liefert der Agent nichts, oder ist das Format unlesbar → **alle Funde
+   dieser Portion gelten als „ohne Vorschlag"**. Nie als „nichts gefunden" werten — ein leeres
+   Ergebnis ist ein Ausfall, kein Befund. Mengen- statt Zahlpruefung, weil eine fremde Nummer den
+   eigenen Fund still verschwinden liesse und dem fremden zwei Vorschlaege gaebe
 2. **Spaltenpruefung je Zeile:** genau **6 Spalten** — also genau 5 Trenner `|`, escapte `\|`
    zaehlen nicht. Weicht eine Zeile ab → nur dieser Fund gilt als „ohne Vorschlag". Grund: ein
-   unescapter Trenner verschiebt die Spalten, ohne dass das Zeilenzahl-Gate anschlaegt
+   unescapter Trenner verschiebt die Spalten, ohne dass das Nummern-Gate anschlaegt
 3. **Bekannter Vorschlag:** Spalte 2 muss einer der Vorschlaege aus dem Auftrag sein; sonst
    „ohne Vorschlag"
 
@@ -343,26 +352,30 @@ Schreiben (Schritt 7), weil 4c `dtb:lesson` bereits lesend nutzt. Muster:
 
 ### 4b: Buendel bilden
 
-1. **Verwandtschaft als Graph:** jede `Verwandt`-Angabe ist eine Kante zwischen zwei Funden,
-   in beide Richtungen gueltig. Zusammenhaengende Gruppen bilden (transitiv: #a~#b und #b~#c →
-   eine Gruppe). Verweise auf Nummern ausserhalb der Sichtungsmenge werden ignoriert
-2. **Buendel-Glieder** sind die Funde einer Gruppe mit Vorschlag `Befoerdern`. Ein Buendel
-   entsteht nur bei **mindestens zwei** solchen Gliedern; Gruppenmitglieder mit anderem
-   Vorschlag (Verwerfen, Lektion …) behalten ihren eigenen Vorschlag und werden in der
-   Buendel-Zeile nur als „verwandt" genannt. Gruppen aus lauter Verwerfen-Vorschlaegen ergeben
-   kein Buendel
-3. **Traeger** = das **juengste Glied** (hoechste Nummer). Deterministisch, damit zwei Laeufe
-   denselben Traeger waehlen; wer einen anderen Traeger will, streicht die Buendel-Zeile in
-   Schritt 5 — die Glieder kommen dann einzeln in Schritt 6
-4. **Einzelfall schlaegt Buendel:** ein Glied, das nach 4d ein Einzelfall ist, faellt aus dem
-   Buendel heraus (bleibt ein Glied uebrig, entfaellt das Buendel)
+1. **Kanten nur gegenseitig:** Eine Kante zwischen #a und #b entsteht nur, wenn #a in `Verwandt`
+   #b nennt **und** #b #a nennt. Einseitige Nennungen und Verweise auf Nummern ausserhalb der
+   Sichtungsmenge erzeugen keine Kante — sie bleiben ein Hinweis „verwandt" in der Zeile
+2. **Keine transitive Huelle:** #a~#b und #b~#c machen #a und #c nicht verwandt; ein Buendel ist
+   ein Traeger plus seine **direkten** Nachbarn. Grund: die Agenten setzen `Verwandt` grosszuegig —
+   im Trockenlauf 2026-10-16 verschmolz die Huelle fuenf Themen zu einem Buendel aus 21 Funden,
+   nicht pruefbar und beim Streichen ungekappt
+3. **Traeger und Glieder:** Kandidaten sind Funde mit Vorschlag `Befoerdern`, die nach 4d kein
+   Einzelfall sind. Absteigend nach Nummer: hat der hoechste noch freie Kandidat mindestens einen
+   gegenseitigen Nachbarn unter den freien Kandidaten, wird er **Traeger**, diese Nachbarn werden
+   seine **Glieder**, alle gelten danach als vergeben (jeder Fund in hoechstens einem Buendel).
+   Deterministisch, damit zwei Laeufe dieselben Buendel bilden; wer einen anderen Traeger will,
+   streicht die Buendel-Zeile in Schritt 5 — die Glieder kommen dann einzeln in Schritt 6
+4. **Nachbarn mit anderem Vorschlag** (Verwerfen, Lektion …) behalten ihren eigenen Vorschlag und
+   werden in der Buendel-Zeile nur als „verwandt" genannt; ohne zwei Kandidaten kein Buendel
 
 ### 4c: Lektions-Vorschlaege gegen den Bestand pruefen
 
 Je Vorschlag `Lektion` die Duplikat-Bewertung aus `## Schritt 3: Duplikat-Check` in
 `dtb:lesson` ausfuehren (per Referenz — die Regel dort lesen, nicht hier; nur die Bewertung,
 ohne deren Rueckfrage). Treffer → der Vorschlag wird zu
-`Verwerfen: Lektion L{N} deckt ab` (Beleg `lessons.md` L{N}, Sicherheit unveraendert). Faellt die
+`Verwerfen: Lektion L{N} deckt ab` (Beleg `lessons.md:{Zeile} (L{N})`, Sicherheit **`mittel`** —
+der Stichwort-Treffer ist ein unscharfer Vergleich, eine neue Behauptung mit eigener Unsicherheit;
+er wird deshalb immer einzeln vorgelegt, nie per Sammelliste verworfen). Faellt die
 Quelle im Struktur-Check (4a) → alle `Lektion`-Vorschlaege werden Einzelfaelle.
 
 ### 4d: Einzelfall oder Sammelliste (mechanisch)
@@ -373,6 +386,8 @@ Ein Fund ist **Einzelfall** (Schritt 6), wenn mindestens eines gilt:
 - Vorschlag `Verwerfen: …` **ohne pruefbaren Ort** im Beleg (kein `Datei:Zeile`, keine
   Commit-SHA) — auch bei Sicherheit `hoch`: ein plausibler Beleg ohne Ort rutscht bei
   „Alle uebernehmen" ungeprueft durch
+- Vorschlag `Verwerfen: Dublette #M`, wenn #M selbst in der Sichtungsmenge steht — zwei Funde
+  koennten sich sonst gegenseitig verwerfen, und keiner bliebe uebrig
 - **ohne Vorschlag** (Voranalyse ausgefallen, 3c)
 - Vorschlag eines Typs, dessen Quelle im Struktur-Check (4a) gefallen ist
 
@@ -385,8 +400,14 @@ er dort gestrichen, gilt in Schritt 6 die Zwangsentscheidung.
 Hoechstens `einzeln_pro_lauf` Einzelfaelle (Argument `alle` → keine Kappung; Zahl-Argument
 ersetzt den Wert), **aelteste zuerst**. Die uebrigen bleiben **unveraendert** im Becken
 (Sichtung-Spalte bleibt, wie sie ist) und kommen im naechsten Lauf erneut in die Voranalyse.
-Gestrichene Sammellisten-Zeilen (Schritt 5) zaehlen NICHT gegen die Kappung — wer streicht,
-hat sich die Einzelentscheidung bewusst geholt.
+
+**Die Kappung gilt fuer alles, was der Lauf selbst nach Schritt 6 schickt** — die Einzelfaelle
+aus 4d UND die von Schritt 7 verschobenen Zeilen (Duplikat-Treffer beim Befoerdern,
+Nachtrag-Ziel nicht offen, aufgeloestes Buendel). Die verschobenen entstehen erst beim
+Schreiben; deshalb wird die Kappung vor Schritt 6 ueber beide Gruppen gemeinsam neu angewandt
+(aelteste zuerst), ueberzaehlige bleiben unveraendert im Becken.
+**Ausgenommen ist nur, was der Mensch selbst herausnimmt** — gestrichene Sammellisten-Zeilen und
+„Einzeln durchgehen" (Schritt 5): wer streicht, hat sich die Einzelentscheidung bewusst geholt.
 
 ### 4f: Uebersicht vor der Vorlage
 
@@ -398,6 +419,19 @@ Becken-Triage: {N} Fund(e) vorsortiert{ ({K} inline, ohne Agenten)}
   Einzelfaelle:  {E}{ — davon {A} ohne Vorschlag (Voranalyse ausgefallen)}
   Zurueckgestellt (Kappung): {R} → naechster Lauf
 ```
+
+**Groessen (gelten auch in Schritt 5 und 8):** `{B}` = Buendel = Traeger · `{G}` = Glieder
+**ohne** Traeger (archiviert „gebuendelt in #…") · `{S}` = Einzelzeilen der Sammelliste ohne
+Buendel · `{E}` = vorgelegte Einzelfaelle · `{R}` = zurueckgestellt · `{N}` = Sichtungsmenge.
+
+**Summenprobe (hartes Gate):** `{B} + {G} + {S} + {E} + {R} = {N}` — jeder Fund steht genau
+einmal in genau einem Topf. Weicht die Summe ab → keine Vorlage, nichts schreiben, genau eine
+Zeile, Skill endet:
+```
+⚠ Vorsortierung unvollstaendig: {B}+{G}+{S}+{E}+{R} = {Summe} ≠ {N} — nichts geschrieben, Lauf erneut starten
+```
+Grund: Ein beim Bau der Vorlage verlorener Fund wuerde sonst weder geschrieben noch vorgelegt
+(Testprojekt 2026-10-16: ein Fund fehlte, die Zahlen standen schon da, nur der Vergleich fehlte).
 
 Kein „Weiter?" — die Sammelliste (Schritt 5) ist die naechste Entscheidung.
 
@@ -415,7 +449,7 @@ Leere Sammelliste (alles Einzelfaelle) → dieser Schritt entfaellt still, weite
 gekuerzt — der volle Text steht im Becken):
 
 ```
-Sammelliste — {S} Vorschlaege{, davon {B} Buendel}
+Sammelliste — {S} Einzelzeilen{ + {B} Buendel (mit {G} Gliedern)}
 
 Buendel:
  B1  #{T} traegt #{a}, #{b}{ (verwandt: #{c} {Vorschlag})}  → INBOX.md #{T}; Glieder → Archiv „gebuendelt in #{T}"
@@ -458,9 +492,10 @@ war (INBOX #71) — deshalb ist die Reihenfolge hier verbindlich: entscheiden �
 naechster Eintrag.
 
 **Wer hierher kommt** — in dieser Reihenfolge, innerhalb jeder Gruppe aelteste zuerst:
-1. die gestrichenen Zeilen der Sammelliste (Schritt 5) und von Schritt 7 verschobene Zeilen
-   (Duplikat-Treffer beim Befoerdern, Nachtrag-Ziel nicht offen, aufgeloestes Buendel)
-2. die Einzelfaelle aus 4d, gekappt nach 4e
+1. die vom Menschen herausgenommenen Zeilen (gestrichen oder „Einzeln durchgehen", Schritt 5) —
+   ungekappt
+2. die Einzelfaelle aus 4d und die von Schritt 7 verschobenen Zeilen (Duplikat-Treffer beim
+   Befoerdern, Nachtrag-Ziel nicht offen, aufgeloestes Buendel) — gemeinsam gekappt nach 4e
 
 Laeuft zeitlich NACH dem Schreiben der Sammelliste (Schritt 7): wer streicht, entscheidet die
 gestrichenen Zeilen hier, nachdem die sicheren schon festgeschrieben sind.
@@ -478,12 +513,19 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
   {nur bei verschobener Zeile:} Verschoben aus Schritt 7: {Grund, z.B. aehnliche Idee #{M}}
 
   Aktion?
+    {nur bei Nachtrag/Lektion/Fachfrage:} 0. Vorschlag uebernehmen: {Vorschlag} → {Ziel}
     1. Befoerdern → INBOX.md
     2. Verwerfen  → archive/ (Begruendung noetig)
     3. Liegenlassen (nur einmal moeglich)
 ```
 
 ### Aktionen
+
+**Vorschlag uebernehmen (0):** Nur angeboten, wenn der Vorschlag `Nachtrag #Z`, `Lektion` oder
+`Fachfrage …` lautet, seine Quelle im Struktur-Check (4a) gefunden wurde und die Zeile nicht
+gerade wegen dieses Wegs verschoben wurde (z.B. Nachtrag-Ziel nicht offen). Sonst entfiele mit
+dem Streichen einer Sammellisten-Zeile auch ihr Ausgang — „gestrichen heisst nicht verworfen"
+verspraeche mehr, als Stufe 2 bietet. Ausfuehrung in Schritt 7 ueber 7e, 7f bzw. 7g.
 
 **Befoerdern (1):** Ausfuehrung in Schritt 7.
 
@@ -496,7 +538,8 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
 
 **Liegenlassen (3):**
 - **Nur zulaessig, wenn die Sichtung-Spalte leer ist.** Bei `L1 …` ist die Option nicht im
-  Angebot — dort gilt die **Zwangsentscheidung**: nur 1 oder 2. Wird sie trotzdem gewaehlt:
+  Angebot — dort gilt die **Zwangsentscheidung**: nur 0 (falls angeboten), 1 oder 2. Wird sie
+  trotzdem gewaehlt:
   ```
   #{N} wurde bereits einmal liegengelassen ({L1-Datum}). Jetzt entscheiden: befoerdern oder verwerfen.
   ```
@@ -515,7 +558,8 @@ Buendel zuerst, und danach jede Einzelentscheidung aus Schritt 6 sofort nach ihr
 - **Eine Zeile, ein Schreibvorgang, sofort** (INBOX #71) — nie am Ende gesammelt
 - **Ziel vor Quelle** (L43): erst am Ziel schreiben und pruefen, dann die Becken-Zeile entfernen.
   Bricht der Lauf dazwischen ab, steht der Fund doppelt (sichtbar, heilbar) statt gar nicht
-- **Lesestand-Pruefung** vor jedem Schreiben (Abschnitt oben)
+- **Lesestand-Pruefung** vor jedem Schreiben (Abschnitt oben), inkl. Existenzprobe der Zeile nach
+  einem Neu-Laden
 - **Schreibfehler mitten drin** → melden, was geschrieben ist; die uebrigen Zeilen bleiben
   unveraendert im Becken — **nie zurueckrollen**
 - **Archiv-Eintrag** = 7b Punkte 1–2 (Datei sicherstellen, anhaengen) mit der jeweils genannten
@@ -547,8 +591,11 @@ Buendel zuerst, und danach jede Einzelentscheidung aus Schritt 6 sofort nach ihr
    > „Abbrechen" den Eintrag im Becken liesse — und derselbe Lauf legt ihn unmittelbar danach
    > wieder vor. Der Duplikat-Treffer ist ein Argument FUER eine Entscheidung, nicht gegen sie.
    > Wer die Entscheidung wirklich vertagen will, waehlt in Schritt 6 „Liegenlassen".
-2. **Zeile in `INBOX.md` einfuegen — direkt unter der Tabellen-Trennzeile**, nicht ans
-   Tabellenende: die INBOX ist absteigend sortiert (setzt INBOX #74 um).
+2. **Zeile in `INBOX.md` an ihrer sortierten Position einfuegen** — vor der ersten Datenzeile mit
+   kleinerer Nummer (gibt es keine, ans Tabellenende): die INBOX ist absteigend sortiert (setzt
+   INBOX #74 um), und befoerderte Becken-Nummern liegen wegen des gemeinsamen Nummernkreises fast
+   immer unter dem INBOX-Maximum — pauschal unter der Trennzeile eingefuegt, braeche jeder
+   groessere Lauf die Ordnung.
    **Nummer bleibt** — sie wird nicht neu vergeben, Session-Logs, Plaene und Archiv-Eintraege
    referenzieren sie. **Status `Offen`**, Textfeld unveraendert plus Suffix
    `(befoerdert {YYYY-MM-DD})`. Kommt der Fund aus dem Fachfrage-Rueckfall (7g), steht vor dem
@@ -734,8 +781,9 @@ nicht nur gegen die Zahl (L17) — eine einmal vergebene Nummer wird nicht mehr 
 ## Wichtig
 
 - **Nie das ganze Becken einzeln vorlegen:** Die Voranalyse liest alles, aber einzeln vorgelegt
-  werden hoechstens `einzeln_pro_lauf` Faelle (4e). Ein Lauf, der 150 Einzelentscheidungen
-  verlangt, wird nie zu Ende gefuehrt
+  werden hoechstens `einzeln_pro_lauf` Faelle, die der Lauf selbst erzeugt (4e) — ausgenommen nur,
+  was der Mensch bewusst herausnimmt (gestrichen, „Einzeln durchgehen"). Ein Lauf, der 150
+  Einzelentscheidungen verlangt, wird nie zu Ende gefuehrt
 - **Sofort schreiben, nie sammeln:** Jede Entscheidung geht einzeln in die Datei (INBOX #71).
   Die Sammelliste ist eine Bestaetigung, kein Sammel-Schreiben — nach ihr wird Zeile fuer Zeile
   geschrieben

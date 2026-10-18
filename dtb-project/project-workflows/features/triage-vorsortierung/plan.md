@@ -299,9 +299,9 @@ Belegen, dass der Umbau die Spec erfuellt — Schreibwege im Testprojekt, Vorsch
 - [x] 3.1 Kopplungs-Hinweise lesson/open-question — `9004f2c`
 - [x] 3.2 skills/CLAUDE.md — `9004f2c`
 - [x] 3.3 DSR §6.4, Root-CLAUDE.md, Sweep — `9004f2c`
-- [x] 4.1 Testprojekt
-- [x] 4.2 Wirklauf Testprojekt
-- [x] 4.3 Trockenlauf echtes Becken
+- [x] 4.1 Testprojekt — `604e06d`
+- [x] 4.2 Wirklauf Testprojekt — `604e06d`
+- [x] 4.3 Trockenlauf echtes Becken — `604e06d`
 
 ---
 
