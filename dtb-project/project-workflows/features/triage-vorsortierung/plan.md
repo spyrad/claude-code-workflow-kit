@@ -78,6 +78,7 @@
 - **Input:** Ergebnis-Zeilen aller Agenten
 - **Output:**
   - Buendel = Zusammenhangskomponenten der `Verwandt`-Angaben (transitiv), nur wenn mindestens ein Glied `Befoerdern` traegt; Traeger = das juengste Glied (hoechste Nummer) mit Vorschlag `Befoerdern` (deterministisch, kein eigenes Feld in T3 noetig — Probelauf waehlte #131 als „spaeteren, konkreteren"); der Traeger steht sichtbar in der Buendel-Zeile, wer ihn aendern will, streicht die Buendel-Zeile → Glieder einzeln in Stufe 2; Buendel aus lauter Verwerfen-Vorschlaegen werden nicht gebildet
+    > **Abweichung (Review 2026-10-16, F1):** die transitive Huelle ist ersetzt — Kanten nur gegenseitig, Buendel = Traeger + direkte gegenseitige Nachbarn, nur `Befoerdern`-Kandidaten werden Glieder; Lektions-Dubletten (4c) gehen immer einzeln (F9). Ist-Stand: `skills/dtb-idea-triage/SKILL.md` 4b/4c, Begruendung in `review.md`
   - **Einzelfall** (mechanisch aus den Feldern): Vorschlag `Unklar` ODER Vorschlag `Verwerfen` mit Sicherheit ≠ `hoch` ODER `Verwerfen` ohne pruefbaren Ort im Beleg ODER „ohne Vorschlag" (Agenten-Ausfall, auch zeilenweise aus der Spaltenpruefung); Faelligkeit `L1` bleibt erhalten (Zwangsentscheidung in Stufe 2)
   - Kappung: hoechstens `einzeln_pro_lauf` Einzelfaelle je Lauf, aelteste zuerst; der Rest bleibt unveraendert im Becken (ungesichtet) und kommt im naechsten Lauf erneut in die Voranalyse
   - Alles andere = Sammelliste; Lektion-Vorschlaege laufen hier durch `## Schritt 3: Duplikat-Check` von `dtb:lesson` — Treffer → Zeile wird zu „Verwerfen — Lektion L{N} deckt ab"

@@ -1,6 +1,8 @@
 # Review-Snapshot: triage-vorsortierung
-Scope: skills/dtb-idea-triage/SKILL.md, workflow.config.yaml, CLAUDE.md, DERIVED_STATE_RULES.md, skills/CLAUDE.md, skills/dtb-{idea,idea-rank,lesson,open-question}/SKILL.md, probelauf-{testprojekt,becken}.md · Geprueft bis: `604e06d` · Datum: 2026-10-16
+Scope: skills/dtb-idea-triage/SKILL.md, workflow.config.yaml, CLAUDE.md, DERIVED_STATE_RULES.md, skills/CLAUDE.md, skills/dtb-{idea,idea-rank,lesson,open-question}/SKILL.md, probelauf-{testprojekt,becken}.md · Geprueft bis: `d613277` · Datum: 2026-10-18
 Gesamt-Verdikt: REJECTED
+
+> Zweitreview nach der Triage vom 2026-10-16 (F1–F10 FIXED in `d613277` — Snapshot dieses Laufs per `git show d613277:dtb-project/project-workflows/features/triage-vorsortierung/review.md`). Scope = Progress-SHAs `f0f7a45`, `d6eb24c`, `9004f2c`, `604e06d` plus Review-Fix-Commit `d613277`.
 
 ## Verdikt-Achsen
 
@@ -8,92 +10,80 @@ Gesamt-Verdikt: REJECTED
 |-------|---------|
 | Plan Adherence | WARNING |
 | Scope Discipline | PASS |
-| Safety & Quality | WARNING |
-| Architecture | FAIL |
+| Safety & Quality | FAIL |
+| Architecture | WARNING |
 | Pattern Consistency | WARNING |
 | Rules | uebersprungen |
 
 ## Findings
-### F1 — Architecture — [S:Hoch × I:Hoch]
-skills/dtb-idea-triage/SKILL.md:346-358 — 4b bildet Buendel als transitive Huelle der `Verwandt`-Kanten; im Trockenlauf verschmolzen 5 Themen zu B3 (#132 + 20 Glieder). „Alle uebernehmen" erzeugt eine Idee fuer fuenf Changes, Streichen schickt 21 ungekappte Einzelfaelle nach Stufe 2.
-Fix: Nur gegenseitige Kanten zaehlen; Buendel = Traeger + direkte gegenseitige Nachbarn, keine Huelle; uebrige Kanten bleiben „verwandt"-Hinweis.
-Decision: FIXED (Simulation am Trockenlauf: 13 Buendel, groesstes 4 Funde, deckt die Probelauf-Themen)
-
-### F2 — Safety & Quality — [S:Hoch × I:Mittel]
-skills/dtb-idea-triage/SKILL.md:264-267 — Zeilenzahl-Gate zaehlt nur `#`-Zeilen, prueft nicht die Nummernmenge: eine fremde Nummer laesst die eigene still verschwinden und erzeugt zwei Vorschlaege fuer einen Fund.
-Fix: Gate auf Mengengleichheit (jede Portionsnummer genau einmal, keine fremde), sonst Ausfall der Portion.
+### F1 — Safety & Quality — [S:Hoch × I:Mittel]
+skills/dtb-idea-triage/SKILL.md:147-151 vs. 644-650 — Existenzprobe ueberspringt nur den Traeger; 7d archiviert die Glieder trotzdem „gebuendelt in #T", obwohl #T nie in INBOX.md steht (Verweis ins Leere, Vorgang verloren).
+Fix: In 7d.1 gescheiterte Existenzprobe des Traegers wie Duplikat-Treffer behandeln — Buendel aufloesen, Glieder einzeln nach Schritt 6.
 Decision: FIXED
 
-### F3 — Plan Adherence — [S:Mittel × I:Hoch]
-skills/dtb-idea-triage/SKILL.md Schritt 1 (Becken-Kopf, Satz „Entschieden ist ein Eintrag erst … durch Befoerderung oder Verwerfen") — neue Abgaenge fehlen; Sweep-Pruefprotokoll aus 3.3 fehlt im Commit-Text (L20).
-Fix: Kopfsatz um Buendel/Nachtrag/Lektion/Fachfrage ergaenzen; Sweep-Liste in diesem Snapshot nachtragen.
+### F2 — Plan Adherence — [S:Mittel × I:Hoch]
+probelauf-testprojekt.md, probelauf-becken.md — Probelaeufe 4.2/4.3 belegen den Stand vor den Fixes (gegen 9004f2c/604e06d); probelauf-becken.md zeigt noch Mega-Buendel B3; die Buendelregel nach F1 ist nur simuliert.
+Fix: Wirklauf Testprojekt gegen d613277 wiederholen; probelauf-becken.md um Vermerk „B3 durch Review-F1 behoben" + Simulationsergebnis ergaenzen.
 Decision: FIXED
 
-### F4 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-idea-triage/SKILL.md:383-389, 461-463 vs. 736-738 — Kappung gilt nicht fuer von Schritt 7 verschobene Zeilen und aufgeloeste Buendel.
-Fix: Kappung auf alle nicht vom Menschen herausgenommenen Zugaenge zu Schritt 6; Ausnahme (gestrichen / einzeln durchgehen) in „Wichtig" benennen.
+### F3 — Plan Adherence — [S:Mittel × I:Mittel]
+spec.md:27-28, :52; plan.md Schritt 1.3 — Spec/Plan beschreiben den Vor-Fix-Stand (transitive Huelle, Einzelfaelle „nur Unklar/Verwerfen unter hoch", Stufe 2 ohne Option 0, Lektions-Dublette „wird verworfen").
+Fix: spec.md an den Ist-Zustand angleichen; in Plan 1.3 einen Abweichungs-Vermerk („durch Review-F1 ersetzt") statt Umschreiben.
+Decision: FIXED
+
+### F4 — Pattern Consistency — [S:Mittel × I:Mittel]
+skills/dtb-idea-triage/SKILL.md:423 vs. 712-736 — „Groessen gelten auch in Schritt 8" stimmt nicht: {N} steht dort fuer mehrere Zaehler, {B}/{G}/{R} weichen nach Aufloesung/erneuter Kappung/Ueberspringen ab; verschobene und gekappte Zeilen fehlen in R.
+Fix: Satz auf Schritt 5 beschraenken; Schritt 8 eigene Ist-Platzhalter („tatsaechlich geschrieben"), R nach der erneuten Kappung.
 Decision: FIXED
 
 ### F5 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-idea-triage/SKILL.md:480-483 vs. 333-336 — Stufe 2 bietet Nachtrag/Lektion/Fachfrage nicht an; gestrichene Zeilen verlieren ihren Ausgang.
-Fix: Option „0. Vorschlag uebernehmen ({Vorschlag})" bei Nachtrag/Lektion/Fachfrage mit gruener Quelle; Ausfuehrung ueber 7e/7f/7g.
+skills/dtb-idea-triage/SKILL.md:373-379 vs. 524-528 — 4c macht aus einer unscharfen Lektions-Dublette „Verwerfen"; in Stufe 2 ist der Lektions-Weg nicht mehr waehlbar — ein Falsch-Treffer ist nicht ueberstimmbar (verletzt „unscharf → fragen").
+Fix: Fuer 4c-Zeilen in Stufe 2 Option 0 „Lektion trotzdem erfassen → 7f"; Grund „Lektion L{N} deckt ab".
 Decision: FIXED
 
-### F6 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-idea-triage/SKILL.md:235, 370-377 — `Verwerfen: Dublette #M` mit #M in der Sichtungsmenge: zwei Funde koennen sich gegenseitig verwerfen.
-Fix: In 4d `Dublette #M` mit #M in der Sichtungsmenge immer Einzelfall.
+### F6 — Architecture — [S:Mittel × I:Mittel]
+skills/dtb-idea-triage/SKILL.md:559-560, 607-610 — „Ziel vor Quelle" laesst nach Abbruch ein Doppel am Ziel; Heilung nur ueber den unscharfen Check des Folgelaufs (7b: zweite Zeile im append-only-Archiv, 7e: doppelter Nachtrag).
+Fix: Vor jedem Schreiben exakte Probe „#N steht schon am Ziel"; bei Treffer nur Quelle entfernen + eine Meldezeile.
 Decision: FIXED
 
 ### F7 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-idea-triage/SKILL.md:138-150, 516-518 — nach Fremdaenderung wird nicht geprueft, ob Zeile #N noch existiert; „Ziel vor Quelle" schriebe ein Ziel fuer einen Fund ausserhalb des Beckens.
-Fix: Vor jedem Schreiben #N mit unveraendertem Text pruefen, sonst `⚠ #{N} nicht mehr im Becken — uebersprungen`.
+skills/dtb-idea-triage/SKILL.md:758-762, skills/dtb-idea/SKILL.md:146 — vier neue Abgaenge nehmen die Nummer aus beiden gezaehlten Dateien; war sie das Maximum, wird sie erneut vergeben (Kollision mit Archiv-Zeile und Logs).
+Fix: `#`-Spalte von archive/INBOX-BEFUNDE-verworfen.md in die Max-Berechnung aufnehmen (Schreibmechanik + Spiegel in dtb:idea).
 Decision: FIXED
 
-### F8 — Pattern Consistency — [S:Mittel × I:Niedrig]
-skills/dtb-idea-triage/SKILL.md:391-400, 418 — keine Summenprobe in 4f; `{S}` doppeldeutig (4f vs. Kopf Schritt 5); `{G}` mit/ohne Traeger offen.
-Fix: G = Glieder inkl. Traeger, S = Einzelzeilen ohne Buendel; `G + S + E + R = N` als hartes Gate; Kopf Schritt 5 auf dieselben Groessen.
+### F8 — Safety & Quality — [S:Mittel × I:Niedrig]
+skills/dtb-idea-triage/SKILL.md:152-153, 754 — „Becken-Datei fehlt" laesst offen, ob weiter Ziele geschrieben werden; :754 laedt zum Neuanlegen ein.
+Fix: Becken fehlt → Existenzprobe fuer alle restlichen Funde gescheitert → nichts mehr schreiben, nur Bilanz.
 Decision: FIXED
 
 ### F9 — Safety & Quality — [S:Mittel × I:Niedrig]
-skills/dtb-idea-triage/SKILL.md:362-366 vs. 373-375 — 4c uebernimmt die Sicherheit auf eine neue (unscharfe) Dubletten-Behauptung; Beleg `lessons.md L{N}` ist kein Datei:Zeile.
-Fix: 4c setzt `Sicherheit mittel`, Beleg `lessons.md:{Zeile} (L{N})`.
+skills/dtb-idea-triage/SKILL.md:389-390 vs. 656-658 — `Nachtrag #Z` mit #Z in der Sichtungsmenge ist reihenfolgeabhaengig.
+Fix: In 4d analog zur Dubletten-Regel: `Nachtrag #Z` mit #Z in der Sichtungsmenge → Einzelfall.
 Decision: FIXED
 
-### F10 — Pattern Consistency — [S:Niedrig × I:Mittel]
-skills/dtb-idea-triage/SKILL.md:550-551 — 7a fuegt unter der Trennzeile ein; befoerderte Becken-Nummern liegen fast immer unter dem INBOX-Maximum, die absteigende Sortierung bricht.
-Fix: An der sortierten Position einfuegen (vor der ersten Zeile mit kleinerer Nummer).
+### F10 — Safety & Quality — [S:Mittel × I:Niedrig]
+skills/dtb-idea-triage/SKILL.md:524-528 mit 656-658 — scheitert Option 0 (Nachtrag) in Stufe 2, geht der Fund „nach Schritt 6", wo er schon ist; Position und Kappung undefiniert.
+Fix: Ziel-Pruefung aus 7e.1 vor dem Anbieten von Option 0; nicht offen → Option 0 nicht anbieten.
 Decision: FIXED
 
-Unterhalb des Caps (7): 7d vs. 7e uneinheitlich · „streichen" mit drei Bedeutungen (checkpoint/impl-review/triage) · doppelter bzw. zweiter Fachfrage-Vorsatz (A3, no-loss-check nutzt `[Fach-Frage ohne Ablage-Ort]`) · tote Zweige (Leer-Meldung „davon 0 neu", 4b.4, idea-Bedingung in 4a) · idea-triage fehlt in Voll-Guard-Tabelle und Lesestand-Spiegelliste in skills/CLAUDE.md · gefallene `dtb:idea` fail-open statt Stufe 2 (Drift 2.3, begruendet) · Nummern-Wiedervergabe nach Abgang des hoechsten Funds (aelter als das Feature).
+Unterhalb des Caps (7): verschobene Zeilen ohne Meldezeile (↪) · Wortlaut nach F5/F6 nicht nachgezogen (Zwangsentscheidung :544, Einleitung, description, skills/CLAUDE.md Zeile F, CLAUDE.md:51) · 4b.1-Hinweis „verwandt" ohne Slot · idea-triage fehlt in Voll-Guard-Tabelle und Lesestand-Spiegelliste in skills/CLAUDE.md (Lesestand-Sektion weicht zudem von der gespiegelten 3-Schritte-Struktur ab) · „streichen" mit drei Bedeutungen · zwei Fachfrage-Markierungen (`Fachfrage: ` vs. `[Fach-Frage ohne Ablage-Ort]`) · tote Zweige (Leer-Meldung, 4b.4, idea-Bedingung in 4a).
 
-## Triage 2026-10-16
+## Triage 2026-10-18/19
 
-10 Fixed · 0 Lesson · 0 Skipped (F1, F2 einzeln; F3–F10 als Sammelliste „Alle uebernehmen"). Fixes im Working Tree, nicht committet.
+10 Fixed · 0 Lesson · 0 Skipped (F1, F5, F7, F8, F9, F10 einzeln — FAIL-Achse Safety & Quality; F2, F3, F4, F6 als Sammelliste „Alle uebernehmen"). Fixes im Working Tree, nicht committet.
 
-- F1: 4b neu — nur gegenseitige Kanten, Traeger + direkte Nachbarn, keine Huelle. Simulation am Trockenlauf-Ergebnis: 13 Buendel, groesstes 4 Funde (Handoff #132/#86/#118/#121, archive #130/#87/#94/#129, pane-start #126/#89/#115/#124, Hand-off-Empfang #131/#123/#128, Tick #127/#104/#116, feature-discover #47/#18/#32, Pfleger #53/#52; kit-sync in drei Paare)
-- F3: Becken-Kopf (Schritt 1) nennt alle Abgaenge. Hinweis: das bestehende Kit-Becken `INBOX-BEFUNDE.md` traegt den alten Kopfsatz weiter — Datendatei, Nachzug nur durch den Orchestrator (Schreibgrenze), kein Laufzeit-Effekt
-- F4: Kappung gilt gemeinsam fuer 4d-Einzelfaelle und von Schritt 7 verschobene Zeilen; ungekappt nur Herausgenommenes (4e, Schritt 6, Wichtig)
-- F5: Stufe 2 Option 0 „Vorschlag uebernehmen" fuer Nachtrag/Lektion/Fachfrage; Zwangsentscheidung `L1` erlaubt 0/1/2
-- F6–F10: wie im Finding; F8 legt `{G}` = Glieder **ohne** Traeger fest (gleiche Bedeutung wie `Gebuendelt` in der Bilanz, L47) und macht `{B}+{G}+{S}+{E}+{R}={N}` zum harten Gate
-- Gegenprobe der Beschreibungen (L16, Pruefrage „traegt die Aussage nach dem Fix noch?"): nachgezogen `skills/dtb-idea/SKILL.md:142-145` (Einfuegeposition der Triage), `skills/CLAUDE.md` Zeile F (Dublette im selben Lauf), Root-`CLAUDE.md` (Buendel ohne Huelle, Dublette, Kappungs-Ausnahme, Option „uebernehmen")
-- Automated-Kriterien der Phasen 1–3 nach der Triage erneut ausgefuehrt (L13): 15/15 gruen
+- F1: 7d.1 loest das Buendel auch bei gescheiterter Existenzprobe des Traegers auf (Zusatztest Z1)
+- F5: 4c-Umwandlung bekommt in Stufe 2 Option 0 `Lektion trotzdem erfassen → lessons.md`
+- F6: neue Regel „Exakte Ziel-Probe" in Schritt 7 (Nummer UND Befund-Text, je Teilschritt; Zusatztest Z2)
+- F7: Nummernkreis ueber drei Quellen inkl. `#`-Spalte des Verworfen-Archivs — Schreibmechanik + Spiegel in `dtb:idea` (Zusatztest Z3: alte Regel haette #17 erneut vergeben)
+- F8: verschwundenes Becken beendet den Lauf, nichts mehr schreiben (Zusatztest Z4)
+- F9: 4d — `Nachtrag #Z` mit #Z in der Sichtungsmenge → Einzelfall
+- F10: Ziel-Pruefung aus 7e.1 vor dem Anbieten von Option 0
+- F4: Schritt 8 mit eigenen Ist-Platzhaltern (`{n_…}`), Zeile „Uebersprungen", R nach erneuter Kappung
+- F3: spec.md (Bündel, Einzelfälle, Stufe 2, Lektions-Dublette) und Plan 1.3 (Abweichungs-Vermerk) angeglichen
+- F2: Wiederholungslauf `tp2` (14 Funde, Agent neu, Mensch bestaetigt Sammelliste + 3 Einzelfaelle) + Zusatztests Z1–Z4 + Schreibtisch F5/F9/F10 → `probelauf-testprojekt.md` „Wiederholungslauf 2026-10-18/19"; B3-Vermerk in `probelauf-becken.md`
+- Gegenprobe der Beschreibungen (L16): `skills/CLAUDE.md` Zeile F (Nachtrag im selben Lauf) und Zwei-Becken-Regel (Nummernkreis), Root-`CLAUDE.md` Zeilen 51 und 90
+- Automated-Kriterien Phasen 1–4 nach der Triage erneut ausgefuehrt (L13): 21/21 gruen
 
-### Sweep-Pruefprotokoll zu Plan 3.3 (nachgetragen, F3)
+Neu unterhalb des Caps (aus F2-Lauf): **B1** — Lektions-Dublette hat keinen eigenen Vorschlag im Agenten-Auftrag; der Agent schrieb `Verwerfen: Dublette #1` fuer L1 (Vorschlag: `Verwerfen: Lektion L{N}` in 3b).
 
-Pruefrage: „Zitiert die Fundstelle Schritt-Nummern oder Verhalten der Triage, und traegt die Aussage nach dem Umbau noch?" Grep `idea-triage` ueber `skills/`, `CLAUDE.md`, `DERIVED_STATE_RULES.md` (ohne den Skill selbst):
-
-| Fundstelle | Ergebnis |
-|------------|----------|
-| `skills/CLAUDE.md:145, 187, 349, 372-375, 382, 387` | in p3 geaendert (Duplikat-Schutz, Kurzform, Zeile F, Zwei-Becken-Regel) — traegt |
-| `skills/dtb-idea/SKILL.md:84` | in p3 geaendert (Kopplungs-Hinweis) — traegt |
-| `skills/dtb-idea/SKILL.md:142-145` | **traegt nicht mehr nach F10** → in der Triage nachgezogen |
-| `skills/dtb-idea-rank/SKILL.md:9, 340` | nennt nur den Gegenstand (Becken) — traegt, unveraendert |
-| `skills/dtb-idea-rank/SKILL.md:41` | in p3 geaendert (Verhaltensbeschreibung) — traegt |
-| `skills/dtb-idea-review/SKILL.md:11` | Frontmatter-Kante `after` — traegt, unveraendert |
-| `skills/dtb-lesson/SKILL.md:96, 112, 157-158, 176` | in p3 geaendert; 157 („Treffer wird zum Verwerfen-Vorschlag") traegt auch nach F9 |
-| `skills/dtb-open-question/SKILL.md:32, 107-110, 132-135, 166-168` | in p3 geaendert — traegt |
-| `skills/dtb-project-init/SKILL.md:135` | Selbstanlage des Beckens — traegt, unveraendert |
-| `skills/dtb-workflow-checkpoint/SKILL.md:12, 256, 304-336, 372` | Kante, Becken-Erinnerung, Struktur-Check auf `## Schreibmechanik INBOX-BEFUNDE.md` — Anker unveraendert, traegt |
-| `CLAUDE.md:51` | in p3 geaendert; nach F1/F4/F5/F6 in der Triage nachgezogen |
-| `DERIVED_STATE_RULES.md:301` | §6.4 „Befoerderung nach INBOX.md" — in p3 um die uebrigen Abgaenge ergaenzt, traegt |
-| `lessons.md` L46 | Lektion (Lesestand-Nachfuehrung), keine Verhaltensbeschreibung — traegt |

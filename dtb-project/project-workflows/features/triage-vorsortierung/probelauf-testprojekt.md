@@ -87,3 +87,58 @@ Noetig wegen A1. Zwei echt verwandte Funde: #5 (Zeitstempel-Ordner) + #15 (Aufbe
 - **A3 — doppelter Vorsatz:** 7a setzt `Fachfrage: ` vor den Text, auch wenn der Befund schon mit „Fachfrage:" beginnt (`Fachfrage: **Fachfrage: …**`). Kosmetisch; Vorschlag: Vorsatz nur, wenn der Text nicht schon so beginnt
 - **A4 — Sortierung der INBOX:** 7a fuegt direkt unter der Trennzeile ein; wird eine aeltere Nummer nach einer juengeren befoerdert (#5 nach #13), steht #5 oben — die absteigende Ordnung bricht. Folge der Regel „Nummer bleibt", kein Datenverlust
 - **A5 — Weg 6 Dublette:** der Agent ordnete #11 direkt als `Verwerfen: erledigt` mit Beleg `lessons.md:10` ein, nicht als `Lektion` — die 4c-Umwandlung („Lektion L{N} deckt ab") wurde dadurch nicht beruehrt. Ergebnis gleichwertig (Archiv mit Beleg), der 4c-Pfad bleibt im Wirklauf unbelegt
+
+---
+
+## Wiederholungslauf 2026-10-18/19 (Review-F2, Stand nach Zweitreview-Triage)
+
+**Skill-Fassung:** Repo-Fassung nach `d613277` plus Fixes der Zweitreview-Triage (Working Tree) — Buendel ohne Huelle (F1 alt), Nummern-Gate, Summenprobe, Existenzprobe inkl. Buendel-Aufloesung (F1 neu), exakte Ziel-Probe (F6), Drei-Quellen-Nummernkreis (F7), Lauf-Ende bei verschwundenem Becken (F8).
+**Testprojekt:** `tp2` = Aufbau `tp1` mit neuem Becken-Kopf (Review-F3) plus drei Zusatzfunde (Skript `setup_tp2.py` im Session-Scratchpad): #15 Aufbewahrungsregel (verwandt #5), #16 Papierkorb (verwandt #4), #17 Pfad-Quoting beim Export (deckt L1).
+
+### Hauptlauf `tp2` (14 Funde → 1 Agent, Typ `Explore`, neu gestartet)
+
+- Worktree-Guard `DURCHLASS-NOGIT` · Lesestand beim Einlesen gemerkt, vor jedem Schreiben geprueft, nach jedem eigenen Schreiben nachgefuehrt (L46)
+- 3c: Nummern-Gate **Mengengleichheit** 14/14 (jede Nummer genau einmal, keine fremde) · 6 Spalten je Zeile · alle Vorschlaege bekannt
+- 4a: 7/7 Anker, aufgeloest nach `~/.claude/skills/` (kein `skills/` im Testprojekt)
+- 4b (neu): gegenseitige Kanten #4~#16, #5~#15, #4~#13, #13~#16; #13 ist `Fachfrage` → kein Kandidat, nur „verwandt". Absteigend: **B1 = #16 traegt #4**, **B2 = #15 traegt #5** — keine Huelle, kein Mega-Buendel
+- 4c: #10 ohne Treffer gegen L1 → bleibt Lektion · 4d: Einzelfaelle #6, #8 (Verwerfen `mittel`), #14 (Unklar) · 4e: 3 ≤ 5, R = 0
+- 4f-Summenprobe: B 2 + G 2 + S 7 + E 3 + R 0 = **14 = N** ✅ (die Klasse von A2 ist jetzt hart abgefangen)
+- Sammelliste (2 Buendel + 7 Zeilen) vom Menschen mit „Alle uebernehmen" bestaetigt; Stufe 2 vom Menschen: #6 Verwerfen, #8 Befoerdern, #14 Befoerdern
+
+| # | Voranalyse | Weg | Datei-Beleg im Testprojekt |
+|---|------------|-----|----------------------------|
+| 16 | Befoerdern mittel, verwandt #4, #13 | B1-Traeger → 7d | `INBOX.md` `\| 16 \| … (befoerdert 2026-10-19) (enthaelt #4) \| Offen \|` |
+| 4 | Befoerdern hoch, verwandt #13, #16 | B1-Glied | Archiv `\| 4 \| … \| gebuendelt in #16 \|` |
+| 15 | Befoerdern mittel, verwandt #5, #6 | B2-Traeger → 7d | `INBOX.md` `\| 15 \| … (enthaelt #5) \| Offen \|` |
+| 5 | Befoerdern hoch, verwandt #6, #15 | B2-Glied | Archiv „gebuendelt in #15" |
+| 7 | Verwerfen: erledigt hoch, `src/notes.py:10` | Sammelliste → 7b | Archiv neu angelegt, `{Grund} — Beleg: src/notes.py:10` |
+| 9 | Nachtrag #3 hoch | Sammelliste → 7e | `INBOX.md` #3 `**Nachtrag 2026-10-19 aus Befund #9:** …`, Status `Offen`; Archiv „nachgetragen in #3" |
+| 10 | Lektion hoch | Sammelliste → 7f | `lessons.md` L2, `Context` endet auf `(via Triage 2026-10-19, Befund #10)`; Archiv „als Lektion L2 erfasst" |
+| 11, 17 | Verwerfen: Dublette #1 hoch, `lessons.md:10` | Sammelliste → 7b | Archiv mit Beleg `lessons.md:10` (siehe B1) |
+| 12 | Fachfrage suche hoch | Sammelliste → 7g | `features/suche/spec.md` `## Offene Punkte` + neue `[Fach]`-Zeile; Archiv |
+| 13 | Fachfrage — hoch | Sammelliste → 7g-Rueckfall → 7a | `INBOX.md` #13 `Fachfrage: **Fachfrage: …**` (A3 besteht) |
+| 6 | Verwerfen: erledigt mittel | Stufe 2 → Mensch: Verwerfen | Archiv mit Vorschlags-Begruendung |
+| 8 | Verwerfen: erledigt mittel | Stufe 2 → Mensch: Befoerdern | `INBOX.md` #8 |
+| 14 | Unklar (Sync) hoch | Stufe 2 → Mensch: Befoerdern | `INBOX.md` #14 |
+
+**Endlage:** Becken leer · `INBOX.md` absteigend **16, 15, 14, 13, 8, 3, 2, 1** (sortiertes Einfuegen, F10 alt) · Archiv 9 Zeilen · `lessons.md` L2 · Spaltenzahl aller vier Dateien einheitlich (6/6/7/8).
+
+Bilanz (Ist-Werte, F4): Befoerdert 5 (davon 2 Buendel-Traeger, 1 als „Fachfrage:") · Gebuendelt 2 · Nachgetragen 1 · Lektionen 1 · Fachfragen 1 · Verworfen 4 · verbleibend 0. Summe 14 = N.
+
+### Zusatztests (je frische Kopie des Ausgangsstands, Skript `tp2_zusatz.py`)
+
+| Test | Aufbau | Ergebnis |
+|------|--------|----------|
+| Z1 Existenzprobe Traeger (F1) | fremde Session entfernt #16 nach dem Einlesen, dann B1 ausfuehren | ✅ `⚠ … Stand neu geladen` · `⚠ #16 nicht mehr unveraendert im Becken — uebersprungen` · Buendel aufgeloest; #4 bleibt im Becken, **0** Archiv-Zeilen, kein INBOX-#16 — kein „gebuendelt in" ins Leere |
+| Z2 Abbruch-Heilung (F6) | Lauf 1 schreibt Archiv #7 und bricht vor dem Entfernen ab; Lauf 2 mit frischem Lesestand | ✅ `↻ Archiv-Zeile #7 steht schon — Teilschritt uebersprungen`; danach genau **1** Archiv-Zeile #7, Becken-Zeile entfernt |
+| Z3 Nummernkreis (F7) | Endlage `tp2`: INBOX-Max 16, Becken leer, Archiv-Max 17 (#17 verworfen) | ✅ alte Regel haette **17** erneut vergeben, neue Regel vergibt **18**; Stichprobe L17: Archiv-Zeile #17 = Export-Pfad-Befund |
+| Z4 Becken verschwindet (F8) | Becken nach dem Einlesen geloescht, dann #7 verwerfen | ✅ `⚠ … entfernt/verschoben — Lauf beendet`; kein Archiv angelegt, Becken nicht neu angelegt |
+| Schreibtisch F9 | `Nachtrag #4` fuer #16 (#4 in der Sichtungsmenge) | ✅ 4d → Einzelfall (neuer Punkt); der Agent waehlte hier `Befoerdern` + Verwandt — der Wirklauf beruehrte F9 nicht, daher nur mechanisch belegt |
+| Schreibtisch F5 / F10 | 4c-Treffer (Lektion → `Verwerfen: Lektion L1 deckt ab`, mittel) · `Nachtrag #2` (Ziel `Ausgearbeitet`) in Stufe 2 | ✅ Vorlage zeigt `0. Lektion trotzdem erfassen → lessons.md` · Option 0 entfaellt, Hinweis `Nachtrag-Ziel #2 nicht offen` |
+
+### Beobachtungen
+
+- **B1 — Vokabular-Luecke Lektions-Dublette:** Fuer „steht schon als Lektion" kennt der Auftrag keinen eigenen Vorschlag. Der Agent schrieb `Verwerfen: Dublette #1` und meinte L1; `#1` ist in der INBOX eine andere (verworfene) Idee. Beleg und Grund stimmen, nur die Nummer zeigt falsch — und 4d prueft `Dublette #M` nur gegen die Sichtungsmenge. Vorschlag fuer einen Folge-Change: Vorschlag `Verwerfen: Lektion L{N}` in 3b aufnehmen (dann greift 4c bzw. die Einzelvorlage). Unter dem Cap vermerkt, nicht gefixt
+- **A3 besteht** (doppelter `Fachfrage:`-Vorsatz) — unter dem Cap, unveraendert
+- **A5 besteht:** der 4c-Pfad kommt im Agenten-Lauf wieder nicht vor (der Agent erkennt L1 selbst); belegt nur am Schreibtisch
+- **Werkzeug-Fehlschlaege, keine Datenbefunde:** (1) Konsolen-Codepage cp1252 brach zweimal die ✔-Ausgabe ab — jeweils NACH vollstaendig geschriebenem Buendel (B1, B2), Fortsetzung ab der naechsten Zeile, keine Doppel; `python -I` ignoriert `PYTHONIOENCODING`, Abhilfe `sys.stdout.reconfigure`. (2) L38 trat dreimal auf (Inline-Regex in Heredoc/`python -c`) — jedes Mal auf Skriptdatei umgestellt

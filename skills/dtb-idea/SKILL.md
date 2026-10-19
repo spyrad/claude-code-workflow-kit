@@ -143,10 +143,12 @@ Abschnitt ist zur Laufzeit autark.)
   die INBOX ist absteigend sortiert (INBOX #74). Die Befoerderung in `dtb:idea-triage` haelt
   dieselbe Ordnung, fuegt aber an der sortierten Position ein (ihre Nummern liegen unter dem
   Maximum) — die Ordnung haelt nur, wenn beide Schreiber sie halten
-- **Naechste Nummer = Maximum ueber BEIDE Dateien plus eins** — `INBOX.md` UND
-  `{config.paths.workflows}/INBOX-BEFUNDE.md` (das Becken teilt sich den Nummernkreis).
-  Wird nur eine Datei gezaehlt, vergibt der jeweils andere Schreiber dieselbe Nummer ein
-  zweites Mal. Fehlt das Becken → nur `INBOX.md` zaehlen (fail-open). Den Zaehl-Ausdruck vor
+- **Naechste Nummer = Maximum ueber DREI Quellen plus eins** — `INBOX.md`,
+  `{config.paths.workflows}/INBOX-BEFUNDE.md` (das Becken teilt sich den Nummernkreis) UND die
+  `#`-Spalte von `{config.paths.workflows}/archive/INBOX-BEFUNDE-verworfen.md` (dorthin gehen
+  alle Becken-Abgaenge ausser der Befoerderung — ihre Nummern bleiben vergeben).
+  Wird eine Quelle ausgelassen, vergibt der jeweils andere Schreiber dieselbe Nummer ein
+  zweites Mal. Fehlt eine Quelle → nur die vorhandenen zaehlen (fail-open). Den Zaehl-Ausdruck vor
   der Vergabe gegen eine Stichprobe der getroffenen Zeilen pruefen, nicht nur gegen die Zahl (L17)
 - Status: `Offen`
 - Datum: Aktuelles Datum

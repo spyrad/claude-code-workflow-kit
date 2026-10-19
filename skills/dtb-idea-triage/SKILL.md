@@ -149,8 +149,11 @@ Checkpoint schreibt hier ebenfalls hinein (Orchestrator-Muster: `skills/CLAUDE.m
        schreiben (auch nicht am Ziel — „Ziel vor Quelle" erzeugte sonst einen Eintrag ohne
        Quelle), genau eine Zeile `⚠ #{N} nicht mehr unveraendert im Becken — uebersprungen`, weiter
        mit dem naechsten
-   - Datei existiert nicht mehr → wie Abweichung behandeln:
-     `⚠ INBOX-BEFUNDE.md seit dem Einlesen entfernt/verschoben — Entscheidung ggf. hinfaellig`
+   - Datei existiert nicht mehr → genau eine Zeile
+     `⚠ INBOX-BEFUNDE.md seit dem Einlesen entfernt/verschoben — Lauf beendet`;
+     die Existenzprobe gilt fuer ALLE restlichen Funde als gescheitert: nichts mehr schreiben
+     (weder Ziel noch Becken — die Triage legt das Becken nie neu an, das tut nur die
+     Schreibmechanik fuer neue Funde), weiter mit der Bilanz (Schritt 8)
    - **Nach jedem EIGENEN Schreibvorgang** am Becken die gemerkte mtime (und den gemerkten
      Inhalt) auf den neuen Stand nachfuehren (L46) — sonst meldet die Pruefung ab dem zweiten
      Eintrag jedes Mal die eigene Aenderung als fremde
@@ -375,7 +378,9 @@ Je Vorschlag `Lektion` die Duplikat-Bewertung aus `## Schritt 3: Duplikat-Check`
 ohne deren Rueckfrage). Treffer → der Vorschlag wird zu
 `Verwerfen: Lektion L{N} deckt ab` (Beleg `lessons.md:{Zeile} (L{N})`, Sicherheit **`mittel`** —
 der Stichwort-Treffer ist ein unscharfer Vergleich, eine neue Behauptung mit eigener Unsicherheit;
-er wird deshalb immer einzeln vorgelegt, nie per Sammelliste verworfen). Faellt die
+er wird deshalb immer einzeln vorgelegt, nie per Sammelliste verworfen, und Stufe 2 bietet ihm
+Option 0 `Lektion trotzdem erfassen → lessons.md` (7f) — der Mensch kann den Treffer
+ueberstimmen, wie beim „Trotzdem speichern?" von `dtb:lesson`). Faellt die
 Quelle im Struktur-Check (4a) → alle `Lektion`-Vorschlaege werden Einzelfaelle.
 
 ### 4d: Einzelfall oder Sammelliste (mechanisch)
@@ -388,6 +393,9 @@ Ein Fund ist **Einzelfall** (Schritt 6), wenn mindestens eines gilt:
   „Alle uebernehmen" ungeprueft durch
 - Vorschlag `Verwerfen: Dublette #M`, wenn #M selbst in der Sichtungsmenge steht — zwei Funde
   koennten sich sonst gegenseitig verwerfen, und keiner bliebe uebrig
+- Vorschlag `Nachtrag #Z`, wenn #Z selbst in der Sichtungsmenge steht — ob #Z bis dahin
+  befoerdert (und damit ein offenes Ziel) ist, hinge sonst von der Reihenfolge der
+  Schreibvorgaenge ab
 - **ohne Vorschlag** (Voranalyse ausgefallen, 3c)
 - Vorschlag eines Typs, dessen Quelle im Struktur-Check (4a) gefallen ist
 
@@ -420,7 +428,7 @@ Becken-Triage: {N} Fund(e) vorsortiert{ ({K} inline, ohne Agenten)}
   Zurueckgestellt (Kappung): {R} → naechster Lauf
 ```
 
-**Groessen (gelten auch in Schritt 5 und 8):** `{B}` = Buendel = Traeger · `{G}` = Glieder
+**Groessen (gelten auch im Kopf von Schritt 5; die Bilanz in Schritt 8 zaehlt eigene Ist-Werte):** `{B}` = Buendel = Traeger · `{G}` = Glieder
 **ohne** Traeger (archiviert „gebuendelt in #…") · `{S}` = Einzelzeilen der Sammelliste ohne
 Buendel · `{E}` = vorgelegte Einzelfaelle · `{R}` = zurueckgestellt · `{N}` = Sichtungsmenge.
 
@@ -514,6 +522,7 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
 
   Aktion?
     {nur bei Nachtrag/Lektion/Fachfrage:} 0. Vorschlag uebernehmen: {Vorschlag} → {Ziel}
+    {nur bei 4c-Umwandlung:}       0. Lektion trotzdem erfassen → lessons.md
     1. Befoerdern → INBOX.md
     2. Verwerfen  → archive/ (Begruendung noetig)
     3. Liegenlassen (nur einmal moeglich)
@@ -522,8 +531,11 @@ Befund #{N} ({Datum}){, Sichtung: L1 {Datum} — Entscheidung jetzt erzwungen}
 ### Aktionen
 
 **Vorschlag uebernehmen (0):** Nur angeboten, wenn der Vorschlag `Nachtrag #Z`, `Lektion` oder
-`Fachfrage …` lautet, seine Quelle im Struktur-Check (4a) gefunden wurde und die Zeile nicht
-gerade wegen dieses Wegs verschoben wurde (z.B. Nachtrag-Ziel nicht offen). Sonst entfiele mit
+`Fachfrage …` lautet **oder in 4c aus `Lektion` umgewandelt wurde** (dann als
+`0. Lektion trotzdem erfassen`, Ausfuehrung ueber 7f), seine Quelle im Struktur-Check (4a) gefunden wurde und die Zeile nicht
+gerade wegen dieses Wegs verschoben wurde (z.B. Nachtrag-Ziel nicht offen) — bei `Nachtrag #Z`
+zusaetzlich: die Ziel-Pruefung aus 7e.1 laeuft VOR dem Anbieten; ist das Ziel nicht offen,
+entfaellt Option 0 und die Vorlage zeigt `Nachtrag-Ziel #{Z} nicht offen` als Hinweis. Sonst entfiele mit
 dem Streichen einer Sammellisten-Zeile auch ihr Ausgang — „gestrichen heisst nicht verworfen"
 verspraeche mehr, als Stufe 2 bietet. Ausfuehrung in Schritt 7 ueber 7e, 7f bzw. 7g.
 
@@ -558,6 +570,19 @@ Buendel zuerst, und danach jede Einzelentscheidung aus Schritt 6 sofort nach ihr
 - **Eine Zeile, ein Schreibvorgang, sofort** (INBOX #71) — nie am Ende gesammelt
 - **Ziel vor Quelle** (L43): erst am Ziel schreiben und pruefen, dann die Becken-Zeile entfernen.
   Bricht der Lauf dazwischen ab, steht der Fund doppelt (sichtbar, heilbar) statt gar nicht
+- **Exakte Ziel-Probe (heilt den Abbruch):** vor JEDEM Schreiben am Ziel exakt pruefen, ob #N
+  dort schon steht — je Teilschritt einzeln: INBOX-Zeile mit Nummer #N (7a, Traeger in 7d),
+  Archiv-Zeile mit `#` = N (jeder Archiv-Eintrag), Marker `aus Befund #{N}` in der Ziel-Idee
+  (7e), `Befund #{N})` im `Context` einer Lektion (7f); 7g prueft schon exakt. Nummer UND
+  Befund-Text muessen passen (bei 7e der angehaengte Text; bei 7f genuegt der Marker, die Felder
+  sind abgeleitet und nie wortgleich) — vor der
+  Drei-Quellen-Zaehlung konnte eine Nummer zweimal vergeben werden, eine alte Zeile mit
+  gleicher Nummer ist kein Treffer. Treffer → diesen
+  Teilschritt nicht schreiben, mit dem naechsten weiter; stand alles schon am Ziel, nur die
+  Becken-Zeile entfernen, genau eine Zeile
+  `↻ #{N} stand schon am Ziel ({Ziel}) — nur aus dem Becken entfernt`. Exakter Vergleich, darum
+  ueberspringen statt fragen; ohne die Probe schriebe 7b eine zweite, nicht mehr entfernbare
+  Archiv-Zeile und 7e den Nachtrag zweimal
 - **Lesestand-Pruefung** vor jedem Schreiben (Abschnitt oben), inkl. Existenzprobe der Zeile nach
   einem Neu-Laden
 - **Schreibfehler mitten drin** → melden, was geschrieben ist; die uebrigen Zeilen bleiben
@@ -606,7 +631,7 @@ Buendel zuerst, und danach jede Einzelentscheidung aus Schritt 6 sofort nach ihr
 
 > **Die Reihenfolge ist bindend, nicht kosmetisch** (dieselbe wie in 7b): Ziel schreiben, dann
 > Quelle loeschen. Bricht der Lauf dazwischen ab, steht der Eintrag doppelt — und die Dublette
-> sieht der Duplikat-Check des naechsten Laufs. Umgekehrt waere der Eintrag ersatzlos weg, und
+> heilt die exakte Ziel-Probe des naechsten Laufs (Regeln oben). Umgekehrt waere der Eintrag ersatzlos weg, und
 > die Zusage „nie zurueckrollen" machte den Verlust endgueltig.
 
 Meldung: `✔ #{N} befoerdert → INBOX.md`
@@ -642,9 +667,11 @@ Meldung: `↷ #{N} liegengelassen — naechster Lauf erzwingt die Entscheidung`
 ### 7d: Buendel
 
 1. **Traeger befoerdern** — 7a Punkte 1–3, Textfeld zusaetzlich mit Suffix
-   `(enthaelt #{a}, #{b}, …)`. Fuehrt der Duplikat-Check den Traeger nach Schritt 6, wird das
-   ganze Buendel aufgeloest: alle Glieder gehen einzeln nach Schritt 6, hier wird nichts weiter
-   geschrieben.
+   `(enthaelt #{a}, #{b}, …)`. Fuehrt der Duplikat-Check den Traeger nach Schritt 6
+   **oder scheitert seine Existenzprobe** (Lesestand-Pruefung), wird das ganze Buendel
+   aufgeloest: die Glieder gehen einzeln nach Schritt 6 (beim Duplikat-Treffer auch der
+   Traeger), hier wird nichts weiter geschrieben — ein Glied heisst nie „gebuendelt in
+   #{T}", solange #{T} nicht in `INBOX.md` steht.
 2. **Je Glied:** Archiv-Eintrag mit Begruendung `gebuendelt in #{T}`, danach die Becken-Zeile
    dieses Glieds entfernen (Ziel vor Quelle je Glied).
 3. **Zuletzt:** Becken-Zeile entfernen.
@@ -655,7 +682,8 @@ Meldung: `✔ #{T} befoerdert → INBOX.md (Buendel mit #{a}, #{b}, …)`
 
 1. **Ziel pruefen:** Die Ziel-Idee #{Z} steht in `INBOX.md` mit Status `Offen` oder `In Arbeit`.
    Sonst (fehlt, `Verworfen`, `Ausgearbeitet`) → nichts schreiben, der Fund geht als Einzelfall
-   nach Schritt 6 (`Nachtrag-Ziel #{Z} nicht offen`).
+   nach Schritt 6 (`Nachtrag-Ziel #{Z} nicht offen`) — das betrifft nur Zeilen aus der
+   Sammelliste; in Schritt 6 wird Option 0 erst nach bestandener Ziel-Pruefung angeboten.
 2. **Ziel-Idee ergaenzen** (Muster `dtb:idea-review` „Zusammenlegen"): an das Ende ihres
    Textfelds ` **Nachtrag {YYYY-MM-DD} aus Befund #{N}:** {Befund-Text}` anhaengen; bare Pipes
    escapen, Spaltenzahl der Zeile pruefen. Status der Ziel-Idee bleibt unveraendert.
@@ -709,23 +737,29 @@ Nach dem letzten Fund aus Schritt 6 — oder nach einem Abbruch durch den Nutzer
 ```
 Becken-Triage abgeschlossen:
 
-  Befoerdert:      {N}  (davon {B} Buendel-Traeger, {F} als „Fachfrage:")
-  Gebuendelt:      {G}  (archiviert „gebuendelt in #…")
-  Nachgetragen:    {N}
-  Lektionen:       {N}
-  Fachfragen:      {N}
-  Verworfen:       {N}
-  Liegengelassen:  {N}
-  Zurueckgestellt: {R}  (Kappung einzeln_pro_lauf → naechster Lauf)
+  Befoerdert:      {n_bef}  (davon {n_traeger} Buendel-Traeger, {n_fach} als „Fachfrage:")
+  Gebuendelt:      {n_glied}  (archiviert „gebuendelt in #…")
+  Nachgetragen:    {n_nach}
+  Lektionen:       {n_lekt}
+  Fachfragen:      {n_frage}
+  Verworfen:       {n_verw}
+  Liegengelassen:  {n_lieg}
+  Uebersprungen:   {n_skip}  (Existenzprobe — nicht mehr unveraendert im Becken)
+  Zurueckgestellt: {n_zur}  (Kappung einzeln_pro_lauf → naechster Lauf)
 
-Im Becken verbleibend: {N} ungesichtet ({M} davon Altbestand)
+Im Becken verbleibend: {n_rest} ungesichtet ({n_alt} davon Altbestand)
 ```
+
+**Ist-Werte, nicht die Groessen aus 4f:** jede Zahl zaehlt, was tatsaechlich geschrieben bzw.
+entschieden wurde. Sie weicht von 4f ab, sobald ein Buendel aufgeloest (7d.1), die Kappung vor
+Schritt 6 neu angewandt (4e) oder ein Fund uebersprungen wird. `{n_zur}` ist der Wert NACH der
+erneuten Kappung — inklusive der von Schritt 7 verschobenen Zeilen, die dort ueberzaehlig waren.
 
 Zeilen mit `0` entfallen — die Bilanz zeigt nur, was passiert ist.
 
 **Genau eine Hinweiszeile, nur wenn befoerdert wurde:**
 ```
-{N} Idee(n) sind jetzt in der Haupt-INBOX — sichten mit /dtb:idea-review
+{n_bef} Idee(n) sind jetzt in der Haupt-INBOX — sichten mit /dtb:idea-review
 ```
 
 **Kein Automatismus, kein Kettenaufruf.** Der Skill startet `dtb:idea-review` nicht selbst; die
@@ -733,7 +767,7 @@ Entscheidung, ob jetzt sofort weitergearbeitet wird, gehoert dem Menschen.
 
 Bei Abbruch mitten im Durchgang zusaetzlich eine Zeile:
 ```
-Abgebrochen nach Eintrag {K} von {N} — die {K} getroffenen Entscheidungen sind geschrieben.
+Abgebrochen nach Eintrag {K} von {n_st2} — die {K} getroffenen Entscheidungen sind geschrieben.
 ```
 
 ---
@@ -755,11 +789,15 @@ Abgebrochen nach Eintrag {K} von {N} — die {K} getroffenen Entscheidungen sind
 
 ### Nummernvergabe (gemeinsamer Nummernkreis)
 
-Die naechste Nummer ist das **Maximum ueber BEIDE Dateien plus eins** — `INBOX.md` UND
-`INBOX-BEFUNDE.md`. Wird nur eine Datei gezaehlt, vergibt der jeweils andere Schreiber dieselbe
-Nummer ein zweites Mal, und zwei verschiedene Vorgaenge tragen dieselbe ID.
+Die naechste Nummer ist das **Maximum ueber DREI Quellen plus eins** — `INBOX.md`,
+`INBOX-BEFUNDE.md` UND die `#`-Spalte von `archive/INBOX-BEFUNDE-verworfen.md`. Wird nur eine
+Datei gezaehlt, vergibt der jeweils andere Schreiber dieselbe Nummer ein zweites Mal, und zwei
+verschiedene Vorgaenge tragen dieselbe ID. Das Archiv zaehlt mit, weil jeder Abgang aus dem
+Becken ausser der Befoerderung dort landet (verworfen, gebuendelt, nachgetragen, als Lektion
+oder Fachfrage erfasst): war seine Nummer das Maximum, vergaebe der naechste Schreiber sie
+sonst erneut — Archiv-Zeile und Session-Logs zeigten dann auf zwei Vorgaenge.
 
-Fehlt eine der beiden Dateien → nur die vorhandene zaehlen (fail-open, kein Abbruch).
+Fehlt eine Quelle → nur die vorhandenen zaehlen (fail-open, kein Abbruch).
 
 Den Zaehl-Ausdruck vor der Vergabe gegen eine **Stichprobe der getroffenen Zeilen** pruefen,
 nicht nur gegen die Zahl (L17) — eine einmal vergebene Nummer wird nicht mehr hinterfragt.

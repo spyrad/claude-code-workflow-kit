@@ -20,12 +20,12 @@ Beleg: [becken-vorsortierung.md](becken-vorsortierung.md) (73 Funde → 51 befö
 ### Enthalten
 - **Stufe 1 — Vorverarbeitung** (neuer Vor-Schritt in `dtb:idea-triage`):
   - Voranalyse aller ungesichteten Becken-Funde gegen den Kit-Stand, je Fund ein Vorschlag mit Grund, Beleg und Sicherheit
-  - Verwandte Funde zu Bündeln zusammenfassen, wo es Sinn ergibt
+  - Verwandte Funde zu Bündeln zusammenfassen, wo es Sinn ergibt — nur gegenseitig verwandte Funde, Träger plus direkte Nachbarn, keine transitive Hülle (Review 2026-10-16, F1)
   - Erledigte, überholte und doppelte Funde zum Verwerfen vorschlagen (Beleg = Begründung)
   - Lektionen über die Schritte von `dtb:lesson`, Fachfragen über die Schritte von `dtb:open-question` ablegen, statt sie als Feature zu befördern
   - Nachtrag an eine bereits bestehende INBOX-Idee (bewusste Ausnahme von „nur neue Einträge")
-- **Vorlage an den Menschen:** Sammelliste mit Veto (`alle uebernehmen` / `Nummern streichen` / `einzeln durchgehen`), Bündel als eigener Block oben; einzeln vorgelegt werden nur Vorschläge `Unklar` und Verwerfen-Vorschläge mit Sicherheit unter `hoch`
-- **Stufe 2 — normale Triage** für die verbleibenden Feature-Kandidaten: befördern, liegenlassen oder verwerfen wie bisher
+- **Vorlage an den Menschen:** Sammelliste mit Veto (`alle uebernehmen` / `Nummern streichen` / `einzeln durchgehen`), Bündel als eigener Block oben; einzeln vorgelegt werden Vorschläge `Unklar`, Verwerfen-Vorschläge mit Sicherheit unter `hoch` oder ohne prüfbaren Ort, Dubletten- und Nachtrag-Vorschläge, die auf einen Fund im selben Lauf zeigen, Funde ohne Vorschlag und Vorschläge eines Typs mit gefallener Quelle (Review 2026-10-16/18)
+- **Stufe 2 — normale Triage** für die verbleibenden Feature-Kandidaten: befördern, liegenlassen oder verwerfen wie bisher, dazu Option 0 „Vorschlag übernehmen“ (Nachtrag, Lektion, Fachfrage) bzw. „Lektion trotzdem erfassen“ nach einem Lektions-Dubletten-Treffer
 - Nachziehen der Kit-Doku: Zwei-Becken-Regel (neue Schreibwege der Triage) und Skill-Beschreibung im Root-`CLAUDE.md`
 
 ### Nicht enthalten
@@ -46,10 +46,10 @@ Beleg: [becken-vorsortierung.md](becken-vorsortierung.md) (73 Funde → 51 befö
 | Weniger als 5 Funde | keine Hintergrund-Agenten, Voranalyse direkt in der Session |
 | Umfang | die Voranalyse liest das ganze Becken (Bündel und Dubletten erkennt man nur im Gesamtbild); die Portions-Kappung gilt nur noch für die Einzelfälle |
 | Schreiben | erst nach Bestätigung der Sammelliste, dann Eintrag für Eintrag, jeder sofort (Regel INBOX #71) — Abbruch mittendrin lässt das Geschriebene stehen; die Vorschläge selbst werden nicht gespeichert |
-| Bündel | ein Fund trägt das Bündel (der konkreteste), seine Nummer bleibt, der Text nennt die übrigen; die übrigen gehen mit „gebündelt in #N" ins Verwerfen-Archiv; nie eine neue Nummer |
+| Bündel | ein Fund trägt das Bündel (der jüngste freie Kandidat mit gegenseitigem Nachbarn — deterministisch, Review F1), seine Nummer bleibt, der Text nennt die übrigen; die übrigen gehen mit „gebündelt in #N" ins Verwerfen-Archiv; nie eine neue Nummer |
 | Nachtrag | Fund wird als Satz an die bestehende INBOX-Idee angehängt, archiviert mit „nachgetragen in #N" |
 | Fachfrage ohne aktives Feature | Vorschlag eines passenden (auch nicht aktiven) Features; passt keins → als Idee in die Haupt-INBOX mit Vorsatz „Fachfrage:" |
-| Lektion schon vorhanden | Duplikat-Prüfung von `dtb:lesson` meldet; Fund wird verworfen mit „Lektion L{N} deckt ab" |
+| Lektion schon vorhanden | Duplikat-Prüfung von `dtb:lesson` meldet; der Vorschlag wird „Verwerfen: Lektion L{N} deckt ab" (Sicherheit mittel) und immer einzeln vorgelegt — der Mensch kann den unscharfen Treffer mit „Lektion trotzdem erfassen" überstimmen |
 | Agent fällt aus | seine Funde gehen ohne Vorschlag als Einzelfälle in die normale Triage — nie als „nichts gefunden" werten |
 | Becken ändert sich während des Laufs | bestehende Lesestand-Prüfung greift; neue Funde erst im nächsten Lauf |
 | Falscher Beleg | Mensch streicht die Nummer in der Sammelliste; der Fund geht einzeln in die normale Triage |

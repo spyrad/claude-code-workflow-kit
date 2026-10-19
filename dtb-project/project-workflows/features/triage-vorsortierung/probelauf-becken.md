@@ -72,6 +72,8 @@ Folgen:
 
 Ein Fix ist nicht Teil von Phase 4 (Plan-Bloecke sind waehrend der Umsetzung read-only). Moegliche Richtungen fuer den Folge-Change: (a) keine transitive Huelle — Buendel = Traeger + seine **direkten** Nachbarn; (b) nur **gegenseitige** Kanten zaehlen; (c) Groessendeckel (z.B. > 6 Glieder → Gruppe nicht buendeln, sondern als Hinweis „verwandt" in die Einzelzeilen). Im Probelauf entstanden die zehn Buendel durch Urteil im Hauptkontext, nicht durch eine Huellenregel.
 
+> **Nachtrag 2026-10-18 — B3 behoben (Review-F1, Commit `d613277`):** 4b nutzt jetzt (a)+(b): nur gegenseitige Kanten, Buendel = Traeger + direkte gegenseitige Nachbarn, keine Huelle. Simulation derselben 73 Vorschlaege (`tb-konsolidiert.json`, Skript `gegenseitig.py` im Session-Scratchpad): **13 Buendel, groesstes 4 Funde** — Handoff #132/#86/#118/#121, archive #130/#87/#94/#129, pane-start #126/#89/#115/#124, Hand-off-Empfang #131/#123/#128, Tick #127/#104/#116, feature-discover #47/#18/#32, Pfleger #53/#52, kit-sync in drei Paaren. Das deckt die Probelauf-Themen 1–4 und 9 wieder getrennt ab. Die Sammelliste unten zeigt den Stand VOR dem Fix (nicht erneut gelaufen — Simulation auf denselben Agenten-Vorschlaegen, da 4b deterministisch ist); der Wirklauf der neuen Regel steht in [probelauf-testprojekt.md](probelauf-testprojekt.md) („Wiederholungslauf 2026-10-18").
+
 ### Weitere Beobachtungen
 
 - **Prosa nach dem Ergebnis** (Portion 3): vom Gate korrekt ignoriert. Kein Handlungsbedarf, solange das Gate nur `#`-Zeilen zaehlt

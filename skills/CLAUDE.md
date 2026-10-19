@@ -346,7 +346,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | C | Lektion-Kandidat (zu Z16) | Rueckfrage | Ablage unter `## Lektion-Kandidaten` in `plan.md`/`bug.md` (status-neutral, ueberlebt Kompression/Worktree) + Vormerk-Zeile im Chat; `no-loss-check` liest beide Quellen als sichere Kandidaten, `workflow-checkpoint` erfasst; Spiegel in `lesson` („Zwei Eingangskanaele") |
 | D | `implement` Ritual Punkt 2 — Manual-Gate | Freitext „passt" | **Knopf** `passt — Phasen-Commit` / `passt — Commit, dann Stopp` / `Korrekturen`; Entscheidung bleibt beim Menschen, je Phase; „Abbrechen" an Staging/Commit = Stopp mit Wiedereinstiegs-Zeile |
 | E | `feature-start` Abschluss (Bug, Aufgabe) | „Bereit? Sage Los" | **Stille Anzeige** `→ Weiter mit: …` (passender Einstieg) |
-| F | `idea-triage` Schritt 5 — Vorschlaege der Vorsortierung | eine Frage je Befund | **Sammelliste** (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`); Einzelfaelle (`Unklar`, Verwerfen unter `hoch` oder ohne pruefbaren Ort, Dublette eines Funds im selben Lauf, ohne Vorschlag) einzeln in Schritt 6; gestrichen = einzeln, nie verworfen |
+| F | `idea-triage` Schritt 5 — Vorschlaege der Vorsortierung | eine Frage je Befund | **Sammelliste** (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`); Einzelfaelle (`Unklar`, Verwerfen unter `hoch` oder ohne pruefbaren Ort, Dublette eines Funds oder Nachtrag an einen Fund im selben Lauf, ohne Vorschlag) einzeln in Schritt 6; gestrichen = einzeln, nie verworfen |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
 „trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
@@ -388,8 +388,10 @@ Daraus folgt, verbindlich fuer neue und geaenderte Skills:
   vergleicht einen Eintrag, der selbst im Becken steht; ein Treffer gegen die eigene Herkunft
   waere immer positiv. Faustregel: gegen beide Dateien vergleicht, wer pruefen will, ob etwas
   IRGENDWO schon erfasst ist; gegen eine, wer aus der einen in die andere schreibt
-- **Nummernkreis ist gemeinsam.** Die naechste Nummer ist das Maximum ueber beide Dateien plus
-  eins; die Nummer bleibt bei der Befoerderung erhalten (Logs referenzieren sie)
+- **Nummernkreis ist gemeinsam.** Die naechste Nummer ist das Maximum ueber beide Dateien und
+  die `#`-Spalte von `archive/INBOX-BEFUNDE-verworfen.md` plus eins (jeder Becken-Abgang ausser
+  der Befoerderung landet dort, seine Nummer bleibt vergeben); die Nummer bleibt bei der
+  Befoerderung erhalten (Logs referenzieren sie)
 - **Beide Dateien legen ihre Schreiber selbst an**, nicht `dtb:project-init` — Seeds erreichen
   Bestandsprojekte nicht (INBOX #22)
 
