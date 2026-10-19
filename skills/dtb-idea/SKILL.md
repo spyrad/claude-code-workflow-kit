@@ -80,7 +80,9 @@ Welche Idee moechtest du festhalten? (Freitext)
 > Sektions-Titel `## Duplikat-Check` (Struktur-Check). Die Rueckfrage unten ersetzt der
 > Checkpoint durch eine vorgestrichene Zeile in seiner Vorlage — die Bewertung selbst bleibt
 > hier die eine Quelle. Umbenennung oder Umbau dieser Sektion →
-> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
+> `dtb:idea-triage` (Befoerdern, Schritt 7a; Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md`
+> ebenfalls mitziehen.
 
 Vor dem Schreiben: pruefe die erfasste Idee **unscharf** gegen die Spalte „Idee" ALLER Zeilen in
 `{config.paths.workflows}/INBOX.md` — alle Status, `archive/` wird NIE durchsucht. Vergleich per
@@ -138,12 +140,15 @@ Abschnitt ist zur Laufzeit autark.)
 ### Format bei bestehender Datei
 
 - Fuege die neue Zeile **direkt unter der Tabellen-Trennzeile** ein, nicht ans Tabellenende:
-  die INBOX ist absteigend sortiert (INBOX #74). Dieselbe Regel gilt fuer die Befoerderung in
-  `dtb:idea-triage` — die Ordnung haelt nur, wenn beide Schreiber sie halten
-- **Naechste Nummer = Maximum ueber BEIDE Dateien plus eins** — `INBOX.md` UND
-  `{config.paths.workflows}/INBOX-BEFUNDE.md` (das Becken teilt sich den Nummernkreis).
-  Wird nur eine Datei gezaehlt, vergibt der jeweils andere Schreiber dieselbe Nummer ein
-  zweites Mal. Fehlt das Becken → nur `INBOX.md` zaehlen (fail-open). Den Zaehl-Ausdruck vor
+  die INBOX ist absteigend sortiert (INBOX #74). Die Befoerderung in `dtb:idea-triage` haelt
+  dieselbe Ordnung, fuegt aber an der sortierten Position ein (ihre Nummern liegen unter dem
+  Maximum) — die Ordnung haelt nur, wenn beide Schreiber sie halten
+- **Naechste Nummer = Maximum ueber DREI Quellen plus eins** — `INBOX.md`,
+  `{config.paths.workflows}/INBOX-BEFUNDE.md` (das Becken teilt sich den Nummernkreis) UND die
+  `#`-Spalte von `{config.paths.workflows}/archive/INBOX-BEFUNDE-verworfen.md` (dorthin gehen
+  alle Becken-Abgaenge ausser der Befoerderung — ihre Nummern bleiben vergeben).
+  Wird eine Quelle ausgelassen, vergibt der jeweils andere Schreiber dieselbe Nummer ein
+  zweites Mal. Fehlt eine Quelle → nur die vorhandenen zaehlen (fail-open). Den Zaehl-Ausdruck vor
   der Vergabe gegen eine Stichprobe der getroffenen Zeilen pruefen, nicht nur gegen die Zahl (L17)
 - Status: `Offen`
 - Datum: Aktuelles Datum

@@ -29,7 +29,9 @@ Checkbox nach der Fach-Frage-Konvention (`{config.paths.rules}/DERIVED_STATE_RUL
 > plus einen **Mutator**, `dtb:meeting-dump` (Meeting-Rueckfluss #24: legt keine neuen
 > `[Fach]`-Fragen an, sondern kippt die Checkbox und haengt `→ Antwort:`/`→ Zwischenstand:`
 > an bestehende an). Single Source der Grammatik ist `{config.paths.rules}/DERIVED_STATE_RULES.md` §6 —
-> aenderst du sie dort, ziehe alle vier Akteure mit.
+> aenderst du sie dort, ziehe alle vier Akteure mit. `dtb:idea-triage` schreibt ebenfalls
+> `[Fach]`-Zeilen, aber ueber die Schritte 3–5 DIESES Skills per Referenz — kein eigener Akteur,
+> keine eigene Grammatik.
 
 ## Schritt 0: Config laden
 
@@ -102,6 +104,11 @@ Das ermittelte Ziel-Feature (Slug) geht in Schritt 3.
 
 ## Schritt 3: Ziel-Datei waehlen
 
+> **Kopplungs-Hinweis:** `dtb:idea-triage` fuehrt diesen Schritt fuer Fach-Fragen aus dem
+> Befund-Becken per Referenz aus (Schritt 7g) und greppt zeilenverankert auf den Sektions-Titel
+> `## Schritt 3: Ziel-Datei waehlen` (Struktur-Check 4a). Umbenennung oder Umbau dieser Sektion →
+> `skills/dtb-idea-triage/SKILL.md` mitziehen.
+
 Im Ziel-Feature-Ordner wird die **am weitesten fortgeschrittene** Datei mit `## Offene Punkte`
 beschrieben:
 
@@ -121,6 +128,11 @@ beschrieben:
 ---
 
 ## Schritt 4: Zeile formatieren, Duplikat pruefen, Ziel bestaetigen
+
+> **Kopplungs-Hinweis:** `dtb:idea-triage` fuehrt hiervon die Punkte 1–2 per Referenz aus
+> (Schritt 7g; die Ziel-Bestaetigung in Punkt 3 ersetzt dort die Sammelliste bzw. die
+> Einzelentscheidung) und greppt zeilenverankert auf den Sektions-Titel (Struktur-Check 4a).
+> Umbenennung oder Umbau dieser Sektion → `skills/dtb-idea-triage/SKILL.md` mitziehen.
 
 1. **§6-Kanonform bilden** (nur diese Form matcht die spaetere Agenda-Ansicht exakt):
    `- [ ] [Fach] <normalisierte Frage>` — genau ein Leerzeichen zwischen Checkbox, Tag und Frage.
@@ -150,6 +162,11 @@ beschrieben:
 ---
 
 ## Schritt 5: Schreiben + Abschluss
+
+> **Kopplungs-Hinweis:** `dtb:idea-triage` fuehrt hiervon die Punkte 1–4 per Referenz aus
+> (Schritt 7g, mit eigener Abschlussmeldung) und greppt zeilenverankert auf den Sektions-Titel
+> (Struktur-Check 4a). Umbenennung oder Umbau dieser Sektion → `skills/dtb-idea-triage/SKILL.md`
+> mitziehen.
 
 1. **Platzierung (robust):** Bestimme das **Ende des Textblocks** der `## Offene Punkte`-Sektion =
    die **letzte echte Inhaltszeile** (letzter Bullet) der Sektion. Die naechste `##`-Ueberschrift,

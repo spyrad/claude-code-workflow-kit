@@ -141,7 +141,13 @@ speichert nicht die Formulierung des Menschen. Wichtig, weil Merkmal 2 sie NICHT
 Zuordnungstabelle unten. **Vierter Anwender per Referenz (2026-09-08):** `workflow-checkpoint`
 bleibt kein Capture-Skill, fuehrt aber fuer dringende Verlustfunde den Duplikat-Check von
 `lesson`/`idea` aus deren Anker-Sektionen aus (Struktur-Check in Schritt 0) — kein eigener
-Tabelleneintrag, die Regeln leben dort.
+Tabelleneintrag, die Regeln leben dort. **Weiterer Anwender per Referenz (2026-10-16):**
+`idea-triage` ist kein Capture-Skill (Merkmal 1: sie bewegt maschinell erfasste Funde, keinen vom
+Menschen formulierten Freitext), fuehrt aber die Bewertung von `lesson` (Schritt 3 — in der
+Vorsortierung, ihr Schritt 4c), `open-question` (Schritt 4, exakt) und `idea`
+(`## Duplikat-Check`, beim Befoerdern) per Referenz aus; Struktur-Check in ihrem Schritt 4a.
+Ihr Agenten-Auftrag traegt zusaetzlich eine Laufzeit-Kurzform der Probe (Kopplungs-Hinweis unten,
+Stufe 2).
 
 ### Ersetzungsprobe (Kanon)
 
@@ -178,12 +184,13 @@ Ersetzungsfrage nicht klar beantworten, gilt:
 >    = Kanon-Regelsatz + diese Hinweiszeile + Spiegel-Regelsatz + Spiegel-Hinweiszeile. Die beiden
 >    Hinweiszeilen nennen den Anker woertlich und zaehlen mit — es gibt genau **zwei**
 >    Regel-Fassungen.
-> 2. **Laufzeit-Kurzformen** — `idea`, `task` und `bug-report` tragen je eine **verkuerzte** Fassung
+> 2. **Laufzeit-Kurzformen** — `idea`, `task`, `bug-report` und `idea-triage` (Agenten-Auftrag in
+>    `## Schritt 3: Voranalyse`, seit 2026-10-16) tragen je eine **verkuerzte** Fassung
 >    inline: nur die Entscheidungsfrage, ohne Begruendung und Beispiele, mit eigenem Wortlaut (wird
 >    vom Vollfassungs-Grep daher NICHT erfasst; in Zielprojekten sind sie die einzig wirksamen
 >    Fassungen). **Verkuerzt mitziehen** — die Entscheidung muss identisch ausfallen, der Umfang
 >    bleibt bewusst kleiner als Stufe 1.
->    Verifikation: Grep `gleiche Aussage` ueber `skills/` → **Zielzahl 7** = 3 Kurzformen +
+>    Verifikation: Grep `gleiche Aussage` ueber `skills/` → **Zielzahl 8** = 4 Kurzformen +
 >    Kanon-Regelsatz + Spiegel + diese Hinweiszeile + die beilaeufige Nennung in
 >    `### Laufzeit-Autarkie` (Prosa, keine Regel-Fassung — zaehlt mit, weil der Grep sie trifft).
 >
@@ -318,7 +325,8 @@ nicht beschrieben, der Backlog-Eintrag geht in den Hand-off) — diese Konventio
 
 ### Verbindliche Zuordnung (v1)
 
-Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30.
+Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; F = Zusatz
+`triage-vorsortierung` 2026-10-16.
 
 | Z | Skill · Stelle | Frueher | Jetzt (Form) |
 |---|----------------|---------|--------------|
@@ -338,6 +346,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30.
 | C | Lektion-Kandidat (zu Z16) | Rueckfrage | Ablage unter `## Lektion-Kandidaten` in `plan.md`/`bug.md` (status-neutral, ueberlebt Kompression/Worktree) + Vormerk-Zeile im Chat; `no-loss-check` liest beide Quellen als sichere Kandidaten, `workflow-checkpoint` erfasst; Spiegel in `lesson` („Zwei Eingangskanaele") |
 | D | `implement` Ritual Punkt 2 — Manual-Gate | Freitext „passt" | **Knopf** `passt — Phasen-Commit` / `passt — Commit, dann Stopp` / `Korrekturen`; Entscheidung bleibt beim Menschen, je Phase; „Abbrechen" an Staging/Commit = Stopp mit Wiedereinstiegs-Zeile |
 | E | `feature-start` Abschluss (Bug, Aufgabe) | „Bereit? Sage Los" | **Stille Anzeige** `→ Weiter mit: …` (passender Einstieg) |
+| F | `idea-triage` Schritt 5 — Vorschlaege der Vorsortierung | eine Frage je Befund | **Sammelliste** (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`); Einzelfaelle (`Unklar`, Verwerfen unter `hoch` oder ohne pruefbaren Ort, Dublette eines Funds oder Nachtrag an einen Fund im selben Lauf, ohne Vorschlag) einzeln in Schritt 6; gestrichen = einzeln, nie verworfen |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
 „trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
@@ -360,13 +369,17 @@ Herkunftsfeld:
 |-----------|------|-----------------|
 | `dtb:idea` | `INBOX.md` | traegt `disable-model-invocation: true` — was dort landet, hat ein Mensch getippt |
 | `dtb:workflow-checkpoint` (Schritt 0) | `INBOX-BEFUNDE.md` | maschinelle Verlustfunde, nie von Hand erfasst |
-| `dtb:idea-triage` (Befoerderung) | `INBOX.md` | ein Mensch hat den Fund bewusst zum Vorgang gemacht |
+| `dtb:idea-triage` (Befoerderung, Buendel-Traeger) | `INBOX.md` | ein Mensch hat den Fund bewusst zum Vorgang gemacht |
+| `dtb:idea-triage` (Nachtrag) | bestehende Idee in `INBOX.md` (Textfeld ergaenzt, Status unveraendert) | bestaetigt; die Ausnahme von „nur neue Zeilen" ist bewusst (Discovery `triage-vorsortierung`) |
+| `dtb:idea-triage` (Lektion, Fach-Frage) | `project-rules/lessons.md` bzw. `features/<slug>/` — per Referenz auf `dtb:lesson`/`dtb:open-question` | bestaetigt; der Fund war keine Idee, sondern eine Lektion bzw. eine Meeting-Frage |
+| `dtb:idea-triage` (Verwerfen, gebuendelt, nachgetragen, erfasst) | `archive/INBOX-BEFUNDE-verworfen.md` | jeder Abgang aus dem Becken ausser der Befoerderung hinterlaesst dort eine Begruendung |
 
 Daraus folgt, verbindlich fuer neue und geaenderte Skills:
 
 - **Ein Becken-Eintrag wird nie gearbeitet.** Lese-Skills und Arbeits-Ansichten
   (`dtb:worker`, `dtb:workflow-next`, `dtb:idea-review`, `dtb:feature-*`) lesen ausschliesslich
-  `INBOX.md`. Wer das Becken in eine Arbeits-Ansicht aufnimmt, hebt die Zulauf-Bremse auf
+  `INBOX.md`. Wer das Becken in eine Arbeits-Ansicht aufnimmt, hebt die Zulauf-Bremse auf —
+  auch die Agenten der Voranalyse in `dtb:idea-triage` lesen nur, sie schreiben nichts
 - **Abgleiche lesen beide Dateien — mit einer benannten Ausnahme.** Die Verlustpruefung
   (`dtb:no-loss-check`) und der Ideen-Duplikat-Check des Checkpoints vergleichen gegen
   `INBOX.md` UND `INBOX-BEFUNDE.md` — sonst wird ein bereits im Becken stehender Fund erneut
@@ -375,8 +388,10 @@ Daraus folgt, verbindlich fuer neue und geaenderte Skills:
   vergleicht einen Eintrag, der selbst im Becken steht; ein Treffer gegen die eigene Herkunft
   waere immer positiv. Faustregel: gegen beide Dateien vergleicht, wer pruefen will, ob etwas
   IRGENDWO schon erfasst ist; gegen eine, wer aus der einen in die andere schreibt
-- **Nummernkreis ist gemeinsam.** Die naechste Nummer ist das Maximum ueber beide Dateien plus
-  eins; die Nummer bleibt bei der Befoerderung erhalten (Logs referenzieren sie)
+- **Nummernkreis ist gemeinsam.** Die naechste Nummer ist das Maximum ueber beide Dateien und
+  die `#`-Spalte von `archive/INBOX-BEFUNDE-verworfen.md` plus eins (jeder Becken-Abgang ausser
+  der Befoerderung landet dort, seine Nummer bleibt vergeben); die Nummer bleibt bei der
+  Befoerderung erhalten (Logs referenzieren sie)
 - **Beide Dateien legen ihre Schreiber selbst an**, nicht `dtb:project-init` — Seeds erreichen
   Bestandsprojekte nicht (INBOX #22)
 

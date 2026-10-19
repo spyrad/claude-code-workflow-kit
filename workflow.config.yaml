@@ -17,7 +17,7 @@ repos:
 
 idea_triage:
   becken_schwelle: 10   # dtb:workflow-checkpoint — ab N ungesichteten Becken-Eintraegen Handoff-Zeile
-  altbestand_pro_lauf: 5  # dtb:idea-triage — Altbestands-Eintraege je Lauf
+  einzeln_pro_lauf: 5   # dtb:idea-triage — Einzelfaelle (Stufe 2) je Lauf; ersetzt den Alt-Schluessel altbestand_pro_lauf (Rueckfall, falls nur er gesetzt ist)
 
 worker:
   max_attempts: 3   # dtb:worker — Versuche pro Task

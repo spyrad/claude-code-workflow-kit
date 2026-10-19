@@ -38,7 +38,7 @@ half bei der Entscheidung „was zuerst" nicht (Abnahme-Lauf 2026-09-17).
 |-------|-----------|---------|
 | `dtb:idea-rank` (dieser) | `INBOX.md`, Status `Offen` | liest nur — Rangliste, keine Entscheidung |
 | `dtb:idea-review` | `INBOX.md`, Status `Offen` | schreibt — Entscheidung je Idee (Status, Links) |
-| `dtb:idea-triage` | `INBOX-BEFUNDE.md` (Befund-Becken) | schreibt — befoerdern, verwerfen, liegenlassen |
+| `dtb:idea-triage` | `INBOX-BEFUNDE.md` (Befund-Becken) | schreibt — vorsortieren, befoerdern, buendeln, nachtragen, Lektion/Fach-Frage erfassen, verwerfen, liegenlassen |
 
 Die Rangliste ist eine **optionale Vorstufe** von `dtb:idea-review`: Sie ordnet, der Review
 entscheidet. Der Review uebernimmt die Reihenfolge nicht automatisch.
