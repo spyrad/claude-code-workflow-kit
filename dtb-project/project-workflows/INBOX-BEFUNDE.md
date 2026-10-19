@@ -10,7 +10,8 @@ der naechste Lauf erzwingt die Entscheidung · `Altbestand` = aus der Migration 
 **„Ungesichtet" heisst: noch nicht endgueltig entschieden** — also `leer` ODER `L1 …` ODER
 `Altbestand`. Diese eine Definition gilt fuer alle Zaehler (Handoff-Erinnerung des Checkpoints,
 `dtb:project-health`, Abschluss-Bilanz der Triage). Entschieden ist ein Eintrag erst, wenn er das
-Becken verlassen hat — durch Befoerderung oder Verwerfen.
+Becken verlassen hat — befoerdert (auch als Buendel-Traeger) oder mit Archiv-Eintrag verworfen,
+gebuendelt, nachgetragen oder als Lektion bzw. Fach-Frage erfasst.
 
 **Nummernkreis:** gemeinsam mit `INBOX.md` — eine Nummer wird nie zweimal vergeben, und sie
 bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).

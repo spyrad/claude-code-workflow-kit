@@ -2,8 +2,8 @@
 
 **Erstellt:** 2026-10-16
 **Ziel:** `dtb:idea-triage` sortiert das Befund-Becken vor der eigentlichen Triage per lesender Voranalyse vor, sodass der Mensch nur noch eine vorbelegte Sammelliste bestätigt und nur unsichere Fälle einzeln entscheidet.
-**Prioritaet:** — (offen, siehe Offene Punkte)
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Prioritaet:** Mittel
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -105,7 +105,7 @@ Beleg: [becken-vorsortierung.md](becken-vorsortierung.md) (73 Funde → 51 befö
 
 ## Offene Punkte
 
-- Priorität ist nicht festgelegt — Hoch, Mittel oder Niedrig?
+- Priorität ist nicht festgelegt — Hoch, Mittel oder Niedrig? → Mittel (2026-10-19)
 - Aufteilung der Hintergrund-Agenten (Probelauf: 3 Agenten nach Nummernbereich) — wie entstehen Bündel über Agenten-Grenzen hinweg? → Vorschlag in `plan.md` T2
 - Ergebnis-Format der Agenten (Probelauf-Tabelle: #, Vorschlag, Grund, Beleg, Sicherheit) und wie es in Sammelliste und Einzelfälle zerfällt → Vorschlag in `plan.md` T3
 - Bekommt das Verwerfen-Archiv eine eigene Beleg-Spalte, oder wandert der Beleg in die Begründung? → Vorschlag in `plan.md` T5
