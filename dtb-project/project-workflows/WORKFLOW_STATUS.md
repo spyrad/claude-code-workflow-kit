@@ -25,7 +25,6 @@ Kein aktives Feature.
 
 ## Offene Aufgaben
 
-- [ ] **Pane `w3:pD` beenden, Worktree + Branch entfernen** — Kontext: `/exit` in der Pane, dann `git worktree remove` + `git branch -d feature/triage-vorsortierung` (seit 2026-10-18)
 - [ ] **triage-vorsortierung archivieren** — Kontext: `/dtb:archive`, abgenommen 2026-10-19 (seit 2026-10-19)
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in review.md, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18)
 - [ ] **`/dtb:idea-review` fortsetzen** — Kontext: weiter bei #135; Zusammenlege-Kandidaten #111+#112, #99→#98 (seit ≤2026-09-23 · behalten 2026-10-15)
@@ -39,7 +38,7 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-10-19 | #137 Triage-Vorsortierung ausgeliefert | abgenommen (Prio Mittel), Merge `968d7d4`, kit-sync 50/50, INBOX/BACKLOG/Becken-Kopf nachgezogen | `2026-10/2026-10-19.md` |
+| 2026-10-19 | #137 Triage-Vorsortierung ausgeliefert | abgenommen (Prio Mittel), Merge `968d7d4`, kit-sync 50/50, INBOX/BACKLOG/Becken-Kopf nachgezogen, Worktree/Branch abgebaut | `2026-10/2026-10-19.md` |
 | 2026-10-19 | #137 Zweitreview | REJECTED (1 Blocker), 10/10 Fixes `1a05bb6`, tp2 grün, 21/21 Kriterien; L91, L92 | `2026-10/2026-10-19.md` |
 | 2026-10-18 | #137 Phase 4 + Erstreview | Probeläufe `604e06d`, 13/13; REJECTED → 10/10 Fixes `d613277`; L90, #141 | `2026-10/2026-10-18.md` |
 | 2026-10-16 | #137 Triage-Vorsortierung Phasen 1–3 | Probelauf 73 Funde (51/16/6, 10 Bündel), lesson/open-question modell-aufrufbar `3fc03ee`; L89, #138–#140 | `2026-10/2026-10-16.md` |
