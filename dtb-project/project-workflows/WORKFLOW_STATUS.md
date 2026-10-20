@@ -19,7 +19,7 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #137 Triage-Vorsortierung abgenommen, gemergt `968d7d4`, kit-sync 50/50 — wartet auf `/dtb:archive` |
+| **Notizen** | #137 abgenommen, wartet auf `/dtb:archive`; Output-Style „Klar" neu im Kit (`33356cc`), kit-sync 51/51 |
 
 ---
 
@@ -31,6 +31,7 @@ Kein aktives Feature.
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-15)
 - [ ] **`/dtb:idea-triage`** — Kontext: 75 ungesichtet, jetzt mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-15)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15)
+- [ ] **Output-Style „Klar" aktivieren** — Kontext: `/config` → Output style → Klar, wirkt sicher ab neuer Session (seit 2026-10-19)
 
 ---
 
@@ -38,6 +39,7 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-10-19 | Output-Style „Klar" | aus pkp-Hand-off übernommen, Commit `33356cc`, kit-sync 51/51 | `2026-10/2026-10-19.md` |
 | 2026-10-19 | #137 Triage-Vorsortierung ausgeliefert | abgenommen (Prio Mittel), Merge `968d7d4`, kit-sync 50/50, INBOX/BACKLOG/Becken-Kopf nachgezogen, Worktree/Branch abgebaut | `2026-10/2026-10-19.md` |
 | 2026-10-19 | #137 Zweitreview | REJECTED (1 Blocker), 10/10 Fixes `1a05bb6`, tp2 grün, 21/21 Kriterien; L91, L92 | `2026-10/2026-10-19.md` |
 | 2026-10-18 | #137 Phase 4 + Erstreview | Probeläufe `604e06d`, 13/13; REJECTED → 10/10 Fixes `d613277`; L90, #141 | `2026-10/2026-10-18.md` |
