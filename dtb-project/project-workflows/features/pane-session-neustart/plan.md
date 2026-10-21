@@ -237,11 +237,11 @@ Der Abbau loescht keine ungesendete Notiz unbemerkt; Kanon-Texte stimmen mit dem
 - [x] 1.1 Notiz-Format als eine Quelle — `36f80d4`
 - [x] 1.2 Weiche Wechsel/Ende — `36f80d4`
 - [x] 1.3 Ende-Pfad kumuliert — `36f80d4`
-- [x] 2.1 Resume liest Notiz
-- [x] 2.2 Adress-Pruefung + Rueckweg-Zeile
-- [x] 2.3 Ankuendigungen
-- [ ] 3.1 Abbau-Warnung
-- [ ] 3.2 Kanon und Doku
+- [x] 2.1 Resume liest Notiz — `0bf990d`
+- [x] 2.2 Adress-Pruefung + Rueckweg-Zeile — `0bf990d`
+- [x] 2.3 Ankuendigungen — `0bf990d`
+- [x] 3.1 Abbau-Warnung
+- [x] 3.2 Kanon und Doku
 - [ ] 3.3 Verifikation am echten Wechsel
 
 ---

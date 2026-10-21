@@ -463,7 +463,23 @@ Beweismittel lesbar; KEIN Auto-Merge, die Abnahme ist eine explizite Auswahlfrag
    `/dtb:kit-sync sync`" (#51-Muster)
 3. Hinweis auf `/dtb:workflow-checkpoint` — der Mensch checkpointet mit dem Block
    (Empfangsseite schreibt den Log-Eintrag mit Quell-Kennzeichnung)
-4. NACH dem Checkpoint: Worker-Session beenden lassen (`/exit` in der Pane), Pane
+4. NACH dem Checkpoint, VOR dem Entfernen — **ungesendete Uebergabe-Notiz?** (betrifft
+   interaktive Arbeitsplaetze von `dtb:pane-start`, die diesen Abschluss per Referenz
+   nutzen; Format: `dtb:workflow-checkpoint` → `### Uebergabe-Notiz (Format — die eine
+   Quelle)`). In EINEM selbstaendigen Bash-Block:
+
+   ```bash
+   G=$(git -C "{pfad}" rev-parse --git-dir 2>/dev/null) && G=$(cd "{pfad}" && cd "$G" 2>/dev/null && pwd) || { echo KEINE-NOTIZ; exit 0; }
+   N="$G/dtb-session-uebergabe.md"
+   [ -f "$N" ] || { echo KEINE-NOTIZ; exit 0; }
+   case "$(grep '^## ' "$N" | tail -1)" in "## Ende-Block erzeugt"*) echo GESENDET;; *) echo "UNGESENDET $N";; esac
+   ```
+
+   `UNGESENDET` → `⚠ Ungesendete Uebergabe-Notiz in {pfad} — erst in der Pane /dtb:workflow-checkpoint → „Ende", dann abbauen`
+   — kein Abbruch, der Mensch entscheidet (die Notiz liegt im Git-Verwaltungsordner und
+   verschwindet mit dem Entfernen). Bewusstes Restrisiko: ein Abbau an dieser Stelle vorbei
+   (`git worktree remove`/`prune` von Hand) loescht sie still.
+   Dann: Worker-Session beenden lassen (`/exit` in der Pane), Pane
    schliessen, `git worktree remove {pfad}` + `git branch -d task/{slug}` — unter
    Windows ggf. kurz warten (Datei-Lock der eben geschlossenen Pane) und mit
    `git worktree prune` nachraeumen. Keine verwaisten Registrierungen zuruecklassen

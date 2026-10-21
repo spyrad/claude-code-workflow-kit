@@ -326,7 +326,7 @@ nicht beschrieben, der Backlog-Eintrag geht in den Hand-off) — diese Konventio
 ### Verbindliche Zuordnung (v1)
 
 Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; F = Zusatz
-`triage-vorsortierung` 2026-10-16.
+`triage-vorsortierung` 2026-10-16; G = Zusatz `pane-session-neustart` 2026-10-21.
 
 | Z | Skill · Stelle | Frueher | Jetzt (Form) |
 |---|----------------|---------|--------------|
@@ -347,6 +347,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | D | `implement` Ritual Punkt 2 — Manual-Gate | Freitext „passt" | **Knopf** `passt — Phasen-Commit` / `passt — Commit, dann Stopp` / `Korrekturen`; Entscheidung bleibt beim Menschen, je Phase; „Abbrechen" an Staging/Commit = Stopp mit Wiedereinstiegs-Zeile |
 | E | `feature-start` Abschluss (Bug, Aufgabe) | „Bereit? Sage Los" | **Stille Anzeige** `→ Weiter mit: …` (passender Einstieg) |
 | F | `idea-triage` Schritt 5 — Vorschlaege der Vorsortierung | eine Frage je Befund | **Sammelliste** (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`); Einzelfaelle (`Unklar`, Verwerfen unter `hoch` oder ohne pruefbaren Ort, Dublette eines Funds oder Nachtrag an einen Fund im selben Lauf, ohne Vorschlag) einzeln in Schritt 6; gestrichen = einzeln, nie verworfen |
+| G | `workflow-checkpoint` Sende-Seite (verlinkter Worktree) — Weiche Wechsel/Ende · `workflow-resume` Schritt 2a — Orchestrator-Adresse | — (neu) | **Textzeile**, Vorschlag abgeleitet (Checkliste des Changes vollstaendig und kein `review.md` mit REJECTED → Ende, sonst Wechsel; Fehlwahl kostet nur einen erneuten Checkpoint); fehlende bzw. nicht erreichbare Adresse → **Textzeile** `weiter = ohne (Block manuell tragen)` |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
 „trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
@@ -417,7 +418,9 @@ Die Worktree-Grenze der Worker ist die Worker-Instanz der kitweiten
 er stellt keinen autonomen Auftrag zu, sondern einen Begruessungstext an eine Session, in der
 ein **Mensch** arbeitet. Deckelung, Tauglichkeitsraster und Berichtspflicht entfallen dort
 ersatzlos; es gelten nur Schreibgrenzen-Regel und Worktree-Guard wie fuer jede
-Orchestrator-Session.
+Orchestrator-Session. Ein Session-Wechsel innerhalb der Pane (Kontext voll) laeuft ueber die
+Uebergabe-Notiz: `workflow-checkpoint` → „Wechsel" → `/clear` → `workflow-resume`; erst
+„Ende" erzeugt den einen, kumulierten Hand-off-Block.
 
 ## Parallele Sessions (Schreibgrenze, Orchestrator-Muster, Worktree-Guard)
 

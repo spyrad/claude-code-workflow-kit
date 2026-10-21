@@ -339,6 +339,10 @@ Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empf
   `dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick`; ein eingetroffener
   WORKTREE-HANDOFF-Block (Kopfzeile als Anker) wandert per `/dtb:workflow-checkpoint` in den
   Session-Log — die Empfangsseite dort bleibt unveraendert und traegerneutral.
+- **Session-Wechsel in der Pane:** Wird der Kontext voll, wechselt der Mensch die Session
+  ueber `/dtb:workflow-checkpoint` → „Wechsel" → `/clear` → `/dtb:workflow-resume` (im
+  Begruessungstext angekuendigt); die Uebergabe-Notiz im Git-Verwaltungsordner traegt den
+  Startkontext, und erst „Ende" schickt EINEN kumulierten Block an den Orchestrator.
 - **Abschluss (Merge, Diff-Abnahme, Abbau des Arbeitsplatzes):** gehoert NICHT in diesen
   Skill. Der Merge-Zeitpunkt einer Voll-Schienen-Arbeit ist beim Start unbekannt. Muster und
   Reihenfolge (Merge → Klasse-A-Check → Checkpoint → Worktree/Branch entfernen): `dtb:worker`
