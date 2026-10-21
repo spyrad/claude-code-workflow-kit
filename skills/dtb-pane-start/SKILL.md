@@ -321,8 +321,8 @@ Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empf
   nimmt, laesst diese Zeilen ersatzlos weg
 - **Rueckweg-Anweisung woertlich uebernehmen.** Das Blockformat selbst wird NICHT hier
   gepflegt: es steht in `dtb:workflow-checkpoint` → `### Hand-off-Block (Format — die eine
-  Quelle)`. Die Session erhaelt den Block ueber den `/dtb:workflow-checkpoint`-Aufruf am
-  Session-Ende — die Sende-Seite seines Worktree-Guards erzeugt ihn; das Format liest sie
+  Quelle)`. Die Session erhaelt den Block ueber den `/dtb:workflow-checkpoint`-Aufruf bei
+  der Wahl „Ende" — die Sende-Seite seines Worktree-Guards erzeugt ihn; das Format liest sie
   nie separat, gepflegt wird es nur dort
 - **Die Rueckweg-Kommandozeile der Vorlage ist ein DEKLARIERTER SPIEGEL** der
   Rueckweg-Zeile im Pane-Auftrag von `dtb:worker` (die einzige erlaubte Kommando-Zeile in

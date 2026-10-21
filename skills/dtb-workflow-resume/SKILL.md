@@ -65,11 +65,11 @@ C=$(cd "$C" 2>/dev/null && pwd) || { echo KEIN-WORKTREE; exit 0; }
 N="$G/dtb-session-uebergabe.md"
 [ -f "$N" ] || { echo KEINE-NOTIZ; exit 0; }
 L=$(grep '^## ' "$N" | tail -1)
-case "$L" in "## Ende-Block erzeugt"*) echo "GESENDET $L"; exit 0;; esac
+case "$L" in "## Ende-Block erzeugt"*) echo "ERZEUGT $L"; exit 0;; esac
 echo "NOTIZ $N"; cat "$N"
 ```
 
-- `KEIN-WORKTREE`, `KEINE-NOTIZ` oder `GESENDET …` → der Report-Abschnitt `## Pane-Uebergabe`
+- `KEIN-WORKTREE`, `KEINE-NOTIZ` oder `ERZEUGT …` → der Report-Abschnitt `## Pane-Uebergabe`
   entfaellt still; der Resume laeuft unveraendert weiter
 - `NOTIZ` → aus dem Kopf und allen `## Wechsel`-Abschnitten seit dem letzten Ende-Marker den
   Report-Abschnitt `## Pane-Uebergabe` fuellen (Vorlagen in Schritt 5) — Zeilen in dieser
@@ -82,7 +82,7 @@ echo "NOTIZ $N"; cat "$N"
     {Rueckweg-Zeile — entfaellt bei „—"}
   Offen ({K} Wechsel seit {Datum des ersten}):
   - {Offene Punkte / Naechste Schritte und Uebersprungene globale Updates aller Abschnitte, chronologisch, Dubletten bleiben, „- keine" weglassen}
-  Uncommittet: {aus dem juengsten Abschnitt, oder „—"}
+  Uncommittet: {aus dem juengsten Abschnitt — Momentaufnahme-Regel im Notiz-Format —, oder „—"}
   Lektion-Kandidaten: {alle Abschnitte, oder „—"}
   Naechster Befehl: {aus dem juengsten Abschnitt}
   ```

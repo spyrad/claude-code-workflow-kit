@@ -55,16 +55,24 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
   **Sende-Seite (Weiche Wechsel/Ende):** Direkt nach der ⛔-Meldung genau diese Zeile:
   `↳ Global wird nichts geschrieben — lokal nur die Uebergabe-Notiz (Git-Verwaltungsordner, nie committet)`
 
+  „Nichts schreiben" im Bullet oben heisst in diesem Zweig: keine Datei im Arbeitsbaum und
+  nichts Globales — die einzige Schreibstelle ist die Notiz im Git-Verwaltungsordner
+  (benannte Abweichung von der Referenz-Instanz des Guards).
+
   Dann den Notiz-Stand in EINEM selbstaendigen Bash-Block lesen (eigene Shell — die
   Pfad-Aufloesung steht in jedem Notiz-Block bewusst erneut):
 
   ```bash
   G=$(git rev-parse --git-dir 2>/dev/null) && G=$(cd "$G" 2>/dev/null && pwd) || { echo NOTIZ-PFAD-FEHLT; exit 0; }
   N="$G/dtb-session-uebergabe.md"
-  if [ -f "$N" ]; then echo "NOTIZ $N"; grep '^## ' "$N" | tail -1; grep '^Orchestrator:' "$N" | tail -1; else echo "KEINE-NOTIZ $N"; fi
+  [ -f "$N" ] || { echo "KEINE-NOTIZ $N"; exit 0; }
+  case "$(grep '^## ' "$N" | tail -1)" in "## Ende-Block erzeugt"*) echo "ZUSTAND ERZEUGT $N";; *) echo "ZUSTAND OFFEN $N";; esac
+  grep '^Orchestrator:' "$N" | tail -1
   ```
 
   `NOTIZ-PFAD-FEHLT` → fail-open: keine Weiche, nur der Ende-Zweig ohne Notiz (Punkt 3).
+  `ZUSTAND ERZEUGT` → alle Abschnitte sind schon in einem Block gemeldet; ein neuer
+  Ende-Block kumuliert nur, was danach kam.
 
   1. **Vorschlag ableiten** (Slug aus dem Branch `feature/{slug}`, sonst aus dem
      Sitzungskontext): **Ende**, wenn die Fortschritts-Checkliste des eigenen Changes
@@ -78,27 +86,56 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
        oder Antwort auf dessen Adress-Rueckfrage — auch „ohne") → sonst juengster
        `Orchestrator:`-Wert der Notiz → sonst Textzeile
        `Orchestrator-Pane? · weiter = ohne (Block manuell tragen)` („weiter" → `Orchestrator: —`)
-     - Abschnitt `## Wechsel …` nach dem Format `### Uebergabe-Notiz` (unten) aus dem
-       Sitzungskontext bauen; bei `KEINE-NOTIZ` zuerst den Kopf. Anhaengen per
-       `cat >> "$N" <<'EOF'` in einem selbstaendigen Bash-Block, der `$N` wie oben neu
-       aufloest — nie ueberschreiben (append-only); kein Write-Werkzeug (der Git-Bash-Pfad
-       ist unter Windows kein gueltiger Werkzeug-Pfad)
-     - Ausgabe: `→ Uebergabe-Notiz: {N}` und `→ jetzt: /clear, dann /dtb:workflow-resume`.
-       KEIN Hand-off-Block, nichts an den Orchestrator
+     - Abschnitt nach dem Format `### Uebergabe-Notiz` (unten) aus dem Sitzungskontext
+       bauen und mit GENAU diesem Block anhaengen — nur die beiden `{…}`-Stellen fuellen;
+       die Ueberschrift samt Zeitstempel schreibt die Shell (das Modell kennt die Uhrzeit
+       nicht). Nie ueberschreiben (append-only); kein Write-Werkzeug (der Git-Bash-Pfad ist
+       unter Windows kein gueltiger Werkzeug-Pfad):
+
+       ```bash
+       G=$(git rev-parse --git-dir 2>/dev/null) && G=$(cd "$G" 2>/dev/null && pwd) || { echo SCHREIBFEHLER; exit 1; }
+       N="$G/dtb-session-uebergabe.md"; TS=$(date '+%Y-%m-%d %H:%M')
+       [ -f "$N" ] || cat >> "$N" <<'EOF'
+       {Kopf nach Format — nur beim ersten Wechsel}
+       EOF
+       printf '\n## Wechsel %s\n\n' "$TS" >> "$N"
+       cat >> "$N" <<'EOF'
+       {Felder des Abschnitts ab „Orchestrator:" nach Format}
+       EOF
+       grep -qF "## Wechsel $TS" "$N" && echo "GESCHRIEBEN $N" || echo SCHREIBFEHLER
+       ```
+
+     - `GESCHRIEBEN` → Ausgabe `→ Uebergabe-Notiz: {N}` und
+       `→ jetzt: /clear, dann /dtb:workflow-resume`. KEIN Hand-off-Block, nichts an den
+       Orchestrator
+     - `SCHREIBFEHLER` → `⚠ Uebergabe-Notiz nicht geschrieben — kein /clear`; KEINE
+       /clear-Zeile (sonst geht der Sitzungskontext verloren)
   3. **Ende** (Arbeit in diesem Worktree fertig zur Abnahme):
      - Hand-off-Block (Format: naechste Sektion) erzeugen und vollstaendig ausgeben.
        **Mit Notiz** (per `cat "$N"` im selbstaendigen Block lesen) kumuliert er alle
-       Abschnitte seit dem letzten Ende-Marker plus die aktuelle Session: je Feld
+       Abschnitte seit dem letzten Ende-Marker plus die aktuelle Session (= alles seit dem
+       letzten Abschnitt oder Marker, den diese Session selbst geschrieben hat, sonst ab
+       Session-Beginn — nichts doppelt melden): je Feld
        chronologisch aneinandergereiht (aelteste Session zuerst), Dubletten bleiben stehen —
        kein Ermessens-Zusammenlegen (eine doppelte Zeile ist sichtbar, eine faelschlich
        verschmolzene geht still verloren); `- keine` entfaellt, sobald das Feld Inhalt hat.
        Felder ohne Block-Gegenstueck gehen nach `Offene Punkte / Naechste Schritte`: je
        Kandidat `- Lektion-Kandidat: …`, je noch offener Punkt aus `Uncommittet:`
-       `- Uncommittet: …` (nur was `git status --short` jetzt noch zeigt); `Naechster Befehl:`
+       `- Uncommittet: …` (Momentaufnahme-Regel im Notiz-Format); `Naechster Befehl:`
        entfaellt. Kopfzeile und Format bleiben unveraendert — die Empfangsseite merkt nichts
-     - Danach, nur wenn die Notiz existiert, den Ende-Marker
-       `## Ende-Block erzeugt {YYYY-MM-DD HH:MM}` anhaengen (selbstaendiger Block wie oben).
-       Die Notiz bleibt als Beleg bis zum Abbau
+     - Danach, nur wenn die Notiz existiert, den Ende-Marker mit GENAU diesem Block
+       anhaengen (Zeitstempel aus der Shell). Die Notiz bleibt als Beleg bis zum Abbau:
+
+       ```bash
+       G=$(git rev-parse --git-dir 2>/dev/null) && G=$(cd "$G" 2>/dev/null && pwd) || { echo SCHREIBFEHLER; exit 1; }
+       N="$G/dtb-session-uebergabe.md"; TS=$(date '+%Y-%m-%d %H:%M')
+       [ -f "$N" ] || { echo KEINE-NOTIZ; exit 0; }
+       printf '\n## Ende-Block erzeugt %s\n' "$TS" >> "$N"
+       grep -qF "## Ende-Block erzeugt $TS" "$N" && echo GESCHRIEBEN || echo SCHREIBFEHLER
+       ```
+
+       `SCHREIBFEHLER` → `⚠ Ende-Marker nicht geschrieben — Notiz gilt weiter als ungesendet`
+       (der Block ist trotzdem gueltig; die Abbau-Warnung meldet sich dann zu Recht)
      - **Ohne Notiz:** Block nur aus dem Sitzungskontext — Verhalten wie vor der Weiche
      - Die Worktree-Session uebergibt den Block an die Orchestrator-Session (Transport: z.B.
        Herdr-Session-Kommunikation an die Orchestrator-Pane; ohne Herdr manuell kopieren).
@@ -169,6 +206,9 @@ Sende-Seite (Weiche im `## Worktree-Guard` oben).
 - **Felder:** die fuenf Block-Felder 1:1 (der Ende-Pfad kumuliert mechanisch), dazu
   `Uncommittet:` und `Lektion-Kandidaten:` (Verluste, die der Block nicht kennt) sowie
   `Naechster Befehl:` fuer die Folgesession
+- **`Uncommittet:` ist eine Momentaufnahme:** gueltig ist nur der juengste Abschnitt (die
+  Folgesession committet aeltere Punkte mit); im Ende-Block zaehlt davon nur, was
+  `git status --short` jetzt noch zeigt. Beide Leser (Resume, Ende-Zweig) folgen dieser Regel
 - **Orchestrator-Adresse:** Momentaufnahme je Abschnitt — fluechtig; die Leseseite prueft sie,
   bevor sie sie anzeigt
 
@@ -213,7 +253,10 @@ Naechster Befehl: {/dtb:… — der Wiedereinstieg der Folgesession}
 > (Schritt 2a, Report-Abschnitt `## Pane-Uebergabe`) und von der Abbau-Warnung in
 > `dtb:worker` → `#### Abschluss`. Dateiname, Ueberschriften `## Wechsel` /
 > `## Ende-Block erzeugt` und Feldnamen hier aendern → beide Leser im selben Zug mitziehen
-> (Grep `dtb-session-uebergabe.md` ueber `skills/dtb-*/SKILL.md`).
+> (Grep `dtb-session-uebergabe.md` ueber `skills/dtb-*/SKILL.md`). Die Entscheidung
+> „offen oder erzeugt" faellt an allen drei Stellen mit derselben Fallunterscheidung auf die
+> letzte `## `-Ueberschrift — Grep `"## Ende-Block erzeugt"\*)` ueber `skills/dtb-*/SKILL.md`,
+> Zielzahl 3 (Sende-Seite hier, Resume Schritt 2a, Worker `#### Abschluss`).
 
 ---
 
