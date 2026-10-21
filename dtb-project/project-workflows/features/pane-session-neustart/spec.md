@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-21
 **Ziel:** In einem `dtb:pane-start`-Arbeitsplatz eine frische Session starten koennen, ohne Pane-Startkontext, offene Hand-off-Punkte oder Session-Wissen zu verlieren.
 **Prioritaet:** offen (siehe Offene Punkte)
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** In Arbeit <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-10-21 (#137 archiviert, Checkpoint)
+**Letzte Aktualisierung:** 2026-10-21 (#142 in Arbeit im Worktree, Checkpoint)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,6 +12,7 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
+| 142 | Pane-Session-Neustart | In Arbeit | — | `features/pane-session-neustart/spec.md` | In einem `dtb:pane-start`-Arbeitsplatz eine frische Session starten, ohne Startkontext, offene Hand-off-Punkte oder Session-Wissen zu verlieren |
 
 ---
 
