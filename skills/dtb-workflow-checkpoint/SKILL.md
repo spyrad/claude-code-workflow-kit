@@ -11,7 +11,7 @@ pipeline:
   after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
   next: [dtb:workflow-resume, dtb:idea-triage]
   consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, ARCHIVE_LOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md, workflow.config.yaml]
-  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md, dtb-session-uebergabe.md]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)
@@ -52,12 +52,59 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
      Haupt-Checkout: {Pfad aus der WORKTREE-Ausgabezeile}
   ```
 
-  **Sende-Seite:** Nach der ⛔-Meldung erzeugt dieser Skill aus dem Sitzungskontext den
-  Hand-off-Block (Format: naechste Sektion) und gibt ihn vollstaendig aus — die
-  Worktree-Session uebergibt ihn an die Orchestrator-Session (Transport: z.B.
-  Herdr-Session-Kommunikation an die Orchestrator-Pane; ohne Herdr manuell kopieren).
-  Der Orchestrator checkpointet damit (Empfangsseite: Schritt 1). Es wird weiterhin
-  NICHTS geschrieben — der Block ist Chat-Output, keine Datei.
+  **Sende-Seite (Weiche Wechsel/Ende):** Direkt nach der ⛔-Meldung genau diese Zeile:
+  `↳ Global wird nichts geschrieben — lokal nur die Uebergabe-Notiz (Git-Verwaltungsordner, nie committet)`
+
+  Dann den Notiz-Stand in EINEM selbstaendigen Bash-Block lesen (eigene Shell — die
+  Pfad-Aufloesung steht in jedem Notiz-Block bewusst erneut):
+
+  ```bash
+  G=$(git rev-parse --git-dir 2>/dev/null) && G=$(cd "$G" 2>/dev/null && pwd) || { echo NOTIZ-PFAD-FEHLT; exit 0; }
+  N="$G/dtb-session-uebergabe.md"
+  if [ -f "$N" ]; then echo "NOTIZ $N"; grep '^## ' "$N" | tail -1; grep '^Orchestrator:' "$N" | tail -1; else echo "KEINE-NOTIZ $N"; fi
+  ```
+
+  `NOTIZ-PFAD-FEHLT` → fail-open: keine Weiche, nur der Ende-Zweig ohne Notiz (Punkt 3).
+
+  1. **Vorschlag ableiten** (Slug aus dem Branch `feature/{slug}`, sonst aus dem
+     Sitzungskontext): **Ende**, wenn die Fortschritts-Checkliste des eigenen Changes
+     vollstaendig abgehakt ist (`plan.md` → `## Progress`; ohne Plan `## Fix-Schritte` in
+     `bug.md` bzw. `## Schritte` in `task.md`) UND kein `features/{slug}/review.md` mit
+     `**Gesamt-Verdikt:** REJECTED` vorliegt (REJECTED = Nacharbeit offen); sonst **Wechsel**.
+     Als Textzeile ausgeben und auf die Antwort warten:
+     `→ Vorschlag: {Wechsel | Ende} ({Grund}) · weiter = uebernehmen · oder „{Alternative}" nennen`
+  2. **Wechsel** (Folgesession in derselben Pane, z.B. Kontext voll):
+     - Orchestrator-Adresse: juengster `Orchestrator:`-Wert der Notiz → sonst aus dem
+       Begruessungstext im Verlauf → sonst Textzeile
+       `Orchestrator-Pane? · weiter = ohne (Block manuell tragen)` („weiter" → `Orchestrator: —`)
+     - Abschnitt `## Wechsel …` nach dem Format `### Uebergabe-Notiz` (unten) aus dem
+       Sitzungskontext bauen; bei `KEINE-NOTIZ` zuerst den Kopf. Anhaengen per
+       `cat >> "$N" <<'EOF'` in einem selbstaendigen Bash-Block, der `$N` wie oben neu
+       aufloest — nie ueberschreiben (append-only); kein Write-Werkzeug (der Git-Bash-Pfad
+       ist unter Windows kein gueltiger Werkzeug-Pfad)
+     - Ausgabe: `→ Uebergabe-Notiz: {N}` und `→ jetzt: /clear, dann /dtb:workflow-resume`.
+       KEIN Hand-off-Block, nichts an den Orchestrator
+  3. **Ende** (Arbeit in diesem Worktree fertig zur Abnahme):
+     - Hand-off-Block (Format: naechste Sektion) erzeugen und vollstaendig ausgeben.
+       **Mit Notiz** (per `cat "$N"` im selbstaendigen Block lesen) kumuliert er alle
+       Abschnitte seit dem letzten Ende-Marker plus die aktuelle Session: je Feld
+       chronologisch aneinandergereiht (aelteste Session zuerst), Dubletten bleiben stehen —
+       kein Ermessens-Zusammenlegen (eine doppelte Zeile ist sichtbar, eine faelschlich
+       verschmolzene geht still verloren); `- keine` entfaellt, sobald das Feld Inhalt hat.
+       Felder ohne Block-Gegenstueck gehen nach `Offene Punkte / Naechste Schritte`: je
+       Kandidat `- Lektion-Kandidat: …`, je noch offener Punkt aus `Uncommittet:`
+       `- Uncommittet: …` (nur was `git status --short` jetzt noch zeigt); `Naechster Befehl:`
+       entfaellt. Kopfzeile und Format bleiben unveraendert — die Empfangsseite merkt nichts
+     - Danach, nur wenn die Notiz existiert, den Ende-Marker
+       `## Ende-Block erzeugt {YYYY-MM-DD HH:MM}` anhaengen (selbstaendiger Block wie oben).
+       Die Notiz bleibt als Beleg bis zum Abbau
+     - **Ohne Notiz:** Block nur aus dem Sitzungskontext — Verhalten wie vor der Weiche
+     - Die Worktree-Session uebergibt den Block an die Orchestrator-Session (Transport: z.B.
+       Herdr-Session-Kommunikation an die Orchestrator-Pane; ohne Herdr manuell kopieren).
+       Der Orchestrator checkpointet damit (Empfangsseite: Schritt 1)
+
+  Ausserhalb des Git-Verwaltungsordners wird weiterhin NICHTS geschrieben — der Block ist
+  Chat-Output, keine Datei.
 
 ---
 
@@ -101,6 +148,71 @@ an (`skills/dtb-worker/SKILL.md`), also ohne Branch. Dann
 Die Felder bilden 1:1 auf das Session-Log-Format ab (Teil 1): Erledigt → Implementiert,
 Dateien → Dateien, Entscheidungen → Kontext, Offene Punkte → Naechste Schritte.
 `skills/CLAUDE.md` (Orchestrator-Muster) verweist hierher — Format nur hier pflegen.
+
+### Uebergabe-Notiz (Format — die eine Quelle)
+
+Die Notiz traegt den Uebergang **Session → Folgesession im selben verlinkten Worktree**
+(Kontext voll, `/clear`) — das Gegenstueck zu `## Handoff` in WORKFLOW_STATUS.md, das im
+Worktree nur als veraltete Branch-Kopie existiert. Geschrieben wird sie ausschliesslich von der
+Sende-Seite (Weiche im `## Worktree-Guard` oben).
+
+- **Pfad:** `$(git rev-parse --git-dir)/dtb-session-uebergabe.md` — der Git-Verwaltungsordner
+  des Worktrees (`<haupt>/.git/worktrees/<name>/`) liegt ausserhalb des Arbeitsbaums: nie in
+  `git status`, nie committet, keine Ignorier-Regel noetig, verschwindet mit dem Abbau
+  (`git worktree remove`/`prune`)
+- **Aufbau:** Kopf einmalig beim ersten Wechsel; je Wechsel ein Abschnitt; nach jedem
+  Ende-Block ein Ende-Marker. **Append-only** — nie umschreiben, nie loeschen: die Zustellung
+  des Blocks wird nicht bestaetigt, erst der Marker macht „ungesendet" pruefbar (letzte
+  `## `-Ueberschrift ist kein Ende-Marker)
+- **Status-neutral:** keine `- [ ]`-Checkboxen (wie der Block, `DERIVED_STATE_RULES.md` §1.1)
+- **Felder:** die fuenf Block-Felder 1:1 (der Ende-Pfad kumuliert mechanisch), dazu
+  `Uncommittet:` und `Lektion-Kandidaten:` (Verluste, die der Block nicht kennt) sowie
+  `Naechster Befehl:` fuer die Folgesession
+- **Orchestrator-Adresse:** Momentaufnahme je Abschnitt — fluechtig; die Leseseite prueft sie,
+  bevor sie sie anzeigt
+
+```text
+# Session-Uebergabe (dtb) — {feature-slug} @ {branch | detached HEAD ({short-sha})}
+
+Rolle: interaktive Arbeits-Session (ein Mensch arbeitet hier) — kein autonomer Worker
+Schreibgrenzen: nur Code und Change-Ordner dieses Changes; zentrale Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md, Changelog) schreibt allein der Orchestrator — Teil-Guards ueberspringen sie mit einer ↷-Zeile
+Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende"; den WORKTREE-HANDOFF-Block woertlich und vollstaendig inkl. Kopfzeile an den Orchestrator senden
+
+## Wechsel {YYYY-MM-DD HH:MM}
+
+Orchestrator: {pane-id | —}
+
+Erledigt:
+- {was wurde umgesetzt, mit Datei-/Schritt-Bezug}
+
+Entscheidungen:
+- {Entscheidung + 1-Satz-Begruendung, auch Plan-Abweichungen, oder "- keine"}
+
+Dateien:
+- {pfad} - {Kurzbeschreibung, oder "- keine"}
+
+Offene Punkte / Naechste Schritte:
+- {offener Punkt, oder "- keine"}
+
+Uebersprungene globale Updates (Teil-Guards):
+- {jede ↷-Zeile dieser Session als Auftrag, oder "- keine"}
+
+Uncommittet:
+- {was die Folgesession mitcommitten muss, z.B. SHA-Rueckschreibung in plan.md, oder "- keine"}
+
+Lektion-Kandidaten:
+- {Kandidat, der NICHT unter `## Lektion-Kandidaten` in plan.md/bug.md steht, oder "- keine"}
+
+Naechster Befehl: {/dtb:… — der Wiedereinstieg der Folgesession}
+
+## Ende-Block erzeugt {YYYY-MM-DD HH:MM}
+```
+
+> **Kopplungs-Hinweis (Format-Leser):** Gelesen wird die Notiz von `dtb:workflow-resume`
+> (Schritt 2a, Report-Abschnitt `## Pane-Uebergabe`) und von der Abbau-Warnung in
+> `dtb:worker` → `#### Abschluss`. Dateiname, Ueberschriften `## Wechsel` /
+> `## Ende-Block erzeugt` und Feldnamen hier aendern → beide Leser im selben Zug mitziehen
+> (Grep `dtb-session-uebergabe.md` ueber `skills/dtb-*/SKILL.md`).
 
 ---
 
