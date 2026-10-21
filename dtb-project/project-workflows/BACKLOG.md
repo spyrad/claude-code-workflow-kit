@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-10-19 (#137 abgenommen, Checkpoint)
+**Letzte Aktualisierung:** 2026-10-21 (#137 archiviert, Checkpoint)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,6 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 137 | Triage-Vorsortierung | Abgenommen | Mittel | `features/triage-vorsortierung/spec.md` | `dtb:idea-triage` sortiert das Becken per lesender Voranalyse vor; der Mensch bestätigt eine vorbelegte Sammelliste |
 
 ---
 

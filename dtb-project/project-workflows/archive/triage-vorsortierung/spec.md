@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-16
 **Ziel:** `dtb:idea-triage` sortiert das Befund-Becken vor der eigentlichen Triage per lesender Voranalyse vor, sodass der Mensch nur noch eine vorbelegte Sammelliste bestätigt und nur unsichere Fälle einzeln entscheidet.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

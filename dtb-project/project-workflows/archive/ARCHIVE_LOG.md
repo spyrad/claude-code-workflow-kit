@@ -106,3 +106,6 @@
 | 2026-10-06 | Aufgabe | rueckfragen-erhebung | features/rueckfragen-erhebung/task.md | Abgenommen 2026-09-22 (`63973ae`) → Abgeschlossen. 6/6 per Worker, Policy-Tabelle festgelegt (`eb9c982`). Station 1 der Autonomie-Achse — Vorarbeit fuer #57/#97/#98/#99 |
 | 2026-10-06 | Idee | #107 "BACKLOG.md um Spalte # (INBOX-Nummer) ergaenzen" | INBOX.md | Ausgearbeitet → features/backlog-inbox-nummer/spec.md (mitarchiviert) |
 | 2026-10-06 | Feature | backlog-inbox-nummer | features/backlog-inbox-nummer/ | Abgenommen 2026-10-06 (Beleg: Trockenlauf in der Pane nachvollzogen, Kopf und Nummern stimmen) → Abgeschlossen. 6/6 ueber 2 Phasen per Fast-Track in Pane-Session, plan-review REVISE → behoben, impl-review 10 Fixed, Merge ff `2f3cb09`, kit-sync 50/50. Idee #107 |
+| 2026-10-21 | Idee | #105 "Code-Basis nach Stellen durchsuchen, die refactort werden sollten" | INBOX.md | Verworfen (zusammengelegt mit #100) |
+| 2026-10-21 | Idee | #137 "dtb:idea-triage um einen Vor-Schritt erweitern (Voranalyse per Hintergrund-Agenten)" | INBOX.md | Ausgearbeitet → features/triage-vorsortierung/spec.md (mitarchiviert) |
+| 2026-10-21 | Feature | triage-vorsortierung | features/triage-vorsortierung/ | Abgenommen 2026-10-19 → Abgeschlossen. 13/13 ueber 4 Phasen, zwei impl-reviews (je REJECTED → 10/10 Fixes `d613277`, `1a05bb6`), Merge `968d7d4`, kit-sync 50/50. Idee #137 |

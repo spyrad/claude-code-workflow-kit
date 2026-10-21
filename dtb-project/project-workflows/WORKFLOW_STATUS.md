@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-10-19
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-19.md`
+**Letztes Update:** 2026-10-21
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-21.md`
 
 ---
 
@@ -19,19 +19,18 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #137 abgenommen, wartet auf `/dtb:archive`; Output-Style „Klar" neu im Kit (`33356cc`), kit-sync 51/51 |
+| **Notizen** | #137 archiviert 2026-10-21; #142 wartet auf Pane-Arbeitsplatz (vorher committen) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **triage-vorsortierung archivieren** — Kontext: `/dtb:archive`, abgenommen 2026-10-19 (seit 2026-10-19)
-- [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in review.md, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18)
-- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: weiter bei #135; Zusammenlege-Kandidaten #111+#112, #99→#98 (seit ≤2026-09-23 · behalten 2026-10-15)
+- [ ] **Arbeitsplatz für #142 einrichten** — Kontext: erst committen (`/dtb:commit-and-push`), dann `/dtb:pane-start 142`, Slug `pane-session-neustart`, Start `/dtb:feature-discover 142` (seit 2026-10-21)
+- [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18)
+- [ ] **`/dtb:idea-review` fortsetzen** — Kontext: 17 offen; Zusammenlege-Kandidaten #111+#112, #99→#98 (seit ≤2026-09-23 · behalten 2026-10-15)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-15)
 - [ ] **`/dtb:idea-triage`** — Kontext: 75 ungesichtet, jetzt mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-15)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15)
-- [ ] **Output-Style „Klar" aktivieren** — Kontext: `/config` → Output style → Klar, wirkt sicher ab neuer Session (seit 2026-10-19)
 
 ---
 
@@ -39,12 +38,12 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-10-21 | #137 archiviert | Change-Ordner nach `archive/triage-vorsortierung/`, INBOX #105/#137 + BACKLOG bereinigt; Idee #142 erfasst | `2026-10/2026-10-21.md` |
 | 2026-10-19 | Output-Style „Klar" | aus pkp-Hand-off übernommen, Commit `33356cc`, kit-sync 51/51 | `2026-10/2026-10-19.md` |
 | 2026-10-19 | #137 Triage-Vorsortierung ausgeliefert | abgenommen (Prio Mittel), Merge `968d7d4`, kit-sync 50/50, INBOX/BACKLOG/Becken-Kopf nachgezogen, Worktree/Branch abgebaut | `2026-10/2026-10-19.md` |
 | 2026-10-19 | #137 Zweitreview | REJECTED (1 Blocker), 10/10 Fixes `1a05bb6`, tp2 grün, 21/21 Kriterien; L91, L92 | `2026-10/2026-10-19.md` |
 | 2026-10-18 | #137 Phase 4 + Erstreview | Probeläufe `604e06d`, 13/13; REJECTED → 10/10 Fixes `d613277`; L90, #141 | `2026-10/2026-10-18.md` |
 | 2026-10-16 | #137 Triage-Vorsortierung Phasen 1–3 | Probelauf 73 Funde (51/16/6, 10 Bündel), lesson/open-question modell-aufrufbar `3fc03ee`; L89, #138–#140 | `2026-10/2026-10-16.md` |
-| 2026-10-15 | Rest-Befunde `rueckfragen-defaults` + TTS-Stimme | feature-start/feature-fast gefixt `f256b0a`, kit-sync 50/50; edge-tts 403 behoben (L88, #136) | `2026-10/2026-10-15.md` |
 
 ---
 
