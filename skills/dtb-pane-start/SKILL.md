@@ -345,6 +345,6 @@ Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empf
   Startkontext, und erst „Ende" schickt EINEN kumulierten Block an den Orchestrator.
 - **Abschluss (Merge, Diff-Abnahme, Abbau des Arbeitsplatzes):** gehoert NICHT in diesen
   Skill. Der Merge-Zeitpunkt einer Voll-Schienen-Arbeit ist beim Start unbekannt. Muster und
-  Reihenfolge (Merge → Klasse-A-Check → Checkpoint → Worktree/Branch entfernen): `dtb:worker`
+  Reihenfolge (Notiz-Pruefung → Merge → Klasse-A-Check → Checkpoint → Worktree/Branch entfernen): `dtb:worker`
   → `#### Abschluss (nach menschlicher Diff-Abnahme)`. Der Mensch fuehrt ihn aus, wenn die
   Arbeit abgenommen ist.

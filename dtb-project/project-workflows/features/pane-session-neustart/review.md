@@ -1,6 +1,8 @@
 # Review-Snapshot: pane-session-neustart
-Scope: CLAUDE.md, skills/CLAUDE.md, skills/dtb-{implement,pane-start,worker,workflow-checkpoint,workflow-resume}/SKILL.md · Geprueft bis: `ef74cac` · Datum: 2026-10-21
-Gesamt-Verdikt: REJECTED
+Scope: CLAUDE.md, skills/CLAUDE.md, skills/dtb-{implement,pane-start,worker,workflow-checkpoint,workflow-resume}/SKILL.md · Geprueft bis: `1095623` · Datum: 2026-10-21
+Gesamt-Verdikt: NEEDS ATTENTION
+
+Vorlauf: erster Review-Lauf (bis `ef74cac`, REJECTED) — 10 Findings, alle FIXED in `1095623`.
 
 ## Verdikt-Achsen
 
@@ -8,58 +10,60 @@ Gesamt-Verdikt: REJECTED
 |-------|---------|
 | Plan Adherence | PASS |
 | Scope Discipline | PASS |
-| Safety & Quality | FAIL |
-| Architecture | PASS |
+| Safety & Quality | WARNING |
+| Architecture | WARNING |
 | Pattern Consistency | WARNING |
 | Rules | uebersprungen |
 
 ## Findings
-### F1 — Safety & Quality — [S:Hoch × I:Hoch]
-skills/dtb-workflow-checkpoint/SKILL.md:82-84, 99-100 — Schreib-Bloecke (Abschnitt anhaengen, Ende-Marker) nicht woertlich vorgegeben; bei fehlgeschlagener Pfad-Aufloesung erscheint trotzdem `→ Uebergabe-Notiz`, nach `/clear` ist die Notiz still verloren
-Fix: beide Schreib-Bloecke woertlich vorgeben, `exit 1` bei fehlendem Pfad, nach dem Schreiben per grep pruefen; Erfolgszeile nur bei GESCHRIEBEN
+### F1 — Safety & Quality — [S:Mittel × I:Hoch]
+skills/dtb-workflow-checkpoint/SKILL.md:80-81, skills/CLAUDE.md:350 — Ende-Kriterium sucht `**Gesamt-Verdikt:** REJECTED` (fett), review.md schreibt ohne Fett; REJECTED bleibt zudem nach erledigter Triage stehen
+Fix: Kriterium „review.md traegt kein `Decision: PENDING` mehr"
 Decision: FIXED
 
 ### F2 — Safety & Quality — [S:Mittel × I:Hoch]
-skills/dtb-worker/SKILL.md:466-480 — Pruefung auf ungesendete Notiz erst in Punkt 4 (nach Merge und Checkpoint); Ungemeldetes fehlt schon in Abnahme und Log
-Fix: Pruefung vor Punkt 1 (Merge) ziehen
+skills/dtb-workflow-checkpoint/SKILL.md:98-112 — Schreib-Nachweis prueft nur die Ueberschrift; eingerueckte EOF-Marke, `EOF` im Inhalt, zwei Wechsel in derselben Minute rutschen durch
+Fix: Delimiter `DTB_NOTIZ_EOF`; GESCHRIEBEN nur bei +1 `## Wechsel` und letzter Zeile `Naechster Befehl:`; Satz „ohne Listen-Einrueckung ausfuehren; keine Statuszeile = SCHREIBFEHLER"
 Decision: FIXED
 
 ### F3 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-workflow-checkpoint/SKILL.md:183, 209 — Zeitstempel in `## Wechsel …`/`## Ende-Block erzeugt …` fuellt das Modell, das die Uhrzeit nicht kennt
-Fix: Ueberschrift per Shell schreiben (`printf … "$(date '+%Y-%m-%d %H:%M')"`), Ende-Marker ebenso
+skills/dtb-worker/SKILL.md:468-474 — `ERZEUGT` gilt als stilles OK; nie gesendeter Block wird beim Abbau mitgeloescht
+Fix: bei ERZEUGT pruefen, ob ein WORKTREE-HANDOFF fuer den Slug in dieser Orchestrator-Session eingetroffen ist, sonst ⚠
 Decision: FIXED
 
-### F4 — Safety & Quality — [S:Mittel × I:Mittel]
-skills/dtb-worker/SKILL.md:472 — Aufloesungsfehler meldet `KEINE-NOTIZ` (fail-open Richtung Datenverlust)
-Fix: eigenes Token `NOTIZ-UNGEPRUEFT` mit derselben ⚠-Zeile wie UNGESENDET
+### F4 — Safety & Quality — [S:Niedrig × I:Mittel]
+skills/dtb-workflow-checkpoint/SKILL.md:115 — Ende-Zweig liest die Notiz nur per Hinweis `cat "$N"`
+Fix: woertlicher Lese-Block mit eigener Pfad-Aufloesung
 Decision: FIXED
 
-### F5 — Safety & Quality — [S:Mittel × I:Niedrig]
-skills/dtb-workflow-checkpoint/SKILL.md:90-91 — „plus die aktuelle Session" unscharf; Weiterarbeit ohne `/clear` nach Wechsel/Ende fuehrt zu doppelten Inhalten beim Orchestrator
-Fix: „aktuelle Session" = seit dem letzten in diesem Verlauf geschriebenen Abschnitt/Marker, sonst ab Session-Beginn
+### F5 — Architecture — [S:Niedrig × I:Mittel]
+skills/dtb-workflow-resume/SKILL.md:68-72 — bei ERZEUGT entfallen auch Rolle und Orchestrator (Nacharbeit nach „Ende" startet ohne Rollen-Kontext)
+Fix: bei ERZEUGT Rolle + Orchestrator (mit Adress-Pruefung) zeigen, nur „Offen …" weglassen
 Decision: FIXED
 
-### F6 — Safety & Quality — [S:Niedrig × I:Mittel]
-skills/dtb-workflow-resume/SKILL.md:68, skills/dtb-worker/SKILL.md:475 — Token `GESENDET` behauptet Zustellung, belegt ist nur „erzeugt"
-Fix: Token in `ERZEUGT` umbenennen
+### F6 — Pattern Consistency — [S:Niedrig × I:Mittel]
+skills/dtb-workflow-resume/SKILL.md:113-118 — Kopplungs-Hinweis nennt `### Pane-Auftrag`, `herdr agent get` steht in `### Pane-Ausfuehrung`
+Fix: beide Sektionen nennen
 Decision: FIXED
 
-### F7 — Pattern Consistency — [S:Niedrig × I:Mittel]
-checkpoint:62-64, resume:59-70, worker:472-475 — Pfad-Aufloesung in drei, Marker-Erkennung in zwei Varianten
-Fix (angepasst in der Sammelliste): dieselbe `case`-Fallunterscheidung auch im Checkpoint-Lese-Block (`ZUSTAND OFFEN|ERZEUGT`), Kopplungs-Hinweis mit Grep-Zielzahl 3; Fehlerpfade bleiben bewusst verschieden (F1/F4)
+### F7 — Safety & Quality — [S:Niedrig × I:Niedrig]
+skills/dtb-worker/SKILL.md:472-473 — NOTIZ-UNGEPRUEFT-Hinweis empfiehlt den gerade gescheiterten Befehl
+Fix: `$(git rev-parse --git-common-dir)/worktrees/$(basename "{pfad}")/dtb-session-uebergabe.md` (Name meist = Ordnername)
 Decision: FIXED
 
 ### F8 — Pattern Consistency — [S:Niedrig × I:Niedrig]
-skills/dtb-pane-start/SKILL.md:324-325 — „am Session-Ende" veraltet, Block entsteht nur bei „Ende"
-Fix: „bei der Wahl „Ende""
+skills/dtb-worker/SKILL.md:187-189 — Ausnahme (2) endet mit Doppelpunkt, Worker-Vorlage liest sich als Resume-Teil
+Fix: Liste mit Punkt beenden, Vorlage eigens einleiten
 Decision: FIXED
 
 ### F9 — Pattern Consistency — [S:Niedrig × I:Niedrig]
-resume:85 vs. checkpoint:95-97 — `Uncommittet:` unterschiedlich gelesen
-Fix: Regel ins Notiz-Format (juengster Abschnitt = Momentaufnahme), beide Leser verweisen
+skills/dtb-pane-start/SKILL.md:348 — Reihenfolge-Kurzfassung des Abschlusses ohne Notiz-Pruefung
+Fix: „Notiz-Pruefung → " vorne ergaenzen
 Decision: FIXED
 
 ### F10 — Pattern Consistency — [S:Niedrig × I:Niedrig]
-skills/dtb-workflow-checkpoint/SKILL.md:46 vs. :55 — „nichts schreiben" im Guard-Bullet vs. Notiz-Schreiben
-Fix: Satz: „nichts schreiben" heisst hier keine Datei im Arbeitsbaum
+skills/dtb-workflow-resume/SKILL.md:90-93 — Vorrang des Notiz-Befehls nur fuer Fall A definiert
+Fix: Satz in Schritt 2a: in Fall B/C steht der Befehl im Abschnitt Pane-Uebergabe
 Decision: FIXED
+
+Unterhalb des Caps (nicht triagiert): skills/CLAUDE.md „derzeit nur pane-start" unter der Kategorien-Tabelle missverstaendlich; pane-start:277-279 Persistenz-Verzicht ohne Hinweis auf die Notiz (T8).

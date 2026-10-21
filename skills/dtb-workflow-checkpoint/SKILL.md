@@ -77,8 +77,11 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
   1. **Vorschlag ableiten** (Slug aus dem Branch `feature/{slug}`, sonst aus dem
      Sitzungskontext): **Ende**, wenn die Fortschritts-Checkliste des eigenen Changes
      vollstaendig abgehakt ist (`plan.md` → `## Progress`; ohne Plan `## Fix-Schritte` in
-     `bug.md` bzw. `## Schritte` in `task.md`) UND kein `features/{slug}/review.md` mit
-     `**Gesamt-Verdikt:** REJECTED` vorliegt (REJECTED = Nacharbeit offen); sonst **Wechsel**.
+     `bug.md` bzw. `## Schritte` in `task.md`) UND `features/{slug}/review.md` (falls
+     vorhanden) keine Zeile mehr traegt, die mit `Decision: PENDING` BEGINNT (Zeilenanfang
+     — Finding-Texte duerfen das Wort enthalten; offene Review-Findings = Nacharbeit
+     offen; das Gesamt-Verdikt im Snapshot bleibt nach der Triage stehen und taugt dafuer
+     nicht); sonst **Wechsel**.
      Als Textzeile ausgeben und auf die Antwort warten:
      `→ Vorschlag: {Wechsel | Ende} ({Grund}) · weiter = uebernehmen · oder „{Alternative}" nennen`
   2. **Wechsel** (Folgesession in derselben Pane, z.B. Kontext voll):
@@ -90,21 +93,26 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
        bauen und mit GENAU diesem Block anhaengen — nur die beiden `{…}`-Stellen fuellen;
        die Ueberschrift samt Zeitstempel schreibt die Shell (das Modell kennt die Uhrzeit
        nicht). Nie ueberschreiben (append-only); kein Write-Werkzeug (der Git-Bash-Pfad ist
-       unter Windows kein gueltiger Werkzeug-Pfad):
+       unter Windows kein gueltiger Werkzeug-Pfad). Den Block OHNE die Listen-Einrueckung
+       ausfuehren — sonst erkennt die Shell die Endmarke nicht; die eindeutige Endmarke
+       `DTB_NOTIZ_EOF` kann im Inhalt nicht vorkommen:
 
        ```bash
        G=$(git rev-parse --git-dir 2>/dev/null) && G=$(cd "$G" 2>/dev/null && pwd) || { echo SCHREIBFEHLER; exit 1; }
        N="$G/dtb-session-uebergabe.md"; TS=$(date '+%Y-%m-%d %H:%M')
-       [ -f "$N" ] || cat >> "$N" <<'EOF'
+       V=$(grep -c '^## Wechsel ' "$N" 2>/dev/null); V=${V:-0}
+       [ -f "$N" ] || cat >> "$N" <<'DTB_NOTIZ_EOF'
        {Kopf nach Format — nur beim ersten Wechsel}
-       EOF
+       DTB_NOTIZ_EOF
        printf '\n## Wechsel %s\n\n' "$TS" >> "$N"
-       cat >> "$N" <<'EOF'
-       {Felder des Abschnitts ab „Orchestrator:" nach Format}
-       EOF
-       grep -qF "## Wechsel $TS" "$N" && echo "GESCHRIEBEN $N" || echo SCHREIBFEHLER
+       cat >> "$N" <<'DTB_NOTIZ_EOF'
+       {Felder des Abschnitts ab „Orchestrator:" nach Format — letzte Zeile „Naechster Befehl: …"}
+       DTB_NOTIZ_EOF
+       H=$(grep -c '^## Wechsel ' "$N"); L=$(grep -v '^[[:space:]]*$' "$N" | tail -1)
+       [ "$H" -eq $((V+1)) ] && case "$L" in "Naechster Befehl:"*) true;; *) false;; esac && echo "GESCHRIEBEN $N" || echo SCHREIBFEHLER
        ```
 
+     - Keine Statuszeile zaehlt wie `SCHREIBFEHLER`
      - `GESCHRIEBEN` → Ausgabe `→ Uebergabe-Notiz: {N}` und
        `→ jetzt: /clear, dann /dtb:workflow-resume`. KEIN Hand-off-Block, nichts an den
        Orchestrator
@@ -112,7 +120,15 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
        /clear-Zeile (sonst geht der Sitzungskontext verloren)
   3. **Ende** (Arbeit in diesem Worktree fertig zur Abnahme):
      - Hand-off-Block (Format: naechste Sektion) erzeugen und vollstaendig ausgeben.
-       **Mit Notiz** (per `cat "$N"` im selbstaendigen Block lesen) kumuliert er alle
+       Die Notiz mit GENAU diesem Block lesen:
+
+       ```bash
+       G=$(git rev-parse --git-dir 2>/dev/null) && G=$(cd "$G" 2>/dev/null && pwd) || { echo NOTIZ-PFAD-FEHLT; exit 0; }
+       N="$G/dtb-session-uebergabe.md"
+       [ -f "$N" ] && cat "$N" || echo KEINE-NOTIZ
+       ```
+
+       **Mit Notiz** kumuliert er alle
        Abschnitte seit dem letzten Ende-Marker plus die aktuelle Session (= alles seit dem
        letzten Abschnitt oder Marker, den diese Session selbst geschrieben hat, sonst ab
        Session-Beginn — nichts doppelt melden): je Feld
@@ -130,8 +146,9 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
        G=$(git rev-parse --git-dir 2>/dev/null) && G=$(cd "$G" 2>/dev/null && pwd) || { echo SCHREIBFEHLER; exit 1; }
        N="$G/dtb-session-uebergabe.md"; TS=$(date '+%Y-%m-%d %H:%M')
        [ -f "$N" ] || { echo KEINE-NOTIZ; exit 0; }
+       V=$(grep -c '^## Ende-Block erzeugt ' "$N")
        printf '\n## Ende-Block erzeugt %s\n' "$TS" >> "$N"
-       grep -qF "## Ende-Block erzeugt $TS" "$N" && echo GESCHRIEBEN || echo SCHREIBFEHLER
+       [ "$(grep -c '^## Ende-Block erzeugt ' "$N")" -eq $((V+1)) ] && echo GESCHRIEBEN || echo SCHREIBFEHLER
        ```
 
        `SCHREIBFEHLER` → `⚠ Ende-Marker nicht geschrieben — Notiz gilt weiter als ungesendet`

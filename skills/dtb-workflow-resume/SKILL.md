@@ -65,12 +65,16 @@ C=$(cd "$C" 2>/dev/null && pwd) || { echo KEIN-WORKTREE; exit 0; }
 N="$G/dtb-session-uebergabe.md"
 [ -f "$N" ] || { echo KEINE-NOTIZ; exit 0; }
 L=$(grep '^## ' "$N" | tail -1)
-case "$L" in "## Ende-Block erzeugt"*) echo "ERZEUGT $L"; exit 0;; esac
+case "$L" in "## Ende-Block erzeugt"*) echo "ERZEUGT $L"; sed -n '1,/^## /p' "$N" | grep -v '^## '; grep '^Orchestrator:' "$N" | tail -1; exit 0;; esac
 echo "NOTIZ $N"; cat "$N"
 ```
 
-- `KEIN-WORKTREE`, `KEINE-NOTIZ` oder `ERZEUGT …` → der Report-Abschnitt `## Pane-Uebergabe`
-  entfaellt still; der Resume laeuft unveraendert weiter
+- `KEIN-WORKTREE` oder `KEINE-NOTIZ` → der Report-Abschnitt `## Pane-Uebergabe` entfaellt
+  still; der Resume laeuft unveraendert weiter
+- `ERZEUGT …` (Ende-Block schon erzeugt, z.B. Nacharbeit nach der Abnahme) → im Abschnitt
+  nur die Zeilen `Rolle`, `Orchestrator` (mit Adress-Pruefung) und `Rueckweg` aus Kopf und
+  juengstem `Orchestrator:`-Wert; `Offen`, `Uncommittet`, `Lektion-Kandidaten` und
+  `Naechster Befehl` entfallen (schon gemeldet)
 - `NOTIZ` → aus dem Kopf und allen `## Wechsel`-Abschnitten seit dem letzten Ende-Marker den
   Report-Abschnitt `## Pane-Uebergabe` fuellen (Vorlagen in Schritt 5) — Zeilen in dieser
   Reihenfolge:
@@ -90,7 +94,8 @@ echo "NOTIZ $N"; cat "$N"
 - **Vorrang:** Im Worktree ersetzt der `Naechster Befehl:` der Notiz den
   `**Naechster Befehl:**` aus `## Handoff` (Branch-Kopie, veraltet) im Abschnitt
   `## Naechster Schritt`. Widerspricht er der Artefakt-Ableitung (Schritt 4), gewinnt
-  weiterhin die Ableitung (1 ⚠-Zeile)
+  weiterhin die Ableitung (1 ⚠-Zeile). In Fall B/C (kein `## Naechster Schritt` in der
+  Vorlage) steht er nur in der Zeile `Naechster Befehl:` des Abschnitts `## Pane-Uebergabe`
 
 **Adress-Pruefung (deklarierte Herdr-Ausnahme):** Der juengste `Orchestrator:`-Wert ist eine
 fluechtige Momentaufnahme. Ist er nicht `—`, in EINEM selbstaendigen Bash-Block pruefen — nur
@@ -113,8 +118,9 @@ herdr agent get "{pane-id}" >/dev/null 2>&1 && echo ERREICHBAR || echo NICHT-ERR
 
 > **Kopplungs-Hinweis (Herdr-Kanon):** Herdr-Kommandos leben sonst nur in `dtb:worker`
 > (`### Pane-Auftrag` / `### Pane-Ausfuehrung`). Dieser Schritt ist dort als zweite
-> deklarierte Ausnahme registriert: die Adress-Pruefung und die Rueckweg-Zeile spiegeln
-> `### Pane-Auftrag`. Zustell-Syntax dort geaendert → hier mitziehen; dieser Schritt
+> deklarierte Ausnahme registriert: die Adress-Pruefung spiegelt `herdr agent`-Nutzung im
+> Ueberwachungs-Tick (`### Pane-Ausfuehrung`), die Rueckweg-Zeile spiegelt
+> `### Pane-Auftrag`. Syntax dort geaendert → hier mitziehen; dieser Schritt
 > geaendert → die Ausnahmen-Liste dort pruefen.
 
 ### Schritt 3: Git-Status pruefen (inkl. Remote-Stand)

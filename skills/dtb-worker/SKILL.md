@@ -185,8 +185,10 @@ Ausnahmen (Aenderung hier → dort mitziehen):
 (1) die Rueckweg-Zeile `herdr agent prompt {orchestrator-pane} …` im Begruessungstext von
 `dtb:pane-start` spiegelt die Rueckweg-Zeile dieser Vorlage;
 (2) `dtb:workflow-resume` → `### Schritt 2a: Pane-Uebergabe` prueft die Orchestrator-Adresse
-aus der Uebergabe-Notiz (`herdr agent get`, nur der Exit-Code zaehlt) und zeigt dieselbe
-Rueckweg-Zeile:
+aus der Uebergabe-Notiz (`herdr agent get` wie im Tick unter `### Pane-Ausfuehrung`, nur
+der Exit-Code zaehlt) und zeigt dieselbe Rueckweg-Zeile.
+
+Die Vorlage des Auftragstexts:
 
 ```
 Du bist Worker-Session fuer den Change `{slug}`.
@@ -469,9 +471,15 @@ case "$(grep '^## ' "$N" | tail -1)" in "## Ende-Block erzeugt"*) echo ERZEUGT;;
 ```
 
 `UNGESENDET` → `⚠ Ungesendete Uebergabe-Notiz in {pfad} — erst in der Pane /dtb:workflow-checkpoint → „Ende", den Block hier checkpointen, dann abnehmen und abbauen`
-`NOTIZ-UNGEPRUEFT` (Pfad nicht aufloesbar — nie still als „keine Notiz" werten) →
-`⚠ Uebergabe-Notiz in {pfad} nicht pruefbar — vor dem Abbau von Hand nachsehen: $(git -C {pfad} rev-parse --git-dir)/dtb-session-uebergabe.md`
-— beide Warnungen: kein Abbruch, der Mensch entscheidet (die Notiz liegt im Git-Verwaltungsordner und
+`NOTIZ-UNGEPRUEFT` (Pfad nicht aufloesbar — nie still als „keine Notiz" werten; typisch:
+Worktree-Ordner von Hand geloescht, Verwaltungsordner steht bis zum `prune` noch) →
+`⚠ Uebergabe-Notiz in {pfad} nicht pruefbar — vor dem Abbau von Hand nachsehen: $(git rev-parse --git-common-dir)/worktrees/$(basename "{pfad}")/dtb-session-uebergabe.md (Name meist = Ordnername)`
+`ERZEUGT` → nur dann ohne Warnung, wenn in DIESER Orchestrator-Session ein
+`WORKTREE-HANDOFF (dtb) — Quelle: {slug} …`-Block eingetroffen ist (Verlauf; derselbe
+Anker wie im Ueberwachungs-Tick). Sonst
+`⚠ Ende-Block fuer {slug} erzeugt, aber hier nicht eingetroffen — in der Pane erneut /dtb:workflow-checkpoint → „Ende" und senden`
+(der Marker belegt nur das Erzeugen, nicht die Zustellung).
+— alle Warnungen: kein Abbruch, der Mensch entscheidet (die Notiz liegt im Git-Verwaltungsordner und
 verschwindet mit dem Entfernen in Punkt 4). Bewusstes Restrisiko: ein Abbau an diesem
 Abschluss vorbei (`git worktree remove`/`prune` von Hand) loescht sie still.
 
