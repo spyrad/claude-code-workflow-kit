@@ -180,10 +180,13 @@ Rueckkanal. Es gibt bewusst KEINE Team-Registry und keine persistierten Pane-IDs
 Orchestrator-Adresse kommt zur Laufzeit aus `$HERDR_PANE_ID`. Alle Herdr-Kommandos des
 Pane-Modus stehen NUR in dieser Vorlage und in `### Pane-Ausfuehrung` — Herdr-CLI-Drift
 (bekanntes, dokumentiertes Risiko; Syntax-Stand 2026-08-16) wird an diesen zwei
-benannten, aufeinander verweisenden Orten korrigiert — nirgendwo sonst (einzige
-deklarierte Ausnahme: die Rueckweg-Zeile `herdr agent prompt {orchestrator-pane} …` im
-Begruessungstext von `dtb:pane-start` spiegelt die Rueckweg-Zeile dieser Vorlage —
-Aenderung hier → dort mitziehen):
+benannten, aufeinander verweisenden Orten korrigiert — nirgendwo sonst. Deklarierte
+Ausnahmen (Aenderung hier → dort mitziehen):
+(1) die Rueckweg-Zeile `herdr agent prompt {orchestrator-pane} …` im Begruessungstext von
+`dtb:pane-start` spiegelt die Rueckweg-Zeile dieser Vorlage;
+(2) `dtb:workflow-resume` → `### Schritt 2a: Pane-Uebergabe` prueft die Orchestrator-Adresse
+aus der Uebergabe-Notiz (`herdr agent get`, nur der Exit-Code zaehlt) und zeigt dieselbe
+Rueckweg-Zeile:
 
 ```
 Du bist Worker-Session fuer den Change `{slug}`.

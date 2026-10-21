@@ -74,8 +74,9 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
      Als Textzeile ausgeben und auf die Antwort warten:
      `→ Vorschlag: {Wechsel | Ende} ({Grund}) · weiter = uebernehmen · oder „{Alternative}" nennen`
   2. **Wechsel** (Folgesession in derselben Pane, z.B. Kontext voll):
-     - Orchestrator-Adresse: juengster `Orchestrator:`-Wert der Notiz → sonst aus dem
-       Begruessungstext im Verlauf → sonst Textzeile
+     - Orchestrator-Adresse: juengste Angabe im Verlauf (Begruessungstext, Resume-Bericht
+       oder Antwort auf dessen Adress-Rueckfrage — auch „ohne") → sonst juengster
+       `Orchestrator:`-Wert der Notiz → sonst Textzeile
        `Orchestrator-Pane? · weiter = ohne (Block manuell tragen)` („weiter" → `Orchestrator: —`)
      - Abschnitt `## Wechsel …` nach dem Format `### Uebergabe-Notiz` (unten) aus dem
        Sitzungskontext bauen; bei `KEINE-NOTIZ` zuerst den Kopf. Anhaengen per

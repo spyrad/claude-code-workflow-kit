@@ -10,7 +10,7 @@ pipeline:
   stage: session
   after: [dtb:workflow-checkpoint, dtb:project-init]
   next: null
-  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/worker-report.md, session-log, project-rules/DERIVED_STATE_RULES.md, workflow.config.yaml]
+  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/worker-report.md, session-log, project-rules/DERIVED_STATE_RULES.md, workflow.config.yaml, dtb-session-uebergabe.md]
   produces: []
 ---
 
@@ -44,6 +44,78 @@ Falls WORKFLOW_STATUS.md nicht existiert:
 WORKFLOW_STATUS.md nicht gefunden.
 Empfehlung: Am Ende dieser Session /dtb:workflow-checkpoint ausfuehren.
 ```
+
+### Schritt 2a: Pane-Uebergabe (nur im verlinkten Worktree)
+
+Nach `/clear` in einem verlinkten Worktree steht der Kontext der Vorsession nicht in
+`WORKFLOW_STATUS.md` (dort liegt nur die Branch-Kopie, veraltet), sondern in der
+Uebergabe-Notiz, die `dtb:workflow-checkpoint` beim „Wechsel" schreibt (Format:
+`dtb:workflow-checkpoint` → `### Uebergabe-Notiz (Format — die eine Quelle)`). Dieser
+Schritt liest sie nur — er schreibt die Notiz nie.
+
+In EINEM selbstaendigen Bash-Block (Worktree-Erkennung wie der Worktree-Guard; die
+cd/pwd-Normalisierung ist Pflicht):
+
+```bash
+G=$(git rev-parse --git-dir 2>/dev/null) || { echo KEIN-WORKTREE; exit 0; }
+C=$(git rev-parse --git-common-dir 2>/dev/null) || { echo KEIN-WORKTREE; exit 0; }
+G=$(cd "$G" 2>/dev/null && pwd) || { echo KEIN-WORKTREE; exit 0; }
+C=$(cd "$C" 2>/dev/null && pwd) || { echo KEIN-WORKTREE; exit 0; }
+[ "$G" = "$C" ] && { echo KEIN-WORKTREE; exit 0; }
+N="$G/dtb-session-uebergabe.md"
+[ -f "$N" ] || { echo KEINE-NOTIZ; exit 0; }
+L=$(grep '^## ' "$N" | tail -1)
+case "$L" in "## Ende-Block erzeugt"*) echo "GESENDET $L"; exit 0;; esac
+echo "NOTIZ $N"; cat "$N"
+```
+
+- `KEIN-WORKTREE`, `KEINE-NOTIZ` oder `GESENDET …` → der Report-Abschnitt `## Pane-Uebergabe`
+  entfaellt still; der Resume laeuft unveraendert weiter
+- `NOTIZ` → aus dem Kopf und allen `## Wechsel`-Abschnitten seit dem letzten Ende-Marker den
+  Report-Abschnitt `## Pane-Uebergabe` fuellen (Vorlagen in Schritt 5) — Zeilen in dieser
+  Reihenfolge:
+
+  ```
+  Rolle: {Rolle aus dem Kopf} · Schreibgrenzen: {aus dem Kopf, gekuerzt}
+  Orchestrator: {pane-id} ({erreichbar | ungeprueft}) | ⚠ Orchestrator-Pane {pane-id} nicht erreichbar | — (Block manuell tragen)
+  Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende", Block woertlich inkl. Kopfzeile senden:
+    {Rueckweg-Zeile — entfaellt bei „—"}
+  Offen ({K} Wechsel seit {Datum des ersten}):
+  - {Offene Punkte / Naechste Schritte und Uebersprungene globale Updates aller Abschnitte, chronologisch, Dubletten bleiben, „- keine" weglassen}
+  Uncommittet: {aus dem juengsten Abschnitt, oder „—"}
+  Lektion-Kandidaten: {alle Abschnitte, oder „—"}
+  Naechster Befehl: {aus dem juengsten Abschnitt}
+  ```
+
+- **Vorrang:** Im Worktree ersetzt der `Naechster Befehl:` der Notiz den
+  `**Naechster Befehl:**` aus `## Handoff` (Branch-Kopie, veraltet) im Abschnitt
+  `## Naechster Schritt`. Widerspricht er der Artefakt-Ableitung (Schritt 4), gewinnt
+  weiterhin die Ableitung (1 ⚠-Zeile)
+
+**Adress-Pruefung (deklarierte Herdr-Ausnahme):** Der juengste `Orchestrator:`-Wert ist eine
+fluechtige Momentaufnahme. Ist er nicht `—`, in EINEM selbstaendigen Bash-Block pruefen — nur
+der Exit-Code zaehlt, die Ausgabe wird nicht per Regex gelesen:
+
+```bash
+[ "$HERDR_ENV" = "1" ] && command -v herdr >/dev/null 2>&1 || { echo HERDR-AUS; exit 0; }
+herdr agent get "{pane-id}" >/dev/null 2>&1 && echo ERREICHBAR || echo NICHT-ERREICHBAR
+```
+
+- `ERREICHBAR` → `(erreichbar)`; `HERDR-AUS` → Pruefung still ueberspringen, `(ungeprueft)`
+  — Sichern und Wiederfinden laufen ohne Herdr weiter
+- `NICHT-ERREICHBAR` (`agent_not_found`, Exit 1 — z.B. Orchestrator neu gestartet) → die
+  ⚠-Zeile im Abschnitt, darunter die Textzeile
+  `Neue Orchestrator-Adresse? · weiter = ohne (Block manuell tragen)`. Die Antwort gilt fuer
+  diese Session; der naechste Checkpoint uebernimmt sie aus dem Verlauf in seinen Abschnitt
+  (dieser Skill schreibt nichts)
+- **Rueckweg-Zeile** (mit der geprueften bzw. neu genannten Adresse eingesetzt):
+  `herdr agent prompt {orchestrator-pane} "<der komplette Block>"`
+
+> **Kopplungs-Hinweis (Herdr-Kanon):** Herdr-Kommandos leben sonst nur in `dtb:worker`
+> (`### Pane-Auftrag` / `### Pane-Ausfuehrung`). Dieser Schritt ist dort als zweite
+> deklarierte Ausnahme registriert: die Adress-Pruefung und die Rueckweg-Zeile spiegeln
+> `### Pane-Auftrag`. Zustell-Syntax dort geaendert → hier mitziehen; dieser Schritt
+> geaendert → die Ausnahmen-Liste dort pruefen.
 
 ### Schritt 3: Git-Status pruefen (inkl. Remote-Stand)
 
@@ -197,6 +269,10 @@ Halte den Report **kompakt** (max 60 Zeilen Output). Fokus auf Actionable Info.
 **Feature:** {Feature-Name} (Status: In Arbeit)
 **Letzte Session:** {Datum}
 
+## Pane-Uebergabe
+
+{Zeilen aus Schritt 2a — Abschnitt entfaellt still ohne offene Notiz}
+
 ## Feature-Stand
 
 [Ziel aus Feature-Spec]
@@ -237,6 +313,10 @@ Bereit? Sage "Los" oder stelle Fragen.
 **Letzte Session:** {Datum}
 **Zusammenfassung:** [1 Satz aus WORKFLOW_STATUS "Laufende Arbeit"]
 
+## Pane-Uebergabe
+
+{Zeilen aus Schritt 2a — Abschnitt entfaellt still ohne offene Notiz}
+
 ## Letzte Session
 
 - [2-3 Bullet Points: Was wurde gemacht]
@@ -275,6 +355,10 @@ Welches Feature moechtest du fortsetzen?
 
 **Letzte Session:** {Datum}
 **Zusammenfassung:** [1 Satz aus WORKFLOW_STATUS "Laufende Arbeit"]
+
+## Pane-Uebergabe
+
+{Zeilen aus Schritt 2a — Abschnitt entfaellt still ohne offene Notiz}
 
 ## Letzte Session
 

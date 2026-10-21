@@ -234,12 +234,12 @@ Der Abbau loescht keine ungesendete Notiz unbemerkt; Kanon-Texte stimmen mit dem
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Notiz-Format als eine Quelle
-- [x] 1.2 Weiche Wechsel/Ende
-- [x] 1.3 Ende-Pfad kumuliert
-- [ ] 2.1 Resume liest Notiz
-- [ ] 2.2 Adress-Pruefung + Rueckweg-Zeile
-- [ ] 2.3 Ankuendigungen
+- [x] 1.1 Notiz-Format als eine Quelle — `36f80d4`
+- [x] 1.2 Weiche Wechsel/Ende — `36f80d4`
+- [x] 1.3 Ende-Pfad kumuliert — `36f80d4`
+- [x] 2.1 Resume liest Notiz
+- [x] 2.2 Adress-Pruefung + Rueckweg-Zeile
+- [x] 2.3 Ankuendigungen
 - [ ] 3.1 Abbau-Warnung
 - [ ] 3.2 Kanon und Doku
 - [ ] 3.3 Verifikation am echten Wechsel

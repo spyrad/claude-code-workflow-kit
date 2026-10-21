@@ -297,10 +297,15 @@ Menschen, der diese Pane oeffnet — er entscheidet, ob und womit begonnen wird.
 dahin arbeitest du nicht, aenderst keine Dateien und stellst keine Rueckfragen an den
 Orchestrator. Begruesse kurz und warte auf Eingabe.
 
-Rueckweg (am Ende der Session, nicht vorher): `/dtb:workflow-checkpoint` aufrufen. Der
-Worktree-Guard dieses Skills bricht ab und erzeugt stattdessen den WORKTREE-HANDOFF-Block.
-Diesen Block WOERTLICH und VOLLSTAENDIG (inklusive Kopfzeile „WORKTREE-HANDOFF (dtb) — …")
-an den Orchestrator zurueckschicken:
+Session-Wechsel (Kontext voll, Arbeit geht weiter): `/dtb:workflow-checkpoint` → „Wechsel"
+waehlen → `/clear` → `/dtb:workflow-resume`. Die Uebergabe-Notiz traegt Rolle,
+Orchestrator, Rueckweg und offene Punkte in die neue Session. Bevorzugt `/clear` statt
+`/exit` + `claude` (sonst meldet der Ueberwachungs-Tick die Pane kurz als weg).
+
+Rueckweg (am Ende der Arbeit, nicht vorher): `/dtb:workflow-checkpoint` aufrufen und
+„Ende" waehlen. Der Worktree-Guard dieses Skills bricht ab und erzeugt stattdessen den
+WORKTREE-HANDOFF-Block. Diesen Block WOERTLICH und VOLLSTAENDIG (inklusive Kopfzeile
+„WORKTREE-HANDOFF (dtb) — …") an den Orchestrator zurueckschicken:
 herdr agent prompt {orchestrator-pane} "<der komplette Block>"
 Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empfangsseite.
 ```

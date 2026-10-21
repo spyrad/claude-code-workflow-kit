@@ -211,7 +211,11 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
       durchlaufenem Ritual abgeschlossen (mit oder ohne Commit — leere Doku-Phasen zaehlen mit),
       ODER der Verlauf wurde erkennbar verdichtet → nicht weitermachen, sondern
       `→ Schwelle erreicht ({2 Phasen in dieser Session | Kontext verdichtet}) — weiter in neuer
-      Session: /dtb:implement {slug} phase {N+1}` ausgeben und stoppen
+      Session: /dtb:implement {slug} phase {N+1}` ausgeben, direkt darunter die Zeile
+      `  Wechsel: /dtb:workflow-checkpoint → /clear → /dtb:workflow-resume`, und stoppen.
+      Die Zeile gilt im Haupt-Checkout und im verlinkten Worktree gleich (dort schreibt der
+      Checkpoint `## Handoff`, hier nach „Wechsel" die Uebergabe-Notiz) — keine
+      Worktree-Erkennung noetig
     - **Stopp gewaehlt** (Gate-Option `passt — Commit, dann Stopp`) → wie „Schwelle erreicht",
       Zeile `→ Stopp nach Phase {N} — weiter: /dtb:implement {slug} phase {N+1} · oder erst
       /dtb:impl-review {slug}`
