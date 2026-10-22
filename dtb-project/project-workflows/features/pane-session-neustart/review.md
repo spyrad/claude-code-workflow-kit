@@ -75,3 +75,5 @@ Protokoll (a)-(f) bestanden im Arbeitsplatz `zz-test-pane-wechsel`. Befunde aus 
 - A2 „weiter" in der Weiche Wechsel/Ende uebernimmt den Vorschlag (bei 3/3 = „Ende"); ein Mensch liest „weiter" als „Arbeit geht weiter" = Wechsel — im Lauf fuehrte „weiter" ungewollt zu „Ende"
 - A3 Wiederholtes „Ende" ohne neue Arbeit erzeugt je einen fast leeren Block + Marker (08:48, 09:21) — keine Sperre/Rueckfrage
 - A4 Resume im Pane-Worktree zeigt als aktives Feature das Repo-weite `pane-session-neustart` statt des eigenen Changes des Arbeitsplatzes (Branch `feature/{slug}`)
+
+Nacharbeit 2026-10-22 (Orchestrator, nach der Abnahme): A1-A4 und beide Punkte unterhalb des Caps umgesetzt — A1 `Offene Punkte` als Momentaufnahme (checkpoint Notiz-Format + Ende-Zweig, resume 2a), A2 Weiche nur „Wechsel"/„Ende" (checkpoint, skills/CLAUDE.md G), A3 kein leerer Block nach Ende-Marker (checkpoint), A4 Resume im Worktree zeigt den eigenen Change (resume Schritt 4 Regel 0); skills/CLAUDE.md Sonderfall-Satz praezisiert, pane-start Persistenz-Absatz nennt die Notiz.

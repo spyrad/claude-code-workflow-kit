@@ -85,7 +85,7 @@ echo "NOTIZ $N"; cat "$N"
   Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende", Block woertlich inkl. Kopfzeile senden:
     {Rueckweg-Zeile — entfaellt bei „—"}
   Offen ({K} Wechsel seit {Datum des ersten}):
-  - {Offene Punkte / Naechste Schritte und Uebersprungene globale Updates aller Abschnitte, chronologisch, Dubletten bleiben, „- keine" weglassen}
+  - {Offene Punkte / Naechste Schritte aus dem juengsten Abschnitt (Momentaufnahme-Regel im Notiz-Format), dazu Uebersprungene globale Updates aller Abschnitte chronologisch, Dubletten bleiben, „- keine" weglassen}
   Uncommittet: {aus dem juengsten Abschnitt — Momentaufnahme-Regel im Notiz-Format —, oder „—"}
   Lektion-Kandidaten: {alle Abschnitte, oder „—"}
   Naechster Befehl: {aus dem juengsten Abschnitt}
@@ -203,6 +203,13 @@ In Worktrees:
 verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
 (Fallback: `dtb-project/project-rules/DERIVED_STATE_RULES.md`).
 
+0. **Im verlinkten Worktree zuerst der eigene Change:** Meldete Schritt 2a nicht
+   `KEIN-WORKTREE` und heisst der Branch `feature/{slug}` oder `task/{slug}` mit vorhandenem
+   `{config.paths.workflows}/features/{slug}/`, ist DIESER Change das Item des Reports — Fall A
+   ohne Auswahl, auch bei 0/Y, Y/Y oder einer reinen `task.md`/`bug.md` (Fortschritt dann aus
+   `## Schritte`/`## Fix-Schritte`). Weitere aktive Features des Repos erscheinen nur als eine
+   Zeile `Weitere aktive Features im Repo: {Namen}` — sonst zeigt der Resume im Arbeitsplatz ein
+   fremdes Feature als aktiv (Abnahme 2026-10-22). Kein passender Ordner → Regeln 1-5 unveraendert
 1. Scanne `{config.paths.workflows}/features/*/plan.md`: Ein Feature ist **"In Arbeit"**,
    wenn seine `## Progress`-Sektion teilweise abgehakt ist (X von Y, 0 < X < Y)
 2. WORKFLOW_STATUS.md ("Laufende Arbeit") und BACKLOG.md dienen nur als Kontext und

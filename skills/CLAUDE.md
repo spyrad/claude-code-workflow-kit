@@ -347,7 +347,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | D | `implement` Ritual Punkt 2 — Manual-Gate | Freitext „passt" | **Knopf** `passt — Phasen-Commit` / `passt — Commit, dann Stopp` / `Korrekturen`; Entscheidung bleibt beim Menschen, je Phase; „Abbrechen" an Staging/Commit = Stopp mit Wiedereinstiegs-Zeile |
 | E | `feature-start` Abschluss (Bug, Aufgabe) | „Bereit? Sage Los" | **Stille Anzeige** `→ Weiter mit: …` (passender Einstieg) |
 | F | `idea-triage` Schritt 5 — Vorschlaege der Vorsortierung | eine Frage je Befund | **Sammelliste** (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`); Einzelfaelle (`Unklar`, Verwerfen unter `hoch` oder ohne pruefbaren Ort, Dublette eines Funds oder Nachtrag an einen Fund im selben Lauf, ohne Vorschlag) einzeln in Schritt 6; gestrichen = einzeln, nie verworfen |
-| G | `workflow-checkpoint` Sende-Seite (verlinkter Worktree) — Weiche Wechsel/Ende · `workflow-resume` Schritt 2a — Orchestrator-Adresse | — (neu) | **Textzeile**, Vorschlag abgeleitet (Checkliste des Changes vollstaendig und keine Zeile `^Decision: PENDING` in `review.md` → Ende, sonst Wechsel; Fehlwahl kostet nur einen erneuten Checkpoint); fehlende bzw. nicht erreichbare Adresse → **Textzeile** `weiter = ohne (Block manuell tragen)` |
+| G | `workflow-checkpoint` Sende-Seite (verlinkter Worktree) — Weiche Wechsel/Ende · `workflow-resume` Schritt 2a — Orchestrator-Adresse | — (neu) | **Textzeile**, Vorschlag abgeleitet (Checkliste des Changes vollstaendig und keine Zeile `^Decision: PENDING` in `review.md` → Ende, sonst Wechsel; Fehlwahl kostet nur einen erneuten Checkpoint) — benannte Abweichung von der Textzeilen-Form: Antwort nur `„Wechsel"`/`„Ende"`, KEIN `weiter = uebernehmen` (Abnahme 2026-10-22: „weiter" wurde als „Arbeit geht weiter" gelesen und landete in „Ende"); fehlende bzw. nicht erreichbare Adresse → **Textzeile** `weiter = ohne (Block manuell tragen)` |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
 „trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
@@ -478,7 +478,9 @@ Status/Links nach → **Teil-Guard**. Schreibt er nur den eigenen Change-Ordner 
 **worktree-faehig**. Ein NEUER Skill mit globalen `produces`-Eintraegen uebernimmt die
 Guard-Vorlage ab dem ersten Tag. Betrieblich begruendete Ausnahmen schlagen das
 `produces`-Kriterium — sie stehen als benannter Sonderfall direkt in der Tabelle
-(derzeit nur `pane-start`: legt Worktrees vom Haupt-Checkout an).
+(derzeit nur `pane-start`: legt Worktrees vom Haupt-Checkout an). Der Sonderfall bei
+`workflow-checkpoint` ist davon verschieden: keine Kategorie-Ausnahme, sondern eine benannte
+Schreibstelle ausserhalb des Arbeitsbaums (Uebergabe-Notiz) innerhalb des Voll-Guards.
 
 ### Worktree-Guard (kanonische Vorlage)
 

@@ -276,7 +276,10 @@ erreicht diese Session von selbst als Eingabe) — siehe `## Rueckweg und Abschl
 Der Text traegt ALLES, was die neue Session wissen muss, und wird als EINE Nachricht
 zugestellt. Die Orchestrator-Adresse kommt zur Laufzeit aus `$HERDR_PANE_ID`; es gibt
 bewusst keine persistierte Pane-Registry (fluechtige Adressen — eine Datei waere eine
-Zustandsaussage ohne Pfleger).
+Zustandsaussage ohne Pfleger). Einzige benannte Abweichung: die Uebergabe-Notiz von
+`dtb:workflow-checkpoint` haelt die Adresse je „Wechsel" als Momentaufnahme fest — kurzlebig
+(lebt bis zum Abbau) und von `dtb:workflow-resume` vor jeder Anzeige per Herdr geprueft, also
+keine Registry.
 
 ```
 Willkommen — du bist eine interaktive Arbeits-Session fuer den Change `{slug}`.

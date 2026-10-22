@@ -72,7 +72,10 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
 
   `NOTIZ-PFAD-FEHLT` → fail-open: keine Weiche, nur der Ende-Zweig ohne Notiz (Punkt 3).
   `ZUSTAND ERZEUGT` → alle Abschnitte sind schon in einem Block gemeldet; ein neuer
-  Ende-Block kumuliert nur, was danach kam.
+  Ende-Block kumuliert nur, was danach kam. Ist danach nichts gekommen (diese Session hat seit
+  dem Marker nichts erledigt) → KEINE Weiche, kein leerer Block, kein Marker; genau eine Zeile:
+  `↳ Ende-Block schon erzeugt ({Zeitstempel des letzten Markers}), seither nichts Neues — kein neuer Block`
+  (Abnahme 2026-10-22: wiederholtes „Ende" schickte zweimal einen leeren Block).
 
   1. **Vorschlag ableiten** (Slug aus dem Branch `feature/{slug}`, sonst aus dem
      Sitzungskontext): **Ende**, wenn die Fortschritts-Checkliste des eigenen Changes
@@ -83,7 +86,11 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
      offen; das Gesamt-Verdikt im Snapshot bleibt nach der Triage stehen und taugt dafuer
      nicht); sonst **Wechsel**.
      Als Textzeile ausgeben und auf die Antwort warten:
-     `→ Vorschlag: {Wechsel | Ende} ({Grund}) · weiter = uebernehmen · oder „{Alternative}" nennen`
+     `→ Vorschlag: {Wechsel | Ende} ({Grund}) · Antwort: „Wechsel" oder „Ende"`
+     Nur diese beiden Woerter entscheiden — bewusst KEIN „weiter = uebernehmen": im
+     Abnahme-Lauf 2026-10-22 las der Mensch „weiter" als „die Arbeit geht weiter" und landete
+     im vorgeschlagenen „Ende". Jede andere Antwort → genau eine Rueckfrage
+     `„Wechsel" oder „Ende"?`; bleibt sie unklar → nichts schreiben, die Weiche endet.
   2. **Wechsel** (Folgesession in derselben Pane, z.B. Kontext voll):
      - Orchestrator-Adresse: juengste Angabe im Verlauf (Begruessungstext, Resume-Bericht
        oder Antwort auf dessen Adress-Rueckfrage — auch „ohne") → sonst juengster
@@ -135,6 +142,11 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
        chronologisch aneinandergereiht (aelteste Session zuerst), Dubletten bleiben stehen —
        kein Ermessens-Zusammenlegen (eine doppelte Zeile ist sichtbar, eine faelschlich
        verschmolzene geht still verloren); `- keine` entfaellt, sobald das Feld Inhalt hat.
+       **Ausnahme `Offene Punkte / Naechste Schritte`:** Momentaufnahme, nicht kumuliert —
+       nur die Liste der aktuellen Session (sie fuehrt die noch offenen Punkte der
+       Vorabschnitte fort, die ihr der Resume zeigte; Regel im Notiz-Format). Sonst stuenden
+       laengst erledigte Punkte als offen im Block, und der Orchestrator uebernaehme sie als
+       Aufgaben (Abnahme 2026-10-22).
        Felder ohne Block-Gegenstueck gehen nach `Offene Punkte / Naechste Schritte`: je
        Kandidat `- Lektion-Kandidat: …`, je noch offener Punkt aus `Uncommittet:`
        `- Uncommittet: …` (Momentaufnahme-Regel im Notiz-Format); `Naechster Befehl:`
@@ -226,6 +238,11 @@ Sende-Seite (Weiche im `## Worktree-Guard` oben).
 - **`Uncommittet:` ist eine Momentaufnahme:** gueltig ist nur der juengste Abschnitt (die
   Folgesession committet aeltere Punkte mit); im Ende-Block zaehlt davon nur, was
   `git status --short` jetzt noch zeigt. Beide Leser (Resume, Ende-Zweig) folgen dieser Regel
+- **`Offene Punkte / Naechste Schritte` ist ebenfalls eine Momentaufnahme:** jeder Abschnitt
+  fuehrt die VOLLSTAENDIGE aktuelle Liste — noch offene Punkte frueherer Abschnitte uebernehmen,
+  erledigte weglassen (sie stehen unter `Erledigt:`). Gueltig ist der juengste Abschnitt, im
+  Ende-Block die Liste der aktuellen Session. `Uebersprungene globale Updates` bleiben dagegen
+  kumulativ — sie sind Auftraege an den Orchestrator und im Worktree nie erledigt
 - **Orchestrator-Adresse:** Momentaufnahme je Abschnitt — fluechtig; die Leseseite prueft sie,
   bevor sie sie anzeigt
 
