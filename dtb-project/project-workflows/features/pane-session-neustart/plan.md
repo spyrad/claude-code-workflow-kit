@@ -240,9 +240,9 @@ Der Abbau loescht keine ungesendete Notiz unbemerkt; Kanon-Texte stimmen mit dem
 - [x] 2.1 Resume liest Notiz — `0bf990d`
 - [x] 2.2 Adress-Pruefung + Rueckweg-Zeile — `0bf990d`
 - [x] 2.3 Ankuendigungen — `0bf990d`
-- [x] 3.1 Abbau-Warnung
-- [x] 3.2 Kanon und Doku
-- [ ] 3.3 Verifikation am echten Wechsel
+- [x] 3.1 Abbau-Warnung — `ef74cac`
+- [x] 3.2 Kanon und Doku — `ef74cac`
+- [x] 3.3 Verifikation am echten Wechsel — 2026-10-22 im Arbeitsplatz `zz-test-pane-wechsel` (pane-start, nach Merge + Push + kit-sync): Protokoll (a)-(f) bestanden; 4 Befunde → `review.md` Abschnitt „Abnahme 3.3"
 
 ---
 

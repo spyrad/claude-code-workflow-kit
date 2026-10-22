@@ -67,3 +67,11 @@ Fix: Satz in Schritt 2a: in Fall B/C steht der Befehl im Abschnitt Pane-Uebergab
 Decision: FIXED
 
 Unterhalb des Caps (nicht triagiert): skills/CLAUDE.md „derzeit nur pane-start" unter der Kategorien-Tabelle missverstaendlich; pane-start:277-279 Persistenz-Verzicht ohne Hinweis auf die Notiz (T8).
+
+## Abnahme 3.3 (2026-10-22, echter Wechsel — nicht triagiert)
+
+Protokoll (a)-(f) bestanden im Arbeitsplatz `zz-test-pane-wechsel`. Befunde aus dem Lauf:
+- A1 Ende-Kumulation fuehrt erledigte Punkte als offen: der Wechsel-Abschnitt nannte Schritt 2/3 unter „Offene Punkte", der Ende-Block uebernahm sie mechanisch, obwohl beide unter „Erledigt" stehen — Empfaenger koennte sie als offene Aufgaben uebernehmen (Regel „Dubletten bleiben stehen" deckt Dubletten, nicht ueberholte Punkte)
+- A2 „weiter" in der Weiche Wechsel/Ende uebernimmt den Vorschlag (bei 3/3 = „Ende"); ein Mensch liest „weiter" als „Arbeit geht weiter" = Wechsel — im Lauf fuehrte „weiter" ungewollt zu „Ende"
+- A3 Wiederholtes „Ende" ohne neue Arbeit erzeugt je einen fast leeren Block + Marker (08:48, 09:21) — keine Sperre/Rueckfrage
+- A4 Resume im Pane-Worktree zeigt als aktives Feature das Repo-weite `pane-session-neustart` statt des eigenen Changes des Arbeitsplatzes (Branch `feature/{slug}`)
