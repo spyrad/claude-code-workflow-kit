@@ -12,7 +12,6 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 142 | Pane-Session-Neustart | Abgenommen | — | `features/pane-session-neustart/spec.md` | In einem `dtb:pane-start`-Arbeitsplatz eine frische Session starten, ohne Startkontext, offene Hand-off-Punkte oder Session-Wissen zu verlieren |
 
 ---
 
