@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| projekt-dashboard | Fertig zum Testen | 11/11 | — offen — (mit /dtb:workflow-next bestimmen) |
+
+Kein aktives Feature.
 
 ---
 
@@ -18,13 +19,12 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #135 Projekt-Dashboard gemergt (`a7a76a9`), kit-sync 52/52, Abnahme 3.4 (a)-(c) belegt, 11/11 |
+| **Notizen** | #135 Projekt-Dashboard gemergt (`a7a76a9`), kit-sync 52/52, abgenommen und archiviert 2026-10-27 (`archive/projekt-dashboard/`) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Worktree pane-projekt-dashboard abbauen** — Kontext: gemergt; Pane `w3:pJ` beenden, `git worktree remove` + `git branch -d feature/projekt-dashboard` (seit 2026-10-27)
 - [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl `8` in Schritt 5 (`grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27)
 - [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27)
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — bisher nur „Ende" im Betrieb gesehen (seit 2026-10-22)
@@ -39,7 +39,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-10-27 | #135 Projekt-Dashboard umgesetzt und gemergt | Pane-Arbeitsplatz Phasen 1–3, impl-review 10/10 FIXED (`155e837`), Merge `a7a76a9`, kit-sync 52/52, Abnahme (c) bestanden; L98–L100 | `2026-10/2026-10-27.md` |
+| 2026-10-27 | #135 Projekt-Dashboard abgenommen | Pane-Arbeitsplatz Phasen 1–3, impl-review 10/10 FIXED (`155e837`), Merge `a7a76a9`, kit-sync 52/52, Abnahme 3.4 (a)–(c), 11/11; L98–L100 | `2026-10/2026-10-27.md` |
 | 2026-10-27 | Doppelte Skill-Trigger entfernt | 3 Beschreibungen (`archive`, `backlog-status`, `workflow-resume`) eindeutig, Commit `e4c6b62` | `2026-10/2026-10-27.md` |
 | 2026-10-22 | #142 Pane-Session-Neustart abgeschlossen | Befunde A1-A4 + 2 Cap-Findings nachgearbeitet (`1632323`), kit-sync 51/51, archiviert; L97 | `2026-10/2026-10-22.md` |
 | 2026-10-22 | #142 Pane-Session-Neustart abgenommen | Abnahme 3.3 am echten Wechsel (a)-(f) bestanden, 9/9 (`4062b28`), 4 Befunde in review.md; L95, L96 | `2026-10/2026-10-22.md` |
@@ -55,6 +55,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** — offen — (mit /dtb:workflow-next bestimmen)
+**Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 88 ungesichtet → /dtb:idea-triage

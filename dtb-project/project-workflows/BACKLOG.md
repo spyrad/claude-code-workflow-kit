@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-10-27 (#135 Projekt-Dashboard gemergt, Checkpoint)
+**Letzte Aktualisierung:** 2026-10-27 (#135 Projekt-Dashboard archiviert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,6 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 135 | Projekt-Dashboard | Fertig zum Testen (11/11) | Mittel | features/projekt-dashboard/spec.md | Projektstand auf einen Blick als lokale HTML-Seite |
 
 ---
 

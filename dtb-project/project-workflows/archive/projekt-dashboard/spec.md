@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-26
 **Ziel:** Eine lokale, grafisch ansprechende HTML-Seite zeigt den Projektstand auf einen Blick — ohne Nachfragen, ohne Checkpoint-Zwang.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
