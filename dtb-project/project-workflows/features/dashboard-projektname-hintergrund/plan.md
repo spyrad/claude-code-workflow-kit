@@ -107,7 +107,7 @@ Nachweis an echten Seiten: Fallback-Name, konfigurierter Name mit Sonderzeichen,
 #### Automated
 - [ ] `grep -c '{{' dtb-project/project-dashboard.html` = `0`
 - [ ] `grep -c '<h1>claude-code-workflow-kit</h1>' dtb-project/project-dashboard.html` = `1` (Fallback im Worktree greift auf den Haupt-Checkout, nicht `pane-…`)
-- [ ] `grep -cE 'https?://' dtb-project/project-dashboard.html` = `0`
+- [ ] `grep -cE '(src|href)="https?://|url\(["'"'"']?https?://' dtb-project/project-dashboard.html` = `0` (angepasst 2026-10-27 per Mismatch-Entscheid: der fruehere Grep auf jede Adresse traf escapten INBOX-Text, keine geladene Ressource)
 - [ ] Wegwerf-Ordner: `cmp skills/dtb-project-dashboard/SKILL.md {scratchpad}/zz-test-dashboard-name/skills/dtb-project-dashboard/SKILL.md` → Exit `0` (Probelauf prueft die Repo-Fassung)
 - [ ] Wegwerf-Seite: `grep -c '<h1>A &amp; &lt;B&gt; &#123;x}</h1>'` = `1`
 - [ ] Im Browser (Playwright): `document.title` = `claude-code-workflow-kit · Projekt-Dashboard`; nach Klick auf den Theme-Schalter aendert sich die berechnete Hintergrundfarbe von `html` ohne Neuladen
@@ -135,11 +135,11 @@ Nachweis an echten Seiten: Fallback-Name, konfigurierter Name mit Sonderzeichen,
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Projektname-Slot im Geruest
-- [x] 1.2 Ableitungsregel + Slot-Zahl
-- [x] 1.3 Hintergrund-CSS
-- [ ] 2.1 Probelaeufe
-- [ ] 2.2 Sichtabnahme
+- [x] 1.1 Projektname-Slot im Geruest — `f2fb8d9`
+- [x] 1.2 Ableitungsregel + Slot-Zahl — `f2fb8d9`
+- [x] 1.3 Hintergrund-CSS — `f2fb8d9`
+- [x] 2.1 Probelaeufe
+- [x] 2.2 Sichtabnahme
 
 ---
 
@@ -150,6 +150,15 @@ Umsetzung mit `/dtb:implement Dashboard mit Projektname und Raster-Hintergrund` 
 Wiedereinstieg bei Kontextverlust: `features/dashboard-projektname-hintergrund/plan.md` laden; der erste nicht
 abgehakte Schritt in `## Progress` ist der naechste.
 Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint`).
+
+---
+
+## Abnahme-Belege
+
+- **2.1 Lauf Worktree (2026-10-27):** Repo-Fassung (`SRC=skills/…`), Geruest 9 Slots, Rest 0; `project_name` = Platzhalter → Fallback `claude-code-workflow-kit` (nicht `pane-…`); `<h1>claude-code-workflow-kit</h1>` = 1, `{{` = 0, externe Ressourcen = 0 (Kriterium per Mismatch-Entscheid auf `src`/`href`/`url(` verengt — der breite Grep traf escapten INBOX-Text #39/#27); Seite ignoriert (`git check-ignore` Exit 0). Kopf-Slots per Edit, die sechs unveraenderten Daten-Slots per Hilfsskript aus berechneten Bausteinen (Abweichung vom Ein-Edit-je-Slot, Probelauf-Hilfe)
+- **2.1 Lauf Wegwerf-Ordner (2026-10-27):** `cmp` Kopie = Repo-Fassung (Exit 0), `HAUPT-CHECKOUT`, `project_name: "A & <B> {x}"` → `<h1>A &amp; &lt;B&gt; &#123;x}</h1>` = 1, Tab-Titel `A & <B> {x} · Projekt-Dashboard`; fehlende Quellen als „nicht vorhanden"
+- **2.1 Browser (2026-10-27):** `file://` in Playwright gesperrt → Ausweichweg `python -m http.server` (127.0.0.1:8765/8766), danach per PID beendet. Worktree-Seite: `document.title` = `claude-code-workflow-kit · Projekt-Dashboard`; `html`-Hintergrund dunkel `rgb(22, 29, 39)` → nach Klick hell `rgb(235, 231, 228)` ohne Neuladen; `body::before` fixed mit 7 Verlaufsebenen; erster Link per `elementFromPoint` erreichbar (Raster faengt keine Klicks); einziger Konsolenfehler `favicon.ico` 404 (Testserver)
+- **2.2 Sichtabnahme:** Screenshots Hell/Dunkel von Dashboard, pi.dev/docs und Testseite im Scratchpad der Session — Urteil Gate Phase 2 (2026-10-27): „passt" — Hintergrund wie pi.dev in Hell und Dunkel, dunkle Karten auf blaugrauem Grund bewusst akzeptiert, keine Nacharbeit
 
 ---
 
