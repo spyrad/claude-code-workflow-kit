@@ -232,13 +232,13 @@ die Config steuert das, und die Kit-Doku kennt den neuen Skill.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Prototyp mit echten Daten
-- [x] 1.2 Offene Spec-Punkte entscheiden
-- [x] 1.3 Seitengeruest mit Slots
-- [ ] 2.1 Frontmatter, Config, Quellen
-- [ ] 2.2 Zaehl- und Ableitungsregeln
-- [ ] 2.3 Randfaelle, Ausgabe, Oeffnen
-- [ ] 2.4 Probelauf + Abgleich
+- [x] 1.1 Prototyp mit echten Daten — `94b9fd9`
+- [x] 1.2 Offene Spec-Punkte entscheiden — `94b9fd9`
+- [x] 1.3 Seitengeruest mit Slots — `94b9fd9`
+- [x] 2.1 Frontmatter, Config, Quellen
+- [x] 2.2 Zaehl- und Ableitungsregeln
+- [x] 2.3 Randfaelle, Ausgabe, Oeffnen
+- [x] 2.4 Probelauf + Abgleich
 - [ ] 3.1 Checkpoint Schritt 4b
 - [ ] 3.2 Config + project-init
 - [ ] 3.3 Kit-Doku + Namens-Sweep
@@ -259,9 +259,34 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 ---
 
+## Probelauf-Belege
+
+> Status-neutral (L20). Probelauf 2.4 am 2026-10-27, Ablauf aus der Repo-Fassung `skills/dtb-project-dashboard/SKILL.md` (L74).
+
+**Worktree-Lauf** (`feature/projekt-dashboard`, mit Attrappe `features/zz-test-dashboard/`):
+- Geruest per Bash kopiert: 8 Slots; nach 8 Edits 0 Slots; `<style>`-Block identisch zum Geruest (`diff` leer); externe Ressourcen 0
+- Escaping-Probe (vor dem Entfernen der Attrappe): `&lt;script&gt;alert(1)&lt;/script&gt;` 1 Treffer, `<script>alert(1)` 0 Treffer
+- Attrappe: Spalte „Fertig zum Testen" 2/2 + Warnchip „Anzeige in spec.md: In Arbeit"; projekt-dashboard: „In Arbeit" 6/11 + Warnchip „Anzeige in spec.md: Spezifiziert"; Worktree-Banner gesetzt
+- Abgleich (unabhaengiger Helfer, Regeln aus `workflow-next`/`backlog-status`, ohne Blick auf die Seite): Status + X/Y beider Changes gleich; Worktree-Zeile `projekt-dashboard  interaktiv (pane)  feature/projekt-dashboard  +1 Commits, zuletzt 2026-10-27  4 uncommitted  Progress 6/11` gleich; Ideen 17, Befunde 76, offene Aufgaben 6 (0 ⏳ in der Datei), Naechster Befehl `/dtb:workflow-next` gleich
+- Abweichung ohne Handlungsbedarf: `workflow-next` meldet zusaetzlich den Plan-Kopf der Attrappe (`Entwurf` bei 2/2, Regel-Datei §7.3) — Plan-Kopf ist nicht Gegenstand des Dashboards
+- Kosten: Seite 35 KB, davon ~25 KB Listen (17 Ideen + 76 Befunde); die Slot-Edits sind der Hauptaufwand
+
+**Testbett-Lauf** (`dtb-assistant`, kein Git, Altbestand):
+- Einzige Schreibstelle `dtb-project/project-dashboard.html`; Geruest aus der Repo-Fassung (keine installierte Kopie, kein `skills/` im Projekt)
+- 0 Slots offen, externe Ressourcen 0, kein Banner (`DURCHLASS-NOGIT`)
+- „nicht vorhanden": Befund-Becken, Lektionen (Kennzahlen zeigen `—`); Worktree-Karte entfaellt (kein Git)
+- 41 flache Alt-Dateien, 0 Change-Ordner → Leerzustand + Warnchip „41 Alt-Dateien ohne Change-Ordner — Migration: /dtb:migrate-change-folders"
+- Session-Koepfe mit Titel/Gedankenstrich und Aufgaben im Altformat korrekt dargestellt
+- Quelle `WORKFLOW_STATUS.md` traegt ein Passwort im Klartext; im Probelauf ausgelassen — Schutz gehoert an die Quelle (INBOX #110)
+
+**Nachschaerfungen aus dem Probelauf** (in `SKILL.md` eingearbeitet): Read vor den Slot-Edits; Kurztitel-Fettdruck nur am Zellanfang; Session-Kopf = ganze Kopfzeile, Kurztext = erste Nicht-Ueberschrift-Zeile; Altformat offener Aufgaben; fehlende Quelle → Kennzahl `—`; flache Alt-Dateien → Migrations-Warnchip
+
+---
+
 ## Lektion-Kandidaten
 
 - „Ein Schritt hinter dem Voll-Guard eines Skills ist im Worktree strukturell unerreichbar — fuer solche Schritte kein eigenes Worktree-Verhalten spezifizieren, sondern den Guard als Antwort nennen" (vorgemerkt 2026-10-26)
+- „Ein Skill, der eine Datei per Bash erzeugt und danach per Edit fuellt, muss den Read-Schritt dazwischen ausdruecklich nennen — Edit verweigert ungelesene Dateien; im Probelauf faellt das nur auf, wenn die Datei vorher noch nicht gelesen war" (vorgemerkt 2026-10-27)
 
 ---
 
