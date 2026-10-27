@@ -2,7 +2,7 @@
 name: dtb:backlog-status
 description: >-
   Use when: "Backlog zeigen", "backlog status", "offene Features",
-  "was steht an". Read-only overview of open features, priorities,
+  "welche Features sind offen". Read-only overview of open features, priorities,
   and current progress from BACKLOG.md and features/*/spec.md files.
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash

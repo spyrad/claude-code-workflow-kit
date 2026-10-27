@@ -1,7 +1,7 @@
 ---
 name: dtb:archive
 description: >-
-  Use when: "aufraumen", "archivieren", "archive", "Inbox aufraumen",
+  Use when: "aufraumen", "archivieren", "archive",
   "alte Features entfernen", "Backlog aufraumen". Moves completed and
   discarded items from active workflow files into the archive directory.
 disable-model-invocation: true

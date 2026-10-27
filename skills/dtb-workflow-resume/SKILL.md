@@ -1,7 +1,7 @@
 ---
 name: dtb:workflow-resume
 description: >-
-  Use when: "Session fortsetzen", "workflow resume", "wo war ich",
+  Use when: "Session fortsetzen", "workflow resume",
   "Kontext wiederherstellen". Restores workflow context after a session break
   by reading WORKFLOW_STATUS.md, session logs, and git status.
 disable-model-invocation: true
