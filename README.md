@@ -96,6 +96,7 @@ cd <dein-projekt>
 | `/dtb:docs-extract` | Scan input/ folder, extract facts from PDFs/docs, create thematic MDs |
 | `/dtb:lesson` | Capture a reusable lesson append-only into `lessons.md`, read as a prior by plan/review skills |
 | `/dtb:pipeline-graph` | Generate interactive HTML overview of entire skill pipeline |
+| `/dtb:project-dashboard` | Render the project state as one local, self-contained HTML page (on demand; refreshed by `workflow-checkpoint` unless `dashboard.bei_checkpoint: false`) |
 
 ## Commands
 

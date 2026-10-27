@@ -217,7 +217,8 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
 > Pro Lauf wird der Codeblock unten **woertlich** in die Ausgabedatei kopiert (Bash, Extraktion
 > zwischen den Codeblock-Zaeunen dieser Sektion) und danach jeder Slot per Edit durch seinen
 > Inhalt ersetzt — CSS und Skript laufen nie durch die Ausgabe. Jeder Slot steht genau einmal im
-> Geruest. Bei Umbenennung der Ueberschrift die Struktur-Checks der Leser mitziehen.
+> Geruest. Bei Umbenennung der Ueberschrift die Struktur-Checks der Leser mitziehen (Leser:
+> workflow-checkpoint Schritt 4b).
 
 **Slots:** `{{BANNER}}` (Worktree-Banner oder leer) · `{{STAND_DATUM}}` (YYYY-MM-DD) ·
 `{{KENNZAHLEN}}` (sechs Kennzahl-Bausteine) · `{{STAND}}` (Wo wir stehen) · `{{BACKLOG}}`
