@@ -711,11 +711,10 @@ in Schritt 6, danach weiter mit Schritt 5.
 
 1. **Schalter:** `dashboard.bei_checkpoint` aus `workflow.config.yaml` lesen — fehlt der Key oder
    der Block, gilt `true`. Bei `false` → Schritt still ueberspringen (keine Zeile in Schritt 6)
-2. **Struktur-Check (Kopplungs-Waechter, vor der ersten Nutzung):** Quelle aufloesen — zuerst die
-   installierte Kopie `~/.claude/skills/dtb-project-dashboard/SKILL.md`, sonst
-   `skills/dtb-project-dashboard/SKILL.md` im Projekt-Root. Bewusst andersherum als Schritt 0:
-   das Geruest kopiert `dtb:project-dashboard` selbst in dieser Reihenfolge — Check und Kopie
-   sollen dieselbe Datei sehen. Anker zeilenanfangs-verankert nach `tr -d '\r'`:
+2. **Struktur-Check (Kopplungs-Waechter, vor der ersten Nutzung):** Quelle aufloesen — Repo
+   zuerst wie Schritt 0: `skills/dtb-project-dashboard/SKILL.md` im Projekt-Root, sonst die
+   installierte Kopie `~/.claude/skills/dtb-project-dashboard/SKILL.md`. `dtb:project-dashboard`
+   kopiert sein Geruest in derselben Reihenfolge — Check und Kopie sehen dieselbe Datei. Anker zeilenanfangs-verankert nach `tr -d '\r'`:
    `^## Ablauf` (Regeln, Randfaelle, Erzeugung) und `^## Seitengeruest` (Geruest + Bausteine).
    Zwei getrennte Fehlerpfade (eine fehlende Installation ist KEINE Drift):
 

@@ -13,7 +13,7 @@ pipeline:
   stage: monitoring
   after: [dtb:workflow-checkpoint]
   next: null
-  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/bug.md, project-rules/lessons.md, project-changelog/*/*.md, workflow.config.yaml, project-rules/DERIVED_STATE_RULES.md]
+  consumes: [WORKFLOW_STATUS.md, BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, features/*/discovery.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/bug.md, project-rules/lessons.md, session-log, workflow.config.yaml, project-rules/DERIVED_STATE_RULES.md]
   produces: [project-dashboard.html]
 ---
 
@@ -86,9 +86,9 @@ zeigen (soweit lesbar), Warnchip „Zeile defekt", weiterzaehlen.
 | Ideen offen | INBOX-Datenzeilen mit Status `Offen` oder `In Arbeit` | — |
 | Befunde ungesichtet | Becken-Datenzeilen, die nach der Definition **„Ungesichtet"** im Kopf von `INBOX-BEFUNDE.md` ungesichtet sind — die Definition steht dort und nur dort | — |
 | Lektionen | Datenzeilen in `lessons.md` | `{Zeilen der Datei}/150 Zeilen` |
-| Aktive Changes | Change-Ordner direkt unter `features/` (nicht `archive/`) | — |
+| Aktive Changes | Eintraege im Backlog-Block (Summe der sieben Spalten, Regeln unten — leere Ordner zaehlen nicht) | — |
 | Offene Aufgaben | Zeilen `- [ ]` unter `## Offene Aufgaben` in `WORKFLOW_STATUS.md` | `{N} ⏳` = Zeilen, die ⏳ tragen |
-| Worktrees | Zeilen des Worktree-Blocks (unten) | — |
+| Worktrees | Zeilen des Worktree-Blocks (unten) | unbekannt → Kennzahl `—` statt `0`: kein Git (`kein Git`), Quelle fehlt (`nicht vorhanden`), Anker fehlt (`Regel nicht gefunden`) |
 
 **Offene Aufgaben** werden so gezeigt, wie der Checkpoint sie geschrieben hat: Titel, Kontext,
 `(seit …[ · behalten …])` woertlich, ⏳ nur wenn die Zeile es traegt — **keine eigene
@@ -128,7 +128,9 @@ Ordnername), Link auf `plan.md` (sonst `spec.md`), bei In Arbeit `X/Y`, Warnchip
 **Wo wir stehen** (Slot `{{STAND}}`):
 - **Aktiver Change:** alle Changes mit Status In Arbeit; gibt es keinen, die mit Geplant; gibt es
   auch keinen → Baustein „Leerzustand". Je Karte: Titel, Status-Chip (`gold`), Warnchips,
-  Fortschrittsbalken, `Progress X/Y · naechster Schritt {erste offene Progress-Zeile}`
+  Fortschrittsbalken, `{Progress|Schritte|Fix-Schritte} X/Y · naechster Schritt {erste offene
+  Zeile dieser Liste}` — derselbe Zaehler wie die Backlog-Spalte. Y = 0 (Defekt) → Balken und
+  „naechster Schritt" entfallen, nur der Warnchip „Fortschritt unbekannt"
 - **Naechster Befehl:** `**Naechster Befehl:**` aus `## Handoff` in `WORKFLOW_STATUS.md`
 - **Offene Aufgaben:** Karte daneben (Regel oben)
 - **Worktrees:** Karte darunter (Regel unten); ohne verlinkten Worktree entfaellt die Karte
@@ -141,8 +143,9 @@ erlaubten Kommandos gelten dort und nur dort. Das Dashboard zeigt dieselben Feld
 Tabellenzeile (`<table class="wt">`, eine `<tr>` je Worktree, Stand als Chip).
 
 **Struktur-Check vor der Worktree-Zeile** (Muster `dtb:pane-start` → „Struktur-Check"):
-Quelle zuerst `~/.claude/skills/dtb-workflow-next/SKILL.md`, sonst
-`skills/dtb-workflow-next/SKILL.md` im Projekt-Root. Anker zeilenende-normalisiert
+Quelle zuerst `skills/dtb-workflow-next/SKILL.md` im Projekt-Root, sonst
+`~/.claude/skills/dtb-workflow-next/SKILL.md` (Repo zuerst wie `dtb:workflow-checkpoint` Schritt 0:
+im Kit-Repo ist das Repo der aktuelle Stand; Zielprojekte haben kein `skills/`). Anker zeilenende-normalisiert
 (`tr -d '\r'` vorschalten) und am Zeilenanfang verankert: `^\*\*Worktree-Stand (operative Kopie`.
 Zwei getrennte Fehlerpfade — nie Abbruch, die Seite entsteht trotzdem:
 1. **Datei in beiden Quellen nicht gefunden** → Karte „nicht vorhanden: dtb:workflow-next
@@ -165,7 +168,7 @@ Zelle mit Fettdruck, dessen Text — sonst der erste Satz (bis `. `, `? `, `! ` 
 Markdown-Zeichen (`**`, Backticks, Link-Syntax) entfernt; ≤ 96 Zeichen, gekappt mit `…`.
 
 **Lektionen** (Slot `{{LEKTIONEN}}`): Anzahl, letzte Nummer, Fuellstand `{Zeilen}/150` als
-Balken. Mehr als 150 Zeilen → „Kuratierung faellig → INBOX #141"; sonst „Kuratierung noch nicht
+Balken. Mehr als 150 Zeilen → „Kuratierung faellig (Soft-Limit ~150 Zeilen, siehe /dtb:lesson)"; sonst „Kuratierung noch nicht
 faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
 
 ### Schritt 4: Randfaelle
@@ -184,28 +187,34 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
 
 1. **Geruest kopieren** — Bash, woertlich, nie abgetippt:
    ```bash
-   SRC=~/.claude/skills/dtb-project-dashboard/SKILL.md
-   [ -f "$SRC" ] || SRC=skills/dtb-project-dashboard/SKILL.md
+   SRC=skills/dtb-project-dashboard/SKILL.md
+   [ -f "$SRC" ] || SRC=~/.claude/skills/dtb-project-dashboard/SKILL.md
    mkdir -p dtb-project
-   tr -d '\r' < "$SRC" | awk '/^## Seitengeruest/{s=1} s&&/^```html/{c=1;next} c&&/^```/{exit} c' > dtb-project/project-dashboard.html
-   grep -c '{{[A-Z_]*}}' dtb-project/project-dashboard.html
+   tr -d '\r' < "$SRC" | awk '/^## Seitengeruest/{s=1} s&&/^```html/{c=1;next} c&&/^```/{exit} c' > dtb-project/project-dashboard.html.tmp
+   grep -c '{{[A-Z_]*}}' dtb-project/project-dashboard.html.tmp
    ```
    Erwartet: `8`. Sonst Abbruch mit `⚠ Seitengeruest nicht lesbar ({SRC}) — /dtb:kit-sync sync`.
-2. **Slots fuellen** — die kopierte Datei zuerst einmal lesen, nur den Teil ab `<body>` (Edit
+2. **Slots fuellen** — in der `.tmp`-Datei: zuerst einmal lesen, nur den Teil ab `<body>` (Edit
    setzt einen Read der Datei voraus; das Stylesheet davor bleibt ungelesen). Dann je Slot genau
    ein Edit (`{{NAME}}` → Inhalt aus Schritt 3). Danach
-   `grep -c '{{[A-Z_]*}}' dtb-project/project-dashboard.html` = `0`.
+   `grep -c '{{[A-Z_]*}}' dtb-project/project-dashboard.html.tmp` = `0`.
+3. **Ersetzen** — erst wenn der Check `0` ergibt:
+   `mv dtb-project/project-dashboard.html.tmp dtb-project/project-dashboard.html`. Abbruch
+   vorher (Takt 1 oder 2) → `.tmp` loeschen; die bisherige Seite bleibt unveraendert.
 
 ### Schritt 6: Versionierung pruefen (einmal je Lauf, nur Hinweis)
 
-- `git check-ignore -q dtb-project/project-dashboard.html` → ignoriert: still
-- nicht ignoriert → genau eine Zeile `💡 dtb-project/project-dashboard.html wird nicht ignoriert —
-  Vorschlag fuer .gitignore: dtb-project/project-dashboard.html` (nie selbst schreiben)
-- kein Git-Repo → genau eine Zeile `ℹ Kein Git-Repo — Versionierung nicht geprueft`
+- kein Git-Repo (Schritt 1 meldete `DURCHLASS-NOGIT`) → genau eine Zeile `ℹ Kein Git-Repo —
+  Versionierung nicht geprueft`, keine Pruefung
+- sonst `git check-ignore -q dtb-project/project-dashboard.html`: Exit 0 → ignoriert, still ·
+  Exit 1 → genau eine Zeile `💡 dtb-project/project-dashboard.html wird nicht ignoriert —
+  Vorschlag fuer .gitignore: dtb-project/project-dashboard.html` (nie selbst schreiben) · jeder
+  andere Exit → wie kein Git-Repo (nie als „nicht ignoriert" werten)
 
 ### Schritt 7: Oeffnen und Bestaetigung
 
-- **Auf Abruf:** oeffnen je Plattform — Windows `start "" "dtb-project\project-dashboard.html"`,
+- **Auf Abruf:** oeffnen je Plattform — Windows (Bash-Werkzeug / Git Bash; nicht PowerShell)
+  `start "" "dtb-project\project-dashboard.html"`,
   macOS `open dtb-project/project-dashboard.html`, Linux `xdg-open dtb-project/project-dashboard.html`
 - **Ohne Browser:** nicht oeffnen
 - Bestaetigung (genau eine Zeile, beide Modi): `Dashboard: dtb-project/project-dashboard.html`
@@ -359,7 +368,8 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
 ### Bausteine
 
 Alle Texte aus Quelldateien werden HTML-escaped (`&` → `&amp;`, `<` → `&lt;`, `>` → `&gt;`,
-`"` → `&quot;`). `[TEXT]` sind Platzhalter fuer den Inhalt.
+`"` → `&quot;`, `{` → `&#123;` — so kann kein Quelltext einen Slot-Marker `{{…}}` in die Seite
+tragen, und jedes Slot-Edit bleibt eindeutig). `[TEXT]` sind Platzhalter fuer den Inhalt.
 
 | Baustein | Vorlage |
 |----------|---------|

@@ -239,9 +239,9 @@ die Config steuert das, und die Kit-Doku kennt den neuen Skill.
 - [x] 2.2 Zaehl- und Ableitungsregeln — `a5cdaf3`
 - [x] 2.3 Randfaelle, Ausgabe, Oeffnen — `a5cdaf3`
 - [x] 2.4 Probelauf + Abgleich — `a5cdaf3`
-- [x] 3.1 Checkpoint Schritt 4b
-- [x] 3.2 Config + project-init
-- [x] 3.3 Kit-Doku + Namens-Sweep
+- [x] 3.1 Checkpoint Schritt 4b — `8a59410`
+- [x] 3.2 Config + project-init — `8a59410`
+- [x] 3.3 Kit-Doku + Namens-Sweep — `8a59410`
 - [ ] 3.4 Abnahme
 
 ---
