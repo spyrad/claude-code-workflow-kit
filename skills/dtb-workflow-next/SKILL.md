@@ -157,6 +157,8 @@ In Worktrees:
 > Aenderung dort → hier UND in den beiden anderen Sichten mitziehen (`dtb:workflow-resume`, `dtb:workflow-next`,
 > `dtb:backlog-status` — der Block ist in allen dreien wortgleich; Grep-Anker: `In Worktrees`).
 
+> Leser per Verweis: `dtb:project-dashboard` (Struktur-Check auf die Fettzeile) — Anker hier nicht umbenennen, ohne den Check dort mitzuziehen.
+
 ## Schritt 3: Konflikte erkennen, sortieren & priorisieren
 
 **Konfliktregel (Regel-Datei §1.3):** Weicht ein BACKLOG-Statusfeld vom abgeleiteten

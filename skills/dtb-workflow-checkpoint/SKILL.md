@@ -9,9 +9,9 @@ allowed-tools: Read, Write, Edit, Grep, Bash
 pipeline:
   stage: session
   after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
-  next: [dtb:workflow-resume, dtb:idea-triage]
+  next: [dtb:workflow-resume, dtb:idea-triage, dtb:project-dashboard]
   consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, ARCHIVE_LOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md, workflow.config.yaml]
-  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md, dtb-session-uebergabe.md]
+  produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md, dtb-session-uebergabe.md, project-dashboard.html]
 ---
 
 # DTB Workflow-Checkpoint (Log + Status)
@@ -700,6 +700,38 @@ Der Status wird NICHT abgefragt, sondern ABGELEITET (Regel-Datei lesen, siehe Te
 ### Schritt 4: WORKFLOW_STATUS.md aktualisieren
 - Halte die 60-80 Zeilen-Grenze ein
 
+### Schritt 4b: Dashboard aktualisieren
+
+Die Seite `dtb-project/project-dashboard.html` wird am Session-Ende neu erzeugt — nach Schritt 4,
+damit sie den eben geschriebenen Stand zeigt. Die Erzeugung steht NICHT hier, sondern in
+`dtb:project-dashboard` (die eine Quelle); dieser Schritt stoesst sie nur an (der gesperrte
+Checkpoint darf einen ungesperrten Skill im Ablauf anstossen). **Fehler hier blockieren den
+Checkpoint nie** — Log und Status sind schon geschrieben; jeder Ausfall wird genau eine Warnzeile
+in Schritt 6, danach weiter mit Schritt 5.
+
+1. **Schalter:** `dashboard.bei_checkpoint` aus `workflow.config.yaml` lesen — fehlt der Key oder
+   der Block, gilt `true`. Bei `false` → Schritt still ueberspringen (keine Zeile in Schritt 6)
+2. **Struktur-Check (Kopplungs-Waechter, vor der ersten Nutzung):** Quelle aufloesen — Repo
+   zuerst wie Schritt 0: `skills/dtb-project-dashboard/SKILL.md` im Projekt-Root, sonst die
+   installierte Kopie `~/.claude/skills/dtb-project-dashboard/SKILL.md`. `dtb:project-dashboard`
+   kopiert sein Geruest in derselben Reihenfolge — Check und Kopie sehen dieselbe Datei. Anker zeilenanfangs-verankert nach `tr -d '\r'`:
+   `^## Ablauf` (Regeln, Randfaelle, Erzeugung) und `^## Seitengeruest` (Geruest + Bausteine).
+   Zwei getrennte Fehlerpfade (eine fehlende Installation ist KEINE Drift):
+
+   1. Datei in beiden Quellen nicht gefunden →
+      `⚠ Dashboard nicht aktualisiert: dtb:project-dashboard weder global (~/.claude/skills/) noch im Projekt gefunden → /dtb:kit-sync sync`
+   2. Datei vorhanden, Anker fehlt →
+      `⚠ Dashboard nicht aktualisiert: {Quelle} — Anker "{Anker}" nicht gefunden (Struktur-Drift, dtb:project-dashboard umgebaut → diesen Schritt anpassen)`
+
+3. **Ausfuehren:** `## Ablauf` der aufgeloesten Quelle befolgen, Modus **„ohne Browser"**
+   (Argument `ohne-browser`) — Seite schreiben, nichts oeffnen. Bricht der Ablauf ab (z.B.
+   Geruest nicht lesbar) → `⚠ Dashboard nicht aktualisiert: {Grund}`. Die Pfad-Zeile und die
+   Hinweiszeilen des Laufs erscheinen nicht separat, sondern in der Bestaetigung (Schritt 6)
+
+> **Kopplungs-Hinweis:** Die Anker `## Ablauf` und `## Seitengeruest` tragen in
+> `skills/dtb-project-dashboard/SKILL.md` je einen Wartungs-Hinweis, der diesen Schritt als
+> Leser nennt. Anker dort umbenannt → Check hier mitziehen.
+
 ### Schritt 5: Archiv-Hinweis pruefen
 
 Zaehle in INBOX.md (Status `Verworfen` + `Ausgearbeitet` nur mit gueltigem Change-Link — §8, „Change fehlt" zaehlt nicht) und BACKLOG.md (Abschnitt "Abgeschlossen") die archivierbaren Eintraege.
@@ -715,6 +747,7 @@ Workflow-Checkpoint dokumentiert:
 Session-Log: {config.paths.changelog}/YYYY-MM/YYYY-MM-DD.md (Session N)
 Status: {config.paths.workflows}/WORKFLOW_STATUS.md
 {Falls Feature-Update: "Feature-Update: {Feature-Name} → {neuer Status}"}
+{Falls Schritt 4b gelaufen: "Dashboard: dtb-project/project-dashboard.html" + Hinweiszeilen des Laufs | Falls ausgefallen: die ⚠-Zeile aus Schritt 4b | bei_checkpoint: false → keine Zeile}
 
 Naechster Schritt: [Konkret]
 Blocker: [Keine / Beschreibung]

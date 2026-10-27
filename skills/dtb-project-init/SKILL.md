@@ -108,6 +108,9 @@ parallel:
 
 status:
   alter_schwelle_tage: 7  # DERIVED_STATE_RULES §9/§10 — ⏳ fuer offene Aufgaben und Worktrees ab N Tagen
+
+dashboard:
+  bei_checkpoint: true  # dtb:workflow-checkpoint Schritt 4b — Dashboard am Session-Ende aktualisieren
 ```
 
 **Regeln:**
@@ -119,6 +122,7 @@ status:
 - `test_command` / `build_command`: Konkrete Shell-Commands oder `null` falls nicht vorhanden
 - `worker`: Deckelung fuer `dtb:worker` (Versuche/Minuten pro Task); Defaults 3/30, projektweit anpassbar
 - `status.alter_schwelle_tage`: Optional (Default 7 bei fehlendem Key — Bestandsprojekte ohne den Key sind gueltig). Ab dieser Liegezeit markieren `dtb:workflow-checkpoint` offene Aufgaben und die Worktree-Sicht Worktrees mit ⏳ (`DERIVED_STATE_RULES.md` §9/§10)
+- `dashboard.bei_checkpoint`: Optional (Default `true` bei fehlendem Key — Bestandsprojekte ohne den Key sind gueltig). `false` schaltet die automatische Aktualisierung von `dtb-project/project-dashboard.html` durch `dtb:workflow-checkpoint` (Schritt 4b) ab; `/dtb:project-dashboard` auf Abruf bleibt
 
 ---
 
@@ -496,6 +500,7 @@ Naechste Schritte:
 - /dtb:workflow-resume — Workflow starten
 - /dtb:feature-plan — Erstes Feature planen
 - /dtb:pipeline-graph — Pipeline-Uebersicht als HTML generieren
+- /dtb:project-dashboard — Projektstand als HTML-Seite
 ```
 
 ---

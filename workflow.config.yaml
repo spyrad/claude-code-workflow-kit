@@ -28,3 +28,6 @@ parallel:
 
 status:
   alter_schwelle_tage: 7  # DERIVED_STATE_RULES §9/§10 — ⏳ fuer offene Aufgaben und Worktrees ab N Tagen
+
+dashboard:
+  bei_checkpoint: true  # dtb:workflow-checkpoint Schritt 4b — Dashboard am Session-Ende aktualisieren
