@@ -37,6 +37,17 @@ Lies `workflow.config.yaml` im Projekt-Root. Fallbacks: `paths.workflows` →
 `paths.rules` → `dtb-project/project-rules`, `status.alter_schwelle_tage` → 7. Fehlt die Config
 ganz, gelten alle Fallbacks (kein Abbruch).
 
+**Projektname** (Slot `{{PROJEKT}}`): `project_name` aus der Config — Wert ohne umschliessende
+Anfuehrungszeichen und Leerraum. Fehlt der Wert, ist er leer oder beginnt er mit `[` (Platzhalter
+`[Projektname]` aus `dtb:project-init`) → Ordnername des Haupt-Checkouts, in EINEM selbstaendigen
+Bash-Block (die erste Zeile von `git worktree list` ist immer der Haupt-Checkout — auch im
+verlinkten Worktree, wo der eigene Ordnername falsch waere, und im Submodul; ohne Git der
+aktuelle Ordner):
+
+```bash
+W=$(git worktree list --porcelain 2>/dev/null | sed -n '1s/^worktree //p') && [ -n "$W" ] && basename "$W" || basename "$PWD"
+```
+
 - **Modus „auf Abruf"** (Standard, `/dtb:project-dashboard`): Seite schreiben und im Browser oeffnen
 - **Modus „ohne Browser"** (Argument `ohne-browser`, so ruft `dtb:workflow-checkpoint` Schritt 4b
   auf): Seite schreiben, nicht oeffnen, nur die Pfad-Zeile ausgeben
@@ -78,6 +89,9 @@ Escapte Pipes (`\|`) trennen keine Zellen. Zeile mit falscher Spaltenzahl → Ei
 zeigen (soweit lesbar), Warnchip „Zeile defekt", weiterzaehlen.
 
 ### Schritt 3: Zaehl- und Ableitungsregeln
+
+**Kopf** (Slots `{{PROJEKT}}`, `{{STAND_DATUM}}`): Projektname aus Schritt 0, HTML-escaped wie
+jeder Quelltext (Baustein-Regel) · Datum des Laufs als `YYYY-MM-DD`.
 
 **Kennzahlen** (genau sechs, diese Reihenfolge — Slot `{{KENNZAHLEN}}`):
 
@@ -193,7 +207,7 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
    tr -d '\r' < "$SRC" | awk '/^## Seitengeruest/{s=1} s&&/^```html/{c=1;next} c&&/^```/{exit} c' > dtb-project/project-dashboard.html.tmp
    grep -c '{{[A-Z_]*}}' dtb-project/project-dashboard.html.tmp
    ```
-   Erwartet: `8`. Sonst Abbruch mit `⚠ Seitengeruest nicht lesbar ({SRC}) — /dtb:kit-sync sync`.
+   Erwartet: `9`. Sonst Abbruch mit `⚠ Seitengeruest nicht lesbar ({SRC}) — /dtb:kit-sync sync`.
 2. **Slots fuellen** — in der `.tmp`-Datei: zuerst einmal lesen, nur den Teil ab `<body>` (Edit
    setzt einen Read der Datei voraus; das Stylesheet davor bleibt ungelesen). Dann je Slot genau
    ein Edit (`{{NAME}}` → Inhalt aus Schritt 3). Danach
@@ -230,6 +244,7 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
 > workflow-checkpoint Schritt 4b).
 
 **Slots:** `{{BANNER}}` (Worktree-Banner oder leer) · `{{STAND_DATUM}}` (YYYY-MM-DD) ·
+`{{PROJEKT}}` (Projektname, Schritt 0 — HTML-escaped; der Tab-Titel folgt per Skript) ·
 `{{KENNZAHLEN}}` (sechs Kennzahl-Bausteine) · `{{STAND}}` (Wo wir stehen) · `{{BACKLOG}}`
 (Spalten nach abgeleitetem Status) · `{{ZULETZT}}` (Sessions + Meilensteine) · `{{INBOX}}`
 (INBOX + Befund-Becken) · `{{LEKTIONEN}}` (Anzahl + Fuellstand).
@@ -251,25 +266,46 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
     --gold: #f5c451; --gold-hover: #eab534; --on-gold: #191510;
   }
   [data-theme="dark"] {
-    --page: #0b0b0b; --card: #100f0e; --raised: #161514;
+    --page: #161d27; --card: #100f0e; --raised: #161514;
+    --grid-minor: #adc4eb02; --grid-major: #adc4eb07; --grid-cross: #adc4eb13; --vignette: #0d11161f;
     --ink: #f4f3f1; --body: #f4f3f1cc; --muted: #f4f3f1b3; --label: #f4f3f199; --faint: #f4f3f159;
     --line: #ffffff14; --line-soft: #ffffff0f; --line-strong: #ffffff1f;
     --ok: #58da98; --bad: #fd736d;
   }
   [data-theme="light"] {
-    --page: #f1f2f5; --card: #ffffff; --raised: #fbfbfc;
+    --page: #ebe7e4; --card: #ffffff; --raised: #fbfbfc;
+    --grid-minor: #252f3d08; --grid-major: #252f3d12; --grid-cross: #252f3d1d; --vignette: color-mix(in srgb, var(--page) 15%, transparent);
     --ink: #14161a; --body: #14161acc; --muted: #14161ab3; --label: #14161a99; --faint: #14161a59;
     --line: #14161a1a; --line-soft: #14161a12; --line-strong: #14161a24;
     --ok: #007e46; --bad: #c9302d;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--page); color: var(--body); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+  html { background: var(--page); }
+  html, body { margin: 0; color: var(--body); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+  body { background: transparent; min-height: 100vh; }
+  body::before, body::after { content: ""; position: fixed; inset: -8rem; z-index: 0; pointer-events: none; }
+  body::before {
+    --gap: 4px;
+    background-color: var(--page); /* gleiche Farbe wie die Kreuz-Maske */
+    background-image:
+      linear-gradient(var(--grid-minor) 0 1px, transparent 1px var(--gap)),
+      linear-gradient(to right, var(--grid-minor) 0 1px, transparent 1px var(--gap)),
+      linear-gradient(var(--grid-major) 0 1px, transparent 1px calc(var(--gap) * 5)),
+      linear-gradient(to right, var(--grid-major) 0 1px, transparent 1px calc(var(--gap) * 5)),
+      radial-gradient(circle at center, transparent calc(var(--gap) / 2), var(--page) calc(var(--gap) / 2) 100%),
+      linear-gradient(var(--grid-cross) 0 1px, transparent 1px calc(var(--gap) * 5)),
+      linear-gradient(to right, var(--grid-cross) 0 1px, transparent 1px calc(var(--gap) * 5));
+    background-size: var(--gap) var(--gap), var(--gap) var(--gap), calc(var(--gap) * 5) calc(var(--gap) * 5), calc(var(--gap) * 5) calc(var(--gap) * 5), calc(var(--gap) * 5) calc(var(--gap) * 5), calc(var(--gap) * 5) calc(var(--gap) * 5), calc(var(--gap) * 5) calc(var(--gap) * 5);
+    background-position: 0 0, 0 0, 0 0, 0 0, calc(var(--gap) * -2.5) calc(var(--gap) * -2.5), 0 0, 0 0;
+  }
+  body::after { background: linear-gradient(to bottom, var(--vignette), var(--page) 90%); }
   a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
   a:hover { border-bottom-color: var(--gold); }
   code, .mono { font-family: var(--mono); }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
+  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
   header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
-  h1 { margin: 0; color: var(--ink); font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  header > div { min-width: 0; }
+  h1 { overflow-wrap: anywhere; margin: 0; color: var(--ink); font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
   .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--label); margin-bottom: 8px; }
   .kicker b { color: var(--gold); font-weight: 600; }
   .toggle { font: 600 13px var(--sans); color: var(--ink); background: transparent; border: 1px solid var(--line-strong); border-radius: 6px; padding: 7px 12px; cursor: pointer; }
@@ -333,8 +369,8 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
   {{BANNER}}
   <header>
     <div>
-      <div class="kicker"><b>●</b> Projektstand · {{STAND_DATUM}}</div>
-      <h1>Projekt-Dashboard</h1>
+      <div class="kicker"><b>●</b> Projekt-Dashboard · Projektstand · {{STAND_DATUM}}</div>
+      <h1 id="projekt">{{PROJEKT}}</h1>
     </div>
     <button class="toggle" id="theme-toggle" type="button" aria-label="Hell/Dunkel umschalten">☀ Hell</button>
   </header>
@@ -352,6 +388,7 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
 <script>
   (function () {
     var root = document.documentElement, btn = document.getElementById('theme-toggle');
+    document.title = document.getElementById('projekt').textContent + ' · Projekt-Dashboard';
     function label() { btn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀ Hell' : '☾ Dunkel'; }
     label();
     btn.addEventListener('click', function () {
