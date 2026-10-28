@@ -40,11 +40,12 @@ ganz, gelten alle Fallbacks (kein Abbruch).
 **Projektname** (Slot `{{PROJEKT}}`): `project_name` aus der Config — Wert ohne umschliessende
 Anfuehrungszeichen und Leerraum. Fehlt der Wert, ist er leer oder beginnt er mit `[` (Platzhalter
 `[Projektname]` aus `dtb:project-init`) → Ordnername des Haupt-Checkouts, in EINEM selbstaendigen
-Bash-Block (Normalisierung wie Schritt 1: im Haupt-Checkout liefert Git relativ `.git`, im
-verlinkten Worktree waere der eigene Ordnername falsch; ohne Git der aktuelle Ordner):
+Bash-Block (die erste Zeile von `git worktree list` ist immer der Haupt-Checkout — auch im
+verlinkten Worktree, wo der eigene Ordnername falsch waere, und im Submodul; ohne Git der
+aktuelle Ordner):
 
 ```bash
-C=$(git rev-parse --git-common-dir 2>/dev/null) && C=$(cd "$C" 2>/dev/null && pwd) && basename "$(dirname "$C")" || basename "$PWD"
+W=$(git worktree list --porcelain 2>/dev/null | sed -n '1s/^worktree //p') && [ -n "$W" ] && basename "$W" || basename "$PWD"
 ```
 
 - **Modus „auf Abruf"** (Standard, `/dtb:project-dashboard`): Seite schreiben und im Browser oeffnen
@@ -242,8 +243,8 @@ faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
 > Geruest. Bei Umbenennung der Ueberschrift die Struktur-Checks der Leser mitziehen (Leser:
 > workflow-checkpoint Schritt 4b).
 
-**Slots:** `{{BANNER}}` (Worktree-Banner oder leer) · `{{PROJEKT}}` (Projektname, Schritt 0 —
-HTML-escaped; der Tab-Titel folgt per Skript) · `{{STAND_DATUM}}` (YYYY-MM-DD) ·
+**Slots:** `{{BANNER}}` (Worktree-Banner oder leer) · `{{STAND_DATUM}}` (YYYY-MM-DD) ·
+`{{PROJEKT}}` (Projektname, Schritt 0 — HTML-escaped; der Tab-Titel folgt per Skript) ·
 `{{KENNZAHLEN}}` (sechs Kennzahl-Bausteine) · `{{STAND}}` (Wo wir stehen) · `{{BACKLOG}}`
 (Spalten nach abgeleitetem Status) · `{{ZULETZT}}` (Sessions + Meilensteine) · `{{INBOX}}`
 (INBOX + Befund-Becken) · `{{LEKTIONEN}}` (Anzahl + Fuellstand).
@@ -266,14 +267,14 @@ HTML-escaped; der Tab-Titel folgt per Skript) · `{{STAND_DATUM}}` (YYYY-MM-DD) 
   }
   [data-theme="dark"] {
     --page: #161d27; --card: #100f0e; --raised: #161514;
-    --grid-minor: hsl(218 60% 80% / 0.009375); --grid-major: hsl(218 60% 80% / 0.02625); --grid-cross: hsl(218 60% 80% / 0.075); --vignette: #0d11161f;
+    --grid-minor: #adc4eb02; --grid-major: #adc4eb07; --grid-cross: #adc4eb13; --vignette: #0d11161f;
     --ink: #f4f3f1; --body: #f4f3f1cc; --muted: #f4f3f1b3; --label: #f4f3f199; --faint: #f4f3f159;
     --line: #ffffff14; --line-soft: #ffffff0f; --line-strong: #ffffff1f;
     --ok: #58da98; --bad: #fd736d;
   }
   [data-theme="light"] {
     --page: #ebe7e4; --card: #ffffff; --raised: #fbfbfc;
-    --grid-minor: #252f3d08; --grid-major: #252f3d12; --grid-cross: #252f3d1d; --vignette: #ebe7e426;
+    --grid-minor: #252f3d08; --grid-major: #252f3d12; --grid-cross: #252f3d1d; --vignette: color-mix(in srgb, var(--page) 15%, transparent);
     --ink: #14161a; --body: #14161acc; --muted: #14161ab3; --label: #14161a99; --faint: #14161a59;
     --line: #14161a1a; --line-soft: #14161a12; --line-strong: #14161a24;
     --ok: #007e46; --bad: #c9302d;
@@ -285,7 +286,7 @@ HTML-escaped; der Tab-Titel folgt per Skript) · `{{STAND_DATUM}}` (YYYY-MM-DD) 
   body::before, body::after { content: ""; position: fixed; inset: -8rem; z-index: 0; pointer-events: none; }
   body::before {
     --gap: 4px;
-    background-color: var(--page);
+    background-color: var(--page); /* gleiche Farbe wie die Kreuz-Maske */
     background-image:
       linear-gradient(var(--grid-minor) 0 1px, transparent 1px var(--gap)),
       linear-gradient(to right, var(--grid-minor) 0 1px, transparent 1px var(--gap)),
@@ -303,7 +304,8 @@ HTML-escaped; der Tab-Titel folgt per Skript) · `{{STAND_DATUM}}` (YYYY-MM-DD) 
   code, .mono { font-family: var(--mono); }
   .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
   header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
-  h1 { margin: 0; color: var(--ink); font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  header > div { min-width: 0; }
+  h1 { overflow-wrap: anywhere; margin: 0; color: var(--ink); font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
   .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--label); margin-bottom: 8px; }
   .kicker b { color: var(--gold); font-weight: 600; }
   .toggle { font: 600 13px var(--sans); color: var(--ink); background: transparent; border: 1px solid var(--line-strong); border-radius: 6px; padding: 7px 12px; cursor: pointer; }
@@ -368,7 +370,7 @@ HTML-escaped; der Tab-Titel folgt per Skript) · `{{STAND_DATUM}}` (YYYY-MM-DD) 
   <header>
     <div>
       <div class="kicker"><b>●</b> Projekt-Dashboard · Projektstand · {{STAND_DATUM}}</div>
-      <h1>{{PROJEKT}}</h1>
+      <h1 id="projekt">{{PROJEKT}}</h1>
     </div>
     <button class="toggle" id="theme-toggle" type="button" aria-label="Hell/Dunkel umschalten">☀ Hell</button>
   </header>
@@ -386,7 +388,7 @@ HTML-escaped; der Tab-Titel folgt per Skript) · `{{STAND_DATUM}}` (YYYY-MM-DD) 
 <script>
   (function () {
     var root = document.documentElement, btn = document.getElementById('theme-toggle');
-    document.title = document.querySelector('h1').textContent + ' · Projekt-Dashboard';
+    document.title = document.getElementById('projekt').textContent + ' · Projekt-Dashboard';
     function label() { btn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀ Hell' : '☾ Dunkel'; }
     label();
     btn.addEventListener('click', function () {

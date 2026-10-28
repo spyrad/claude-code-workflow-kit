@@ -138,8 +138,8 @@ Nachweis an echten Seiten: Fallback-Name, konfigurierter Name mit Sonderzeichen,
 - [x] 1.1 Projektname-Slot im Geruest — `f2fb8d9`
 - [x] 1.2 Ableitungsregel + Slot-Zahl — `f2fb8d9`
 - [x] 1.3 Hintergrund-CSS — `f2fb8d9`
-- [x] 2.1 Probelaeufe
-- [x] 2.2 Sichtabnahme
+- [x] 2.1 Probelaeufe — `ece7ea3`
+- [x] 2.2 Sichtabnahme — `ece7ea3`
 
 ---
 
