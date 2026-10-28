@@ -24,7 +24,7 @@
 - **Pruefung in Portionen** durch read-only Hintergrund-Agenten, inline bei kleinem Bestand; je Lektion ein Urteil mit Sicherheit (hoch/mittel/niedrig)
 - **Uebersicht vor der Vorlage:** Bestand, Vorschlaege je Grund, erwartete Einsparung in KB
 - **EINE vorbefuellte Sammelliste mit Veto** — nur Sicherheit `hoch` mit Beleg; `doppelt` nur bei einseitiger Ersetzung (bleibende Lektion benannt und deckt die andere vollstaendig ab)
-- **Einzelfaelle** fuer Sicherheit `mittel`, Teilueberlappung, offene „wer bleibt"-Fragen, Ketten und Kreise bei `doppelt`, Agent-Ausfaelle — gekappt per `lessons.einzeln_pro_lauf` (Default 5)
+- **Einzelfaelle** fuer Sicherheit `mittel`, `hoch` ohne pruefbaren Ort, offene „wer bleibt"-Fragen, Ketten und Kreise bei `doppelt` — gekappt per `lessons.einzeln_pro_lauf` (Default 5). Nicht vorgelegt, sondern behalten: Teilueberlappung (Ersetzungsprobe nicht erfuellt → `behalten`) und Agent-Ausfaelle (`nicht geprueft`, nur als Zahl in der Bilanz) — angeglichen 2026-10-28 nach Selbstpruefung 4.2 und impl-review
 - **Im Zweifel behalten:** Sicherheit `niedrig` gilt als `behalten` und erscheint nur als Zahl; `behalten` wird nie vorgelegt
 - **Sofortiges Schreiben je bestaetigter Entscheidung:** erst ins Archiv, dann Entnahme aus `lessons.md` — die Nummer bleibt erhalten und wird nie neu vergeben
 - **Archiv `archive/lessons-ausgemustert.md`**, append-only, Selbstanlage beim ersten Schreiben, versioniert wie `lessons.md`

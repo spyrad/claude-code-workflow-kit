@@ -15,7 +15,7 @@ pipeline:
   stage: development
   after: [dtb:lesson]
   next: null
-  consumes: [project-rules/lessons.md, archive/lessons-ausgemustert.md, workflow.config.yaml, project-rules/*.md, features/*/spec.md, features/*/plan.md]
+  consumes: [project-rules/lessons.md, archive/lessons-ausgemustert.md, workflow.config.yaml, skills/CLAUDE.md, project-rules/*.md, features/*/spec.md, features/*/plan.md]
   produces: [project-rules/lessons.md, archive/lessons-ausgemustert.md]
 ---
 
@@ -99,7 +99,7 @@ L="{rules}/lessons.md"; A="{wf}/archive/lessons-ausgemustert.md"
 echo "BYTES $(wc -c < "$L" | tr -d ' ')"
 echo "ZEILEN $(wc -l < "$L" | tr -d ' ')"
 awk -F'|' 'FNR==1{f++}
-  f==1 && /^\| *[0-9]+ *\|/ {n=$2; gsub(/ /,"",n); l[n]=1; c++}
+  f==1 && /^\| *[0-9]+ *\|/ {n=$2; gsub(/ /,"",n); if (n in l) print "MEHRFACH " n; l[n]=1; c++}
   f==2 && /^\| *[0-9][0-9-]* *\| *[0-9]+ *\|/ {n=$3; gsub(/ /,"",n); if (n in l) print "DOPPELT " n}
   END{print "LEKTIONEN " c+0}' "$L" "$A"
 ```
@@ -117,6 +117,11 @@ awk -F'|' 'FNR==1{f++}
 - **`DOPPELT {N}`-Zeilen** = Lektion steht in `lessons.md` UND im Archiv (ein frueherer Lauf
   brach zwischen Archiv-Eintrag und Entnahme ab). Diese Nummern **nicht** analysieren — sie
   gehen in die Selbstheilung (1c), die auch die Meldezeile je Nummer ausgibt
+- **`MEHRFACH {N}`-Zeilen** = dieselbe Nummer steht mehrmals in `lessons.md` (z.B. nach einem
+  Merge zweier Klone). Diese Nummer **nicht** analysieren und **nicht** heilen (auch wenn sie
+  zugleich `DOPPELT` ist) — unklar, welche Zeile gemeint ist. Je Nummer genau eine Zeile:
+  `⚠ L{N} steht mehrfach in lessons.md — Nummer doppelt vergeben? Von Hand klaeren`. Alle Zeilen
+  dieser Nummern zaehlen in der Mengenprobe (3f) als Topf **mehrfach**
 
 ### 1b: Lektionen einlesen
 
@@ -126,11 +131,11 @@ Lies `{rules}/lessons.md` vollstaendig.
   andere Zeile (Kopf, Kommentar, kaputtes Format) wird **nie angefasst**
 - Lektionen werden **nach Nummer** gefuehrt, nie nach Position — die Datei ist nicht monoton
   sortiert und hat Nummernluecken
-- Die in 1a als `DOPPELT` gemeldeten Nummern aus der Analysemenge nehmen
+- Die in 1a als `DOPPELT` oder `MEHRFACH` gemeldeten Nummern aus der Analysemenge nehmen
 
 ### 1c: Selbstheilung (vor der Analyse)
 
-Nur bei `DOPPELT`-Zeilen aus 1a. Ein frueherer Lauf hat die Lektion schon archiviert, die Entnahme
+Nur bei `DOPPELT`-Zeilen aus 1a, ohne die `MEHRFACH`-Nummern. Ein frueherer Lauf hat die Lektion schon archiviert, die Entnahme
 aber nicht mehr geschafft (Ziel vor Quelle, Schritt 6). Je Nummer ein selbstaendiger Bash-Block
 (Platzhalter vorher einsetzen):
 
@@ -148,8 +153,8 @@ tr -d '\r' < "$A" | grep -E "^\| *[0-9-]+ *\| *$n *\|" | grep -qF -- "$z" && ech
   nicht analysiert. Zeile:
   `⚠ L{N} steht in lessons.md und im Archiv mit verschiedenem Inhalt — Nummer doppelt vergeben? Von Hand klaeren`
 
-Alle `DOPPELT`-Nummern zaehlen in der Mengenprobe (3f) als Topf **Selbstheilung** — geheilt oder
-nicht.
+Alle `DOPPELT`-Nummern (ohne `MEHRFACH`) zaehlen in der Mengenprobe (3f) als Topf
+**Selbstheilung** — geheilt oder nicht.
 
 ---
 
@@ -173,7 +178,7 @@ entscheidet nichts: was mit einer Lektion passiert, bestaetigt der Mensch.
 ### 2b: Auftrag (je Portion)
 
 Platzhalter fuellen: `{root}` = absoluter Projekt-Root, `{rules}` = `{config.paths.rules}`,
-`{nummern}` = die Nummern der Portion, kommagetrennt (`1, 2, 3, …`), `{hebeziele}` = die
+`{portion}` = die Nummern der Portion, kommagetrennt (`1, 2, 3, …`), `{hebeziele}` = die
 vorhandenen Dateien aus: `{root}/skills/CLAUDE.md` und `{rules}/*.md` ohne `lessons.md` und
 `DERIVED_STATE_RULES.md` (Glob; keine vorhanden → `—`).
 
@@ -193,7 +198,7 @@ Lektionen-Sammlung: {rules}/lessons.md — lies sie vollstaendig. Datenzeilen be
 `| {Zahl} |`, Spalten: # | Datum | Context | Problem | Rule | Applies-to.
 
 Deine Lektionen (nur diese Nummern beurteilen; alle anderen sind Vergleichsmaterial fuer Dubletten):
-{nummern}
+{portion}
 
 Versionierte Regel-Dateien (Hebe-Ziele):
 {hebeziele}
@@ -266,6 +271,7 @@ bewertet. Jede Lektion des Bestands landet in genau einem Topf.
 | `nicht geprueft` (2c) | **nicht geprueft** — nur als Zahl, gilt als behalten |
 | `ueberholt` / `doppelt L{M}` / `gehoben` mit `hoch` oder `mittel` | **Vorschlag** → 3b, 3c |
 | `DOPPELT` aus 1a | **Selbstheilung** (1c) |
+| `MEHRFACH` aus 1a (alle Zeilen der Nummer) | **mehrfach** — nur als Zahl, bleibt unveraendert |
 
 `behalten` wird nie vorgelegt.
 
@@ -283,6 +289,11 @@ Lektionen, die sich gegenseitig ersetzen, gemeinsam verschwinden — und mit ihn
   oder Einzelfall), ist L{M} ab dann gesperrt. Ein noch offener Einzelfall zu L{M} entfaellt —
   keine Frage, genau eine Zeile, zaehlt als behalten:
   `→ L{M} bleibt (gesperrt: L{N} wurde mit Verweis auf sie ausgemustert)`
+- **Partner ausgemustert (jede Richtung):** Wird ein Paar-Partner ausgemustert — mit welchem
+  Urteil auch immer —, entfaellt der noch offene Einzelfall des anderen ebenso: keine Frage, genau
+  eine Zeile, zaehlt als behalten, der naechste Lauf prueft ihn neu. Sonst stuetzte sich ein
+  `doppelt zu L{M}` auf eine Lektion, die schon im Archiv steht, und „Die andere ausmustern"
+  griffe ins Leere: `→ L{N} bleibt (Paar-Partner L{M} ausgemustert — naechster Lauf prueft neu)`
 
 ### 3c: Sammelliste oder Einzelfall (mechanisch)
 
@@ -310,11 +321,11 @@ streicht, hat sich die Einzelentscheidung bewusst geholt.
 
 Eine Lektion, auf die ein laufender Change verweist, kann trotzdem ueberholt sein — der Hinweis
 hilft nur beim Gegenlesen. Ein selbstaendiger Bash-Block ueber alle Vorschlags-Nummern
-(`{nummern}` leerzeichengetrennt einsetzen):
+(`{vorschlaege}` = Nummern aller Vorschlaege, leerzeichengetrennt einsetzen, z.B. `1 4 84`):
 
 ```bash
 W="{wf}/features"; [ -d "$W" ] || exit 0
-for n in {nummern}; do
+for n in {vorschlaege}; do
   grep -lwE "L$n" "$W"/*/spec.md "$W"/*/plan.md 2>/dev/null | sed "s|^$W/|L$n |"
 done
 ```
@@ -325,31 +336,38 @@ ausserhalb von `features/` und zaehlt nicht.
 ### 3f: Uebersicht vor der Vorlage
 
 Erwartete Einsparung = Bytes der vorgeschlagenen Zeilen (Sammelliste + vorgelegte Einzelfaelle),
-ein selbstaendiger Bash-Block:
+ein selbstaendiger Bash-Block (`{vorgelegt}` = deren Nummern, leerzeichengetrennt wie in 3e):
 
 ```bash
 L="{rules}/lessons.md"
-for n in {nummern}; do grep -E "^\| *$n *\|" "$L"; done | wc -c
+for n in {vorgelegt}; do grep -E "^\| *$n *\|" "$L"; done | wc -c
 ```
+
+Ausgabe `0` bei `{S} + {E}` > 0 ist ein Werkzeug-Fehlschlag (z.B. falsch eingesetzte Nummern),
+kein Befund: `{X}` = `—` und genau eine Zeile `⚠ Einsparung nicht messbar — Vorlage geht weiter`.
 
 ```
 Lektionen kuratieren — Bestand {N} Lektionen, {Z} Zeilen, {KB} KB (Schwelle {schwelle_kb} KB)
 
-Voranalyse: {G} geprueft · {U} nicht geprueft{ · {H} Selbstheilung}
+Voranalyse: {G} geprueft · {U} nicht geprueft{ · {H} Selbstheilung}{ · {D} mehrfach}
   Vorschlaege: {V} (ueberholt {a} · gehoben {b} · doppelt {c})
   davon Sammelliste: {S} · Einzelfaelle: {E} · zurueckgestellt: {R}
-  Erwartete Einsparung bei voller Annahme: {X} KB → {KB−X} KB{ (bleibt ueber der Schwelle)}
+  Erwartete Einsparung bei voller Annahme: {X} KB → {KB−X} KB{ (weiter KB ≥ schwelle_kb)}
 ```
+
+Der Zusatz `(weiter KB ≥ schwelle_kb)` steht genau dann, wenn `{KB−X}` ≥ `{schwelle_kb}` — dieselbe
+Bedingung, mit der `dtb:lesson` warnt.
 
 **Groessen:** `{N}` = `LEKTIONEN` aus 1a · `{B}` = Topf behalten · `{U}` = nicht geprueft ·
 `{S}` = Sammelliste · `{E}` = vorgelegte Einzelfaelle · `{R}` = zurueckgestellt (3d) · `{H}` =
-Selbstheilung · `{G}` = `{N} − {U} − {H}` · `{V}` = `{S} + {E} + {R}`.
+Selbstheilung · `{D}` = Zeilen im Topf mehrfach (1a) · `{G}` = `{N} − {U} − {H} − {D}` ·
+`{V}` = `{S} + {E} + {R}`.
 
-**Mengenprobe (hartes Gate):** `{B} + {U} + {S} + {E} + {R} + {H} = {N}`, und jede Nummer aus
+**Mengenprobe (hartes Gate):** `{B} + {U} + {S} + {E} + {R} + {H} + {D} = {N}`, und jede Zeile aus
 `lessons.md` steht in genau einem Topf. Weicht etwas ab → keine Vorlage, nichts ausmustern, genau
 eine Zeile, Skill endet:
 ```
-⚠ Konsolidierung unvollstaendig: {B}+{U}+{S}+{E}+{R}+{H} = {Summe} ≠ {N} — nichts ausgemustert, Lauf erneut starten
+⚠ Konsolidierung unvollstaendig: {B}+{U}+{S}+{E}+{R}+{H}+{D} = {Summe} ≠ {N} — nichts ausgemustert, Lauf erneut starten
 ```
 Grund: Eine beim Bau der Vorlage verlorene Lektion wuerde weder vorgelegt noch gezaehlt — und die
 Bilanz meldete einen Bestand, den es nicht gibt.
@@ -367,8 +385,8 @@ geschrieben wird danach Lektion fuer Lektion, jede sofort (Schritt 6).
 
 Leere Sammelliste (alles Einzelfaelle) → dieser Schritt entfaellt still, weiter mit Schritt 5.
 
-**Vorlage** (Grund auf ~60, Beleg auf ~40 Zeichen gekuerzt — der volle Text steht in der
-Uebersicht der Voranalyse):
+**Vorlage** (nur der Grund wird auf ~60 Zeichen gekuerzt; der Beleg steht immer vollstaendig — sein
+pruefbarer Ort ist das Kriterium, das diese Zeile in die Sammelliste gebracht hat, 3c):
 
 ```
 Sammelliste — {S} Lektion(en), Wirkung je Zeile: → Archiv ({wf}/archive/lessons-ausgemustert.md)
@@ -416,7 +434,7 @@ fest, ihre Sperren (3b) gelten hier bereits.
 Fuer jede dieser Lektionen:
 
 ```
-Einzelfall {i}/{E} — L{N} ({Datum}) · Vorschlag: {Urteil} ({Sicherheit}){ · Applies-to: alle}
+Einzelfall {i}/{E_lauf} — L{N} ({Datum}) · Vorschlag: {Urteil} ({Sicherheit}){ · Applies-to: alle}
   Rule:  {Rule, auf ~200 Zeichen gekuerzt}
   Grund: {Grund}
   Beleg: {Beleg}
@@ -425,6 +443,10 @@ Einzelfall {i}/{E} — L{N} ({Datum}) · Vorschlag: {Urteil} ({Sicherheit}){ · 
   {nur bei gestrichener Zeile:} Aus der Sammelliste gestrichen
   {nur bei Treffer aus 3e:}   ⓘ in features/{slug}/{datei}
 ```
+
+`{E_lauf}` = gestrichene bzw. herausgenommene Zeilen + `{E}` aus 3f. Entfaellt ein Fall durch eine
+Sperre (3b), sinkt `{E_lauf}` fuer die folgenden Faelle um eins — der Zaehler zeigt nie mehr Faelle,
+als noch vorgelegt werden.
 
 Dann eine blockierende Auswahl (`AskUserQuestion`):
 
@@ -474,7 +496,8 @@ Listen-Reihenfolge, aus Schritt 5 direkt nach der Wahl.
 ### 6b: Je Ausmusterung
 
 1. **Archivzeile anhaengen.** Vorher exakt pruefen, ob die Nummer schon im Archiv steht (Spalte
-   `#` = N) — dann nicht erneut anhaengen, weiter mit Punkt 3 (Selbstheilungs-Fall). Sonst das
+   `#` = N) — dann nicht erneut anhaengen, sondern direkt Punkt 2: das Zuruecklesen vergleicht den
+   Inhalt wie 1c, nur `ENTHALTEN` fuehrt zur Entnahme (eine bloss gleiche Nummer reicht nie). Sonst das
    Archiv per Read frisch lesen und per `Edit` am Tabellenende anhaengen (Anker = letzte Zeile
    der Datei). Die Zeile ist:
    `| {heute} ` + **die Lektionszeile woertlich** + ` {Grund-Zelle} |`
@@ -482,14 +505,19 @@ Listen-Reihenfolge, aus Schritt 5 direkt nach der Wahl.
    Spalte wieder abschneiden. `{Grund-Zelle}` = `{Urteil}: {Grund} — Beleg: {Beleg}` aus der
    Voranalyse (`ueberholt`, `gehoben` oder `doppelt zu L{M}`); bei „Die andere ausmustern"
    `doppelt zu L{N}: vom Menschen umgekehrt — {Grund}`. Bare Pipes in der Grund-Zelle escapen
-2. **Zuruecklesen** — ein selbstaendiger Bash-Block, erwartet `ANZAHL 1` und `SPALTEN 8`:
+2. **Zuruecklesen** — ein selbstaendiger Bash-Block, erwartet `ANZAHL 1` und `ENTHALTEN`:
    ```bash
-   A="{wf}/archive/lessons-ausgemustert.md"; n={N}
+   L="{rules}/lessons.md"; A="{wf}/archive/lessons-ausgemustert.md"; n={N}
+   z=$(grep -E "^\| *$n *\|" "$L" | tr -d '\r')
+   [ "$(printf '%s\n' "$z" | grep -c .)" = 1 ] || { echo MEHRDEUTIG; exit 0; }
    r=$(tr -d '\r' < "$A" | grep -E "^\| *[0-9-]+ *\| *$n *\|")
    echo "ANZAHL $(printf '%s\n' "$r" | grep -c .)"
-   printf '%s\n' "$r" | sed 's/[\][|]//g' | awk -F'|' '{print "SPALTEN " NF-2}'
+   printf '%s\n' "$r" | grep -qF -- "$z" && echo ENTHALTEN || echo FEHLT
    ```
-   Escapte Pipes per Klammer-Ausdruck entfernen (2c). Abweichung → Schreibfehler: keine Entnahme,
+   Dieselbe Pruefung wie die Selbstheilung (1c): die Archivzeile traegt die Lektionszeile
+   woertlich — genau das braucht das Wiederherstellen. Keine feste Spaltenzahl: eine Lektion mit
+   unescapter Pipe in Backticks (heute L17, L36) hat mehr Trenner und ist trotzdem korrekt
+   archiviert. Abweichung (`MEHRDEUTIG`, `ANZAHL` ≠ 1, `FEHLT`) → Schreibfehler: keine Entnahme,
    melden, weiter mit der Bilanz
 3. **Entnahme aus `lessons.md`** — die Datei unmittelbar vorher per Read neu lesen (das
    Edit-Werkzeug verlangt es, L99, und eine parallele Session kann inzwischen eine Lektion
@@ -522,6 +550,7 @@ Lektionen kuratiert:
   Behalten:        {n_beh}  (davon {n_mensch} vom Menschen behalten)
   Nicht geprueft:  {n_ung}  (Voranalyse ausgefallen — bleiben ungeprueft im Bestand)
   Zurueckgestellt: {n_zur}  (Kappung einzeln_pro_lauf → naechster Lauf)
+  Mehrfach:        {n_mehr}  (Nummer mehrmals in lessons.md — von Hand klaeren)
 
   lessons.md: {Zeilen} Zeilen, {KB} KB (vorher {KB_vorher} KB, Schwelle {schwelle_kb} KB)
 ```
@@ -530,8 +559,8 @@ Lektionen kuratiert:
 entschieden wurde. Zeilen mit `0` entfallen — die Bilanz zeigt nur, was passiert ist.
 
 Darunter, je nur wenn zutreffend, genau eine Zeile:
-- Umfang weiter ueber der Schwelle:
-  `⚠ lessons.md bleibt ueber {schwelle_kb} KB — die Warnung in /dtb:lesson feuert weiter`
+- Neuer Umfang `KB ≥ schwelle_kb` (dieselbe Bedingung, mit der `dtb:lesson` warnt):
+  `⚠ lessons.md bleibt bei KB ≥ {schwelle_kb} — die Warnung in /dtb:lesson feuert weiter`
 - Lektionen mit `Applies-to: alle` vorhanden (nur Hinweis — gehoben wird nicht hier):
   `💡 {K} Lektion(en) gelten fuer alle Skills ({Nummern}) — Kandidaten zum Heben nach skills/CLAUDE.md bzw. {rules}/`
 - Abbruch oder Schreibfehler mitten im Durchgang:

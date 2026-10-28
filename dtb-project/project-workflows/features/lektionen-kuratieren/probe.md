@@ -405,6 +405,7 @@ einem anderen Spec-Teil, die Spec-Zeile ist in sich ungenau:
    den Rest ihrer Aussage zu verlieren
 
 Keine Korrektur am Skill — Entscheidung beim Menschen, ob die Spec-Zeile nachgezogen wird.
+**Entschieden 2026-10-28:** Spec-Zeile an den Skill angeglichen (Mensch: „Spec-Zeile angleichen").
 
 ### KB-Definition
 

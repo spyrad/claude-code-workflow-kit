@@ -68,7 +68,8 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
 
 Lies `workflow.config.yaml` im Projekt-Root.
 
-- Lektionen-Pfad: `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`)
+- Lektionen-Pfad: `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`);
+  `{rules}` = der aufgeloeste Regel-Ordner inkl. Fallback (fuer den Mess-Block in Schritt 4)
 - Archiv-Pfad: `{config.paths.workflows}/archive/lessons-ausgemustert.md` (Fallback:
   `dtb-project/project-workflows/archive/lessons-ausgemustert.md`) — nur gelesen, fuer die Nummernvergabe
 - Groessen-Schwelle: `lessons.schwelle_kb` (Default `40`)
@@ -210,7 +211,7 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 ### Groessen-Warnung (Soft-Limit)
 Nach dem Schreiben die Groesse messen — ein selbstaendiger Bash-Block:
 ```bash
-wc -c < "{config.paths.rules}/lessons.md" | tr -d ' '
+wc -c < "{rules}/lessons.md" | tr -d ' '
 ```
 KB = Bytes/1024, abgerundet.
 > **Kopplungs-Hinweis (KB-Definition):** dieselbe Rechenregel steht in `dtb:lesson-curate`

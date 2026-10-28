@@ -273,8 +273,8 @@ Die Fehlerpfade der Spec sind an einer Wegwerf-Kopie belegt, der Regeltext ist i
 - [x] 3.1 dtb:lesson nachziehen — `77577c3`
 - [x] 3.2 Live-Datei, Dashboard, Config — `77577c3`
 - [x] 3.3 Doku und Gegenprobe — `77577c3`
-- [x] 4.1 Simulationen
-- [x] 4.2 Text-Selbstpruefung
+- [x] 4.1 Simulationen — `9ab1fd0`
+- [x] 4.2 Text-Selbstpruefung — `9ab1fd0`
 
 ---
 
