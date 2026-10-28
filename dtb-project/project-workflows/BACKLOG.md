@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-10-27 (#135 Projekt-Dashboard archiviert)
+**Letzte Aktualisierung:** 2026-10-28 (#158 Dashboard mit Projektname abgenommen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,7 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 158 | Dashboard mit Projektname und Raster-Hintergrund | Fertig zum Testen | Niedrig | features/dashboard-projektname-hintergrund/spec.md | Das Projekt-Dashboard zeigt auf den ersten Blick, zu welchem Projekt es gehoert, und traegt den Seitenhintergrund der pi.dev-Dokumentation |
+| 158 | Dashboard mit Projektname und Raster-Hintergrund | Abgenommen | Niedrig | features/dashboard-projektname-hintergrund/spec.md | Das Projekt-Dashboard zeigt auf den ersten Blick, zu welchem Projekt es gehoert, und traegt den Seitenhintergrund der pi.dev-Dokumentation |
 
 ---
 
