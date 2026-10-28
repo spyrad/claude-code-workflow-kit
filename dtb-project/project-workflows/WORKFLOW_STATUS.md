@@ -19,20 +19,20 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #158 gemergt (`ed831bb`), kit-sync 52/52, abgenommen in pkp; Pane-Worktree #141 `lektionen-kuratieren` laeuft (3/11); Tick-Job `6a81ac09` |
+| **Notizen** | Pane-Worktree #141 `lektionen-kuratieren`: 11/11, Hand-off da (10:43), Abnahme offen; Ueberwachungs-Tick beendet |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Worktree #158 abbauen** — Kontext: `/exit` in Pane `w3:pM`, dann `git worktree remove` + `git branch -d feature/dashboard-projektname-hintergrund` (seit 2026-10-28)
-- [ ] **#158 archivieren** — Kontext: `/dtb:archive`, Change-Ordner nach `archive/dashboard-projektname-hintergrund/` (seit 2026-10-28)
+- [ ] **Abnahme #141 Lektionen kuratieren** — Kontext: Manual-Kriterien in `plan.md`, Simulationen in `probe.md` gegenlesen; dann Merge `feature/lektionen-kuratieren` (Konflikte in `lessons.md` und `skills/dtb-project-dashboard/SKILL.md` moeglich), `/dtb:kit-sync sync`, Worktree abbauen (seit 2026-10-28)
+- [ ] **Nach Merge #141: globale Updates und Erstlauf** — Kontext: INBOX #141 → Ausgearbeitet + Links, BACKLOG-Zeile (Prio Mittel); `plan.md` „Nach dem Merge": erster echter `/dtb:lesson-curate`-Lauf, Bilanz, `schwelle_kb` 40 pruefen (Probe: nur ~3 KB Einsparung → 51 KB) (seit 2026-10-28)
 - [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27)
 - [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27)
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — bisher nur „Ende" im Betrieb gesehen (seit 2026-10-22)
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-10-27)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-22)
-- [ ] **`/dtb:idea-triage`** — Kontext: 91 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-22)
+- [ ] **`/dtb:idea-triage`** — Kontext: 93 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-22)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-22)
 
 ---
@@ -59,4 +59,4 @@ Keine.
 
 **Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 91 ungesichtet → /dtb:idea-triage
+**Becken:** 93 ungesichtet → /dtb:idea-triage
