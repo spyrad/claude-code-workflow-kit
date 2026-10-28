@@ -267,12 +267,12 @@ Die Fehlerpfade der Spec sind an einer Wegwerf-Kopie belegt, der Regeltext ist i
 - [x] 1.1 Geruest, Guard, Config, Laden — `0ae8cf3`
 - [x] 1.2 Voranalyse — `0ae8cf3`
 - [x] 1.3 Probe in Zielform — `0ae8cf3`
-- [x] 2.1 Konsolidieren
-- [x] 2.2 Sammelliste und Einzelfaelle
-- [x] 2.3 Schreiben, Selbstheilung, Bilanz
-- [ ] 3.1 dtb:lesson nachziehen
-- [ ] 3.2 Live-Datei, Dashboard, Config
-- [ ] 3.3 Doku und Gegenprobe
+- [x] 2.1 Konsolidieren — `84aafcc`
+- [x] 2.2 Sammelliste und Einzelfaelle — `84aafcc`
+- [x] 2.3 Schreiben, Selbstheilung, Bilanz — `84aafcc`
+- [x] 3.1 dtb:lesson nachziehen
+- [x] 3.2 Live-Datei, Dashboard, Config
+- [x] 3.3 Doku und Gegenprobe
 - [ ] 4.1 Simulationen
 - [ ] 4.2 Text-Selbstpruefung
 

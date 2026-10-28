@@ -1,9 +1,9 @@
 # Lektionen (lessons.md)
 
 > Append-only Sammlung nicht-offensichtlicher, wiederverwendbarer Regeln.
-> Erfasst mit `/dtb:lesson`, gelesen als Prior von impl-plan, debug-plan, plan-review, code-review, implement.
-> **Nicht** manuell editieren/loeschen (append-only); Kuratierung geschieht bewusst.
-> Kompakt halten — Soft-Limit ~150 Zeilen (danach aeltere, ueberholte Lektionen aussortieren).
+> Erfasst mit `/dtb:lesson`, gelesen als Prior von impl-plan, debug-plan, plan-review, impl-review, implement, feature-fast.
+> Append-only gilt fuers Schreiben: **nicht** manuell editieren/loeschen. Die Entnahme laeuft nur ueber `/dtb:lesson-curate` (Archiv mit Grund, die Nummer bleibt vergeben).
+> Kompakt halten — Soft-Limit `lessons.schwelle_kb` (Default 40 KB); darueber warnt `/dtb:lesson` und verweist auf `/dtb:lesson-curate`.
 
 | # | Datum | Context | Problem | Rule | Applies-to |
 |---|-------|---------|---------|------|------------|

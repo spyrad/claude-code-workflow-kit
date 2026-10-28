@@ -95,6 +95,7 @@ cd <dein-projekt>
 | `/dtb:greenfield-roadmap` | Two-mode: author `ROADMAP.md` (+`TECH-STACK.md`) from the PRD via a lean interview, else summarize it |
 | `/dtb:docs-extract` | Scan input/ folder, extract facts from PDFs/docs, create thematic MDs |
 | `/dtb:lesson` | Capture a reusable lesson append-only into `lessons.md`, read as a prior by plan/review skills |
+| `/dtb:lesson-curate` | Keep `lessons.md` compact: propose outdated, duplicated or already lifted lessons with evidence, confirm one collection list, move confirmed ones with their reason to `archive/lessons-ausgemustert.md` |
 | `/dtb:pipeline-graph` | Generate interactive HTML overview of entire skill pipeline |
 | `/dtb:project-dashboard` | Render the project state as one local, self-contained HTML page (on demand; refreshed by `workflow-checkpoint` unless `dashboard.bei_checkpoint: false`) |
 

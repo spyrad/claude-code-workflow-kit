@@ -7,20 +7,20 @@ description: >-
   project-rules/lessons.md, read later as a prior by the plan/review skills.
 disable-model-invocation: false
 argument-hint: "[Lektion als Freitext]"
-allowed-tools: Read, Write, Edit, Grep
+allowed-tools: Read, Write, Edit, Grep, Bash
 pipeline:
   stage: development
   after: null
   next: null
-  consumes: [project-rules/lessons.md]
+  consumes: [project-rules/lessons.md, archive/lessons-ausgemustert.md, workflow.config.yaml]
   produces: [project-rules/lessons.md]
 ---
 
 # Lektion erfassen
 
 Du haeltst eine nicht-offensichtliche, wiederverwendbare Erkenntnis fest — append-only in
-`lessons.md`. Spaeter lesen `impl-plan`, `debug-plan`, `plan-review` und `impl-review` diese
-Datei als **Prior** und wenden passende Lektionen an. Ziel: Schnelligkeit wie bei `dtb:idea`,
+`lessons.md`. Spaeter lesen `impl-plan`, `debug-plan`, `plan-review`, `impl-review`, `implement`
+und `feature-fast` diese Datei als **Prior** und wenden passende Lektionen an. Ziel: Schnelligkeit wie bei `dtb:idea`,
 kein Formular.
 
 **Abgrenzung Session-Log ↔ Lektion:** Ein Session-Log haelt fest, *was diese Session passiert
@@ -69,7 +69,10 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
 Lies `workflow.config.yaml` im Projekt-Root.
 
 - Lektionen-Pfad: `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`)
-- Falls `config.paths.rules` fehlt: Fallback-Pfad verwenden, kein Abbruch
+- Archiv-Pfad: `{config.paths.workflows}/archive/lessons-ausgemustert.md` (Fallback:
+  `dtb-project/project-workflows/archive/lessons-ausgemustert.md`) — nur gelesen, fuer die Nummernvergabe
+- Groessen-Schwelle: `lessons.schwelle_kb` (Default `40`)
+- Falls ein Pfad oder Schluessel fehlt: Fallback bzw. Default verwenden, kein Abbruch
 
 ---
 
@@ -184,9 +187,9 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 # Lektionen (lessons.md)
 
 > Append-only Sammlung nicht-offensichtlicher, wiederverwendbarer Regeln.
-> Erfasst mit `/dtb:lesson`, gelesen als Prior von impl-plan, debug-plan, plan-review, impl-review.
-> **Nicht** manuell editieren/loeschen (append-only); Kuratierung geschieht bewusst.
-> Kompakt halten — Soft-Limit ~150 Zeilen (danach aeltere, ueberholte Lektionen aussortieren).
+> Erfasst mit `/dtb:lesson`, gelesen als Prior von impl-plan, debug-plan, plan-review, impl-review, implement, feature-fast.
+> Append-only gilt fuers Schreiben: **nicht** manuell editieren/loeschen. Die Entnahme laeuft nur ueber `/dtb:lesson-curate` (Archiv mit Grund, die Nummer bleibt vergeben).
+> Kompakt halten — Soft-Limit `lessons.schwelle_kb` (Default 40 KB); darueber warnt `/dtb:lesson` und verweist auf `/dtb:lesson-curate`.
 
 | # | Datum | Context | Problem | Rule | Applies-to |
 |---|-------|---------|---------|------|------------|
@@ -197,15 +200,32 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 - Neue Zeile ans Tabellenende anfuegen — **mit `Edit`** (letzte Datenzeile als Anker, neue
   Zeile dahinter einfuegen), NICHT die Datei per `Write` komplett neu schreiben. So bleiben
   bestehende Zeilen garantiert unveraendert (append-only)
-- Naechste laufende Nummer vergeben
+- Naechste laufende Nummer = hoechste Nummer ueber `lessons.md` UND das Archiv
+  `archive/lessons-ausgemustert.md` (dort Spalte `#`, die zweite) plus eins; fehlt das Archiv →
+  nur `lessons.md`. Grund: eine von `/dtb:lesson-curate` ausgemusterte Nummer bleibt vergeben —
+  sonst bekaeme nach Ausmusterung der hoechsten Nummer die naechste Lektion dieselbe Nummer, und
+  die Selbstheilung des Kurators hielte zwei verschiedene Lektionen fuer eine
 - Datum: aktuelles Datum (`YYYY-MM-DD`)
 
 ### Groessen-Warnung (Soft-Limit)
-Nach dem Schreiben: Falls `lessons.md` **> ~150 Zeilen** — Hinweis ausgeben (nicht blocken):
+Nach dem Schreiben die Groesse messen — ein selbstaendiger Bash-Block:
+```bash
+wc -c < "{config.paths.rules}/lessons.md" | tr -d ' '
 ```
-Hinweis: lessons.md hat jetzt {N} Zeilen (Soft-Limit ~150). Erwaege, ueberholte
-Lektionen bei Gelegenheit auszusortieren, damit der Prior kompakt bleibt.
+KB = Bytes/1024, abgerundet.
+> **Kopplungs-Hinweis (KB-Definition):** dieselbe Rechenregel steht in `dtb:lesson-curate`
+> (Schritt 1a) und `dtb:project-dashboard` (Kennzahl Lektionen). Aenderung hier → beide
+> mitziehen; Verifikation: Grep `Bytes/1024` ueber `skills/` = 3 Skills.
+
+Ab `lessons.schwelle_kb` (KB ≥ Schwelle) — Hinweis ausgeben (nicht blocken):
 ```
+Hinweis: lessons.md hat jetzt {KB} KB (Soft-Limit {schwelle_kb} KB). Jede Lektion laden die
+Plan- und Review-Skills bei jedem Lauf mit — /dtb:lesson-curate prueft, was ueberholt, doppelt
+oder schon gehoben ist, und mustert Bestaetigtes ins Archiv aus.
+```
+Messung ausgefallen (leere Ausgabe, kein Bash) → keine Warnung, genau eine Zeile
+`⚠ Groesse von lessons.md nicht messbar — keine Groessen-Warnung` (Werkzeug-Fehlschlag ist kein
+Befund).
 
 ### Hebe-Hinweis bei `Applies-to: alle`
 Ist `Applies-to` = `alle` **und** beschreibt die `Rule` eine dauerhafte Autoring-/Projekt-Konvention
@@ -238,6 +258,6 @@ Lektion L{N} gespeichert: {config.paths.rules}/lessons.md
 
 - **Schnell:** Wie `dtb:idea` — max. 1 Rueckfrage (Applies-to), sonst durchziehen
 - **Kuratiert:** Duplikat-Hinweis + bewusste Bestaetigung halten die Datei rauscharm
-- **Append-only:** Nie bestehende Eintraege aendern/loeschen
+- **Append-only:** Nie bestehende Eintraege aendern/loeschen — die Entnahme laeuft nur ueber `/dtb:lesson-curate`
 - **Nie stiller Auto-Write:** Immer Bestaetigung vor dem Schreiben
 - **Deutsch:** Alle Texte auf Deutsch

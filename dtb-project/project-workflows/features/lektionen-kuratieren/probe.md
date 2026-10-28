@@ -200,3 +200,58 @@ L98 | behalten | skills/CLAUDE.md:469 definiert den Voll-Guard als harten Abbruc
 L99 | behalten | project-dashboard hat den Read-Schritt zwischen Bash-Erzeugung und Edit bereits (skills/dtb-project-dashboard/SKILL.md:197-198). Die allgemeine Ablaufregel für andere Skills steht aber nirgends in skills/CLAUDE.md. | — | mittel
 L100 | behalten | Dass `git merge -F -` nicht von stdin liest und der Push nur per `&&` an einen erfolgreichen Merge gekettet werden darf, steht nirgends. L63 (Kette mit `\|\| exit 1` bei kit-sync) und L38 (`git commit -F <datei>`) treffen nur Teilaspekte. | — | hoch
 ```
+
+---
+
+## Gegenprobe 3.3 (2026-10-28)
+
+**Prueffrage (L16):** Traegt die Aussage nach der Aenderung noch? — nicht: steht der Name noch drin.
+Jeder Treffer wurde gegen genau diese Frage bewertet.
+
+### Alte Schwelle (`150 Zeilen\|~150\|/150`, ohne Changelog, Archiv und diesen Change-Ordner)
+
+| Fundstelle | Bewertung |
+|------------|-----------|
+| `skills/dtb-project-init/SKILL.md:240` „schlank halten (<150 Zeilen)" | traegt — betrifft die Groesse der CLAUDE.md, nicht `lessons.md` |
+| `WORKLOG.md:84` „schlank bleiben (<150 Zeilen)" | traegt — dieselbe CLAUDE.md-Aussage, historisch |
+
+Die 8 Wirkstellen aus der Ist-Analyse (`lessons.md:6`, `dtb-lesson` ×3, `dtb-project-dashboard` ×4)
+tragen keine Zeilen-Schwelle mehr.
+
+### `append-only` im Lektionen-Kontext
+
+| Fundstelle | Bewertung |
+|------------|-----------|
+| `dtb-lesson` Description, Einleitung, Sektionstitel `## Schritt 4: Append-only speichern` | traegt — `dtb:lesson` schreibt weiterhin nur anhaengend; der Titel ist Anker fuer Checkpoint und idea-triage, bleibt unveraendert |
+| `dtb-lesson` Format-Regel „bestehende Zeilen garantiert unveraendert (append-only)" | traegt — gilt fuers Schreiben |
+| `dtb-lesson` Richtlinie „Nie bestehende Eintraege aendern/loeschen" | traegt erst mit Zusatz — ergaenzt um „die Entnahme laeuft nur ueber `/dtb:lesson-curate`" |
+| `dtb-lesson` Hebe-Hinweis „`lessons.md` bleibt die append-only Historie" | traegt — die Historie liegt jetzt verteilt auf `lessons.md` und Archiv, beide append-only beim Schreiben; kein Widerspruch |
+| `dtb-lesson` Kopf-Template, `lessons.md:3-6` | neu formuliert, wortgleich |
+| `dtb-idea-triage:325, :705`, `dtb-workflow-checkpoint:509, :561` | traegt — Verweise auf den unveraenderten Sektionsanker |
+| `CLAUDE.md` (Knowledge management, Output Locations) | nachgezogen — Entnahme-Regel und Archiv genannt |
+| `README.md:97` (`/dtb:lesson`) | traegt — beschreibt das Schreiben |
+
+### `lesson-curate` (Erwartung: Skill, `dtb-lesson`, Dashboard, Doku)
+
+Treffer in `skills/dtb-lesson-curate`, `skills/dtb-lesson` (Kopf-Template, Warnung, Kopplungs-Hinweis,
+Richtlinie), `skills/dtb-project-dashboard` (Kuratierungs-Satz, Kopplungs-Hinweis),
+`skills/dtb-project-init` (Config-Regel), `skills/CLAUDE.md` (Voll-Guard-Zeile, Zeile H),
+`CLAUDE.md`, `README.md`, `lessons.md`-Kopf, `workflow.config.yaml`. Keine Stelle verweist auf einen
+nicht vorhandenen Abschnitt.
+
+### Leser von `archive/` (Grep `archive/` ueber `skills/`)
+
+Bewertet wurde, ob ein Leser lose Dateien in `archive/` deutet — nur dann trifft ihn
+`archive/lessons-ausgemustert.md`:
+
+| Leser | Bewertung |
+|-------|-----------|
+| `dtb:migrate-change-folders` (Schritt 1, Erkennung) | **trifft** — jede lose `.md` in `archive/` ausser `ARCHIVE_LOG.md` gilt als flaches Altlayout. Heute schon bei `INBOX-BEFUNDE-verworfen.md`, kuenftig auch bei `lessons-ausgemustert.md`: die Erkennung meldet „gemischt" statt „bereits migriert". Entscheidung 2026-10-27: NICHT hier reparieren → eigene Idee im Hand-off |
+| `dtb:idea-triage` (Agenten-Suchraum `{wf}/archive/`) | traegt — liest nur als Kontext „umgesetzt, archiviert?"; ein Fund im Lektionen-Archiv waere sogar ein korrekter Hinweis |
+| `dtb:project-health` (ARCHIVE_LOG, `archive/<slug>/`) | traegt — prueft Ordner, keine losen Dateien |
+| `dtb:archive`, `implement`, `impl-review`, `idea-rank`, `workflow-*` | traegt — lesen nur `archive/{slug}/` bzw. `ARCHIVE_LOG.md` |
+
+### Ergebnis
+
+Keine Altstelle uebrig. Ein bekannter Folgefehler ausserhalb des Scopes (`dtb:migrate-change-folders`),
+bereits als eigene Idee fuer den Orchestrator vorgemerkt.
