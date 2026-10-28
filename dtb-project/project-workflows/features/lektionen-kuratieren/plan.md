@@ -264,12 +264,12 @@ Die Fehlerpfade der Spec sind an einer Wegwerf-Kopie belegt, der Regeltext ist i
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Geruest, Guard, Config, Laden
-- [x] 1.2 Voranalyse
-- [x] 1.3 Probe in Zielform
-- [ ] 2.1 Konsolidieren
-- [ ] 2.2 Sammelliste und Einzelfaelle
-- [ ] 2.3 Schreiben, Selbstheilung, Bilanz
+- [x] 1.1 Geruest, Guard, Config, Laden — `0ae8cf3`
+- [x] 1.2 Voranalyse — `0ae8cf3`
+- [x] 1.3 Probe in Zielform — `0ae8cf3`
+- [x] 2.1 Konsolidieren
+- [x] 2.2 Sammelliste und Einzelfaelle
+- [x] 2.3 Schreiben, Selbstheilung, Bilanz
 - [ ] 3.1 dtb:lesson nachziehen
 - [ ] 3.2 Live-Datei, Dashboard, Config
 - [ ] 3.3 Doku und Gegenprobe

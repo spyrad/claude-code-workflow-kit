@@ -116,8 +116,7 @@ awk -F'|' 'FNR==1{f++}
   `→ lessons.md: {KB} KB (Schwelle {schwelle_kb} KB) — Kuratierung laeuft trotzdem`
 - **`DOPPELT {N}`-Zeilen** = Lektion steht in `lessons.md` UND im Archiv (ein frueherer Lauf
   brach zwischen Archiv-Eintrag und Entnahme ab). Diese Nummern **nicht** analysieren — sie
-  werden in Schritt 6 (Selbstheilung) nachgezogen. Eine Zeile je Nummer:
-  `↻ L{N} steht noch in lessons.md, ist aber schon archiviert — Entnahme wird nachgeholt`
+  gehen in die Selbstheilung (1c), die auch die Meldezeile je Nummer ausgibt
 
 ### 1b: Lektionen einlesen
 
@@ -128,6 +127,29 @@ Lies `{rules}/lessons.md` vollstaendig.
 - Lektionen werden **nach Nummer** gefuehrt, nie nach Position — die Datei ist nicht monoton
   sortiert und hat Nummernluecken
 - Die in 1a als `DOPPELT` gemeldeten Nummern aus der Analysemenge nehmen
+
+### 1c: Selbstheilung (vor der Analyse)
+
+Nur bei `DOPPELT`-Zeilen aus 1a. Ein frueherer Lauf hat die Lektion schon archiviert, die Entnahme
+aber nicht mehr geschafft (Ziel vor Quelle, Schritt 6). Je Nummer ein selbstaendiger Bash-Block
+(Platzhalter vorher einsetzen):
+
+```bash
+L="{rules}/lessons.md"; A="{wf}/archive/lessons-ausgemustert.md"; n={N}
+z=$(grep -E "^\| *$n *\|" "$L" | tr -d '\r')
+[ "$(printf '%s\n' "$z" | grep -c .)" = 1 ] || { echo MEHRDEUTIG; exit 0; }
+tr -d '\r' < "$A" | grep -E "^\| *[0-9-]+ *\| *$n *\|" | grep -qF -- "$z" && echo GLEICH || echo VERSCHIEDEN
+```
+
+- `GLEICH` (die Archivzeile enthaelt die Lektionszeile woertlich) → **nur die Entnahme** nachholen
+  nach 6b Punkt 3 — kein zweiter Archiv-Eintrag. Exakter Vergleich, darum ohne Rueckfrage. Zeile:
+  `↻ L{N} war schon archiviert — Entnahme aus lessons.md nachgeholt`
+- `VERSCHIEDEN` oder `MEHRDEUTIG` → nichts schreiben, die Lektion bleibt und wird in diesem Lauf
+  nicht analysiert. Zeile:
+  `⚠ L{N} steht in lessons.md und im Archiv mit verschiedenem Inhalt — Nummer doppelt vergeben? Von Hand klaeren`
+
+Alle `DOPPELT`-Nummern zaehlen in der Mengenprobe (3f) als Topf **Selbstheilung** — geheilt oder
+nicht.
 
 ---
 
@@ -211,7 +233,10 @@ Je Portion, bevor irgendetwas weiterverarbeitet wird:
    `nicht geprueft`**. Nie als „alles behalten, nichts gefunden" werten — ein leeres Ergebnis ist
    ein Ausfall, kein Befund
 2. **Spaltenpruefung je Zeile:** genau **5 Spalten** — also genau 4 Trenner `|`, escapte `\|`
-   zaehlen nicht. Weicht eine Zeile ab → nur diese Lektion gilt als `nicht geprueft`
+   zaehlen nicht. Weicht eine Zeile ab → nur diese Lektion gilt als `nicht geprueft`.
+   Mechanisch: escapte Pipes zuerst per Klammer-Ausdruck entfernen, dann zaehlen —
+   `sed 's/[\][|]//g' | awk -F'|' '{print NF}'` = 5. Nie `sed 's/\|//g'`: in GNU-sed ist `\|`
+   eine Alternation, Zeilen mit `\|\|` zerfallen falsch (Probe 2026-10-28)
 3. **Bekanntes Urteil:** Spalte 2 muss `behalten`, `ueberholt`, `doppelt L{M}` (mit `L{M}` aus
    der Analysemenge, nicht die eigene Nummer) oder `gehoben` sein; sonst `nicht geprueft`
 
@@ -220,10 +245,299 @@ Vorschlag. Faellt eine ganze Portion aus, genau eine Zeile:
 ```
 ⚠ Voranalyse fuer {K} Lektion(en) ausgefallen (L{a}–L{b}) — sie bleiben ungeprueft im Bestand
 ```
-**Fallen alle Portionen aus** → Abbruch ohne Schreiben, genau eine Zeile:
+**Fallen alle Portionen aus** → Abbruch ohne Ausmusterung, genau eine Zeile:
 ```
-Nichts geschrieben — Voranalyse vollstaendig ausgefallen, Bestand unveraendert.
+Nichts ausgemustert — Voranalyse vollstaendig ausgefallen{, Selbstheilung: {H} nachgeholt}.
 ```
+
+---
+
+## Schritt 3: Konsolidieren
+
+Aus den geprueften Ergebniszeilen entstehen mechanisch die Toepfe — hier wird nichts neu
+bewertet. Jede Lektion des Bestands landet in genau einem Topf.
+
+### 3a: Einordnen
+
+| Ergebnis | Topf |
+|----------|------|
+| `behalten` (jede Sicherheit) | **behalten** — nur als Zahl |
+| jedes andere Urteil mit Sicherheit `niedrig` | **behalten** — nur als Zahl (im Zweifel behalten) |
+| `nicht geprueft` (2c) | **nicht geprueft** — nur als Zahl, gilt als behalten |
+| `ueberholt` / `doppelt L{M}` / `gehoben` mit `hoch` oder `mittel` | **Vorschlag** → 3b, 3c |
+| `DOPPELT` aus 1a | **Selbstheilung** (1c) |
+
+`behalten` wird nie vorgelegt.
+
+### 3b: Ketten-Sperre (`doppelt`)
+
+Die bleibende Lektion L{M} eines Vorschlags `doppelt L{M}` ist fuer diesen Lauf **gesperrt**:
+sie wird nicht ausgemustert, solange eine andere Lektion auf sie verweist. Sonst koennten zwei
+Lektionen, die sich gegenseitig ersetzen, gemeinsam verschwinden — und mit ihnen die Aussage.
+
+- **Kette:** L{M} ist selbst Vorschlag (jedes Urteil) → **beide** werden Einzelfall
+- **Kreis:** L{N} `doppelt L{M}` und L{M} `doppelt L{N}` → beide Einzelfall (Sonderfall der Kette)
+- Ketten- und Kreis-Partner bilden ein **Paar**: gemeinsam vorgelegt, gemeinsam gekappt (3d),
+  dort zaehlen sie als 2
+- **Sperre waehrend des Laufs:** Wird eine Lektion als `doppelt zu L{M}` ausgemustert (Sammelliste
+  oder Einzelfall), ist L{M} ab dann gesperrt. Ein noch offener Einzelfall zu L{M} entfaellt —
+  keine Frage, genau eine Zeile, zaehlt als behalten:
+  `→ L{M} bleibt (gesperrt: L{N} wurde mit Verweis auf sie ausgemustert)`
+
+### 3c: Sammelliste oder Einzelfall (mechanisch)
+
+**Sammelliste** (Schritt 4) — alle drei Bedingungen:
+- Sicherheit `hoch`
+- Beleg mit pruefbarem Ort: `Datei:Zeile`, bei `doppelt` die Nummer `L{M}`
+- bei `doppelt`: weder Kette noch Kreis (3b)
+
+**Einzelfall** (Schritt 5) — jeder andere Vorschlag: Sicherheit `mittel`; `hoch` ohne Ort im
+Beleg (ein plausibler Beleg ohne Ort rutschte bei „Alle uebernehmen" ungeprueft durch); Ketten
+und Kreise. `nicht geprueft` ist **kein** Einzelfall — ohne Urteil gibt es nichts zu entscheiden.
+
+### 3d: Kappung der Einzelfaelle
+
+Hoechstens `einzeln_pro_lauf` Einzelfaelle, **aelteste zuerst** (Spalte `Datum`, bei Gleichstand
+die kleinere Nummer). Ein Paar (3b) wird nur ganz vorgelegt oder ganz zurueckgestellt — passt es
+nicht mehr hinein, rueckt die naechste Lektion nach. Die uebrigen bleiben unveraendert in
+`lessons.md` und werden im naechsten Lauf neu geprueft (Lektionen tragen keinen Sichtungsvermerk).
+
+**Nicht gekappt** wird, was der Mensch selbst aus der Sammelliste herausnimmt (Schritt 4) — wer
+streicht, hat sich die Einzelentscheidung bewusst geholt.
+
+### 3e: Hinweis auf offene Changes (nicht blockierend)
+
+Eine Lektion, auf die ein laufender Change verweist, kann trotzdem ueberholt sein — der Hinweis
+hilft nur beim Gegenlesen. Ein selbstaendiger Bash-Block ueber alle Vorschlags-Nummern
+(`{nummern}` leerzeichengetrennt einsetzen):
+
+```bash
+W="{wf}/features"; [ -d "$W" ] || exit 0
+for n in {nummern}; do
+  grep -lwE "L$n" "$W"/*/spec.md "$W"/*/plan.md 2>/dev/null | sed "s|^$W/|L$n |"
+done
+```
+
+Je Treffer traegt die Zeile in der Vorlage `ⓘ in features/{slug}/{datei}`. `archive/` liegt
+ausserhalb von `features/` und zaehlt nicht.
+
+### 3f: Uebersicht vor der Vorlage
+
+Erwartete Einsparung = Bytes der vorgeschlagenen Zeilen (Sammelliste + vorgelegte Einzelfaelle),
+ein selbstaendiger Bash-Block:
+
+```bash
+L="{rules}/lessons.md"
+for n in {nummern}; do grep -E "^\| *$n *\|" "$L"; done | wc -c
+```
+
+```
+Lektionen kuratieren — Bestand {N} Lektionen, {Z} Zeilen, {KB} KB (Schwelle {schwelle_kb} KB)
+
+Voranalyse: {G} geprueft · {U} nicht geprueft{ · {H} Selbstheilung}
+  Vorschlaege: {V} (ueberholt {a} · gehoben {b} · doppelt {c})
+  davon Sammelliste: {S} · Einzelfaelle: {E} · zurueckgestellt: {R}
+  Erwartete Einsparung bei voller Annahme: {X} KB → {KB−X} KB{ (bleibt ueber der Schwelle)}
+```
+
+**Groessen:** `{N}` = `LEKTIONEN` aus 1a · `{B}` = Topf behalten · `{U}` = nicht geprueft ·
+`{S}` = Sammelliste · `{E}` = vorgelegte Einzelfaelle · `{R}` = zurueckgestellt (3d) · `{H}` =
+Selbstheilung · `{G}` = `{N} − {U} − {H}` · `{V}` = `{S} + {E} + {R}`.
+
+**Mengenprobe (hartes Gate):** `{B} + {U} + {S} + {E} + {R} + {H} = {N}`, und jede Nummer aus
+`lessons.md` steht in genau einem Topf. Weicht etwas ab → keine Vorlage, nichts ausmustern, genau
+eine Zeile, Skill endet:
+```
+⚠ Konsolidierung unvollstaendig: {B}+{U}+{S}+{E}+{R}+{H} = {Summe} ≠ {N} — nichts ausgemustert, Lauf erneut starten
+```
+Grund: Eine beim Bau der Vorlage verlorene Lektion wuerde weder vorgelegt noch gezaehlt — und die
+Bilanz meldete einen Bestand, den es nicht gibt.
+
+`{V}` = 0 → nach der Uebersicht direkt die Bilanz (Schritt 7). Sonst kein „Weiter?" — die
+Sammelliste ist die naechste Entscheidung.
+
+---
+
+## Schritt 4: Sammelliste
+
+Alle sicheren Vorschlaege als EINE Liste, vorbelegt — der Mensch bestaetigt einmal und streicht,
+was er selbst entscheiden will. Die Liste ist eine **Bestaetigung**, kein Sammel-Schreiben:
+geschrieben wird danach Lektion fuer Lektion, jede sofort (Schritt 6).
+
+Leere Sammelliste (alles Einzelfaelle) → dieser Schritt entfaellt still, weiter mit Schritt 5.
+
+**Vorlage** (Grund auf ~60, Beleg auf ~40 Zeichen gekuerzt — der volle Text steht in der
+Uebersicht der Voranalyse):
+
+```
+Sammelliste — {S} Lektion(en), Wirkung je Zeile: → Archiv ({wf}/archive/lessons-ausgemustert.md)
+
+ 1. L{N}  {Urteil}   {Grund}   {Beleg}  → Archiv{  ⓘ in features/{slug}/{datei}}
+```
+
+`{Urteil}` = `ueberholt`, `gehoben` oder `doppelt zu L{M}`.
+
+Dann EINE blockierende Auswahl (`AskUserQuestion`), erste Option = Vorschlag:
+
+- **Alle uebernehmen (Vorschlag)** → jede Zeile wird in Schritt 6 ausgemustert, in
+  Listen-Reihenfolge
+- **Nummern streichen** → danach Freitext, z.B. `2, 5`; nur das Gestrichene kurz
+  rueckbestaetigen (`Gestrichen: 2, 5 → einzeln in Schritt 5`), nicht die ganze Liste erneut
+  zeigen. **Gestrichen heisst NICHT ausgemustert und NICHT behalten** — gestrichene Zeilen gehen
+  als Einzelfaelle in Schritt 5 und zaehlen nicht gegen die Kappung
+- **Einzeln durchgehen** → alle Zeilen der Liste werden Einzelfaelle (ohne Kappung)
+
+**Jede andere Antwort** gilt als nicht bestaetigt — genau eine Rueckfrage
+(`Alle uebernehmen / streiche {Nr} / einzeln / Abbruch?`); bleibt sie unklar oder lautet
+`Abbruch` → nichts ausmustern, genau eine Zeile, weiter mit der Bilanz (Schritt 7):
+```
+Nichts ausgemustert — Vorschlaege verworfen, lessons.md unveraendert{ bis auf die Selbstheilung}.
+```
+Nie stiller Auto-Write: ohne sichtbare Liste und ausdrueckliche Bestaetigung wird keine Lektion
+ausgemustert.
+
+---
+
+## Schritt 5: Einzeln entscheiden
+
+**Jede Entscheidung wird SOFORT geschrieben, nicht am Lauf-Ende gesammelt** (Schritt 6). Bricht
+der Lauf nach dem dritten von sechs Einzelfaellen ab, sind drei Entscheidungen fest, und die
+anderen drei prueft der naechste Lauf neu.
+
+**Wer hierher kommt** — in dieser Reihenfolge, innerhalb jeder Gruppe aelteste zuerst, Paare (3b)
+nebeneinander:
+1. die vom Menschen herausgenommenen Zeilen (gestrichen oder „Einzeln durchgehen") — ungekappt
+2. die Einzelfaelle aus 3c — gekappt nach 3d
+
+Laeuft zeitlich NACH dem Schreiben der Sammelliste: die sicheren Ausmusterungen stehen schon
+fest, ihre Sperren (3b) gelten hier bereits.
+
+Fuer jede dieser Lektionen:
+
+```
+Einzelfall {i}/{E} — L{N} ({Datum}) · Vorschlag: {Urteil} ({Sicherheit}){ · Applies-to: alle}
+  Rule:  {Rule, auf ~200 Zeichen gekuerzt}
+  Grund: {Grund}
+  Beleg: {Beleg}
+  {nur bei doppelt:}          Bleibend: L{M} — "{Rule von L{M}, ~120 Zeichen}"
+  {nur bei Kette/Kreis:}      Paar: L{M} ist selbst Vorschlag ({Urteil von L{M}})
+  {nur bei gestrichener Zeile:} Aus der Sammelliste gestrichen
+  {nur bei Treffer aus 3e:}   ⓘ in features/{slug}/{datei}
+```
+
+Dann eine blockierende Auswahl (`AskUserQuestion`):
+
+- **Ausmustern ({Urteil})** → Schritt 6
+- **Behalten** → nichts schreiben; der naechste Lauf prueft die Lektion neu. Es gibt keinen
+  Liegenlassen-Zustand — Lektionen tragen keinen Sichtungsvermerk
+- **Die andere ausmustern (L{M})** — nur bei `doppelt`, und nur wenn L{M} nicht gesperrt ist
+  (3b): der Mensch dreht die Richtung um; L{M} wird mit Grund `doppelt zu L{N}` ausgemustert,
+  L{N} ist ab dann gesperrt. Ein noch offener Einzelfall zu L{M} entfaellt (schon entschieden)
+
+**Jede andere Antwort** → genau eine Rueckfrage; bleibt sie unklar → **behalten** (im Zweifel
+behalten), genau eine Zeile `→ L{N} behalten (keine eindeutige Antwort)`. `Stopp` oder `Abbruch`
+→ alle noch offenen Einzelfaelle bleiben unveraendert, weiter mit der Bilanz (Schritt 7).
+
+---
+
+## Schritt 6: Schreiben
+
+Jede bestaetigte Ausmusterung, sofort nach ihrer Bestaetigung — aus der Sammelliste in
+Listen-Reihenfolge, aus Schritt 5 direkt nach der Wahl.
+
+**Regeln fuer jede Ausmusterung:**
+- **Ziel vor Quelle (L43):** zuerst die Archivzeile schreiben und zuruecklesen,
+  danach erst die Entnahme aus `lessons.md`. Bricht der Lauf dazwischen ab, steht die Lektion
+  an beiden Orten — sichtbar, und der naechste Lauf heilt es (1c) — statt an keinem
+- **Eine Lektion, ein Durchgang, sofort** — nie am Ende gesammelt
+- **Schreibfehler mitten drin** → melden, was geschrieben ist; alle noch offenen Lektionen bleiben
+  unveraendert in `lessons.md`, weiter mit der Bilanz — **nie zurueckrollen**
+
+### 6a: Archiv sicherstellen
+
+`{wf}/archive/lessons-ausgemustert.md`. Fehlt die Datei → mit diesem Kopf anlegen (das einzige
+`Write` dieses Skills — nur bei Neuanlage):
+
+```markdown
+# Ausgemusterte Lektionen
+
+> Append-only. Aus `lessons.md` ausgemusterte Lektionen mit Grund (`/dtb:lesson-curate`).
+> Nichts wird hier geloescht — die Datei ist der Suchraum, wenn ein Thema wiederkommt.
+> Wiederherstellen: die Zeile ohne erste und letzte Spalte zurueck nach `lessons.md` kopieren.
+> Die Nummern bleiben vergeben — `/dtb:lesson` zaehlt diese Datei bei der Nummernvergabe mit.
+
+| Ausgemustert am | # | Datum | Context | Problem | Rule | Applies-to | Grund |
+|-----------------|---|-------|---------|---------|------|------------|-------|
+```
+
+### 6b: Je Ausmusterung
+
+1. **Archivzeile anhaengen.** Vorher exakt pruefen, ob die Nummer schon im Archiv steht (Spalte
+   `#` = N) — dann nicht erneut anhaengen, weiter mit Punkt 3 (Selbstheilungs-Fall). Sonst das
+   Archiv per Read frisch lesen und per `Edit` am Tabellenende anhaengen (Anker = letzte Zeile
+   der Datei). Die Zeile ist:
+   `| {heute} ` + **die Lektionszeile woertlich** + ` {Grund-Zelle} |`
+   — so bleiben die Lektions-Spalten byte-gleich, und Wiederherstellen heisst: erste und letzte
+   Spalte wieder abschneiden. `{Grund-Zelle}` = `{Urteil}: {Grund} — Beleg: {Beleg}` aus der
+   Voranalyse (`ueberholt`, `gehoben` oder `doppelt zu L{M}`); bei „Die andere ausmustern"
+   `doppelt zu L{N}: vom Menschen umgekehrt — {Grund}`. Bare Pipes in der Grund-Zelle escapen
+2. **Zuruecklesen** — ein selbstaendiger Bash-Block, erwartet `ANZAHL 1` und `SPALTEN 8`:
+   ```bash
+   A="{wf}/archive/lessons-ausgemustert.md"; n={N}
+   r=$(tr -d '\r' < "$A" | grep -E "^\| *[0-9-]+ *\| *$n *\|")
+   echo "ANZAHL $(printf '%s\n' "$r" | grep -c .)"
+   printf '%s\n' "$r" | sed 's/[\][|]//g' | awk -F'|' '{print "SPALTEN " NF-2}'
+   ```
+   Escapte Pipes per Klammer-Ausdruck entfernen (2c). Abweichung → Schreibfehler: keine Entnahme,
+   melden, weiter mit der Bilanz
+3. **Entnahme aus `lessons.md`** — die Datei unmittelbar vorher per Read neu lesen (das
+   Edit-Werkzeug verlangt es, L99, und eine parallele Session kann inzwischen eine Lektion
+   angehaengt haben), dann per `Edit`, exakte Zeile als Anker: `old_string` = die Lektionszeile
+   samt Zeilenumbruch, `new_string` leer. **Nie `Write`** — die ganze Datei neu zu schreiben,
+   ueberschriebe eine parallel erfasste Lektion. Schlaegt das Edit fehl (Zeile nicht mehr exakt
+   vorhanden oder nicht eindeutig) → Schreibfehler; die Lektion steht dann an beiden Orten, und
+   der naechste Lauf entscheidet in 1c
+4. Meldung: `✔ L{N} ausgemustert ({Urteil}) → archive/lessons-ausgemustert.md`
+
+---
+
+## Schritt 7: Bilanz
+
+Nach der letzten Entscheidung — oder nach Stopp, Abbruch, Schreibfehler oder `{V}` = 0. Zuerst
+den Mess-Block aus 1a erneut ausfuehren (neuer Umfang), dann die Kandidaten zum Heben — ein
+selbstaendiger Bash-Block:
+
+```bash
+L="{rules}/lessons.md"
+tr -d '\r' < "$L" | sed 's/[\][|]//g' \
+  | awk -F'|' '/^\| *[0-9]+ *\|/ && $(NF-1) ~ /(^|[ ,])alle([ ,]|$)/ {n=$2; gsub(/ /,"",n); printf "L%s ", n}'
+```
+
+```
+Lektionen kuratiert:
+
+  Ausgemustert:    {n_aus}  (ueberholt {a} · doppelt {b} · gehoben {c})
+  Selbstheilung:   {n_heil}  (Entnahme nachgeholt)
+  Behalten:        {n_beh}  (davon {n_mensch} vom Menschen behalten)
+  Nicht geprueft:  {n_ung}  (Voranalyse ausgefallen — bleiben ungeprueft im Bestand)
+  Zurueckgestellt: {n_zur}  (Kappung einzeln_pro_lauf → naechster Lauf)
+
+  lessons.md: {Zeilen} Zeilen, {KB} KB (vorher {KB_vorher} KB, Schwelle {schwelle_kb} KB)
+```
+
+**Ist-Werte, nicht die Groessen aus 3f:** jede Zahl zaehlt, was tatsaechlich geschrieben bzw.
+entschieden wurde. Zeilen mit `0` entfallen — die Bilanz zeigt nur, was passiert ist.
+
+Darunter, je nur wenn zutreffend, genau eine Zeile:
+- Umfang weiter ueber der Schwelle:
+  `⚠ lessons.md bleibt ueber {schwelle_kb} KB — die Warnung in /dtb:lesson feuert weiter`
+- Lektionen mit `Applies-to: alle` vorhanden (nur Hinweis — gehoben wird nicht hier):
+  `💡 {K} Lektion(en) gelten fuer alle Skills ({Nummern}) — Kandidaten zum Heben nach skills/CLAUDE.md bzw. {rules}/`
+- Abbruch oder Schreibfehler mitten im Durchgang:
+  `Abgebrochen nach Entscheidung {K} von {M} — die {K} getroffenen Entscheidungen sind geschrieben.`
+
+**Kein Automatismus, kein Kettenaufruf.** Der Skill committet nicht und startet keinen weiteren
+Skill.
 
 ---
 
