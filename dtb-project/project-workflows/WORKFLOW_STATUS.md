@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| Dashboard mit Projektname und Raster-Hintergrund | Abgenommen | 5/5 | /dtb:archive |
+
+Kein aktives Feature.
 
 ---
 
@@ -56,6 +57,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive`
+**Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 91 ungesichtet → /dtb:idea-triage

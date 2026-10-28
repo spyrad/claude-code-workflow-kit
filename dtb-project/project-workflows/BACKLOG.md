@@ -12,7 +12,6 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 158 | Dashboard mit Projektname und Raster-Hintergrund | Abgenommen | Niedrig | features/dashboard-projektname-hintergrund/spec.md | Das Projekt-Dashboard zeigt auf den ersten Blick, zu welchem Projekt es gehoert, und traegt den Seitenhintergrund der pi.dev-Dokumentation |
 
 ---
 
