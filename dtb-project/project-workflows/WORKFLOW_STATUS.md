@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-10-27
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-27.md`
+**Letztes Update:** 2026-10-28
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-28.md`
 
 ---
 
@@ -19,18 +19,20 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #135 Projekt-Dashboard gemergt (`a7a76a9`), kit-sync 52/52, abgenommen und archiviert 2026-10-27 (`archive/projekt-dashboard/`) |
+| **Notizen** | Zwei Pane-Worktrees: #158 `dashboard-projektname-hintergrund` (5/5, Hand-off da, Abnahme offen), #141 `lektionen-kuratieren` (2/11, laeuft); Tick-Job `6a81ac09` |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl `8` in Schritt 5 (`grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27)
+- [ ] **Abnahme #158 Dashboard mit Projektname und Raster-Hintergrund** — Kontext: Seite nach den Review-Fixes neu erzeugen und im Browser pruefen (h1-id, Umbruch, `color-mix`, Hex-Tokens), dann Merge `feature/dashboard-projektname-hintergrund` → `master`, `/dtb:kit-sync sync`, Probeseite im Testbett, Worktree abbauen (seit 2026-10-28)
+- [ ] **Nach Merge #158: globale Updates nachziehen** — Kontext: INBOX #158 → Ausgearbeitet + Links discovery/spec, BACKLOG-Zeile „Aktive Features" (Prio Niedrig), `spec.md`-Kopf auf abgeleiteten Status; vor dem Merge fehlen die Dateien auf `master` (seit 2026-10-28)
+- [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27)
 - [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27)
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — bisher nur „Ende" im Betrieb gesehen (seit 2026-10-22)
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-10-27)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-22)
-- [ ] **`/dtb:idea-triage`** — Kontext: 88 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-22)
+- [ ] **`/dtb:idea-triage`** — Kontext: 91 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-22)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-22)
 
 ---
@@ -57,4 +59,4 @@ Keine.
 
 **Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 88 ungesichtet → /dtb:idea-triage
+**Becken:** 91 ungesichtet → /dtb:idea-triage
