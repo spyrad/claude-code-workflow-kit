@@ -34,7 +34,8 @@ Session-Ende durch `dtb:workflow-checkpoint` Schritt 4b (Modus „ohne Browser")
 
 Lies `workflow.config.yaml` im Projekt-Root. Fallbacks: `paths.workflows` →
 `dtb-project/project-workflows`, `paths.changelog` → `dtb-project/project-changelog`,
-`paths.rules` → `dtb-project/project-rules`, `status.alter_schwelle_tage` → 7. Fehlt die Config
+`paths.rules` → `dtb-project/project-rules`, `status.alter_schwelle_tage` → 7,
+`lessons.schwelle_kb` → 40. Fehlt die Config
 ganz, gelten alle Fallbacks (kein Abbruch).
 
 **Projektname** (Slot `{{PROJEKT}}`): `project_name` aus der Config — Wert ohne umschliessende
@@ -99,7 +100,7 @@ jeder Quelltext (Baustein-Regel) · Datum des Laufs als `YYYY-MM-DD`.
 |----------|-------|-------------|
 | Ideen offen | INBOX-Datenzeilen mit Status `Offen` oder `In Arbeit` | — |
 | Befunde ungesichtet | Becken-Datenzeilen, die nach der Definition **„Ungesichtet"** im Kopf von `INBOX-BEFUNDE.md` ungesichtet sind — die Definition steht dort und nur dort | — |
-| Lektionen | Datenzeilen in `lessons.md` | `{Zeilen der Datei}/150 Zeilen` |
+| Lektionen | Datenzeilen in `lessons.md` | `{KB}/{schwelle_kb} KB` (Groesse der Datei, Regel im Lektionen-Block unten) |
 | Aktive Changes | Eintraege im Backlog-Block (Summe der sieben Spalten, Regeln unten — leere Ordner zaehlen nicht) | — |
 | Offene Aufgaben | Zeilen `- [ ]` unter `## Offene Aufgaben` in `WORKFLOW_STATUS.md` | `{N} ⏳` = Zeilen, die ⏳ tragen |
 | Worktrees | Zeilen des Worktree-Blocks (unten) | unbekannt → Kennzahl `—` statt `0`: kein Git (`kein Git`), Quelle fehlt (`nicht vorhanden`), Anker fehlt (`Regel nicht gefunden`) |
@@ -181,9 +182,16 @@ offene Ideen (Kennzahl-Regel); das Becken zeigt alle ungesichteten Befunde, Zusa
 Zelle mit Fettdruck, dessen Text — sonst der erste Satz (bis `. `, `? `, `! ` oder `: `);
 Markdown-Zeichen (`**`, Backticks, Link-Syntax) entfernt; ≤ 96 Zeichen, gekappt mit `…`.
 
-**Lektionen** (Slot `{{LEKTIONEN}}`): Anzahl, letzte Nummer, Fuellstand `{Zeilen}/150` als
-Balken. Mehr als 150 Zeilen → „Kuratierung faellig (Soft-Limit ~150 Zeilen, siehe /dtb:lesson)"; sonst „Kuratierung noch nicht
-faellig (Signal ab > 150 Zeilen)" — dieselbe Schwelle wie `dtb:lesson`.
+**Lektionen** (Slot `{{LEKTIONEN}}`): Anzahl, letzte Nummer, Fuellstand `{KB}/{schwelle_kb} KB`
+als Balken. Groesse per `wc -c < "{rules}/lessons.md"`; KB = Bytes/1024, abgerundet.
+> **Kopplungs-Hinweis (KB-Definition):** dieselbe Rechenregel steht in `dtb:lesson` (Schritt 4,
+> Groessen-Warnung) und `dtb:lesson-curate` (Schritt 1a). Aenderung hier → beide mitziehen;
+> Verifikation: Grep `Bytes/1024` ueber `skills/` = 3 Skills.
+
+KB ≥ `schwelle_kb` → „Kuratierung faellig ({KB} KB, Soft-Limit {schwelle_kb} KB) — siehe
+/dtb:lesson-curate"; sonst „Kuratierung noch nicht faellig (Signal ab {schwelle_kb} KB)" —
+dieselbe Schwelle wie `dtb:lesson`. Messung ausgefallen → Fuellstand `—`, kein Balken, kein
+Kuratierungs-Satz (Werkzeug-Fehlschlag ist kein Befund).
 
 ### Schritt 4: Randfaelle
 

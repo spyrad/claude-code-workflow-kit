@@ -326,7 +326,8 @@ nicht beschrieben, der Backlog-Eintrag geht in den Hand-off) — diese Konventio
 ### Verbindliche Zuordnung (v1)
 
 Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; F = Zusatz
-`triage-vorsortierung` 2026-10-16; G = Zusatz `pane-session-neustart` 2026-10-21.
+`triage-vorsortierung` 2026-10-16; G = Zusatz `pane-session-neustart` 2026-10-21; H = Zusatz
+`lektionen-kuratieren` 2026-10-28.
 
 | Z | Skill · Stelle | Frueher | Jetzt (Form) |
 |---|----------------|---------|--------------|
@@ -348,6 +349,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | E | `feature-start` Abschluss (Bug, Aufgabe) | „Bereit? Sage Los" | **Stille Anzeige** `→ Weiter mit: …` (passender Einstieg) |
 | F | `idea-triage` Schritt 5 — Vorschlaege der Vorsortierung | eine Frage je Befund | **Sammelliste** (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`); Einzelfaelle (`Unklar`, Verwerfen unter `hoch` oder ohne pruefbaren Ort, Dublette eines Funds oder Nachtrag an einen Fund im selben Lauf, ohne Vorschlag) einzeln in Schritt 6; gestrichen = einzeln, nie verworfen |
 | G | `workflow-checkpoint` Sende-Seite (verlinkter Worktree) — Weiche Wechsel/Ende · `workflow-resume` Schritt 2a — Orchestrator-Adresse | — (neu) | **Textzeile**, Vorschlag abgeleitet (Checkliste des Changes vollstaendig und keine Zeile `^Decision: PENDING` in `review.md` → Ende, sonst Wechsel; Fehlwahl kostet nur einen erneuten Checkpoint) — benannte Abweichung von der Textzeilen-Form: Antwort nur `„Wechsel"`/`„Ende"`, KEIN `weiter = uebernehmen` (Abnahme 2026-10-22: „weiter" wurde als „Arbeit geht weiter" gelesen und landete in „Ende"); fehlende bzw. nicht erreichbare Adresse → **Textzeile** `weiter = ohne (Block manuell tragen)` |
+| H | `lesson-curate` Schritt 4/5 — Ausmusterungs-Vorschlaege der Voranalyse | — (neu) | **Sammelliste** wie F (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`), nur Sicherheit `hoch` mit pruefbarem Ort; Einzelfaelle (`mittel`, ohne Ort, Ketten/Kreise bei `doppelt`) einzeln mit Knopf `Ausmustern` / `Behalten` (bei `doppelt` zusaetzlich `Die andere ausmustern`); gestrichen = einzeln, nie ausgemustert; unklare Antwort → behalten |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
 „trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
@@ -440,9 +442,9 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 ### Orchestrator-Muster
 
 - Genau EINE Orchestrator-Session pro Projekt-Checkout: sie fuehrt alle global
-  schreibenden Skills aus (Checkpoint, INBOX, Backlog, Archiv, Lektionen, Meetings) — der
-  Checkpoint schreibt seit 2026-09-08 auch selbst nach `project-rules/lessons.md`/`INBOX.md`
-  (dringende Verlustfunde per Sammelvorlage)
+  schreibenden Skills aus (Checkpoint, INBOX, Backlog, Archiv, Lektionen samt Kuratierung,
+  Meetings) — der Checkpoint schreibt seit 2026-09-08 auch selbst nach
+  `project-rules/lessons.md`/`INBOX.md` (dringende Verlustfunde per Sammelvorlage)
 - N Worker-Sessions, je eine pro Change, je in einem eigenen Worktree — empfohlener Weg
   sind die nativen CC-Worktree-Tools (`EnterWorktree`/`ExitWorktree`, Subagents mit
   `isolation: worktree`); sie uebernehmen Pfad, Branch-Anlage und Aufraeumen
@@ -466,7 +468,7 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 
 | Kategorie | Verhalten im verlinkten Worktree | Skills |
 |-----------|----------------------------------|--------|
-| **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint` (Sonderfall: schreibt im verlinkten Worktree ausschliesslich die Uebergabe-Notiz im Git-Verwaltungsordner — ausserhalb des Arbeitsbaums, nie committet, nie global; die Schreibgrenzen-Regel bleibt unberuehrt), `idea`, `idea-review`, `archive`, `lesson`, `meeting-dump`, `task`, `bug-report`, `pane-start` (Sonderfall: `produces` leer — Voll-Guard aus betrieblichem Grund, verlinkte Worktrees legt man nur vom Haupt-Checkout aus an) |
+| **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint` (Sonderfall: schreibt im verlinkten Worktree ausschliesslich die Uebergabe-Notiz im Git-Verwaltungsordner — ausserhalb des Arbeitsbaums, nie committet, nie global; die Schreibgrenzen-Regel bleibt unberuehrt), `idea`, `idea-review`, `archive`, `lesson`, `lesson-curate`, `meeting-dump`, `task`, `bug-report`, `pane-start` (Sonderfall: `produces` leer — Voll-Guard aus betrieblichem Grund, verlinkte Worktrees legt man nur vom Haupt-Checkout aus an) |
 | **Teil-Guard** (hybrid) | Laeuft normal am EIGENEN Change, ueberspringt aber die globalen Schreibschritte (INBOX-Status/-Link, BACKLOG-Eintrag) mit einer Hinweiszeile; das Uebersprungene gehoert in den Hand-off | `feature-discover`, `feature-plan`, `feature-fast` |
 | **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `feature-start`, `debug-plan`, `impl-review`, `open-question` |
 | **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `idea-rank`, `no-loss-check`, `pipeline-graph`, `project-dashboard`, … |

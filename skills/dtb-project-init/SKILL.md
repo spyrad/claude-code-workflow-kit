@@ -111,6 +111,10 @@ status:
 
 dashboard:
   bei_checkpoint: true  # dtb:workflow-checkpoint Schritt 4b — Dashboard am Session-Ende aktualisieren
+
+lessons:
+  schwelle_kb: 40       # dtb:lesson — ab dieser Groesse von lessons.md (KB) Warnung mit Verweis auf dtb:lesson-curate; Dashboard-Fuellstand
+  einzeln_pro_lauf: 5   # dtb:lesson-curate — Einzelfaelle je Lauf
 ```
 
 **Regeln:**
@@ -123,6 +127,7 @@ dashboard:
 - `worker`: Deckelung fuer `dtb:worker` (Versuche/Minuten pro Task); Defaults 3/30, projektweit anpassbar
 - `status.alter_schwelle_tage`: Optional (Default 7 bei fehlendem Key — Bestandsprojekte ohne den Key sind gueltig). Ab dieser Liegezeit markieren `dtb:workflow-checkpoint` offene Aufgaben und die Worktree-Sicht Worktrees mit ⏳ (`DERIVED_STATE_RULES.md` §9/§10)
 - `dashboard.bei_checkpoint`: Optional (Default `true` bei fehlendem Key — Bestandsprojekte ohne den Key sind gueltig). `false` schaltet die automatische Aktualisierung von `dtb-project/project-dashboard.html` durch `dtb:workflow-checkpoint` (Schritt 4b) ab; `/dtb:project-dashboard` auf Abruf bleibt
+- `lessons.schwelle_kb` / `lessons.einzeln_pro_lauf`: Optional (Defaults 40 / 5 bei fehlendem Key — Bestandsprojekte ohne den Block sind gueltig). Ab `schwelle_kb` warnt `dtb:lesson` und verweist auf `dtb:lesson-curate`; das Dashboard zeigt den Fuellstand gegen denselben Wert; `einzeln_pro_lauf` kappt die Einzelfaelle eines Kuratierungs-Laufs
 
 ---
 
