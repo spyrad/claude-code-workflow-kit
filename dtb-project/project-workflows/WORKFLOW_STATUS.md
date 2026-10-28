@@ -9,8 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-
-Kein aktives Feature.
+| Lektionen kuratieren | Fertig zum Testen | 11/11 | /dtb:lesson-curate (Erstlauf, Teil der Abnahme) |
 
 ---
 
@@ -19,20 +18,20 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | Pane-Worktree #141 `lektionen-kuratieren`: 11/11, Hand-off da (10:43), Abnahme offen; Ueberwachungs-Tick beendet |
+| **Notizen** | PKP-Durchlaufzeiten ausgewertet (Seite claude.ai/artifact/AA1DVkgDV1WXR2PsjhWUpn), Wiederholung 2026-11-27; lessons.md jetzt 59 KB |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **Abnahme #141 Lektionen kuratieren** — Kontext: Manual-Kriterien in `plan.md`, Simulationen in `probe.md` gegenlesen; dann Merge `feature/lektionen-kuratieren` (Konflikte in `lessons.md` und `skills/dtb-project-dashboard/SKILL.md` moeglich), `/dtb:kit-sync sync`, Worktree abbauen (seit 2026-10-28)
-- [ ] **Nach Merge #141: globale Updates und Erstlauf** — Kontext: INBOX #141 → Ausgearbeitet + Links, BACKLOG-Zeile (Prio Mittel); `plan.md` „Nach dem Merge": erster echter `/dtb:lesson-curate`-Lauf, Bilanz, `schwelle_kb` 40 pruefen (Probe: nur ~3 KB Einsparung → 51 KB) (seit 2026-10-28)
+- [ ] **Abnahme #141 Lektionen kuratieren** — Kontext: erster echter Lauf `/dtb:lesson-curate`, Bilanz ins Session-Log (ausgemustert je Grund, neuer Umfang KB), `schwelle_kb` 40 pruefen (lessons.md jetzt 59 KB); dann Abnahme und `/dtb:archive` (seit 2026-10-28)
+- [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28)
 - [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27)
 - [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27)
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — bisher nur „Ende" im Betrieb gesehen (seit 2026-10-22)
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-10-27)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-22)
-- [ ] **`/dtb:idea-triage`** — Kontext: 93 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-22)
+- [ ] **`/dtb:idea-triage`** — Kontext: 96 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-22)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-22)
 
 ---
@@ -41,11 +40,11 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-10-28 | #158 Dashboard mit Projektname abgenommen | Fast-Track im Pane-Worktree, impl-review 7/7 FIXED (`268da05`), Merge `ed831bb`, kit-sync 52/52, Abnahme in pkp; L101, L102 | `2026-10/2026-10-28.md` |
+| 2026-10-28 | PKP-Durchlaufzeiten ausgewertet | Claude ~14 % der aktiven Zeit; Voll-Schiene ~11 h, Fast-Track ~4 h je Change; Seite + Wiederholung 27.11.; L106–L109, #164–#167 | `2026-10/2026-10-28.md` |
+| 2026-10-28 | #141 Lektionen kuratieren gemergt | Pane-Worktree Phasen 1–4, 11/11, impl-review 10/10 FIXED (`62ee1af`), Merge `2cba137` konfliktfrei, kit-sync 53/53; L103–L105 | `2026-10/2026-10-28.md` |
+| 2026-10-28 | #158 Dashboard mit Projektname abgenommen | Fast-Track im Pane-Worktree, impl-review 7/7 FIXED (`268da05`), Merge `ed831bb`, kit-sync 52/52, Abnahme in pkp, archiviert; L101, L102 | `2026-10/2026-10-28.md` |
 | 2026-10-27 | #135 Projekt-Dashboard abgenommen | Pane-Arbeitsplatz Phasen 1–3, impl-review 10/10 FIXED (`155e837`), Merge `a7a76a9`, kit-sync 52/52, Abnahme 3.4 (a)–(c), 11/11; L98–L100 | `2026-10/2026-10-27.md` |
 | 2026-10-27 | Doppelte Skill-Trigger entfernt | 3 Beschreibungen (`archive`, `backlog-status`, `workflow-resume`) eindeutig, Commit `e4c6b62` | `2026-10/2026-10-27.md` |
-| 2026-10-22 | #142 Pane-Session-Neustart abgeschlossen | Befunde A1-A4 + 2 Cap-Findings nachgearbeitet (`1632323`), kit-sync 51/51, archiviert; L97 | `2026-10/2026-10-22.md` |
-| 2026-10-22 | #142 Pane-Session-Neustart abgenommen | Abnahme 3.3 am echten Wechsel (a)-(f) bestanden, 9/9 (`4062b28`), 4 Befunde in review.md; L95, L96 | `2026-10/2026-10-22.md` |
 
 ---
 
@@ -57,6 +56,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-next`
+**Naechster Befehl:** `/dtb:lesson-curate`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 93 ungesichtet → /dtb:idea-triage
+**Becken:** 96 ungesichtet → /dtb:idea-triage
