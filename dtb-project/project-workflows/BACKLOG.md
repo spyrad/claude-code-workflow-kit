@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-10-28 (#158 Dashboard mit Projektname abgenommen)
+**Letzte Aktualisierung:** 2026-10-28 (#141 Lektionen kuratieren gemergt)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,6 +12,7 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
+| 141 | Lektionen kuratieren | Fertig zum Testen | Mittel | features/lektionen-kuratieren/spec.md | Ein Lauf `/dtb:lesson-curate` prueft lessons.md auf ueberholt, doppelt und gehoben; Ausgemustertes wandert mit Grund ins Archiv statt geloescht zu werden |
 
 ---
 
