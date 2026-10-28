@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-27
 **Ziel:** Das Projekt-Dashboard zeigt auf den ersten Blick, zu welchem Projekt es gehoert, und traegt den Seitenhintergrund der pi.dev-Dokumentation. <!-- Lint-Override: pi.dev ist die vom Menschen genannte visuelle Referenz (INBOX #158), keine Loesungswahl -->
 **Prioritaet:** Niedrig
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
