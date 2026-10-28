@@ -255,3 +255,161 @@ Bewertet wurde, ob ein Leser lose Dateien in `archive/` deutet — nur dann trif
 
 Keine Altstelle uebrig. Ein bekannter Folgefehler ausserhalb des Scopes (`dtb:migrate-change-folders`),
 bereits als eigene Idee fuer den Orchestrator vorgemerkt.
+
+---
+
+## Simulationen
+
+**Stand:** 2026-10-28, Schritt 4.1. **Ort:** Wegwerf-Kopie im Scratchpad ohne Git (`sim4/`: Kopie von
+`lessons.md` aus diesem Branch, `workflow.config.yaml`, `skills/CLAUDE.md`). Worktree-Guard dort
+woertlich ausgefuehrt → `DURCHLASS-NOGIT`. Jeder Skill-Block einzeln in frischer Shell, Platzhalter
+`{rules}` = `dtb-project/project-rules`, `{wf}` = `dtb-project/project-workflows`. Der echte Bestand
+wurde nicht beruehrt.
+
+### Durchlauf Sammelliste → Archiv + Entnahme (L8, Urteil aus Probe 1.3)
+
+1. 6a: Archiv fehlte → mit dem Kopf aus 6a angelegt (Write)
+2. 6b.1: Vorpruefung „Nummer schon im Archiv?" → `0`; Archivzeile per Edit angehaengt
+   (`| 2026-10-28 ` + L8 woertlich + ` gehoben: … — Beleg: skills/CLAUDE.md:630-641 |`)
+3. 6b.2: Zuruecklesen → `ANZAHL 1`, `SPALTEN 8`
+4. 6b.3: `lessons.md` per Read (Ausschnitt) gelesen, Zeile per Edit entnommen → `BYTES 56434 → 55621`
+   (= 813 Bytes, genau die L8-Zeile samt CRLF), `LEKTIONEN 87 → 86`, CRLF erhalten (95 von 95 Zeilen)
+
+✅ Durchlauf Sammelliste: Archivzeile 8 Spalten, Entnahme exakt eine Zeile, Zeilenenden unveraendert
+
+### Simulation 1 — Abbruch zwischen Archiv und Entnahme
+
+Zustand nach Schritt 3 oben (Archivzeile geschrieben, Entnahme noch nicht) = Abbruch-Zustand.
+
+| Block | Ausgabe |
+|-------|---------|
+| 1a Messen | `BYTES 56434` · `ZEILEN 96` · `DOPPELT 8` · `LEKTIONEN 87` |
+| 1c Vergleich (n=8) | `GLEICH` → nur Entnahme nachholen (Schritt 4 oben), kein zweiter Archiv-Eintrag |
+| 1a nach der Heilung | kein `DOPPELT` · `LEKTIONEN 86`; Archivzeilen fuer L8: `1` |
+
+Gegenvariante: L4 mit abgeaendertem Text (`bewusst` → `ABSICHTLICH`) ins Archiv gelegt →
+1a `DOPPELT 4`, 1c `VERSCHIEDEN` → nichts schreiben, Meldung „von Hand klaeren".
+
+✅ Simulation 1: Abbruch wird erkannt und ohne Doppel-Archiv geheilt; abweichender Inhalt wird nicht angefasst
+
+### Simulation 2 — Agent-Ausfall (praeparierte Ergebnisbloecke durch das Gate 2c)
+
+Portion `1 2 3`. Pruefskript setzt 2c mechanisch um (Nummern-Gate; Spaltenpruefung mit dem
+Skill-Kommando `sed 's/[\][|]//g' | awk -F'|' '{print NF}'` = 5; bekanntes Urteil).
+
+Variante a — fremde Nummer:
+```
+L1 | ueberholt | Die Mechanik gibt es nicht mehr. | skills/dtb-x/SKILL.md:12 | hoch
+L2 | behalten | Traegt noch. | — | hoch
+L99 | gehoben | Steht in skills/CLAUDE.md. | skills/CLAUDE.md:40 | hoch
+```
+Gate: `PORTION nicht geprueft (Nummern ist: 1 2 99  soll: 1 2 3 )`
+
+Variante b — fehlende Zeile:
+```
+L1 | ueberholt | Die Mechanik gibt es nicht mehr. | skills/dtb-x/SKILL.md:12 | hoch
+L2 | behalten | Traegt noch. | — | hoch
+```
+Gate: `PORTION nicht geprueft (Nummern ist: 1 2  soll: 1 2 3 )`
+
+Variante c — falsche Spaltenzahl (L2 mit unescapter Pipe, L3 mit escapter `\|\|` als Kontrolle):
+```
+L1 | ueberholt | Die Mechanik gibt es nicht mehr. | skills/dtb-x/SKILL.md:12 | hoch
+L2 | gehoben | Kette mit `|| exit 1` steht schon dort. | skills/CLAUDE.md:40 | hoch
+L3 | behalten | Kette mit `\|\| exit 1` ist nur Teilaspekt. | — | hoch
+```
+Gate: `L1 ok (ueberholt)` · `L2 nicht geprueft (Spalten 7)` · `L3 ok (behalten)`
+
+Folge nach 3a: a und b → Topf **nicht geprueft** = 3 (nur Zahl in der Bilanz, Zeile
+`⚠ Voranalyse fuer 3 Lektion(en) ausgefallen (L1–L3)`), L1 wird trotz `ueberholt` nicht vorgeschlagen;
+c → nur L2 nicht geprueft, L1 bleibt Vorschlag. In keinem Fall wird ein Ausfall als „behalten,
+nichts gefunden" gewertet.
+
+✅ Simulation 2: alle drei Ausfall-Varianten landen in „nicht geprueft", keine erzeugt einen Vorschlag
+
+### Simulation 3 — hoechste Nummer ausgemustert
+
+L100 (hoechste Nummer) ins Archiv gelegt und aus der Kopie entnommen (Simulations-Abkuerzung per Shell
+statt Edit; der Edit-Weg ist oben belegt). Nummernregel aus `dtb:lesson` Schritt 4 („hoechste Nummer
+ueber `lessons.md` UND Archiv-Spalte `#` plus eins"):
+
+| Quelle | Hoechste Nummer |
+|--------|-----------------|
+| `lessons.md` | 99 |
+| Archiv Spalte `#` | 100 |
+| naechste Nummer (Regel) | **101** |
+| ohne Archiv (alte Regel) | 100 — Kollision mit der ausgemusterten L100 |
+
+✅ Simulation 3: die naechste Lektion bekommt 101, eine nie benutzte Nummer
+
+### Nebenbefunde
+
+- Bilanz-Block 7 an der Kopie: 38 Hebe-Kandidaten (`alle`) — die Blockpruefung in Phase 2 zaehlte 39, Differenz = die
+  entnommene L100 (`alle`); `KB 53` nach zwei Entnahmen
+- `awk '/\r/{n++}'` (Pruefform aus L36) zaehlt auf diesem Rechner 0 CR-Zeilen in einer CRLF-Datei
+  (gawk liest im Textmodus); `grep -c $'\r'` und `od -c` zeigen sie. Der Skill ist nicht betroffen —
+  alle seine Bloecke entfernen `\r` vorher per `tr -d '\r'`. Lektion-Kandidat (in `plan.md`)
+
+---
+
+## Selbstpruefung
+
+**Stand:** 2026-10-28, Schritt 4.2. **Prueffrage (L16):** Fuehren zwei Regeln des Skills fuer dieselbe
+Lektion zu verschiedenen Ergebnissen? — nicht: kommt jedes Stichwort vor.
+
+### Vorrang: Sicherheit · Ketten-Sperre · Kappung · Streichen
+
+| Paarung | Befund |
+|---------|--------|
+| Sicherheit ↔ Ketten-Sperre | widerspruchsfrei — `niedrig` faellt in 3a nach behalten, wird kein Vorschlag und sperrt darum keine L{M} |
+| Ketten-Sperre ↔ Sammelliste | **Konflikt, korrigiert:** 3b machte bei einer Kette „beide" zum Einzelfall, 3c pruefte Kette/Kreis aber nur „bei `doppelt`" — die bleibende L{M} mit eigenem Urteil `ueberholt`/`gehoben` (hoch, mit Ort) waere in die Sammelliste gerutscht und haette mit „Alle uebernehmen" verschwinden koennen, waehrend L{N} noch auf sie verweist. 3c nennt die Bedingung jetzt fuer jede Lektion und ausdruecklich fuer L{M} |
+| Ketten-Sperre ↔ Sperre waehrend des Laufs | widerspruchsfrei — eine Sammelliste-Zeile `doppelt L{M}` hat (nach der Korrektur) nie eine L{M}, die selbst Vorschlag ist; die Laufzeit-Sperre wirkt nur auf Einzelfall-Paare |
+| Kappung ↔ Paare | widerspruchsfrei — Paar zaehlt 2, ganz oder gar nicht, naechste Lektion rueckt nach (3d); Reihenfolge in Schritt 5 „Paare nebeneinander" passt |
+| Kappung ↔ Streichen | widerspruchsfrei — gestrichene Zeilen gehen ungekappt zuerst (3d letzter Absatz, Schritt 5 Gruppe 1) |
+| Streichen ↔ „Die andere ausmustern" | widerspruchsfrei — eine gestrichene `doppelt`-Zeile sperrt L{M} erst mit ihrer Ausmusterung; vorher ist die Umkehr erlaubt |
+| Nummern-Gate ↔ Selbstheilung | widerspruchsfrei — `DOPPELT`-Nummern sind nicht in der Analysemenge; ein Urteil `doppelt L{M}` auf eine solche Nummer gilt nach 2c als `nicht geprueft` (behalten) |
+| Abbruch Sammelliste ↔ Einzelfaelle | widerspruchsfrei — Abbruch fuehrt direkt zur Bilanz, die Einzelfaelle bleiben unveraendert im Bestand und kommen im naechsten Lauf wieder |
+
+### Spec „Enthalten" gegen Skill-Stelle
+
+| Spec-Zeile | Skill-Stelle |
+|------------|--------------|
+| Voller Bestand je Lauf | 1b „vollstaendig", 2b „lies sie vollstaendig" |
+| Drei Gruende mit Beleg, Abwesenheits-Beleg nur mit Nachfolge-Stelle `hoch` | 2b Urteile + Beleg-Absatz |
+| Portionen, read-only Agenten, inline bei kleinem Bestand, Sicherheit je Urteil | 2a, 2b |
+| Uebersicht mit Einsparung in KB | 3f |
+| EINE Sammelliste mit Veto, nur `hoch` mit Beleg, `doppelt` nur einseitig | 3c, Schritt 4, Ersetzungsprobe in 2b |
+| Einzelfaelle, gekappt per `einzeln_pro_lauf` | 3c, 3d, Schritt 5 — **zwei Abweichungen von der Spec-Zeile, siehe unten** |
+| Im Zweifel behalten, `behalten` nie vorgelegt | Grundhaltung, 3a |
+| Sofort schreiben, Archiv vor Entnahme, Nummer bleibt | Schritt 5 Kopf, Schritt 6 Regeln, „Wichtig" |
+| Archiv append-only, Selbstanlage, versioniert | 6a; `git check-ignore` auf den Archivpfad → nicht ignoriert (versioniert) |
+| Selbstheilung zu Laufbeginn ohne Doppel-Archiv | 1a, 1c (Simulation 1) |
+| Abschluss-Bilanz inkl. Hebe-Hinweis `alle` | Schritt 7 |
+| KB-Schwelle, Warnung an genau einer Stelle | `dtb:lesson` Groessen-Warnung; der Kurator meldet nur den Stand („laeuft trotzdem"), keine zweite Warnung |
+| Nummernvergabe ueber `lessons.md` UND Archiv | `dtb:lesson` Schritt 4 (Simulation 3) |
+| Kopftext Datei = Template | `lessons.md:3-6` und `dtb:lesson`-Template zeilengleich (Phase 3) |
+| Begleitende Anzeigen und Doku | Phase 3, Gegenprobe 3.3 |
+| Voll-Guard, nur vom Menschen gestartet | `## Worktree-Guard`, `disable-model-invocation: true` |
+
+**Abweichungen Spec ↔ Skill (Spec-Zeile „Einzelfaelle")** — der Skill folgt jeweils dem Plan bzw.
+einem anderen Spec-Teil, die Spec-Zeile ist in sich ungenau:
+
+1. **Agent-Ausfaelle** stehen in der Spec-Zeile als Einzelfaelle. Risiko-Tabelle und Success
+   Criterion der Spec sagen `nicht geprueft → behalten` in der Bilanz, „nicht zu einem
+   Ausmusterungs-Vorschlag"; der Skill folgt dem (3c: „`nicht geprueft` ist **kein** Einzelfall").
+   Ohne Urteil gaebe es nichts zu entscheiden
+2. **Teilueberlappung** steht als Einzelfall (Discovery: „Teilueberlappung … → Einzelfall"). Plan 1.2
+   legte die Ersetzungsprobe fest („nur derselbe Gegenstand reicht nicht"); der Skill-Auftrag macht
+   daraus `behalten` — die Lektion wird nie vorgelegt. Strenger als die Spec und im Sinne von „im
+   Zweifel behalten" und „kein Zusammenfuehren"; eine teilweise gedeckte Lektion auszumustern hiesse,
+   den Rest ihrer Aussage zu verlieren
+
+Keine Korrektur am Skill — Entscheidung beim Menschen, ob die Spec-Zeile nachgezogen wird.
+
+### KB-Definition
+
+`grep -l 'Bytes/1024' skills/*/SKILL.md` → `dtb-lesson`, `dtb-lesson-curate`, `dtb-project-dashboard`
+= 3 Dateien (je Definition + Kopplungs-Hinweis, 6 Zeilen). Rechenregel an allen drei Stellen
+wortgleich „KB = Bytes/1024, abgerundet".
+
+✅ Selbstpruefung: ein Vorrangkonflikt gefunden und in 3c korrigiert, zwei Spec-Abweichungen benannt, KB-Definition 3/3

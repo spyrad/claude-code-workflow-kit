@@ -289,7 +289,8 @@ Lektionen, die sich gegenseitig ersetzen, gemeinsam verschwinden — und mit ihn
 **Sammelliste** (Schritt 4) — alle drei Bedingungen:
 - Sicherheit `hoch`
 - Beleg mit pruefbarem Ort: `Datei:Zeile`, bei `doppelt` die Nummer `L{M}`
-- bei `doppelt`: weder Kette noch Kreis (3b)
+- weder Teil einer Kette noch eines Kreises (3b) — das gilt auch fuer die bleibende Lektion L{M},
+  wenn sie selbst Vorschlag ist (jedes Urteil, z.B. `ueberholt`)
 
 **Einzelfall** (Schritt 5) — jeder andere Vorschlag: Sicherheit `mittel`; `hoch` ohne Ort im
 Beleg (ein plausibler Beleg ohne Ort rutschte bei „Alle uebernehmen" ungeprueft durch); Ketten

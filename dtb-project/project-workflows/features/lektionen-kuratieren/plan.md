@@ -270,11 +270,11 @@ Die Fehlerpfade der Spec sind an einer Wegwerf-Kopie belegt, der Regeltext ist i
 - [x] 2.1 Konsolidieren — `84aafcc`
 - [x] 2.2 Sammelliste und Einzelfaelle — `84aafcc`
 - [x] 2.3 Schreiben, Selbstheilung, Bilanz — `84aafcc`
-- [x] 3.1 dtb:lesson nachziehen
-- [x] 3.2 Live-Datei, Dashboard, Config
-- [x] 3.3 Doku und Gegenprobe
-- [ ] 4.1 Simulationen
-- [ ] 4.2 Text-Selbstpruefung
+- [x] 3.1 dtb:lesson nachziehen — `77577c3`
+- [x] 3.2 Live-Datei, Dashboard, Config — `77577c3`
+- [x] 3.3 Doku und Gegenprobe — `77577c3`
+- [x] 4.1 Simulationen
+- [x] 4.2 Text-Selbstpruefung
 
 ---
 
@@ -303,6 +303,7 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 ## Lektion-Kandidaten
 
 - „Eine Groessen-Schwelle an der Kostenart messen, die sie begrenzen soll (Bytes fuer geladene Priors), nie an einer Ersatzgroesse wie Zeilen — bei Tabellen mit einer Zeile je Eintrag schlaegt eine Zeilen-Schwelle nie an" (vorgemerkt 2026-10-27)
+- „CR-Zeilen in Git Bash unter Windows mit `grep -c $'\r'` oder `od -c` zaehlen, nie mit `awk '/\r/'` — gawk liest im Textmodus und meldet in einer CRLF-Datei 0 (schaerft L36)" (vorgemerkt 2026-10-28, Simulation 4.1)
 
 ---
 
