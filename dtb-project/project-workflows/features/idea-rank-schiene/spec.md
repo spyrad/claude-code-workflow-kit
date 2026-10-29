@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-29
 **Ziel:** Die Ideen-Rangliste zeigt je Idee zusaetzlich, welche Art von Arbeit sie ist — Schiene (Task / Fast-Track / Voll-Schiene) und Worker-Tauglichkeit.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

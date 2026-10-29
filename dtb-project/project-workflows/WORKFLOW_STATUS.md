@@ -9,10 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| idea-rank-schiene | Fertig zum Testen | 6/6 | Abnahme (Manual-Kriterien), dann Merge |
-
-⚠ idea-rank-schiene: Artefakte liegen nur im Worktree `feature/idea-rank-schiene` (Pane w3:pF), noch nicht auf master
-⚠ idea-rank-schiene: review.md sagt "REJECTED", Artefakte zeigen "10/10 FIXED, kein PENDING"
+| idea-rank-schiene | Abgenommen | 6/6 | /dtb:kit-sync sync, dann /dtb:archive |
 
 ---
 
@@ -21,13 +18,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #174 umgesetzt und reviewt (10/10 FIXED, Hand-off 22:04), Abnahme vertagt; L113, L114; Befund #176 (umnummeriert wegen Doppel-#175) |
+| **Notizen** | #174 abgenommen und gemergt (`cd05fe2`); L113, L114; Befund #176 (umnummeriert wegen Doppel-#175) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **idea-rank-schiene: Abnahme (Manual-Kriterien aus plan.md), dann Merge `b71df0d` nach master** — Kontext: 3 Manual-Punkte (Beispiel lesbar, Regel 4.5 widerspruchsfrei, Probelauf plausibel), `beispiel-ausgabe.md` im Worktree (seit 2026-10-29)
+- [ ] **idea-rank-schiene: nach /exit in der Pane w3:pF Worktree und Branch abbauen** — Kontext: gemergt als `cd05fe2`; `git worktree remove "C:/Users/damia/Desktop/Projekte/.dtb-worktrees/pane-idea-rank-schiene"` + `git branch -d feature/idea-rank-schiene` (seit 2026-10-29)
 - [ ] **idea-rank-schiene: nach dem Merge /dtb:kit-sync sync** — Kontext: neue Fassung von idea-rank, idea-review, worker (seit 2026-10-29)
 - [ ] **idea-rank-schiene: nach kit-sync ein echter /dtb:idea-rank-Lauf als Laufzeit-Beleg** — Kontext: der Probelauf pruefte die Anker per `grep -F` aus Bash, nicht ueber das Grep-Werkzeug (L113) (seit 2026-10-29)
 - [ ] **kit-sync nach dem Push** — Kontext: Default `schwelle_kb` 80 in `dtb-lesson`, `dtb-lesson-curate`, `dtb-project-dashboard`, `dtb-project-init` erreicht die Kopien unter `~/.claude/` erst damit (seit 2026-10-29)
@@ -46,7 +43,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-10-29 | #174 idea-rank-schiene umgesetzt und reviewt | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`7e51cac`, `b78bc08`), impl-review 10/10 FIXED (`b71df0d`); Abnahme und Merge offen; L113, L114 | `2026-10/2026-10-29.md` |
+| 2026-10-29 | #174 idea-rank-schiene abgenommen | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`7e51cac`, `b78bc08`), impl-review 10/10 FIXED (`b71df0d`), Abnahme per beispiel-ausgabe.md, Merge `cd05fe2`; L113, L114 | `2026-10/2026-10-29.md` |
 | 2026-10-29 | #141 Lektionen kuratieren abgenommen und archiviert | Erstlauf: 96 geprueft, 4 ausgemustert (Archiv neu), 56 KB; Default `schwelle_kb` 40 → 80; archiviert nach `archive/lektionen-kuratieren/`; L110–L112, #168–#172 | `2026-10/2026-10-29.md` |
 | 2026-10-28 | PKP-Durchlaufzeiten ausgewertet | Claude ~14 % der aktiven Zeit; Voll-Schiene ~11 h, Fast-Track ~4 h je Change; Seite + Wiederholung 27.11.; L106–L109, #164–#167 | `2026-10/2026-10-28.md` |
 | 2026-10-28 | #141 Lektionen kuratieren gemergt | Pane-Worktree Phasen 1–4, 11/11, impl-review 10/10 FIXED (`62ee1af`), Merge `2cba137` konfliktfrei, kit-sync 53/53; L103–L105 | `2026-10/2026-10-28.md` |
@@ -62,6 +59,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-checkpoint` (Abnahme idea-rank-schiene, danach Merge `feature/idea-rank-schiene`)
+**Naechster Befehl:** `/dtb:kit-sync sync` (danach `/dtb:idea-rank` als Laufzeit-Beleg, dann `/dtb:archive`)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 101 ungesichtet → /dtb:idea-triage
