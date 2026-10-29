@@ -9,8 +9,10 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| idea-rank-schiene | Fertig zum Testen | 6/6 | Abnahme (Manual-Kriterien), dann Merge |
 
-Kein aktives Feature.
+⚠ idea-rank-schiene: Artefakte liegen nur im Worktree `feature/idea-rank-schiene` (Pane w3:pF), noch nicht auf master
+⚠ idea-rank-schiene: review.md sagt "REJECTED", Artefakte zeigen "10/10 FIXED, kein PENDING"
 
 ---
 
@@ -19,12 +21,15 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #141 archiviert; INBOX #171 neu (Zahlen in automatischen Tests maskieren), #164 um „technisch pruefbar" ergaenzt |
+| **Notizen** | #174 umgesetzt und reviewt (10/10 FIXED, Hand-off 22:04), Abnahme vertagt; L113, L114; Befund #176 (umnummeriert wegen Doppel-#175) |
 
 ---
 
 ## Offene Aufgaben
 
+- [ ] **idea-rank-schiene: Abnahme (Manual-Kriterien aus plan.md), dann Merge `b71df0d` nach master** — Kontext: 3 Manual-Punkte (Beispiel lesbar, Regel 4.5 widerspruchsfrei, Probelauf plausibel), `beispiel-ausgabe.md` im Worktree (seit 2026-10-29)
+- [ ] **idea-rank-schiene: nach dem Merge /dtb:kit-sync sync** — Kontext: neue Fassung von idea-rank, idea-review, worker (seit 2026-10-29)
+- [ ] **idea-rank-schiene: nach kit-sync ein echter /dtb:idea-rank-Lauf als Laufzeit-Beleg** — Kontext: der Probelauf pruefte die Anker per `grep -F` aus Bash, nicht ueber das Grep-Werkzeug (L113) (seit 2026-10-29)
 - [ ] **kit-sync nach dem Push** — Kontext: Default `schwelle_kb` 80 in `dtb-lesson`, `dtb-lesson-curate`, `dtb-project-dashboard`, `dtb-project-init` erreicht die Kopien unter `~/.claude/` erst damit (seit 2026-10-29)
 - [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28)
 - [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27)
@@ -32,7 +37,7 @@ Kein aktives Feature.
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — bisher nur „Ende" im Betrieb gesehen (seit 2026-10-22 · behalten 2026-10-29)
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-10-27)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-29)
-- [ ] **`/dtb:idea-triage`** — Kontext: 100 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-29)
+- [ ] **`/dtb:idea-triage`** — Kontext: 101 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-29)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-29)
 
 ---
@@ -41,11 +46,11 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-10-29 | #174 idea-rank-schiene umgesetzt und reviewt | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`7e51cac`, `b78bc08`), impl-review 10/10 FIXED (`b71df0d`); Abnahme und Merge offen; L113, L114 | `2026-10/2026-10-29.md` |
 | 2026-10-29 | #141 Lektionen kuratieren abgenommen und archiviert | Erstlauf: 96 geprueft, 4 ausgemustert (Archiv neu), 56 KB; Default `schwelle_kb` 40 → 80; archiviert nach `archive/lektionen-kuratieren/`; L110–L112, #168–#172 | `2026-10/2026-10-29.md` |
 | 2026-10-28 | PKP-Durchlaufzeiten ausgewertet | Claude ~14 % der aktiven Zeit; Voll-Schiene ~11 h, Fast-Track ~4 h je Change; Seite + Wiederholung 27.11.; L106–L109, #164–#167 | `2026-10/2026-10-28.md` |
 | 2026-10-28 | #141 Lektionen kuratieren gemergt | Pane-Worktree Phasen 1–4, 11/11, impl-review 10/10 FIXED (`62ee1af`), Merge `2cba137` konfliktfrei, kit-sync 53/53; L103–L105 | `2026-10/2026-10-28.md` |
 | 2026-10-28 | #158 Dashboard mit Projektname abgenommen | Fast-Track im Pane-Worktree, impl-review 7/7 FIXED (`268da05`), Merge `ed831bb`, kit-sync 52/52, Abnahme in pkp, archiviert; L101, L102 | `2026-10/2026-10-28.md` |
-| 2026-10-27 | #135 Projekt-Dashboard abgenommen | Pane-Arbeitsplatz Phasen 1–3, impl-review 10/10 FIXED (`155e837`), Merge `a7a76a9`, kit-sync 52/52, Abnahme 3.4 (a)–(c), 11/11; L98–L100 | `2026-10/2026-10-27.md` |
 
 ---
 
@@ -57,6 +62,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-next`
+**Naechster Befehl:** `/dtb:workflow-checkpoint` (Abnahme idea-rank-schiene, danach Merge `feature/idea-rank-schiene`)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 100 ungesichtet → /dtb:idea-triage
+**Becken:** 101 ungesichtet → /dtb:idea-triage
