@@ -71,7 +71,7 @@ die bestehenden Lanes.
 > Schwester-Raster ueber dieselbe Quellenliste (z.B. Aufwand×Nutzen, INBOX #33) docken hier als eigene Unterueberschrift an.
 
 > **Wartungs-Hinweis (Struktur-Anker):** Diese Ueberschrift samt Kriterien und Urteils-Regel wird
-> von `dtb:idea-rank` als Struktur-Anker referenziert (Schritt 3a, Grep auf die Ueberschrift; das Urteil
+> von `dtb:idea-rank` als Struktur-Anker referenziert (Schritt 3a, Grep auf die Ueberschrift und die Zeile `**Urteil:**`; das Urteil
 > speist dort den Zusatz `Task · Worker {ja/teilweise/nein}`, 4.5). Bei Umbenennung, geaenderten
 > Kriterien oder Urteilswerten den Struktur-Check und 4.5 dort mitziehen.
 

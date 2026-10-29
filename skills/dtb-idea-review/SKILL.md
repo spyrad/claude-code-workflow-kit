@@ -144,9 +144,9 @@ Aktion?
 **Ausarbeiten (2) — Dreier-Weiche (Groesseneinschaetzung):**
 
 > **Wartungs-Hinweis (Struktur-Anker):** Diese Zeile samt Tabelle wird von `dtb:idea-rank` als Struktur-Anker
-> referenziert (Schritt 3a, Grep auf die Fett-Zeile oben; die Tabelle speist dort die Spalte
-> „Schiene", 4.5). Bei Umbenennung der Zeile, Umbau der Tabelle oder geaenderten Schienen den
-> Struktur-Check und 4.5 dort mitziehen.
+> referenziert (Schritt 3a, Grep auf die Fett-Zeile oben und die drei Zeilenanfaenge der Tabelle;
+> die Tabelle speist dort die Spalte „Schiene", 4.5). Bei Umbenennung der Zeile, Umbau der
+> Tabelle oder geaenderten Schienen den Struktur-Check und 4.5 dort mitziehen.
 
 Schaetze die Idee in einem Satz mit Begruendung ein und schlage die passende Schiene vor —
 immer Vorschlag + Bestaetigung, nie automatisch:

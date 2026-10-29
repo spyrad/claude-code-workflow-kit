@@ -141,9 +141,9 @@ Die Quellen kennen ihren neuen Leser, die Kit-Doku beschreibt die erweiterte Sic
 - [x] 1.1 Beispiel-Ausgabe mit echten Daten — `7e51cac`
 - [x] 1.2 Struktur-Check auf die Regelquellen — `7e51cac`
 - [x] 1.3 Einstufungsregeln und Ausgabeform — `7e51cac`
-- [x] 2.1 Wartungs-Hinweise an den Quellen
-- [x] 2.2 Kit-Doku nachziehen
-- [x] 2.3 Probelauf gegen die Repo-Fassung
+- [x] 2.1 Wartungs-Hinweise an den Quellen — `b78bc08`
+- [x] 2.2 Kit-Doku nachziehen — `b78bc08`
+- [x] 2.3 Probelauf gegen die Repo-Fassung — `b78bc08`
 
 ---
 

@@ -134,23 +134,33 @@ Bemerkung mit `(Vermutung)`.
 
 Die Spalte „Schiene" (4.5) traegt keine eigene Heuristik — sie liest die Dreier-Weiche aus
 `dtb:idea-review` und das Raster aus `dtb:worker` als Single Source (Referenz, keine Kopie).
-Vor ihrer ersten Nutzung pruefst du per Grep, ob beide Anker existieren:
+Vor ihrer ersten Nutzung pruefst du per Grep, ob alle Anker existieren. Die Muster sind fertig
+escapt — das Grep-Werkzeug sucht per Regex und kennt keinen woertlichen Modus; kein `$` am Ende
+(Quelldateien mit CRLF):
 
-| Regelquelle | Anker (Grep, woertlich) | liefert |
-|-------------|-------------------------|---------|
-| `dtb-idea-review/SKILL.md` | `**Ausarbeiten (2) — Dreier-Weiche (Groesseneinschaetzung):**` | Schienen-Wert |
-| `dtb-worker/SKILL.md` | `### Schritt 2: Urteil je Eintrag (Bewertungsraster: Worker-Tauglichkeit)` | Worker-Zusatz bei `Task` |
+| Regelquelle | Anker (Grep-Muster, Regex) | liefert |
+|-------------|----------------------------|---------|
+| `dtb-idea-review/SKILL.md` | `^\*\*Ausarbeiten \(2\) — Dreier-Weiche \(Groesseneinschaetzung\):\*\*` | Schienen-Wert |
+| `dtb-worker/SKILL.md` | `^### Schritt 2: Urteil je Eintrag \(Bewertungsraster: Worker-Tauglichkeit\)` | Worker-Zusatz bei `Task` |
 
-**Aufloesung je Quelle:** zuerst die installierte Kopie `~/.claude/skills/dtb-*/SKILL.md`, sonst
-`skills/dtb-*/SKILL.md` im Projekt-Root (Kit-Repo-Fall).
+**Zeilen-Anker** (was 4.5 tatsaechlich liest — je genau ein Treffer): in `dtb-idea-review/SKILL.md`
+`^\| Operative Aufgabe \|`, `^\| Kleines Feature \|` und `^\| Sonst \|`; in `dtb-worker/SKILL.md`
+`^\*\*Urteil:\*\*`. Fehlt einer → Fall 2 fuer diese Quelle.
 
-**Beide Anker gefunden** → den Abschnitt unter dem Anker lesen (Dreier-Weiche: Tabelle
-Einstufung / Heuristik / Schiene; Raster: vier Kriterien und die Urteils-Regel) — keine Ausgabe.
+**Aufloesung je Quelle — Repo zuerst, dann Installation:** `skills/dtb-*/SKILL.md` relativ zum
+Projekt-Root, sonst die installierte Kopie `~/.claude/skills/dtb-*/SKILL.md`. Im Kit-Repo ist das
+Repo die Quelle, aus der `kit-sync` verteilt — die installierte Kopie waere waehrend eines Umbaus
+der Stand von gestern; Zielprojekte haben kein `skills/`.
+
+**Alle Anker gefunden** → lesen bis zum Ende der Tabelle (Dreier-Weiche: Einstufung / Heuristik /
+Schiene) bzw. bis einschliesslich der Urteilszeile (Raster: vier Kriterien und die Urteils-Regel)
+— keine Ausgabe: die Vorlage der Rangliste ist streng (Schritt 5), der Check meldet sich nur im
+Fehlerfall.
 
 **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist keine Drift). Die
 Rangliste erscheint in beiden Faellen vollstaendig; nur die betroffene Einstufung zeigt `?` (bei
-der Dreier-Weiche die ganze Zelle, beim Raster der Zusatz: `Task · Worker ?`). Je Fall genau eine
-Hinweiszeile unter der Stand-Zeile:
+der Dreier-Weiche die ganze Zelle, beim Raster der Zusatz: `Task · Worker ?`). Je betroffener
+Quelle genau eine Hinweiszeile unter der Stand-Zeile:
 
 1. **Datei in beiden Quellen nicht gefunden** → Installations-Problem:
    `⚠ Regelquelle {Skill} weder global (~/.claude/skills/) noch im Projekt gefunden — Einstufung als „?" → /dtb:kit-sync sync`
@@ -158,8 +168,9 @@ Hinweiszeile unter der Stand-Zeile:
    `⚠ Struktur-Check: {Quelle} — Anker „{Anker}" nicht gefunden; Einstufung als „?" → dtb:idea-rank an die neue Struktur anpassen`
 
 „Nicht gefunden" gilt nur, wenn beide Aufloesungen leer sind. Ein Werkzeugfehler (Lesefehler,
-abgebrochener Aufruf) ist **kein Befund** — einmal wiederholen; scheitert er erneut, wie Fall 2
-behandeln, aber mit `nicht lesbar (Werkzeugfehler, kein Befund)` statt `nicht gefunden`.
+abgebrochener Aufruf, abgelehntes Muster) ist **kein Befund** — einmal wiederholen; scheitert
+er erneut, statt Fall 2 genau diese Zeile:
+`⚠ Struktur-Check: {Quelle} nicht lesbar (Werkzeugfehler, kein Befund) — Einstufung als „?" → Lauf wiederholen`
 
 > **Benanntes Restrisiko:** Der Check prueft Anker-EXISTENZ, nicht Regel-INHALT. Gegen inhaltliche
 > Drift verteidigen die Wartungs-Hinweise an beiden Quell-Ankern — aendert sich die Weiche oder das
@@ -311,7 +322,7 @@ wird hier nicht wiederholt. Ihre drei Einstufungen werden zu drei kurzen Werten:
 1. **Grundsatzfrage** (Aufwand mit Zusatz `+ Umsetzung offen`, 4.3) → `Task`. Eingestuft wird wie
    beim Aufwand die Arbeit **bis zur Entscheidung** — ein einmaliger Handgriff ohne Spec. Lautet
    die Entscheidung „bauen", entsteht eine neue Idee bzw. ein Change mit eigener Einstufung
-2. **Mehrere Phasen sind nie Fast-Track:** Aufwand `3+ Tage` → `Voll-Schiene` statt
+2. **Mehr als zwei Phasen sind nie Fast-Track:** Aufwand `3+ Tage` → `Voll-Schiene` statt
    `Fast-Track` (der Fast-Track ist auf hoechstens 2 Plan-Phasen begrenzt)
 3. **Grenzfall** zwischen zwei Schienen → die groessere (`Task` < `Fast-Track` < `Voll-Schiene`),
    wie der sichere Default der Weiche. Eine Grundsatzfrage ist kein Grenzfall — fuer sie gilt
@@ -341,7 +352,7 @@ ist genau eine Zeile.
 # Ideen-Rangliste
 
 **Stand:** {YYYY-MM-DD} · {N} offene Ideen bewertet{ (Teilmenge: #a, #b)}
-{⚠-Hinweiszeilen aus Schritt 2 und 3a, falls vorhanden}
+{⚠-Hinweiszeilen aus Schritt 2, 3 und 3a, falls vorhanden}
 
 | # | Idee (kurz) | Aufwand | Schiene | Wichtigkeit | Bemerkung |
 |---|---|---|---|---|---|
@@ -371,7 +382,7 @@ Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-revi
      `Blockiert: #12 (In Arbeit), Change foo (In Arbeit)`
   2. Grund der Wichtigkeit (Beleg aus Text/Querbeleg, Vermutungen mit `(Vermutung)`)
   3. Nur bei `Task · Worker teilweise`: `Worker: {fehlendes Kriterium}` — die eine Luecke aus dem
-     Raster, kurz (z.B. `Worker: Zielzustand nicht mechanisch pruefbar`)
+     Raster, kurz (z.B. `Worker: Scope offen (Stelle nennen)`)
   4. Reihenfolge — fuer **jede** Kante `#A vor #B` zwischen zwei Tabellenzeilen, auf **beiden**
      Seiten, unabhaengig davon, ob eine Zeile verschoben wurde:
 
