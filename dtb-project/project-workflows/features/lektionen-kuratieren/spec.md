@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-27
 **Ziel:** Ein vom Menschen gestarteter Lauf haelt die Lektionen-Sammlung kompakt, indem er ueberholte, doppelte und schon gehobene Lektionen mit Beleg zum Ausmustern vorschlaegt und Bestaetigtes mit Grund ins Archiv verschiebt statt es zu loeschen.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -101,7 +101,7 @@
 - Fuehren `dtb:workflow-checkpoint` (Verlustfunde) und `dtb:idea-triage` (Lektion erfassen) bei ihrer Referenz auf `dtb:lesson` Schritt 4 die Unter-Sektion „Groessen-Warnung" mit aus? Sonst erbt die KB-Warnung nicht — in impl-plan klaeren
 - Archiv-Spalten: Lektionen-Spalten plus `Ausgemustert am` / `Grund` / `Beleg` — in impl-plan festlegen
 - Soll der `lessons:`-Block ins Config-Template von `dtb:project-init`, oder reicht der Default-Rueckfall im Skill (das Template traegt heute nur `status:`)? — in impl-plan entscheiden
-- Traegt der Default `schwelle_kb: 40` nach dem ersten echten Lauf? Gegenpruefen am Ergebnis (heute 56 KB)
+- Traegt der Default `schwelle_kb: 40` nach dem ersten echten Lauf? Gegenpruefen am Ergebnis (heute 56 KB) — **beantwortet 2026-10-29:** nein; nach dem Lauf 92 von 96 gueltig, 56 KB — Default auf 80 KB angehoben (L111)
 
 ---
 

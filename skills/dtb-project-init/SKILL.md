@@ -113,7 +113,7 @@ dashboard:
   bei_checkpoint: true  # dtb:workflow-checkpoint Schritt 4b — Dashboard am Session-Ende aktualisieren
 
 lessons:
-  schwelle_kb: 40       # dtb:lesson — ab dieser Groesse von lessons.md (KB) Warnung mit Verweis auf dtb:lesson-curate; Dashboard-Fuellstand
+  schwelle_kb: 80       # dtb:lesson — ab dieser Groesse von lessons.md (KB) Warnung mit Verweis auf dtb:lesson-curate; Dashboard-Fuellstand
   einzeln_pro_lauf: 5   # dtb:lesson-curate — Einzelfaelle je Lauf
 ```
 

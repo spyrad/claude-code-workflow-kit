@@ -72,7 +72,7 @@ Lies `workflow.config.yaml` im Projekt-Root.
   `{rules}` = der aufgeloeste Regel-Ordner inkl. Fallback (fuer den Mess-Block in Schritt 4)
 - Archiv-Pfad: `{config.paths.workflows}/archive/lessons-ausgemustert.md` (Fallback:
   `dtb-project/project-workflows/archive/lessons-ausgemustert.md`) — nur gelesen, fuer die Nummernvergabe
-- Groessen-Schwelle: `lessons.schwelle_kb` (Default `40`)
+- Groessen-Schwelle: `lessons.schwelle_kb` (Default `80`)
 - Falls ein Pfad oder Schluessel fehlt: Fallback bzw. Default verwenden, kein Abbruch
 
 ---
@@ -190,7 +190,7 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 > Append-only Sammlung nicht-offensichtlicher, wiederverwendbarer Regeln.
 > Erfasst mit `/dtb:lesson`, gelesen als Prior von impl-plan, debug-plan, plan-review, impl-review, implement, feature-fast.
 > Append-only gilt fuers Schreiben: **nicht** manuell editieren/loeschen. Die Entnahme laeuft nur ueber `/dtb:lesson-curate` (Archiv mit Grund, die Nummer bleibt vergeben).
-> Kompakt halten — Soft-Limit `lessons.schwelle_kb` (Default 40 KB); darueber warnt `/dtb:lesson` und verweist auf `/dtb:lesson-curate`.
+> Kompakt halten — Soft-Limit `lessons.schwelle_kb` (Default 80 KB); darueber warnt `/dtb:lesson` und verweist auf `/dtb:lesson-curate`.
 
 | # | Datum | Context | Problem | Rule | Applies-to |
 |---|-------|---------|---------|------|------------|

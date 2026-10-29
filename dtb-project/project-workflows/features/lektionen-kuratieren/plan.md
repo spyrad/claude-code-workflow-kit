@@ -283,10 +283,10 @@ Die Fehlerpfade der Spec sind an einer Wegwerf-Kopie belegt, der Regeltext ist i
 > Ausserhalb von `## Progress` — der Skill hat einen Voll-Guard und schreibt nur im Haupt-Checkout.
 > Diese Punkte gehoeren in den WORKTREE-HANDOFF-Block und sind Teil der Abnahme (Spec-Kriterium „Erster echter Lauf").
 
-- [ ] `kit-sync` nach dem Merge (Klasse-A: neuer Skill + geaenderte Skills)
-- [ ] Erster echter Lauf `/dtb:lesson-curate` im Haupt-Checkout am Kit-Bestand (Repo-Fassung, L74)
-- [ ] Bilanz des Laufs im Session-Log festhalten (ausgemustert je Grund, neuer Umfang KB)
-- [ ] Default `schwelle_kb: 40` am Ergebnis gegenpruefen (Spec-Offener-Punkt 4)
+- [x] `kit-sync` nach dem Merge (Klasse-A: neuer Skill + geaenderte Skills) — 2026-10-28, Lock 53 auf `db771d1`
+- [x] Erster echter Lauf `/dtb:lesson-curate` im Haupt-Checkout am Kit-Bestand (Repo-Fassung, L74) — 2026-10-29
+- [x] Bilanz des Laufs im Session-Log festhalten (ausgemustert je Grund, neuer Umfang KB) — Session-Log 2026-10-29
+- [x] Default `schwelle_kb: 40` am Ergebnis gegenpruefen (Spec-Offener-Punkt 4) — 40 zu knapp, Default 80 KB
 
 ---
 

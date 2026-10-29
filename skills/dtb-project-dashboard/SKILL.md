@@ -35,7 +35,7 @@ Session-Ende durch `dtb:workflow-checkpoint` Schritt 4b (Modus „ohne Browser")
 Lies `workflow.config.yaml` im Projekt-Root. Fallbacks: `paths.workflows` →
 `dtb-project/project-workflows`, `paths.changelog` → `dtb-project/project-changelog`,
 `paths.rules` → `dtb-project/project-rules`, `status.alter_schwelle_tage` → 7,
-`lessons.schwelle_kb` → 40. Fehlt die Config
+`lessons.schwelle_kb` → 80. Fehlt die Config
 ganz, gelten alle Fallbacks (kein Abbruch).
 
 **Projektname** (Slot `{{PROJEKT}}`): `project_name` aus der Config — Wert ohne umschliessende

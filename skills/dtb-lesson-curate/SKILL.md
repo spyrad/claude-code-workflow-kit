@@ -78,11 +78,11 @@ Lies zusaetzlich den optionalen Block `lessons`:
 
 ```yaml
 lessons:
-  schwelle_kb: 40         # ab dieser Groesse von lessons.md warnt dtb:lesson und nennt diesen Skill
+  schwelle_kb: 80         # ab dieser Groesse von lessons.md warnt dtb:lesson und nennt diesen Skill
   einzeln_pro_lauf: 5     # wieviele Einzelfaelle ein Lauf hoechstens vorlegt
 ```
 
-Fehlt ein Schluessel oder der ganze Block → Default (`40` bzw. `5`). Kein Hinweis, kein Abbruch.
+Fehlt ein Schluessel oder der ganze Block → Default (`80` bzw. `5`). Kein Hinweis, kein Abbruch.
 
 ---
 
