@@ -3,7 +3,7 @@
 **Erstellt:** 2026-10-27
 **Ziel:** Ein vom Menschen gestarteter Lauf haelt die Lektionen-Sammlung kompakt, indem er ueberholte, doppelte und schon gehobene Lektionen mit Beleg zum Ausmustern vorschlaegt und Bestaetigtes mit Grund ins Archiv verschiebt statt es zu loeschen.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
