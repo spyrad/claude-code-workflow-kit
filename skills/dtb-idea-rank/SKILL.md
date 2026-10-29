@@ -4,8 +4,10 @@ description: >-
   Use when: "Ideen priorisieren", "Rangliste der Ideen", "Aufwand Nutzen",
   "was lohnt sich zuerst", "welche Idee zuerst", "idea rank". Read-only
   ranking of all open ideas in INBOX.md as one table sorted by importance —
-  columns number, short title, effort as a time range, importance (six levels,
-  four colors) and a remark cell carrying blockers and dependencies.
+  columns number, short title, effort as a time range, lane (task / fast-track /
+  full lane per the idea-review triage switch, task rows with worker suitability
+  per the worker grid, both read by reference), importance (six levels, four
+  colors) and a remark cell carrying blockers and dependencies.
   Changes nothing. Not for the machine basin INBOX-BEFUNDE.md (that is dtb:idea-triage)
   and not for per-idea decisions (that is dtb:idea-review).
 disable-model-invocation: false
@@ -22,7 +24,8 @@ pipeline:
 # DTB Idea-Rank
 
 Zeigt alle offenen Ideen der Inbox als **eine Tabelle**, sortiert nach Wichtigkeit — je Idee
-Aufwand als Zeitspanne, Wichtigkeit und eine Bemerkung mit Blockern und Abhaengigkeiten. Die
+Aufwand als Zeitspanne, Schiene (Task / Fast-Track / Voll-Schiene, bei Task mit
+Worker-Tauglichkeit), Wichtigkeit und eine Bemerkung mit Blockern und Abhaengigkeiten. Die
 Zeilen-Reihenfolge ist die Empfehlung. Rein lesend, als Chat-Report.
 
 **Warum es diesen Skill gibt:** Dieselbe Sicht wurde mehrfach von Hand gebaut — am
@@ -126,6 +129,52 @@ der Praxis bereits im Idee-Text, und der Lauf soll schnell bleiben.
 **Fakt vs. Vermutung:** Was im Idee-Text oder einem Querbeleg steht, ist Fakt. Was du nur
 schliesst (z.B. „ueberschneidet sich vermutlich mit Feature X"), kennzeichnest du in der
 Bemerkung mit `(Vermutung)`.
+
+## Schritt 3a: Einstufungsquellen pruefen (Struktur-Check)
+
+Die Spalte „Schiene" (4.5) traegt keine eigene Heuristik — sie liest die Dreier-Weiche aus
+`dtb:idea-review` und das Raster aus `dtb:worker` als Single Source (Referenz, keine Kopie).
+Vor ihrer ersten Nutzung pruefst du per Grep, ob alle Anker existieren. Die Muster sind fertig
+escapt — das Grep-Werkzeug sucht per Regex und kennt keinen woertlichen Modus; kein `$` am Ende
+(Quelldateien mit CRLF):
+
+| Regelquelle | Anker (Grep-Muster, Regex) | liefert |
+|-------------|----------------------------|---------|
+| `dtb-idea-review/SKILL.md` | `^\*\*Ausarbeiten \(2\) — Dreier-Weiche \(Groesseneinschaetzung\):\*\*` | Schienen-Wert |
+| `dtb-worker/SKILL.md` | `^### Schritt 2: Urteil je Eintrag \(Bewertungsraster: Worker-Tauglichkeit\)` | Worker-Zusatz bei `Task` |
+
+**Zeilen-Anker** (was 4.5 tatsaechlich liest — je genau ein Treffer): in `dtb-idea-review/SKILL.md`
+`^\| Operative Aufgabe \|`, `^\| Kleines Feature \|` und `^\| Sonst \|`; in `dtb-worker/SKILL.md`
+`^\*\*Urteil:\*\*`. Fehlt einer → Fall 2 fuer diese Quelle.
+
+**Aufloesung je Quelle — Repo zuerst, dann Installation:** `skills/dtb-*/SKILL.md` relativ zum
+Projekt-Root, sonst die installierte Kopie `~/.claude/skills/dtb-*/SKILL.md`. Im Kit-Repo ist das
+Repo die Quelle, aus der `kit-sync` verteilt — die installierte Kopie waere waehrend eines Umbaus
+der Stand von gestern; Zielprojekte haben kein `skills/`.
+
+**Alle Anker gefunden** → lesen bis zum Ende der Tabelle (Dreier-Weiche: Einstufung / Heuristik /
+Schiene) bzw. bis einschliesslich der Urteilszeile (Raster: vier Kriterien und die Urteils-Regel)
+— keine Ausgabe: die Vorlage der Rangliste ist streng (Schritt 5), der Check meldet sich nur im
+Fehlerfall.
+
+**Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist keine Drift). Die
+Rangliste erscheint in beiden Faellen vollstaendig; nur die betroffene Einstufung zeigt `?` (bei
+der Dreier-Weiche die ganze Zelle, beim Raster der Zusatz: `Task · Worker ?`). Je betroffener
+Quelle genau eine Hinweiszeile unter der Stand-Zeile:
+
+1. **Datei in beiden Quellen nicht gefunden** → Installations-Problem:
+   `⚠ Regelquelle {Skill} weder global (~/.claude/skills/) noch im Projekt gefunden — Einstufung als „?" → /dtb:kit-sync sync`
+2. **Datei vorhanden, Anker fehlt** → Struktur-Drift:
+   `⚠ Struktur-Check: {Quelle} — Anker „{Anker}" nicht gefunden; Einstufung als „?" → dtb:idea-rank an die neue Struktur anpassen`
+
+„Nicht gefunden" gilt nur, wenn beide Aufloesungen leer sind. Ein Werkzeugfehler (Lesefehler,
+abgebrochener Aufruf, abgelehntes Muster) ist **kein Befund** — einmal wiederholen; scheitert
+er erneut, statt Fall 2 genau diese Zeile:
+`⚠ Struktur-Check: {Quelle} nicht lesbar (Werkzeugfehler, kein Befund) — Einstufung als „?" → Lauf wiederholen`
+
+> **Benanntes Restrisiko:** Der Check prueft Anker-EXISTENZ, nicht Regel-INHALT. Gegen inhaltliche
+> Drift verteidigen die Wartungs-Hinweise an beiden Quell-Ankern — aendert sich die Weiche oder das
+> Raster, muss 4.5 mitgezogen werden.
 
 ## Schritt 4: Bewerten
 
@@ -256,6 +305,44 @@ Ohne Kanten ergibt das genau die Sortierung 1–3; Ketten und mehrere Vorgaenger
 brauchen keine Sonderregel. Die Wichtigkeit einer Idee aendert sich dabei nie.
 `sinnvoll`-Kanten verschieben keine Zeile — sie stehen nur in der Bemerkung (Schritt 5).
 
+### 4.5 Schiene und Worker
+
+Jede Idee bekommt genau einen Schienen-Wert — Probe: „Auf welcher Schiene liefe die Idee, wenn
+man sie jetzt ausarbeitete?" Die Heuristik ist die der Dreier-Weiche (gelesen in Schritt 3a), sie
+wird hier nicht wiederholt. Ihre drei Einstufungen werden zu drei kurzen Werten:
+
+| Einstufung der Dreier-Weiche | Wert |
+|------------------------------|------|
+| Operative Aufgabe (`/dtb:task`) | `Task` |
+| Kleines Feature (`/dtb:feature-fast`) | `Fast-Track` |
+| Sonst (`/dtb:feature-discover`) | `Voll-Schiene` |
+
+**Zusatzregeln** (ergaenzen die Weiche fuer die Rangliste, aendern sie nicht):
+
+1. **Grundsatzfrage** (Aufwand mit Zusatz `+ Umsetzung offen`, 4.3) → `Task`. Eingestuft wird wie
+   beim Aufwand die Arbeit **bis zur Entscheidung** — ein einmaliger Handgriff ohne Spec. Lautet
+   die Entscheidung „bauen", entsteht eine neue Idee bzw. ein Change mit eigener Einstufung
+2. **Mehr als zwei Phasen sind nie Fast-Track:** Aufwand `3+ Tage` → `Voll-Schiene` statt
+   `Fast-Track` (der Fast-Track ist auf hoechstens 2 Plan-Phasen begrenzt)
+3. **Grenzfall** zwischen zwei Schienen → die groessere (`Task` < `Fast-Track` < `Voll-Schiene`),
+   wie der sichere Default der Weiche. Eine Grundsatzfrage ist kein Grenzfall — fuer sie gilt
+   Regel 1
+4. **Teil-Routing** (4.1) → nur den ungerouteten Rest einstufen
+
+**Worker-Zusatz — nur bei `Task`:** Urteil nach dem Raster aus `dtb:worker` (gelesen in Schritt
+3a): `ja`, `teilweise` oder `nein`; die Zelle lautet dann `Task · Worker {Urteil}`. Grenzfall →
+das schwaechere Urteil (`nein` < `teilweise` < `ja`). Bei `teilweise` steht die eine fehlende
+Voraussetzung als Bemerkungs-Teil 3 (`Worker: {fehlendes Kriterium}`, Schritt 5). `Fast-Track`
+und `Voll-Schiene` tragen keinen Zusatz: vor einem Worker-Lauf braeuchten sie Spec und Plan, und
+die sind laut Raster-Quelle kein Worker-Material. Dass `dtb:worker` in seiner eigenen Sicht auch
+solche Ideen bewertet, ist bekannt und gewollt — die Rangliste zeigt nur, was ohne Spec moeglich ist.
+
+**Ausfall einer Regelquelle** (Schritt 3a) → `?` statt Wert bzw. Zusatz, nie geraten.
+
+**Die Schiene aendert weder Wichtigkeit noch Sortierung** (4.4) — sie sagt, welche Art Arbeit eine
+Idee ist, nicht, wann sie dran ist. Sie ist ein **Vorschlag**: `dtb:idea-review` schaetzt beim
+Ausarbeiten selbst ein und uebernimmt den Wert nicht automatisch.
+
 ## Schritt 5: Ausgeben
 
 Keine Rueckfragen — sofort ausgeben. **Eine** Tabelle, sortiert nach 4.4; jede Idee im Umfang
@@ -265,11 +352,11 @@ ist genau eine Zeile.
 # Ideen-Rangliste
 
 **Stand:** {YYYY-MM-DD} · {N} offene Ideen bewertet{ (Teilmenge: #a, #b)}
-{⚠-Hinweiszeilen aus Schritt 2, falls vorhanden}
+{⚠-Hinweiszeilen aus Schritt 2, 3 und 3a, falls vorhanden}
 
-| # | Idee (kurz) | Aufwand | Wichtigkeit | Bemerkung |
-|---|---|---|---|---|
-| {N} | {Kurztitel} | {Spanne} | {Farbe} {Stufe} | {Bemerkung} |
+| # | Idee (kurz) | Aufwand | Schiene | Wichtigkeit | Bemerkung |
+|---|---|---|---|---|---|
+| {N} | {Kurztitel} | {Spanne} | {Schiene} | {Farbe} {Stufe} | {Bemerkung} |
 
 {falls vorhanden: offen, Change fehlt: #{N} → {naechster Schritt}, #{M} → {naechster Schritt}}
 
@@ -284,6 +371,8 @@ Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-revi
   Text bleibt ueber die Nummer in `INBOX.md` erreichbar. Bei Teil-Routing (4.1) mit
   Zusatz `(Rest)`
 - **Aufwand** — Spanne aus 4.3, ggf. mit Zusatz
+- **Schiene** — Wert aus 4.5: `Fast-Track`, `Voll-Schiene` oder `Task · Worker {ja/teilweise/nein}`;
+  `?` bzw. `Task · Worker ?` bei Ausfall einer Regelquelle (Schritt 3a)
 - **Wichtigkeit** — Farbe + Stufe aus 4.3 (`🔴 hoch`)
 - **Bemerkung** — **eine** Zelle, die die Einstufung begruendet und zeigt, was man vor dem
   Anfangen wissen muss. Teile in dieser Reihenfolge, getrennt mit `; ` (innerhalb eines Teils
@@ -292,7 +381,9 @@ Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-revi
      `Change {slug} (Status)` / `{externe Voraussetzung}`, z.B.
      `Blockiert: #12 (In Arbeit), Change foo (In Arbeit)`
   2. Grund der Wichtigkeit (Beleg aus Text/Querbeleg, Vermutungen mit `(Vermutung)`)
-  3. Reihenfolge — fuer **jede** Kante `#A vor #B` zwischen zwei Tabellenzeilen, auf **beiden**
+  3. Nur bei `Task · Worker teilweise`: `Worker: {fehlendes Kriterium}` — die eine Luecke aus dem
+     Raster, kurz (z.B. `Worker: Scope offen (Stelle nennen)`)
+  4. Reihenfolge — fuer **jede** Kante `#A vor #B` zwischen zwei Tabellenzeilen, auf **beiden**
      Seiten, unabhaengig davon, ob eine Zeile verschoben wurde:
 
      | Kante | bei `#A` | bei `#B` |
@@ -311,7 +402,7 @@ Momentaufnahme — INBOX.md unveraendert. Entscheidungen je Idee: /dtb:idea-revi
      | Idee dieser Zeile ist Vorbedingung einer Idee ausserhalb | `Vorbedingung fuer #B`, bei sinnvoll mit `(Vermutung)` |
 
      Eine erfuellte Vorbedingung (4.2) erzeugt keinen Text
-  4. Hinweise aus 4.2 im Wortlaut der Tabelle „Vorbedingung → Wirkung"
+  5. Hinweise aus 4.2 im Wortlaut der Tabelle „Vorbedingung → Wirkung"
      (z.B. `Verweis ausserhalb der Inbox — Reihenfolge nicht pruefbar`); eine nicht
      pruefbare Nummer wird dabei nie genannt
 
@@ -327,8 +418,10 @@ Schritt je Nummer nach der Regel in Schritt 1)
 - **Kein zweiter Speicherort:** Die Rangliste ist ein Chat-Report, keine Datei. Sie veraltet
   mit jeder neuen Idee; jeder Aufruf bewertet frisch und schreibt keine fruehere Rangliste fort
 - **Becken bleibt draussen:** `INBOX-BEFUNDE.md` wird nicht gelesen (§6.4)
-- **Jede Idee genau eine Zeile:** Stufen und Sortierung folgen den Tabellen in 4.3/4.4,
-  nicht dem Gesamteindruck
+- **Jede Idee genau eine Zeile:** Stufen, Sortierung und Schiene folgen den Tabellen in
+  4.3/4.4/4.5, nicht dem Gesamteindruck
+- **Schiene ist Vorschlag:** die Einstufung bindet `/dtb:idea-review` nicht und stammt aus den
+  Regeln von `dtb:idea-review` und `dtb:worker` (per Referenz, Schritt 3a) — keine eigene Fassung
 - **Laeuft ueberall:** auch in einem verlinkten Worktree unveraendert (Read-only-Sicht) —
   der Lesestand kann dort aelter sein als im Haupt-Checkout
 - **Deutsch:** alle Texte auf Deutsch
