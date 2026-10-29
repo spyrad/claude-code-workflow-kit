@@ -138,12 +138,12 @@ Die Quellen kennen ihren neuen Leser, die Kit-Doku beschreibt die erweiterte Sic
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Beispiel-Ausgabe mit echten Daten
-- [x] 1.2 Struktur-Check auf die Regelquellen
-- [x] 1.3 Einstufungsregeln und Ausgabeform
-- [ ] 2.1 Wartungs-Hinweise an den Quellen
-- [ ] 2.2 Kit-Doku nachziehen
-- [ ] 2.3 Probelauf gegen die Repo-Fassung
+- [x] 1.1 Beispiel-Ausgabe mit echten Daten — `7e51cac`
+- [x] 1.2 Struktur-Check auf die Regelquellen — `7e51cac`
+- [x] 1.3 Einstufungsregeln und Ausgabeform — `7e51cac`
+- [x] 2.1 Wartungs-Hinweise an den Quellen
+- [x] 2.2 Kit-Doku nachziehen
+- [x] 2.3 Probelauf gegen die Repo-Fassung
 
 ---
 
