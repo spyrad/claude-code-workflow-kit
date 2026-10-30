@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-10-29
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-29.md`
+**Letztes Update:** 2026-10-30
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-10/2026-10-30.md`
 
 ---
 
@@ -18,13 +18,12 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #174 abgenommen und gemergt (`cd05fe2`); L113, L114; Befund #176 (umnummeriert wegen Doppel-#175) |
+| **Notizen** | #174 abgenommen, gemergt, Worktree abgebaut; Ideen-Review (24 offen) angestossen, noch ohne Entscheidung; INBOX #177-#180 uncommittet aus anderer Quelle |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **idea-rank-schiene: nach /exit in der Pane w3:pF Worktree und Branch abbauen** — Kontext: gemergt als `cd05fe2`; `git worktree remove "C:/Users/damia/Desktop/Projekte/.dtb-worktrees/pane-idea-rank-schiene"` + `git branch -d feature/idea-rank-schiene` (seit 2026-10-29)
 - [ ] **idea-rank-schiene: nach dem Merge /dtb:kit-sync sync** — Kontext: neue Fassung von idea-rank, idea-review, worker (seit 2026-10-29)
 - [ ] **idea-rank-schiene: nach kit-sync ein echter /dtb:idea-rank-Lauf als Laufzeit-Beleg** — Kontext: der Probelauf pruefte die Anker per `grep -F` aus Bash, nicht ueber das Grep-Werkzeug (L113) (seit 2026-10-29)
 - [ ] **kit-sync nach dem Push** — Kontext: Default `schwelle_kb` 80 in `dtb-lesson`, `dtb-lesson-curate`, `dtb-project-dashboard`, `dtb-project-init` erreicht die Kopien unter `~/.claude/` erst damit (seit 2026-10-29)
