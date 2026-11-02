@@ -483,8 +483,8 @@ Der Aufruf ist moeglich, obwohl dieser Skill gegen Modell-Aufrufe gesperrt ist �
 Ideen-Funde aus `## Kann warten`** — das Becken IST der Ort fuer „kann warten", damit entfaellt die
 wortgleiche Wiederholung derselben Idee in Folge-Reports (#75); Lektionen bleiben dringend-only.
 Je Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile Typ (`lesson`/`idea`) und Freitext; andere
-Skills (`open-question`) kommen nicht in die Vorlage, bleiben Befehle im Report und zaehlen in `{D}`
-mit, nie unter „erfasst". Ohne vorlage-faehigen Fund entfaellt dieser Block **still** (weiter: Schritt 1).
+Skills (`open-question`) kommen nicht in Teil A, bleiben Befehle im Report und zaehlen in `{D}`
+mit, nie unter „erfasst". Ohne Fund fuer Teil A entfaellt dieser Block **still** (weiter: Schritt 1).
 
 > **Wartungs-Hinweis (Format-Kopplung):** Dieser Block liest das Ausgabe-Muster von
 > `dtb:no-loss-check` (die beiden `## `-Gruppen-Ueberschriften, je Fund die `→`-Zeile).
@@ -498,7 +498,7 @@ mit, nie unter „erfasst". Ohne vorlage-faehigen Fund entfaellt dieser Block **
   relativ zum Projekt-Root, sonst `~/.claude/skills/dtb-{lesson,idea,idea-triage}/SKILL.md`. Bewusst umgekehrt
   zu `dtb:pane-start`: im Kit-Repo ist das Repo die Quelle, aus der `kit-sync` verteilt — die
   installierte Kopie waere waehrend eines Umbaus der Stand von gestern; Zielprojekte haben kein
-  `skills/`. Nur die Quellen aufloesen, deren Typ in der **Vorlage** vorkommt — nicht nur der dringenden Gruppe (Ideen kommen auch aus `## Kann warten`, ihr Anker muss mitgeprueft werden)
+  `skills/`. Nur die Quellen aufloesen, deren Typ in **Teil A** vorkommt — nicht nur der dringenden Gruppe (Ideen kommen auch aus `## Kann warten`, ihr Anker muss mitgeprueft werden)
 - **Anker-Grep** zeilenverankert auf den ganzen Titel (`tr -d '\r' | grep -x -F`), nie als
   Substring — die Kopplungs-Hinweise darunter zitieren den Titel selbst und wuerden ein
   falsches Gruen liefern:
@@ -514,7 +514,7 @@ mit, nie unter „erfasst". Ohne vorlage-faehigen Fund entfaellt dieser Block **
 - Alle Anker gefunden → eine Statuszeile, weiter: `🧩 Struktur-Check: {n}/{n} Anker in {aufgeloeste Quelle(n)} gefunden`
 - **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift);
   beide enden im **Rueckfall je Quelle**: die Funde des gefallenen Typs bleiben Befehle im Report,
-  die Vorlage traegt nur Typen mit gruener Quelle; faellt jede Quelle, weiter mit Schritt 1:
+  Teil A traegt nur Typen mit gruener Quelle; faellt jede Quelle, weiter mit Schritt 1:
 
   1. Datei in beiden Quellen nicht gefunden → Installations-Problem:
      ```
@@ -589,10 +589,10 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 **⏳ Alter (§9.4) — auf der NEUEN Liste:** Schwelle `status.alter_schwelle_tage`
 (Default 7 bei fehlendem Key); faellig = heute − juengeres Datum von `seit`/`behalten` ≥ Schwelle → ⏳ am
 Zeilenende. Alle faelligen Punkte gehen gesammelt als **Teil C** in den Kontrollpunkt (unten), nie
-Einzelfragen — Default „behalten". Punkte, deren Zuordnung in Teil B noch offen ist, fehlen in Teil C
-(ihr `seit` haengt von der Antwort ab): sie bekommen nach der Antwort nur ⏳ am Zeilenende, die Frage
-kommt beim naechsten Mal — Wirkung wie Abbruch fuer diesen Punkt (benannte Abweichung von der
-Reihenfolge in §9.4, die sonst eine zweite Runde erzwaenge).
+Einzelfragen — „passt" behaelt alle, eine Entscheidung faellt nur auf ausdrueckliche Antwort. Punkte, deren Zuordnung in Teil B noch offen ist, fehlen in Teil C
+(ihr `seit` haengt von der Antwort ab): sie bekommen nach der Antwort ⏳ am Zeilenende, falls sie
+dann faellig sind, die Frage kommt beim naechsten Mal — Wirkung wie Abbruch fuer diesen Punkt
+(§9.4, „Eine Rueckfrage-Runde" — sonst erzwaenge die Reihenfolge eine zweite Runde).
 
 „behalten" haengt `· behalten YYYY-MM-DD` an (`seit` bleibt, ⏳ entfaellt); erledigt/verworfen → Abgangsvermerk;
 Abbruch → keine Entscheidung, Punkte bleiben mit ⏳, Frage beim naechsten Mal. Nie automatisch.
@@ -613,7 +613,8 @@ statt Verlustfunde, Aufgaben-Zuordnung und ⏳ in drei Runden nacheinander zu fr
   Beleg aus dem Aufgaben-Vergleich
 - **Teil C — ⏳ alte Aufgaben:** die faelligen Punkte aus „⏳ Alter" (ohne die in Teil B offenen)
 
-Teile ohne Inhalt entfallen samt Ueberschrift; haben alle drei keinen Inhalt → keine Runde, weiter
+Teile ohne Inhalt entfallen samt Ueberschrift, Zaehler in der Kopfzeile und Antwortzeile — Kopfzeile
+und Legende nennen nur vorhandene Teile; haben alle drei keinen Inhalt → keine Runde, weiter
 mit Schritt 2. **Nicht hierher gehoeren** (eigene Fragen, bewusst): fehlende Pflichtfelder eines
 Hand-off-Blocks (Empfangsseite Punkt 1 — vor allem anderen) und die Abnahme-Frage (Schritt 2 —
 explizite Entscheidung mit Beleg).
@@ -626,7 +627,7 @@ entfaellt mit einer Hinweiszeile (Rueckfall auf die Befehle aus dem Report); B u
 Zeile, nie der volle Wortlaut der vier Felder einer Lektion. `{V}` = Zeilen in Teil A, `{D}` = davon dringend:
 
 ```
-# Kontrollpunkt — {V} Verlustfund(e) · {Z} Zuordnung(en) · {K} alte Aufgabe(n)
+# Kontrollpunkt — {V} Verlustfund(e) · {Z} Aufgaben-Frage(n) · {K} alte Aufgabe(n)
 
 A — Verlustfunde erfassen ({D} dringend)
 1  Lektion  {Rule-Satz gekuerzt}                    → lessons.md
@@ -640,30 +641,38 @@ B — Offene Aufgaben zuordnen
 C — ⏳ offene Aufgaben ≥ {S} Tage
 6  {Aufgabe} (seit YYYY-MM-DD, {T} Tage)
 
-Eine Antwort fuer alles, z. B. „Ok, passt" oder „streiche 2 · 4 ja · 6 erledigt":
+Eine Antwort fuer alles, z. B. „Ok, passt · 4 ja · 5 nein" oder „streiche 2 · 4 ja · 5 ja · 6 erledigt":
   A: Ok fuer alle nicht gestrichenen · streiche {Nr,…} · behalte {Nr} · Abbruch A
-  B: {Nr} ja | {Nr} nein (Zuordnung) · {Nr} erledigt | {Nr} weiter (Abgang)
+  B: {Nr} ja | {Nr} nein · {Nr} verwerfen: {Grund} (nur Abgangs-Zeilen)
   C: passt = alle behalten · {Nr} erledigt · {Nr} verwerfen: {Grund} · Abbruch C
 ```
 
 **Antwortregeln:**
 - **Ein Wort fuer alles:** „Ok", „passt" oder „Ok, passt" bestaetigt Teil A (alle nicht gestrichenen)
-  und Teil C (alle behalten); Teil B bleibt dabei ohne Zuordnung (Regel unten). „Abbruch" ohne
+  und Teil C (alle behalten); Teil B braucht eigene Angaben (Regel unten). „Abbruch" ohne
   Buchstaben gilt fuer A und C
 - **Teil A:** `streiche {Nr}` / `behalte {Nr}` kombinierbar; nur das Geaenderte kurz rueckbestaetigen,
-  nicht die ganze Vorlage erneut zeigen (Muster `dtb:feature-fast`). `streiche` heisst verwerfen, nicht
+  nicht den ganzen Kontrollpunkt erneut zeigen (Muster `dtb:feature-fast`). `streiche` heisst verwerfen, nicht
   vertagen (Randfall 3 von `no-loss-check`) — wer nur vertagen will, setzt den Befehl aus dem Report ab.
   `Abbruch A` → nichts erfassen, eine Meldezeile
-- **Teil B:** `ja` → derselbe Punkt, `seit` wandert woertlich mit; `nein` → alter Punkt weiter, neuer
-  Punkt neu (`seit` heute); `erledigt` → Abgangsvermerk; `weiter` → still weitertragen. **Ohne Angabe**
-  → keine Zuordnung, beide Punkte werden weitergetragen (verlustfrei — eine sichtbare Dublette ist
-  billiger als ein falsch verschmolzener Punkt; die Frage kommt beim naechsten Lauf erneut)
-- **Teil C:** Wirkung wie unter „⏳ Alter"; ohne Angabe = `passt` (Default „behalten");
-  `Abbruch C` → keine Entscheidung, Punkte bleiben mit ⏳
-- **Fallback:** Trifft die Antwort einen vorhandenen Teil A gar nicht oder einen Teil A/C nicht
+- **Teil B** — jede Zeile wird mit `ja`/`nein` beantwortet: Zuordnungs-Zeile `ja` → derselbe Punkt,
+  `seit` wandert woertlich mit; `nein` → alter Punkt weiter, neuer Punkt neu (`seit` heute).
+  Abgangs-Zeile `ja` → Abgangsvermerk `erledigt`; `nein` → still weitertragen; `verwerfen: {Grund}` →
+  Abgangsvermerk `verworfen` (§9.3). **Ohne Angabe**
+  → die Nummer gilt als unklar und geht in die eine Fallback-Rueckfrage (unten) — nie still weitertragen:
+  zwei alte Punkte fragt spaeter kein Vergleich mehr gegeneinander ab, eine stille Dublette bliebe fuer immer
+- **Teil C:** Wirkung wie unter „⏳ Alter"; **ohne Angabe** → keine Entscheidung (wie `Abbruch C`):
+  Punkte bleiben mit ⏳, die Frage kommt beim naechsten Mal — „behalten" nur auf ausdrueckliches
+  `passt` (nie automatisch, §9.4); `Abbruch C` → ebenso
+- **Verb und Nummer muessen zusammenpassen:** Jede Angabe ist (Nummer, Verb). Passt das Verb nicht
+  zum Teil der Nummer (z. B. `streiche 5` auf einer B-Zeile, `behalte 6` auf einer C-Zeile), gilt
+  diese Nummer als unklar
+- **Fallback:** Trifft die Antwort einen vorhandenen Teil A oder B gar nicht oder einen Teil nicht
   eindeutig, gilt dieser Teil als NICHT bestaetigt — genau eine Rueckfrage nur zu den unklaren Teilen
-  (`A: Ok / streiche {Nr} / behalte {Nr} / Abbruch?` bzw. `C: passt / {Nr} erledigt / {Nr} verwerfen: {Grund} / Abbruch?`);
-  bleibt sie unklar → Abbruch dieses Teils, nie stiller Auto-Write
+  bzw. Nummern (`A: Ok / streiche {Nr} / behalte {Nr} / Abbruch?`, `B: {Nr} ja / {Nr} nein / {Nr} verwerfen: {Grund}?`
+  bzw. `C: passt / {Nr} erledigt / {Nr} verwerfen: {Grund} / Abbruch?`); bleibt sie unklar → A und C:
+  Abbruch dieses Teils, B: wie `nein` (die Dublette steht dann sichtbar in der Liste) —
+  nie stiller Auto-Write
 
 **Danach schreiben:**
 1. **Teil A per Referenz** — je bestaetigtem Fund: Lektion → `## Schritt 4: Append-only speichern`
@@ -761,11 +770,11 @@ in Schritt 6, danach weiter mit Schritt 5.
 
 1. **Schalter:** `dashboard.bei_checkpoint` aus `workflow.config.yaml` lesen — fehlt der Key oder
    der Block, gilt `true`. Bei `false` → Schritt still ueberspringen (keine Zeile in Schritt 6)
-   **Seite vorhanden?** Zusaetzlich muss `dtb-project/project-dashboard.html` schon existieren
-   (`test -f`). Seite fehlt → Schritt still ueberspringen, keine Zeile in Schritt 6 — der Checkpoint
-   legt die Seite nie selbst an; sie entsteht nur per `/dtb:project-dashboard`, danach frischt
-   jeder Checkpoint sie auf (Grund: die Auffrischung kostet im Median rund 1 min je Lauf, Messung
-   2026-11-02 — in einem Projekt, das die Seite nie aufruft, ist das reine Wartezeit)
+   - **Seite vorhanden?** Zusaetzlich muss `dtb-project/project-dashboard.html` schon existieren
+     (`test -f`). Seite fehlt → Schritt still ueberspringen, keine Zeile in Schritt 6 — der Checkpoint
+     legt die Seite nie selbst an; sie entsteht nur per `/dtb:project-dashboard`, danach frischt
+     jeder Checkpoint sie auf (Grund: die Auffrischung kostet im Median rund 1 min je Lauf, Messung
+     2026-11-02 — in einem Projekt, das die Seite nie aufruft, ist das reine Wartezeit)
 2. **Struktur-Check (Kopplungs-Waechter, vor der ersten Nutzung):** Quelle aufloesen — Repo
    zuerst wie Schritt 0: `skills/dtb-project-dashboard/SKILL.md` im Projekt-Root, sonst die
    installierte Kopie `~/.claude/skills/dtb-project-dashboard/SKILL.md`. `dtb:project-dashboard`
@@ -802,18 +811,19 @@ Workflow-Checkpoint dokumentiert:
 Session-Log: {config.paths.changelog}/YYYY-MM/YYYY-MM-DD.md (Session N)
 Status: {config.paths.workflows}/WORKFLOW_STATUS.md
 {Falls Feature-Update: "Feature-Update: {Feature-Name} → {neuer Status}"}
-{Falls Schritt 4b gelaufen: "Dashboard: dtb-project/project-dashboard.html" + Hinweiszeilen des Laufs | Falls ausgefallen: die ⚠-Zeile aus Schritt 4b | bei_checkpoint: false → keine Zeile}
+{Falls Schritt 4b gelaufen: "Dashboard: dtb-project/project-dashboard.html" + Hinweiszeilen des Laufs | Falls ausgefallen: die ⚠-Zeile aus Schritt 4b | bei_checkpoint: false oder Seite fehlt → keine Zeile}
 
 Naechster Schritt: [Konkret]
-→ Weiter mit: /dtb:commit-and-push
 Blocker: [Keine / Beschreibung]
 {Falls >5 archivierbare Eintraege: "Aufraumen: {N} Eintraege koennten archiviert werden → /dtb:archive"}
 
 Fuer naechste Session: /dtb:workflow-resume
+{Nur wenn der Worktree-Guard HAUPT-CHECKOUT meldete: "→ Weiter mit: /dtb:commit-and-push"}
 ```
 
 **Kein Commit-Nachlauf:** Nach der Bestaetigung endet der Skill. Frage NICHT, ob committet oder
-gepusht werden soll, und biete es nicht an — die Zeile `→ Weiter mit: /dtb:commit-and-push` ist der
-Uebergang, den Befehl setzt der Mensch ab (Stille Anzeige statt Rueckfrage). Grund: Diese von keinem
+gepusht werden soll, und biete es nicht an — die letzte Zeile `→ Weiter mit: /dtb:commit-and-push` ist
+der Uebergang, den Befehl setzt der Mensch ab (Stille Anzeige statt Rueckfrage). Ohne Git (Guard
+`DURCHLASS-NOGIT`) entfaellt die Zeile — dort gibt es nichts zu committen. Grund: Diese von keinem
 Skill verlangte Frage war der groesste Einzelposten der Wartezeit (Messung 2026-11-02: 35 % der
 Antwort-Wartezeit, 55 von 176 Antworten).

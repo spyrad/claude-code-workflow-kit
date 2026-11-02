@@ -17,7 +17,8 @@ Begriffe:
   Ketten-Skill (Skill-Aufruf des Modells) oder zum Sitzungsende — dieselbe Abgrenzung wie
   chain-metrics.py im Nachbar-Repo mega.dev, dessen "aktive min" die Zielgroesse von #177 sind.
 - Kern: vom Start bis zum letzten Schreibvorgang des Checkpoints (Write/Edit auf Changelog,
-  WORKFLOW_STATUS, Dashboard-Seite, lessons.md, INBOX*) plus ein Ereignis fuer die Bestaetigung.
+  WORKFLOW_STATUS, Dashboard-Seite, lessons.md, INBOX*), verlaengert bis zur ersten Modell-Nachricht
+  mit Text danach (die Bestaetigung aus Schritt 6).
   Segment minus Kern = Nachlauf (z. B. Commit-Frage, Folgearbeit in derselben Sitzung).
 - Aktive Zeit: Summe der Luecken zwischen Ereignissen, jede Luecke hoechstens 300 s.
 - Phase einer Luecke: die Phase des Ereignisses, das die Luecke beendet; Luecken vor einer
@@ -174,7 +175,7 @@ def analyse(seg):
         gap = min(max((t - last_t).total_seconds(), 0), CAP)
         last_t = t
         content = (e.get("message") or {}).get("content")
-        bucket = None
+        bucket, has_text = None, False
         if e.get("type") == "user":
             body = " ".join(texts).strip()
             if has_tr and last_tool == "AskUserQuestion":
@@ -189,7 +190,10 @@ def analyse(seg):
             for c in content:
                 if c.get("type") == "text":
                     last_txt = c.get("text", "")
-                    if "WORKTREE-HANDOFF (dtb)" in last_txt or "⛔ dtb:workflow-checkpoint" in last_txt:
+                    has_text = True
+                    # nur der Guard-Abbruch markiert die Sende-Seite; die Kopfzeile des
+                    # Hand-off-Blocks zitiert auch die Empfangsseite
+                    if "⛔ dtb:workflow-checkpoint" in last_txt:
                         worktree = True
                     if re.search(r"Verlustpr\w+[^\n]{0,20}\d+ Fund", last_txt):
                         nlc_inline = True
@@ -209,13 +213,13 @@ def analyse(seg):
                     core_end = t
         b = bucket or phase
         acc[b] += gap
-        timeline.append((t, b, gap))
+        timeline.append((t, b, gap, has_text))
     if core_end:
-        after = 0
-        for t, b, gap in timeline:
-            if t <= core_end or after < 1:
+        # Kern endet mit der ersten Modell-Nachricht mit Text nach dem letzten Kern-Schreibvorgang
+        stop = next((t for t, _, _, txt in timeline if t > core_end and txt), core_end)
+        for t, b, gap, _ in timeline:
+            if t <= stop:
                 acc_core[b] += gap
-                after += t > core_end
     kind = ("worktree" if worktree else "handoff" if handoff_in
             else "normal" if core_end else "ohne_kern")
     return {"date": seg["start"].date().isoformat(),
@@ -227,6 +231,8 @@ def analyse(seg):
 
 
 def frage_art(q):
+    # die feste Weiter-Zeile des Checkpoints ist keine Commit-Frage
+    q = "\n".join(l for l in q.splitlines() if not l.strip().startswith("→ Weiter mit:"))[-400:]
     for name, pat in FRAGE_ARTEN:
         if re.search(pat, q):
             return name
@@ -271,7 +277,7 @@ def main(argv):
         agg = defaultdict(lambda: [0, 0.0])
         for r in norm:
             for gap, q, _ in r["answers"]:
-                a = agg[frage_art(q[-400:])]
+                a = agg[frage_art(q)]
                 a[0] += 1
                 a[1] += gap
         wait = sum(v[1] for v in agg.values()) or 1

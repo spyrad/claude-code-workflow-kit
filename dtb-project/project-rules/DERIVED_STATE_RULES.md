@@ -549,6 +549,13 @@ Muster WORKTREE-HANDOFF-Block). Der Abschnitt entfaellt bei 0 Abgaengen.
   kommt beim naechsten Mal. **Andere Antwort** → genau eine Rueckfrage
   (`passt / {Nr} erledigt / {Nr} verwerfen: {Grund} / Abbruch?`), bleibt sie unklar → Abbruch.
 - Erledigen/Verwerfen erzeugt den Abgangsvermerk nach 9.3. Keine automatische Entscheidung.
+- **Eine Rueckfrage-Runde (seit 2026-11-02):** Die Fragen aus 9.2 (unsichere Zuordnung), 9.3
+  (Abgang ohne Beleg) und diese ⏳-Vorlage stellt `dtb:workflow-checkpoint` gemeinsam mit den
+  Verlustfunden in EINER Nachricht (`#### Kontrollpunkt`), fortlaufend nummeriert. Punkte, deren
+  Zuordnung in dieser Runde noch offen ist, fehlen in der ⏳-Vorlage (ihr `seit` haengt von der
+  Antwort ab) und bekommen danach nur ⏳, falls faellig — Frage beim naechsten Mal. Ohne Angabe
+  zur ⏳-Vorlage → keine Entscheidung (wie Abbruch); ohne Angabe zu einer Zuordnung → die eine
+  Rueckfrage. Die Wirkung je Antwort bleibt wie oben.
 
 ### 9.5 Sonderfaelle
 

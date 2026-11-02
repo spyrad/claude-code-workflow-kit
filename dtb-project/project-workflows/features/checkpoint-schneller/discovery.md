@@ -65,6 +65,12 @@ Wartezeit nach Art der Rueckfrage (ganzes Segment, 176 Antworten des Menschen):
 > sonstiges 9 % (14). no-loss-check inline 10 statt 13, ohne Spur 13 statt ~10 (engeres Muster).
 > Laeufe, Mediane und Phasen-Anteile sind identisch; die Aussage aendert sich nicht. Fuer die
 > Nachmessung gelten die Werte des fertigen Skripts als Vorher-Werte.
+>
+> Nachtrag 2026-11-02 (impl-review F4/F8/F9): Hand-off-Empfaenge zaehlen nicht mehr als
+> Worktree-Abbruch (19 → 13), der Kern reicht bis zur Bestaetigung, die feste Weiter-Zeile zaehlt
+> nicht als Commit-Frage. Stand danach (inkl. Probelauf 2026-11-02 10:41): 78 normale Laeufe,
+> Kern-Median 5,0 min, Segment-Median 7,2 min; Commit/Push 37 %, Kontrollpunkt/Sammelvorlage 24 %,
+> Abnahme 15 %. Diese Fassung gilt als Vorher-Wert; die Nachmessung zaehlt nur Laeufe ab dem Merge.
 
 Weitere Befunde:
 - Die Commit-Frage steht nicht im Skill-Text (Grep auf `committen|commit-and-push` in

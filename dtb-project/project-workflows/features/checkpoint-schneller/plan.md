@@ -150,9 +150,9 @@ Die Messung ist wiederholbar, alle Spiegel und die Kit-Doku stimmen, und ein ech
 - [x] 1.1 Weiter-Zeile statt Commit-Frage — `083b8d4`
 - [x] 1.2 Ein Kontrollpunkt vor dem Schreiben — `083b8d4`
 - [x] 1.3 Dashboard nur bei vorhandener Seite — `083b8d4`
-- [x] 2.1 Mess-Skript fertigstellen
-- [x] 2.2 Doku und Spiegel nachziehen
-- [x] 2.3 Probelauf im Haupt-Checkout
+- [x] 2.1 Mess-Skript fertigstellen — `2de4f18`
+- [x] 2.2 Doku und Spiegel nachziehen — `2de4f18`
+- [x] 2.3 Probelauf im Haupt-Checkout — `2de4f18`
 
 ---
 
