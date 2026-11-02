@@ -9,7 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| idea-rank-schiene | Abgenommen | 6/6 | /dtb:archive |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | Nachmessung bis 2026-12-02, dann Abnahme |
 
 ---
@@ -59,6 +58,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive` (idea-rank-schiene abgenommen; checkpoint-schneller wartet auf die Nachmessung)
+**Naechster Befehl:** — offen — (mit /dtb:workflow-next bestimmen)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 104 ungesichtet → /dtb:idea-triage

@@ -117,3 +117,5 @@
 | 2026-10-28 | Feature | dashboard-projektname-hintergrund | features/dashboard-projektname-hintergrund/ | Abgenommen 2026-10-28 (Beleg: Seite genau analysiert fuer pkp-Projekt), Merge `ed831bb` |
 | 2026-10-29 | Idee | #141 "Lektionen kuratieren" | INBOX.md | Ausgearbeitet → archive/lektionen-kuratieren/ |
 | 2026-10-29 | Feature | lektionen-kuratieren | features/lektionen-kuratieren/ | Abgenommen 2026-10-29 (Beleg: erster echter Lauf `/dtb:lesson-curate` im Kit, 96 geprueft, 4 ausgemustert, Archiv zurueckgelesen) → Abgeschlossen. 11/11 ueber 4 Phasen im Pane-Worktree, impl-review 10/10 FIXED (`62ee1af`), Merge `2cba137`, kit-sync 53/53; Default `schwelle_kb` 40 → 80; L103–L105, L110, L111 |
+| 2026-11-02 | Idee | #174 "idea-rank um die Einstufung der Schiene erweitern" | INBOX.md | Ausgearbeitet → archive/idea-rank-schiene/ |
+| 2026-11-02 | Feature | idea-rank-schiene | features/idea-rank-schiene/ | Abgenommen 2026-10-29 (Beleg: beispiel-ausgabe.md, Merge `cd05fe2`; Laufzeit-Beleg 2026-11-02: echter /dtb:idea-rank-Lauf, Struktur-Check 6/6) |
