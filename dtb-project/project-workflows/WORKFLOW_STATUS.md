@@ -10,9 +10,7 @@
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
 | idea-rank-schiene | Abgenommen | 6/6 | /dtb:archive |
-| checkpoint-schneller | Fertig zum Testen | 6/6 | Abnahme, dann Merge `feature/checkpoint-schneller` |
-
-⚠ checkpoint-schneller: Artefakte liegen bis zum Merge nur auf `feature/checkpoint-schneller` (Worktree `pane-checkpoint-schneller`), nicht im Haupt-Checkout
+| checkpoint-schneller | Fertig zum Testen | 6/6 | Nachmessung bis 2026-12-02, dann Abnahme |
 
 ---
 
@@ -21,13 +19,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #177 Hand-off 11:31 empfangen: 3 Commits (`083b8d4`, `2de4f18`, `950d0dd`), impl-review 10/10 FIXED; offen ist das Manual-Kriterium „Beispiel-Ausgabe Kontrollpunkt" |
+| **Notizen** | #177 gemergt (`fc6f995`), kit-sync 7/7, beide Manual-Kriterien bestätigt — bewusst „Fertig zum Testen" bis zur Nachmessung; #173 folgt als eigener Change (#185) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **checkpoint-schneller: Abnahme und Merge, danach /dtb:kit-sync sync** — Kontext: 3 Commits auf `feature/checkpoint-schneller`; Manual-Kriterium Beispiel-Ausgabe des Kontrollpunkts (alle drei Teile / ein Teil) noch offen (seit 2026-11-02)
+- [ ] **checkpoint-schneller: Worktree pane-checkpoint-schneller und Branch abbauen** — Kontext: Pane geschlossen, Branch gemergt (`fc6f995`); `git worktree remove` + `git branch -d feature/checkpoint-schneller` (seit 2026-11-02)
 - [ ] **checkpoint-schneller: Nachmessung bis 2026-12-02** — Kontext: Median ≤ 4 aktive min nach ≥ 10 Läufen ab dem Merge (chain-metrics + `checkpoint-phasen.py --rueckfragen`) und 3 Vergleichsläufe mit denselben Funden; Vorher-Werte in discovery.md (seit 2026-11-02)
 - [ ] **checkpoint-schneller: Bündelung A/B/C beim nächsten Checkpoint mit Inhalt beobachten** — Kontext: im Probelauf kam keine Bündelung vor, der no-loss-check-Lauf dort nicht ausdrücklich belegt (seit 2026-11-02)
 - [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28)
@@ -61,6 +59,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** — offen — (mit /dtb:workflow-next bestimmen) — anstehend: Abnahme und Merge checkpoint-schneller, `/dtb:archive` für idea-rank-schiene
+**Naechster Befehl:** `/dtb:archive` (idea-rank-schiene abgenommen; checkpoint-schneller wartet auf die Nachmessung)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 103 ungesichtet → /dtb:idea-triage
+**Becken:** 104 ungesichtet → /dtb:idea-triage

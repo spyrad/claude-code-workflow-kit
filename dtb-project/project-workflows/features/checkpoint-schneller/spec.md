@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-02
 **Ziel:** Der Checkpoint braucht im Median hoechstens 4 aktive Minuten, ohne dass ein Verlustfund verloren geht.
 **Prioritaet:** Hoch
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
