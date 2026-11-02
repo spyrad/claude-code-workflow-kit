@@ -147,12 +147,12 @@ Die Messung ist wiederholbar, alle Spiegel und die Kit-Doku stimmen, und ein ech
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Weiter-Zeile statt Commit-Frage
-- [x] 1.2 Ein Kontrollpunkt vor dem Schreiben
-- [x] 1.3 Dashboard nur bei vorhandener Seite
-- [ ] 2.1 Mess-Skript fertigstellen
-- [ ] 2.2 Doku und Spiegel nachziehen
-- [ ] 2.3 Probelauf im Haupt-Checkout
+- [x] 1.1 Weiter-Zeile statt Commit-Frage — `083b8d4`
+- [x] 1.2 Ein Kontrollpunkt vor dem Schreiben — `083b8d4`
+- [x] 1.3 Dashboard nur bei vorhandener Seite — `083b8d4`
+- [x] 2.1 Mess-Skript fertigstellen
+- [x] 2.2 Doku und Spiegel nachziehen
+- [x] 2.3 Probelauf im Haupt-Checkout
 
 ---
 

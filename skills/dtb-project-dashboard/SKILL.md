@@ -22,7 +22,8 @@ pipeline:
 Rein lesende Sicht: buendelt den Projektstand in EINER lokalen HTML-Seite
 `dtb-project/project-dashboard.html` (unversioniert). Die Seite aendert keine Projektdatei. Zwei Wege, ein
 Ergebnis: auf Abruf (`/dtb:project-dashboard`, oeffnet den Browser) und automatisch am
-Session-Ende durch `dtb:workflow-checkpoint` Schritt 4b (Modus „ohne Browser").
+Session-Ende durch `dtb:workflow-checkpoint` Schritt 4b (Modus „ohne Browser") — dort nur, wenn die
+Seite schon existiert; angelegt wird sie ausschliesslich auf Abruf.
 
 ## Ablauf
 
