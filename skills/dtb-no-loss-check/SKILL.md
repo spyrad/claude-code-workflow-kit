@@ -308,7 +308,7 @@ Verlustpruefung — {N} Fund(e)
 Trotzdem weiter zum Checkpoint? (ja / erst erfassen)
 ```
 
-> **Wartungs-Hinweis (Format-Kopplung):** `dtb:workflow-checkpoint` (Schritt 0, Sammelvorlage)
+> **Wartungs-Hinweis (Format-Kopplung):** `dtb:workflow-checkpoint` (Kontrollpunkt Teil A, vorbereitet in Schritt 0)
 > parst diesen Report: die beiden `## `-Gruppen-Ueberschriften bestimmen, welche Funde in die
 > Vorlage kommen, und je Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile Typ und Freitext.
 > Aenderst du Ueberschriften, Fund-Format oder die `→`-Zeile, den Parser in
