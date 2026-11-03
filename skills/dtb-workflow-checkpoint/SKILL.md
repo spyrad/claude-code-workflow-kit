@@ -346,9 +346,10 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 - **Kontext**: Kurz erklaeren warum, nicht nur was
 - **Deutsch**: Alle Texte auf Deutsch
 - **Verlustpruefung (Pflicht, auch bei 0/0/0)**: letzter Bullet unter `### Implementiert` im festen
-  Format oben (Quelle: Schritt 0 und Teil A des Kontrollpunkts). Pfeil-Slot: `→ {L…, #…} erfasst` oder `→ nichts erfasst ({Abbruch|alle
-  gestrichen|Rueckfall Pfad 1|Rueckfall Pfad 2|>10 Funde})`; bei `D = 0` entfaellt der Pfeil-Teil; wurde die
-  Pruefung uebersprungen → `Verlustpruefung uebersprungen — {Grund}` statt der Zaehl-Zeile
+  Format oben (Quelle: Schritt 0, „Funde erfassen"). Pfeil-Slot: `→ {L…, #…} erfasst` oder `→ nichts erfasst ({nur
+  Duplikate|Rueckfall Pfad 1|Rueckfall Pfad 2|>10 Funde})`; der Pfeil-Teil entfaellt nur ohne Eingang (nichts zu
+  erfassen) — er haengt an den erfassten Eintraegen, nicht an `{D}`, weil „Kann warten"-Ideen auch ohne dringenden
+  Fund geschrieben werden; wurde die Pruefung uebersprungen → `Verlustpruefung uebersprungen — {Grund}` statt der Zaehl-Zeile
 - **Naechste Schritte** uebernehmen die Punkte samt `(seit …)` aus der neuen Liste (ohne Kontext/`· behalten`/⏳, §9.1)
 - **Aufgaben-Abgaenge** aus dem Vergleich (Schritt 1): einfache Aufzaehlung, KEINE Checkboxen (nichts,
   das eine Ableitung mitzaehlen koennte); der Abschnitt entfaellt bei 0 Abgaengen
@@ -468,23 +469,22 @@ Der Aufruf ist moeglich, obwohl dieser Skill gegen Modell-Aufrufe gesperrt ist �
 **Weich, nie blockierend:**
 - Skill nicht installiert → **eine** Hinweiszeile (`Verlustpruefung uebersprungen —
   dtb:no-loss-check nicht installiert (/dtb:kit-sync)`), danach unveraendert weiter mit Schritt 1
-- Funde gemeldet → die Gruppe „Vor dem Checkpoint erledigen" wird hier vorbereitet (Unterabschnitt
-  unten) und erscheint als Teil A im `#### Kontrollpunkt (eine Rueckfrage-Runde)` am Ende von Schritt 1;
-  aus „Kann warten" kommen nur die **Ideen**-Funde dazu, der Rest bleibt kopierfertige Befehle im
-  Report. **Der Checkpoint bricht nie ab** — `no-loss-check` ist empfehlend, nicht blockierend; der
-  Kontrollpunkt ist die eine Rueckfrage-Runde und ersetzt dessen Abschlussfrage
+- Funde gemeldet → die Gruppe „Vor dem Checkpoint erledigen" und die **Ideen**-Funde aus „Kann warten"
+  erfasst dieser Schritt selbst, ohne Rueckfrage (Unterabschnitt unten); der Rest bleibt kopierfertige
+  Befehle im Report. **Der Checkpoint bricht nie ab** — `no-loss-check` ist empfehlend, nicht
+  blockierend. Aus dtb:workflow-checkpoint aufgerufen entfaellt die Abschlussfrage immer — der Checkpoint erfasst selbst.
 - Lief die Pruefung in dieser Sitzung bereits, laeuft sie hier **trotzdem erneut** — dieser Lauf sieht
   alles seither Dazugekommene. Den Zweitlauf regelt `dtb:no-loss-check` (Randfall 3: ein frueherer
   Report ist keine Kandidatenquelle, bereits Verworfenes wird nicht unveraendert wiederholt)
 
-#### Funde erfassen (Vorbereitung fuer Teil A des Kontrollpunkts)
+#### Funde erfassen (ohne Rueckfrage)
 
-**Eingang:** In Teil A kommen alle Funde unter `## Vor dem Checkpoint erledigen` **plus die
-Ideen-Funde aus `## Kann warten`** — das Becken IST der Ort fuer „kann warten", damit entfaellt die
-wortgleiche Wiederholung derselben Idee in Folge-Reports (#75); Lektionen bleiben dringend-only.
+**Eingang:** alle Funde unter `## Vor dem Checkpoint erledigen` **plus die Ideen-Funde aus
+`## Kann warten`** — das Becken IST der Ort fuer „kann warten", damit entfaellt die wortgleiche
+Wiederholung derselben Idee in Folge-Reports (#75); Lektionen bleiben dringend-only.
 Je Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile Typ (`lesson`/`idea`) und Freitext; andere
-Skills (`open-question`) kommen nicht in Teil A, bleiben Befehle im Report und zaehlen in `{D}`
-mit, nie unter „erfasst". Ohne Fund fuer Teil A entfaellt dieser Block **still** (weiter: Schritt 1).
+Skills (`open-question`) werden nicht erfasst, bleiben Befehle im Report und zaehlen in `{D}`
+mit, nie unter „erfasst". Ohne Eingang entfaellt dieser Block **still** (weiter: Schritt 1).
 
 > **Wartungs-Hinweis (Format-Kopplung):** Dieser Block liest das Ausgabe-Muster von
 > `dtb:no-loss-check` (die beiden `## `-Gruppen-Ueberschriften, je Fund die `→`-Zeile).
@@ -498,7 +498,7 @@ mit, nie unter „erfasst". Ohne Fund fuer Teil A entfaellt dieser Block **still
   relativ zum Projekt-Root, sonst `~/.claude/skills/dtb-{lesson,idea,idea-triage}/SKILL.md`. Bewusst umgekehrt
   zu `dtb:pane-start`: im Kit-Repo ist das Repo die Quelle, aus der `kit-sync` verteilt — die
   installierte Kopie waere waehrend eines Umbaus der Stand von gestern; Zielprojekte haben kein
-  `skills/`. Nur die Quellen aufloesen, deren Typ in **Teil A** vorkommt — nicht nur der dringenden Gruppe (Ideen kommen auch aus `## Kann warten`, ihr Anker muss mitgeprueft werden)
+  `skills/`. Nur die Quellen aufloesen, deren Typ im **Eingang** vorkommt — nicht nur der dringenden Gruppe (Ideen kommen auch aus `## Kann warten`, ihr Anker muss mitgeprueft werden)
 - **Anker-Grep** zeilenverankert auf den ganzen Titel (`tr -d '\r' | grep -x -F`), nie als
   Substring — die Kopplungs-Hinweise darunter zitieren den Titel selbst und wuerden ein
   falsches Gruen liefern:
@@ -514,7 +514,7 @@ mit, nie unter „erfasst". Ohne Fund fuer Teil A entfaellt dieser Block **still
 - Alle Anker gefunden → eine Statuszeile, weiter: `🧩 Struktur-Check: {n}/{n} Anker in {aufgeloeste Quelle(n)} gefunden`
 - **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist KEINE Drift);
   beide enden im **Rueckfall je Quelle**: die Funde des gefallenen Typs bleiben Befehle im Report,
-  Teil A traegt nur Typen mit gruener Quelle; faellt jede Quelle, weiter mit Schritt 1:
+  erfasst werden nur Typen mit gruener Quelle; faellt jede Quelle, weiter mit Schritt 1:
 
   1. Datei in beiden Quellen nicht gefunden → Installations-Problem:
      ```
@@ -535,13 +535,28 @@ mit, nie unter „erfasst". Ohne Fund fuer Teil A entfaellt dieser Block **still
 **Vorbereitung je Fund (per Referenz — die Regeln dort lesen, nicht hier):**
 - Lektion → `## Schritt 2: In 4 Felder strukturieren` und `## Schritt 3: Duplikat-Check` aus
   `dtb:lesson`; Idee → `## Duplikat-Check` aus `dtb:idea`, verglichen gegen **beide** Dateien (`INBOX.md` UND `INBOX-BEFUNDE.md`) — sonst wird ein schon im Becken stehender Fund erneut geschrieben
-- Duplikat-Treffer werden **nicht** einzeln gefragt (zweite Rueckfrage-Runde): der Fund erscheint **vorgestrichen** mit Fundstelle
 
-**Anzeige, Antwort und Schreiben stehen NICHT hier:** Die vorbereiteten Funde (inkl. vorgestrichener
-Duplikate) gehen als **Teil A** in den `#### Kontrollpunkt (eine Rueckfrage-Runde)` am Ende von
-Schritt 1 — dort stehen Format, Antwortregeln, Schreibmechanik (per Referenz) und Meldung. Grund: so
-fragt der Checkpoint vor dem Schreiben nur einmal, statt Verlustfunde, Aufgaben-Zuordnung und ⏳ in
-drei Runden nacheinander.
+**Mengengrenze vor dem Schreiben (L90):** Mehr als 10 Funde im Eingang → nichts erfassen, keine
+Duplikat-Frage; alle Funde bleiben Befehle im Report, die Rueckfall-Zeile steht in Schritt 6 (Schutz
+gegen eine Fehlerkennung, die `lessons.md` auf einen Schlag fuellt). Sonst vor dem Schreiben zaehlen:
+zu schreiben + Duplikat-Treffer = Eingang (ohne Typen mit gefallener Quelle) — stimmt es nicht, neu
+zaehlen statt schreiben.
+
+**Schreiben (per Referenz)** — je Fund ohne Duplikat-Treffer: Lektion → `## Schritt 4: Append-only
+speichern` aus `dtb:lesson`; Idee → `## Schreibmechanik INBOX-BEFUNDE.md` aus `dtb:idea-triage` (legt
+die Datei bei Fehlen an). **Herkunfts-Marker** nur fuer Lektionen: `(via Checkpoint {YYYY-MM-DD})` ans
+Ende von `Context`, keine neue Spalte — die Herkunft einer Idee sagt bereits die Datei. Schreibfehler
+mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben — **nie zurueckrollen** (append-only).
+
+**Duplikat-Treffer → Frage im Kontrollpunkt, nie still uebersprungen:** Der Vergleich ist unscharf
+(Ersetzungsprobe) und kann irren — ein falsch erkanntes Duplikat ginge sonst ohne Spur verloren. Der
+Fund wird hier NICHT geschrieben, sondern als Zeile in den `#### Kontrollpunkt (eine Rueckfrage-Runde)`
+am Ende von Schritt 1 gelegt; Antwort und Schreiben stehen dort.
+
+**Meldungen sammeln:** je erfasster Lektion `✔ L{N} → lessons.md — „{Rule-Satz gekuerzt}"`, je Idee
+`✔ #{N} → INBOX-BEFUNDE.md`. Angezeigt werden sie gesammelt im Erfassungs-Block der Bestaetigung
+(Schritt 6), nicht verstreut im Lauf — ohne Vorab-Bestaetigung muss dort sichtbar sein, was jetzt als
+Vorwissen der Planungs-Skills gilt.
 
 **Selbstpruefung (L15):** Dieser Block **beschreibt** nirgends, wie Felder abgeleitet, Duplikate bewertet oder Zeilen angehaengt werden — nur Anker; ein solcher Satz waere ein Spiegel.
 
@@ -577,8 +592,8 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 - **Basis:** `## Offene Aufgaben` der `WORKFLOW_STATUS.md` auf der Platte, gelesen VOR dem Ueberschreiben
   (kein Git noetig). Datei/Sektion fehlt oder leer → kein Vergleich, alle Punkte gelten als neu
 - **Zuordnung nach Sinn, nicht Wortlaut:** umformuliert = derselbe Punkt, `seit` wandert woertlich mit;
-  unsicher → Frage „ist X = Y?" als Teil B in den Kontrollpunkt (unten), nie raten. Naechste Schritte aus dem Chat ohne alten Punkt = neu, `seit` = heute
-- **Abgang:** Session belegt die Erledigung → `erledigt`; Hinweis auf Abgang ohne Beleg → Frage als Teil B in den Kontrollpunkt; ohne
+  unsicher → Frage „ist X = Y?" in den Kontrollpunkt (unten), nie raten. Naechste Schritte aus dem Chat ohne alten Punkt = neu, `seit` = heute
+- **Abgang:** Session belegt die Erledigung → `erledigt`; Hinweis auf Abgang ohne Beleg → Frage in den Kontrollpunkt; ohne
   Session-Signal still weitertragen — nie still streichen. `verworfen` nur mit Grund; zusammengelegt/
   aufgeteilt/ersetzt (1:1 nur bei ausdruecklich genannter Abloesung — dann Vorrang vor „neu") → `aufgegangen in „{Ziel}"`,
   das Ziel erbt das **aelteste** `seit`
@@ -588,14 +603,12 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 
 **⏳ Alter (§9.4) — auf der NEUEN Liste:** Schwelle `status.alter_schwelle_tage`
 (Default 7 bei fehlendem Key); faellig = heute − juengeres Datum von `seit`/`behalten` ≥ Schwelle → ⏳ am
-Zeilenende. Alle faelligen Punkte gehen gesammelt als **Teil C** in den Kontrollpunkt (unten), nie
-Einzelfragen — „passt" behaelt alle, eine Entscheidung faellt nur auf ausdrueckliche Antwort. Punkte, deren Zuordnung in Teil B noch offen ist, fehlen in Teil C
-(ihr `seit` haengt von der Antwort ab): sie bekommen nach der Antwort ⏳ am Zeilenende, falls sie
-dann faellig sind, die Frage kommt beim naechsten Mal — Wirkung wie Abbruch fuer diesen Punkt
-(§9.4, „Eine Rueckfrage-Runde" — sonst erzwaenge die Reihenfolge eine zweite Runde).
-
-„behalten" haengt `· behalten YYYY-MM-DD` an (`seit` bleibt, ⏳ entfaellt); erledigt/verworfen → Abgangsvermerk;
-Abbruch → keine Entscheidung, Punkte bleiben mit ⏳, Frage beim naechsten Mal. Nie automatisch.
+Zeilenende. **Keine Frage, kein `· behalten`-Stempel:** ⏳ bleibt stehen, bis der Punkt abgeht —
+ein Stempel liesse es alle {Schwelle} Tage still verschwinden und naehme dem Warnzeichen die Wirkung.
+Abgang nur ueber ein Session-Signal (erledigt/verworfen mit Grund → Abgangsvermerk); vorhandene
+`· behalten`-Stempel woertlich weitertragen. Die Zahl `{K}` der faelligen Punkte geht in die
+Anzeigezeile der Bestaetigung (Schritt 6). Punkte, deren Zuordnung im Kontrollpunkt offen ist,
+bekommen nach der Antwort ⏳, falls sie dann faellig sind (ihr `seit` haengt von der Antwort ab).
 
 > **Wartungs-Hinweis (Format-Kopplung):** kompakte Kopie von `DERIVED_STATE_RULES.md` §9 (Kopie ist
 > Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22, §9); Details nur dort.
@@ -603,88 +616,53 @@ Abbruch → keine Entscheidung, Punkte bleiben mit ⏳, Frage beim naechsten Mal
 
 #### Kontrollpunkt (eine Rueckfrage-Runde)
 
-Alles, was vor dem Schreiben eine Antwort des Menschen braucht, steht hier in EINER Nachricht —
-statt Verlustfunde, Aufgaben-Zuordnung und ⏳ in drei Runden nacheinander zu fragen (Messung
-2026-11-02: Warten auf den Menschen = 39 % der Checkpoint-Zeit). Drei Teile:
+Hier steht nur, was ein unscharfer Vergleich nicht allein entscheiden darf — in EINER Nachricht:
+moegliche Duplikate unter den Verlustfunden (Schritt 0) und unsichere Zuordnungen bzw. Abgaenge
+ohne Beleg aus dem Aufgaben-Vergleich. Ein falscher Rateversuch verloere einen Fund ohne Spur oder
+erzeugte eine stille Dublette in der Aufgabenliste, die kein spaeterer Vergleich mehr findet.
+Verlustfunde ohne Treffer und ⏳ fragen nicht (Schritt 0, „⏳ Alter"). **Ohne solche Frage → keine
+Runde**, weiter mit Schritt 2 — der Normalfall. **Nicht hierher gehoeren** (eigene Fragen, bewusst):
+fehlende Pflichtfelder eines Hand-off-Blocks (Empfangsseite Punkt 1 — vor allem anderen) und die
+Abnahme-Frage (Schritt 2 — explizite Entscheidung mit Beleg).
 
-- **Teil A — Verlustfunde:** die in Schritt 0 vorbereiteten Funde (dringende Gruppe + Ideen aus
-  `## Kann warten`, Duplikate vorgestrichen), nur Typen mit gruener Quelle im Struktur-Check
-- **Teil B — Zuordnung offener Aufgaben:** unsichere Zuordnungen („ist X = Y?") und Abgaenge ohne
-  Beleg aus dem Aufgaben-Vergleich
-- **Teil C — ⏳ alte Aufgaben:** die faelligen Punkte aus „⏳ Alter" (ohne die in Teil B offenen)
+**Mengenprobe vor dem Zeigen (L90):** gezeigte Nummern = Duplikat-Treffer + Zuordnungs- und
+Abgangsfragen, sonst nicht zeigen, sondern neu zaehlen.
 
-Teile ohne Inhalt entfallen samt Ueberschrift, Zaehler in der Kopfzeile und Antwortzeile — Kopfzeile
-und Legende nennen nur vorhandene Teile; haben alle drei keinen Inhalt → keine Runde, weiter
-mit Schritt 2. **Nicht hierher gehoeren** (eigene Fragen, bewusst): fehlende Pflichtfelder eines
-Hand-off-Blocks (Empfangsseite Punkt 1 — vor allem anderen) und die Abnahme-Frage (Schritt 2 —
-explizite Entscheidung mit Beleg).
-
-**Mengenprobe vor dem Zeigen (L90):** gezeigte Nummern je Teil = Eingangsmenge des Teils, sonst nicht
-zeigen, sondern neu zaehlen. Teil A mit mehr als 10 Zeilen (`{V}`, nicht nur die dringenden) → Teil A
-entfaellt mit einer Hinweiszeile (Rueckfall auf die Befehle aus dem Report); B und C erscheinen trotzdem.
-
-**Format** — fortlaufend nummeriert ueber alle Teile, damit jede Nummer eindeutig ist; Kurzfassung je
-Zeile, nie der volle Wortlaut der vier Felder einer Lektion. `{V}` = Zeilen in Teil A, `{D}` = davon dringend:
+**Format** — fortlaufend nummeriert, Kurzfassung je Zeile (nie der volle Wortlaut der vier Felder
+einer Lektion), Bestandstext auf ~120 Zeichen gekuerzt:
 
 ```
-# Kontrollpunkt — {V} Verlustfund(e) · {Z} Aufgaben-Frage(n) · {K} alte Aufgabe(n)
+# Kontrollpunkt — {F} Frage(n)
 
-A — Verlustfunde erfassen ({D} dringend)
-1  Lektion  {Rule-Satz gekuerzt}                    → lessons.md
-2  Idee     {Idee-Satz gekuerzt}                    → INBOX-BEFUNDE.md
-~~3~~ Lektion {…} — aehnlich L23 (vorgestrichen; "behalte 3" nimmt sie auf)
+1  Lektion „{Rule-Satz gekuerzt}" — dasselbe wie L{N} „{Bestand gekuerzt}"?
+2  Idee „{Idee-Satz gekuerzt}" — dasselbe wie #{N} „{Bestand gekuerzt}"?
+3  „{neuer Punkt}" = „{alter Punkt}" (seit YYYY-MM-DD)?
+4  „{alter Punkt}" erledigt? — Hinweis: {Session-Signal}
 
-B — Offene Aufgaben zuordnen
-4  „{neuer Punkt}" = „{alter Punkt}" (seit YYYY-MM-DD)?
-5  „{alter Punkt}" erledigt? — Hinweis: {Session-Signal}
-
-C — ⏳ offene Aufgaben ≥ {S} Tage
-6  {Aufgabe} (seit YYYY-MM-DD, {T} Tage)
-
-Eine Antwort fuer alles, z. B. „Ok, passt · 4 ja · 5 nein" oder „streiche 2 · 4 ja · 5 ja · 6 erledigt":
-  A: Ok fuer alle nicht gestrichenen · streiche {Nr,…} · behalte {Nr} · Abbruch A
-  B: {Nr} ja | {Nr} nein · {Nr} verwerfen: {Grund} (nur Abgangs-Zeilen)
-  C: passt = alle behalten · {Nr} erledigt · {Nr} verwerfen: {Grund} · Abbruch C
+Eine Antwort, z. B. „1 ja · 2 nein · 3 ja · 4 verwerfen: doppelt":
+  {Nr} ja | {Nr} nein · {Nr} verwerfen: {Grund} (nur Abgangs-Zeilen)
 ```
 
-**Antwortregeln:**
-- **Ein Wort fuer alles:** „Ok", „passt" oder „Ok, passt" bestaetigt Teil A (alle nicht gestrichenen)
-  und Teil C (alle behalten); Teil B braucht eigene Angaben (Regel unten). „Abbruch" ohne
-  Buchstaben gilt fuer A und C
-- **Teil A:** `streiche {Nr}` / `behalte {Nr}` kombinierbar; nur das Geaenderte kurz rueckbestaetigen,
-  nicht den ganzen Kontrollpunkt erneut zeigen (Muster `dtb:feature-fast`). `streiche` heisst verwerfen, nicht
-  vertagen (Randfall 3 von `no-loss-check`) — wer nur vertagen will, setzt den Befehl aus dem Report ab.
-  `Abbruch A` → nichts erfassen, eine Meldezeile
-- **Teil B** — jede Zeile wird mit `ja`/`nein` beantwortet: Zuordnungs-Zeile `ja` → derselbe Punkt,
-  `seit` wandert woertlich mit; `nein` → alter Punkt weiter, neuer Punkt neu (`seit` heute).
-  Abgangs-Zeile `ja` → Abgangsvermerk `erledigt`; `nein` → still weitertragen; `verwerfen: {Grund}` →
-  Abgangsvermerk `verworfen` (§9.3). **Ohne Angabe**
-  → die Nummer gilt als unklar und geht in die eine Fallback-Rueckfrage (unten) — nie still weitertragen:
-  zwei alte Punkte fragt spaeter kein Vergleich mehr gegeneinander ab, eine stille Dublette bliebe fuer immer
-- **Teil C:** Wirkung wie unter „⏳ Alter"; **ohne Angabe** → keine Entscheidung (wie `Abbruch C`):
-  Punkte bleiben mit ⏳, die Frage kommt beim naechsten Mal — „behalten" nur auf ausdrueckliches
-  `passt` (nie automatisch, §9.4); `Abbruch C` → ebenso
-- **Verb und Nummer muessen zusammenpassen:** Jede Angabe ist (Nummer, Verb). Passt das Verb nicht
-  zum Teil der Nummer (z. B. `streiche 5` auf einer B-Zeile, `behalte 6` auf einer C-Zeile), gilt
-  diese Nummer als unklar
-- **Fallback:** Trifft die Antwort einen vorhandenen Teil A oder B gar nicht oder einen Teil nicht
-  eindeutig, gilt dieser Teil als NICHT bestaetigt — genau eine Rueckfrage nur zu den unklaren Teilen
-  bzw. Nummern (`A: Ok / streiche {Nr} / behalte {Nr} / Abbruch?`, `B: {Nr} ja / {Nr} nein / {Nr} verwerfen: {Grund}?`
-  bzw. `C: passt / {Nr} erledigt / {Nr} verwerfen: {Grund} / Abbruch?`); bleibt sie unklar → A und C:
-  Abbruch dieses Teils, B: wie `nein` (die Dublette steht dann sichtbar in der Liste) —
-  nie stiller Auto-Write
+**Antwortregeln** — jede Zeile wird mit `ja`/`nein` beantwortet:
+- **Duplikat-Zeile:** `ja` → nicht erfassen, Meldung `übersprungen — ähnlich {Fundstelle}`; `nein` →
+  erfassen wie in Schritt 0 („Schreiben", per Referenz)
+- **Zuordnungs-Zeile:** `ja` → derselbe Punkt, `seit` wandert woertlich mit; `nein` → alter Punkt
+  weiter, neuer Punkt neu (`seit` heute)
+- **Abgangs-Zeile:** `ja` → Abgangsvermerk `erledigt`; `nein` → still weitertragen;
+  `verwerfen: {Grund}` → Abgangsvermerk `verworfen` (§9.3)
+- **Verb und Nummer muessen zusammenpassen:** `verwerfen` auf einer Duplikat- oder Zuordnungs-Zeile
+  gilt als unklar
+- **Ohne Angabe oder unklar → genau eine Fallback-Rueckfrage** nur zu diesen Nummern
+  (`{Nr} ja / {Nr} nein?`) — nie still entscheiden. Bleibt sie unklar → wie `nein`: der Fund wird
+  erfasst, die Dublette steht sichtbar in der Liste — beides spaeter korrigierbar
+  (`/dtb:lesson-curate`, Abgangsvermerk), ein still verlorener Fund nicht
+- Nur das Geaenderte kurz rueckbestaetigen, nicht den ganzen Kontrollpunkt erneut zeigen
 
 **Danach schreiben:**
-1. **Teil A per Referenz** — je bestaetigtem Fund: Lektion → `## Schritt 4: Append-only speichern`
-   aus `dtb:lesson`; Idee → `## Schreibmechanik INBOX-BEFUNDE.md` aus `dtb:idea-triage` (legt die Datei
-   bei Fehlen an). **Herkunfts-Marker** nur fuer Lektionen: `(via Checkpoint {YYYY-MM-DD})` ans Ende von
-   `Context`, keine neue Spalte — Ideen brauchen keinen, die Herkunft sagt bereits die Datei.
-   Schreibfehler mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben — **nie
-   zurueckrollen** (append-only).
-   **Meldung:** eine Zeile je Eintrag — `✔ L{N} → lessons.md` / `✔ #{N} → INBOX-BEFUNDE.md`;
-   alle gestrichen → `Nichts erfasst — {V} Fund(e) bleiben als Befehle im Report`
-2. **Teil B und C** gehen in die neue Liste: Abgaenge nach `### Aufgaben-Abgaenge` im Session-Log
-   (Schritt 3), die Liste nach `## Offene Aufgaben` (Schritt 4)
+1. **Duplikat-Zeilen mit `nein`** per Referenz wie Schritt 0 („Schreiben"); ihre Meldungen und die
+   `übersprungen`-Zeilen gehen in den Erfassungs-Block der Bestaetigung (Schritt 6)
+2. **Zuordnungen und Abgaenge** gehen in die neue Liste: Abgaenge nach `### Aufgaben-Abgaenge` im
+   Session-Log (Schritt 3), die Liste nach `## Offene Aufgaben` (Schritt 4)
 
 ### Schritt 2: Status ableiten & Anzeige-Felder synchronisieren
 
@@ -813,6 +791,15 @@ Status: {config.paths.workflows}/WORKFLOW_STATUS.md
 {Falls Feature-Update: "Feature-Update: {Feature-Name} → {neuer Status}"}
 {Falls Schritt 4b gelaufen: "Dashboard: dtb-project/project-dashboard.html" + Hinweiszeilen des Laufs | Falls ausgefallen: die ⚠-Zeile aus Schritt 4b | bei_checkpoint: false oder Seite fehlt → keine Zeile}
 
+{Erfassungs-Block — entfaellt ganz ohne Inhalt:}
+Erfasst:
+✔ L{N} → lessons.md — „{Rule-Satz gekuerzt}"
+✔ #{N} → INBOX-BEFUNDE.md
+übersprungen — ähnlich {L{N}|#{N}}
+{Falls ≥ 1 Lektion erfasst: "Falsch erfasst? → /dtb:lesson-curate"}
+{Falls > 10 Funde: "⚠ {V} Funde — nichts automatisch erfasst, die Befehle stehen im Report der Verlustpruefung"}
+{Falls {K} ≥ 1: "⏳ {K} offene Aufgabe(n) ≥ {S} Tage — erledigt/verworfen per Ansage in einer Session"}
+
 Naechster Schritt: [Konkret]
 Blocker: [Keine / Beschreibung]
 {Falls >5 archivierbare Eintraege: "Aufraumen: {N} Eintraege koennten archiviert werden → /dtb:archive"}
@@ -820,6 +807,12 @@ Blocker: [Keine / Beschreibung]
 Fuer naechste Session: /dtb:workflow-resume
 {Nur wenn der Worktree-Guard HAUPT-CHECKOUT meldete: "→ Weiter mit: /dtb:commit-and-push"}
 ```
+
+**Erfassungs-Block:** sammelt die Meldungen aus Schritt 0 und dem Kontrollpunkt an einer Stelle — die
+Erfassung laeuft ohne Vorab-Bestaetigung, also muss das Ergebnis hier sichtbar sein. Je Lektion der
+gekuerzte Regelsatz, nicht nur die Nummer: er gilt ab jetzt als Vorwissen der Planungs-Skills. Ein
+Duplikat erscheint nur nach `ja` im Kontrollpunkt als `übersprungen`, ohne Erfassungs-Befehl — die
+Entscheidung ist dort gefallen. Die Zeile ⏳ fragt nicht, sie zeigt nur den Weg hinaus.
 
 **Kein Commit-Nachlauf:** Nach der Bestaetigung endet der Skill. Frage NICHT, ob committet oder
 gepusht werden soll, und biete es nicht an — die letzte Zeile `→ Weiter mit: /dtb:commit-and-push` ist
