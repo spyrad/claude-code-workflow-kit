@@ -327,7 +327,7 @@ nicht beschrieben, der Backlog-Eintrag geht in den Hand-off) — diese Konventio
 
 Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; F = Zusatz
 `triage-vorsortierung` 2026-10-16; G = Zusatz `pane-session-neustart` 2026-10-21; H = Zusatz
-`lektionen-kuratieren` 2026-10-28; I = Zusatz `checkpoint-schneller` 2026-11-02.
+`lektionen-kuratieren` 2026-10-28; I = Zusatz `checkpoint-schneller` 2026-11-02 (erweitert `checkpoint-ohne-rueckfragen` 2026-11-03).
 
 | Z | Skill · Stelle | Frueher | Jetzt (Form) |
 |---|----------------|---------|--------------|
@@ -350,7 +350,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | F | `idea-triage` Schritt 5 — Vorschlaege der Vorsortierung | eine Frage je Befund | **Sammelliste** (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`); Einzelfaelle (`Unklar`, Verwerfen unter `hoch` oder ohne pruefbaren Ort, Dublette eines Funds oder Nachtrag an einen Fund im selben Lauf, ohne Vorschlag) einzeln in Schritt 6; gestrichen = einzeln, nie verworfen |
 | G | `workflow-checkpoint` Sende-Seite (verlinkter Worktree) — Weiche Wechsel/Ende · `workflow-resume` Schritt 2a — Orchestrator-Adresse | — (neu) | **Textzeile**, Vorschlag abgeleitet (Checkliste des Changes vollstaendig und keine Zeile `^Decision: PENDING` in `review.md` → Ende, sonst Wechsel; Fehlwahl kostet nur einen erneuten Checkpoint) — benannte Abweichung von der Textzeilen-Form: Antwort nur `„Wechsel"`/`„Ende"`, KEIN `weiter = uebernehmen` (Abnahme 2026-10-22: „weiter" wurde als „Arbeit geht weiter" gelesen und landete in „Ende"); fehlende bzw. nicht erreichbare Adresse → **Textzeile** `weiter = ohne (Block manuell tragen)` |
 | H | `lesson-curate` Schritt 4/5 — Ausmusterungs-Vorschlaege der Voranalyse | — (neu) | **Sammelliste** wie F (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`), nur Sicherheit `hoch` mit pruefbarem Ort; Einzelfaelle (`mittel`, ohne Ort, Ketten/Kreise bei `doppelt`) einzeln mit Knopf `Ausmustern` / `Behalten` (bei `doppelt` zusaetzlich `Die andere ausmustern`); gestrichen = einzeln, nie ausgemustert; unklare Antwort → behalten |
-| I | `workflow-checkpoint` Schritt 6 — Commit nach dem Checkpoint · Schritt 1 `#### Kontrollpunkt (eine Rueckfrage-Runde)` — Verlustfunde, Aufgaben-Zuordnung, ⏳ | Commit: vom Modell ungefragt angeboten (in keinem Skill verlangt) · drei Runden nacheinander (Verlust-Sammelvorlage, Zuordnungsfragen, ⏳-Vorlage) | Commit: **Stille Anzeige** `→ Weiter mit: /dtb:commit-and-push`, ausdruecklich keine Commit-Rueckfrage · Kontrollpunkt: EINE Nachricht mit den Teilen A/B/C, fortlaufend nummeriert, Antwortregeln je Teil kombinierbar; „Ok"/„passt" = A bestaetigt + C behalten, B braucht je Nummer ja/nein, ohne Angabe genau eine Fallback-Rueckfrage (sonst stille Dublette); Abnahme-Frage und fehlende Hand-off-Pflichtfelder bleiben eigene Fragen (Messung 2026-11-02: Warten = 39 % der Checkpoint-Zeit, Commit-Frage allein 35 % der Wartezeit) |
+| I | `workflow-checkpoint` Schritt 6 — Commit nach dem Checkpoint · Schritt 0 — Verlustfunde · Schritt 1 „⏳ Alter" und `#### Kontrollpunkt (eine Rueckfrage-Runde)` | Commit: vom Modell ungefragt angeboten (in keinem Skill verlangt) · drei Runden nacheinander (Verlust-Sammelvorlage, Zuordnungsfragen, ⏳-Vorlage), 2026-11-02 gebuendelt zu einem Kontrollpunkt mit drei Teilen | Commit: **Stille Anzeige** `→ Weiter mit: /dtb:commit-and-push`, ausdruecklich keine Commit-Rueckfrage · Verlustfunde: Schritt 0 erfasst ohne Rueckfrage, sichtbar im Erfassungs-Block der Bestaetigung (je Lektion der gekuerzte Regelsatz, Korrekturweg `/dtb:lesson-curate`); mehr als 10 Funde → nichts erfassen, Befehle bleiben im Report · ⏳: **Stille Anzeige** (eine Zeile in der Bestaetigung), keine Frage, kein `· behalten`-Stempel · Kontrollpunkt: EINE Nachricht nur noch fuer moegliche Duplikate (unscharfer Vergleich, Kopplungsregel „Meldeform folgt Vergleichsschaerfe") und unsichere Aufgaben-Zuordnung bzw. Abgang ohne Beleg, fortlaufend nummeriert, je Nummer ja/nein; ohne solche Frage keine Runde; ohne Angabe genau eine Fallback-Rueckfrage (sonst stille Dublette); Abnahme-Frage und fehlende Hand-off-Pflichtfelder bleiben eigene Fragen (Messung 2026-11-02: Warten = 39 % der Checkpoint-Zeit, Commit-Frage allein 35 % der Wartezeit; Bestaetigungen ohne Informationsgewinn entfernt 2026-11-03, `checkpoint-ohne-rueckfragen`) |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
 „trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
@@ -372,7 +372,7 @@ Herkunftsfeld:
 | Schreiber | Ziel | Warum eindeutig |
 |-----------|------|-----------------|
 | `dtb:idea` | `INBOX.md` | traegt `disable-model-invocation: true` — was dort landet, hat ein Mensch getippt |
-| `dtb:workflow-checkpoint` (Schritt 0 bereitet vor, Kontrollpunkt Teil A schreibt) | `INBOX-BEFUNDE.md` | maschinelle Verlustfunde, nie von Hand erfasst |
+| `dtb:workflow-checkpoint` (Schritt 0 schreibt ohne Rueckfrage; ein moegliches Duplikat erst nach `nein` im Kontrollpunkt) | `INBOX-BEFUNDE.md` | maschinelle Verlustfunde, nie von Hand erfasst |
 | `dtb:idea-triage` (Befoerderung, Buendel-Traeger) | `INBOX.md` | ein Mensch hat den Fund bewusst zum Vorgang gemacht |
 | `dtb:idea-triage` (Nachtrag) | bestehende Idee in `INBOX.md` (Textfeld ergaenzt, Status unveraendert) | bestaetigt; die Ausnahme von „nur neue Zeilen" ist bewusst (Discovery `triage-vorsortierung`) |
 | `dtb:idea-triage` (Lektion, Fach-Frage) | `project-rules/lessons.md` bzw. `features/<slug>/` — per Referenz auf `dtb:lesson`/`dtb:open-question` | bestaetigt; der Fund war keine Idee, sondern eine Lektion bzw. eine Meeting-Frage |
@@ -445,7 +445,8 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 - Genau EINE Orchestrator-Session pro Projekt-Checkout: sie fuehrt alle global
   schreibenden Skills aus (Checkpoint, INBOX, Backlog, Archiv, Lektionen samt Kuratierung,
   Meetings) — der Checkpoint schreibt seit 2026-09-08 auch selbst nach
-  `project-rules/lessons.md`/`INBOX.md` (dringende Verlustfunde per Sammelvorlage)
+  `project-rules/lessons.md`/`INBOX-BEFUNDE.md` (Verlustfunde, seit 2026-11-03 ohne Rueckfrage —
+  nur moegliche Duplikate fragt der Kontrollpunkt)
 - N Worker-Sessions, je eine pro Change, je in einem eigenen Worktree — empfohlener Weg
   sind die nativen CC-Worktree-Tools (`EnterWorktree`/`ExitWorktree`, Subagents mit
   `isolation: worktree`); sie uebernehmen Pfad, Branch-Anlage und Aufraeumen

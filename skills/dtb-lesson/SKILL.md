@@ -93,8 +93,8 @@ Welche Lektion moechtest du festhalten? (Freitext — was ist passiert, was gilt
    erkannt. `impl-plan`/`debug-plan` fragen nicht mehr, sondern legen ihn unter
    `## Lektion-Kandidaten` in `plan.md`/`bug.md` ab und melden ihn mit der Zeile
    `💡 Lektion-Kandidat vorgemerkt: „…" → wird beim Checkpoint erfasst`; erfasst wird er ueber
-   `/dtb:workflow-checkpoint` (Verlustpruefung + Sammelvorlage, die diese Schritte per Referenz
-   ausfuehrt) oder sofort per `/dtb:lesson "…"`. `impl-review` uebergibt aus der Triage
+   `/dtb:workflow-checkpoint` (Verlustpruefung + Erfassung ohne Rueckfrage, die diese Schritte per
+   Referenz ausfuehrt) oder sofort per `/dtb:lesson "…"`. `impl-review` uebergibt aus der Triage
    („Als Lektion erfassen") direkt hierher.
 
 **Zusaetzlich per Referenz — Becken-Triage:** `dtb:idea-triage` legt Lektionen aus dem
@@ -110,7 +110,7 @@ strukturierte Eintrag (Schritt 2) gezeigt und bestaetigt wurde.
 ## Schritt 2: In 4 Felder strukturieren
 
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
-> Verlustfunde per Referenz aus (Kontrollpunkt Teil A, vorbereitet in Schritt 0) und greppt auf den Sektions-Titel
+> Verlustfunde per Referenz aus (Schritt 0, ohne Rueckfrage) und greppt auf den Sektions-Titel
 > `## Schritt 2: In 4 Felder strukturieren` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
 > `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
 > `dtb:idea-triage` (Schritt 7f, Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md` ebenfalls mitziehen.
@@ -153,9 +153,9 @@ Speichern? (Ja / Anpassen)
 ## Schritt 3: Duplikat-Check
 
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
-> Verlustfunde per Referenz aus (Kontrollpunkt Teil A, vorbereitet in Schritt 0) und greppt auf den Sektions-Titel
+> Verlustfunde per Referenz aus (Schritt 0, ohne Rueckfrage) und greppt auf den Sektions-Titel
 > `## Schritt 3: Duplikat-Check` (Struktur-Check). Die Rueckfrage unten ersetzt der
-> Checkpoint durch eine vorgestrichene Zeile in seiner Vorlage — die Bewertung selbst bleibt
+> Checkpoint durch eine ja/nein-Zeile in seinem Kontrollpunkt (`ja` = nicht erfassen) — die Bewertung selbst bleibt
 > hier die eine Quelle. Umbenennung oder Umbau dieser Sektion →
 > `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
 > `dtb:idea-triage` (Schritt 4c — Treffer wird dort zum Verwerfen-Vorschlag „Lektion L{N}
@@ -174,7 +174,7 @@ Vor dem Schreiben: `grep` in `lessons.md` nach dem Kern der `Rule` (Stichworte).
 ## Schritt 4: Append-only speichern
 
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
-> Verlustfunde per Referenz aus (Kontrollpunkt Teil A, vorbereitet in Schritt 0) und greppt auf den Sektions-Titel
+> Verlustfunde per Referenz aus (Schritt 0, ohne Rueckfrage) und greppt auf den Sektions-Titel
 > `## Schritt 4: Append-only speichern` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
 > `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
 > `dtb:idea-triage` (Schritt 7f, Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md` ebenfalls mitziehen.

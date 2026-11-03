@@ -96,7 +96,7 @@ muss in einem Projekt laufen koennen, das `project-init` vor Monaten gesehen hat
 # Befund-Becken (maschinelle Verlustfunde)
 
 > Automatisch erfasste Funde aus der Verlustpruefung (`dtb:no-loss-check` /
-> `dtb:workflow-checkpoint`, Kontrollpunkt Teil A). **Kein Eintrag hier wird gearbeitet** — er muss erst
+> `dtb:workflow-checkpoint`, Schritt 0 ohne Rueckfrage). **Kein Eintrag hier wird gearbeitet** — er muss erst
 > mit `/dtb:idea-triage` befoerdert werden. Fach-Wuensche gehoeren nach `INBOX.md`, nicht hierher.
 
 **Sichtung-Spalte:** leer = neu, noch nie gesichtet · `L1 YYYY-MM-DD` = einmal liegengelassen,
@@ -775,7 +775,7 @@ Abgebrochen nach Eintrag {K} von {n_st2} — die {K} getroffenen Entscheidungen 
 ## Schreibmechanik INBOX-BEFUNDE.md
 
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Abschnitt fuer seine
-> Verlustfunde per Referenz aus (Kontrollpunkt Teil A, vorbereitet in Schritt 0) und greppt zeilenverankert auf den
+> Verlustfunde per Referenz aus (Schritt 0, ohne Rueckfrage) und greppt zeilenverankert auf den
 > Sektions-Titel `## Schreibmechanik INBOX-BEFUNDE.md` (Struktur-Check). Umbenennung oder Umbau
 > dieses Abschnitts → `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
 >

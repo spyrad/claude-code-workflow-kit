@@ -496,7 +496,9 @@ Eine offene Aufgabe verschwindet nie ohne Spur und weiss, seit wann sie offen is
   das heutige Datum.
 - Die Checkboxen dieser Liste sind **status-neutral** (analog §6.2): sie speisen keine Ableitung.
 - **Vorrang vor der Zeilengrenze** von `WORKFLOW_STATUS.md` (60-80 Zeilen): die Liste wird nie still gekuerzt;
-  sie schrumpft nur ueber Abgangsvermerke (9.3), Ueberlauf baut die ⏳-Vorlage (9.4) ab.
+  sie schrumpft nur ueber Abgangsvermerke (9.3); einen Ueberlauf macht ⏳ (9.4) sichtbar.
+- **`· behalten`** setzt seit 2026-11-03 niemand mehr (9.4); vorhandene Stempel bleiben gueltig und
+  werden woertlich weitergetragen.
 
 ### 9.2 Vergleich (vor dem Log-Schreiben)
 
@@ -535,27 +537,18 @@ Muster WORKTREE-HANDOFF-Block). Der Abschnitt entfaellt bei 0 Abgaengen.
 - **Faellig:** heute − (juengeres Datum von `seit` und `behalten`) ≥ Schwelle → Punkt wird mit ⏳
   am Zeilenende markiert (nach `(seit …)`). Geprueft wird die **neue** Liste, nach den Zuordnungs-Rueckfragen aus 9.2
   (deren Antwort bestimmt `seit`).
-- **EINE Sammelvorlage** fuer alle faelligen Punkte (nie N Einzelfragen), Default „behalten":
-
-```
-⏳ {K} offene Aufgabe(n) liegen ≥ {S} Tage:
-  1. {Aufgabe} (seit YYYY-MM-DD, {T} Tage)
-  …
-„passt" = alle behalten · je Zeile: „{Nr} erledigt" | „{Nr} verwerfen: {Grund}" · „Abbruch"
-```
-
-- **„behalten"** haengt `· behalten YYYY-MM-DD` an (`seit` bleibt, ⏳ entfaellt) → naechste Frage erst
-  nach der naechsten Schwelle. **Abbruch** → keine Entscheidung, die Punkte bleiben mit ⏳, die Frage
-  kommt beim naechsten Mal. **Andere Antwort** → genau eine Rueckfrage
-  (`passt / {Nr} erledigt / {Nr} verwerfen: {Grund} / Abbruch?`), bleibt sie unklar → Abbruch.
-- Erledigen/Verwerfen erzeugt den Abgangsvermerk nach 9.3. Keine automatische Entscheidung.
-- **Eine Rueckfrage-Runde (seit 2026-11-02):** Die Fragen aus 9.2 (unsichere Zuordnung), 9.3
-  (Abgang ohne Beleg) und diese ⏳-Vorlage stellt `dtb:workflow-checkpoint` gemeinsam mit den
-  Verlustfunden in EINER Nachricht (`#### Kontrollpunkt`), fortlaufend nummeriert. Punkte, deren
-  Zuordnung in dieser Runde noch offen ist, fehlen in der ⏳-Vorlage (ihr `seit` haengt von der
-  Antwort ab) und bekommen danach nur ⏳, falls faellig — Frage beim naechsten Mal. Ohne Angabe
-  zur ⏳-Vorlage → keine Entscheidung (wie Abbruch); ohne Angabe zu einer Zuordnung → die eine
-  Rueckfrage. Die Wirkung je Antwort bleibt wie oben.
+- **Keine Rueckfrage (seit 2026-11-03):** faellige Punkte tragen nur ⏳ — keine Entscheidungsvorlage,
+  keine Frage, kein automatischer `· behalten`-Stempel. ⏳ bleibt stehen, bis der Punkt abgeht; ein
+  Stempel liesse es alle {Schwelle} Tage still verschwinden und naehme dem Warnzeichen die Wirkung.
+  Der Checkpoint meldet die Zahl der faelligen Punkte in einer Anzeigezeile.
+- **Abgang nur ueber ein Session-Signal:** der Mensch nennt einen Punkt in einer Session erledigt oder
+  verworfen (mit Grund) → Abgangsvermerk nach 9.3. Keine automatische Entscheidung — weder Abgang
+  noch Stempel.
+- **Eine Rueckfrage-Runde:** Die Fragen aus 9.2 (unsichere Zuordnung) und 9.3 (Abgang ohne Beleg)
+  stellt `dtb:workflow-checkpoint` in EINER Nachricht (`#### Kontrollpunkt`), fortlaufend nummeriert;
+  ohne solche Fragen keine Runde (der Checkpoint legt moegliche Duplikate unter den Verlustfunden in
+  dieselbe Runde). Ohne Angabe zu einer Nummer → die eine Rueckfrage; bleibt sie unklar → wie nein. Punkte, deren
+  Zuordnung in dieser Runde offen ist, bekommen nach der Antwort ⏳, falls faellig.
 
 ### 9.5 Sonderfaelle
 
@@ -669,3 +662,7 @@ vgl. INBOX #22)
 **§3 Spalte `#` in BACKLOG.md ergaenzt (INBOX-Nummer, nur nachfuellen, nie ueberschreiben):** Feature
 backlog-inbox-nummer, 2026-10-06 (Seed-Aenderung — der Checkpoint traegt die operative Kopie,
 vgl. INBOX #22)
+**§9.4 ⏳ ohne Rueckfrage (keine Entscheidungsvorlage, kein `behalten`-Stempel mehr; die eine Runde
+traegt nur noch Zuordnungs- und Abgangsfragen, dazu moegliche Duplikate unter den Verlustfunden):** Feature checkpoint-ohne-rueckfragen, 2026-11-03 —
+Grund: die Vorlage war eine Bestaetigung ohne Informationsgewinn (INBOX #173, Becken #185)
+(Seed-Aenderung — der Checkpoint traegt die operative Kopie, vgl. INBOX #22)

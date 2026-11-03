@@ -73,7 +73,7 @@ ein Kontrollpunkt statt mehrerer Vorlagen, Dashboard nur, wo es eine Seite gibt.
 
 ## Offene Punkte
 
-- Nachmessung und Vergleichslaeufe sind erst nach dem Merge moeglich (Voll-Guard im Worktree, echte Laeufe noetig) — Termin spaetestens 2026-12-02 wegen des 30-Tage-Fensters der Protokolle
+- Nachmessung und Vergleichslaeufe sind erst nach dem Merge moeglich (Voll-Guard im Worktree, echte Laeufe noetig) — Termin spaetestens 2026-12-02 wegen des 30-Tage-Fensters der Protokolle; die Nachmessung laeuft gemeinsam mit #173 (`checkpoint-ohne-rueckfragen`, Entscheid 2026-11-03 — dessen Kriterium steht in seinen Success Criteria)
 
 ---
 
