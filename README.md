@@ -65,7 +65,7 @@ cd <dein-projekt>
 
 | Skill | Purpose |
 |-------|---------|
-| `/dtb:workflow-checkpoint` | Log session progress + update status dashboard + capture urgent no-loss findings (lessons/INBOX); open tasks carry a `seit` date, every dropped task gets a departure note, overdue ones one ⏳ decision |
+| `/dtb:workflow-checkpoint` | Log session progress + update status dashboard + capture urgent no-loss findings (lessons/INBOX); open tasks carry a `seit` date, every dropped task gets a departure note, overdue ones are marked ⏳; asks only about possible duplicates and uncertain task matches |
 | `/dtb:workflow-resume` | Resume after a break (incl. work in linked worktrees) |
 | `/dtb:idea` | Quick-capture an idea into the inbox |
 | `/dtb:idea-review` | Review and triage open ideas |

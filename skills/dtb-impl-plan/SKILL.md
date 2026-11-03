@@ -269,8 +269,9 @@ merke sie vor — **keine Rueckfrage, kein Auto-Write in `lessons.md`**:
 💡 Lektion-Kandidat vorgemerkt: „{knappe Regel}" → wird beim Checkpoint erfasst
 ```
 Erfasst wird beim naechsten `/dtb:workflow-checkpoint` im Haupt-Checkout: die Verlustpruefung
-(`dtb:no-loss-check`) liest `## Lektion-Kandidaten` als Quelle, der Mensch bestaetigt in der
-Sammelvorlage. Danach steht die Regel in `lessons.md` und der Kandidat gilt als erfasst. Wer einen
+(`dtb:no-loss-check`) liest `## Lektion-Kandidaten` als Quelle, der Checkpoint erfasst ohne
+Rueckfrage und zeigt die Regel in seiner Bestaetigung (Korrektur: `/dtb:lesson-curate`). Danach
+steht die Regel in `lessons.md` und der Kandidat gilt als erfasst. Wer einen
 Kandidaten endgueltig verwerfen will, loescht seine Zeile im Artefakt — sonst erscheint er in der
 naechsten Session erneut. Sofort erfassen bleibt jederzeit moeglich: `/dtb:lesson "{knappe Regel}"`.
 (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z16/C.)

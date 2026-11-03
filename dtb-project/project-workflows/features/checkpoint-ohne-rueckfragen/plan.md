@@ -193,14 +193,14 @@ ein Kriterium fuer #173; ein echter Lauf belegt das neue Verhalten.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Regel §9 aendern
-- [x] 1.2 Verlustfunde automatisch erfassen
-- [x] 1.3 ⏳ ohne Frage, Kontrollpunkt nur fuer Zuordnung
-- [x] 1.4 Erfassungs-Block in der Bestaetigung
-- [x] 1.5 Verlustpruefung ohne Schlussfrage im Checkpoint
-- [ ] 2.1 Spiegel und Doku nachziehen
-- [ ] 2.2 Messauftrag zusammenfuehren
-- [ ] 2.3 Probelauf im Haupt-Checkout
+- [x] 1.1 Regel §9 aendern — `4d538b8`
+- [x] 1.2 Verlustfunde automatisch erfassen — `4d538b8`
+- [x] 1.3 ⏳ ohne Frage, Kontrollpunkt nur fuer Zuordnung — `4d538b8`
+- [x] 1.4 Erfassungs-Block in der Bestaetigung — `4d538b8`
+- [x] 1.5 Verlustpruefung ohne Schlussfrage im Checkpoint — `4d538b8`
+- [x] 2.1 Spiegel und Doku nachziehen
+- [x] 2.2 Messauftrag zusammenfuehren
+- [x] 2.3 Probelauf im Haupt-Checkout
 
 ---
 

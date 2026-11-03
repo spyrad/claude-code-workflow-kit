@@ -791,12 +791,13 @@ Status: {config.paths.workflows}/WORKFLOW_STATUS.md
 {Falls Feature-Update: "Feature-Update: {Feature-Name} → {neuer Status}"}
 {Falls Schritt 4b gelaufen: "Dashboard: dtb-project/project-dashboard.html" + Hinweiszeilen des Laufs | Falls ausgefallen: die ⚠-Zeile aus Schritt 4b | bei_checkpoint: false oder Seite fehlt → keine Zeile}
 
-{Erfassungs-Block — entfaellt ganz ohne Inhalt:}
+{Erfassungs-Block — nur mit mindestens einer ✔- oder übersprungen-Zeile, sonst entfaellt er samt Ueberschrift:}
 Erfasst:
 ✔ L{N} → lessons.md — „{Rule-Satz gekuerzt}"
 ✔ #{N} → INBOX-BEFUNDE.md
 übersprungen — ähnlich {L{N}|#{N}}
 {Falls ≥ 1 Lektion erfasst: "Falsch erfasst? → /dtb:lesson-curate"}
+
 {Falls > 10 Funde: "⚠ {V} Funde — nichts automatisch erfasst, die Befehle stehen im Report der Verlustpruefung"}
 {Falls {K} ≥ 1: "⏳ {K} offene Aufgabe(n) ≥ {S} Tage — erledigt/verworfen per Ansage in einer Session"}
 
@@ -812,7 +813,9 @@ Fuer naechste Session: /dtb:workflow-resume
 Erfassung laeuft ohne Vorab-Bestaetigung, also muss das Ergebnis hier sichtbar sein. Je Lektion der
 gekuerzte Regelsatz, nicht nur die Nummer: er gilt ab jetzt als Vorwissen der Planungs-Skills. Ein
 Duplikat erscheint nur nach `ja` im Kontrollpunkt als `übersprungen`, ohne Erfassungs-Befehl — die
-Entscheidung ist dort gefallen. Die Zeile ⏳ fragt nicht, sie zeigt nur den Weg hinaus.
+Entscheidung ist dort gefallen. Die Zeilen ⚠ und ⏳ stehen eigenstaendig ausserhalb des Blocks — sie
+melden keine Erfassung (Probelauf 2026-11-03: allein unter „Erfasst:" las sich ⏳ falsch). Die Zeile ⏳
+fragt nicht, sie zeigt nur den Weg hinaus.
 
 **Kein Commit-Nachlauf:** Nach der Bestaetigung endet der Skill. Frage NICHT, ob committet oder
 gepusht werden soll, und biete es nicht an — die letzte Zeile `→ Weiter mit: /dtb:commit-and-push` ist

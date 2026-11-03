@@ -76,9 +76,9 @@ Welche Idee moechtest du festhalten? (Freitext)
 ## Duplikat-Check
 
 > **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt die Bewertung dieses Checks fuer
-> dringende Verlustfunde per Referenz aus (Kontrollpunkt Teil A, vorbereitet in Schritt 0) und greppt auf den
+> Verlustfunde per Referenz aus (Schritt 0, ohne Rueckfrage) und greppt auf den
 > Sektions-Titel `## Duplikat-Check` (Struktur-Check). Die Rueckfrage unten ersetzt der
-> Checkpoint durch eine vorgestrichene Zeile in seiner Vorlage — die Bewertung selbst bleibt
+> Checkpoint durch eine ja/nein-Zeile in seinem Kontrollpunkt (`ja` = nicht erfassen) — die Bewertung selbst bleibt
 > hier die eine Quelle. Umbenennung oder Umbau dieser Sektion →
 > `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen. Zweiter Leser per Referenz:
 > `dtb:idea-triage` (Befoerdern, Schritt 7a; Struktur-Check 4a) → `skills/dtb-idea-triage/SKILL.md`
@@ -114,10 +114,9 @@ Abschnitt ist zur Laufzeit autark.)
 
 ## Schritt 2: In INBOX.md speichern
 
-> **Kopplungs-Hinweis:** `dtb:workflow-checkpoint` fuehrt diesen Schritt fuer dringende
-> Verlustfunde per Referenz aus (Kontrollpunkt Teil A, vorbereitet in Schritt 0) und greppt auf den Sektions-Titel
-> `## Schritt 2: In INBOX.md speichern` (Struktur-Check). Umbenennung oder Umbau dieser Sektion →
-> `skills/dtb-workflow-checkpoint/SKILL.md` mitziehen.
+> **Kopplungs-Hinweis:** Kein Leser per Referenz mehr — `dtb:workflow-checkpoint` schreibt seine
+> Ideen-Funde ins Becken `INBOX-BEFUNDE.md` ueber `## Schreibmechanik INBOX-BEFUNDE.md` aus
+> `dtb:idea-triage` (Struktur-Check dort), nie nach `INBOX.md` (Zwei-Becken-Regel).
 
 ### Datei
 - Pfad: `{config.paths.workflows}/INBOX.md`
