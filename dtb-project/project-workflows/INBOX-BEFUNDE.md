@@ -22,6 +22,7 @@ bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).
 
 | # | Datum | Befund | Sichtung |
 |---|-------|--------|----------|
+| 186 | 2026-11-03 | **Abnahme-Frage im Checkpoint nur stellen, wenn das Item in dieser Session fertig wurde** — Schritt 2.3 von `dtb:workflow-checkpoint` fragt heute bei jedem Checkpoint, solange ein Item Y/Y ist (z. B. #177 checkpoint-schneller in der Nachmess-Wartezeit bis 2026-12-02); seither wird die Frage von Hand übergangen, weil die Entscheidung „Fertig zum Testen" weiter gilt. Probelauf-Befund 2 aus #173, dort bewusst ausgelagert (spec.md „Nicht enthalten"). | |
 | 185 | 2026-11-02 | **Nachtrag zu #173: Rückfragen weglassen braucht eine Regeländerung** — #177 (checkpoint-schneller) bündelt die Rückfragen nur zu einer Runde; sie ganz wegzulassen verlangt eine bewusste Änderung von `DERIVED_STATE_RULES.md` §9.4 (alte Aufgaben automatisch behalten). Am 2026-11-02 als eigener Change nach #177 entschieden. | |
 | 184 | 2026-11-02 | **chain-metrics.py (mega.dev) zählt den Nachlauf nach dem Checkpoint mit** — die Kern-Abgrenzung aus `features/checkpoint-schneller/checkpoint-phasen.py` übernehmen oder zusätzlich ausgeben (Hand-off #177, 2026-11-02). | |
 | 183 | 2026-11-02 | **Dashboard-Auffrischung im Checkpoint entschärfen (Ergänzung zu #172)** — `dtb:project-dashboard` Schritt 5 verlangt je Slot ein Edit; beim ~24 KB großen INBOX-Slot praktisch nicht machbar, im Probelauf #177 (2026-11-02) der teuerste Checkpoint-Schritt. Wege: Slot-Füllung per Skript oder Default `dashboard.bei_checkpoint: false`. | |

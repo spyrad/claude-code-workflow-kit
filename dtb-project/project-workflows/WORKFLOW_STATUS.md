@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-11-02
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-11/2026-11-02.md`
+**Letztes Update:** 2026-11-03
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-11/2026-11-03.md`
 
 ---
 
@@ -18,19 +18,20 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #177 gemergt (`fc6f995`), kit-sync 7/7, Arbeitsplatz abgebaut — bewusst „Fertig zum Testen" bis zur Nachmessung; #174 archiviert (`5f492e1`); #173 folgt als eigener Change (#185) |
+| **Notizen** | #173 checkpoint-ohne-rueckfragen fertig im Pane-Worktree (8/8, impl-review 10 Fixed, `98b5b45`) — Hand-off empfangen, Merge offen; #177 bewusst „Fertig zum Testen" bis zur gemeinsamen Nachmessung |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **checkpoint-schneller: Nachmessung bis 2026-12-02** — Kontext: Median ≤ 4 aktive min nach ≥ 10 Läufen ab dem Merge (chain-metrics + `checkpoint-phasen.py --rueckfragen`) und 3 Vergleichsläufe mit denselben Funden; Vorher-Werte in discovery.md (seit 2026-11-02)
-- [ ] **checkpoint-schneller: Bündelung A/B/C beim nächsten Checkpoint mit Inhalt beobachten** — Kontext: im Probelauf kam keine Bündelung vor, der no-loss-check-Lauf dort nicht ausdrücklich belegt (seit 2026-11-02)
+- [ ] **checkpoint-ohne-rueckfragen: Abnahme, Merge, kit-sync, INBOX #173/BACKLOG nachziehen, Abbau** — Kontext: Hand-off 17:16 eingetroffen, Branch `feature/checkpoint-ohne-rueckfragen` Kopf `98b5b45`, 3 Commits, sauber; Ablauf `dtb:worker` → Abschluss (Notiz → Merge → kit-sync → Checkpoint → Worktree/Branch weg); INBOX #173 → Ausgearbeitet + Links, BACKLOG-Zeile 173 (seit 2026-11-03)
+- [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02)
+- [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (⏳ nicht mehr unter „Erfasst:") nur per Beispiel, nicht per Echtlauf belegt (seit 2026-11-03)
 - [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28)
-- [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27)
-- [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27)
+- [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27 · behalten 2026-11-03)
+- [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27 · behalten 2026-11-03)
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — bisher nur „Ende" im Betrieb gesehen (seit 2026-10-22 · behalten 2026-10-29)
-- [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-10-27)
+- [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-11-03)
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-29)
 - [ ] **`/dtb:idea-triage`** — Kontext: 101 ungesichtet, mit Vorsortierung; #70/#54 vorher von bare Pipes befreien (seit ≤2026-09-09 · behalten 2026-10-29)
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-29)
