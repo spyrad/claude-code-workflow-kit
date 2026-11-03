@@ -18,13 +18,12 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #177 gemergt (`fc6f995`), kit-sync 7/7, beide Manual-Kriterien bestätigt — bewusst „Fertig zum Testen" bis zur Nachmessung; #173 folgt als eigener Change (#185) |
+| **Notizen** | #177 gemergt (`fc6f995`), kit-sync 7/7, Arbeitsplatz abgebaut — bewusst „Fertig zum Testen" bis zur Nachmessung; #174 archiviert (`5f492e1`); #173 folgt als eigener Change (#185) |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **checkpoint-schneller: Worktree pane-checkpoint-schneller und Branch abbauen** — Kontext: Pane geschlossen, Branch gemergt (`fc6f995`); `git worktree remove` + `git branch -d feature/checkpoint-schneller` (seit 2026-11-02)
 - [ ] **checkpoint-schneller: Nachmessung bis 2026-12-02** — Kontext: Median ≤ 4 aktive min nach ≥ 10 Läufen ab dem Merge (chain-metrics + `checkpoint-phasen.py --rueckfragen`) und 3 Vergleichsläufe mit denselben Funden; Vorher-Werte in discovery.md (seit 2026-11-02)
 - [ ] **checkpoint-schneller: Bündelung A/B/C beim nächsten Checkpoint mit Inhalt beobachten** — Kontext: im Probelauf kam keine Bündelung vor, der no-loss-check-Lauf dort nicht ausdrücklich belegt (seit 2026-11-02)
 - [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28)
