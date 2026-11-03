@@ -19,13 +19,12 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #173 gemergt (`5ede096`), kit-sync 7/7 — #173 und #177 bewusst „Fertig zum Testen" bis zur gemeinsamen Nachmessung; Worktree-Abbau folgt |
+| **Notizen** | #173 gemergt (`5ede096`), kit-sync 7/7 — #173 und #177 bewusst „Fertig zum Testen" bis zur gemeinsamen Nachmessung; Arbeitsplatz abgebaut |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **checkpoint-ohne-rueckfragen: Worktree und Branch abbauen** — Kontext: Merge `5ede096`, kit-sync und INBOX/BACKLOG erledigt; Pane `w3:pQ` mit `/exit` beenden, dann `git worktree remove ../.dtb-worktrees/pane-checkpoint-ohne-rueckfragen` + `git branch -d feature/checkpoint-ohne-rueckfragen` (seit 2026-11-03)
 - [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02)
 - [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (Alters-Zeile nicht mehr unter „Erfasst:"; greift erst, wenn eine Aufgabe faellig ist) nur per Beispiel, nicht per Echtlauf belegt (seit 2026-11-03)
 - [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28)
