@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-03
 **Ziel:** Der Checkpoint laeuft im Normalfall ohne jede Rueckfrage durch — er fragt nur noch, wenn eine offene Aufgabe nicht sicher zugeordnet werden kann.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

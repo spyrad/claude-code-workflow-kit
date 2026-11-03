@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| checkpoint-schneller | Fertig zum Testen | 6/6 | Nachmessung bis 2026-12-02, dann Abnahme |
+| checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
+| checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 
 ---
 
@@ -18,15 +19,15 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #173 checkpoint-ohne-rueckfragen fertig im Pane-Worktree (8/8, impl-review 10 Fixed, `98b5b45`) — Hand-off empfangen, Merge offen; #177 bewusst „Fertig zum Testen" bis zur gemeinsamen Nachmessung |
+| **Notizen** | #173 gemergt (`5ede096`), kit-sync 7/7 — #173 und #177 bewusst „Fertig zum Testen" bis zur gemeinsamen Nachmessung; Worktree-Abbau folgt |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **checkpoint-ohne-rueckfragen: Abnahme, Merge, kit-sync, INBOX #173/BACKLOG nachziehen, Abbau** — Kontext: Hand-off 17:16 eingetroffen, Branch `feature/checkpoint-ohne-rueckfragen` Kopf `98b5b45`, 3 Commits, sauber; Ablauf `dtb:worker` → Abschluss (Notiz → Merge → kit-sync → Checkpoint → Worktree/Branch weg); INBOX #173 → Ausgearbeitet + Links, BACKLOG-Zeile 173 (seit 2026-11-03)
+- [ ] **checkpoint-ohne-rueckfragen: Worktree und Branch abbauen** — Kontext: Merge `5ede096`, kit-sync und INBOX/BACKLOG erledigt; Pane `w3:pQ` mit `/exit` beenden, dann `git worktree remove ../.dtb-worktrees/pane-checkpoint-ohne-rueckfragen` + `git branch -d feature/checkpoint-ohne-rueckfragen` (seit 2026-11-03)
 - [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02)
-- [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (⏳ nicht mehr unter „Erfasst:") nur per Beispiel, nicht per Echtlauf belegt (seit 2026-11-03)
+- [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (Alters-Zeile nicht mehr unter „Erfasst:"; greift erst, wenn eine Aufgabe faellig ist) nur per Beispiel, nicht per Echtlauf belegt (seit 2026-11-03)
 - [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28)
 - [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27 · behalten 2026-11-03)
 - [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27 · behalten 2026-11-03)
@@ -42,11 +43,11 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-11-03 | #173 checkpoint-ohne-rueckfragen gemergt | Pane-Worktree Discovery → 2 Phasen (`4d538b8`, `5e41cfc`), plan-review REVISE, impl-review 10/10 FIXED (`98b5b45`), Merge `5ede096`, kit-sync 7/7; Probelauf 0 Rückfragen; L118, #186 | `2026-11/2026-11-03.md` |
 | 2026-10-29 | #174 idea-rank-schiene abgenommen | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`7e51cac`, `b78bc08`), impl-review 10/10 FIXED (`b71df0d`), Abnahme per beispiel-ausgabe.md, Merge `cd05fe2`; Laufzeit-Beleg 2026-11-02 (6/6 Anker); L113, L114 | `2026-10/2026-10-29.md` |
 | 2026-10-29 | #141 Lektionen kuratieren abgenommen und archiviert | Erstlauf: 96 geprueft, 4 ausgemustert (Archiv neu), 56 KB; Default `schwelle_kb` 40 → 80; archiviert nach `archive/lektionen-kuratieren/`; L110–L112, #168–#172 | `2026-10/2026-10-29.md` |
 | 2026-10-28 | PKP-Durchlaufzeiten ausgewertet | Claude ~14 % der aktiven Zeit; Voll-Schiene ~11 h, Fast-Track ~4 h je Change; Seite + Wiederholung 27.11.; L106–L109, #164–#167 | `2026-10/2026-10-28.md` |
 | 2026-10-28 | #141 Lektionen kuratieren gemergt | Pane-Worktree Phasen 1–4, 11/11, impl-review 10/10 FIXED (`62ee1af`), Merge `2cba137` konfliktfrei, kit-sync 53/53; L103–L105 | `2026-10/2026-10-28.md` |
-| 2026-10-28 | #158 Dashboard mit Projektname abgenommen | Fast-Track im Pane-Worktree, impl-review 7/7 FIXED (`268da05`), Merge `ed831bb`, kit-sync 52/52, Abnahme in pkp, archiviert; L101, L102 | `2026-10/2026-10-28.md` |
 
 ---
 
