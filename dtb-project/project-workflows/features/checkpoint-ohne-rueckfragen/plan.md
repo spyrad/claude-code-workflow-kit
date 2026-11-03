@@ -198,9 +198,9 @@ ein Kriterium fuer #173; ein echter Lauf belegt das neue Verhalten.
 - [x] 1.3 ⏳ ohne Frage, Kontrollpunkt nur fuer Zuordnung — `4d538b8`
 - [x] 1.4 Erfassungs-Block in der Bestaetigung — `4d538b8`
 - [x] 1.5 Verlustpruefung ohne Schlussfrage im Checkpoint — `4d538b8`
-- [x] 2.1 Spiegel und Doku nachziehen
-- [x] 2.2 Messauftrag zusammenfuehren
-- [x] 2.3 Probelauf im Haupt-Checkout
+- [x] 2.1 Spiegel und Doku nachziehen — `5e41cfc`
+- [x] 2.2 Messauftrag zusammenfuehren — `5e41cfc`
+- [x] 2.3 Probelauf im Haupt-Checkout — `5e41cfc`
 
 ---
 

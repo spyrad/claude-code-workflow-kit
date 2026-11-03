@@ -546,7 +546,8 @@ Muster WORKTREE-HANDOFF-Block). Der Abschnitt entfaellt bei 0 Abgaengen.
   noch Stempel.
 - **Eine Rueckfrage-Runde:** Die Fragen aus 9.2 (unsichere Zuordnung) und 9.3 (Abgang ohne Beleg)
   stellt `dtb:workflow-checkpoint` in EINER Nachricht (`#### Kontrollpunkt`), fortlaufend nummeriert;
-  ohne solche Fragen keine Runde. Ohne Angabe zu einer Nummer → die eine Rueckfrage. Punkte, deren
+  ohne solche Fragen keine Runde (der Checkpoint legt moegliche Duplikate unter den Verlustfunden in
+  dieselbe Runde). Ohne Angabe zu einer Nummer → die eine Rueckfrage; bleibt sie unklar → wie nein. Punkte, deren
   Zuordnung in dieser Runde offen ist, bekommen nach der Antwort ⏳, falls faellig.
 
 ### 9.5 Sonderfaelle
@@ -662,6 +663,6 @@ vgl. INBOX #22)
 backlog-inbox-nummer, 2026-10-06 (Seed-Aenderung — der Checkpoint traegt die operative Kopie,
 vgl. INBOX #22)
 **§9.4 ⏳ ohne Rueckfrage (keine Entscheidungsvorlage, kein `behalten`-Stempel mehr; die eine Runde
-traegt nur noch Zuordnungs- und Abgangsfragen):** Feature checkpoint-ohne-rueckfragen, 2026-11-03 —
+traegt nur noch Zuordnungs- und Abgangsfragen, dazu moegliche Duplikate unter den Verlustfunden):** Feature checkpoint-ohne-rueckfragen, 2026-11-03 —
 Grund: die Vorlage war eine Bestaetigung ohne Informationsgewinn (INBOX #173, Becken #185)
 (Seed-Aenderung — der Checkpoint traegt die operative Kopie, vgl. INBOX #22)

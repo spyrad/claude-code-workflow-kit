@@ -322,7 +322,7 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 ### Implementiert
 - Feature/Fix/Aenderung 1
 - Feature/Fix/Aenderung 2
-- Verlustpruefung: {D} dringend → {L…, #…} erfasst · {W} kann warten (Befehle im Report) · {S} gefiltert
+- Verlustpruefung: {D} dringend → {L…, #…} erfasst · {W} kann warten (Ideen ins Becken, Rest Befehle im Report) · {S} gefiltert
 
 ### Dateien
 - `pfad/zur/datei.py` - Kurzbeschreibung der Aenderung
@@ -346,8 +346,9 @@ Falls nicht vorhanden: Verwende Fallback-Pfade `dtb-project/project-workflows/` 
 - **Kontext**: Kurz erklaeren warum, nicht nur was
 - **Deutsch**: Alle Texte auf Deutsch
 - **Verlustpruefung (Pflicht, auch bei 0/0/0)**: letzter Bullet unter `### Implementiert` im festen
-  Format oben (Quelle: Schritt 0, „Funde erfassen"). Pfeil-Slot: `→ {L…, #…} erfasst` oder `→ nichts erfasst ({nur
-  Duplikate|Rueckfall Pfad 1|Rueckfall Pfad 2|>10 Funde})`; der Pfeil-Teil entfaellt nur ohne Eingang (nichts zu
+  Format oben (Quelle: Schritt 0, „Funde erfassen"). Pfeil-Slot: `→ {L…, #…} erfasst[ · {n} nicht erfasst
+  ({Grund})]` oder `→ nichts erfasst ({nur Duplikate|>10 Funde|Rueckfall Pfad 1|Rueckfall Pfad 2|Schreibfehler|Abbruch})`
+  — dieselben Gruende wie die ⚠-Zeile der Bestaetigung; der Pfeil-Teil entfaellt nur ohne Eingang (nichts zu
   erfassen) — er haengt an den erfassten Eintraegen, nicht an `{D}`, weil „Kann warten"-Ideen auch ohne dringenden
   Fund geschrieben werden; wurde die Pruefung uebersprungen → `Verlustpruefung uebersprungen — {Grund}` statt der Zaehl-Zeile
 - **Naechste Schritte** uebernehmen die Punkte samt `(seit …)` aus der neuen Liste (ohne Kontext/`· behalten`/⏳, §9.1)
@@ -405,7 +406,7 @@ Session-Log oder den Kontextblock.
 ## Offene Aufgaben
 
 - [ ] [Aufgabe 1] — Kontext: [kurz] (seit YYYY-MM-DD)
-- [ ] [Aufgabe 2] — Kontext: [kurz] (seit YYYY-MM-DD · behalten YYYY-MM-DD)
+- [ ] [Aufgabe 2] — Kontext: [kurz] (seit YYYY-MM-DD[ · behalten YYYY-MM-DD — nur Altbestand])
 
 ---
 
@@ -479,12 +480,13 @@ Der Aufruf ist moeglich, obwohl dieser Skill gegen Modell-Aufrufe gesperrt ist �
 
 #### Funde erfassen (ohne Rueckfrage)
 
-**Eingang:** alle Funde unter `## Vor dem Checkpoint erledigen` **plus die Ideen-Funde aus
-`## Kann warten`** — das Becken IST der Ort fuer „kann warten", damit entfaellt die wortgleiche
-Wiederholung derselben Idee in Folge-Reports (#75); Lektionen bleiben dringend-only.
-Je Fund liefert die `→ /dtb:{skill} {Argument}`-Zeile Typ (`lesson`/`idea`) und Freitext; andere
-Skills (`open-question`) werden nicht erfasst, bleiben Befehle im Report und zaehlen in `{D}`
-mit, nie unter „erfasst". Ohne Eingang entfaellt dieser Block **still** (weiter: Schritt 1).
+**Eingang:** die Funde mit einer `→ /dtb:lesson`- oder `→ /dtb:idea`-Zeile unter
+`## Vor dem Checkpoint erledigen` **plus die Ideen-Funde aus `## Kann warten`** — das Becken IST
+der Ort fuer „kann warten", damit entfaellt die wortgleiche Wiederholung derselben Idee in
+Folge-Reports (#75); Lektionen bleiben dringend-only. Die `→`-Zeile liefert Typ (`lesson`/`idea`)
+und Freitext. Funde anderer Skills (`open-question`) gehoeren **nie** zum Eingang: sie bleiben
+Befehle im Report und zaehlen nur in `{D}` mit — nie in Mengenprobe, Mengengrenze oder Pfeil-Teil,
+nie unter „erfasst". Ohne Eingang entfaellt dieser Block **still** (weiter: Schritt 1).
 
 > **Wartungs-Hinweis (Format-Kopplung):** Dieser Block liest das Ausgabe-Muster von
 > `dtb:no-loss-check` (die beiden `## `-Gruppen-Ueberschriften, je Fund die `→`-Zeile).
@@ -537,7 +539,7 @@ mit, nie unter „erfasst". Ohne Eingang entfaellt dieser Block **still** (weite
   `dtb:lesson`; Idee → `## Duplikat-Check` aus `dtb:idea`, verglichen gegen **beide** Dateien (`INBOX.md` UND `INBOX-BEFUNDE.md`) — sonst wird ein schon im Becken stehender Fund erneut geschrieben
 
 **Mengengrenze vor dem Schreiben (L90):** Mehr als 10 Funde im Eingang → nichts erfassen, keine
-Duplikat-Frage; alle Funde bleiben Befehle im Report, die Rueckfall-Zeile steht in Schritt 6 (Schutz
+Duplikat-Frage; alle Funde bleiben Befehle im Report, die ⚠-Zeile steht in Schritt 6 (Schutz
 gegen eine Fehlerkennung, die `lessons.md` auf einen Schlag fuellt). Sonst vor dem Schreiben zaehlen:
 zu schreiben + Duplikat-Treffer = Eingang (ohne Typen mit gefallener Quelle) — stimmt es nicht, neu
 zaehlen statt schreiben.
@@ -546,17 +548,18 @@ zaehlen statt schreiben.
 speichern` aus `dtb:lesson`; Idee → `## Schreibmechanik INBOX-BEFUNDE.md` aus `dtb:idea-triage` (legt
 die Datei bei Fehlen an). **Herkunfts-Marker** nur fuer Lektionen: `(via Checkpoint {YYYY-MM-DD})` ans
 Ende von `Context`, keine neue Spalte — die Herkunft einer Idee sagt bereits die Datei. Schreibfehler
-mitten drin → melden, was geschrieben ist, Rest als Befehle ausgeben — **nie zurueckrollen** (append-only).
+mitten drin → Geschriebenes bleibt, der Rest bleibt Befehle — **nie zurueckrollen** (append-only).
 
 **Duplikat-Treffer → Frage im Kontrollpunkt, nie still uebersprungen:** Der Vergleich ist unscharf
 (Ersetzungsprobe) und kann irren — ein falsch erkanntes Duplikat ginge sonst ohne Spur verloren. Der
 Fund wird hier NICHT geschrieben, sondern als Zeile in den `#### Kontrollpunkt (eine Rueckfrage-Runde)`
 am Ende von Schritt 1 gelegt; Antwort und Schreiben stehen dort.
 
-**Meldungen sammeln:** je erfasster Lektion `✔ L{N} → lessons.md — „{Rule-Satz gekuerzt}"`, je Idee
-`✔ #{N} → INBOX-BEFUNDE.md`. Angezeigt werden sie gesammelt im Erfassungs-Block der Bestaetigung
-(Schritt 6), nicht verstreut im Lauf — ohne Vorab-Bestaetigung muss dort sichtbar sein, was jetzt als
-Vorwissen der Planungs-Skills gilt.
+**Meldungen sammeln — eine Stelle:** je erfasster Lektion `✔ L{N} → lessons.md — „{Rule-Satz gekuerzt}"`,
+je Idee `✔ #{N} → INBOX-BEFUNDE.md`; Funde aus dem Eingang, die weder geschrieben noch im Kontrollpunkt
+entschieden werden (Mengengrenze, Rueckfall Pfad 1/2, Schreibfehler, `Abbruch`), zaehlen als `{n}` in
+die ⚠-Zeile. Beides erscheint erst in der Bestaetigung (Schritt 6) und im Pfeil-Teil des Log-Bullets,
+nie verstreut im Lauf — ohne Vorab-Bestaetigung muss dort sichtbar sein, was jetzt Vorwissen ist.
 
 **Selbstpruefung (L15):** Dieser Block **beschreibt** nirgends, wie Felder abgeleitet, Duplikate bewertet oder Zeilen angehaengt werden — nur Anker; ein solcher Satz waere ein Spiegel.
 
@@ -606,9 +609,10 @@ git -C {repo.path} status --short && git -C {repo.path} log --oneline -3
 Zeilenende. **Keine Frage, kein `· behalten`-Stempel:** ⏳ bleibt stehen, bis der Punkt abgeht —
 ein Stempel liesse es alle {Schwelle} Tage still verschwinden und naehme dem Warnzeichen die Wirkung.
 Abgang nur ueber ein Session-Signal (erledigt/verworfen mit Grund → Abgangsvermerk); vorhandene
-`· behalten`-Stempel woertlich weitertragen. Die Zahl `{K}` der faelligen Punkte geht in die
-Anzeigezeile der Bestaetigung (Schritt 6). Punkte, deren Zuordnung im Kontrollpunkt offen ist,
+`· behalten`-Stempel woertlich weitertragen. Punkte, deren Zuordnung im Kontrollpunkt offen ist,
 bekommen nach der Antwort ⏳, falls sie dann faellig sind (ihr `seit` haengt von der Antwort ab).
+Die Zahl `{K}` = ⏳-Zeilen der neuen Liste, **gezaehlt nach dem Kontrollpunkt**, geht in die
+Anzeigezeile der Bestaetigung (Schritt 6).
 
 > **Wartungs-Hinweis (Format-Kopplung):** kompakte Kopie von `DERIVED_STATE_RULES.md` §9 (Kopie ist
 > Absicht — Seed erreicht Bestandsprojekte nicht automatisch, INBOX #22, §9); Details nur dort.
@@ -625,8 +629,7 @@ Runde**, weiter mit Schritt 2 — der Normalfall. **Nicht hierher gehoeren** (ei
 fehlende Pflichtfelder eines Hand-off-Blocks (Empfangsseite Punkt 1 — vor allem anderen) und die
 Abnahme-Frage (Schritt 2 — explizite Entscheidung mit Beleg).
 
-**Mengenprobe vor dem Zeigen (L90):** gezeigte Nummern = Duplikat-Treffer + Zuordnungs- und
-Abgangsfragen, sonst nicht zeigen, sondern neu zaehlen.
+**Mengenprobe vor dem Zeigen (L90):** Nummern = Duplikat-Treffer + Zuordnungs- + Abgangsfragen, sonst neu zaehlen.
 
 **Format** — fortlaufend nummeriert, Kurzfassung je Zeile (nie der volle Wortlaut der vier Felder
 einer Lektion), Bestandstext auf ~120 Zeichen gekuerzt:
@@ -634,8 +637,8 @@ einer Lektion), Bestandstext auf ~120 Zeichen gekuerzt:
 ```
 # Kontrollpunkt — {F} Frage(n)
 
-1  Lektion „{Rule-Satz gekuerzt}" — dasselbe wie L{N} „{Bestand gekuerzt}"?
-2  Idee „{Idee-Satz gekuerzt}" — dasselbe wie #{N} „{Bestand gekuerzt}"?
+1  Lektion „{Rule-Satz gekuerzt}" — dasselbe wie L{N} „{Bestand gekuerzt}"{ +N weitere}?
+2  Idee „{Idee-Satz gekuerzt}" — dasselbe wie #{N} ({Status}) „{Bestand gekuerzt}"{ +N weitere}?
 3  „{neuer Punkt}" = „{alter Punkt}" (seit YYYY-MM-DD)?
 4  „{alter Punkt}" erledigt? — Hinweis: {Session-Signal}
 
@@ -650,6 +653,8 @@ Eine Antwort, z. B. „1 ja · 2 nein · 3 ja · 4 verwerfen: doppelt":
   weiter, neuer Punkt neu (`seit` heute)
 - **Abgangs-Zeile:** `ja` → Abgangsvermerk `erledigt`; `nein` → still weitertragen;
   `verwerfen: {Grund}` → Abgangsvermerk `verworfen` (§9.3)
+- **`Abbruch`** (ganze Antwort — keine unklare) → Duplikat-Funde nicht erfassen, sie bleiben Befehle
+  (⚠-Zeile in Schritt 6); Zuordnungs- und Abgangs-Zeilen wie `nein`
 - **Verb und Nummer muessen zusammenpassen:** `verwerfen` auf einer Duplikat- oder Zuordnungs-Zeile
   gilt als unklar
 - **Ohne Angabe oder unklar → genau eine Fallback-Rueckfrage** nur zu diesen Nummern
@@ -798,8 +803,8 @@ Erfasst:
 übersprungen — ähnlich {L{N}|#{N}}
 {Falls ≥ 1 Lektion erfasst: "Falsch erfasst? → /dtb:lesson-curate"}
 
-{Falls > 10 Funde: "⚠ {V} Funde — nichts automatisch erfasst, die Befehle stehen im Report der Verlustpruefung"}
-{Falls {K} ≥ 1: "⏳ {K} offene Aufgabe(n) ≥ {S} Tage — erledigt/verworfen per Ansage in einer Session"}
+{Falls {n} ≥ 1: "⚠ {n} Fund(e) nicht erfasst ({>10 Funde|Rueckfall Pfad 1|Rueckfall Pfad 2|Schreibfehler|Abbruch}) — Befehle im Report der Verlustpruefung"}
+{Falls {K} ≥ 1: "⏳ {K} offene Aufgabe(n) ≥ {Schwelle} Tage — erledigt/verworfen per Ansage in einer Session"}
 
 Naechster Schritt: [Konkret]
 Blocker: [Keine / Beschreibung]
@@ -809,13 +814,11 @@ Fuer naechste Session: /dtb:workflow-resume
 {Nur wenn der Worktree-Guard HAUPT-CHECKOUT meldete: "→ Weiter mit: /dtb:commit-and-push"}
 ```
 
-**Erfassungs-Block:** sammelt die Meldungen aus Schritt 0 und dem Kontrollpunkt an einer Stelle — die
-Erfassung laeuft ohne Vorab-Bestaetigung, also muss das Ergebnis hier sichtbar sein. Je Lektion der
-gekuerzte Regelsatz, nicht nur die Nummer: er gilt ab jetzt als Vorwissen der Planungs-Skills. Ein
-Duplikat erscheint nur nach `ja` im Kontrollpunkt als `übersprungen`, ohne Erfassungs-Befehl — die
-Entscheidung ist dort gefallen. Die Zeilen ⚠ und ⏳ stehen eigenstaendig ausserhalb des Blocks — sie
-melden keine Erfassung (Probelauf 2026-11-03: allein unter „Erfasst:" las sich ⏳ falsch). Die Zeile ⏳
-fragt nicht, sie zeigt nur den Weg hinaus.
+**Erfassungs-Block:** sammelt die Meldungen aus Schritt 0 und dem Kontrollpunkt — die Erfassung laeuft
+ohne Vorab-Bestaetigung, also muss das Ergebnis hier sichtbar sein; je Lektion der gekuerzte Regelsatz,
+denn er gilt ab jetzt als Vorwissen der Planungs-Skills. Ein Duplikat erscheint nur nach `ja` im
+Kontrollpunkt als `übersprungen`, ohne Erfassungs-Befehl. Die Zeilen ⚠ und ⏳ stehen ausserhalb des
+Blocks, weil sie keine Erfassung melden (Probelauf 2026-11-03); ⏳ fragt nicht, sie zeigt den Weg hinaus.
 
 **Kein Commit-Nachlauf:** Nach der Bestaetigung endet der Skill. Frage NICHT, ob committet oder
 gepusht werden soll, und biete es nicht an — die letzte Zeile `→ Weiter mit: /dtb:commit-and-push` ist

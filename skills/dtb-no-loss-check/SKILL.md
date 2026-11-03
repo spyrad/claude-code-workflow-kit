@@ -252,8 +252,8 @@ Praefix in der Fund-Zeile.
 ### Versioniert oder nicht (Pflichtangabe je Fund)
 
 Vor dem Absetzen muss sichtbar sein, wohin der Inhalt wandert. Die Zuordnung ist **fest** —
-mit einer Verzweigung: ein Ideen-Fund landet im Becken, wenn ihn die Checkpoint-Vorlage
-schreibt, und in `INBOX.md`, wenn der Mensch den `/dtb:idea`-Befehl selbst tippt (die
+mit einer Verzweigung: ein Ideen-Fund landet im Becken, wenn ihn der Checkpoint
+(Schritt 0, ohne Rueckfrage) schreibt, und in `INBOX.md`, wenn der Mensch den `/dtb:idea`-Befehl selbst tippt (die
 Zwei-Becken-Regel entscheidet ueber den Schreiber, nicht ueber den Fund):
 
 | Zielartefakt | Zustand |
@@ -300,7 +300,7 @@ Verlustpruefung — {N} Fund(e)
 
 - Reziprozitaet der Pipeline-Kanten wird nirgends geprueft.
   → /dtb:idea "Lint fuer halbseitige Pipeline-Kanten in dtb:project-health."
-  Ziel: .../INBOX-BEFUNDE.md ueber die Checkpoint-Vorlage; .../INBOX.md, wenn du den
+  Ziel: .../INBOX-BEFUNDE.md ueber den Checkpoint (Schritt 0, ohne Rueckfrage); .../INBOX.md, wenn du den
         Befehl selbst tippst (beide versioniert)
 
 2 Kandidaten als bereits erfasst gefiltert
@@ -406,7 +406,7 @@ seine eigene Blindheit verschweigt, ist schlimmer als keiner.
 ```
 - {Frage} — urspruenglich eine Fach-Frage; kein Feature mit spec.md/discovery.md als Ablage-Ort.
   → /dtb:idea "[Fach-Frage ohne Ablage-Ort] {Frage}"
-  Ziel: .../INBOX-BEFUNDE.md ueber die Checkpoint-Vorlage; .../INBOX.md, wenn du den
+  Ziel: .../INBOX-BEFUNDE.md ueber den Checkpoint (Schritt 0, ohne Rueckfrage); .../INBOX.md, wenn du den
         Befehl selbst tippst (beide versioniert)
 ```
 
