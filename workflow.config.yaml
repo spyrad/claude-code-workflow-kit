@@ -1,7 +1,7 @@
 # Workflow Config — wird durch /dtb:project-init ausgefuellt
 # Single Source of Truth fuer alle DTB Commands
 
-project_name: "[Projektname]"
+project_name: "claude-code-workflow-kit"
 namespace: "[namespace]"
 
 paths:

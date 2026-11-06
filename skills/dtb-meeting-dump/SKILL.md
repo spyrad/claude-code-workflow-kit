@@ -8,7 +8,7 @@ description: >-
   annotated §6-conform after an explicit approval step.
 disable-model-invocation: true
 argument-hint: "[<Meeting-Notizen als Freitext-Dump>]"
-allowed-tools: Read, Glob, Grep, Edit, Write
+allowed-tools: Read, Glob, Grep, Edit, Write, Bash
 pipeline:
   stage: capture
   after: [dtb:meeting-agenda]

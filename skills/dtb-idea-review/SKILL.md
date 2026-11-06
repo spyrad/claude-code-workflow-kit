@@ -5,7 +5,7 @@ description: >-
   "Ideen sichten", "Inbox pruefen". Reviews all open ideas in the
   inbox and lets the user decide on each: keep, elaborate, or discard.
 disable-model-invocation: true
-allowed-tools: Read, Write
+allowed-tools: Read, Write, Bash
 pipeline:
   stage: idea
   after: [dtb:idea, dtb:idea-triage, dtb:idea-rank]
