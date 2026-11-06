@@ -234,7 +234,8 @@ Hand-off-Block statt eines Reports.
 > Laufzeit (statt sie zu kopieren) und greppt auf den Sektions-Titel `### Pane-Ausfuehrung`
 > (Struktur-Check). Aenderungen an Sequenz oder Titel → `skills/dtb-pane-start/SKILL.md`
 > mitziehen. Dessen bewusste Abweichungen (Branch `feature/{slug}`, Begruessungstext statt
-> Auftrag) stehen dort — Herdr-Kommandos werden weiterhin NUR hier korrigiert. Zweiter
+> Auftrag, Startbefehl OHNE Signal-Einrichtung/`--settings`) stehen dort — Herdr-Kommandos
+> werden weiterhin NUR hier korrigiert. Zweiter
 > Leser: `dtb:pane-start` bietet den `#### Rueckweg: Ueberwachungs-Tick` dieser Sektion an
 > und prueft dessen Titel als eigenen Anker.
 
@@ -263,22 +264,68 @@ Vor jedem Pane-Start, in dieser Reihenfolge:
 
 #### Hinweg: Start-Sequenz
 
-Vier Kommandos je Aufgabe — Antworten lesen, IDs nie raten (Syntax-Stand 2026-08-16,
-Drift-Risiko dokumentiert; Kommandos nur hier und in der Vorlage oben):
+Vier Kommandos je Aufgabe plus die Signal-Einrichtung vor Kommando 3 — Antworten lesen,
+IDs nie raten (Syntax-Stand 2026-08-16, Drift-Risiko dokumentiert; Kommandos nur hier und
+in der Vorlage oben):
 
 1. `git worktree add {repo-parent}/.dtb-worktrees/worker-{slug} -b task/{slug}` —
    Task-Branch statt detached HEAD (bewusste Differenz zum Subagenten-Traeger:
    Merge und Diff-Abnahme brauchen eine Branch-Referenz; Entscheidung 2026-08-16)
 2. `herdr pane split --current --direction right --cwd {worktree-pfad} --no-focus` —
    Pane-ID aus `.result.pane.pane_id` der Antwort lesen
-3. `herdr pane run {pane-id} "claude"` — startet die Session ueber die Pane-Shell.
+
+   **Signal-Einrichtung (Ende-Meldung in Code, nicht im Worker-Modell):** Ein Stop-Hook
+   der Worker-Session meldet jedes Turn-Ende als `WORKER-STOP (dtb) — {slug}` an die
+   Orchestrator-Pane — auch wenn das Modell den Hand-off-Block vergisst. Er ist NUR ein
+   Signal; die Fakten liest der Orchestrator selbst (Ausgang (d) unter
+   `#### Rueckweg: Warten ohne Warten`). Registriert wird er nur fuer diese Session
+   (`claude --settings`, Kommando 3) — globale Einstellungen bleiben unberuehrt, globale
+   Stop-Hooks laufen daneben weiter (Probe 2026-11-06). Hook-Skript und Settings-Datei
+   liegen im Git-Verwaltungsordner des Worktrees (wie die Uebergabe-Notiz: nie
+   committbar, verschwinden mit `git worktree remove`). Der Hook-Befehl ist bewusst
+   shell-neutral (`powershell -File "…"`, keine Variablen, keine Operatoren): Claude Code
+   fuehrt Hook-Befehle je nach Startweg in PowerShell oder Git Bash aus (Probe 2026-11-06).
+   Das Skript endet IMMER mit Exit 0 — ein Exit 2 wuerde das Turn-Ende blockieren und
+   den Worker weiterlaufen lassen. In EINEM selbstaendigen Bash-Block, Platzhalter
+   `{worktree-pfad}`, `{slug}`, `{orchestrator-pane}` (= `$HERDR_PANE_ID`) eingesetzt:
+
+   ```bash
+   W="{worktree-pfad}"; S="{slug}"; O="{orchestrator-pane}"
+   printf '%s' "$S" | grep -qE '^[a-z0-9][a-z0-9-]*$' || { echo "HOOK-FEHLT ungueltiger Slug"; exit 0; }
+   printf '%s' "$O" | grep -qE '^[A-Za-z0-9]+:[A-Za-z0-9]+$' || { echo "HOOK-FEHLT ungueltige Orchestrator-Adresse"; exit 0; }
+   G=$(git -C "$W" rev-parse --git-dir 2>/dev/null) && G=$(cd "$W" && cd "$G" 2>/dev/null && { pwd -W 2>/dev/null || pwd; }) || { echo "HOOK-FEHLT Git-Verwaltungsordner nicht aufloesbar"; exit 0; }
+   cat > "$G/dtb-worker-hook.ps1" <<'DTB_HOOK_EOF'
+   $ErrorActionPreference = 'SilentlyContinue'
+   $null = [Console]::In.ReadToEnd()
+   $line = 'WORKER-STOP (dtb) ' + [char]0x2014 + ' __SLUG__'
+   & herdr agent prompt '__PANE__' $line *> $null
+   if ($LASTEXITCODE -ne 0) { Start-Sleep -Seconds 2; & herdr agent prompt '__PANE__' $line *> $null }
+   exit 0
+   DTB_HOOK_EOF
+   sed -i "s/__SLUG__/$S/g; s/__PANE__/$O/g" "$G/dtb-worker-hook.ps1" || { echo "HOOK-FEHLT Skript nicht schreibbar"; exit 0; }
+   printf '{"hooks":{"Stop":[{"matcher":"","hooks":[{"type":"command","command":"powershell -NoProfile -ExecutionPolicy Bypass -File \\"%s\\"","timeout":15}]}]}}\n' "$G/dtb-worker-hook.ps1" > "$G/dtb-worker-hook.json" || { echo "HOOK-FEHLT Settings nicht schreibbar"; exit 0; }
+   echo "HOOK-OK $G/dtb-worker-hook.json"
+   ```
+
+   Die Endmarke `DTB_HOOK_EOF` steht im echten Aufruf am Zeilenanfang (die Einrueckung
+   hier ist nur Listen-Darstellung). Slug und Adresse sind vor dem Einsetzen geprueft —
+   nur `[a-z0-9-]` bzw. `[A-Za-z0-9:]`, deshalb sind `sed` und JSON ohne Escaping sicher;
+   der Pfad kommt per `pwd -W` mit Vorwaertsschraegstrichen.
+   `HOOK-OK {datei}` → Kommando 3 mit `--settings '{datei}'`. **Fehlerweg** `HOOK-FEHLT
+   {Grund}` → genau EINE Warnzeile, dann Kommando 3 OHNE `--settings` — nie still, nie
+   Abbruch (der Ueberwachungs-Tick bleibt das Netz):
+   ```
+   ⚠ Signal-Hook fuer {slug} nicht eingerichtet ({Grund}) — Worker startet ohne Ende-Signal, Netz ist der Ueberwachungs-Tick
+   ```
+3. `herdr pane run {pane-id} "claude --settings '{datei}'"` (Fehlerweg: `"claude"`) —
+   startet die Session ueber die Pane-Shell.
    BEWUSST NICHT `herdr agent start`: der scheitert auf Windows zweifach (ohne
    Agent-Argumente am `Start-Process -ArgumentList ''`-Bug, mit Argumenten an
    „%1 ist keine zulaessige Win32-Anwendung" — `claude` ist ein npm-Shim, kein
    Win32-Exe; beide belegt 2026-08-16). Danach **Erkennungs-Warten**: `herdr pane
    list` wiederholt lesen, bis die Pane `"agent": "claude"` mit `agent_status`
    `idle` traegt (Budget ~90 s; bleibt die Erkennung aus, genau EIN erneutes
-   `herdr pane run {pane-id} "claude"` mit frischem 90-s-Budget), sonst Abbruch:
+   `herdr pane run` mit demselben Startbefehl und frischem 90-s-Budget), sonst Abbruch:
    Meldung + Pane-Inhalt (`herdr pane read {pane-id}`) zeigen
 4. `herdr agent prompt {pane-id} "{Pane-Auftrag aus der Vorlage}"` — Ziel ist die
    Pane-ID (kein Agent-Name — `pane run` vergibt keinen). Der Auftrag ist
@@ -301,7 +348,7 @@ gestartet hat (Ablauf: naechste Untersektion `#### Rueckweg: Ueberwachungs-Tick`
 `herdr agent get {pane-id}` den Status und die seit der Zustellung verstrichene Zeit gegen
 `worker.max_minutes` (die Antwort traegt kein Zeitfeld — belegt 2026-09-24; Startzeit ist der
 per `date` ermittelte Zeitpunkt in der Kopfzeile des Ueberwachungs-Angebots, aktuelle Zeit
-ebenfalls per `date`). Drei Ausgaenge:
+ebenfalls per `date`). Vier Ausgaenge:
 
 - **(a) WORKTREE-HANDOFF-Block trifft ein** (Kopfzeile erkannt) → Branch-Verifikation
   (`#### Rueckweg: Branch-Verifikation`)
@@ -311,6 +358,31 @@ ebenfalls per `date`). Drei Ausgaenge:
 - **(c) Zeit ueber `worker.max_minutes`** → wie (b): Pane lesen, melden, Mensch
   entscheidet. **KEIN Auto-Stopp** — ein Abbruch wuerfe moeglicherweise fast fertige
   Arbeit weg, und die Pane ist ja sichtbar (der Vorteil dieses Traegers)
+- **(d) Signal `WORKER-STOP (dtb) — {slug}` trifft ein** (vom Stop-Hook aus der
+  Signal-Einrichtung; Anker IRGENDWO in der Eingabe erkennen, nicht nur am Zeilenanfang —
+  `herdr agent prompt` haengt an eine halb getippte Eingabe an und schickt sie mit ab,
+  Probe 2026-11-06; steht Text VOR dem Anker, ist das der Entwurf des Menschen → ihn
+  woertlich zurueckzeigen, nicht als Auftrag werten). Das Signal ist eine Tatsache
+  („Turn beendet"), keine Aussage ueber den Erfolg. Der Orchestrator liest den
+  Worktree-Stand selbst — dieselben Kommandos wie Pruefpunkt 2 des Ueberwachungs-Ticks
+  (Commits, uncommitted, Fortschritt; per Verweis, nicht kopiert) — und prueft, ob in
+  DIESER Session ein `WORKTREE-HANDOFF (dtb) — Quelle: {slug}`-Block eingetroffen ist
+  (der Block geht im Turn raus, also vor dem Signal):
+  - **Block da** → genau eine Bestaetigungszeile, die Branch-Verifikation laeuft bereits
+    ueber (a):
+    `✅ {slug}: Turn beendet, Hand-off liegt vor · +{n} Commits · {k} uncommitted · {Fortschritt}`
+  - **Block fehlt** → einmal `herdr pane read {pane-id}` (letzte Antwort des Workers), dann
+    melden — der Mensch entscheidet, der Orchestrator schickt NICHTS automatisch an den
+    Worker:
+    ```
+    ⚠ {slug}: Worker hat aufgehoert ohne Hand-off — wartet er auf eine Antwort oder hat er den Block vergessen?
+       Stand: +{n} Commits · {k} uncommitted · {Fortschritt}
+       Letzte Antwort: {Auszug aus herdr pane read}
+       → du entscheidest: antworten · Block anfordern · liegen lassen
+    ```
+  - Jeder Stopp schickt ein neues Signal (z.B. erst ohne, nach dem Nachfassen mit Block) —
+    jedes wird so ausgewertet. Grenze: ein Auswahldialog des Workers beendet keinen Turn
+    und loest kein Signal aus — das deckt Ausgang (b)
 
 #### Rueckweg: Ueberwachungs-Tick
 
@@ -360,7 +432,9 @@ Kosten je Takt fallen einmal an statt N-mal).
    - Stand-Feld im Format `+{n} Commits, zuletzt YYYY-MM-DD` (wie §10.2)
 3. **Hand-off:** Ist seit dem letzten Tick ein Block mit der Kopfzeile
    `WORKTREE-HANDOFF (dtb) — …` fuer `{slug}` in dieser Session eingetroffen? (Der Push
-   erreicht die Session von selbst als Eingabe.)
+   erreicht die Session von selbst als Eingabe.) Zusaetzlich (nur Traeger `pane` von
+   `dtb:worker`): ist seit dem letzten Tick ein Signal `WORKER-STOP (dtb) — {slug}`
+   eingetroffen, und lag zu diesem Zeitpunkt KEIN Hand-off-Block fuer `{slug}` vor?
 
 **Meldungsregel — nur bei Aenderung:** Vergleichsbasis ist die letzte Tick-Zeile zu dieser
 Pane im Gespraechsverlauf, KEINE Zustandsdatei (sie waere eine Zustandsaussage ohne
@@ -376,6 +450,7 @@ einer Kontext-Komprimierung kann eine Zeile doppelt erscheinen — harmlos, kein
 |--------|----------------|
 | Hand-off eingetroffen | Ende-Zeile; die Pane scheidet aus. Weiter je Traeger: `dtb:worker` (Traeger `pane`) → `#### Rueckweg: Branch-Verifikation`; `dtb:pane-start` → nur `/dtb:workflow-checkpoint` (Empfang — Merge und Abnahme gehoeren dort nicht hin, siehe pane-start `## Rueckweg und Abschluss`) |
 | Pane weg (`agent_not_found`) ohne Hand-off | Ende-Zeile mit Pruef-Hinweis auf den Branch; die Pane scheidet aus |
+| Signal `WORKER-STOP (dtb)` ohne Hand-off (Pruefpunkt 3) | genau einmal je Signal `gestoppt ohne Hand-off` im Zustandsfeld; die Pane bleibt beobachtet (nach einem Nachfassen arbeitet der Worker weiter) — Signal MIT Hand-off: nichts Neues, der Hand-off beendet die Beobachtung |
 | `blocked` | Pane einmal lesen (`herdr pane read {pane-id}`, wie Ausgang (b)), Blockade-Zeile mit Dialog-Auszug genau einmal, bis der Zustand wechselt — kein Eingriff, der Mensch entscheidet |
 | Laufzeit ueber `worker.max_minutes` (nur Traeger `pane` von `dtb:worker`; Startzeit aus der Angebots-Kopfzeile, siehe unten) | genau einmal melden wie Ausgang (c) — KEIN Auto-Stopp |
 | `done` / `unknown` | als Aenderung melden, NIE als Abschluss werten (Herdr: `done` = idle nach ungesehener Hintergrundarbeit, `unknown` = nicht klassifizierbar — beides kein Beleg fuer Fertigstellung) |
@@ -419,6 +494,9 @@ der laufende Tick findet die neue Pane selbst. Die Kopfzeile erscheint IMMER: ih
 ```
 (1) Aenderung (erster Tick: dieselbe Zeile ohne Pfeile)
 🔭 {slug} ({pane-id}): working → idle · +0 → +1 Commits, zuletzt 2026-09-24 · 0 uncommitted · Progress 0/6 → 3/6
+
+(1a) Signal ohne Hand-off (einmal je Signal `WORKER-STOP (dtb)`, Pane bleibt beobachtet)
+🔭 {slug} ({pane-id}): working → idle · ⚠ gestoppt ohne Hand-off · +1 Commits, zuletzt 2026-11-06 · 2 uncommitted · Schritte 2/4 → 3/4
 
 (1b) Blockade (einmal, bis sich der Zustand aendert)
 🔭 {slug} ({pane-id}): working → ⚠ blocked · +1 Commits, zuletzt 2026-09-24 · 0 uncommitted · Progress 3/6
@@ -499,7 +577,10 @@ Abschluss vorbei (`git worktree remove`/`prune` von Hand) loescht sie still.
 4. NACH dem Checkpoint: Worker-Session beenden lassen (`/exit` in der Pane), Pane
    schliessen, `git worktree remove {pfad}` + `git branch -d task/{slug}` — unter
    Windows ggf. kurz warten (Datei-Lock der eben geschlossenen Pane) und mit
-   `git worktree prune` nachraeumen. Keine verwaisten Registrierungen zuruecklassen
+   `git worktree prune` nachraeumen. Keine verwaisten Registrierungen zuruecklassen.
+   Hook-Skript und Settings-Datei der Signal-Einrichtung (`dtb-worker-hook.ps1`/`.json`)
+   liegen im Git-Verwaltungsordner und verschwinden mit `git worktree remove` — keine
+   eigene Aufraeumung noetig
 
 #### Warteschlange (mehrere freigegebene Aufgaben)
 
