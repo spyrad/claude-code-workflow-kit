@@ -22,6 +22,9 @@ bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).
 
 | # | Datum | Befund | Sichtung |
 |---|-------|--------|----------|
+| 191 | 2026-11-06 | **Herdr-Kanon in `dtb:worker` gegen Herdr 0.9.4 pruefen** — Start-Sequenz, Ueberwachungs-Tick und Rueckweg sind auf Syntax-Stand 2026-08-16 (0.9.0) belegt; am 2026-11-06 auf 0.9.4 aktualisiert, bisher nur `agent get`, `agent list`, `pane read` und `integration` gegen 0.9.4 gesehen. | |
+| 190 | 2026-11-06 | **„Korrektur senden" an eine laufende Pane per `herdr agent prompt` in `dtb:worker` dokumentieren** (aus #175) — Probe 3a belegt: Eingaben waehrend eines laufenden Turns werden gepuffert und danach verarbeitet; Dialog-Schutz aus #175 (L123) beachten. | |
+| 189 | 2026-11-06 | **Ueberwachungs-Tick-Pruefliste als Skript statt Modellaufruf** (aus #175) — heute kostet jeder Tick einen Modellaufruf im vollen Orchestrator-Kontext (am 2026-11-06 rund 20 Ticks, die meisten ohne Aenderung); ein Skript koennte nur bei Aenderung melden. | |
 | 188 | 2026-11-06 | **dtb:project-health Check 4 (Root-Dateinamen): INBOX-BEFUNDE.md als kanonische Ausnahme von UPPER_SNAKE_CASE fuehren** — sonst Schein-Warnung bei jedem Health-Lauf (belegt 2026-11-06). | |
 | 187 | 2026-11-06 | **dtb:project-health Check 2 (INBOX-BEFUNDE-Integritaet): Spaltenzahl nur ueber unescapte Pipes zaehlen und das im Check-Text sagen** — ein naiver Split zaehlte escapte Pipes mit und meldete am 2026-11-06 #54/#70 faelschlich als kaputt. | |
 | 186 | 2026-11-03 | **Abnahme-Frage im Checkpoint nur stellen, wenn das Item in dieser Session fertig wurde** — Schritt 2.3 von `dtb:workflow-checkpoint` fragt heute bei jedem Checkpoint, solange ein Item Y/Y ist (z. B. #177 checkpoint-schneller in der Nachmess-Wartezeit bis 2026-12-02); seither wird die Frage von Hand übergangen, weil die Entscheidung „Fertig zum Testen" weiter gilt. Probelauf-Befund 2 aus #173, dort bewusst ausgelagert (spec.md „Nicht enthalten"). | |
