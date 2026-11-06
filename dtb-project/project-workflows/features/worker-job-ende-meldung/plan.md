@@ -206,13 +206,13 @@ Orchestrator und wendet Ausgang (d) aus der Repo-Fassung an (L74), eine Wegwerf-
 - [x] 1.1 Probe Registrierung und Hook-Shell — `45ba7d6`
 - [x] 1.2 Probe Nebeneinander mit globalem Stop-Hook — `45ba7d6`
 - [x] 1.3 Probe Zustellung und Zeichen — `45ba7d6`
-- [x] 2.1 worker Hinweg Einrichtung und Start
-- [x] 2.2 worker Rueckweg Ausgang (d)
-- [x] 2.3 worker Ueberwachungs-Tick
-- [x] 2.4 pane-start, Abschluss-Hinweis und Doku
-- [ ] 3.1 Wirklauf ohne und mit Hand-off
-- [ ] 3.2 Randfaelle im Wirklauf
-- [ ] 3.3 Tick-Probe
+- [x] 2.1 worker Hinweg Einrichtung und Start — `4b48528`
+- [x] 2.2 worker Rueckweg Ausgang (d) — `4b48528`
+- [x] 2.3 worker Ueberwachungs-Tick — `4b48528`
+- [x] 2.4 pane-start, Abschluss-Hinweis und Doku — `4b48528`
+- [x] 3.1 Wirklauf ohne und mit Hand-off
+- [x] 3.2 Randfaelle im Wirklauf
+- [x] 3.3 Tick-Probe
 
 ---
 

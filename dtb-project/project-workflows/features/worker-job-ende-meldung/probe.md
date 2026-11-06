@@ -71,4 +71,90 @@ Skript muss den Exit-Code abfangen (Hook-Exit immer 0).
 
 ## Abnahme
 
-— folgt in Phase 3 —
+**Aufbau (2026-11-06 15:21):** Orchestrator = diese Pane `w3:pR`, Wegwerf-Worker = Pane `w3:pV`
+(per `herdr pane split` neu angelegt, cwd = dieser Arbeitsplatz). Signal-Einrichtung woertlich aus
+der Repo-Fassung (`#### Hinweg: Start-Sequenz`) mit `{slug}` = `worker-job-ende-meldung`,
+`{orchestrator-pane}` = `w3:pR` → `HOOK-OK …/.git/worktrees/pane-worker-job-ende-meldung/dtb-worker-hook.json`;
+Start per `herdr pane run w3:pV "claude --settings '…'"`, Erkennung `idle` nach < 90 s.
+Ausgangsstand `git status --porcelain`: 3 Zeilen (plan.md, discovery.md, spec.md).
+Hash `~/.claude/settings.json` vorher: `f7a5b663…3a51369`.
+
+### 3.1 Wirklauf ohne und mit Hand-off
+
+**Lauf 1 — ohne Hand-off.** Auftrag: „nichts schreiben, genau ein Satz, KEINEN Hand-off-Block".
+Worker antwortete `Auftrag gelesen, ich warte.` (done 15:21). In dieser Pane kam als eigene Eingabe an:
+
+```
+WORKER-STOP (dtb) — worker-job-ende-meldung
+```
+
+Reaktion nach Ausgang (d): kein `WORKTREE-HANDOFF (dtb) — Quelle: worker-job-ende-meldung` in dieser
+Session → Stand selbst gelesen (Kommandos wie Tick-Pruefpunkt 2), einmal `herdr pane read w3:pV`
+(Hinweis: Default-Quelle zeigte nur den leeren Eingabebereich, erst `--source recent --lines 80`
+lieferte die Antwort), Meldung:
+
+```
+⚠ worker-job-ende-meldung: Worker hat aufgehoert ohne Hand-off — wartet er auf eine Antwort oder hat er den Block vergessen?
+   Stand: +2 Commits · 3 uncommitted · Progress 7/10
+   Letzte Antwort: „Auftrag gelesen, ich warte." (done 15:21)
+   → du entscheidest: antworten · Block anfordern · liegen lassen
+```
+
+**Lauf 2 — Nachfassen mit Block („Block anfordern").** Auftrag an `w3:pV`: genau einen Bash-Befehl
+`herdr agent prompt w3:pR "WORKTREE-HANDOFF (dtb) — Quelle: worker-job-ende-meldung (Test) …"`.
+Reihenfolge der Eingaben in dieser Pane — erst der Block, dann das Signal (Block geht im Turn raus,
+Signal erst beim Turn-Ende):
+
+```
+WORKTREE-HANDOFF (dtb) — Quelle: worker-job-ende-meldung (Test)
+Erledigt:
+- Abnahme-Probe 3.1, nichts geschrieben
+```
+```
+WORKER-STOP (dtb) — worker-job-ende-meldung
+```
+
+Reaktion nach Ausgang (d), Block da:
+
+```
+✅ worker-job-ende-meldung: Turn beendet, Hand-off liegt vor · +2 Commits · 4 uncommitted · Progress 7/10
+```
+
+(4 uncommitted = Ausgangsstand + diese `probe.md`.) Mehrfach-Stopp belegt: jeder Turn-Ende schickt
+ein eigenes Signal, beide wurden je einmal ausgewertet. Nebenbefund: der Worker bemerkte von selbst,
+dass die Orchestrator-Pane im selben Worktree arbeitet, und bat um Pruefung — im Wirklauf (eigener
+`worker-{slug}`-Worktree) tritt das nicht auf.
+
+### 3.2 Randfaelle im Wirklauf
+
+| Fall | Vorgehen | Beobachtung |
+|------|----------|-------------|
+| Orchestrator weg | Signal-Einrichtung woertlich mit `{orchestrator-pane}` = `w3:zz` (existiert nicht) → `HOOK-OK`; Skript ueberschrieben, laufende Session `w3:pV` liest es beim naechsten Stop neu; Auftrag „ein Satz" | Worker antwortete `Turn ohne Orchestrator.` (done 15:23), Status `done`, **keine Hook-Fehlermeldung** in der Pane, hier kam nichts an; danach Einrichtung erneut mit `w3:pR` (fuer 3.3) |
+| Ungueltiger Slug (Fehlerweg) | Einrichtung mit `{slug}` = `Ungueltig_Slug` | `HOOK-FEHLT ungueltiger Slug`, vorhandene Dateien unberuehrt (Abbruch vor dem Schreiben); Warnzeile laut Skill: `⚠ Signal-Hook fuer Ungueltig_Slug nicht eingerichtet (ungueltiger Slug) — Worker startet ohne Ende-Signal, Netz ist der Ueberwachungs-Tick`; Start dann ohne `--settings` (naechste Zeile) |
+| pane-start ohne Hook | zweite Wegwerf-Pane `w3:pW`, Start nur `claude` (= Startbefehl von `dtb:pane-start` und Fehlerweg); Auftrag „ein Satz" | Antwort `Turn ohne Hook.` (done 15:24); 20 s Nachlauf — **keine Signalzeile** hier |
+| Globale Einstellungen | `sha256sum ~/.claude/settings.json` vor 3.1 und nach 3.2 | beide `f7a5b663…3a51369` — unveraendert |
+
+### 3.3 Tick-Probe
+
+**Anpassung am Ablauf:** Die Lage „Signal ohne Block" aus 3.1 (Lauf 1) war durch den Test-Block aus
+Lauf 2 ueberholt — ein Tick haette die Pane wegen „Hand-off eingetroffen" beendet. Deshalb: Tick-
+Fenster beginnt nach 3.2 mit einer Ausgangszeile, danach ein neuer Worker-Turn ohne Block, dann die
+zwei Laeufe aus dem Plan. Pruefliste woertlich aus der Repo-Fassung (`#### Rueckweg: Ueberwachungs-Tick`),
+Schleifen-Form (Meldungsregel „nur bei Aenderung"), von Hand ausgefuehrt.
+
+Schritt 0 fand den Worktree `pane-worker-job-ende-meldung` und ZWEI Panes mit passendem `cwd`
+(`w3:pR` = diese Orchestrator-Pane, `w3:pV` = Worker) — Artefakt der Simulation (Orchestrator im
+selben Worktree); beobachtet wurde `w3:pV`. Im Betrieb sitzt der Orchestrator im Haupt-Checkout.
+
+| Tick | Lage | Ausgabe |
+|------|------|---------|
+| 1 (Ausgang) | nach 3.2, kein Signal seit Fenster-Beginn | `🔭 worker-job-ende-meldung (w3:pV): done · +2 Commits, zuletzt 2026-11-06 · 4 uncommitted · Progress 9/10` |
+| — | Worker-Turn „ein Satz, KEIN Hand-off-Block" → hier eingetroffen: `WORKER-STOP (dtb) — worker-job-ende-meldung` | — |
+| 2 | Signal seit Tick 1, kein Hand-off seit Tick 1 (Pruefpunkt 3) | `🔭 worker-job-ende-meldung (w3:pV): done · ⚠ gestoppt ohne Hand-off · +2 Commits, zuletzt 2026-11-06 · 4 uncommitted · Progress 9/10` |
+| 3 | keine Aenderung, kein neues Signal | keine Zeile |
+
+`gestoppt ohne Hand-off` erscheint genau einmal; die Pane blieb beobachtet.
+
+**Aufraeumen:** `herdr pane close w3:pW` (nach 3.2) und `herdr pane close w3:pV`; `herdr pane list`
+zeigt keine der beiden mehr. `dtb-worker-hook.ps1`/`.json` aus
+`.git/worktrees/pane-worker-job-ende-meldung/` entfernt (0 Treffer danach).
