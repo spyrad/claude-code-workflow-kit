@@ -22,6 +22,8 @@ bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).
 
 | # | Datum | Befund | Sichtung |
 |---|-------|--------|----------|
+| 188 | 2026-11-06 | **dtb:project-health Check 4 (Root-Dateinamen): INBOX-BEFUNDE.md als kanonische Ausnahme von UPPER_SNAKE_CASE fuehren** — sonst Schein-Warnung bei jedem Health-Lauf (belegt 2026-11-06). | |
+| 187 | 2026-11-06 | **dtb:project-health Check 2 (INBOX-BEFUNDE-Integritaet): Spaltenzahl nur ueber unescapte Pipes zaehlen und das im Check-Text sagen** — ein naiver Split zaehlte escapte Pipes mit und meldete am 2026-11-06 #54/#70 faelschlich als kaputt. | |
 | 186 | 2026-11-03 | **Abnahme-Frage im Checkpoint nur stellen, wenn das Item in dieser Session fertig wurde** — Schritt 2.3 von `dtb:workflow-checkpoint` fragt heute bei jedem Checkpoint, solange ein Item Y/Y ist (z. B. #177 checkpoint-schneller in der Nachmess-Wartezeit bis 2026-12-02); seither wird die Frage von Hand übergangen, weil die Entscheidung „Fertig zum Testen" weiter gilt. Probelauf-Befund 2 aus #173, dort bewusst ausgelagert (spec.md „Nicht enthalten"). | |
 | 185 | 2026-11-02 | **Nachtrag zu #173: Rückfragen weglassen braucht eine Regeländerung** — #177 (checkpoint-schneller) bündelt die Rückfragen nur zu einer Runde; sie ganz wegzulassen verlangt eine bewusste Änderung von `DERIVED_STATE_RULES.md` §9.4 (alte Aufgaben automatisch behalten). Am 2026-11-02 als eigener Change nach #177 entschieden. | |
 | 184 | 2026-11-02 | **chain-metrics.py (mega.dev) zählt den Nachlauf nach dem Checkpoint mit** — die Kern-Abgrenzung aus `features/checkpoint-schneller/checkpoint-phasen.py` übernehmen oder zusätzlich ausgeben (Hand-off #177, 2026-11-02). | |
