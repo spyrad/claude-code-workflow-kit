@@ -20,13 +20,12 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #175 worker-job-ende-meldung abgenommen und gemergt (`ffe509e`); kit-sync und Abbau des Arbeitsplatzes offen; Herdr 0.9.4 installiert, Integrationen noch v9 |
+| **Notizen** | #175 worker-job-ende-meldung abgenommen, gemergt (`ffe509e`), installiert (kit-sync 2/2) und Arbeitsplatz abgebaut — wartet auf /dtb:archive; Herdr 0.9.4 installiert, Integrationen noch v9 |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#175 worker-job-ende-meldung: kit-sync und Arbeitsplatz abbauen** — Kontext: gemergt `ffe509e`; kit-sync Klasse A (`dtb-worker`, `dtb-pane-start`); Abbau: `/exit` in Pane `w3:pR`, dann `git worktree remove` + `git branch -d feature/worker-job-ende-meldung` (seit 2026-11-06)
 - [ ] **Herdr-Integrationen `claude` und `pi` mit 0.9.4 installieren** — Kontext: aus einer Pane laeuft noch 0.9.0 (L119); per vollem Pfad `~/.herdr/packages/standalone/releases/0.9.4-…/herdr.exe integration install claude` bzw. `pi`, dann `integration status` (seit 2026-11-06)
 - [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02)
 - [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (Alters-Zeile nicht mehr unter „Erfasst:"); erster Echtlauf mit Funden und ⏳ ist der Checkpoint 2026-11-06 — dessen Bestätigung ansehen (seit 2026-11-03)
@@ -61,6 +60,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** — offen — (mit /dtb:workflow-next bestimmen)
+**Naechster Befehl:** `/dtb:archive worker-job-ende-meldung`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 109 ungesichtet → /dtb:idea-triage
