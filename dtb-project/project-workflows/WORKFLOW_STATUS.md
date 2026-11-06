@@ -11,6 +11,7 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
+| worker-job-ende-meldung | Abgenommen | 10/10 | /dtb:archive |
 
 ---
 
@@ -19,13 +20,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #175 worker-job-ende-meldung im Pane-Worktree fertig (10/10, impl-review 10/10 FIXED, `e0a2ba6`), liegt nur auf `feature/worker-job-ende-meldung` — Merge offen; Herdr 0.9.4 installiert, Integrationen noch v9 |
+| **Notizen** | #175 worker-job-ende-meldung abgenommen und gemergt (`ffe509e`); kit-sync und Abbau des Arbeitsplatzes offen; Herdr 0.9.4 installiert, Integrationen noch v9 |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#175 worker-job-ende-meldung: Abnahme, Merge, Push, kit-sync, Arbeitsplatz abbauen** — Kontext: Beleg `probe.md` → `## Abnahme` + Probe 5; Ablauf `dtb:worker` → `#### Abschluss`; kit-sync Klasse A (`dtb-worker`, `dtb-pane-start`); Worktree `.dtb-worktrees/pane-worker-job-ende-meldung`, Pane `w3:pR` (seit 2026-11-06)
+- [ ] **#175 worker-job-ende-meldung: kit-sync und Arbeitsplatz abbauen** — Kontext: gemergt `ffe509e`; kit-sync Klasse A (`dtb-worker`, `dtb-pane-start`); Abbau: `/exit` in Pane `w3:pR`, dann `git worktree remove` + `git branch -d feature/worker-job-ende-meldung` (seit 2026-11-06)
 - [ ] **Herdr-Integrationen `claude` und `pi` mit 0.9.4 installieren** — Kontext: aus einer Pane laeuft noch 0.9.0 (L119); per vollem Pfad `~/.herdr/packages/standalone/releases/0.9.4-…/herdr.exe integration install claude` bzw. `pi`, dann `integration status` (seit 2026-11-06)
 - [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02)
 - [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (Alters-Zeile nicht mehr unter „Erfasst:"); erster Echtlauf mit Funden und ⏳ ist der Checkpoint 2026-11-06 — dessen Bestätigung ansehen (seit 2026-11-03)
@@ -44,7 +45,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-11-06 | #175 worker-job-ende-meldung im Pane-Worktree fertig | Discovery → plan-review REVISE → 3 Phasen (`45ba7d6`, `4b48528`, `d80ab5d`), impl-review 10/10 FIXED (`e0a2ba6`), Stop-Hook-Signal mit Dialog-Schutz; L119–L124, #189–#191 | `2026-11/2026-11-06.md` |
+| 2026-11-06 | #175 worker-job-ende-meldung abgenommen und gemergt | Discovery → plan-review REVISE → 3 Phasen (`45ba7d6`, `4b48528`, `d80ab5d`), impl-review 10/10 FIXED (`e0a2ba6`), Abnahme per probe.md, Merge `ffe509e`; Stop-Hook-Signal mit Dialog-Schutz; L119–L124, #189–#191 | `2026-11/2026-11-06.md` |
 | 2026-11-06 | Health-Fixes + kit-sync | project-health ✅28 ⚠️2 ❌1; `allowed-tools` (idea-review, meeting-dump) und `project_name` (`ddc7d91`), kit-sync 2/2; #187, #188 | `2026-11/2026-11-06.md` |
 | 2026-11-03 | #173 checkpoint-ohne-rueckfragen gemergt | Pane-Worktree Discovery → 2 Phasen (`4d538b8`, `5e41cfc`), plan-review REVISE, impl-review 10/10 FIXED (`98b5b45`), Merge `5ede096`, kit-sync 7/7; Probelauf 0 Rückfragen; L118, #186 | `2026-11/2026-11-03.md` |
 | 2026-10-29 | #174 idea-rank-schiene abgenommen | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`7e51cac`, `b78bc08`), impl-review 10/10 FIXED (`b71df0d`), Abnahme per beispiel-ausgabe.md, Merge `cd05fe2`; Laufzeit-Beleg 2026-11-02 (6/6 Anker); L113, L114 | `2026-10/2026-10-29.md` |
