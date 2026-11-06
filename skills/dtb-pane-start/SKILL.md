@@ -249,7 +249,7 @@ bliebe unbemerkt:
 > Kommandos; ein dritter Ort waere ein Spiegel, der bei der naechsten CLI-Aenderung
 > zurueckbleibt. Korrigiert wird dort, nie hier.
 
-**Zwei bewusste Abweichungen** von der referenzierten Sequenz — beide gelten fuer diesen
+**Vier bewusste Abweichungen** von der referenzierten Sequenz — alle gelten fuer diesen
 Skill und sind beim Ausfuehren einzusetzen:
 
 | Punkt | `dtb:worker` (Quelle) | Hier |
@@ -257,6 +257,7 @@ Skill und sind beim Ausfuehren einzusetzen:
 | Branch | `task/{slug}` | **`feature/{slug}`** — die Voll-Schiene arbeitet an einem Feature-Change, und der Branchname ist der Merge-Anker |
 | Zugestellter Text | Pane-Auftrag (autonome Arbeitsanweisung) | **Begruessungstext** (unten) |
 | Worktree-Pfad | `.dtb-worktrees/worker-{slug}` | **`.dtb-worktrees/pane-{slug}`** — interaktive Arbeitsplaetze bleiben in `git worktree list` von autonomen unterscheidbar |
+| Startbefehl | Signal-Einrichtung (Stop-Hook `WORKER-STOP (dtb)`), dann `claude --settings '{datei}'` | **KEINE Signal-Einrichtung, nur `claude`** — hier arbeitet ein Mensch; ein Stop-Hook feuerte nach jeder Antwort und meldete den Orchestrator dauernd an. Der Rueckweg laeuft ueber Checkpoint „Ende" (Begruessungstext) |
 
 Alles andere — Pane-Teilung ohne Fokuswechsel, Startweg ueber die Pane-Shell statt ueber
 den Agent-Start, Erkennungs-Warten mit einem Wiederholungsversuch, Zustellung als EINE
