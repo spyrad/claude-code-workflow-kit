@@ -233,8 +233,9 @@ Hand-off-Block statt eines Reports.
 > **Kopplungs-Hinweis:** `dtb:pane-start` liest die Start-Sequenz dieser Sektion zur
 > Laufzeit (statt sie zu kopieren) und greppt auf den Sektions-Titel `### Pane-Ausfuehrung`
 > (Struktur-Check). Aenderungen an Sequenz oder Titel → `skills/dtb-pane-start/SKILL.md`
-> mitziehen. Dessen bewusste Abweichungen (Branch `feature/{slug}`, Begruessungstext statt
-> Auftrag, Startbefehl OHNE Signal-Einrichtung/`--settings`) stehen dort — Herdr-Kommandos
+> mitziehen. Dessen vier bewusste Abweichungen (Branch `feature/{slug}`, Begruessungstext
+> statt Auftrag, Worktree-Pfad `pane-{slug}`, Startbefehl OHNE Signal-Einrichtung/
+> `--settings`) stehen dort unter `## Herdr-Mechanik` — Herdr-Kommandos
 > werden weiterhin NUR hier korrigiert. Zweiter
 > Leser: `dtb:pane-start` bietet den `#### Rueckweg: Ueberwachungs-Tick` dieser Sektion an
 > und prueft dessen Titel als eigenen Anker.
@@ -286,11 +287,21 @@ in der Vorlage oben):
    shell-neutral (`powershell -File "…"`, keine Variablen, keine Operatoren): Claude Code
    fuehrt Hook-Befehle je nach Startweg in PowerShell oder Git Bash aus (Probe 2026-11-06).
    Das Skript endet IMMER mit Exit 0 — ein Exit 2 wuerde das Turn-Ende blockieren und
-   den Worker weiterlaufen lassen. In EINEM selbstaendigen Bash-Block, Platzhalter
-   `{worktree-pfad}`, `{slug}`, `{orchestrator-pane}` (= `$HERDR_PANE_ID`) eingesetzt:
+   den Worker weiterlaufen lassen. **Dialog-Schutz:** `herdr agent prompt` tippt Text plus
+   Enter — steht beim Orchestrator gerade ein Auswahldialog offen, beantwortet das Signal
+   ihn als Freitext (Probe 2026-11-06; Herdr meldet dabei `done`, nicht `blocked`). Das
+   Skript liest deshalb vorher die letzten vier sichtbaren Zeilen der Orchestrator-Pane
+   (nur `--source visible` zeigt die Dialog-Fusszeile; sie bricht je nach Breite um,
+   deshalb Leerraum zusammenfassen): steht dort `Esc to cancel`, wartet es bis zu 10 s
+   und laesst das Signal sonst fallen (Netz: Ueberwachungs-Tick). In EINEM
+   selbstaendigen Bash-Block, Platzhalter `{worktree-pfad}` und `{slug}` eingesetzt (die
+   Orchestrator-Adresse kommt aus `$HERDR_PANE_ID`). Den Block OHNE die
+   Listen-Einrueckung ausfuehren — die Endmarke `DTB_HOOK_EOF` muss am Zeilenanfang
+   stehen. Keine Statuszeile (weder `HOOK-OK` noch `HOOK-FEHLT`) zaehlt wie
+   `HOOK-FEHLT keine Statuszeile`:
 
    ```bash
-   W="{worktree-pfad}"; S="{slug}"; O="{orchestrator-pane}"
+   W="{worktree-pfad}"; S="{slug}"; O="$HERDR_PANE_ID"
    printf '%s' "$S" | grep -qE '^[a-z0-9][a-z0-9-]*$' || { echo "HOOK-FEHLT ungueltiger Slug"; exit 0; }
    printf '%s' "$O" | grep -qE '^[A-Za-z0-9]+:[A-Za-z0-9]+$' || { echo "HOOK-FEHLT ungueltige Orchestrator-Adresse"; exit 0; }
    G=$(git -C "$W" rev-parse --git-dir 2>/dev/null) && G=$(cd "$W" && cd "$G" 2>/dev/null && { pwd -W 2>/dev/null || pwd; }) || { echo "HOOK-FEHLT Git-Verwaltungsordner nicht aufloesbar"; exit 0; }
@@ -298,19 +309,28 @@ in der Vorlage oben):
    $ErrorActionPreference = 'SilentlyContinue'
    $null = [Console]::In.ReadToEnd()
    $line = 'WORKER-STOP (dtb) ' + [char]0x2014 + ' __SLUG__'
+   $busy = $true
+   for ($i = 0; $i -lt 5; $i++) {
+     $tail = (& herdr pane read '__PANE__' --source visible --lines 4 2>$null | Out-String) -replace '\s+', ' '
+     if ($tail -notmatch 'Esc to cancel') { $busy = $false; break }
+     Start-Sleep -Seconds 2
+   }
+   if ($busy) { exit 0 }
    & herdr agent prompt '__PANE__' $line *> $null
    if ($LASTEXITCODE -ne 0) { Start-Sleep -Seconds 2; & herdr agent prompt '__PANE__' $line *> $null }
    exit 0
    DTB_HOOK_EOF
    sed -i "s/__SLUG__/$S/g; s/__PANE__/$O/g" "$G/dtb-worker-hook.ps1" || { echo "HOOK-FEHLT Skript nicht schreibbar"; exit 0; }
    printf '{"hooks":{"Stop":[{"matcher":"","hooks":[{"type":"command","command":"powershell -NoProfile -ExecutionPolicy Bypass -File \\"%s\\"","timeout":15}]}]}}\n' "$G/dtb-worker-hook.ps1" > "$G/dtb-worker-hook.json" || { echo "HOOK-FEHLT Settings nicht schreibbar"; exit 0; }
+   powershell -NoProfile -Command "Get-Content -Raw -LiteralPath '$G/dtb-worker-hook.json' | ConvertFrom-Json | Out-Null" >/dev/null 2>&1 || { echo "HOOK-FEHLT Settings ungueltig oder kein powershell"; exit 0; }
    echo "HOOK-OK $G/dtb-worker-hook.json"
    ```
 
-   Die Endmarke `DTB_HOOK_EOF` steht im echten Aufruf am Zeilenanfang (die Einrueckung
-   hier ist nur Listen-Darstellung). Slug und Adresse sind vor dem Einsetzen geprueft —
-   nur `[a-z0-9-]` bzw. `[A-Za-z0-9:]`, deshalb sind `sed` und JSON ohne Escaping sicher;
-   der Pfad kommt per `pwd -W` mit Vorwaertsschraegstrichen.
+   Slug und Adresse sind vor dem Einsetzen geprueft —
+   nur `[a-z0-9-]` bzw. `[A-Za-z0-9:]`, deshalb ist `sed` ohne Escaping sicher. Ins JSON
+   geht nur der Skriptpfad (per `pwd -W` mit Vorwaertsschraegstrichen); ob die Datei
+   gueltig ist und `powershell` startet, belegt der Parse-Lauf vor `HOOK-OK` — sonst
+   `HOOK-FEHLT` (Claude Code verwirft ungueltige Settings still).
    `HOOK-OK {datei}` → Kommando 3 mit `--settings '{datei}'`. **Fehlerweg** `HOOK-FEHLT
    {Grund}` → genau EINE Warnzeile, dann Kommando 3 OHNE `--settings` — nie still, nie
    Abbruch (der Ueberwachungs-Tick bleibt das Netz):
@@ -326,7 +346,7 @@ in der Vorlage oben):
    list` wiederholt lesen, bis die Pane `"agent": "claude"` mit `agent_status`
    `idle` traegt (Budget ~90 s; bleibt die Erkennung aus, genau EIN erneutes
    `herdr pane run` mit demselben Startbefehl und frischem 90-s-Budget), sonst Abbruch:
-   Meldung + Pane-Inhalt (`herdr pane read {pane-id}`) zeigen
+   Meldung + Pane-Inhalt (`herdr pane read {pane-id} --source recent --lines 80`) zeigen
 4. `herdr agent prompt {pane-id} "{Pane-Auftrag aus der Vorlage}"` — Ziel ist die
    Pane-ID (kein Agent-Name — `pane run` vergibt keinen). Der Auftrag ist
    mehrzeilig; als EIN Argument uebergeben (die Zustellung als eine Nachricht ist
@@ -353,7 +373,7 @@ ebenfalls per `date`). Vier Ausgaenge:
 - **(a) WORKTREE-HANDOFF-Block trifft ein** (Kopfzeile erkannt) → Branch-Verifikation
   (`#### Rueckweg: Branch-Verifikation`)
 - **(b) Status `blocked`** (Permission-/Frage-Dialog) → Pane lesen
-  (`herdr pane read {pane-id}`), Zustand melden, Mensch entscheidet
+  (`herdr pane read {pane-id} --source recent --lines 80`), Zustand melden, Mensch entscheidet
   (weiterwarten / eingreifen / stoppen)
 - **(c) Zeit ueber `worker.max_minutes`** → wie (b): Pane lesen, melden, Mensch
   entscheidet. **KEIN Auto-Stopp** — ein Abbruch wuerfe moeglicherweise fast fertige
@@ -371,7 +391,7 @@ ebenfalls per `date`). Vier Ausgaenge:
   - **Block da** → genau eine Bestaetigungszeile, die Branch-Verifikation laeuft bereits
     ueber (a):
     `✅ {slug}: Turn beendet, Hand-off liegt vor · +{n} Commits · {k} uncommitted · {Fortschritt}`
-  - **Block fehlt** → einmal `herdr pane read {pane-id}` (letzte Antwort des Workers), dann
+  - **Block fehlt** → einmal `herdr pane read {pane-id} --source recent --lines 80` (letzte Antwort des Workers), dann
     melden — der Mensch entscheidet, der Orchestrator schickt NICHTS automatisch an den
     Worker:
     ```
@@ -383,6 +403,9 @@ ebenfalls per `date`). Vier Ausgaenge:
   - Jeder Stopp schickt ein neues Signal (z.B. erst ohne, nach dem Nachfassen mit Block) —
     jedes wird so ausgewertet. Grenze: ein Auswahldialog des Workers beendet keinen Turn
     und loest kein Signal aus — das deckt Ausgang (b)
+  - **Signal vor dem Auftrag** (Kommando 4 noch nicht zugestellt — z.B. hat der zweite
+    `herdr pane run` der Erkennung den Startbefehl in eine schon laufende Session getippt)
+    → nicht auswerten, genau eine Zeile: `↷ {slug}: Signal vor dem Auftrag — ignoriert`
 
 #### Rueckweg: Ueberwachungs-Tick
 
@@ -450,8 +473,8 @@ einer Kontext-Komprimierung kann eine Zeile doppelt erscheinen — harmlos, kein
 |--------|----------------|
 | Hand-off eingetroffen | Ende-Zeile; die Pane scheidet aus. Weiter je Traeger: `dtb:worker` (Traeger `pane`) → `#### Rueckweg: Branch-Verifikation`; `dtb:pane-start` → nur `/dtb:workflow-checkpoint` (Empfang — Merge und Abnahme gehoeren dort nicht hin, siehe pane-start `## Rueckweg und Abschluss`) |
 | Pane weg (`agent_not_found`) ohne Hand-off | Ende-Zeile mit Pruef-Hinweis auf den Branch; die Pane scheidet aus |
-| Signal `WORKER-STOP (dtb)` ohne Hand-off (Pruefpunkt 3) | genau einmal je Signal `gestoppt ohne Hand-off` im Zustandsfeld; die Pane bleibt beobachtet (nach einem Nachfassen arbeitet der Worker weiter) — Signal MIT Hand-off: nichts Neues, der Hand-off beendet die Beobachtung |
-| `blocked` | Pane einmal lesen (`herdr pane read {pane-id}`, wie Ausgang (b)), Blockade-Zeile mit Dialog-Auszug genau einmal, bis der Zustand wechselt — kein Eingriff, der Mensch entscheidet |
+| Signal `WORKER-STOP (dtb)` ohne Hand-off (Pruefpunkt 3) | genau einmal je Signal `gestoppt ohne Hand-off` im Zustandsfeld — nur in der Tick-Zeile, die das Signal erkannt hat, kein Zustand (spaetere Zeilen zeigen es nicht erneut); die Pane bleibt beobachtet (nach einem Nachfassen arbeitet der Worker weiter) — Signal MIT Hand-off: nichts Neues, der Hand-off beendet die Beobachtung |
+| `blocked` | Pane einmal lesen (`herdr pane read {pane-id} --source recent --lines 80`, wie Ausgang (b)), Blockade-Zeile mit Dialog-Auszug genau einmal, bis der Zustand wechselt — kein Eingriff, der Mensch entscheidet |
 | Laufzeit ueber `worker.max_minutes` (nur Traeger `pane` von `dtb:worker`; Startzeit aus der Angebots-Kopfzeile, siehe unten) | genau einmal melden wie Ausgang (c) — KEIN Auto-Stopp |
 | `done` / `unknown` | als Aenderung melden, NIE als Abschluss werten (Herdr: `done` = idle nach ungesehener Hintergrundarbeit, `unknown` = nicht klassifizierbar — beides kein Beleg fuer Fertigstellung) |
 

@@ -16,11 +16,13 @@
 | Phase 3 | Abnahme Ende-zu-Ende aus dieser Pane | 1-2 h | Geplant |
 
 **Schlanke Variante (plan-review 2026-11-06, Empfehlung 1):** Der Hook ist nur ein **Signal** —
-ein Einzeiler im Settings-Befehl, der `WORKER-STOP (dtb) — {slug}` an die Orchestrator-Pane
-schickt (zweiter Versuch nach 2 s, Exit immer 0). Die Fakten (Commits, uncommitted, Fortschritt)
+ein kleines Hook-Skript (`dtb-worker-hook.ps1` im Git-Verwaltungsordner, Aufruf per
+`powershell -File` — nach Phase 1 statt des Einzeilers, Entscheidung Hook-Shell), das
+`WORKER-STOP (dtb) — {slug}` an die Orchestrator-Pane schickt (zweiter Versuch nach 2 s,
+Dialog-Schutz laut Probe 5, Exit immer 0). Die Fakten (Commits, uncommitted, Fortschritt)
 und den Abgleich „ist der Hand-off-Block hier eingetroffen?" macht der Orchestrator selbst — er
 liest den Branch-Stand ohnehin und sieht den Block in seiner eigenen Session. Damit entfallen
-Skriptdatei, Transcript-Parsing und die kit-sync-Erweiterung (Discovery-Punkte 2 und 4 revidiert;
+Fakten-Skript, Transcript-Parsing und die kit-sync-Erweiterung (Discovery-Punkte 2 und 4 revidiert;
 Spec-Nachzug siehe `## Offene Punkte`).
 
 ---
@@ -96,7 +98,7 @@ aus, `pane-start` bleibt hook-frei.
 - **Zweck:** Signal-Hook bei jedem Worker-Pane-Start einrichten
 - **Dateien:** `skills/dtb-worker/SKILL.md` (`#### Hinweg: Start-Sequenz`)
 - **Input:** Ergebnis Phase 1
-- **Output:** vor Kommando 3 ein Einrichtungsschritt: `{slug}` gegen `^[a-z0-9][a-z0-9-]*$` und `{orchestrator-pane}` gegen das Herdr-Adressformat pruefen; Settings-Datei `{git-dir des Worktrees}/dtb-worker-hook.json` mit genau einem `Stop`-Hook (Einzeiler: Signal, zweiter Versuch nach 2 s, Exit 0; Timeout 15 s) schreiben — nur unkritische Zeichen, keine Pfade im JSON (L66 greift nicht); Kommando 3 wird `herdr pane run {pane-id} "claude --settings {datei}"` (bzw. globaler Rueckfall laut Phase 1). **Fehlerweg** (plan-review Empfehlung 2): scheitert Pruefung oder Schreiben → genau eine Warnzeile `⚠ Signal-Hook fuer {slug} nicht eingerichtet ({Grund}) — Worker startet ohne Ende-Signal, Netz ist der Ueberwachungs-Tick` und Kommando 3 ohne `--settings`; nie still, nie Abbruch
+- **Output:** vor Kommando 3 ein Einrichtungsschritt: `{slug}` gegen `^[a-z0-9][a-z0-9-]*$` und `{orchestrator-pane}` gegen das Herdr-Adressformat pruefen; Settings-Datei `{git-dir des Worktrees}/dtb-worker-hook.json` mit genau einem `Stop`-Hook (Signal-Skript `dtb-worker-hook.ps1` laut Entscheidung Hook-Shell, zweiter Versuch nach 2 s, Exit 0; Timeout 15 s) schreiben — im JSON nur fester Text und der Skriptpfad, Parse-Lauf vor `HOOK-OK` (L66; impl-review F2); Kommando 3 wird `herdr pane run {pane-id} "claude --settings {datei}"` (bzw. globaler Rueckfall laut Phase 1). **Fehlerweg** (plan-review Empfehlung 2): scheitert Pruefung oder Schreiben → genau eine Warnzeile `⚠ Signal-Hook fuer {slug} nicht eingerichtet ({Grund}) — Worker startet ohne Ende-Signal, Netz ist der Ueberwachungs-Tick` und Kommando 3 ohne `--settings`; nie still, nie Abbruch
 
 #### Schritt 2.2: `dtb:worker` — Rueckweg Ausgang (d)
 - **Zweck:** Orchestrator reagiert auf das Signal mit eigenen Fakten
@@ -186,11 +188,11 @@ Orchestrator und wendet Ausgang (d) aus der Repo-Fassung an (L74), eine Wegwerf-
 
 | Thema | Optionen | Entscheidung | Begruendung |
 |-------|----------|-------------|-------------|
-| Hook-Umfang | Skript mit Fakten + Transcript, Einzeiler-Signal | Einzeiler-Signal | plan-review Empfehlung 1: Fakten und Hand-off-Abgleich hat der Orchestrator selbst; spart Transcript-Parsing (Zeitlimit-Risiko), Skriptdatei und kit-sync-Klasse |
+| Hook-Umfang | Skript mit Fakten + Transcript, reines Signal | reines Signal (Form: kleines Skript, siehe Hook-Shell) | plan-review Empfehlung 1: Fakten und Hand-off-Abgleich hat der Orchestrator selbst; spart Transcript-Parsing (Zeitlimit-Risiko), Skriptdatei und kit-sync-Klasse |
 | Registrierung | `--settings` pro Session, global mit Selbstpruefung | `--settings` pro Session | Probe 1 (1c/1d): feuert interaktiv und im Print-Modus; Probe 2: ergaenzt globale Stop-Hooks |
 | Hook-Shell | Git Bash, cmd, PowerShell | shell-neutraler Aufruf `powershell -NoProfile -ExecutionPolicy Bypass -File "{skript}"` | Probe 1: die Hook-Shell wechselt je Startweg (Print-Modus PS 5.1, Herdr-Pane Git Bash) — nur ein Befehl ohne Variablen/Operatoren laeuft ueberall |
 | Zeichenformat | Unicode (`—`), ASCII (`-`) | Unicode | Probe 4: `—` kommt aus PS 5.1 ueber Herdr unverfaelscht an |
-| Settings-Datei schreiben | Serialisierer, direkte Ausgabe | direkte Ausgabe nach Pruefung von Slug und Adresse | Inhalt nur aus kebab-case-Slug, Pane-Adresse und festem Text — keine Pfade, keine Backslashes |
+| Settings-Datei schreiben | Serialisierer, direkte Ausgabe | direkte Ausgabe nach Pruefung von Slug und Adresse, danach Parse-Lauf | Slug und Adresse gehen nur ins Skript; das JSON enthaelt festen Text und den Skriptpfad (per `pwd -W`, Vorwaertsschraegstriche) — der Parse-Lauf vor `HOOK-OK` belegt die Gueltigkeit (impl-review F2) |
 | Herdr-Ort | neue Ausnahme, Start-Sequenz | Start-Sequenz | `### Pane-Ausfuehrung` ist bereits erlaubter Ort — keine neue Ausnahme |
 | Ablage Settings | Arbeitsbaum, Git-Verwaltungsordner | Git-Verwaltungsordner | Wie Uebergabe-Notiz; nicht committbar, verschwindet mit dem Worktree |
 | Abnahme-Ort | Wirklauf via `dtb:worker` aus dem Haupt-Checkout, Simulation aus dieser Pane | Simulation aus dieser Pane | Gleicher Code-Pfad (echte Session + Herdr); Worktrees nur aus dem Haupt-Checkout |
@@ -210,15 +212,15 @@ Orchestrator und wendet Ausgang (d) aus der Repo-Fassung an (L74), eine Wegwerf-
 - [x] 2.2 worker Rueckweg Ausgang (d) — `4b48528`
 - [x] 2.3 worker Ueberwachungs-Tick — `4b48528`
 - [x] 2.4 pane-start, Abschluss-Hinweis und Doku — `4b48528`
-- [x] 3.1 Wirklauf ohne und mit Hand-off
-- [x] 3.2 Randfaelle im Wirklauf
-- [x] 3.3 Tick-Probe
+- [x] 3.1 Wirklauf ohne und mit Hand-off — `d80ab5d`
+- [x] 3.2 Randfaelle im Wirklauf — `d80ab5d`
+- [x] 3.3 Tick-Probe — `d80ab5d`
 
 ---
 
 ## Offene Punkte
 
-- Spec-Nachzug: `spec.md` beschreibt noch die Skript-Variante (Signalzeile mit Fakten, Transcript, kit-sync-Klasse, Logzeile) — nach dem Review auf die schlanke Variante ziehen
+- Spec-Nachzug: `spec.md` beschreibt noch die Skript-Variante (Signalzeile mit Fakten, Transcript, kit-sync-Klasse, Logzeile) — nach dem Review auf die schlanke Variante ziehen → erledigt 2026-11-06 (inkl. Dialog-Schutz und Erfolgskriterien mit Belegen)
 
 ---
 

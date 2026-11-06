@@ -36,6 +36,10 @@ Die Shell fuer Hook-Befehle wechselt je nach Startweg; nur ein shell-neutraler B
 - Die Sprachausgabe selbst war abgeschaltet (`~/.claude/tts-off`) und schrieb deshalb keine Logzeile
 
 **Ergebnis:** Zusammenfuehrung, keine Ersetzung — der Worker-Hook laeuft zusaetzlich.
+**Beleg-Staerke:** indirekt — belegt sind der Zaehler „3 Stop-Hooks" und die `/hooks`-Liste; eine
+Spur aus dem globalen Hook selbst fehlt (Sprachausgabe war aus). Stuetzender Vergleich: in Probe 5
+zeigte die Pane `w3:pY` ohne `--settings` „running Stop hooks… 1/2" — also zwei globale Hooks, der
+dritte kommt aus `--settings`.
 
 ---
 
@@ -66,6 +70,24 @@ Skript muss den Exit-Code abfangen (Hook-Exit immer 0).
   `WORKER-STOP (dtb) — zeichen-probe` korrekt
 
 **Ergebnis:** Unicode bleibt (gleicher Stil wie `WORKTREE-HANDOFF (dtb) — …`).
+
+---
+
+## Probe 5: Dialog beim Orchestrator
+
+**Anlass:** impl-review F1 (2026-11-06) — was tut das Signal, wenn beim Orchestrator gerade ein
+Auswahldialog (`AskUserQuestion`) offen ist?
+
+| Lauf | Vorgehen | Beobachtung |
+|------|----------|-------------|
+| 5a | Wegwerf-Pane `w3:pX` oeffnet Dialog „Alpha (Vorschlag) / Beta", dann `herdr agent prompt w3:pX "WORKER-STOP (dtb) — probe-dialog"` | Dialog wurde beantwortet — als **Freitext** (`→ WORKER-STOP (dtb) — probe-dialog`), nicht mit der ersten Option; die Entscheidung des Menschen war weg. `herdr agent get` meldete waehrenddessen `done`, nicht `blocked` |
+| 5b | Fix 1: Skript liest `--source recent-unwrapped --lines 3` auf `Esc to cancel` | **wirkungslos** — `recent`/`recent-unwrapped` lieferten bei offenem Dialog nur Leerzeilen; Dialog erneut als Freitext beantwortet |
+| 5c | Fix 2 (Repo-Fassung): `--source visible --lines 4`, Leerraum zusammengefasst — die Fusszeile bricht um (`… Esc to` / `cancel`); Einrichtungsblock woertlich aus dem Skill gezogen, Stellvertreter-Pane `w3:pY` mit offenem Dialog | Skript wartete 11 s, Exit 0, **nichts gesendet**, Dialog unberuehrt |
+| 5d | Dialog per Escape geschlossen, Skript erneut | Signal nach 1 s als normale Eingabe zugestellt (`❯ WORKER-STOP (dtb) — probe-dialog`) |
+
+**Ergebnis:** Dialog-Schutz im Hook-Skript wirkt. Nicht geprueft: Berechtigungsdialoge (im Auto-Modus
+nicht ausloesbar) — deshalb nennt der Skill nur den Auswahldialog. Panes `w3:pX`/`w3:pY` geschlossen,
+Hook-Dateien entfernt.
 
 ---
 
