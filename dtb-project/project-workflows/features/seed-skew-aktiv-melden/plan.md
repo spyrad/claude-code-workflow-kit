@@ -168,12 +168,12 @@ nicht mehr, und der Probelauf gegen die Repo-Fassung zeigt die drei Ausgaenge.
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Abhilfe-Weg klaeren
-- [x] 1.2 Probe an drei Faellen
-- [x] 1.3 Zielform abnehmen
-- [ ] 2.1 Seed-Hinweis in kit-sync
-- [ ] 2.2 Spiegel nachziehen
-- [ ] 2.3 Probelauf Repo-Fassung
+- [x] 1.1 Abhilfe-Weg klaeren — `940a4b1`
+- [x] 1.2 Probe an drei Faellen — `940a4b1`
+- [x] 1.3 Zielform abnehmen — `940a4b1`
+- [x] 2.1 Seed-Hinweis in kit-sync
+- [x] 2.2 Spiegel nachziehen
+- [x] 2.3 Probelauf Repo-Fassung
 
 ---
 
@@ -253,6 +253,31 @@ Ohne `localPath` im Lock entfallen die beiden `→`-Befehle; an ihrer Stelle ste
 Gibt es zusaetzlich Drift, bleibt `→ Abgleich: /dtb:kit-sync sync` stehen; die Seed-Zeilen kommen dazu.
 
 ### Schreibschutz-Beleg (Hash · mtime, vorher = nachher)
+
+| Datei | vorher | nachher |
+|-------|--------|---------|
+| `~/.claude/dtb-lock.json` | `d9b5944c3ef3` · 1793980814 | `d9b5944c3ef3` · 1793980814 |
+| Wegwerf alt, Regel-Datei | `597f542f72ed` · 1794206495 | `597f542f72ed` · 1794206495 |
+| Wegwerf aktuell, Regel-Datei | `dd96ad195c74` · 1794206495 | `dd96ad195c74` · 1794206495 |
+
+---
+
+## Probelauf Phase 2
+
+Probelauf 2026-11-09 (Schritt 2.3): der Bash-Block aus check Schritt 6 wurde woertlich aus der
+Repo-Fassung `skills/dtb-kit-sync/SKILL.md` dieses Worktrees gezogen (17 Zeilen, `{SRC}` durch den
+frischen Klon `master @ 7b754e2` ersetzt) und je Fall in einem eigenen Bash-Prozess gefahren.
+
+| Fall | Arbeitsverzeichnis | Ausgabe | erwartet (Zielform Phase 1) |
+|------|--------------------|---------|-----------------------------|
+| 1 | Wegwerf alt | `ZUSTAND=WEICHT-AB` (Projekt 116 Zeilen, Kit 668 Zeilen, localpath gesetzt) | weicht ab ✔ |
+| 2 | Wegwerf aktuell | `ZUSTAND=AKTUELL` | aktuell ✔ |
+| 3 | Kit-Worktree | `ZUSTAND=KIT-REPO` | Kit-Repo ✔ |
+| 4 | leerer Ordner | `ZUSTAND=NICHT-GEPRUEFT grund=keine workflow.config.yaml` | nicht geprueft ✔ |
+| Zusatz | Wegwerf mit `paths.rules: "eigene/regeln"` (+ Kommentar) | `ZUSTAND=AKTUELL pfad=eigene/regeln/DERIVED_STATE_RULES.md` | Config-Pfad wird gelesen ✔ |
+| Zusatz | Quelle fehlt | `WERKZEUG-FEHLSCHLAG: Kit-Seite leer oder fehlt`, exit 1 | kein Datenbefund ✔ |
+
+Schreibschutz-Beleg (Hash · mtime, vorher = nachher, `diff` leer):
 
 | Datei | vorher | nachher |
 |-------|--------|---------|

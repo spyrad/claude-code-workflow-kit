@@ -4,7 +4,9 @@ description: >-
   Use when: "kit sync", "kit check", "kit installieren", "skills aktualisieren",
   "drift pruefen", "installierte kopien pruefen", "kit updaten". Detects and
   reconciles drift between the kit repo (GitHub) and installed copies under
-  ~/.claude using a lock file with content hashes (modes: check/sync/install).
+  ~/.claude using a lock file with content hashes (modes: check/sync/install);
+  check also reports, read-only, whether the working project's
+  DERIVED_STATE_RULES.md seed differs from the kit version.
 disable-model-invocation: true
 argument-hint: "[check|sync|install]"
 allowed-tools: Read, Write, Glob, Grep, Bash
@@ -12,7 +14,7 @@ pipeline:
   stage: monitoring
   after: null
   next: null
-  consumes: [dtb-lock.json]
+  consumes: [dtb-lock.json, workflow.config.yaml, project-rules/DERIVED_STATE_RULES.md]
   produces: [dtb-lock.json]
 ---
 
@@ -24,7 +26,9 @@ Drei Modi: `check` (read-only Drift-Report), `sync` (kontrollierter Abgleich),
 
 > **Ebenen-Trennung:** kit-sync arbeitet auf der **Maschinen-Ebene** (einmal pro Rechner,
 > plus bei Kit-Updates). Projekt-Scaffolding (Ordner, Vorlagen, Regel-Datei, CLAUDE.md)
-> ist Sache von `dtb:project-init` — kit-sync fasst NIE Zielprojekt-Dateien an.
+> ist Sache von `dtb:project-init` — kit-sync schreibt NIE in Zielprojekt-Dateien. Einzige
+> Lese-Ausnahme: `check` vergleicht die Regel-Datei des Arbeitsprojekts mit der Kit-Fassung
+> (Seed-Hinweis, check Schritt 6) und meldet nur.
 
 > **Determinismus-Regel:** Alle Vergleiche laufen ueber die festen Kommando-Sequenzen
 > in diesem Dokument. Nicht improvisieren, keine alternativen Hash- oder Diff-Methoden.
@@ -75,11 +79,12 @@ Drei-Punkte-Vergleichs: **Repo ↔ Lock ↔ installierte Kopie**.
 | A | `agents/*.md` | `~/.claude/agents/*.md` | synced | ja |
 | A | `commands/dtb-*.md` | `~/.claude/commands/dtb-*.md` | synced | ja |
 | A | `output-styles/dtb-*.md` | `~/.claude/output-styles/dtb-*.md` | synced | ja |
-| B | `settings.json` | projektlokal (via project-init) | seed | nein — nie als Drift melden |
+| B | `settings.json` | projektlokal (via project-init) | seed | nein — nie als Drift melden, auch kein Seed-Hinweis (projekteigen, Abweichung ist Normalfall) |
+| B | `dtb-project/project-rules/DERIVED_STATE_RULES.md` | projektlokal (via project-init) | seed | nein — nie als Drift melden; `check` meldet eine Abweichung im Arbeitsprojekt als **Seed-Hinweis** (Schritt 6) |
 
 Nicht Teil des Kits: `personas/` (2026-07-23 entfernt — Personas leben im separaten
-`oma-personas`-Repo). Nicht in v1: projektlokale Ziele, `DERIVED_STATE_RULES.md`
-(Seed via project-init).
+`oma-personas`-Repo). Nicht in v1: projektlokale Ziele. Klasse B wird weder kopiert noch
+im Lock gefuehrt; die Regel-Datei verteilt `dtb:project-init`.
 
 ---
 
@@ -152,7 +157,52 @@ COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
      — `agents/*.md` ohne Praefix wird ueber die Lock-Eintrags-Quelle oben abgedeckt)
    Nutzer-eigene Dateien OHNE dtb-Praefix und OHNE Lock-Eintrag (z.B. fremde Agents)
    werden ignoriert — sie gehoeren nicht dem Kit.
-6. **Report ausgeben** (Format fix), Scratch aufraeumen.
+6. **Seed-Hinweis (read-only, kein Drift):** Die Regel-Datei `DERIVED_STATE_RULES.md` ist
+   ein Klasse-B-Seed — einmal pro Projekt verteilt, danach von keinem Drift-Check
+   beobachtet. Global verteilte Skills setzen aber laufend neuere Abschnitte voraus; ein
+   Projekt mit altem Seed laeuft dann still auf veralteten Regeln (Feldbeleg 2026-11-03:
+   vier Monate Rueckstand bei „53 synchron"). Deshalb vergleicht `check` die Regel-Datei
+   des **Arbeitsverzeichnisses** (= Projekt-Root, von dem aus kit-sync gestartet wurde) mit
+   der Kit-Fassung. `settings.json` wird bewusst NICHT verglichen (projekteigen). Fester
+   Block — eigene Shell, `{SRC}` durch den Quellpfad aus Referenz 3 ersetzen (frischer
+   Klon bzw. `localPath` beim Offline-Fallback):
+
+   ```bash
+   SRC="{SRC}"
+   kithash() { tr -d '\r' < "$1" | git -c core.autocrlf=false hash-object --stdin; }
+   LOCK="$HOME/.claude/dtb-lock.json"
+   LP="$(grep -o '"localPath"[[:space:]]*:[[:space:]]*"[^"]*"' "$LOCK" 2>/dev/null | sed -E 's/.*"localPath"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')"
+   if [ -f skills/dtb-kit-sync/SKILL.md ]; then echo "ZUSTAND=KIT-REPO"; exit 0; fi
+   if [ ! -f workflow.config.yaml ]; then echo "ZUSTAND=NICHT-GEPRUEFT grund=keine workflow.config.yaml"; exit 0; fi
+   RULES=$(grep -E '^[[:space:]]+rules:' workflow.config.yaml | head -1 | sed -E 's/^[^:]*:[[:space:]]*"?([^"#]*)"?.*$/\1/; s/[[:space:]]+$//')
+   [ -n "$RULES" ] || RULES="dtb-project/project-rules"
+   P="$RULES/DERIVED_STATE_RULES.md"
+   K="$SRC/dtb-project/project-rules/DERIVED_STATE_RULES.md"
+   if [ ! -f "$P" ]; then echo "ZUSTAND=NICHT-GEPRUEFT grund=keine Regel-Datei unter $P"; exit 0; fi
+   [ -s "$K" ] || { echo "WERKZEUG-FEHLSCHLAG: Kit-Seite leer oder fehlt ($K)"; exit 1; }
+   [ -s "$P" ] || { echo "WERKZEUG-FEHLSCHLAG: Projekt-Seite leer ($P)"; exit 1; }
+   HP=$(kithash "$P"); HK=$(kithash "$K")
+   [ -n "$HP" ] && [ -n "$HK" ] || { echo "WERKZEUG-FEHLSCHLAG: Hash leer"; exit 1; }
+   if [ "$HP" = "$HK" ]; then echo "ZUSTAND=AKTUELL pfad=$P"
+   else echo "ZUSTAND=WEICHT-AB pfad=$P zeilen_projekt=$(wc -l < "$P" | tr -d ' ') zeilen_kit=$(wc -l < "$K" | tr -d ' ') localpath=$LP"; fi
+   ```
+
+   | Ausgabe | Bedeutung | Report (Seed-Block, Format unten) |
+   |---------|-----------|-----------------------------------|
+   | `KIT-REPO` | Arbeitsverzeichnis ist das Kit-Repo (oder ein Worktree davon) — die Regel-Datei ist hier die Quelle | eine Zeile „Kit-Repo", kein Vergleich, keine Abhilfe |
+   | `NICHT-GEPRUEFT` | keine `workflow.config.yaml` bzw. keine Regel-Datei am aufgeloesten Pfad (`paths.rules`, Fallback `dtb-project/project-rules`) | eine Zeile „nicht geprueft" mit Grund, kein Fehler |
+   | `AKTUELL` | Projekt-Seed = Kit-Fassung | Tabellenzeile „aktuell", Schlusszeile wie bisher |
+   | `WEICHT-AB` | Projekt-Seed ≠ Kit-Fassung | Tabellenzeile mit Zeilenzahlen, Vergleichs- und Uebernahme-Befehl, gekoppelte Schlusszeile |
+   | `WERKZEUG-FEHLSCHLAG` | eine Vergleichsseite leer oder nicht lesbar | eine Zeile „Seed-Vergleich fehlgeschlagen (Werkzeug-Fehlschlag, kein Datenbefund)" — nie als Abweichung werten |
+
+   **Meldeform „weicht ab" statt „veraltet":** `dtb:project-init` ueberschreibt die
+   Regel-Datei bei jeder Verteilung, eine Projekt-Anpassung ist also nicht vorgesehen — der
+   Wortlaut behauptet trotzdem nur, was der Vergleich belegt. **Abhilfe ist die Uebernahme
+   von Hand** (Befehle im Report): `dtb:project-init` hat keinen Weg „nur Seeds erneuern".
+   kit-sync schreibt den Seed NIE selbst — er gehoert dem Projekt. Die Seed-Ausgaenge zaehlen
+   nicht in die Drift-Zahlen der Zusammenfassung, `sync` fuehrt nur die Schritte 1-5 aus und
+   kennt den Seed-Hinweis nicht.
+7. **Report ausgeben** (Format fix), Scratch aufraeumen.
 
 ### Report-Format (fix)
 
@@ -169,11 +219,53 @@ Abweichungen:
 Zusammenfassung: {N} synchron, {N} Update verfuegbar, {N} lokal geaendert,
 {N} Lock veraltet, {N} Konflikt, {N} neu, {N} fehlt, {N} verwaist
 
+{Seed-Block — genau eine der Varianten unten}
+
 {Falls Abweichungen} → Abgleich: /dtb:kit-sync sync
-{Falls alles synchron} Alles synchron — keine Aktion noetig.
+{Falls alles synchron UND Seed nicht WEICHT-AB} Alles synchron — keine Aktion noetig.
+{Falls alles synchron UND Seed WEICHT-AB} Kit-Kopien synchron — Seed weicht ab (siehe oben).
 ```
 
 Synchrone Artefakte werden NUR gezaehlt, nie einzeln gelistet.
+
+**Seed-Block (aus Schritt 6):**
+
+`AKTUELL`:
+```
+Seed im Arbeitsprojekt:
+| Seed | Zustand |
+|------|---------|
+| DERIVED_STATE_RULES.md | aktuell |
+```
+
+`WEICHT-AB` (`{pfad}`, `{zeilen_*}`, `{localpath}` aus der Ausgabe von Schritt 6):
+```
+Seed im Arbeitsprojekt:
+| Seed | Zustand |
+|------|---------|
+| DERIVED_STATE_RULES.md | weicht von der Kit-Fassung ab (Projekt {zeilen_projekt} Zeilen, Kit {zeilen_kit} Zeilen) |
+
+→ Vergleichen: git diff --no-index "{pfad}" "{localpath}/dtb-project/project-rules/DERIVED_STATE_RULES.md"
+→ Uebernehmen (der Seed gehoert dem Projekt — kit-sync schreibt ihn nie): cp "{localpath}/dtb-project/project-rules/DERIVED_STATE_RULES.md" "{pfad}"
+  (localPath vorher auf den gepushten Stand bringen: git -C "{localpath}" pull)
+```
+Ohne `localPath` im Lock (Feld leer) stehen statt der beiden `→`-Befehle:
+`→ Kit-Fassung: dtb-project/project-rules/DERIVED_STATE_RULES.md in {source} — von Hand vergleichen und uebernehmen`
+
+`KIT-REPO`:
+```
+Seed im Arbeitsprojekt: Kit-Repo — die Regel-Datei ist hier die Quelle, nicht geprueft
+```
+
+`NICHT-GEPRUEFT`:
+```
+Seed im Arbeitsprojekt: nicht geprueft — {grund} im Arbeitsverzeichnis
+```
+
+`WERKZEUG-FEHLSCHLAG`:
+```
+Seed im Arbeitsprojekt: Seed-Vergleich fehlgeschlagen ({Meldung}) — Werkzeug-Fehlschlag, kein Datenbefund
+```
 
 ---
 
@@ -262,8 +354,10 @@ Verifikation: /dtb:kit-sync check
 | 6 | Installierte Kopie geloescht | check: "fehlt"; sync bietet Neuinstallation an |
 | 7 | Konflikt (beide Seiten geaendert) | melden + einfache Wahl: Repo-Version uebernehmen / ueberspringen (kein Diff-Dialog) |
 | 8 | Zeilenenden LF vs. CRLF | durch Hashing-Methode (Referenz 2) kein Drift |
-| 9 | Seed-Artefakte veraendert | nie als Drift melden — Bestimmungszweck |
+| 9 | Seed-Artefakte veraendert | nie als Drift melden — Bestimmungszweck; nur `check` meldet eine abweichende Regel-Datei im Arbeitsprojekt als Seed-Hinweis (Schritt 6), `settings.json` nie |
 | 10 | Lock korrupt (ungueltiges JSON) | wie "kein Lock" behandeln: Meldung + install (Adoption) anbieten. `check` bleibt dabei strikt read-only (nur melden); die Sicherung nach `dtb-lock.json.bak` (gleicher Ordner) erfolgt erst durch install/sync, unmittelbar bevor das Lock neu geschrieben wird |
+| 11 | Kein DTB-Projekt im Arbeitsverzeichnis (keine `workflow.config.yaml` bzw. keine Regel-Datei) | check: Seed-Block „nicht geprueft" mit Grund, kein Fehler; der Drift-Teil laeuft unveraendert |
+| 12 | check laeuft im Kit-Repo (oder einem Worktree davon) | Seed-Block „Kit-Repo — die Regel-Datei ist hier die Quelle", kein Vergleich (ein Vergleich gegen den gepushten Stand wuerde bei ungepushten Aenderungen faelschlich eine Uebernahme empfehlen) |
 
 ---
 
