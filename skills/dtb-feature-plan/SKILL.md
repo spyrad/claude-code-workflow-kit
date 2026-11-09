@@ -3,21 +3,29 @@ name: dtb:feature-plan
 description: >-
   Use when: "Feature planen", "feature plan", "Feature-Spec erstellen",
   "neues Feature dokumentieren". Creates a structured feature specification
-  from the current chat discussion and saves it as features/<slug>/spec.md.
+  from the current chat discussion and saves it as features/<slug>/spec.md, then
+  runs dtb:impl-plan by reference to create features/<slug>/plan.md in the same
+  run (stop after the spec with the argument "nur-spec").
 disable-model-invocation: true
-argument-hint: "[Feature-Name]"
+argument-hint: "[Feature-Name] [nur-spec]"
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: planning
   after: [dtb:feature-discover]
-  next: [dtb:impl-plan]
-  consumes: [INBOX.md, features/*/discovery.md, workflow.config.yaml]
-  produces: [features/*/spec.md, INBOX.md, BACKLOG.md]
+  next: [dtb:plan-review, dtb:impl-plan]
+  consumes: [INBOX.md, features/*/discovery.md, workflow.config.yaml, project-rules/lessons.md, project-rules/DERIVED_STATE_RULES.md]
+  produces: [features/*/spec.md, features/*/plan.md, INBOX.md, BACKLOG.md]
 ---
 
 # Feature-Plan erstellen
 
-Du bist ein Feature-Plan-Manager. Deine Aufgabe ist es, den aktuell diskutierten Feature-Plan als strukturierte Spec-Datei zu speichern.
+Du bist ein Feature-Plan-Manager. Deine Aufgabe ist es, den aktuell diskutierten Feature-Plan als strukturierte Spec-Datei zu speichern — und danach im selben Lauf den Implementierungsplan zu erstellen, indem du `dtb:impl-plan` per Referenz ausfuehrst (Ausfuehrungs-Punkt 8a).
+
+**Stopp-Weiche „nur spec.md":** Enthaelt der Aufruf das Argument `nur-spec` oder bittet der
+Mensch im Aufruftext ausdruecklich nur um die Spec („nur spec", „ohne Plan"), endest du nach der
+Spec (reiner Spec-Lauf, naechster Schritt `/dtb:impl-plan`). Ohne diese Angabe laeuft der Plan-Teil **immer** mit; es gibt dafuer
+**keine Rueckfrage** (eine Frage wuerde die Kette nicht verkuerzen — Grund des Features
+`plan-in-einem-befehl`).
 
 ## Schritt 0: Config laden
 
@@ -30,7 +38,9 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 1. **Analysiere den Chat-Verlauf** und identifiziere den diskutierten Feature-Plan
 2. **Strukturiere den Plan** nach dem unten stehenden Template
 3. **Speichere** in `{config.paths.workflows}/features/{slug}/spec.md`
-4. **Trage das Feature in BACKLOG.md ein** — ohne Rueckfrage, mit Anzeige-Zeile (Ausfuehrung Punkt 10)
+4. **Erstelle den Implementierungsplan** `{config.paths.workflows}/features/{slug}/plan.md` per
+   Referenz auf `dtb:impl-plan` (Ausfuehrung Punkt 8a) — entfaellt bei der Stopp-Weiche „nur spec.md"
+5. **Trage das Feature in BACKLOG.md ein** — ohne Rueckfrage, mit Anzeige-Zeile (Ausfuehrung Punkt 10)
 
 ## Template fuer spec.md
 
@@ -167,6 +177,65 @@ Verwende folgende Struktur:
 
 8. **Speichere die Datei**
 
+8a. **Implementierungsplan mitlaufen lassen (`dtb:impl-plan` per Referenz):**
+
+   Die Nummer `8a` ist Absicht: Punkt 9–11 behalten ihre Nummern, weil andere Skills und
+   `skills/CLAUDE.md` sie zitieren (z.B. „analog feature-plan Schritt 10").
+
+   **(a) Stopp-Weiche:** Gilt „nur spec.md" (Abschnitt oben unter dem Titel) → diesen Punkt
+   ueberspringen, weiter mit Punkt 9. Ausgang fuer Punkt 10/11: **nur Spec**.
+
+   **(b) Struktur-Check vor der ersten Nutzung:** Du fuehrst die Regeln von `dtb:impl-plan` aus,
+   ohne sie zu kopieren — deshalb pruefst du zuerst, ob die genutzten Abschnitte dort noch stehen.
+   Quelle aufloesen: zuerst die installierte Kopie `~/.claude/skills/dtb-impl-plan/SKILL.md`,
+   sonst `skills/dtb-impl-plan/SKILL.md` im Projekt-Root (Kit-Repo-Fall). Dann je Anker ein
+   Grep (Anker woertlich, zeilenverankert):
+
+   | Anker (Grep) | Genutzt fuer |
+   |--------------|--------------|
+   | `^## Lektionen als Prior lesen` | Lektionen-Prior des Plans |
+   | `^## Codebase-Research \(Ist-Analyse\)` | Ist-Analyse (Uebernahme aus `discovery.md` oder Scan) |
+   | `^## Template fuer plan\.md` | Zielstruktur von `plan.md` |
+   | `^## Wichtig - Anweisungen fuer die Ausfuehrung` | Regeln der Planerstellung |
+   | `^## Lektion-Kandidat erkennen \(Vorschlager\)` | Vormerkung von Lektion-Kandidaten |
+
+   Alle fuenf gefunden → genau eine Zeile `🧩 Struktur-Check impl-plan: 5/5 Anker gefunden`, weiter
+   mit (c). **Zwei getrennte Fehlerpfade** (nie vermischen — eine fehlende Installation ist keine
+   Drift):
+   1. **Datei in beiden Quellen nicht gefunden:**
+      ```
+      ⚠ impl-plan weder global (~/.claude/skills/) noch im Projekt gefunden — Plan-Teil entfaellt.
+         → /dtb:kit-sync sync ausfuehren (bzw. install), dann /dtb:impl-plan {Feature-Name}
+      ```
+   2. **Datei vorhanden, Anker fehlt:**
+      ```
+      ⚠ Struktur-Check impl-plan fehlgeschlagen: Anker "{Anker}" nicht gefunden — Plan-Teil entfaellt.
+         impl-plan hat sich strukturell geaendert; ich plane NICHT auf veralteter Basis.
+         → dtb:feature-plan Punkt 8a an die neue Struktur anpassen; bis dahin: /dtb:impl-plan {Feature-Name}
+      ```
+   In beiden Faellen bleibt die gespeicherte `spec.md` gueltig; weiter mit Punkt 9, Ausgang
+   fuer Punkt 10/11: **nur Spec**.
+
+   **(c) Ausfuehren:** Lies die aufgeloeste `dtb-impl-plan/SKILL.md` und wende ihre Abschnitte
+   **per Name** (nie per Punktnummer) mit demselben Slug an:
+   - `## Lektionen als Prior lesen` — inklusive der einen `📚`-Zeile
+   - `## Codebase-Research (Ist-Analyse)` — verwertbare Modul-Liste aus `discovery.md`
+     uebernehmen (`📂`-Zeile) oder Scan mit Bestaetigung, wie dort beschrieben
+   - aus `## Wichtig - Anweisungen fuer die Ausfuehrung` alles **ausser** der Slug-Ermittlung
+     (der Slug steht seit Punkt 3 fest) und der eigenen Bestaetigung (es gibt eine gemeinsame in
+     Punkt 11) — also auch die Ueberschreib-Frage bei vorhandenem `plan.md` und die Planerstellung
+     nach `## Template fuer plan.md`
+   - `## Lektion-Kandidat erkennen (Vorschlager)`
+
+   Das Eligibility-Gate von `dtb:impl-plan` entfaellt still: `spec.md` ist in Punkt 8 im selben
+   Lauf entstanden. `plan.md` wird inhaltlich genau so wie bei einem Einzel-Lauf von
+   `dtb:impl-plan` — inklusive dessen Fusszeile `**Erstellt mit:** \`/dtb:impl-plan\``.
+   Ausgang fuer Punkt 10/11: **Durchlauf**.
+
+   > **Wartungs-Hinweis (Kopplung):** Dieser Punkt fuehrt `dtb:impl-plan` per Referenz aus. Die
+   > fuenf Anker oben tragen dort je einen Gegen-Hinweis. Wird ein Abschnitt in `dtb:impl-plan`
+   > umbenannt oder umgebaut, Tabelle und Liste hier mitziehen.
+
 9. **Inbox-Status aktualisieren:**
 
    **Teil-Guard (Worktree):** Laeuft dieser Skill in einem verlinkten Worktree
@@ -185,8 +254,12 @@ Verwende folgende Struktur:
    Keine Frage — der Eintrag ist der Default (0 belegte „Nein" in realen Laeufen; eine
    BACKLOG-Zeile ist eine abgeleitete Anzeige und per Zeilen-Loeschung billig umkehrbar).
    Ergebnis ist genau eine Anzeige-Zeile, die als `{Backlog-Zeile}` in der Bestaetigung
-   (Punkt 11) erscheint: `→ in BACKLOG.md eingetragen (Status: Spezifiziert)`. Im Worktree
+   (Punkt 11) erscheint: `→ in BACKLOG.md eingetragen (Status: {Status})`. Im Worktree
    entfaellt sie — dort steht die ↷-Hinweiszeile des Teil-Guards (Punkt 9).
+
+   **`{Status}` folgt dem Ausgang von Punkt 8a** (Ableitung nach `DERIVED_STATE_RULES.md`):
+   Ausgang **Durchlauf** (spec.md + plan.md, 0 Progress-Haken) → `Geplant`; Ausgang **nur Spec**
+   (Stopp-Weiche oder ausgefallener Plan-Teil) → `Spezifiziert`.
 
    **Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN
    Eintrag, stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
@@ -198,13 +271,13 @@ Verwende folgende Struktur:
    **Eintrag schreiben:**
    - Lies `{config.paths.workflows}/BACKLOG.md`
    - Die Status-Spalte ist eine **abgeleitete Anzeige** (Regeln: `project-rules/DERIVED_STATE_RULES.md`):
-     trage den initialen abgeleiteten Status ein — frisch erstellte Spec ohne Plan = `Spezifiziert`.
+     trage den initialen abgeleiteten Status `{Status}` ein (siehe oben: `Geplant` bzw. `Spezifiziert`).
      Danach pflegt `dtb:workflow-checkpoint` das Feld; manuell gepflegt werden nur Prio und Ziel
    - Bestimme Ziel-Abschnitt anhand des Status:
      - Status "Idee" → "Ideen / Backlog"
      - Alle anderen (Geplant, In Arbeit, etc.) → "Aktive Features"
    - Fuege eine neue Zeile in die entsprechende Tabelle ein:
-     `| {INBOX-Nr oder —} | {Feature-Name} | Spezifiziert | {Prio} | features/{slug}/spec.md | {Ziel aus Executive Summary} |`
+     `| {INBOX-Nr oder —} | {Feature-Name} | {Status} | {Prio} | features/{slug}/spec.md | {Ziel aus Executive Summary} |`
    - **Spalte `#` (INBOX-Nummer):** die Nummer der in Schritt 2 gewaehlten Idee; sonst die
      Nummer aus `**Idee-Referenz:** Inbox #{N}` der `discovery.md` (Schritt 1); sonst `—`.
      Nackte Zahl (`107`, nicht `#107`)
@@ -215,15 +288,25 @@ Verwende folgende Struktur:
 
    (Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile Z3.)
 
-11. **Bestaetige:**
+11. **Bestaetige** — genau eine gemeinsame Abschlussmeldung, Variante nach dem Ausgang von
+   Punkt 8a (die eigene Bestaetigung von `dtb:impl-plan` entfaellt):
+
+   Ausgang **Durchlauf**:
+   ```
+   Feature gespeichert: {config.paths.workflows}/features/{slug}/spec.md
+   Implementierungsplan gespeichert: {config.paths.workflows}/features/{slug}/plan.md
+   {Backlog-Zeile}
+
+   Naechster Schritt: /dtb:plan-review [Feature-Name]
+   ```
+
+   Ausgang **nur Spec** (Stopp-Weiche oder ausgefallener Plan-Teil — dessen ⚠-Meldung steht
+   dann schon darueber):
    ```
    Feature gespeichert: {config.paths.workflows}/features/{slug}/spec.md
    {Backlog-Zeile}
 
-   Naechste Schritte:
-   1. Implementierungsplan erstellen: /dtb:impl-plan [Feature-Name]
-   2. Plan reviewen: /dtb:plan-review [Feature-Name]
-   3. Feature starten: /dtb:feature-start
+   Naechster Schritt: /dtb:impl-plan [Feature-Name]
    ```
 
 ---

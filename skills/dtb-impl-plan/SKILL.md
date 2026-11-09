@@ -27,6 +27,9 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 
 ## Lektionen als Prior lesen
 
+> **Wartungs-Hinweis (Struktur-Anker):** Dieser Abschnitt wird von `dtb:feature-plan` per Referenz ausgefuehrt
+> (Punkt 8a, Struktur-Check per Grep auf die Ueberschrift). Bei Umbenennung oder Umbau dort mitziehen.
+
 Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/lessons.md`).
 
 - Fehlt die Datei oder ist sie leer (keine Datenzeile unter der `|---|`-Trennzeile) → diesen Schritt still ueberspringen (kein Abbruch)
@@ -79,6 +82,9 @@ vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
 **3. Verankern.** Bestaetigte/uebernommene Liste kompakt als `## Ist-Analyse` ins `plan.md` (Tabelle) — pruefbares Material fuer `plan-review`-Grounding (2d).
 
 > **Wartungs-Hinweis (Format-Kopplung):** Das Kriterium parst `## Betroffene Module` aus `discovery.md` (`dtb:feature-discover` Schritt 2). Format-Aenderung dort → Pfad-Zeilen-Erkennung hier mitdenken. Gegen-Hinweis steht in `feature-discover`.
+>
+> **Wartungs-Hinweis (Struktur-Anker):** Dieser Abschnitt wird von `dtb:feature-plan` per Referenz ausgefuehrt
+> (Punkt 8a, Struktur-Check per Grep auf die Ueberschrift). Bei Umbenennung oder Umbau dort mitziehen.
 
 ## Aufgabe
 
@@ -94,6 +100,8 @@ vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
 > **Wartungs-Hinweis (Struktur-Anker):** Diese Sektion samt Template wird von
 > `dtb:feature-fast` als Struktur-Anker referenziert (Grep auf `## Template fuer plan.md`).
 > Bei Umbenennung oder Umbau den Struktur-Check dort mitziehen.
+> Ausserdem wird er von `dtb:feature-plan` per Referenz ausgefuehrt (Punkt 8a, gleicher Grep) —
+> dort ebenfalls mitziehen.
 
 Verwende folgende Struktur:
 
@@ -197,6 +205,10 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
 ## Wichtig - Anweisungen fuer die Ausfuehrung
 
+> **Wartungs-Hinweis (Struktur-Anker):** Dieser Abschnitt wird von `dtb:feature-plan` per Referenz ausgefuehrt
+> (Punkt 8a — alles ausser Slug-Ermittlung und eigener Bestaetigung; Struktur-Check per Grep auf
+> die Ueberschrift). Bei Umbenennung oder Umbau dort mitziehen.
+
 ### Beim Ausfuehren des Commands:
 
 1. **Feature-Name / Slug ermitteln:**
@@ -256,6 +268,9 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
    ```
 
 ## Lektion-Kandidat erkennen (Vorschlager)
+
+> **Wartungs-Hinweis (Struktur-Anker):** Dieser Abschnitt wird von `dtb:feature-plan` per Referenz ausgefuehrt
+> (Punkt 8a, Struktur-Check per Grep auf die Ueberschrift). Bei Umbenennung oder Umbau dort mitziehen.
 
 Wenn dir waehrend der Planung eine nicht-offensichtliche, wiederverwendbare Erkenntnis auffaellt
 (Trigger-Frage: „Wuerde ich denselben Fehler nochmal machen, wenn das nur im Session-Log stuende?"),
