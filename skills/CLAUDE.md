@@ -653,8 +653,10 @@ A lock file `~/.claude/dtb-lock.json` records source, ref, and a content hash pe
 - **Class A (`mode: synced`, drift-checked):** `skills/dtb-*/SKILL.md`, `agents/*.md`,
   `commands/dtb-*.md`, `output-styles/dtb-*.md` — a NEW skill is covered automatically by the
   pattern, no registration needed
-- **Class B (`mode: seed`, copied once, never drift-checked):** `frameworks/` templates,
-  `settings.json`, `DERIVED_STATE_RULES.md` (distributed per project by `dtb:project-init`)
+- **Class B (`mode: seed`, copied once, never counted as drift):** `frameworks/` templates,
+  `settings.json`, `DERIVED_STATE_RULES.md` (distributed per project by `dtb:project-init`).
+  Exception, read-only: `kit-sync check` reports a working project's `DERIVED_STATE_RULES.md`
+  that differs from the kit version as a seed hint (check step 6) — never updates it
 - Personas are not part of the kit (removed 2026-07-23) — they live in the separate
   `oma-personas` repository; the kit carries only inline distillates (see root `CLAUDE.md`)
 
