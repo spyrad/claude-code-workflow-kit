@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-06
 **Ziel:** Stoppt eine Worker-Pane-Session, erfaehrt der Orchestrator das immer — auch wenn das Worker-Modell den Hand-off-Block vergisst.
 **Prioritaet:** Hoch
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 > **Nachgezogen 2026-11-06** auf den gebauten Stand (schlanke Variante aus dem plan-review, Probe-
 > Ergebnisse, impl-review-Fixes). Die urspruengliche Fassung (Signalzeile mit Fakten, Transcript-
