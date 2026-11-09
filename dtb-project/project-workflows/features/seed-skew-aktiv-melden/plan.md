@@ -171,9 +171,9 @@ nicht mehr, und der Probelauf gegen die Repo-Fassung zeigt die drei Ausgaenge.
 - [x] 1.1 Abhilfe-Weg klaeren — `940a4b1`
 - [x] 1.2 Probe an drei Faellen — `940a4b1`
 - [x] 1.3 Zielform abnehmen — `940a4b1`
-- [x] 2.1 Seed-Hinweis in kit-sync
-- [x] 2.2 Spiegel nachziehen
-- [x] 2.3 Probelauf Repo-Fassung
+- [x] 2.1 Seed-Hinweis in kit-sync — `3b6d00d`
+- [x] 2.2 Spiegel nachziehen — `3b6d00d`
+- [x] 2.3 Probelauf Repo-Fassung — `3b6d00d`
 
 ---
 

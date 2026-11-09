@@ -25,7 +25,7 @@ Hinweis — ohne sie selbst zu ändern.
   im Modus `check` von `dtb:kit-sync`
 - Eigener Hinweis-Block im Check-Bericht mit drei Ausgängen: aktuell / weicht ab / nicht geprüft
 - Eine Abweichung verhindert die Schlussaussage „Alles synchron — keine Aktion noetig"
-- Abhilfe-Hinweis auf `dtb:project-init` bzw. eine Übernahme von Hand nach Vergleich
+- Abhilfe-Hinweis: Übernahme von Hand mit fertigem Vergleichs- und Kopierbefehl (`dtb:project-init` hat keinen Weg „nur Seeds erneuern" — entschieden 2026-11-09, Plan Schritt 1.1)
 - Nachziehen der Kit-Doku, die Seeds heute als „nie geprüft" beschreibt
 
 ### Nicht enthalten

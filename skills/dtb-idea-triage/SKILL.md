@@ -89,7 +89,7 @@ Lies `{config.paths.workflows}/INBOX-BEFUNDE.md`.
 
 **Fehlt die Datei → selbst anlegen**, mit dem Kopf unten, und danach mit „nichts zu sichten"
 enden. Grund: `dtb:project-init` legt das Becken nur in NEUEN Projekten an; Seeds sind
-„copied once, never drift-checked" und erreichen Bestandsprojekte nicht (INBOX #22). Der Skill
+„copied once, never counted as drift" und erreichen Bestandsprojekte nicht (INBOX #22). Der Skill
 muss in einem Projekt laufen koennen, das `project-init` vor Monaten gesehen hat.
 
 ```markdown

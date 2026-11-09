@@ -27,8 +27,8 @@ Drei Modi: `check` (read-only Drift-Report), `sync` (kontrollierter Abgleich),
 > **Ebenen-Trennung:** kit-sync arbeitet auf der **Maschinen-Ebene** (einmal pro Rechner,
 > plus bei Kit-Updates). Projekt-Scaffolding (Ordner, Vorlagen, Regel-Datei, CLAUDE.md)
 > ist Sache von `dtb:project-init` — kit-sync schreibt NIE in Zielprojekt-Dateien. Einzige
-> Lese-Ausnahme: `check` vergleicht die Regel-Datei des Arbeitsprojekts mit der Kit-Fassung
-> (Seed-Hinweis, check Schritt 6) und meldet nur.
+> Lese-Ausnahme: `check` liest `workflow.config.yaml` des Arbeitsprojekts und vergleicht
+> dessen Regel-Datei mit der Kit-Fassung (Seed-Hinweis, check Schritt 6) — es meldet nur.
 
 > **Determinismus-Regel:** Alle Vergleiche laufen ueber die festen Kommando-Sequenzen
 > in diesem Dokument. Nicht improvisieren, keine alternativen Hash- oder Diff-Methoden.
@@ -172,20 +172,30 @@ COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
    kithash() { tr -d '\r' < "$1" | git -c core.autocrlf=false hash-object --stdin; }
    LOCK="$HOME/.claude/dtb-lock.json"
    LP="$(grep -o '"localPath"[[:space:]]*:[[:space:]]*"[^"]*"' "$LOCK" 2>/dev/null | sed -E 's/.*"localPath"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')"
+   [ -d "$LP" ] || LP=""   # toter Pfad (z.B. Lock von anderer Maschine) = wie ohne localPath
    if [ -f skills/dtb-kit-sync/SKILL.md ]; then echo "ZUSTAND=KIT-REPO"; exit 0; fi
-   if [ ! -f workflow.config.yaml ]; then echo "ZUSTAND=NICHT-GEPRUEFT grund=keine workflow.config.yaml"; exit 0; fi
-   RULES=$(grep -E '^[[:space:]]+rules:' workflow.config.yaml | head -1 | sed -E 's/^[^:]*:[[:space:]]*"?([^"#]*)"?.*$/\1/; s/[[:space:]]+$//')
+   if [ ! -f workflow.config.yaml ]; then echo "ZUSTAND=NICHT-GEPRUEFT"; echo "grund=keine workflow.config.yaml"; exit 0; fi
+   RULES=$(awk '/^paths:/{p=1;next} p&&/^[^[:space:]#]/{p=0} p&&/^[[:space:]]+rules:/{sub(/^[^:]*:[[:space:]]*/,""); sub(/[[:space:]]*#.*/,""); gsub(/["\047]/,""); sub(/[[:space:]]+$/,""); print; exit}' workflow.config.yaml)
    [ -n "$RULES" ] || RULES="dtb-project/project-rules"
    P="$RULES/DERIVED_STATE_RULES.md"
    K="$SRC/dtb-project/project-rules/DERIVED_STATE_RULES.md"
-   if [ ! -f "$P" ]; then echo "ZUSTAND=NICHT-GEPRUEFT grund=keine Regel-Datei unter $P"; exit 0; fi
+   if [ ! -f "$P" ]; then echo "ZUSTAND=NICHT-GEPRUEFT"; echo "grund=keine Regel-Datei unter $P"; exit 0; fi
    [ -s "$K" ] || { echo "WERKZEUG-FEHLSCHLAG: Kit-Seite leer oder fehlt ($K)"; exit 1; }
-   [ -s "$P" ] || { echo "WERKZEUG-FEHLSCHLAG: Projekt-Seite leer ($P)"; exit 1; }
-   HP=$(kithash "$P"); HK=$(kithash "$K")
-   [ -n "$HP" ] && [ -n "$HK" ] || { echo "WERKZEUG-FEHLSCHLAG: Hash leer"; exit 1; }
-   if [ "$HP" = "$HK" ]; then echo "ZUSTAND=AKTUELL pfad=$P"
-   else echo "ZUSTAND=WEICHT-AB pfad=$P zeilen_projekt=$(wc -l < "$P" | tr -d ' ') zeilen_kit=$(wc -l < "$K" | tr -d ' ') localpath=$LP"; fi
+   [ -r "$P" ] || { echo "WERKZEUG-FEHLSCHLAG: Projekt-Seite nicht lesbar ($P)"; exit 1; }
+   HP=$(set -o pipefail; kithash "$P") || { echo "WERKZEUG-FEHLSCHLAG: Projekt-Seite nicht einlesbar ($P)"; exit 1; }
+   HK=$(set -o pipefail; kithash "$K") || { echo "WERKZEUG-FEHLSCHLAG: Kit-Seite nicht einlesbar ($K)"; exit 1; }
+   if [ "$HP" = "$HK" ]; then echo "ZUSTAND=AKTUELL"; echo "pfad=$P"
+   else
+     echo "ZUSTAND=WEICHT-AB"; echo "pfad=$P"
+     echo "zeilen_projekt=$(wc -l < "$P" | tr -d ' ')"; echo "zeilen_kit=$(wc -l < "$K" | tr -d ' ')"
+     echo "localpath=$LP"
+   fi
    ```
+
+   Ausgabe: erste Zeile `ZUSTAND=…`, danach **ein Feld pro Zeile** (`schluessel=wert` bis
+   zum Zeilenende — Pfade duerfen Leerzeichen enthalten). Eine leere Regel-Datei im Projekt
+   ist ein echter Befund (kaputter Seed) und laeuft als `WEICHT-AB` mit `zeilen_projekt=0`;
+   Werkzeug-Fehlschlag ist nur eine fehlende/leere Kit-Seite oder ein Lesefehler.
 
    | Ausgabe | Bedeutung | Report (Seed-Block, Format unten) |
    |---------|-----------|-----------------------------------|
@@ -193,7 +203,7 @@ COMMIT=$(git -C "$SRC" rev-parse --short HEAD)
    | `NICHT-GEPRUEFT` | keine `workflow.config.yaml` bzw. keine Regel-Datei am aufgeloesten Pfad (`paths.rules`, Fallback `dtb-project/project-rules`) | eine Zeile „nicht geprueft" mit Grund, kein Fehler |
    | `AKTUELL` | Projekt-Seed = Kit-Fassung | Tabellenzeile „aktuell", Schlusszeile wie bisher |
    | `WEICHT-AB` | Projekt-Seed ≠ Kit-Fassung | Tabellenzeile mit Zeilenzahlen, Vergleichs- und Uebernahme-Befehl, gekoppelte Schlusszeile |
-   | `WERKZEUG-FEHLSCHLAG` | eine Vergleichsseite leer oder nicht lesbar | eine Zeile „Seed-Vergleich fehlgeschlagen (Werkzeug-Fehlschlag, kein Datenbefund)" — nie als Abweichung werten |
+   | `WERKZEUG-FEHLSCHLAG` | Kit-Seite fehlt/leer oder eine Seite nicht einlesbar | eine Zeile „Seed-Vergleich fehlgeschlagen (Werkzeug-Fehlschlag, kein Datenbefund)" — nie als Abweichung werten, nie als „Alles synchron" |
 
    **Meldeform „weicht ab" statt „veraltet":** `dtb:project-init` ueberschreibt die
    Regel-Datei bei jeder Verteilung, eine Projekt-Anpassung ist also nicht vorgesehen — der
@@ -222,8 +232,9 @@ Zusammenfassung: {N} synchron, {N} Update verfuegbar, {N} lokal geaendert,
 {Seed-Block — genau eine der Varianten unten}
 
 {Falls Abweichungen} → Abgleich: /dtb:kit-sync sync
-{Falls alles synchron UND Seed nicht WEICHT-AB} Alles synchron — keine Aktion noetig.
+{Falls alles synchron UND Seed AKTUELL, KIT-REPO oder NICHT-GEPRUEFT} Alles synchron — keine Aktion noetig.
 {Falls alles synchron UND Seed WEICHT-AB} Kit-Kopien synchron — Seed weicht ab (siehe oben).
+{Falls alles synchron UND Seed WERKZEUG-FEHLSCHLAG} Kit-Kopien synchron — Seed-Vergleich fehlgeschlagen (siehe oben).
 ```
 
 Synchrone Artefakte werden NUR gezaehlt, nie einzeln gelistet.
@@ -238,19 +249,23 @@ Seed im Arbeitsprojekt:
 | DERIVED_STATE_RULES.md | aktuell |
 ```
 
-`WEICHT-AB` (`{pfad}`, `{zeilen_*}`, `{localpath}` aus der Ausgabe von Schritt 6):
+`WEICHT-AB` (`{pfad}`, `{zeilen_*}`, `{localpath}` aus der Ausgabe von Schritt 6, `{COMMIT}`
+aus Referenz 3):
 ```
 Seed im Arbeitsprojekt:
 | Seed | Zustand |
 |------|---------|
 | DERIVED_STATE_RULES.md | weicht von der Kit-Fassung ab (Projekt {zeilen_projekt} Zeilen, Kit {zeilen_kit} Zeilen) |
 
-→ Vergleichen: git diff --no-index "{pfad}" "{localpath}/dtb-project/project-rules/DERIVED_STATE_RULES.md"
-→ Uebernehmen (der Seed gehoert dem Projekt — kit-sync schreibt ihn nie): cp "{localpath}/dtb-project/project-rules/DERIVED_STATE_RULES.md" "{pfad}"
-  (localPath vorher auf den gepushten Stand bringen: git -C "{localpath}" pull)
+→ Vergleichen: git -C "{localpath}" fetch -q; diff -u "{pfad}" <(git -C "{localpath}" show {COMMIT}:dtb-project/project-rules/DERIVED_STATE_RULES.md)
+→ Uebernehmen (der Seed gehoert dem Projekt — kit-sync schreibt ihn nie): git -C "{localpath}" show {COMMIT}:dtb-project/project-rules/DERIVED_STATE_RULES.md > "{pfad}.neu" && mv "{pfad}.neu" "{pfad}" || rm -f "{pfad}.neu"
 ```
-Ohne `localPath` im Lock (Feld leer) stehen statt der beiden `→`-Befehle:
-`→ Kit-Fassung: dtb-project/project-rules/DERIVED_STATE_RULES.md in {source} — von Hand vergleichen und uebernehmen`
+Beide Befehle lesen die **verglichene** Fassung (Commit `{COMMIT}`) aus dem lokalen Klon —
+nie dessen Arbeitsbaum, der auf einem anderen Branch oder ungepushtem Stand stehen kann; der
+Klon selbst bleibt unveraendert (`fetch` holt nur, im Offline-Fallback schlaegt er harmlos
+fehl). Das Schreiben ueber `.neu` + `mv` laesst den Seed bei einem Fehlschlag unangetastet.
+Ohne nutzbaren `localPath` (Feld leer oder Verzeichnis fehlt) stehen statt der beiden `→`-Befehle:
+`→ Kit-Fassung: dtb-project/project-rules/DERIVED_STATE_RULES.md in {source} @ {COMMIT} — von Hand vergleichen und uebernehmen`
 
 `KIT-REPO`:
 ```

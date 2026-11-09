@@ -305,8 +305,8 @@ Kopie im Projekt-Root wird von keinem Skill gelesen und veraltet still.
 
 Klasse-B-Seeds sind projektlokal und werden **nicht** vom globalen Drift-Check erfasst;
 `dtb:kit-sync` kopiert sie ausdrücklich NICHT (dort Abschnitt „Artefakt-Klassen": `settings.json`
-als Klasse B „projektlokal (via project-init)", `DERIVED_STATE_RULES.md` als „Seed via
-project-init") — sie sind Sache dieses Skills. **Alle** Seeds der Klasse verteilen, nicht nur den erstbesten:
+und `DERIVED_STATE_RULES.md` je als Klasse B „projektlokal (via project-init)"; für die
+Regel-Datei meldet `kit-sync check` nur einen read-only Seed-Hinweis) — sie sind Sache dieses Skills. **Alle** Seeds der Klasse verteilen, nicht nur den erstbesten:
 
 | Seed | Quelle im Kit-Repo | Ziel im Projekt | Bei bereits vorhandener Datei |
 |------|--------------------|-----------------|-------------------------------|
