@@ -14,7 +14,7 @@
 |---|---------|--------|------|-------|------|
 | 173 | checkpoint-ohne-rueckfragen | Fertig zum Testen | Mittel | features/checkpoint-ohne-rueckfragen/spec.md | Checkpoint laeuft im Normalfall ohne Rueckfrage |
 | 177 | checkpoint-schneller | Fertig zum Testen | Hoch | features/checkpoint-schneller/spec.md | Checkpoint-Median ≤ 4 aktive min ohne Verlust an Funden |
-| 178 | Plan in einem Befehl | Fertig zum Testen | Mittel | features/plan-in-einem-befehl/spec.md | In der vollen Spur führt nach der Discovery ein einziger Befehl bis zum fertigen Implementierungsplan. |
+| 178 | Plan in einem Befehl | Abgenommen | Mittel | features/plan-in-einem-befehl/spec.md | In der vollen Spur führt nach der Discovery ein einziger Befehl bis zum fertigen Implementierungsplan. |
 
 ---
 

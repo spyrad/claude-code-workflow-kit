@@ -11,6 +11,7 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
+| plan-in-einem-befehl | Abgenommen | 6/6 | /dtb:archive plan-in-einem-befehl |
 
 ---
 
@@ -19,13 +20,14 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #178 plan-in-einem-befehl im Pane-Worktree fertig (6/6, Review 9/9 FIXED, Branch `feature/plan-in-einem-befehl` 3 Commits, ungemergt) — wartet auf Abnahme im Haupt-Checkout |
+| **Notizen** | #178 plan-in-einem-befehl abgenommen und gemergt (`4bc2a47`) — Nachlauf: Push, kit-sync (feature-plan, impl-plan, feature-discover), Arbeitsplatz abbauen |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#178 plan-in-einem-befehl: Abnahme im Haupt-Checkout, Merge, kit-sync** — Kontext: Backlog-Zweig (Status Geplant/Spezifiziert) und beide Fehlerpfade des Struktur-Checks im Worktree nicht gefahren; erster echter Lauf nach dem Merge liefert den Beleg mit frischem Blick; kit-sync fuer feature-plan, impl-plan, feature-discover; Abschluss nach `dtb:worker` → `#### Abschluss` (seit 2026-11-09)
+- [ ] **#178 plan-in-einem-befehl: Nachlauf nach dem Merge** — Kontext: Push, kit-sync (feature-plan, impl-plan, feature-discover), Pane `w3:p0` beenden, Worktree und Branch entfernen (seit 2026-11-09)
+- [ ] **#178 plan-in-einem-befehl: ersten echten `/dtb:feature-plan`-Lauf beobachten** — Kontext: Beleg mit frischem Blick; dabei Backlog-Zweig (Status Geplant bzw. Spezifiziert) und Fehlerpfad „impl-plan nicht installiert" ansehen — im Probelauf nicht gefahren; Fehlerpfad „Anker fehlt" bei der Abnahme an einer Kopie belegt (seit 2026-11-09)
 - [ ] **#22 seed-skew-aktiv-melden: fetch-Teil der Abhilfe-Befehle im ersten echten Bestandsprojekt-Lauf beobachten** — Kontext: im Pane bewusst ungetestet (Kit-Klon nicht angefasst), show/diff/mv an einer Kopie gruen; naechster `kit-sync check` in einem Zielprojekt mit altem Seed (z. B. PKP) (seit 2026-11-09)
 - [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02) ⏳
 - [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (Alters-Zeile nicht mehr unter „Erfasst:"); erster Echtlauf mit Funden und ⏳ ist der Checkpoint 2026-11-06 — dessen Bestätigung ansehen (seit 2026-11-03)
