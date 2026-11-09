@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-09
 **Ziel:** In der vollen Spur führt nach der Discovery ein einziger Befehl bis zum fertigen Implementierungsplan.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

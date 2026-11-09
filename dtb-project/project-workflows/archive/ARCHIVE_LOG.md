@@ -123,3 +123,5 @@
 | 2026-11-09 | Feature | worker-job-ende-meldung | features/worker-job-ende-meldung/ | Abgenommen 2026-11-06 (Beleg: probe.md → Abnahme 3.1–3.3 + Probe 5, Merge `ffe509e`) → Abgeschlossen. 10/10 ueber 3 Phasen im Pane-Worktree, impl-review 10/10 FIXED (`e0a2ba6`), kit-sync 2/2; L119–L124 |
 | 2026-11-09 | Idee | #22 "Seed-Skew aktiv melden" | INBOX.md | Ausgearbeitet → archive/seed-skew-aktiv-melden/ |
 | 2026-11-09 | Feature | seed-skew-aktiv-melden | features/seed-skew-aktiv-melden/ | Abgenommen 2026-11-09 (Beleg: beide Manual-Kriterien in der Pane geprueft, Nachprobe 8 Faelle, Merge `ac5c742`) → Abgeschlossen. 6/6 ueber 2 Phasen im Pane-Worktree (Fast-Track), impl-review 10/10 FIXED (`226b7ff`), kit-sync 3/3; L125–L127 |
+| 2026-11-09 | Idee | #178 "Kette straffen (2/4): feature-plan und impl-plan mit einem Befehl" | INBOX.md | Ausgearbeitet → archive/plan-in-einem-befehl/ |
+| 2026-11-09 | Feature | plan-in-einem-befehl | features/plan-in-einem-befehl/ | Abgenommen 2026-11-09 (Beleg: Probelauf A/B + Fehlerpfad „Anker fehlt“ an einer Kopie, Merge `4bc2a47`) → Abgeschlossen |

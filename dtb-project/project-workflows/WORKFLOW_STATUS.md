@@ -11,7 +11,6 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
-| plan-in-einem-befehl | Abgenommen | 6/6 | /dtb:archive plan-in-einem-befehl |
 
 ---
 
@@ -20,13 +19,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #178 plan-in-einem-befehl abgenommen und gemergt (`4bc2a47`) — Nachlauf: Push, kit-sync (feature-plan, impl-plan, feature-discover), Arbeitsplatz abbauen |
+| **Notizen** | #178 plan-in-einem-befehl abgenommen, gemergt (`4bc2a47`), gepusht, kit-sync 3/3, archiviert — Abbau von Worktree und Branch offen |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#178 plan-in-einem-befehl: Nachlauf nach dem Merge** — Kontext: Push, kit-sync (feature-plan, impl-plan, feature-discover), Pane `w3:p0` beenden, Worktree und Branch entfernen (seit 2026-11-09)
+- [ ] **#178 plan-in-einem-befehl: Worktree und Branch entfernen, dann archivieren** — Kontext: Push und kit-sync erledigt, Pane beendet; offen `git worktree remove` für `.dtb-worktrees/pane-plan-in-einem-befehl`, `git branch -d feature/plan-in-einem-befehl`, dann `/dtb:archive plan-in-einem-befehl` (seit 2026-11-09)
 - [ ] **#178 plan-in-einem-befehl: ersten echten `/dtb:feature-plan`-Lauf beobachten** — Kontext: Beleg mit frischem Blick; dabei Backlog-Zweig (Status Geplant bzw. Spezifiziert) und Fehlerpfad „impl-plan nicht installiert" ansehen — im Probelauf nicht gefahren; Fehlerpfad „Anker fehlt" bei der Abnahme an einer Kopie belegt (seit 2026-11-09)
 - [ ] **#22 seed-skew-aktiv-melden: fetch-Teil der Abhilfe-Befehle im ersten echten Bestandsprojekt-Lauf beobachten** — Kontext: im Pane bewusst ungetestet (Kit-Klon nicht angefasst), show/diff/mv an einer Kopie gruen; naechster `kit-sync check` in einem Zielprojekt mit altem Seed (z. B. PKP) (seit 2026-11-09)
 - [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02) ⏳
@@ -46,6 +45,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-11-09 | #178 plan-in-einem-befehl abgenommen, gemergt, kit-sync | Abnahme mit Probelauf A/B und selbst gefahrenem Fehlerpfad „Anker fehlt", Merge `4bc2a47`, kit-sync 3/3 auf `485942f` | `2026-11/2026-11-09.md` |
 | 2026-11-09 | #178 plan-in-einem-befehl im Pane fertig | `/dtb:pane-start 178` → feature-fast, plan-review REVISE → Reviewed, Phasen 1–2 (`32437ce`, `eef1b3a`), impl-review 9/9 FIXED (`9014019`), Hand-off 13:35; `feature-plan` führt `impl-plan` per Referenz mit aus, Stopp `nur-spec`; #194, #195 | `2026-11/2026-11-09.md` |
 | 2026-11-09 | #22 seed-skew-aktiv-melden abgenommen, gemergt und archiviert | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`940a4b1`, `3b6d00d`), impl-review 10/10 FIXED (`226b7ff`), Abnahme beider Manual-Kriterien, Merge `ac5c742`, kit-sync 3/3; `kit-sync check` meldet veraltete Seeds; L125–L127, #192 | `2026-11/2026-11-09.md` |
 | 2026-11-09 | #175 worker-job-ende-meldung archiviert | INBOX- und BACKLOG-Zeile entfernt, Ordner nach `archive/worker-job-ende-meldung/`, ARCHIVE_LOG +2 | `2026-11/2026-11-09.md` |
