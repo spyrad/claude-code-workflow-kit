@@ -63,6 +63,9 @@ Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Plan auf falscher
 
 ## Codebase-Research (Ist-Analyse)
 
+> **Wartungs-Hinweis (Struktur-Anker):** Dieser Abschnitt wird von `dtb:feature-plan` per Referenz ausgefuehrt
+> (Punkt 8a, Struktur-Check per Grep auf die Ueberschrift). Bei Umbenennung oder Umbau dort mitziehen.
+
 Laeuft NACH dem Eligibility-Gate und VOR der Planung. Ziel: Plan-Schritte fussen auf realem Code
 statt auf Annahmen (Spec→Ist-Abgleich). Laeuft **nur, wenn keine verwertbare Modul-Liste** aus
 einer Discovery existiert — sonst wird sie uebernommen.
@@ -82,9 +85,6 @@ vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
 **3. Verankern.** Bestaetigte/uebernommene Liste kompakt als `## Ist-Analyse` ins `plan.md` (Tabelle) — pruefbares Material fuer `plan-review`-Grounding (2d).
 
 > **Wartungs-Hinweis (Format-Kopplung):** Das Kriterium parst `## Betroffene Module` aus `discovery.md` (`dtb:feature-discover` Schritt 2). Format-Aenderung dort → Pfad-Zeilen-Erkennung hier mitdenken. Gegen-Hinweis steht in `feature-discover`.
->
-> **Wartungs-Hinweis (Struktur-Anker):** Dieser Abschnitt wird von `dtb:feature-plan` per Referenz ausgefuehrt
-> (Punkt 8a, Struktur-Check per Grep auf die Ueberschrift). Bei Umbenennung oder Umbau dort mitziehen.
 
 ## Aufgabe
 
@@ -100,7 +100,7 @@ vergessenem Schritt unterscheidbar, Muster wie 📚/🔎):
 > **Wartungs-Hinweis (Struktur-Anker):** Diese Sektion samt Template wird von
 > `dtb:feature-fast` als Struktur-Anker referenziert (Grep auf `## Template fuer plan.md`).
 > Bei Umbenennung oder Umbau den Struktur-Check dort mitziehen.
-> Ausserdem wird er von `dtb:feature-plan` per Referenz ausgefuehrt (Punkt 8a, gleicher Grep) —
+> Ausserdem wird sie von `dtb:feature-plan` per Referenz ausgefuehrt (Punkt 8a, gleicher Grep) —
 > dort ebenfalls mitziehen.
 
 Verwende folgende Struktur:
@@ -293,7 +293,7 @@ naechsten Session erneut. Sofort erfassen bleibt jederzeit moeglich: `/dtb:lesso
 
 ## Verwandte Commands
 
-- `/dtb:feature-plan` — Feature-Spec erstellen
+- `/dtb:feature-plan` — Feature-Spec erstellen (standardmaessig samt `plan.md` — fuehrt diesen Skill per Referenz aus)
 - `/dtb:plan-review` — Plan reviewen lassen
 - `/dtb:feature-start` — Feature starten
 - `/dtb:lesson` — Lektion festhalten (Prior-Quelle)

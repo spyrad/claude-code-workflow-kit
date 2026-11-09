@@ -146,9 +146,9 @@ Kit-Doku beschreibt den neuen Ablauf, beide Ausgänge sind an einem Wegwerf-Ordn
 - [x] 1.1 Stopp-Weiche und Frontmatter — `32437ce`
 - [x] 1.2 Referenz-Schritt impl-plan — `32437ce`
 - [x] 1.3 Backlog-Status, Abschluss, Wartungs-Hinweise — `32437ce`
-- [x] 2.1 Doku und Verweise
-- [x] 2.2 Probelauf
-- [x] 2.3 Konsistenz-Sweep
+- [x] 2.1 Doku und Verweise — `eef1b3a`
+- [x] 2.2 Probelauf — `eef1b3a`
+- [x] 2.3 Konsistenz-Sweep — `eef1b3a`
 
 ---
 

@@ -21,9 +21,11 @@ pipeline:
 
 Du bist ein Feature-Plan-Manager. Deine Aufgabe ist es, den aktuell diskutierten Feature-Plan als strukturierte Spec-Datei zu speichern — und danach im selben Lauf den Implementierungsplan zu erstellen, indem du `dtb:impl-plan` per Referenz ausfuehrst (Ausfuehrungs-Punkt 8a).
 
-**Stopp-Weiche „nur spec.md":** Enthaelt der Aufruf das Argument `nur-spec` oder bittet der
-Mensch im Aufruftext ausdruecklich nur um die Spec („nur spec", „ohne Plan"), endest du nach der
-Spec (reiner Spec-Lauf, naechster Schritt `/dtb:impl-plan`). Ohne diese Angabe laeuft der Plan-Teil **immer** mit; es gibt dafuer
+**Stopp-Weiche „nur spec.md":** Ist `nur-spec` das **letzte Argument-Token** des Aufrufs, oder
+bittet der Mensch ausserhalb des Feature-Namens ausdruecklich nur um die Spec („nur spec",
+„ohne Plan"), ueberspringst du den Plan-Teil (Punkt 8a); Punkt 9–11 laufen normal, naechster
+Schritt `/dtb:impl-plan`. Das Token `nur-spec` entfernst du **vor** der Ableitung von
+Feature-Name und Slug (Punkt 3) — es ist nie Teil des Namens. Ohne diese Angabe laeuft der Plan-Teil **immer** mit; es gibt dafuer
 **keine Rueckfrage** (eine Frage wuerde die Kette nicht verkuerzen — Grund des Features
 `plan-in-einem-befehl`).
 
@@ -189,7 +191,8 @@ Verwende folgende Struktur:
    ohne sie zu kopieren — deshalb pruefst du zuerst, ob die genutzten Abschnitte dort noch stehen.
    Quelle aufloesen: zuerst die installierte Kopie `~/.claude/skills/dtb-impl-plan/SKILL.md`,
    sonst `skills/dtb-impl-plan/SKILL.md` im Projekt-Root (Kit-Repo-Fall). Dann je Anker ein
-   Grep (Anker woertlich, zeilenverankert):
+   Grep (Regex fuer das Grep-Werkzeug/ripgrep, zeilenverankert — nicht als Festtext und nicht als
+   BRE uebernehmen, dort waere `\(` ein Gruppen-Start):
 
    | Anker (Grep) | Genutzt fuer |
    |--------------|--------------|
@@ -221,16 +224,23 @@ Verwende folgende Struktur:
    - `## Lektionen als Prior lesen` — inklusive der einen `📚`-Zeile
    - `## Codebase-Research (Ist-Analyse)` — verwertbare Modul-Liste aus `discovery.md`
      uebernehmen (`📂`-Zeile) oder Scan mit Bestaetigung, wie dort beschrieben
-   - aus `## Wichtig - Anweisungen fuer die Ausfuehrung` alles **ausser** der Slug-Ermittlung
-     (der Slug steht seit Punkt 3 fest) und der eigenen Bestaetigung (es gibt eine gemeinsame in
-     Punkt 11) — also auch die Ueberschreib-Frage bei vorhandenem `plan.md` und die Planerstellung
-     nach `## Template fuer plan.md`
+   - `## Wichtig - Anweisungen fuer die Ausfuehrung` **der impl-plan-Datei** (nicht der
+     gleichnamige Abschnitt dieses Skills, in dem du gerade stehst) — alle Punkte **ausser** deren
+     Punkten **Feature-Name / Slug ermitteln** (der Slug steht seit Punkt 3 fest),
+     **Codebase-Research (Ist-Analyse) durchfuehren/uebernehmen** (durch den Listenpunkt oben
+     bereits erledigt — kein zweiter Scan) und **Bestaetige** (es gibt eine gemeinsame in
+     Punkt 11). Es gelten also auch die Ueberschreib-Frage bei vorhandenem `plan.md` und die
+     Planerstellung nach `## Template fuer plan.md`
    - `## Lektion-Kandidat erkennen (Vorschlager)`
 
    Das Eligibility-Gate von `dtb:impl-plan` entfaellt still: `spec.md` ist in Punkt 8 im selben
    Lauf entstanden. `plan.md` wird inhaltlich genau so wie bei einem Einzel-Lauf von
    `dtb:impl-plan` — inklusive dessen Fusszeile `**Erstellt mit:** \`/dtb:impl-plan\``.
-   Ausgang fuer Punkt 10/11: **Durchlauf**.
+
+   **Ausgang fuer Punkt 9–11 — am Artefakt, nicht am Weg:** **Durchlauf** gilt genau dann, wenn
+   `plan.md` in diesem Lauf geschrieben wurde (neu oder per „ueberschreiben/aktualisieren").
+   Lehnt der Mensch die Ueberschreib-Frage ab, gilt **nur Spec** — der vorhandene Plan bleibt
+   unangetastet und wird nicht als „gespeichert" gemeldet.
 
    > **Wartungs-Hinweis (Kopplung):** Dieser Punkt fuehrt `dtb:impl-plan` per Referenz aus. Die
    > fuenf Anker oben tragen dort je einen Gegen-Hinweis. Wird ein Abschnitt in `dtb:impl-plan`
@@ -247,7 +257,8 @@ Verwende folgende Struktur:
 
    - Falls das Feature aus einer Inbox-Idee erstellt wurde:
      - Setze den Status in `INBOX.md` auf `Ausgearbeitet`
-     - Ergaenze die Idee-Zeile um den Link: `→ features/{slug}/spec.md`
+     - Ergaenze die Idee-Zeile um den Link: `→ features/{slug}/spec.md`; bei Ausgang
+       **Durchlauf** (Punkt 8a) zusaetzlich `→ features/{slug}/plan.md`
 
 10. **Backlog-Eintrag (ohne Rueckfrage):**
 
@@ -257,9 +268,11 @@ Verwende folgende Struktur:
    (Punkt 11) erscheint: `→ in BACKLOG.md eingetragen (Status: {Status})`. Im Worktree
    entfaellt sie — dort steht die ↷-Hinweiszeile des Teil-Guards (Punkt 9).
 
-   **`{Status}` folgt dem Ausgang von Punkt 8a** (Ableitung nach `DERIVED_STATE_RULES.md`):
-   Ausgang **Durchlauf** (spec.md + plan.md, 0 Progress-Haken) → `Geplant`; Ausgang **nur Spec**
-   (Stopp-Weiche oder ausgefallener Plan-Teil) → `Spezifiziert`.
+   **`{Status}` wird aus den Dateien abgeleitet** (Regeln: `DERIVED_STATE_RULES.md` — vorhandene
+   Artefakte in `features/{slug}/` + `## Progress` in `plan.md`), nie aus dem Weg durch Punkt 8a
+   gesetzt. Normalfaelle: Ausgang **Durchlauf** mit frischem Plan (0 Progress-Haken) → `Geplant`;
+   Ausgang **nur Spec** ohne vorhandenen Plan → `Spezifiziert`. Ein bereits vorhandener oder
+   aktualisierter Plan mit Haken ergibt den dort abgeleiteten Status (z.B. `In Arbeit`).
 
    **Testordner-Ausnahme:** Beginnt der Slug mit `zz-test-` oder `abnahmeprobe-` → KEIN
    Eintrag, stattdessen die Anzeige-Zeile `→ kein BACKLOG-Eintrag (Testordner)`.
@@ -271,7 +284,7 @@ Verwende folgende Struktur:
    **Eintrag schreiben:**
    - Lies `{config.paths.workflows}/BACKLOG.md`
    - Die Status-Spalte ist eine **abgeleitete Anzeige** (Regeln: `project-rules/DERIVED_STATE_RULES.md`):
-     trage den initialen abgeleiteten Status `{Status}` ein (siehe oben: `Geplant` bzw. `Spezifiziert`).
+     trage den abgeleiteten Status `{Status}` ein (siehe oben; Normalfall `Geplant` bzw. `Spezifiziert`).
      Danach pflegt `dtb:workflow-checkpoint` das Feld; manuell gepflegt werden nur Prio und Ziel
    - Bestimme Ziel-Abschnitt anhand des Status:
      - Status "Idee" → "Ideen / Backlog"

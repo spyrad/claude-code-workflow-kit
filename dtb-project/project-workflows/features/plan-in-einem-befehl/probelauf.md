@@ -21,7 +21,8 @@ Grep `feature-plan` über `skills/`, `agents/`, `output-styles/`, `CLAUDE.md`, `
 | `skills/CLAUDE.md` Rückfragen-Defaults Z3 (`feature-plan` Schritt 10) | Backlog als stille Anzeige | bleibt richtig — Punkt 10 behält Nummer (Einschub `8a`), feste Zeile jetzt mit `{Status}` |
 | `skills/CLAUDE.md` Worktree-Kategorien (Teil-Guard) | feature-plan Teil-Guard | bleibt richtig — `plan.md` liegt im eigenen Change-Ordner |
 | `skills/dtb-feature-fast/SKILL.md` (Struktur-Check, Lint, „analog feature-plan Schritt 10") | Template-Anker, Lint, Backlog-Analogie | bleibt richtig — Anker und Nummer unverändert |
-| `skills/dtb-impl-plan/SKILL.md` (`after`, Gate-Redirect, Verwandte, 5 Wartungs-Hinweise) | Vorgänger/Erzeuger der Spec | bleibt richtig; Hinweise in Phase 1 ergänzt |
+| `skills/dtb-impl-plan/SKILL.md` (`after`, Gate-Redirect, 5 Wartungs-Hinweise) | Vorgänger/Erzeuger der Spec | bleibt richtig; Hinweise in Phase 1 ergänzt |
+| `skills/dtb-impl-plan/SKILL.md` „Verwandte Commands" | „`/dtb:feature-plan` — Feature-Spec erstellen" | **geändert** im impl-review 2026-11-09 (F8) — „standardmäßig samt `plan.md`"; der Sweep hatte die Zeile zuerst falsch als „bleibt richtig" eingestuft |
 | `skills/dtb-greenfield-prd/SKILL.md` Lint-Kopie | Leak-Lint-Kopplung | bleibt richtig — Lint unverändert |
 | `skills/dtb-open-question`, `skills/dtb-meeting-dump` | feature-plan schreibt `spec.md` | bleibt richtig |
 | `skills/dtb-backlog-status`, `dtb-project-init`, `dtb-workflow-status` (Tabellen), `dtb-workflow-next` (Leer-Zustand, „discovery ohne spec") , `dtb-pane-start` | Einstieg „Feature planen" / Spec ausstehend | bleibt richtig — der Befehl ist derselbe, er liefert nur mehr |
