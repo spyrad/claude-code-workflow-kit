@@ -11,7 +11,6 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
-| seed-skew-aktiv-melden | Abgenommen | 6/6 | /dtb:archive seed-skew-aktiv-melden |
 
 ---
 
@@ -20,7 +19,7 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #22 seed-skew-aktiv-melden abgenommen und gemergt (`ac5c742`), kit-sync und Abbau des Arbeitsplatzes am 2026-11-09; Herdr-Integration claude jetzt v11 |
+| **Notizen** | #22 seed-skew-aktiv-melden abgenommen, gemergt (`ac5c742`), kit-sync 3/3, Arbeitsplatz abgebaut und am 2026-11-09 archiviert; Herdr-Integration claude jetzt v11 |
 
 ---
 
@@ -44,7 +43,7 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-11-09 | #22 seed-skew-aktiv-melden abgenommen und gemergt | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`940a4b1`, `3b6d00d`), impl-review 10/10 FIXED (`226b7ff`), Abnahme beider Manual-Kriterien, Merge `ac5c742`; `kit-sync check` meldet veraltete Seeds; L125–L127, #192 | `2026-11/2026-11-09.md` |
+| 2026-11-09 | #22 seed-skew-aktiv-melden abgenommen und gemergt | Fast-Track im Pane-Worktree, plan-review REVISE → 3 WARNs behoben, Phasen 1–2 (`940a4b1`, `3b6d00d`), impl-review 10/10 FIXED (`226b7ff`), Abnahme beider Manual-Kriterien, Merge `ac5c742`, kit-sync 3/3; `kit-sync check` meldet veraltete Seeds; L125–L127, #192 | `2026-11/2026-11-09.md` |
 | 2026-11-09 | #175 worker-job-ende-meldung archiviert | INBOX- und BACKLOG-Zeile entfernt, Ordner nach `archive/worker-job-ende-meldung/`, ARCHIVE_LOG +2 | `2026-11/2026-11-09.md` |
 | 2026-11-06 | #175 worker-job-ende-meldung abgenommen und gemergt | Discovery → plan-review REVISE → 3 Phasen (`45ba7d6`, `4b48528`, `d80ab5d`), impl-review 10/10 FIXED (`e0a2ba6`), Abnahme per probe.md, Merge `ffe509e`; Stop-Hook-Signal mit Dialog-Schutz; L119–L124, #189–#191 | `2026-11/2026-11-06.md` |
 | 2026-11-06 | Health-Fixes + kit-sync | project-health ✅28 ⚠️2 ❌1; `allowed-tools` (idea-review, meeting-dump) und `project_name` (`ddc7d91`), kit-sync 2/2; #187, #188 | `2026-11/2026-11-06.md` |
@@ -60,6 +59,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive seed-skew-aktiv-melden`
+**Naechster Befehl:** — offen — (mit /dtb:workflow-next bestimmen)
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 110 ungesichtet → /dtb:idea-triage

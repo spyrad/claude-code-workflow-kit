@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-09
 **Ziel:** Ein Projekt, dessen Statusregel-Datei hinter der Kit-Fassung zurückliegt, fällt beim normalen Kit-Check auf statt nur zufällig.
 **Prioritaet:** Hoch
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

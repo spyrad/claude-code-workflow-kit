@@ -121,3 +121,5 @@
 | 2026-11-02 | Feature | idea-rank-schiene | features/idea-rank-schiene/ | Abgenommen 2026-10-29 (Beleg: beispiel-ausgabe.md, Merge `cd05fe2`; Laufzeit-Beleg 2026-11-02: echter /dtb:idea-rank-Lauf, Struktur-Check 6/6) |
 | 2026-11-09 | Idee | #175 "dtb:worker Pane-Modus: Job-Ende-Meldung in Code statt im Worker-Modell" | INBOX.md | Ausgearbeitet → archive/worker-job-ende-meldung/ |
 | 2026-11-09 | Feature | worker-job-ende-meldung | features/worker-job-ende-meldung/ | Abgenommen 2026-11-06 (Beleg: probe.md → Abnahme 3.1–3.3 + Probe 5, Merge `ffe509e`) → Abgeschlossen. 10/10 ueber 3 Phasen im Pane-Worktree, impl-review 10/10 FIXED (`e0a2ba6`), kit-sync 2/2; L119–L124 |
+| 2026-11-09 | Idee | #22 "Seed-Skew aktiv melden" | INBOX.md | Ausgearbeitet → archive/seed-skew-aktiv-melden/ |
+| 2026-11-09 | Feature | seed-skew-aktiv-melden | features/seed-skew-aktiv-melden/ | Abgenommen 2026-11-09 (Beleg: beide Manual-Kriterien in der Pane geprueft, Nachprobe 8 Faelle, Merge `ac5c742`) → Abgeschlossen. 6/6 ueber 2 Phasen im Pane-Worktree (Fast-Track), impl-review 10/10 FIXED (`226b7ff`), kit-sync 3/3; L125–L127 |
