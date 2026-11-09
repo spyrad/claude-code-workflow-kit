@@ -22,6 +22,8 @@ bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).
 
 | # | Datum | Befund | Sichtung |
 |---|-------|--------|----------|
+| 195 | 2026-11-09 | **`dtb:feature-plan` fuehrt im Teil-Guard einen Bash-Block aus, traegt aber kein `Bash` in `allowed-tools`** (vorbestehend, Fund aus #178 plan-in-einem-befehl) — nachziehen und die uebrigen Teil-Guard-Skills auf dieselbe Luecke pruefen. | |
+| 194 | 2026-11-09 | **Struktur-Check in `dtb:feature-fast` verankert den Anker `## Template fuer plan.md` nicht am Zeilenanfang** (`^`) und trifft deshalb auch den Wartungs-Hinweis-Text in `dtb:impl-plan` — falsches Gruen bei umbenannter Ueberschrift moeglich (Fund aus #178 plan-in-einem-befehl). | |
 | 192 | 2026-11-09 | **Rueckweg `dtb:pane-start`: Hand-off-Fakten gegen git pruefen** — der Tick-Ausgang fuer pane-start fuehrt direkt zu `/dtb:workflow-checkpoint`, ohne Branch-Verifikation; im Hand-off #22 (2026-11-09) stand „4 Commits", der Branch trug 3. Idee: Pflichtfeld- und Commit-Abgleich aus `dtb:worker` → `#### Rueckweg: Branch-Verifikation` auch fuer pane-start-Hand-offs vorsehen (verwandt: Befund zum `Dateien:`-Abschnitt aus `git diff --stat`). | |
 | 191 | 2026-11-06 | **Herdr-Kanon in `dtb:worker` gegen Herdr 0.9.4 pruefen** — Start-Sequenz, Ueberwachungs-Tick und Rueckweg sind auf Syntax-Stand 2026-08-16 (0.9.0) belegt; am 2026-11-06 auf 0.9.4 aktualisiert, bisher nur `agent get`, `agent list`, `pane read` und `integration` gegen 0.9.4 gesehen. | |
 | 190 | 2026-11-06 | **„Korrektur senden" an eine laufende Pane per `herdr agent prompt` in `dtb:worker` dokumentieren** (aus #175) — Probe 3a belegt: Eingaben waehrend eines laufenden Turns werden gepuffert und danach verarbeitet; Dialog-Schutz aus #175 (L123) beachten. | |

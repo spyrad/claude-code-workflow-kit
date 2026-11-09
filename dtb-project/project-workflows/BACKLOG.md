@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-11-09 (#22 seed-skew-aktiv-melden archiviert)
+**Letzte Aktualisierung:** 2026-11-09 (#178 plan-in-einem-befehl aus Pane-Hand-off eingetragen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -14,6 +14,7 @@
 |---|---------|--------|------|-------|------|
 | 173 | checkpoint-ohne-rueckfragen | Fertig zum Testen | Mittel | features/checkpoint-ohne-rueckfragen/spec.md | Checkpoint laeuft im Normalfall ohne Rueckfrage |
 | 177 | checkpoint-schneller | Fertig zum Testen | Hoch | features/checkpoint-schneller/spec.md | Checkpoint-Median ≤ 4 aktive min ohne Verlust an Funden |
+| 178 | Plan in einem Befehl | Fertig zum Testen | Mittel | features/plan-in-einem-befehl/spec.md | In der vollen Spur führt nach der Discovery ein einziger Befehl bis zum fertigen Implementierungsplan. |
 
 ---
 
