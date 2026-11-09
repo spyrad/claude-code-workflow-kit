@@ -275,6 +275,6 @@ und normal weiterarbeiten (Schreibgrenzen-Regel: `skills/CLAUDE.md` → „Paral
 ```
 Discovery abgeschlossen: {config.paths.workflows}/features/{slug}/discovery.md
 
-Naechster Schritt: /dtb:feature-plan {Feature-Name}
+Naechster Schritt: /dtb:feature-plan {Feature-Name}   (erzeugt spec.md und plan.md)
   (Die Discovery-Ergebnisse werden automatisch uebernommen)
 ```
