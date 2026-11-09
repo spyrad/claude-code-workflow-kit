@@ -22,6 +22,7 @@ bleibt bei der Befoerderung erhalten (Session-Logs referenzieren Nummern).
 
 | # | Datum | Befund | Sichtung |
 |---|-------|--------|----------|
+| 192 | 2026-11-09 | **Rueckweg `dtb:pane-start`: Hand-off-Fakten gegen git pruefen** — der Tick-Ausgang fuer pane-start fuehrt direkt zu `/dtb:workflow-checkpoint`, ohne Branch-Verifikation; im Hand-off #22 (2026-11-09) stand „4 Commits", der Branch trug 3. Idee: Pflichtfeld- und Commit-Abgleich aus `dtb:worker` → `#### Rueckweg: Branch-Verifikation` auch fuer pane-start-Hand-offs vorsehen (verwandt: Befund zum `Dateien:`-Abschnitt aus `git diff --stat`). | |
 | 191 | 2026-11-06 | **Herdr-Kanon in `dtb:worker` gegen Herdr 0.9.4 pruefen** — Start-Sequenz, Ueberwachungs-Tick und Rueckweg sind auf Syntax-Stand 2026-08-16 (0.9.0) belegt; am 2026-11-06 auf 0.9.4 aktualisiert, bisher nur `agent get`, `agent list`, `pane read` und `integration` gegen 0.9.4 gesehen. | |
 | 190 | 2026-11-06 | **„Korrektur senden" an eine laufende Pane per `herdr agent prompt` in `dtb:worker` dokumentieren** (aus #175) — Probe 3a belegt: Eingaben waehrend eines laufenden Turns werden gepuffert und danach verarbeitet; Dialog-Schutz aus #175 (L123) beachten. | |
 | 189 | 2026-11-06 | **Ueberwachungs-Tick-Pruefliste als Skript statt Modellaufruf** (aus #175) — heute kostet jeder Tick einen Modellaufruf im vollen Orchestrator-Kontext (am 2026-11-06 rund 20 Ticks, die meisten ohne Aenderung); ein Skript koennte nur bei Aenderung melden. | |
