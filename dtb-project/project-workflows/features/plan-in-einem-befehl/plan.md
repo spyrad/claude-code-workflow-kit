@@ -143,12 +143,12 @@ Kit-Doku beschreibt den neuen Ablauf, beide Ausgänge sind an einem Wegwerf-Ordn
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Stopp-Weiche und Frontmatter
-- [x] 1.2 Referenz-Schritt impl-plan
-- [x] 1.3 Backlog-Status, Abschluss, Wartungs-Hinweise
-- [ ] 2.1 Doku und Verweise
-- [ ] 2.2 Probelauf
-- [ ] 2.3 Konsistenz-Sweep
+- [x] 1.1 Stopp-Weiche und Frontmatter — `32437ce`
+- [x] 1.2 Referenz-Schritt impl-plan — `32437ce`
+- [x] 1.3 Backlog-Status, Abschluss, Wartungs-Hinweise — `32437ce`
+- [x] 2.1 Doku und Verweise
+- [x] 2.2 Probelauf
+- [x] 2.3 Konsistenz-Sweep
 
 ---
 

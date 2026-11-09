@@ -73,7 +73,7 @@ cd <dein-projekt>
 | `/dtb:bug-report` | Capture bug report with severity and reproduction steps |
 | `/dtb:debug-plan` | Root-cause analysis and fix strategy for an existing bug |
 | `/dtb:feature-discover` | Analyze idea, scan codebase, gather requirements before spec writing |
-| `/dtb:feature-plan` | Create structured feature specifications (with inbox integration) |
+| `/dtb:feature-plan` | Create structured feature specifications (with inbox integration), then the implementation plan `plan.md` via `impl-plan` in the same run (`nur-spec` stops after the spec) |
 | `/dtb:feature-start` | Start a planned feature from the backlog |
 | `/dtb:impl-plan` | Create implementation plan from feature spec |
 | `/dtb:plan-review` | Structured review with Architekt, Pragmatiker + Senior Dev agents |
