@@ -75,7 +75,7 @@ Statusfelder in BACKLOG.md dienen nur der Konflikterkennung (siehe Schritt 3).
 | `discovery.md` vorhanden, kein `spec.md` | Spec ausstehend | `/dtb:feature-plan [NAME]` |
 | `spec.md` vorhanden, kein `plan.md` | Plan ausstehend | `/dtb:impl-plan [NAME]` |
 | `plan.md` Status `Entwurf`, **0/Y Checkboxen** | Review ausstehend | `/dtb:plan-review [NAME]` |
-| `plan.md` Status `Reviewed`, 0/Y Checkboxen | Start ausstehend | `/dtb:feature-start` |
+| `plan.md` Status `Reviewed`, 0/Y Checkboxen | Start ausstehend | `/dtb:implement [NAME]` |
 | `plan.md` teilweise abgehakt (X/Y) | In Entwicklung | `/dtb:implement [NAME]` — Schritt {erster nicht abgehakter N.M} |
 | `spec.md`/`task.md` `**Status:** Abgenommen`, alle Checkboxen abgehakt | Abgenommen | `/dtb:archive` — Abnahme liegt vor, KEIN erneuter Abnahme-Vorschlag |
 | `plan.md` alle Checkboxen abgehakt | Fertig zum Testen | Manuell testen, Abnahme via `/dtb:workflow-checkpoint` (Beleg-Rueckfrage), dann `/dtb:archive` |

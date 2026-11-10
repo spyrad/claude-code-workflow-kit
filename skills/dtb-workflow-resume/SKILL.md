@@ -242,7 +242,7 @@ verbindliche Regeln in `{config.paths.rules}/DERIVED_STATE_RULES.md`
 - User waehlt welches Feature fortgesetzt wird
 
 **Fall C: Kein Feature "In Arbeit"**
-- Hinweis: "Kein aktives Feature. Starte eines mit `/dtb:feature-start`"
+- Hinweis: "Kein aktives Feature. Starte eines mit `/dtb:implement` (Bug oder Aufgabe: `/dtb:feature-start`)"
 
 ### Lesestand-Pruefung (Lese-Seite)
 
@@ -392,7 +392,7 @@ Welches Feature moechtest du fortsetzen?
 
 ---
 
-Kein aktives Feature. Starte eines mit `/dtb:feature-start`.
+Kein aktives Feature. Starte eines mit `/dtb:implement` (Bug oder Aufgabe: `/dtb:feature-start`).
 ```
 
 ---

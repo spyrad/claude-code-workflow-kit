@@ -8,7 +8,7 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Edit, Grep, Bash
 pipeline:
   stage: session
-  after: [dtb:impl-review, dtb:no-loss-check, dtb:worker]
+  after: [dtb:impl-review, dtb:no-loss-check, dtb:worker, dtb:feature-start]
   next: [dtb:workflow-resume, dtb:idea-triage, dtb:project-dashboard]
   consumes: [BACKLOG.md, INBOX.md, INBOX-BEFUNDE.md, ARCHIVE_LOG.md, features/*/spec.md, features/*/plan.md, features/*/task.md, features/*/review.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, ROADMAP.md, workflow.config.yaml]
   produces: [WORKFLOW_STATUS.md, BACKLOG.md, features/*/spec.md, features/*/task.md, session-log, ROADMAP.md, project-rules/lessons.md, INBOX.md, INBOX-BEFUNDE.md, dtb-session-uebergabe.md, project-dashboard.html]
@@ -428,14 +428,16 @@ Session-Log oder den Kontextblock.
 
 ## Handoff
 
-**Naechster Befehl:** `{konkret abgeleiteter Befehl, z.B. /dtb:feature-start oder /dtb:impl-plan NAME}`
+**Naechster Befehl:** `{konkret abgeleiteter Befehl, z.B. /dtb:implement NAME oder /dtb:impl-plan NAME}`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 ```
 
 ### Handoff generieren (Schritt 4)
 
 Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:workflow-resume` liest ihn).
-- **Naechster Befehl** aus dem abgeleiteten Stand: „Geplant" (0/Y) → `/dtb:feature-start`; „In Arbeit"
+- **Naechster Befehl** aus dem abgeleiteten Stand: „Geplant" (0/Y) → `/dtb:implement {NAME}` bei `Reviewed`,
+  `/dtb:plan-review {NAME}` bei `Entwurf` (Kopf-Statusfeld von `plan.md`, gelesen nach
+  `DERIVED_STATE_RULES.md` §7.3); „In Arbeit"
   (erster offener `## Progress`-Schritt) → `/dtb:implement {NAME}`; „Fertig zum Testen" (Y/Y) ohne
   `features/{slug}/review.md` → `/dtb:impl-review {NAME}` (End-Review vor der Abnahme), mit `review.md`
   Verdikt **REJECTED** → `/dtb:implement {NAME}` (Nacharbeit, danach frisches Review); PLAN fehlt →

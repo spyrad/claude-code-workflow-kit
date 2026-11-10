@@ -102,9 +102,8 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | Skill | Kritisches Artefakt | Redirect (nach Selbst-Ausschluss + `after`-Match) |
 |-------|---------------------|----------------------------------------------------|
 | `impl-plan` | `features/*/spec.md` | `feature-plan` (`workflow-checkpoint` nur Status-Updater) |
-| `plan-review` | `features/*/plan.md` | `impl-plan` (einziger Erzeuger; `feature-start` ergaenzt nur `## Progress` in einem VORHANDENEN Plan und verweigert bei fehlendem selbst) |
-| `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
-| `implement` | `features/*/plan.md` | `impl-plan` (`after`-Match ueber `feature-start` hinweg: feature-start erstellt keinen Plan, es laedt nur Kontext und ruestet allenfalls `## Progress` nach; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
+| `plan-review` | `features/*/plan.md` | `impl-plan` (Erzeuger; `feature-plan` fuehrt es per Referenz aus, `feature-fast` gebuendelt) |
+| `implement` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss; `after`-Match ueber `plan-review` hinweg — plan-review schreibt nur das Kopf-Statusfeld, erzeugt keinen Plan; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `impl-review` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `greenfield-roadmap` | `project-strategy/PRD-MVP.md` | `greenfield-prd` (`after`-Match; Pfad ist kein `features/`-Slug, sondern der feste Strategie-Pfad) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
@@ -327,7 +326,7 @@ nicht beschrieben, der Backlog-Eintrag geht in den Hand-off) — diese Konventio
 
 Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; F = Zusatz
 `triage-vorsortierung` 2026-10-16; G = Zusatz `pane-session-neustart` 2026-10-21; H = Zusatz
-`lektionen-kuratieren` 2026-10-28; I = Zusatz `checkpoint-schneller` 2026-11-02 (erweitert `checkpoint-ohne-rueckfragen` 2026-11-03).
+`lektionen-kuratieren` 2026-10-28; I = Zusatz `checkpoint-schneller` 2026-11-02 (erweitert `checkpoint-ohne-rueckfragen` 2026-11-03); J = Zusatz `implement-ohne-feature-start` 2026-11-10.
 
 | Z | Skill · Stelle | Frueher | Jetzt (Form) |
 |---|----------------|---------|--------------|
@@ -340,7 +339,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | 11 | `implement` Ritual Punkt 11 — Naechste Phase | 1/2/3 | **Stille Anzeige** „weiter mit Phase N+1"; Schwelle 2 Phasen je Session oder Kontext verdichtet → Wiedereinstiegs-Kommando |
 | 13 | `impl-review` Schritt 9 — Triage | eine Frage je Finding | Einzel-Findings (`S:Hoch`, FAIL-Achse oder zwei Fix-Optionen) einzeln; Rest als **Sammelliste**; Achsen-Verdikte stehen im Snapshot (Resume) |
 | 14 | `feature-discover` Schritt 2 · `impl-plan` 2b — Scan-Liste | „Stimmt das so?" | **Textzeile** |
-| 15 | `feature-start` Abschluss (Feature) | „Bereit? Starte …" | **Stille Anzeige** `→ Weiter mit: /dtb:implement {Name}` |
+| 15 | `feature-start` Abschluss (Feature) | „Bereit? Starte …" | seit 2026-11-10 entfallen — Feature-Weg fuehrt direkt in `implement` (feature-start nur noch Bug/Aufgabe, siehe E) |
 | 16 | `impl-plan` · `debug-plan` — Lektion-Kandidat | ja/nein | **Stille Anzeige** (Vormerk-Zeile), siehe C |
 | A | `bug-report` Schritt 5 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
 | B | Slug-Default (zu Z1) | kit-spezifisch | „Liefert das Feature etwas mit festem Namen (Skill, Datei, Befehl), uebernimmt der Slug diesen Namen" — inline, NICHT in `DERIVED_STATE_RULES.md` (Klasse-B-Seed) |
@@ -351,6 +350,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | G | `workflow-checkpoint` Sende-Seite (verlinkter Worktree) — Weiche Wechsel/Ende · `workflow-resume` Schritt 2a — Orchestrator-Adresse | — (neu) | **Textzeile**, Vorschlag abgeleitet (Checkliste des Changes vollstaendig und keine Zeile `^Decision: PENDING` in `review.md` → Ende, sonst Wechsel; Fehlwahl kostet nur einen erneuten Checkpoint) — benannte Abweichung von der Textzeilen-Form: Antwort nur `„Wechsel"`/`„Ende"`, KEIN `weiter = uebernehmen` (Abnahme 2026-10-22: „weiter" wurde als „Arbeit geht weiter" gelesen und landete in „Ende"); fehlende bzw. nicht erreichbare Adresse → **Textzeile** `weiter = ohne (Block manuell tragen)` |
 | H | `lesson-curate` Schritt 4/5 — Ausmusterungs-Vorschlaege der Voranalyse | — (neu) | **Sammelliste** wie F (`Alle uebernehmen` / `Nummern streichen` / `Einzeln durchgehen`), nur Sicherheit `hoch` mit pruefbarem Ort; Einzelfaelle (`mittel`, ohne Ort, Ketten/Kreise bei `doppelt`) einzeln mit Knopf `Ausmustern` / `Behalten` (bei `doppelt` zusaetzlich `Die andere ausmustern`); gestrichen = einzeln, nie ausgemustert; unklare Antwort → behalten |
 | I | `workflow-checkpoint` Schritt 6 — Commit nach dem Checkpoint · Schritt 0 — Verlustfunde · Schritt 1 „⏳ Alter" und `#### Kontrollpunkt (eine Rueckfrage-Runde)` | Commit: vom Modell ungefragt angeboten (in keinem Skill verlangt) · drei Runden nacheinander (Verlust-Sammelvorlage, Zuordnungsfragen, ⏳-Vorlage), 2026-11-02 gebuendelt zu einem Kontrollpunkt mit drei Teilen | Commit: **Stille Anzeige** `→ Weiter mit: /dtb:commit-and-push`, ausdruecklich keine Commit-Rueckfrage · Verlustfunde: Schritt 0 erfasst ohne Rueckfrage, sichtbar im Erfassungs-Block der Bestaetigung (je Lektion der gekuerzte Regelsatz, Korrekturweg `/dtb:lesson-curate`); mehr als 10 Funde → nichts erfassen, Befehle bleiben im Report · ⏳: **Stille Anzeige** (eine Zeile in der Bestaetigung), keine Frage, kein `· behalten`-Stempel · Kontrollpunkt: EINE Nachricht nur noch fuer moegliche Duplikate (unscharfer Vergleich, Kopplungsregel „Meldeform folgt Vergleichsschaerfe") und unsichere Aufgaben-Zuordnung bzw. Abgang ohne Beleg, fortlaufend nummeriert, je Nummer ja/nein; ohne solche Frage keine Runde; ohne Angabe genau eine Fallback-Rueckfrage (sonst stille Dublette); Abnahme-Frage und fehlende Hand-off-Pflichtfelder bleiben eigene Fragen (Messung 2026-11-02: Warten = 39 % der Checkpoint-Zeit, Commit-Frage allein 35 % der Wartezeit; Bestaetigungen ohne Informationsgewinn entfernt 2026-11-03, `checkpoint-ohne-rueckfragen`) |
+| J | `implement` Schritt 1 — Auswahl ohne Argument, genau ein Kandidat | — (neu) | **Textzeile** `→ {Feature-Name} ({slug}) — weiter = uebernehmen · oder anderen Namen nennen`; mehrere Kandidaten → nummerierte Liste, keiner → Meldung und Stopp |
 
 **Bewusst beim Menschen (nie automatisch, unveraendert):** Kleinfall-Weiche (Z5), Escape-Hatch
 „trotzdem fortfahren" (Z6), Manual-Gate als Entscheidung (Z8 — nur die Form aendert sich, D),
@@ -472,8 +472,8 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 |-----------|----------------------------------|--------|
 | **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint` (Sonderfall: schreibt im verlinkten Worktree ausschliesslich die Uebergabe-Notiz im Git-Verwaltungsordner — ausserhalb des Arbeitsbaums, nie committet, nie global; die Schreibgrenzen-Regel bleibt unberuehrt), `idea`, `idea-review`, `archive`, `lesson`, `lesson-curate`, `meeting-dump`, `task`, `bug-report`, `pane-start` (Sonderfall: `produces` leer — Voll-Guard aus betrieblichem Grund, verlinkte Worktrees legt man nur vom Haupt-Checkout aus an) |
 | **Teil-Guard** (hybrid) | Laeuft normal am EIGENEN Change, ueberspringt aber die globalen Schreibschritte (INBOX-Status/-Link, BACKLOG-Eintrag) mit einer Hinweiszeile; das Uebersprungene gehoert in den Hand-off | `feature-discover`, `feature-plan`, `feature-fast` |
-| **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `feature-start`, `debug-plan`, `impl-review`, `open-question` |
-| **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `idea-rank`, `no-loss-check`, `pipeline-graph`, `project-dashboard`, … |
+| **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `debug-plan`, `impl-review`, `open-question` |
+| **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `idea-rank`, `no-loss-check`, `pipeline-graph`, `project-dashboard`, `feature-start` (seit 2026-11-10 `produces: []` — laedt nur Bug-/Aufgaben-Kontext), … |
 
 Einteilungs-Kriterium ist das `produces:`-Frontmatter — mechanisch pruefen, nie
 schaetzen: Erzeugt ein Skill NEUE Change-Ordner oder schreibt er quer (zentrale Dateien,

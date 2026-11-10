@@ -10,7 +10,7 @@ argument-hint: "[Feature-Name]"
 pipeline:
   stage: planning
   after: [dtb:impl-plan, dtb:feature-fast]
-  next: [dtb:feature-start]
+  next: [dtb:implement]
   consumes: [features/*/plan.md, features/*/spec.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
   produces: [features/*/plan.md]
 ---
@@ -43,7 +43,7 @@ der Nutzer die Escape-Hatch bestaetigt:
 ```
 ⛔ plan-review braucht einen Implementierungsplan, der fehlt.
    Geprueft: features/{slug}/plan.md — nicht gefunden.
-   → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (einziger Erzeuger)
+   → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (Erzeuger; auch via /dtb:feature-plan oder /dtb:feature-fast)
 
    Fehlalarm (plan.md existiert doch) oder bewusst ohne fortfahren? „trotzdem fortfahren" bestaetigen.
 ```
