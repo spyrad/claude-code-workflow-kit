@@ -2,16 +2,18 @@
 name: dtb:implement
 description: >-
   Use when: "implementieren", "Plan umsetzen", "implement", "weiter umsetzen",
-  "naechste Phase umsetzen", "Schritte umsetzen". Drives an implementation plan
-  (features/<slug>/plan.md) phase by phase in the 3x3 rhythm and enforces the
-  verification gate at each phase end: checkpoint criteria, manual confirmation,
-  commit, SHA write-back into the flipped progress rows.
+  "naechste Phase umsetzen", "Schritte umsetzen", "Feature starten",
+  "naechstes Feature". Drives an implementation plan (features/<slug>/plan.md)
+  phase by phase in the 3x3 rhythm and enforces the verification gate at each
+  phase end: checkpoint criteria, manual confirmation, commit, SHA write-back
+  into the flipped progress rows. Without an argument it offers the features with
+  open plan steps; it is the one entry into implementation after plan-review.
 disable-model-invocation: true
 argument-hint: "[Feature-Name oder Slug] [phase N]"
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 pipeline:
   stage: implementation
-  after: [dtb:feature-start]
+  after: [dtb:plan-review]
   next: [dtb:impl-review]
   consumes: [features/*/plan.md, features/*/spec.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, workflow.config.yaml]
   produces: [features/*/plan.md]
@@ -43,8 +45,37 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 ## Schritt 1: Plan aufloesen
 
 1. Ermittle den Slug aus dem Argument oder Chat-Kontext (Regeln:
-   `{config.paths.rules}/DERIVED_STATE_RULES.md` §4). Unklar → Feature-Namen erfragen,
-   DANN pruefen (nicht raten). Optionales zweites Argument `phase N` merken.
+   `{config.paths.rules}/DERIVED_STATE_RULES.md` §4). Optionales zweites Argument `phase N`
+   merken. Unklar → **Auswahl** (unten), DANN pruefen (nicht raten).
+
+   **Auswahl ohne Argument** (kein Argument und kein eindeutiger Kontext — ersetzt den
+   frueheren Vorschritt `dtb:feature-start` fuer Features; mit Argument entfaellt sie):
+   - Kandidaten: jeder Ordner `{config.paths.workflows}/features/*/` mit `plan.md`, dessen
+     `## Progress` mindestens eine offene `- [ ]`-Zeile hat (`archive/` liegt ausserhalb und
+     bleibt aussen vor). Gruppe nach `DERIVED_STATE_RULES.md` §1.1: 0 Zeilen abgehakt →
+     „Geplant", sonst „In Arbeit"
+   - Je Zeile der **Review-Stand**: erstes Wort der `**Status:**`-Zeile in den ersten 10
+     Zeilen von `plan.md` (§7 — `Entwurf` oder `Reviewed`; fehlt sie → `—`). Reine Anzeige,
+     keine Sperre: ein ungepruefter Plan faellt auf, darf aber gestartet werden
+   - Anzeige (leere Gruppe weglassen; Name aus der Titelzeile von `spec.md`, fehlt sie → Slug):
+     ```
+     # Umsetzung starten
+
+     Geplant:
+       1. {Feature-Name} ({slug}) — Plan: {Entwurf|Reviewed|—}
+     In Arbeit:
+       2. {Feature-Name} ({slug}) — {X}/{Y}, Plan: {Entwurf|Reviewed|—}
+
+     Welches Feature? (Nummer oder Name)
+     ```
+   - **Genau ein Kandidat** → keine Liste, sondern Textzeile
+     `→ {Feature-Name} ({slug}) — weiter = uebernehmen · oder anderen Namen nennen`
+   - **Kein Kandidat** → melden und stoppen:
+     ```
+     Nichts umzusetzen — kein Plan mit offenen Schritten.
+       Plan fehlt: /dtb:impl-plan {Feature-Name} · Bug oder Aufgabe: /dtb:feature-start
+     ```
+   - Die Wahl durchlaeuft danach Archiv-Weigerung und Eligibility-Gate wie ein Argument
 2. **Archiv-Weigerung:** Existiert `{config.paths.workflows}/archive/{slug}/` (und kein
    aktiver Ordner `features/{slug}/`) → harte Weigerung, KEINE Escape-Hatch:
    ```
@@ -89,13 +120,16 @@ Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (keine Umsetzung ohne P
    - Kriterien fehlen oder sind ungeteilt → **alle als Manual behandeln** (das Gate entfaellt
      nie, es wandert zum Menschen) + einmalig Nachruestung anbieten:
      `⚠ Phase {N} ohne (geteilte) Checkpoint-Kriterien — behandle alle als Manual. Nachruesten? (/dtb:impl-plan aktualisieren)`
-5. **Status zeigen (kompakt):** Feature, Fortschritt X/Y, aktuelle Phase + Ziel, naechste
-   Schritte. Dann in den Umsetzungs-Loop.
+5. **Status zeigen (kompakt):** Feature, **Ziel und Scope aus `spec.md`** (2-3 Zeilen: die
+   Kopfzeile `**Ziel:**`, dazu der Kern der Executive Summary — fehlt `spec.md`, entfallen
+   sie still, kein Abbruch), Fortschritt X/Y, aktuelle Phase + Ziel, naechste Schritte. Dann
+   in den Umsetzungs-Loop. (Die Ziel-Zeilen ersetzen den Kontextblock des frueheren
+   Vorschritts `dtb:feature-start`.)
 
 ## Schritt 3: Umsetzungs-Loop (3x3-Rhythmus)
 
-> Kanonische Beschreibung des Rhythmus — andere Skills (`dtb:feature-start`,
-> `dtb:impl-plan`-Template) verweisen hierher statt ihn zu duplizieren.
+> Kanonische Beschreibung des Rhythmus — andere Skills (`dtb:impl-plan`-Template) verweisen
+> hierher statt ihn zu duplizieren.
 
 1. **Implementiere max. 3 Schritte** aus dem Plan (in Plan-Reihenfolge; Phasengrenzen
    respektieren — der Block endet spaetestens am Phasen-Ende)
@@ -257,8 +291,9 @@ nie still uebersprungen**. Es macht die SHA zum Verifikations-Beleg.
 
 ## Verwandte Skills
 
-- `/dtb:impl-plan` — erzeugt den Plan mit Automated/Manual-Kriterien (Vorgaenger)
-- `/dtb:feature-start` — laedt den Kontext des Items und uebergibt hierher (schreibt keine Anzeigefelder)
+- `/dtb:plan-review` — prueft den Plan; danach geht es direkt hierher (Vorgaenger in der Kette)
+- `/dtb:impl-plan` — erzeugt den Plan mit Automated/Manual-Kriterien
+- `/dtb:feature-start` — Einstieg fuer analysierte Bugs und offene Aufgaben (ohne `plan.md`); Features starten direkt hier
 - `/dtb:impl-review` — Feature-End-Review: Plan-Drift + Craft + Rules (Nachfolger)
 - `/dtb:workflow-checkpoint` — Session-Ende, Status-Sync, Abnahme mit Beleg-Rueckfrage
 - `/dtb:lesson` — Lektion festhalten (Prior-Quelle)
