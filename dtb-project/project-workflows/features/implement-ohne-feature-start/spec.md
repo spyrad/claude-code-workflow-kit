@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-10
 **Ziel:** Nach dem Plan-Review fuehrt genau ein Befehl in die Umsetzung — `dtb:implement`, ohne vorgeschalteten `dtb:feature-start`.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

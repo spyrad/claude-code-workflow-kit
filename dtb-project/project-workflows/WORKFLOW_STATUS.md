@@ -11,7 +11,7 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
-| implement-ohne-feature-start | Fertig zum Testen | 8/8 | impl-review-Folgelauf in der Pane, dann Abnahme |
+| implement-ohne-feature-start | Abgenommen | 8/8 | /dtb:archive implement-ohne-feature-start |
 
 ---
 
@@ -20,13 +20,14 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #179 implement-ohne-feature-start im Pane `w3:p11` fertig (Branch `feature/implement-ohne-feature-start`, 3 Commits, nicht gepusht) — Folgelauf impl-review offen |
+| **Notizen** | #179 implement-ohne-feature-start abgenommen und gemergt (`3ab951d`) — Push, kit-sync, Abbau von Worktree/Branch und Archiv offen |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#179 implement-ohne-feature-start: impl-review-Folgelauf in der Pane, dann Abnahme, Merge, kit-sync** — Kontext: Hand-off 13:45 + Nachtrag `52efdd8`; Folgelauf nach den strukturellen Triage-Fixes (v. a. Auswahl-Gruppe „Progress fehlt" in implement), Manual-Kriterien beider Phasen schon bestätigt (seit 2026-11-10)
+- [ ] **#179 implement-ohne-feature-start: Nachlauf nach dem Merge — kit-sync, Worktree und Branch entfernen, archivieren** — Kontext: Abnahme und Merge `3ab951d` erledigt; Pane `w3:p11` mit `/exit` beenden, dann `git worktree remove` für `.dtb-worktrees/pane-implement-ohne-feature-start`, `git branch -d feature/implement-ohne-feature-start`, `/dtb:archive implement-ohne-feature-start` (seit 2026-11-10)
+- [ ] **INBOX #112 (Checkliste vor dem Feature-Start) auf `dtb:implement` Schritt 1 umhängen** — Kontext: seit #179 startet `feature-start` keine Features mehr; beim nächsten `/dtb:idea-review` umformulieren (Nachtrag 2 zum Hand-off #179) (seit 2026-11-10)
 - [ ] **#178 plan-in-einem-befehl: ersten echten `/dtb:feature-plan`-Lauf beobachten** — Kontext: Beleg mit frischem Blick; dabei Backlog-Zweig (Status Geplant bzw. Spezifiziert) und Fehlerpfad „impl-plan nicht installiert" ansehen — im Probelauf nicht gefahren; Fehlerpfad „Anker fehlt" bei der Abnahme an einer Kopie belegt (seit 2026-11-09)
 - [ ] **#22 seed-skew-aktiv-melden: fetch-Teil der Abhilfe-Befehle im ersten echten Bestandsprojekt-Lauf beobachten** — Kontext: im Pane bewusst ungetestet (Kit-Klon nicht angefasst), show/diff/mv an einer Kopie gruen; naechster `kit-sync check` in einem Zielprojekt mit altem Seed (z. B. PKP) (seit 2026-11-09)
 - [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen: gemeinsame Nachmessung bis 2026-12-02** — Kontext: Kriterium in `features/checkpoint-ohne-rueckfragen/spec.md` (Success Criteria, Ausgangswert 89 Läufe: Kern-Median 5,0 min); chain-metrics + `checkpoint-phasen.py --rueckfragen`, 3 Vergleichsläufe mit denselben Funden (seit 2026-11-02) ⏳
