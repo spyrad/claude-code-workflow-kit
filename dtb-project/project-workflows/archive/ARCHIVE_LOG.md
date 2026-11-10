@@ -125,3 +125,5 @@
 | 2026-11-09 | Feature | seed-skew-aktiv-melden | features/seed-skew-aktiv-melden/ | Abgenommen 2026-11-09 (Beleg: beide Manual-Kriterien in der Pane geprueft, Nachprobe 8 Faelle, Merge `ac5c742`) → Abgeschlossen. 6/6 ueber 2 Phasen im Pane-Worktree (Fast-Track), impl-review 10/10 FIXED (`226b7ff`), kit-sync 3/3; L125–L127 |
 | 2026-11-09 | Idee | #178 "Kette straffen (2/4): feature-plan und impl-plan mit einem Befehl" | INBOX.md | Ausgearbeitet → archive/plan-in-einem-befehl/ |
 | 2026-11-09 | Feature | plan-in-einem-befehl | features/plan-in-einem-befehl/ | Abgenommen 2026-11-09 (Beleg: Probelauf A/B + Fehlerpfad „Anker fehlt“ an einer Kopie, Merge `4bc2a47`) → Abgeschlossen |
+| 2026-11-10 | Idee | #179 "Kette straffen (3/4): feature-start vor implement überflüssig machen" | INBOX.md | Ausgearbeitet → archive/implement-ohne-feature-start/ |
+| 2026-11-10 | Feature | implement-ohne-feature-start | features/implement-ohne-feature-start/ | Abgenommen 2026-11-10 (Beleg: Auswahl in implement an echter Ausgabe abgenommen, Gegenprobe 25 Treffer / 0 Defekte, zwei impl-review-Läufe je 8 FIXED, Merge `3ab951d`) → Abgeschlossen |

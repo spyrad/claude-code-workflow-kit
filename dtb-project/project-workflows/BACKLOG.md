@@ -14,7 +14,6 @@
 |---|---------|--------|------|-------|------|
 | 173 | checkpoint-ohne-rueckfragen | Fertig zum Testen | Mittel | features/checkpoint-ohne-rueckfragen/spec.md | Checkpoint laeuft im Normalfall ohne Rueckfrage |
 | 177 | checkpoint-schneller | Fertig zum Testen | Hoch | features/checkpoint-schneller/spec.md | Checkpoint-Median ≤ 4 aktive min ohne Verlust an Funden |
-| 179 | implement-ohne-feature-start | Abgenommen | Mittel | features/implement-ohne-feature-start/spec.md | Nach dem Plan-Review fuehrt genau ein Befehl in die Umsetzung — dtb:implement, ohne vorgeschalteten dtb:feature-start |
 
 ---
 
