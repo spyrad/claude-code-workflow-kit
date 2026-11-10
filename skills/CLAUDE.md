@@ -102,9 +102,8 @@ Frontmatter-verifiziert 2026-07-10 (`produces`-Rückwärtssuche per Grep belegt)
 | Skill | Kritisches Artefakt | Redirect (nach Selbst-Ausschluss + `after`-Match) |
 |-------|---------------------|----------------------------------------------------|
 | `impl-plan` | `features/*/spec.md` | `feature-plan` (`workflow-checkpoint` nur Status-Updater) |
-| `plan-review` | `features/*/plan.md` | `impl-plan` (einziger Erzeuger; `feature-start` ergaenzt nur `## Progress` in einem VORHANDENEN Plan und verweigert bei fehlendem selbst) |
-| `feature-start` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss) |
-| `implement` | `features/*/plan.md` | `impl-plan` (`after`-Match ueber `feature-start` hinweg: feature-start erstellt keinen Plan, es laedt nur Kontext und ruestet allenfalls `## Progress` nach; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
+| `plan-review` | `features/*/plan.md` | `impl-plan` (einziger Erzeuger) |
+| `implement` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss; `after`-Match ueber `plan-review` hinweg — plan-review erstellt keinen Plan; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `impl-review` | `features/*/plan.md` | `impl-plan` (nach Selbst-Ausschluss; zusaetzlich harte Archiv-Weigerung ohne Escape-Hatch) |
 | `greenfield-roadmap` | `project-strategy/PRD-MVP.md` | `greenfield-prd` (`after`-Match; Pfad ist kein `features/`-Slug, sondern der feste Strategie-Pfad) |
 | `debug-plan` | `features/*/bug.md` | `bug-report` (nach Selbst-Ausschluss; `debug-plan` nur Fix-Updater) |
@@ -340,7 +339,7 @@ Z = Zeile der Festlegung 2026-09-22; A–E = Zusaetze der Discovery 2026-09-30; 
 | 11 | `implement` Ritual Punkt 11 — Naechste Phase | 1/2/3 | **Stille Anzeige** „weiter mit Phase N+1"; Schwelle 2 Phasen je Session oder Kontext verdichtet → Wiedereinstiegs-Kommando |
 | 13 | `impl-review` Schritt 9 — Triage | eine Frage je Finding | Einzel-Findings (`S:Hoch`, FAIL-Achse oder zwei Fix-Optionen) einzeln; Rest als **Sammelliste**; Achsen-Verdikte stehen im Snapshot (Resume) |
 | 14 | `feature-discover` Schritt 2 · `impl-plan` 2b — Scan-Liste | „Stimmt das so?" | **Textzeile** |
-| 15 | `feature-start` Abschluss (Feature) | „Bereit? Starte …" | **Stille Anzeige** `→ Weiter mit: /dtb:implement {Name}` |
+| 15 | `feature-start` Abschluss (Feature) | „Bereit? Starte …" | seit 2026-11-10 entfallen — Feature-Weg fuehrt direkt in `implement` (feature-start nur noch Bug/Aufgabe, siehe E) |
 | 16 | `impl-plan` · `debug-plan` — Lektion-Kandidat | ja/nein | **Stille Anzeige** (Vormerk-Zeile), siehe C |
 | A | `bug-report` Schritt 5 — Backlog | Ja/Nein | **Stille Anzeige**, Testordner-Ausnahme |
 | B | Slug-Default (zu Z1) | kit-spezifisch | „Liefert das Feature etwas mit festem Namen (Skill, Datei, Befehl), uebernimmt der Slug diesen Namen" — inline, NICHT in `DERIVED_STATE_RULES.md` (Klasse-B-Seed) |
@@ -472,8 +471,8 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
 |-----------|----------------------------------|--------|
 | **Voll-Guard** (nur Orchestrator) | Harter Abbruch vor dem ersten Schreiben (Vorlage unten) | `workflow-checkpoint` (Sonderfall: schreibt im verlinkten Worktree ausschliesslich die Uebergabe-Notiz im Git-Verwaltungsordner — ausserhalb des Arbeitsbaums, nie committet, nie global; die Schreibgrenzen-Regel bleibt unberuehrt), `idea`, `idea-review`, `archive`, `lesson`, `lesson-curate`, `meeting-dump`, `task`, `bug-report`, `pane-start` (Sonderfall: `produces` leer — Voll-Guard aus betrieblichem Grund, verlinkte Worktrees legt man nur vom Haupt-Checkout aus an) |
 | **Teil-Guard** (hybrid) | Laeuft normal am EIGENEN Change, ueberspringt aber die globalen Schreibschritte (INBOX-Status/-Link, BACKLOG-Eintrag) mit einer Hinweiszeile; das Uebersprungene gehoert in den Hand-off | `feature-discover`, `feature-plan`, `feature-fast` |
-| **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `feature-start`, `debug-plan`, `impl-review`, `open-question` |
-| **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `idea-rank`, `no-loss-check`, `pipeline-graph`, `project-dashboard`, … |
+| **Worktree-faehig** | Unveraendert (schreiben nur `features/<slug>/` des eigenen Changes) | `impl-plan`, `implement`, `debug-plan`, `impl-review`, `open-question` |
+| **Read-only-Sichten** | Unveraendert — Lesen ist ungefaehrlich (Lesestand kann veraltet sein) | `workflow-next`, `workflow-status`, `backlog-status`, `session-summary`, `meeting-agenda`, `idea-rank`, `no-loss-check`, `pipeline-graph`, `project-dashboard`, `feature-start` (seit 2026-11-10 `produces: []` — laedt nur Bug-/Aufgaben-Kontext), … |
 
 Einteilungs-Kriterium ist das `produces:`-Frontmatter — mechanisch pruefen, nie
 schaetzen: Erzeugt ein Skill NEUE Change-Ordner oder schreibt er quer (zentrale Dateien,

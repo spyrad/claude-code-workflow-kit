@@ -74,9 +74,10 @@ cd <dein-projekt>
 | `/dtb:debug-plan` | Root-cause analysis and fix strategy for an existing bug |
 | `/dtb:feature-discover` | Analyze idea, scan codebase, gather requirements before spec writing |
 | `/dtb:feature-plan` | Create structured feature specifications (with inbox integration), then the implementation plan `plan.md` via `impl-plan` in the same run (`nur-spec` stops after the spec) |
-| `/dtb:feature-start` | Start a planned feature from the backlog |
+| `/dtb:feature-start` | Start an analyzed bug fix or an open task (features start directly with `/dtb:implement`) |
 | `/dtb:impl-plan` | Create implementation plan from feature spec |
 | `/dtb:plan-review` | Structured review with Architekt, Pragmatiker + Senior Dev agents |
+| `/dtb:implement` | Drive the reviewed plan phase by phase (3x3 rhythm, verification gate per phase); without an argument it offers the features with open plan steps — the one entry into implementation after plan-review |
 | `/dtb:build-check` | Build verification |
 | `/dtb:code-review` | Review code changes against project-specific rules |
 | `/dtb:generate-rules` | Generate coding rules/guidelines from codebase analysis |

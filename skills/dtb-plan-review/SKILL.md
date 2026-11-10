@@ -10,7 +10,7 @@ argument-hint: "[Feature-Name]"
 pipeline:
   stage: planning
   after: [dtb:impl-plan, dtb:feature-fast]
-  next: [dtb:feature-start]
+  next: [dtb:implement]
   consumes: [features/*/plan.md, features/*/spec.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
   produces: [features/*/plan.md]
 ---

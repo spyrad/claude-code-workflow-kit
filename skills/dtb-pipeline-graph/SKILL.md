@@ -184,7 +184,7 @@ flowchart TD
 Regeln:
 - Knoten-ID: Skill-Name ohne `dtb:` Praefix, Bindestriche durch Unterstriche ersetzen
 - Knoten-Label: Voller `dtb:*` Name
-- Kanten nur zwischen Skills mit explizitem `after`/`next`; beide sind **Listen** → **eine Kante pro Element** (z.B. `project-init` → 3 Nachfolger, `feature-start` ← 2 Vorgaenger)
+- Kanten nur zwischen Skills mit explizitem `after`/`next`; beide sind **Listen** → **eine Kante pro Element** (z.B. `project-init` → 3 Nachfolger, `plan-review` ← 2 Vorgaenger)
 - Monitoring-Skills **deklarieren selbst keine** Kanten (`after`/`next` = `null`); eingehende
   Kanten aus Nachbar-Skills werden trotzdem gezeichnet (z.B. `open-question` → `workflow-next`,
   `open-question` → `meeting-agenda`) — sonst waeren Gegenkanten wirkungslos
@@ -196,14 +196,14 @@ Wickle das Diagramm in ein `<div class="mermaid">` Element.
 Generiere die Pipeline als Textzeile:
 
 ```
-Feature: project-init → idea → idea-review → feature-discover → feature-plan → impl-plan → plan-review → feature-start → implement → impl-review → workflow-checkpoint → workflow-resume
+Feature: project-init → idea → idea-review → feature-discover → feature-plan → impl-plan → plan-review → implement → impl-review → workflow-checkpoint → workflow-resume
 Bug:     bug-report → debug-plan → feature-start → implement → impl-review → workflow-checkpoint → workflow-resume
 ```
 
 Zeige den typischen linearen Haupt-Durchlauf als Lesehilfe (Feature-/Bug-Pfad separat) — bewusst auf den dominanten Pfad linearisiert, **nicht** 1:1 kantenabgeleitet; die vollstaendigen Verzweigungen stehen im Flowchart (Sektion 1).
 
 Wickle den Text in ein `<pre class="code">` Element mit der Annotation:
-> Die Bug-Pipeline muendet bei `feature-start` in die Feature-Pipeline ein. Monitoring-Skills stehen seitlich — sie lesen quer ueber alle Artefakte.
+> Die Bug-Pipeline muendet ueber `feature-start` bei `implement` in die Feature-Pipeline ein (Features gehen seit 2026-11-10 direkt von `plan-review` zu `implement`). Monitoring-Skills stehen seitlich — sie lesen quer ueber alle Artefakte.
 
 ### Sektion 3: Skill-Uebersicht nach Stage
 

@@ -1,25 +1,27 @@
 ---
 name: dtb:feature-start
 description: >-
-  Use when: "Feature starten", "feature start", "naechstes Feature",
-  "Feature aus Backlog starten", "Bug fixen", "Bug-Fix starten",
-  "Aufgabe starten", "Task starten".
-  Loads a planned feature, analyzed bug, or open task from the backlog and
-  shows its context and entry point; may add a missing `## Progress`
-  section to its plan. Status displays remain untouched.
+  Use when: "Bug fixen", "Bug-Fix starten", "Aufgabe starten", "Task starten".
+  Loads an analyzed bug or an open task and shows its context and entry point.
+  Features are not started here: after plan-review, dtb:implement is the one
+  entry into implementation. Status displays remain untouched.
 disable-model-invocation: true
-allowed-tools: Read, Glob, Edit
+allowed-tools: Read, Glob
 pipeline:
   stage: implementation
-  after: [dtb:plan-review, dtb:debug-plan]
+  after: [dtb:debug-plan]
   next: [dtb:implement]
-  consumes: [BACKLOG.md, features/*/spec.md, features/*/plan.md, features/*/bug.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
-  produces: [features/*/plan.md]
+  consumes: [features/*/bug.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
+  produces: []
 ---
 
-# Feature, Bug-Fix oder Aufgabe starten
+# Bug-Fix oder Aufgabe starten
 
-Du startest ein neues Feature aus dem Backlog, einen analysierten Bug-Fix oder eine offene Aufgabe.
+Du startest einen analysierten Bug-Fix oder eine offene Aufgabe — beides ohne `plan.md`.
+
+> **Features starten nicht hier** (seit 2026-11-10): Nach `dtb:plan-review` fuehrt
+> `/dtb:implement {Feature-Name}` direkt in die Umsetzung — es zeigt ohne Argument selbst die
+> Auswahl, laedt den Kontext aus `spec.md` und ruestet eine fehlende `## Progress`-Sektion nach.
 
 ## Aufgabe
 
@@ -33,43 +35,44 @@ workflow.config.yaml nicht gefunden.
 Erstelle eine Config-Datei mit /dtb:project-init.
 ```
 
-### Schritt 2: Backlog, Bugs und Tasks lesen
+### Schritt 2: Bugs und Aufgaben lesen
 
-1. **Lies das Backlog:** `{config.paths.workflows}/BACKLOG.md`
-2. **Filtere Features mit Status "Geplant"** (Change-Ordner mit `plan.md`, 0 Progress-Checkboxen)
-3. **Scanne Bug-Reports:** `{config.paths.workflows}/features/*/bug.md`
-4. **Filtere Bugs mit Status "Analysiert"** (haben einen Debug-Plan, sind bereit zum Fixen)
-5. **Scanne Aufgaben:** `{config.paths.workflows}/features/*/task.md`
-6. **Filtere Tasks mit Status "Offen"**
+1. **Scanne Bug-Reports:** `{config.paths.workflows}/features/*/bug.md`
+2. **Filtere Bugs mit Status "Analysiert"** (haben einen Debug-Plan, sind bereit zum Fixen)
+3. **Scanne Aufgaben:** `{config.paths.workflows}/features/*/task.md`
+4. **Filtere Tasks mit Status "Offen"**
 
-Falls weder geplante Features, analysierte Bugs noch offene Aufgaben vorhanden:
+**Feature genannt** (Argument oder Kontext zeigt auf einen Change-Ordner mit `spec.md`/`plan.md`
+statt `bug.md`/`task.md`) → keine Auswahl, genau eine Zeile und Ende:
 ```
-Nichts zu starten — keine geplanten Features, analysierten Bugs oder offenen Aufgaben.
+→ Features startet /dtb:implement {Feature-Name} direkt
+```
+
+Falls weder analysierte Bugs noch offene Aufgaben vorhanden:
+```
+Nichts zu starten — keine analysierten Bugs oder offenen Aufgaben.
+  Features: /dtb:implement
 ```
 
 ### Schritt 3: Auswahl
 
-Zeige Features, Bugs und Aufgaben als gemeinsame Auswahlliste:
+Zeige Bugs und Aufgaben als gemeinsame Auswahlliste:
 
 ```
-# Feature / Bug-Fix / Aufgabe starten
-
-Geplante Features:
-  1. {Feature-Name} ({Prio})
-  2. {Feature-Name} ({Prio})
+# Bug-Fix / Aufgabe starten
 
 Analysierte Bugs:
-  3. Bug: {Bug-Name} ({Severity})
-  4. Bug: {Bug-Name} ({Severity})
+  1. Bug: {Bug-Name} ({Severity})
+  2. Bug: {Bug-Name} ({Severity})
 
 Offene Aufgaben:
-  5. Aufgabe: {Aufgaben-Name} ({Prio})
-  6. Aufgabe: {Aufgaben-Name} ({Prio})
+  3. Aufgabe: {Aufgaben-Name} ({Prio})
+  4. Aufgabe: {Aufgaben-Name} ({Prio})
 
 Was moechtest du starten?
 ```
 
-Falls nur eine oder zwei Kategorien vorhanden: Zeige nur die relevanten Sektionen.
+Falls nur eine Kategorie vorhanden: Zeige nur die relevante Sektion.
 
 ### Schritt 4: Artefakte lesen
 
@@ -89,27 +92,6 @@ Nach Auswahl durch den Benutzer werden die Artefakte des Items gelesen — **meh
 > bleibt auf seinem Anlagewert stehen, bis INBOX #53 entschieden ist — nicht stillschweigend
 > hier wieder aufnehmen.
 
-**Bei Feature:**
-0. **Eligibility-Gate (Fit-Check):** Pruefe, ob `{config.paths.workflows}/features/{slug}/plan.md`
-   existiert (kritisches Artefakt — NICHT das erste `consumes` `BACKLOG.md`). Fehlt es →
-   Hard-Gate greift (Konvention: `skills/CLAUDE.md` → „Eligibility-Gates"); gib den Meldeblock
-   aus und arbeite NICHT weiter, bis der Nutzer die Escape-Hatch bestaetigt:
-
-   ```
-   ⛔ feature-start braucht einen Implementierungsplan, der fehlt.
-      Geprueft: features/{slug}/plan.md — nicht gefunden.
-      → Erstelle ihn zuerst: /dtb:impl-plan {Feature-Name}   (erzeugt von impl-plan)
-
-      Fehlalarm (plan.md existiert doch) oder bewusst ohne fortfahren? „trotzdem fortfahren" bestaetigen.
-   ```
-   Bei Bestaetigung: normal fortfahren. Sonst: hier stoppen (kein Start ohne Plan).
-1. **Lies die Feature-Spec:** `{config.paths.workflows}/features/{slug}/spec.md`
-2. **Lies den Implementierungsplan:** `{config.paths.workflows}/features/{slug}/plan.md` (falls vorhanden)
-   — die `## Progress`-Sektion bestimmt den Einstiegspunkt (erster nicht abgehakter Schritt).
-   Falls der Plan keine `## Progress`-Sektion hat (Altbestand): Nachruestung anbieten
-   (Fallback gemaess `project-rules/DERIVED_STATE_RULES.md`) — reine Struktur-Reparatur,
-   kein Anzeigefeld
-
 **Bei Bug:**
 1. **Lies den Bug-Report:** `{config.paths.workflows}/features/{slug}/bug.md` — Symptom,
    Analyse-Abschnitt und `## Fix-Schritte` als Kontext fuer Schritt 5
@@ -119,31 +101,6 @@ Nach Auswahl durch den Benutzer werden die Artefakte des Items gelesen — **meh
    und `## Schritte` als Kontext fuer Schritt 5
 
 ### Schritt 5: Kontext zeigen
-
-**Bei Feature:**
-```
-# Feature geladen: {Feature-Name}
-
-**Status:** Geplant (wechselt mit dem ersten abgehakten Schritt)
-
-## Feature-Uebersicht
-
-[2-3 Zeilen aus Feature-Spec: Ziel, Scope]
-
-## Naechster Schritt
-
-[Falls `plan.md` vorhanden: Erste Phase aus dem Implementierungsplan mit Ziel und ersten Schritten]
-[Falls `plan.md` NICHT vorhanden: "Kein Implementierungsplan vorhanden. Erstelle einen mit /dtb:impl-plan"]
-
-## Umsetzung
-
-[Falls `plan.md` vorhanden:]
-Umsetzung mit `/dtb:implement {Feature-Name}` — 3x3-Rhythmus und Phasen-Ende-Ritual
-(Verifikations-Gate, SHA-Nachtrag nach §2) sind dort beschrieben (die eine Quelle).
-Erster Schritt laut `## Progress`: [erster nicht abgehakter Schritt N.M]
-
-→ Weiter mit: /dtb:implement {Feature-Name}
-```
 
 **Bei Bug:**
 ```
@@ -191,20 +148,17 @@ Erster Schritt laut `## Progress`: [erster nicht abgehakter Schritt N.M]
 
 **Abschlusszeile statt Start-Rueckfrage:** Jeder Block endet mit genau EINER Zeile `→ Weiter mit: …`
 — keine Rueckfrage (sie trug keine Festlegung, nur den Uebergang). Der Skill **startet nichts
-selbst**: kein Aufruf von `/dtb:implement` (gesperrt gegen Modell-Aufruf — eine Entsperrung waere
-INBOX #98), bei Bug/Aufgabe keine Code-Aenderung vor der naechsten Nutzer-Eingabe. Gestartet
-wird nur durch einen Befehl oder „weiter"; eine **Frage** wird beantwortet, ohne zu starten
-(danach gilt die `→ Weiter mit: …`-Zeile unveraendert).
-(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeilen Z15/E.)
+selbst**: keine Code-Aenderung vor der naechsten Nutzer-Eingabe. Gestartet wird nur durch einen
+Befehl oder „weiter"; eine **Frage** wird beantwortet, ohne zu starten (danach gilt die
+`→ Weiter mit: …`-Zeile unveraendert).
+(Form-Kanon fuer Autoren: `skills/CLAUDE.md` → „Rueckfragen-Defaults (Veto-Form)", Zeile E.)
 
 ---
 
 ## Wichtig
 
-- **Nur startbare Items:** Features mit Status "Geplant", Bugs mit Status "Analysiert" und Aufgaben mit Status "Offen" — keine "In Arbeit" oder "Abgeschlossen"
-- **Kein Status-Update:** Dieser Skill pflegt keine Anzeigefelder — nicht in BACKLOG.md, nicht in WORKFLOW_STATUS.md, nicht in `bug.md`/`task.md`. Wer sie stattdessen pflegt (und wo derzeit niemand zustaendig ist): siehe den Kasten in Schritt 4. Der abgeleitete Status folgt dem Fortschritt, nicht dem Start
-- **Checkbox-Pflicht im Implementierungs-Loop:** Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen), SHA-Nachtrag beim Phasen-Ende-Commit — den Loop samt Ritual fuehrt `/dtb:implement`. Nicht gesammelt am Session-Ende. Die Progress-Sektion ist die Single Source of Truth (`project-rules/DERIVED_STATE_RULES.md`) — es gibt kein IMPL_STATUS_*.md mehr
-- **Feature-Spec lesen:** Immer die vollstaendige Spec lesen um den Kontext zu zeigen
-- **Umsetzungs-Verweis:** Wenn ein `plan.md` vorhanden ist, auf `/dtb:implement` verweisen — 3x3-Rhythmus und Phasen-Ende-Ritual sind dort die eine Quelle (hier nicht duplizieren)
+- **Nur startbare Items:** Bugs mit Status "Analysiert" und Aufgaben mit Status "Offen" — keine "In Arbeit" oder "Abgeschlossen". Features gehen direkt in `/dtb:implement`
+- **Kein Status-Update, kein Schreiben:** Dieser Skill schreibt nichts — keine Anzeigefelder in BACKLOG.md, WORKFLOW_STATUS.md oder `bug.md`/`task.md`. Wer sie stattdessen pflegt (und wo derzeit niemand zustaendig ist): siehe den Kasten in Schritt 4. Der abgeleitete Status folgt dem Fortschritt, nicht dem Start
+- **Checkbox-Pflicht:** `## Fix-Schritte` bzw. `## Schritte` werden waehrend der Arbeit einzeln abgehakt, nicht gesammelt am Session-Ende — die Checkliste ist die Single Source of Truth (`project-rules/DERIVED_STATE_RULES.md` §1.5)
 - **Kompakt:** Max 40 Zeilen Output
 - **Deutsch:** Alle Texte auf Deutsch

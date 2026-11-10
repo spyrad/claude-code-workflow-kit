@@ -202,7 +202,7 @@ flowchart LR
 | Discovery | {n} | {aeltester} | `/dtb:feature-plan` |
 | Feature-Spec (ohne Plan) | {n} | {aeltester} | `/dtb:impl-plan` |
 | Impl-Plan (Entwurf, 0/Y) | {n} | {aeltester} | `/dtb:plan-review` |
-| Backlog (Geplant) | {n} | {aeltester} | `/dtb:feature-start` |
+| Backlog (Geplant) | {n} | {aeltester} | `/dtb:implement` |
 | In Arbeit | {n} | {aeltester} | `/dtb:implement` |
 | Fertig zum Testen | {n} | {aeltester} | — |
 | Abgenommen | {n} | {aeltester} | `/dtb:workflow-checkpoint` |
@@ -230,7 +230,7 @@ flowchart LR
 | Feature planen | `/dtb:feature-plan` | — |
 | Impl-Plan erstellen | `/dtb:impl-plan` | — |
 | Plan reviewen | `/dtb:plan-review` | Architekt, Pragmatiker, Senior Dev |
-| Feature starten | `/dtb:feature-start` | — |
+| Bug-Fix/Aufgabe starten | `/dtb:feature-start` | — |
 | Umsetzung + Verifikation | `/dtb:implement` | — |
 | Verlustpruefung vor dem Checkpoint | `/dtb:no-loss-check` | — |
 | Session sichern | `/dtb:workflow-checkpoint` | — |

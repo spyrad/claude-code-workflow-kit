@@ -166,14 +166,14 @@ Kein Skill und keine Doku-Stelle nennt `feature-start` mehr als Start eines Feat
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Auswahl ohne Argument
-- [x] 1.2 Ziel und Scope in der Statusanzeige
-- [x] 1.3 Kanten und Verweise in implement
-- [ ] 2.1 feature-start auf Bug und Aufgabe beschraenken
-- [ ] 2.2 Planungs-Skills nennen implement
-- [ ] 2.3 Uebersichts-Skills empfehlen implement
-- [ ] 2.4 Konventionen und Doku
-- [ ] 2.5 Repo-weite Gegenprobe
+- [x] 1.1 Auswahl ohne Argument — `0701707`
+- [x] 1.2 Ziel und Scope in der Statusanzeige — `0701707`
+- [x] 1.3 Kanten und Verweise in implement — `0701707`
+- [x] 2.1 feature-start auf Bug und Aufgabe beschraenken
+- [x] 2.2 Planungs-Skills nennen implement
+- [x] 2.3 Uebersichts-Skills empfehlen implement
+- [x] 2.4 Konventionen und Doku
+- [x] 2.5 Repo-weite Gegenprobe
 
 ---
 

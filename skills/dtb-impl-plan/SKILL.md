@@ -264,7 +264,7 @@ Erkenntnisse/Abweichungen gehoeren in den Session-Log (`/dtb:workflow-checkpoint
 
    Naechste Schritte:
    1. Plan reviewen: /dtb:plan-review [Feature-Name]
-   2. Feature starten: /dtb:feature-start
+   2. Umsetzen: /dtb:implement [Feature-Name]
    ```
 
 ## Lektion-Kandidat erkennen (Vorschlager)
@@ -295,5 +295,5 @@ naechsten Session erneut. Sofort erfassen bleibt jederzeit moeglich: `/dtb:lesso
 
 - `/dtb:feature-plan` — Feature-Spec erstellen (standardmaessig samt `plan.md` — fuehrt diesen Skill per Referenz aus)
 - `/dtb:plan-review` — Plan reviewen lassen
-- `/dtb:feature-start` — Feature starten
+- `/dtb:implement` — Plan umsetzen (nach dem Review der einzige Einstieg in die Umsetzung)
 - `/dtb:lesson` — Lektion festhalten (Prior-Quelle)
