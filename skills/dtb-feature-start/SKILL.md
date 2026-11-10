@@ -10,7 +10,7 @@ allowed-tools: Read, Glob
 pipeline:
   stage: implementation
   after: [dtb:debug-plan]
-  next: [dtb:implement]
+  next: [dtb:workflow-checkpoint]
   consumes: [features/*/bug.md, features/*/task.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---

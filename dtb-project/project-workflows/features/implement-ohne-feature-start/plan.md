@@ -169,11 +169,11 @@ Kein Skill und keine Doku-Stelle nennt `feature-start` mehr als Start eines Feat
 - [x] 1.1 Auswahl ohne Argument — `0701707`
 - [x] 1.2 Ziel und Scope in der Statusanzeige — `0701707`
 - [x] 1.3 Kanten und Verweise in implement — `0701707`
-- [x] 2.1 feature-start auf Bug und Aufgabe beschraenken
-- [x] 2.2 Planungs-Skills nennen implement
-- [x] 2.3 Uebersichts-Skills empfehlen implement
-- [x] 2.4 Konventionen und Doku
-- [x] 2.5 Repo-weite Gegenprobe
+- [x] 2.1 feature-start auf Bug und Aufgabe beschraenken — `d5c592d`
+- [x] 2.2 Planungs-Skills nennen implement — `d5c592d`
+- [x] 2.3 Uebersichts-Skills empfehlen implement — `d5c592d`
+- [x] 2.4 Konventionen und Doku — `d5c592d`
+- [x] 2.5 Repo-weite Gegenprobe — `d5c592d`
 
 ---
 

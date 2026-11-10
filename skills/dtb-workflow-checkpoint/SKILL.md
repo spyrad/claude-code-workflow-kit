@@ -435,7 +435,9 @@ Session-Log oder den Kontextblock.
 ### Handoff generieren (Schritt 4)
 
 Der Handoff-Block ist die **Sende-Seite** des Uebergangs (Gegenstueck: `dtb:workflow-resume` liest ihn).
-- **Naechster Befehl** aus dem abgeleiteten Stand: „Geplant" (0/Y) → `/dtb:implement {NAME}`; „In Arbeit"
+- **Naechster Befehl** aus dem abgeleiteten Stand: „Geplant" (0/Y) → `/dtb:implement {NAME}` bei `Reviewed`,
+  `/dtb:plan-review {NAME}` bei `Entwurf` (Kopf-Statusfeld von `plan.md`, gelesen nach
+  `DERIVED_STATE_RULES.md` §7.3); „In Arbeit"
   (erster offener `## Progress`-Schritt) → `/dtb:implement {NAME}`; „Fertig zum Testen" (Y/Y) ohne
   `features/{slug}/review.md` → `/dtb:impl-review {NAME}` (End-Review vor der Abnahme), mit `review.md`
   Verdikt **REJECTED** → `/dtb:implement {NAME}` (Nacharbeit, danach frisches Review); PLAN fehlt →

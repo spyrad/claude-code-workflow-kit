@@ -46,25 +46,32 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 
 1. Ermittle den Slug aus dem Argument oder Chat-Kontext (Regeln:
    `{config.paths.rules}/DERIVED_STATE_RULES.md` §4). Optionales zweites Argument `phase N`
-   merken. Unklar → **Auswahl** (unten), DANN pruefen (nicht raten).
+   merken. Unklar — auch wenn das Argument nur `phase N` ist (das ist kein Slug) → **Auswahl**
+   (unten), Phase gemerkt; DANN pruefen (nicht raten).
 
-   **Auswahl ohne Argument** (kein Argument und kein eindeutiger Kontext — ersetzt den
-   frueheren Vorschritt `dtb:feature-start` fuer Features; mit Argument entfaellt sie):
+   **Auswahl ohne Argument** (kein Slug aus Argument oder eindeutigem Kontext — ersetzt den
+   frueheren Vorschritt `dtb:feature-start` fuer Features; mit Slug entfaellt sie):
    - Kandidaten: jeder Ordner `{config.paths.workflows}/features/*/` mit `plan.md`, dessen
      `## Progress` mindestens eine offene `- [ ]`-Zeile hat (`archive/` liegt ausserhalb und
      bleibt aussen vor). Gruppe nach `DERIVED_STATE_RULES.md` §1.1: 0 Zeilen abgehakt →
-     „Geplant", sonst „In Arbeit"
-   - Je Zeile der **Review-Stand**: erstes Wort der `**Status:**`-Zeile in den ersten 10
-     Zeilen von `plan.md` (§7 — `Entwurf` oder `Reviewed`; fehlt sie → `—`). Reine Anzeige,
-     keine Sperre: ein ungepruefter Plan faellt auf, darf aber gestartet werden
+     „Geplant", sonst „In Arbeit". Plaene, deren `## Progress` fehlt oder 0 Checkbox-Zeilen
+     hat (Altbestand, §1.4), bilden die Gruppe „Progress fehlt" — ihre Wahl fuehrt in die
+     Nachruestung aus Schritt 2 Punkt 2
+   - Je Zeile der **Review-Stand** aus der `**Status:**`-Zeile in den ersten 10 Zeilen von
+     `plan.md`, gelesen nach der Toleranz-Matrix `DERIVED_STATE_RULES.md` §7.3 (Altwerte →
+     `Reviewed`; fehlend oder unbekannt → `Entwurf`, unbekannt zusaetzlich die Hinweiszeile
+     von dort). Reine Anzeige, keine Sperre: ein ungepruefter Plan faellt auf, darf aber
+     gestartet werden
    - Anzeige (leere Gruppe weglassen; Name aus der Titelzeile von `spec.md`, fehlt sie → Slug):
      ```
      # Umsetzung starten
 
      Geplant:
-       1. {Feature-Name} ({slug}) — Plan: {Entwurf|Reviewed|—}
+       1. {Feature-Name} ({slug}) — Plan: {Entwurf|Reviewed}
      In Arbeit:
-       2. {Feature-Name} ({slug}) — {X}/{Y}, Plan: {Entwurf|Reviewed|—}
+       2. {Feature-Name} ({slug}) — {X}/{Y}, Plan: {Entwurf|Reviewed}
+     Progress fehlt:
+       3. {Feature-Name} ({slug}) — Plan: {Entwurf|Reviewed}
 
      Welches Feature? (Nummer oder Name)
      ```
@@ -72,7 +79,7 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
      `→ {Feature-Name} ({slug}) — weiter = uebernehmen · oder anderen Namen nennen`
    - **Kein Kandidat** → melden und stoppen:
      ```
-     Nichts umzusetzen — kein Plan mit offenen Schritten.
+     Nichts umzusetzen — kein Plan mit offenen oder fehlenden Schritten.
        Plan fehlt: /dtb:impl-plan {Feature-Name} · Bug oder Aufgabe: /dtb:feature-start
      ```
    - Die Wahl durchlaeuft danach Archiv-Weigerung und Eligibility-Gate wie ein Argument
