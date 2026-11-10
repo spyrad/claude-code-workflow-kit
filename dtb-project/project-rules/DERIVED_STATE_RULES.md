@@ -385,11 +385,14 @@ prueft, ob die Einarbeitung die WARNs wirklich behebt.
 
 ### 7.3 Lese-Regeln (Toleranz & Konfliktmeldung)
 
-Lesende Skills (`dtb:workflow-next`, `dtb:workflow-status`) wenden diese Matrix an:
+Lesende Skills (`dtb:workflow-next`, `dtb:workflow-status`) wenden diese Matrix an; ausserdem
+`dtb:implement` (Schritt 1, Auswahl — nur Anzeige des Review-Stands) und
+`dtb:workflow-checkpoint` (Handoff-Regel „Geplant", per Referenz auf diesen Abschnitt):
 
 > **Wartungs-Hinweis (Format-Kopplung):** Diese Toleranz-Matrix ist gespiegelt in
 > `dtb:workflow-next` (Quellen-Abschnitt) und `dtb:workflow-status` (Ableitungs-Abschnitt) —
-> aus demselben Autarkie-Grund wie in §7.2. Aenderung hier → beide Skills mitziehen.
+> aus demselben Autarkie-Grund wie in §7.2 —, als Kurzfassung (Teilspiegel) zudem in
+> `dtb:implement` Schritt 1. Aenderung hier → alle drei Skills mitziehen.
 > `dtb:backlog-status` liest das Feld bewusst NICHT mehr (§7.4 status-neutral) und braucht
 > keine Kopie.
 

@@ -46,22 +46,24 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 
 1. Ermittle den Slug aus dem Argument oder Chat-Kontext (Regeln:
    `{config.paths.rules}/DERIVED_STATE_RULES.md` §4). Optionales zweites Argument `phase N`
-   merken. Unklar — auch wenn das Argument nur `phase N` ist (das ist kein Slug) → **Auswahl**
-   (unten), Phase gemerkt; DANN pruefen (nicht raten).
+   merken. Ist das Argument nur `phase N`, gilt es als Phase, nicht als Slug — der Slug kommt
+   dann aus dem Kontext. Unklar → **Auswahl** (unten), DANN pruefen (nicht raten).
 
    **Auswahl ohne Argument** (kein Slug aus Argument oder eindeutigem Kontext — ersetzt den
    frueheren Vorschritt `dtb:feature-start` fuer Features; mit Slug entfaellt sie):
    - Kandidaten: jeder Ordner `{config.paths.workflows}/features/*/` mit `plan.md`, dessen
-     `## Progress` mindestens eine offene `- [ ]`-Zeile hat (`archive/` liegt ausserhalb und
-     bleibt aussen vor). Gruppe nach `DERIVED_STATE_RULES.md` §1.1: 0 Zeilen abgehakt →
-     „Geplant", sonst „In Arbeit". Plaene, deren `## Progress` fehlt oder 0 Checkbox-Zeilen
-     hat (Altbestand, §1.4), bilden die Gruppe „Progress fehlt" — ihre Wahl fuehrt in die
-     Nachruestung aus Schritt 2 Punkt 2
-   - Je Zeile der **Review-Stand** aus der `**Status:**`-Zeile in den ersten 10 Zeilen von
-     `plan.md`, gelesen nach der Toleranz-Matrix `DERIVED_STATE_RULES.md` §7.3 (Altwerte →
-     `Reviewed`; fehlend oder unbekannt → `Entwurf`, unbekannt zusaetzlich die Hinweiszeile
-     von dort). Reine Anzeige, keine Sperre: ein ungepruefter Plan faellt auf, darf aber
-     gestartet werden
+     `## Progress` mindestens eine offene `- [ ]`-Zeile hat ODER fehlt bzw. 0 Checkbox-Zeilen
+     hat (Altbestand, §1.4). Aussen vor bleiben `archive/` (liegt ausserhalb) und Ordner mit
+     explizitem Zustand nach `DERIVED_STATE_RULES.md` §1.2 (`**Status:** Abgenommen` oder
+     `Pausiert` im Kopf von `spec.md`). Gruppen: offene Zeilen und 0 abgehakt → „Geplant",
+     offene Zeilen und ≥1 abgehakt → „In Arbeit" (§1.1); Progress fehlt/0 Zeilen →
+     „Progress fehlt" — deren Wahl fuehrt in die Nachruestung aus Schritt 2 Punkt 2
+   - In „Geplant" und „Progress fehlt" je Zeile der **Review-Stand** aus der
+     `**Status:**`-Zeile in den ersten 10 Zeilen von `plan.md`, gelesen nach der
+     Toleranz-Matrix `DERIVED_STATE_RULES.md` §7.3 (Altwerte → `Reviewed`; fehlend oder
+     unbekannt → `Entwurf`, unbekannt zusaetzlich die Hinweiszeile von dort). Bei „In Arbeit"
+     entfaellt er (Guard-Pflicht §7.3: nur bei 0/Y aussagekraeftig). Reine Anzeige, keine
+     Sperre: ein ungepruefter Plan faellt auf, darf aber gestartet werden
    - Anzeige (leere Gruppe weglassen; Name aus der Titelzeile von `spec.md`, fehlt sie → Slug):
      ```
      # Umsetzung starten
@@ -69,7 +71,7 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
      Geplant:
        1. {Feature-Name} ({slug}) — Plan: {Entwurf|Reviewed}
      In Arbeit:
-       2. {Feature-Name} ({slug}) — {X}/{Y}, Plan: {Entwurf|Reviewed}
+       2. {Feature-Name} ({slug}) — {X}/{Y}
      Progress fehlt:
        3. {Feature-Name} ({slug}) — Plan: {Entwurf|Reviewed}
 

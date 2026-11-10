@@ -209,7 +209,7 @@ flowchart LR
 | **Bug-Pipeline** | | | |
 | Bugs (Offen) | {n} | {aeltester} | `/dtb:debug-plan` |
 | Bugs (Analysiert) | {n} | {aeltester} | `/dtb:feature-start` |
-| Bugs (In Arbeit) | {n} | {aeltester} | `/dtb:implement` |
+| Bugs (In Arbeit) | {n} | {aeltester} | naechsten Fix-Schritt umsetzen |
 | Bugs (Behoben) | {n} | {aeltester} | `/dtb:archive` |
 | **Aufgaben-Pipeline** | | | |
 | Aufgaben (Offen) | {n} | {aeltester} | `/dtb:feature-start` |
