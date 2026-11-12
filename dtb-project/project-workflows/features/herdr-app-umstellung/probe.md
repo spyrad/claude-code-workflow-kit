@@ -345,3 +345,27 @@ Nicht angefasst: `.dtb-worktrees/pane-sdd-geschichte-blog` (fremder Ordner, in `
 dieses Repos nicht verlinkt).
 
 → Nach Merge und Push: /dtb:kit-sync sync (erst pushen, dann syncen — L39); bis dahin laufen unter ~/.claude/ die alten Skills
+
+---
+
+## Nachtrag: Gegenprüfung der Review-Fixes (nach dem Merge)
+
+Geladen: skills/dtb-worker/SKILL.md (Repo-Fassung auf `master`, Stand `164c644`; Block „Tab schließen" aus `#### Abschluss` Punkt 4 wörtlich aus der Datei gezogen, nur `{slug}` eingesetzt)
+
+Gefahren 2026-11-12 vom Orchestrator `t13` (hc 0.1.20, herdr-app 0.1.15), nach Merge
+(`2baaf1e..164c644`), Push und `kit-sync sync` (4 Skills übernommen). Wegwerf-Terminal
+`zz-test-hc-close` (`t1g`), gestartet mit `hc run --bg --name … --cwd … --label herdr.space=…`
+und einem `ping` statt Claude; `hc ls`: `"parent":"t13"`.
+
+| Punkt | Ergebnis | Beleg |
+|---|---|---|
+| F1 Negativfall: fremde Eltern-ID (`HC_TERMINAL_ID=t999`) | ✅ | `TAB-OFFEN (kein von dieser Session gestartetes Terminal zz-test-hc-close — von Hand schliessen)`; Terminal danach weiter `live` |
+| F1 Positivfall: eigene Eltern-ID (`t13`) | ✅ | `TAB-ZU tbb730f9…`, `ENTFERNT t1g`; danach 0 Treffer in `hc ls --all` und `herdr-app ls` |
+| F5 Ende-Meldung nach dem eigenen Schließen | ✅ | `<hc>t1g zz-test-hc-close exited (exit 1)…</hc>` traf von selbst ein; als erwartete Meldung behandelt, keine git-Abfrage |
+| Einträge ohne Elternbezug | Beobachtung | von Hand geöffnete Terminals tragen in `hc ls --all` weder `name` noch `parent` — der Filter trifft sie nie |
+
+**Ungeprüft geblieben:** Schließen eines Worker-Tabs mit laufender Claude-Session nach dem Fix
+(vor dem Fix in „Abnahme 4.1" gefahren); die Text-Fixes F2–F4, F9 und F10 — sie zeigen sich erst
+in einem echten Worker- bzw. Pane-Lauf (anderer Sende-Fehler als Exit 9, beendeter Orchestrator
+in `workflow-resume` 2a, Hand-off-Datei im Abschluss-Zweig `ERZEUGT`, Notiz-Kopf, Pfad-Ermittlung).
+F7 und F8 sind reine Protokoll-Nachträge.
