@@ -451,14 +451,17 @@ Autonomie-Regel von `dtb:worker` verweisen hierher, kein zweiter gepflegter Wort
   sind die nativen CC-Worktree-Tools (`EnterWorktree`/`ExitWorktree`, Subagents mit
   `isolation: worktree`); sie uebernehmen Pfad, Branch-Anlage und Aufraeumen
 - Worker-Sessions uebergeben ihre Session-Inhalte am Ende als Hand-off an die
-  Orchestrator-Session, die den Checkpoint ausfuehrt (Transport z.B.
-  Herdr-Session-Kommunikation; Fallback: Text der Guard-Abbruchmeldung manuell tragen).
+  Orchestrator-Session, die den Checkpoint ausfuehrt (Transport in der Herdr-App: Block in
+  die Hand-off-Datei im Git-Verwaltungsordner, dann per `hc send` an das
+  Orchestrator-Terminal; Fallback: Text der Guard-Abbruchmeldung manuell tragen).
   Format und Empfangsseite: `skills/dtb-workflow-checkpoint/SKILL.md` → „Hand-off-Block"
   (die eine Quelle — hier nur der Verweis)
 - **Pane-Worker (automatisierte Variante):** `dtb:worker` kann Worker als echte
-  Claude-Code-Sessions in Herdr-Panes fuehren (Traeger `pane` statt Subagent) —
-  Worktree-Anlage, Beauftragung und Rueckweg des Hand-off-Blocks laufen dann
-  automatisiert; der Mensch behaelt Freigabe und Diff-Abnahme. Mechanik, Auftragstext
+  Claude-Code-Sessions in eigenen, benannten Tabs der Herdr-App fuehren (Traeger `pane`
+  statt Subagent; seit 2026-11-12 ueber `hc`/`herdr-app`, die alte `herdr`-CLI ist
+  abgeloest) — Worktree-Anlage, Beauftragung und Rueckweg des Hand-off-Blocks laufen dann
+  automatisiert; Rueckfrage und Ende meldet die App von selbst, ein Hook oder Takt ist
+  nicht noetig. Der Mensch behaelt Freigabe und Diff-Abnahme. Mechanik, Auftragstext
   und Gate: `skills/dtb-worker/SKILL.md` → „Traeger-Weiche" / „Pane-Auftrag"
   (die eine Quelle — hier nur der Verweis)
 - **Bekannte Grenze:** Der Guard erkennt nur verlinkte Worktrees. Zwei Sessions im

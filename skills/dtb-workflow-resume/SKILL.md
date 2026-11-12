@@ -81,8 +81,8 @@ echo "NOTIZ $N"; cat "$N"
 
   ```
   Rolle: {Rolle aus dem Kopf} · Schreibgrenzen: {aus dem Kopf, gekuerzt}
-  Orchestrator: {pane-id} ({erreichbar | ungeprueft}) | ⚠ Orchestrator-Pane {pane-id} nicht erreichbar | — (Block manuell tragen)
-  Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende", Block woertlich inkl. Kopfzeile senden:
+  Orchestrator: {terminal-id} ({erreichbar | ungeprueft}) | ⚠ Orchestrator-Terminal {terminal-id} nicht erreichbar | — (Block manuell tragen)
+  Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende", Block woertlich inkl. Kopfzeile erst in die Hand-off-Datei schreiben, dann senden:
     {Rueckweg-Zeile — entfaellt bei „—"}
   Offen ({K} Wechsel seit {Datum des ersten}):
   - {Offene Punkte / Naechste Schritte aus dem juengsten Abschnitt (Momentaufnahme-Regel im Notiz-Format), dazu Uebersprungene globale Updates aller Abschnitte chronologisch, Dubletten bleiben, „- keine" weglassen}
@@ -98,30 +98,34 @@ echo "NOTIZ $N"; cat "$N"
   Vorlage) steht er nur in der Zeile `Naechster Befehl:` des Abschnitts `## Pane-Uebergabe`
 
 **Adress-Pruefung (deklarierte Herdr-Ausnahme):** Der juengste `Orchestrator:`-Wert ist eine
-fluechtige Momentaufnahme. Ist er nicht `—`, in EINEM selbstaendigen Bash-Block pruefen — nur
-der Exit-Code zaehlt, die Ausgabe wird nicht per Regex gelesen:
+fluechtige Momentaufnahme (Terminal-ID der Herdr-App, z.B. `t13`). Ist er nicht `—`, in EINEM
+selbstaendigen Bash-Block pruefen — nur der Exit-Code zaehlt (0 = vorhanden, 3 = nicht
+gefunden, 11 = beendet), die Ausgabe wird nicht per Regex gelesen:
 
 ```bash
-[ "$HERDR_ENV" = "1" ] && command -v herdr >/dev/null 2>&1 || { echo HERDR-AUS; exit 0; }
-herdr agent get "{pane-id}" >/dev/null 2>&1 && echo ERREICHBAR || echo NICHT-ERREICHBAR
+[ -n "$HC_TERMINAL_ID" ] && command -v hc >/dev/null 2>&1 || { echo APP-AUS; exit 0; }
+hc get "{terminal-id}" >/dev/null 2>&1 && echo ERREICHBAR || echo NICHT-ERREICHBAR
 ```
 
-- `ERREICHBAR` → `(erreichbar)`; `HERDR-AUS` → Pruefung still ueberspringen, `(ungeprueft)`
-  — Sichern und Wiederfinden laufen ohne Herdr weiter
-- `NICHT-ERREICHBAR` (`agent_not_found`, Exit 1 — z.B. Orchestrator neu gestartet) → die
+- `ERREICHBAR` → `(erreichbar)`; `APP-AUS` (Session laeuft nicht in der Herdr-App) → Pruefung
+  still ueberspringen, `(ungeprueft)` — Sichern und Wiederfinden laufen ohne die App weiter
+- `NICHT-ERREICHBAR` (z.B. Orchestrator neu gestartet oder beendet; auch jede Adresse im
+  Schema der alten `herdr`-CLI aus einer aelteren Notiz — kein Sonderfall) → die
   ⚠-Zeile im Abschnitt, darunter die Textzeile
   `Neue Orchestrator-Adresse? · weiter = ohne (Block manuell tragen)`. Die Antwort gilt fuer
   diese Session; der naechste Checkpoint uebernimmt sie aus dem Verlauf in seinen Abschnitt
   (dieser Skill schreibt nichts)
-- **Rueckweg-Zeile** (mit der geprueften bzw. neu genannten Adresse eingesetzt):
-  `herdr agent prompt {orchestrator-pane} "<der komplette Block>"`
+- **Rueckweg-Zeile** (mit der geprueften bzw. neu genannten Adresse als `{orchestrator}`
+  eingesetzt; `{handoff-datei}` = `dtb-handoff.md` im selben Git-Verwaltungsordner wie die
+  Notiz — der Ordner aus der `NOTIZ`- bzw. Pfad-Zeile des Blocks oben):
+  `hc send {orchestrator} "$(cat '{handoff-datei}')"`
+  Darunter eine Zeile: `Exit 9 = beim Orchestrator steht ein Dialog offen → 30 s warten, wiederholen (hoechstens dreimal), nie --force`
 
-> **Kopplungs-Hinweis (Herdr-Kanon):** Herdr-Kommandos leben sonst nur in `dtb:worker`
-> (`### Pane-Auftrag` / `### Pane-Ausfuehrung`). Dieser Schritt ist dort als zweite
-> deklarierte Ausnahme registriert: die Adress-Pruefung spiegelt `herdr agent`-Nutzung im
-> Ueberwachungs-Tick (`### Pane-Ausfuehrung`), die Rueckweg-Zeile spiegelt
-> `### Pane-Auftrag`. Syntax dort geaendert → hier mitziehen; dieser Schritt
-> geaendert → die Ausnahmen-Liste dort pruefen.
+> **Kopplungs-Hinweis (Herdr-Kanon):** Kommandos von `hc`/`herdr-app` leben sonst nur in
+> `dtb:worker` (`### Pane-Auftrag` / `### Pane-Ausfuehrung`). Dieser Schritt ist dort als
+> zweite deklarierte Ausnahme registriert: die Adress-Pruefung nutzt `hc get` wie dort
+> beschrieben, die Rueckweg-Zeile spiegelt `### Pane-Auftrag`. Syntax dort geaendert → hier
+> mitziehen; dieser Schritt geaendert → die Ausnahmen-Liste dort pruefen.
 
 ### Schritt 3: Git-Status pruefen (inkl. Remote-Stand)
 

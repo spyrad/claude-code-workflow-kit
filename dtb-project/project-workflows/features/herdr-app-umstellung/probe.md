@@ -176,3 +176,51 @@ Worktree `.dtb-worktrees/worker-zz-test-hc-eigen`, Zweig `task/zz-test-hc-eigen`
 **Unverändert:** Subagenten-Träger und Listen-Lauf — der Abschnitt ab
 `### Schritt 6: Worker starten` ist gleich dem Stand vor dem Umbau (113 Zeilen auf beiden
 Seiten, kein Unterschied). Zeilenzahl der Datei: 741 → 740.
+
+## Kopplungs-Sweep
+
+Gefahren 2026-11-12 nach Plan-Schritt 3.4, über die Endfassung der Phasen 2 und 3. Jede
+Zeile: Muster, Zielzahl, Ergebnis.
+
+| Spiegel | Muster | Zielzahl | Ergebnis |
+|---|---|---|---|
+| Rückweg-Zeile (Hand-off aus der Datei senden) | `hc send {orchestrator} "$(cat '{handoff-datei}')"` | 3 — Worker-Vorlage, Begrüßungstext von `pane-start`, `workflow-resume` 2a | 3 ✅ (Worker Z. 251, pane-start Z. 334, resume Z. 121) |
+| Nennung der Rückweg-Zeile im Kopplungs-Hinweis des Workers und die `WORKER-MELDUNG`-Zeile | `hc send {orchestrator` | 2 weitere Treffer, beide im Worker, begründet | 2 ✅ (Z. 202 Hinweis, Z. 259 Meldung ohne Hand-off — kein Spiegel) |
+| Wiederholungs-Regel bei abgewiesenem Senden | `Exit 9` | 3 Anwender-Stellen + 1 Erklärung im Worker | 4 ✅ |
+| Struktur-Check-Anker 1 | `^### Pane-Ausfuehrung` im Worker | 1 | 1 ✅ |
+| Struktur-Check-Anker 2 | `^### Pane-Auftrag` im Worker | 1 | 1 ✅ |
+| Struktur-Check-Anker 3 | `^#### Rueckweg: Stand-Pruefung` im Worker | 1 | 1 ✅ |
+| Gate-Block | `APP-OK $HC_TERMINAL_ID` | 2 — Worker `### Traeger-Weiche`, pane-start `## Herdr-Gate (hart)` | 2 ✅ |
+| Warnzeile „fremde Session" | `Weitere Session im Haupt-Checkout gefunden ({adresse})` | 2 — Worker, pane-start | 2 ✅ |
+| Notiz-Feld | `^Orchestrator: {` in `workflow-checkpoint` | 1 | 1 ✅ (`{terminal-id \| —}`) |
+| Ausgabeformen | `^## Pane-Uebergabe` in `workflow-resume` | 3 | 3 ✅ |
+
+Die Anker wurden zeilenende-normalisiert (`tr -d '\r'`) und am Zeilenanfang verankert
+gezählt; die Worker-Datei hatte dabei 745 Zeilen (Seite gefüllt, kein Werkzeug-Fehlschlag).
+
+**Gegenprobe zum Leser-Scan** (dieselben Muster wie in `sichtung.md`: `Ueberwachungs-Tick`,
+`WORKER-STOP`, `HERDR_`, Kommando-Formen der alten CLI, dazu `claude --settings`, `/loop 15m`,
+`Orchestrator-Pane`, `pane-id`) über das ganze Repo außer `dtb-project/project-changelog/`,
+`archive/` und den Feature-Ordnern:
+
+| Fundort | Treffer | Urteil |
+|---|---|---|
+| `skills/`, `CLAUDE.md`, `skills/CLAUDE.md`, `DERIVED_STATE_RULES.md`, `README.md` | 0 | bereinigt |
+| `dtb-project/project-rules/lessons.md` | 13 Zeilen | begründet — Erfahrungswissen zur alten CLI; Urteil je Lektion steht in `sichtung.md`, die Ausmusterung läuft über `dtb:lesson-curate` |
+| `dtb-project/project-workflows/INBOX-BEFUNDE.md` | 18 Zeilen | begründet — Befunde zum alten Unterbau; Urteil in `sichtung.md`, Abgang über `dtb:idea-triage` |
+| `dtb-project/project-workflows/INBOX.md` | 2 Zeilen (#200, #98) | begründet — die Idee dieser Umstellung selbst und eine ältere Idee, die den alten Begriff im Text trägt |
+| `dtb-project/project-dashboard.html` | 1 Zeile | begründet — erzeugte, unversionierte Seite; sie spiegelt den Text der INBOX und wird beim nächsten Checkpoint neu geschrieben |
+
+**Über den Plan hinaus mitgezogen (Phase 3):** die Begrüßung von `pane-start` schreibt den
+Hand-off wie der Worker zuerst in die Datei im Git-Verwaltungsordner; die Vorbedingung „fremde
+Session im Haupt-Checkout" läuft in `pane-start` per Referenz aus dem Worker (nach dem
+Struktur-Check); im Worker zwei Kopplungs-Hinweise auf diese Leser und der Satz, dass „steht
+still ohne Meldung" nur für `worker-`-Arbeitsplätze gilt.
+
+**Unverändert:** Subagenten-Träger und Listen-Lauf des Workers (Vergleich ab
+`### Schritt 6: Worker starten` gegen den Stand vor dem Umbau: kein Unterschied).
+Zeilenzahlen: Worker 741 → 745, pane-start 354 → 379, resume 410 → 414.
+
+**Ungeprüft bis zur Abnahme (Plan-Phase 4):** die Start-Sequenz mit Begrüßungstext und der
+abweichenden Startzeile; der Rückweg aus einem interaktiven Tab über die Hand-off-Datei;
+`workflow-resume` 2a mit einer echten Übergabe-Notiz im neuen Adress-Schema.

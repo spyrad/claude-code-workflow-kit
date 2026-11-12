@@ -164,7 +164,8 @@ ist der Subagent:
 **Eligibility-Gate des Pane-Traegers (hart):** Die Session laeuft in einem Terminal der
 Herdr-App — `$HC_TERMINAL_ID` nicht leer (die eigene Adresse; daraus kommt die
 Orchestrator-Adresse des Pane-Auftrags) UND `hc` im PATH UND `herdr-app` im PATH (ohne
-`herdr-app` bekommt der Tab keinen Namen). In EINEM selbstaendigen Bash-Block:
+`herdr-app` bekommt der Tab keinen Namen). In EINEM selbstaendigen Bash-Block (gespiegelt in
+`dtb:pane-start` → `## Herdr-Gate (hart)` — Aenderung hier → dort mitziehen):
 
 ```bash
 [ -n "$HC_TERMINAL_ID" ] && command -v hc >/dev/null 2>&1 && command -v herdr-app >/dev/null 2>&1 && echo "APP-OK $HC_TERMINAL_ID" || echo APP-FEHLT
@@ -276,7 +277,8 @@ das Netz fuer einen abgewiesenen Hand-off, kein zweiter Bericht.
 > statt Auftrag, Worktree-Pfad `pane-{slug}`) stehen dort unter `## Herdr-Mechanik` —
 > Kommandos von `hc` und `herdr-app` werden weiterhin NUR hier korrigiert. Zweiter
 > Leser: `dtb:pane-start` verweist auf die `#### Rueckweg: Stand-Pruefung` dieser Sektion
-> und prueft deren Titel als eigenen Anker.
+> und prueft deren Titel als eigenen Anker. Dritter Leser: `dtb:pane-start` fuehrt Punkt 2
+> von `#### Hinweg: Vorbedingungen` (fremde Session im Haupt-Checkout) per Referenz aus.
 
 **`{default-branch}`** bezeichnet in dieser Sektion den Zielbranch des Haupt-Checkouts:
 `parallel.default_branch` aus `workflow.config.yaml`, falls gesetzt; sonst der aktuelle
@@ -517,6 +519,9 @@ Stand {slug} ({adresse}, {branch}): {zustand} · +{n} Commits, zuletzt YYYY-MM-D
    → Hand-off eingetroffen: {worker: Branch-Verifikation, dann /dtb:workflow-checkpoint | pane-start: /dtb:workflow-checkpoint}
    → Terminal beendet, kein Hand-off: git log {default-branch}..{branch} pruefen
 ```
+
+Die Hinweiszeile „steht seit dem Start ohne Meldung still" gilt nur fuer `worker-`-Arbeitsplaetze —
+in einem `pane-`-Arbeitsplatz arbeitet ein Mensch, dort ist `done`/`idle` der Normalzustand.
 
 `done` und `idle` sind NIE ein Beleg fuer Fertigstellung (`done` = Turn beendet, noch nicht
 angesehen; `idle` = wartet auf Eingabe) — fertig ist ein Worker erst mit Hand-off und

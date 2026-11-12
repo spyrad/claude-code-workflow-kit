@@ -4,7 +4,7 @@ description: >-
   Use when: "pane start", "Session in eigener Pane starten", "Voll-Schiene
   im Worktree starten", "interaktive Session aufsetzen", "Arbeitsplatz fuer
   Change einrichten". Sets up an interactive full-lane session for one change:
-  own worktree, own Herdr pane, a started and detected Claude session, and ONE
+  own worktree, own named tab in the Herdr app, a started Claude session, and ONE
   greeting message carrying workplace, start command, orchestrator address and
   the return-path duty. Writes no artifacts and no central files; no autonomy
   governance — a human works in the pane.
@@ -21,15 +21,15 @@ pipeline:
 
 # Interaktive Session in Pane + Worktree starten
 
-Du richtest fuer EINEN Change einen eigenen Arbeitsplatz ein — Worktree, Pane, laufende
-Session — und stellst dieser Session EINEN Begruessungstext zu. Danach kehrst du zur
-eigenen Arbeit zurueck; in der Pane arbeitet ein **Mensch**.
+Du richtest fuer EINEN Change einen eigenen Arbeitsplatz ein — Worktree, eigener Tab in der
+Herdr-App, laufende Session — und stellst dieser Session EINEN Begruessungstext zu. Danach
+kehrst du zur eigenen Arbeit zurueck; im Tab arbeitet ein **Mensch**.
 
 **Abgrenzung zu `dtb:worker` (Traeger `pane`):** Dieselbe Herdr-Mechanik, anderer Zweck.
 `dtb:worker` stellt einen **autonomen Auftrag** auf Basis einer `task.md` zu und unterliegt
 der Autonomie-Regel (Versuchslimit, Zeitdeckel, Tauglichkeitsraster, Bericht). Dieser Skill
 stellt einen **Begruessungstext** zu und hat davon nichts — es sitzt jemand drin. Was beide
-teilen, sind die vier Start-Kommandos; sie leben ausschliesslich in `dtb:worker` und werden
+teilen, ist die Start-Sequenz; sie lebt ausschliesslich in `dtb:worker` und wird
 hier NUR referenziert, niemals kopiert (Drift-Schutz — Details: `## Herdr-Mechanik`; einzige
 deklarierte Ausnahme ist die Rueckweg-Zeile des Begruessungstexts, ein benannter Spiegel —
 siehe „Regeln zur Vorlage").
@@ -79,26 +79,37 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
 
 ## Herdr-Gate (hart)
 
-**Eligibility-Gate:** `HERDR_ENV` = `1` UND `herdr` im PATH (`command -v herdr`) UND
-`$HERDR_PANE_ID` nicht leer (ohne eigene Pane-Adresse gibt es keinen Rueckkanal — der
-Begruessungstext braucht die Orchestrator-Adresse; eine Herdr-CLI ausserhalb einer Pane
-genuegt nicht). Sonst Abbruch — KEINE stille Degradierung auf einen anderen Weg:
+**Eligibility-Gate:** Die Session laeuft in einem Terminal der Herdr-App — `$HC_TERMINAL_ID`
+nicht leer (die eigene Adresse: ohne sie gibt es keinen Rueckkanal, der Begruessungstext
+braucht die Orchestrator-Adresse) UND `hc` im PATH UND `herdr-app` im PATH (ohne `herdr-app`
+bekommt der Tab keinen Namen). In EINEM selbstaendigen Bash-Block (dasselbe Gate wie
+`dtb:worker` → `### Traeger-Weiche`; Aenderung dort → hier mitziehen):
+
+```bash
+[ -n "$HC_TERMINAL_ID" ] && command -v hc >/dev/null 2>&1 && command -v herdr-app >/dev/null 2>&1 && echo "APP-OK $HC_TERMINAL_ID" || echo APP-FEHLT
+```
+
+`APP-FEHLT` → Abbruch — KEINE stille Degradierung auf einen anderen Weg:
 
 ```
-⛔ dtb:pane-start braucht Herdr (HERDR_ENV=1 + herdr-CLI + eigene Pane-Adresse
-   $HERDR_PANE_ID), hier nicht verfuegbar.
+⛔ dtb:pane-start braucht die Herdr-App (eigene Terminal-Adresse $HC_TERMINAL_ID + hc +
+   herdr-app), hier nicht verfuegbar.
+   Weg: die Herdr-App oeffnen, dort einen Tab im Projektordner anlegen, darin `claude`
+   starten. Dein Ziel geht nicht verloren — dort absetzen:
+   /dtb:pane-start {Argument}
    Alternativen: die Voll-Schiene direkt in dieser Session fahren (Befehl je nach
    Stand — Tabelle Schritt 1b) oder den Arbeitsplatz manuell einrichten
    (git worktree add + Session von Hand starten).
-   Dein Ziel geht nicht verloren — in einer Herdr-Session absetzen:
-   /dtb:pane-start {Argument}
 ```
 
 Wurde kein Argument uebergeben, entfallen die `{Argument}`-Anteile der Meldung ersatzlos.
 
-Der Skill hat bewusst **keinen** Ersatzpfad: sein ganzer Zweck ist der Pane-Hinweg. Ohne
-Pane gibt es nichts zu verkuerzen, und ein halb eingerichteter Arbeitsplatz waere schlechter
-als keiner.
+Die alte `herdr`-CLI (Terminal-Multiplexer) ist ein anderes System und sieht die Terminals
+der App nicht — sie genuegt diesem Gate nicht (Umstellung 2026-11-12).
+
+Der Skill hat bewusst **keinen** Ersatzpfad: sein ganzer Zweck ist der Hinweg in einen
+eigenen Tab. Ohne Tab gibt es nichts zu verkuerzen, und ein halb eingerichteter Arbeitsplatz
+waere schlechter als keiner.
 
 ## Schritt 0: Config laden
 
@@ -174,12 +185,15 @@ waehlt der Mensch.
 3. **Worktree-Pfad frei?** Der Zielpfad darf nicht existieren und in `git worktree list`
    nicht auftauchen. Sonst melden (ggf. Rest eines frueheren Laufs → `git worktree prune`
    vorschlagen, nicht selbst ausfuehren)
-4. **Fremde Session im Haupt-Checkout?** `herdr agent list` lesen und Eintraege mit
-   Arbeitsverzeichnis = Haupt-Checkout (ausser der eigenen Pane `$HERDR_PANE_ID`) suchen.
-   Fund → genau EINE Warnzeile, dann weiterarbeiten (melden statt blockieren; die
-   Verzeichnis-Angabe ist der Pane-Start-Stand und stale-anfaellig):
+4. **Fremde Session im Haupt-Checkout?** Die Pruefung steht in der Quelle (`dtb:worker` →
+   `### Pane-Ausfuehrung`, Unterabschnitt „Hinweg: Vorbedingungen", Punkt 2 — ein
+   Bash-Block ueber die Terminal-Liste der App) und wird per Referenz ausgefuehrt, nie
+   kopiert. Deshalb laeuft sie als EINZIGE Vorbedingung erst NACH dem `## Struktur-Check`
+   (er loest die Quelle auf); sie warnt nur und blockiert nie, die spaetere Stelle kostet
+   nichts. Je ausgegebener Adresse genau EINE Warnzeile, dann weiterarbeiten (melden statt
+   blockieren; der Startordner ist der Stand beim Start des Terminals und stale-anfaellig):
    ```
-   ⚠ Weitere Session im Haupt-Checkout gefunden ({pane-id}) — der Worktree-Guard
+   ⚠ Weitere Session im Haupt-Checkout gefunden ({adresse}) — der Worktree-Guard
      deckt diesen Fall nicht (bekannte Grenze: er erkennt nur verlinkte Worktrees).
    ```
 
@@ -189,8 +203,8 @@ waehlt der Mensch.
 ## Struktur-Check (Kopplungs-Waechter)
 
 Dieser Skill traegt die Start-Sequenz nicht selbst — er MUSS deshalb **vor jeder
-Einrichtung** (nach der Argument-Aufloesung und den Vorbedingungen aus Schritt 1, vor dem
-ersten Kommando der Herdr-Mechanik) pruefen, dass seine Quelle existiert und ihre
+Einrichtung** (nach der Argument-Aufloesung und den Vorbedingungen 1–3 aus Schritt 1, vor
+Vorbedingung 4 und dem ersten Kommando der Herdr-Mechanik) pruefen, dass seine Quelle existiert und ihre
 Anker-Sektionen noch traegt. Endet ein Lauf schon in Guard, Gate oder Schritt 1, laeuft der
 Check planmaessig nie. Ohne ihn gaebe es weder Fallback noch Diagnose: die Quelle koennte
 fehlen oder umgebaut sein, und der Ausfall bliebe stumm bis mitten in die Einrichtung.
@@ -208,7 +222,7 @@ bliebe unbemerkt:
 |---------------------------------------|--------|
 | `^### Pane-Ausfuehrung` | Vorbedingungen, Start-Sequenz, Rueckweg, Abschluss |
 | `^### Pane-Auftrag` | Vorlagen-Muster fuer den zugestellten Text |
-| `^#### Rueckweg: Ueberwachungs-Tick` | Pruefliste, Meldungsform und Angebots-Vorlage des Ueberwachungs-Ticks |
+| `^#### Rueckweg: Stand-Pruefung` | Pruefliste und Meldungsform der Stand-Pruefung auf Zuruf („Stand?") |
 
 **Alle drei Anker gefunden** → eine Statuszeile und weiter:
 `🧩 Struktur-Check: 3/3 Anker in {aufgeloeste Quelle} gefunden`
@@ -239,14 +253,14 @@ bliebe unbemerkt:
 ## Herdr-Mechanik (referenziert, nicht dupliziert)
 
 > **Die Start-Sequenz steht NICHT hier.** Quelle ist `dtb:worker` →
-> `### Pane-Ausfuehrung`, Unterabschnitt „Hinweg: Start-Sequenz" (vier
-> Kommandos: `worktree add`, Pane teilen, Session ueber die Pane-Shell starten inkl.
-> Erkennungs-Warten, Auftrag als EINE Nachricht zustellen). Aufloesung und
+> `### Pane-Ausfuehrung`, Unterabschnitt „Hinweg: Start-Sequenz" (drei Schritte:
+> `worktree add`, den zugestellten Text als Datei in den Git-Verwaltungsordner des
+> Worktrees schreiben, Tab starten — benennen — Zustellung pruefen). Aufloesung und
 > Existenz-Pruefung der Quelle: `## Struktur-Check`.
 >
-> **Warum:** Herdr-CLI-Drift ist ein bekanntes, dokumentiertes Risiko. `dtb:worker`
+> **Warum:** `hc` und `herdr-app` sind junge Werkzeuge, ihre Syntax driftet. `dtb:worker`
 > deklariert seine zwei Pane-Sektionen ausdruecklich als die einzigen Orte dieser
-> Kommandos; ein dritter Ort waere ein Spiegel, der bei der naechsten CLI-Aenderung
+> Kommandos; ein dritter Ort waere ein Spiegel, der bei der naechsten Aenderung
 > zurueckbleibt. Korrigiert wird dort, nie hier.
 
 **Vier bewusste Abweichungen** von der referenzierten Sequenz — alle gelten fuer diesen
@@ -255,31 +269,37 @@ Skill und sind beim Ausfuehren einzusetzen:
 | Punkt | `dtb:worker` (Quelle) | Hier |
 |-------|----------------------|------|
 | Branch | `task/{slug}` | **`feature/{slug}`** — die Voll-Schiene arbeitet an einem Feature-Change, und der Branchname ist der Merge-Anker |
-| Zugestellter Text | Pane-Auftrag (autonome Arbeitsanweisung) | **Begruessungstext** (unten) |
+| Text in der Datei `dtb-auftrag.md` | Pane-Auftrag (autonome Arbeitsanweisung) | **Begruessungstext** (unten) — derselbe Dateiname, die Bloecke der Quelle pruefen ihn |
 | Worktree-Pfad | `.dtb-worktrees/worker-{slug}` | **`.dtb-worktrees/pane-{slug}`** — interaktive Arbeitsplaetze bleiben in `git worktree list` von autonomen unterscheidbar |
-| Startbefehl | Signal-Einrichtung (Stop-Hook `WORKER-STOP (dtb)`), dann `claude --settings '{datei}'` | **KEINE Signal-Einrichtung, nur `claude`** — hier arbeitet ein Mensch; ein Stop-Hook feuerte nach jeder Antwort und meldete den Orchestrator dauernd an. Der Rueckweg laeuft ueber Checkpoint „Ende" (Begruessungstext) |
+| Startzeile (das eine Argument an `claude`) | `Lies die Datei … vollstaendig und fuehre den Auftrag darin aus.` | **`Lies die Datei $G/dtb-auftrag.md vollstaendig und befolge sie. Sie ist eine Begruessung, kein Arbeitsauftrag.`** — einzeilig und ohne Anfuehrungszeichen wie in der Quelle; „fuehre den Auftrag aus" widerspraeche der Wartepflicht |
 
-Alles andere — Pane-Teilung ohne Fokuswechsel, Startweg ueber die Pane-Shell statt ueber
-den Agent-Start, Erkennungs-Warten mit einem Wiederholungsversuch, Zustellung als EINE
-Nachricht — gilt unveraendert wie in der Quelle beschrieben.
+Alles andere — Start aus dem eigenen Terminal mit dem Label des eigenen Fenster-Bereichs
+(macht den Tab sichtbar und zum Kind des Orchestrators), Terminal-Name = Slug, Tab
+umbenennen, Warte-Schleife, Auswertung von `START-OK`/`TAB-NAME-FEHLT`/`ZUSTAND`/`START-FEHLT`,
+nie blind erneut senden — gilt unveraendert wie in der Quelle beschrieben. Nach der
+Begruessung steht die Session auf `done` oder `idle`: das ist hier der erwartete Zustand
+(sie wartet auf den Menschen), kein Befund.
 
-**Nach der Zustellung** gibst du im eigenen Chat das Ueberwachungs-Angebot aus — Vorlage
-`dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick` („Angebot"), Kopfzeile mit dem tatsaechlich
-angelegten Branch (Regel `feature/{slug}`, abweichend, falls in 1c.2 anders entschieden) und
-der Pane-ID aus der Start-Sequenz; laeuft schon ein Tick, nur die Kopfzeile (der Tick findet
-die neue Pane selbst). Du startest den Tick NIE selbst; der
-Mensch entscheidet, ob er ihn tippt. Danach kehrst du zur eigenen Arbeit zurueck: KEIN
+**Nach dem Start** gibst du im eigenen Chat die Kopfzeile der Quelle aus (`🔭 gestartet: …`)
+— mit dem tatsaechlich angelegten Branch (Regel `feature/{slug}`, abweichend, falls in 1c.2
+anders entschieden) und der Adresse aus `START-OK`. Sie nennt den Weg zum Stand: der Mensch
+fragt „Stand?", die Pruefung steht in `dtb:worker` → `#### Rueckweg: Stand-Pruefung`. Einen
+wiederkehrenden Lauf gibt es nicht mehr (entfallen 2026-11-12 — Rueckfrage und Ende meldet
+die App von selbst). Danach kehrst du zur eigenen Arbeit zurueck: KEIN
 blockierendes Warten. Der Rueckweg laeuft wie beim Worker-Traeger (der Hand-off-Block
 erreicht diese Session von selbst als Eingabe) — siehe `## Rueckweg und Abschluss`.
 
 ## Begruessungstext (Vorlage — die eine Quelle dieses Skills)
 
-Der Text traegt ALLES, was die neue Session wissen muss, und wird als EINE Nachricht
-zugestellt. Die Orchestrator-Adresse kommt zur Laufzeit aus `$HERDR_PANE_ID`; es gibt
-bewusst keine persistierte Pane-Registry (fluechtige Adressen — eine Datei waere eine
+Der Text traegt ALLES, was die neue Session wissen muss, und reist als EINE Datei
+(`dtb-auftrag.md` im Git-Verwaltungsordner des Worktrees — Start-Sequenz der Quelle); die
+Session liest sie auf die eine Startzeile hin. Die Orchestrator-Adresse `{orchestrator}`
+kommt zur Laufzeit aus `$HC_TERMINAL_ID` (Terminal-ID wie `t13`), `{handoff-datei}` ist
+`{G}/dtb-handoff.md` im selben Git-Verwaltungsordner (Pfad `{G}` aus der Start-Sequenz). Es
+gibt bewusst keine persistierte Adress-Registry (fluechtige Adressen — eine Datei waere eine
 Zustandsaussage ohne Pfleger). Einzige benannte Abweichung: die Uebergabe-Notiz von
 `dtb:workflow-checkpoint` haelt die Adresse je „Wechsel" als Momentaufnahme fest — kurzlebig
-(lebt bis zum Abbau) und von `dtb:workflow-resume` vor jeder Anzeige per Herdr geprueft, also
+(lebt bis zum Abbau) und von `dtb:workflow-resume` vor jeder Anzeige geprueft, also
 keine Registry.
 
 ```
@@ -290,28 +310,32 @@ Arbeitsplatz: {worktree-pfad} (Branch feature/{slug})
 Arbeite nur hier. Zentrale Workflow-Dateien gehoeren dir nicht: WORKFLOW_STATUS.md,
 INBOX.md, BACKLOG.md, Changelog — die Teil-Guard-Skills ueberspringen ihre globalen
 Schreibschritte hier planmaessig und melden das im Hand-off.
-Orchestrator: Herdr-Pane {orchestrator-pane}.
+Orchestrator: Terminal {orchestrator} der Herdr-App.
 
 Stand des Change: {1-2 Zeilen — welche Artefakte liegen vor, was ist der abgeleitete
 naechste Schritt}
 Vorgeschlagener Startbefehl: {Startbefehl aus Schritt 1b}
 
 WARTEPFLICHT: Fuehre diesen Befehl NICHT selbst aus. Er ist ein Vorschlag an den
-Menschen, der diese Pane oeffnet — er entscheidet, ob und womit begonnen wird. Bis
+Menschen, der diesen Tab oeffnet — er entscheidet, ob und womit begonnen wird. Bis
 dahin arbeitest du nicht, aenderst keine Dateien und stellst keine Rueckfragen an den
 Orchestrator. Begruesse kurz und warte auf Eingabe.
 
 Session-Wechsel (Kontext voll, Arbeit geht weiter): `/dtb:workflow-checkpoint` → „Wechsel"
 waehlen → `/clear` → `/dtb:workflow-resume`. Die Uebergabe-Notiz traegt Rolle,
 Orchestrator, Rueckweg und offene Punkte in die neue Session. Bevorzugt `/clear` statt
-`/exit` + `claude` (sonst meldet der Ueberwachungs-Tick die Pane kurz als weg).
+`/exit` + `claude` (ein `/exit` meldet die App dem Orchestrator als beendete Session).
 
 Rueckweg (am Ende der Arbeit, nicht vorher): `/dtb:workflow-checkpoint` aufrufen und
 „Ende" waehlen. Der Worktree-Guard dieses Skills bricht ab und erzeugt stattdessen den
 WORKTREE-HANDOFF-Block. Diesen Block WOERTLICH und VOLLSTAENDIG (inklusive Kopfzeile
-„WORKTREE-HANDOFF (dtb) — …") an den Orchestrator zurueckschicken:
-herdr agent prompt {orchestrator-pane} "<der komplette Block>"
+„WORKTREE-HANDOFF (dtb) — …") zuerst in die Datei {handoff-datei} schreiben und dann aus
+dieser Datei an den Orchestrator schicken:
+hc send {orchestrator} "$(cat '{handoff-datei}')"
 Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empfangsseite.
+Endet der Befehl mit Exit 9 (beim Orchestrator steht ein Dialog offen), 30 Sekunden warten
+und wiederholen, hoechstens dreimal; NIE --force. Kommt er dann nicht an, dem Menschen
+sagen — die Datei bleibt liegen, der Orchestrator liest sie auf „Stand?".
 ```
 
 **Regeln zur Vorlage:**
@@ -337,13 +361,14 @@ Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empf
 
 ## Rueckweg und Abschluss
 
-- **Rueckweg:** Es laeuft kein blockierender Warteprozess. Den Pane-Stand liest der
-  Orchestrator anlassbezogen (der Mensch fragt „Stand?") oder getaktet, falls der Mensch den
-  angebotenen Ueberwachungs-Tick gestartet hat — Pruefliste, Meldungsregel und Selbstende:
-  `dtb:worker` → `#### Rueckweg: Ueberwachungs-Tick`; ein eingetroffener
+- **Rueckweg:** Es laeuft kein blockierender Warteprozess und kein Takt. Rueckfrage,
+  Session-Ende und geschlossenen Tab meldet die App dem Orchestrator von selbst (der Tab ist
+  sein Kind-Terminal); den Stand liest der Orchestrator sonst auf Zuruf (der Mensch fragt
+  „Stand?") — Pruefliste und Meldungsform: `dtb:worker` → `#### Rueckweg: Stand-Pruefung`
+  (sie liest auch die Hand-off-Datei, falls das Senden abgewiesen wurde). Ein eingetroffener
   WORKTREE-HANDOFF-Block (Kopfzeile als Anker) wandert per `/dtb:workflow-checkpoint` in den
   Session-Log — die Empfangsseite dort bleibt unveraendert und traegerneutral.
-- **Session-Wechsel in der Pane:** Wird der Kontext voll, wechselt der Mensch die Session
+- **Session-Wechsel im Tab:** Wird der Kontext voll, wechselt der Mensch die Session
   ueber `/dtb:workflow-checkpoint` → „Wechsel" → `/clear` → `/dtb:workflow-resume` (im
   Begruessungstext angekuendigt); die Uebergabe-Notiz im Git-Verwaltungsordner traegt den
   Startkontext, und erst „Ende" schickt EINEN kumulierten Block an den Orchestrator.

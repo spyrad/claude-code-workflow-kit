@@ -341,10 +341,10 @@ und kein Slash-Befehl fuer die umgebauten Skills getippt — stattdessen:
 - [x] 2.4 Rueckweg Warten ohne Warten — `5da0035`
 - [x] 2.5 Ueberwachung — `5da0035`
 - [x] 2.6 Eigenpruefung des neuen Textes — `5da0035`
-- [ ] 3.1 pane-start
-- [ ] 3.2 workflow-resume und workflow-checkpoint
-- [ ] 3.3 Doku
-- [ ] 3.4 Kopplungs-Sweep
+- [x] 3.1 pane-start
+- [x] 3.2 workflow-resume und workflow-checkpoint
+- [x] 3.3 Doku
+- [x] 3.4 Kopplungs-Sweep
 - [ ] 4.1 Worker-Lauf mit Pane-Traeger
 - [ ] 4.2 pane-start und Session-Wechsel
 - [ ] 4.3 Gate ausserhalb der App und Aufraeumen

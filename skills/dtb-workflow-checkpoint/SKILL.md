@@ -91,11 +91,14 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
      Abnahme-Lauf 2026-10-22 las der Mensch „weiter" als „die Arbeit geht weiter" und landete
      im vorgeschlagenen „Ende". Jede andere Antwort → genau eine Rueckfrage
      `„Wechsel" oder „Ende"?`; bleibt sie unklar → nichts schreiben, die Weiche endet.
-  2. **Wechsel** (Folgesession in derselben Pane, z.B. Kontext voll):
+  2. **Wechsel** (Folgesession im selben Tab, z.B. Kontext voll):
      - Orchestrator-Adresse: juengste Angabe im Verlauf (Begruessungstext, Resume-Bericht
        oder Antwort auf dessen Adress-Rueckfrage — auch „ohne") → sonst juengster
        `Orchestrator:`-Wert der Notiz → sonst Textzeile
-       `Orchestrator-Pane? · weiter = ohne (Block manuell tragen)` („weiter" → `Orchestrator: —`)
+       `Orchestrator-Adresse? · weiter = ohne (Block manuell tragen)` („weiter" → `Orchestrator: —`).
+       Die Adresse ist die Terminal-ID des Orchestrators in der Herdr-App (z.B. `t13`); ein
+       Wert im Schema der alten `herdr`-CLI aus einer aelteren Notiz wird unveraendert
+       uebernommen — die Leseseite meldet ihn als nicht erreichbar und fragt neu
      - Abschnitt nach dem Format `### Uebergabe-Notiz` (unten) aus dem Sitzungskontext
        bauen und mit GENAU diesem Block anhaengen — nur die beiden `{…}`-Stellen fuellen;
        die Ueberschrift samt Zeitstempel schreibt die Shell (das Modell kennt die Uhrzeit
@@ -166,12 +169,17 @@ if [ "$G" = "$C" ]; then echo HAUPT-CHECKOUT; else echo "WORKTREE (Haupt-Checkou
        `SCHREIBFEHLER` → `⚠ Ende-Marker nicht geschrieben — Notiz gilt weiter als ungesendet`
        (der Block ist trotzdem gueltig; die Abbau-Warnung meldet sich dann zu Recht)
      - **Ohne Notiz:** Block nur aus dem Sitzungskontext — Verhalten wie vor der Weiche
-     - Die Worktree-Session uebergibt den Block an die Orchestrator-Session (Transport: z.B.
-       Herdr-Session-Kommunikation an die Orchestrator-Pane; ohne Herdr manuell kopieren).
+     - Die Worktree-Session uebergibt den Block an die Orchestrator-Session. Transport in
+       der Herdr-App: nach der Rueckweg-Anweisung aus dem Verlauf (Begruessungstext von
+       `dtb:pane-start` bzw. Resume-Bericht) — den Block zuerst in die dort genannte
+       Hand-off-Datei im Git-Verwaltungsordner schreiben, dann von dort an das
+       Orchestrator-Terminal senden; die Kommandozeile steht nur dort, nie hier. Ohne
+       Herdr-App oder ohne Adresse: manuell kopieren.
        Der Orchestrator checkpointet damit (Empfangsseite: Schritt 1)
 
   Ausserhalb des Git-Verwaltungsordners wird weiterhin NICHTS geschrieben — der Block ist
-  Chat-Output, keine Datei.
+  Chat-Output; die Hand-off-Datei des Rueckwegs liegt wie die Notiz im
+  Git-Verwaltungsordner (nie committet, verschwindet mit dem Abbau).
 
 ---
 
@@ -255,7 +263,7 @@ Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende"; den WORKTREE
 
 ## Wechsel {YYYY-MM-DD HH:MM}
 
-Orchestrator: {pane-id | —}
+Orchestrator: {terminal-id | —}
 
 Erledigt:
 - {was wurde umgesetzt, mit Datei-/Schritt-Bezug}
