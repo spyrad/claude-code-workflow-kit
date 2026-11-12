@@ -334,7 +334,8 @@ dieser Datei an den Orchestrator schicken:
 hc send {orchestrator} "$(cat '{handoff-datei}')"
 Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empfangsseite.
 Endet der Befehl mit Exit 9 (beim Orchestrator steht ein Dialog offen), 30 Sekunden warten
-und wiederholen, hoechstens dreimal; NIE --force. Kommt er dann nicht an, dem Menschen
+und wiederholen — hoechstens drei Wiederholungen, also vier Versuche insgesamt; NIE
+--force. Kommt er dann nicht an, dem Menschen
 sagen — die Datei bleibt liegen, der Orchestrator liest sie auf „Stand?".
 ```
 

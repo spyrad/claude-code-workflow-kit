@@ -119,7 +119,7 @@ hc get "{terminal-id}" >/dev/null 2>&1 && echo ERREICHBAR || echo NICHT-ERREICHB
   eingesetzt; `{handoff-datei}` = `dtb-handoff.md` im selben Git-Verwaltungsordner wie die
   Notiz — der Ordner aus der `NOTIZ`- bzw. Pfad-Zeile des Blocks oben):
   `hc send {orchestrator} "$(cat '{handoff-datei}')"`
-  Darunter eine Zeile: `Exit 9 = beim Orchestrator steht ein Dialog offen → 30 s warten, wiederholen (hoechstens dreimal), nie --force`
+  Darunter eine Zeile: `Exit 9 = beim Orchestrator steht ein Dialog offen → 30 s warten, wiederholen (hoechstens drei Wiederholungen = vier Versuche), nie --force`
 
 > **Kopplungs-Hinweis (Herdr-Kanon):** Kommandos von `hc`/`herdr-app` leben sonst nur in
 > `dtb:worker` (`### Pane-Auftrag` / `### Pane-Ausfuehrung`). Dieser Schritt ist dort als

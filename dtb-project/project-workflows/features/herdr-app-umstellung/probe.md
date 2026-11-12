@@ -224,3 +224,53 @@ Zeilenzahlen: Worker 741 → 745, pane-start 354 → 379, resume 410 → 414.
 **Ungeprüft bis zur Abnahme (Plan-Phase 4):** die Start-Sequenz mit Begrüßungstext und der
 abweichenden Startzeile; der Rückweg aus einem interaktiven Tab über die Hand-off-Datei;
 `workflow-resume` 2a mit einer echten Übergabe-Notiz im neuen Adress-Schema.
+
+## Abnahme 4.1: Worker-Lauf mit Pane-Träger
+
+Geladen: skills/dtb-worker/SKILL.md (Repo-Fassung des Arbeitszweigs, Stand `c188566`; kein Slash-Befehl getippt)
+
+Gefahren 2026-11-12, 13:47–14:05, vom Orchestrator `t13` (hc 0.1.20, herdr-app 0.1.15). Freigabe
+durch den Menschen im Chat („weiter mit Phase 4"). Wegwerf-Aufgabe `zz-test-hc-worker`
+(`task.md`, drei Schritte, committet als `cd638c2`).
+
+| Punkt | Ergebnis | Beleg |
+|---|---|---|
+| Gate | ✅ | `APP-OK t13` |
+| Vorbedingungen | ✅ | `task.md` committet; keine fremde Session im Haupt-Checkout (Block ohne Ausgabe) |
+| Auftragsdatei | ✅ | `AUFTRAG-OK …/.git/worktrees/worker-zz-test-hc-worker/dtb-auftrag.md` |
+| Start, eigener Tab mit dem Slug als Namen | ✅ | `START-OK t1d zz-test-hc-worker 2026-11-12 13:48`, `TAB-OK tbbb94d6…` |
+| Auftrag kam an | ✅ | `ZUSTAND working`; erste Zeile in `ergebnis.md` um 13:49:10 |
+| Worker committet auf `task/zz-test-hc-worker` | ✅ | `96b4874`, nicht gepusht |
+| Hand-off-Block erreicht den Orchestrator von selbst | ✅ | Block im Tag `<hc from="t1d zz-test-hc-worker">` um 13:51, Kopfzeile vollständig |
+| Hand-off-Datei | ✅ | `dtb-handoff.md` im Git-Verwaltungsordner, erste Zeile = Kopfzeile |
+| Branch-Verifikation | ✅ grün | Commit vorhanden, `git diff --stat` = genau die zwei Dateien des Blocks, 0 uncommitted |
+| Senden trifft auf einen offenen Dialog beim Orchestrator (Probe 3.8) | ✅ | eigene Testmeldung: Versuche 1–3 mit Exit 9 abgewiesen (Dialog blieb unberührt), Versuch 4 kam an — geprüft an einer `WORKER-MELDUNG`, nicht am Hand-off selbst |
+| Meldung trifft ein, während der Mensch tippt (Probe 3.9) | ✅ | Eingabe kam als `abc <hc from="t1d …">…</hc>` an: der Entwurf wird VOR das Tag gehängt und mit abgeschickt; der Orchestrator wertete ihn als Entwurf, nicht als Auftrag |
+| Worker arbeitet bei geschlossenem App-Fenster zu Ende (Probe 3.10) | ◐ teilweise | Orchestrator-Session, Worker-Terminal und laufender Warte-Timer überlebten das Schließen; die Zeile in der Datei entstand aber erst nach dem Wiederöffnen (14:02:55) — echte Arbeit bei geschlossenem Fenster nicht gesehen |
+| Korrektur an den laufenden Worker | ✅ | fünfmal `hc send t1d "…"`, jeweils `{"started":true,…}`; der Text kam beim Worker als `<hc from="t13">…</hc>` an |
+| Angebot „Tab schließen", Schließen, Entfernen | ✅ | Ein-Wort-Bestätigung des Menschen, `TAB-ZU tbbb94d6…`, `ENTFERNT t1d` |
+| Ende-Meldung ohne Hook und ohne `/loop` | ✅ | `<hc>t1d zz-test-hc-worker exited (exit 1). Read: hc read t1d</hc>` traf von selbst ein, wenige Sekunden nach dem Schließen |
+| Aufräumen | ✅ | Worktree und Branch `task/zz-test-hc-worker` entfernt, Ordner `features/zz-test-hc-worker/` per `git rm` gelöscht |
+
+**Befunde:**
+
+1. **Wartezeit im Hintergrund = Turn-Ende ohne Meldung.** Die Umgebung blockt ein alleinstehendes
+   `sleep` im Vordergrund; der Worker ließ es im Hintergrund laufen, beendete seinen Zug und
+   wurde nach Ablauf von selbst fortgesetzt. In dieser Zeit stand er auf `done`, mit `1 shell`
+   in der Fußzeile, ohne Meldung an den Orchestrator. Folge: `done` ohne Hand-off heißt nicht
+   „hat aufgehört". Nachgearbeitet: die Stand-Prüfung im Worker liest vor der Warnung „steht
+   still" den Bildschirm und meldet bei laufender Hintergrund-Shell stattdessen
+   „wartet auf eigenen Hintergrund-Befehl".
+2. **„höchstens dreimal" war zweideutig.** Der Worker las es als drei Wiederholungen nach dem
+   ersten Versuch (vier Versuche). Nachgearbeitet: Wortlaut an allen drei Stellen
+   (Worker-Vorlage, Begrüßung von `pane-start`, `workflow-resume` 2a) auf „höchstens drei
+   Wiederholungen, also vier Versuche insgesamt".
+3. **`hc send` an einen Worker auf `done` startet sofort eine neue Runde** (`"started":true`) —
+   der Weg „Korrektur senden" trägt auch nach dem Hand-off.
+4. **Der Mensch braucht je Test genau eine Anweisung.** Der erste Versuch, drei Handgriffe in
+   einem Dialog zu bündeln, scheiterte; einzeln liefen alle Tests.
+
+**Ungeprüft geblieben:** Hand-off (statt Testmeldung) trifft auf einen offenen Dialog und wird
+aus der Datei gelesen (Ausgang (f)); Arbeit des Workers während das Fenster wirklich
+geschlossen ist; Vertrauens-Dialog beim Start (der Ordner war schon vertraut); `TAB-NAME-FEHLT`,
+`START-FEHLT`, `HC-FEHLT`.

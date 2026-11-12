@@ -11,7 +11,7 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
-| herdr-app-umstellung | In Arbeit | 12/19 | 3.1 → /dtb:implement herdr-app-umstellung phase 3 |
+| herdr-app-umstellung | In Arbeit | 17/19 | 4.2 → /dtb:implement herdr-app-umstellung phase 4 |
 
 ---
 
@@ -20,12 +20,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-12: #200 herdr-app-umstellung Phasen 1–2 fertig (`0378ebe`, `5da0035`) auf dem Arbeitszweig `feature/herdr-app-umstellung` im Haupt-Checkout, nicht gepusht — dieser Stand samt Log liegt bis zum Merge nur dort (#204); auf dem Zweig sucht `dtb:pane-start` bis Phase 3 den alten Abschnitts-Titel, die installierten Kopien sind unberührt; Phase 4 braucht den Menschen am App-Fenster; #199 nach der Nachmessung; #180 als nächstes Fast-Track-Thema |
+| **Notizen** | 2026-11-12: #200 herdr-app-umstellung Phasen 1–3 fertig (`0378ebe`, `5da0035`, `c188566`) und Abnahme 4.1 gefahren, auf dem Arbeitszweig `feature/herdr-app-umstellung` im Haupt-Checkout — dieser Stand samt Log liegt bis zum Merge nur dort (#204); Schritt 4.1 trägt noch keine SHA in `## Progress` (L6); die installierten Kopien unter `~/.claude/` sind unberührt, in Phase 4 deshalb keine Slash-Befehle für die umgebauten Skills (Lade-Regel im Plan); 4.2 und 4.3 brauchen den Menschen am App-Fenster — je Nachricht ein Handgriff (L131); #199 nach der Nachmessung; #180 als nächstes Fast-Track-Thema |
 
 ---
 
 ## Offene Aufgaben
 
+- [ ] **#200 Abnahme 4.1: zwei Reste bei 4.2 mitprüfen** — Kontext: Hand-off (statt Testmeldung) trifft auf einen offenen Dialog und wird aus der Datei gelesen; Arbeit des Workers bei wirklich geschlossenem App-Fenster — Protokoll in `features/herdr-app-umstellung/probe.md` → „Abnahme 4.1" (seit 2026-11-12)
 - [ ] **INBOX #112 (Checkliste vor dem Feature-Start) auf `dtb:implement` Schritt 1 umhängen** — Kontext: seit #179 startet `feature-start` keine Features mehr; beim nächsten `/dtb:idea-review` umformulieren (Nachtrag 2 zum Hand-off #179) (seit 2026-11-10)
 - [ ] **#178 plan-in-einem-befehl: ersten echten `/dtb:feature-plan`-Lauf beobachten** — Kontext: Lauf vom 2026-11-12 (#200) zählt nicht, er lud die alte installierte Kopie (#202); seit dem `kit-sync` vom 2026-11-12 ist die neue Fassung installiert — der nächste Lauf zählt; Beleg mit frischem Blick; dabei Backlog-Zweig (Status Geplant bzw. Spezifiziert) und Fehlerpfad „impl-plan nicht installiert" ansehen — im Probelauf nicht gefahren; Fehlerpfad „Anker fehlt" bei der Abnahme an einer Kopie belegt (seit 2026-11-09)
 - [ ] **#22 seed-skew-aktiv-melden: fetch-Teil der Abhilfe-Befehle im ersten echten Bestandsprojekt-Lauf beobachten** — Kontext: im Pane bewusst ungetestet (Kit-Klon nicht angefasst), show/diff/mv an einer Kopie gruen; naechster `kit-sync check` in einem Zielprojekt mit altem Seed (z. B. PKP) — seit #179 weicht der Seed (§7.3) überall ab (seit 2026-11-09)
@@ -62,6 +63,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:implement herdr-app-umstellung phase 3`
+**Naechster Befehl:** `/dtb:implement herdr-app-umstellung phase 4`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 120 ungesichtet → /dtb:idea-triage

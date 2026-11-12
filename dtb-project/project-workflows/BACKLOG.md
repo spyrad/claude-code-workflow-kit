@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-11-12 (#200 herdr-app-umstellung: Status In Arbeit synchronisiert, Plan 12/19)
+**Letzte Aktualisierung:** 2026-11-12 (#200 herdr-app-umstellung: weiter In Arbeit, Plan 17/19)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`

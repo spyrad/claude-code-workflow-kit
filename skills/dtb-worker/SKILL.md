@@ -251,7 +251,8 @@ die Datei {handoff-datei} und schicke ihn dann aus dieser Datei an den Orchestra
 hc send {orchestrator} "$(cat '{handoff-datei}')"
 Nichts paraphrasieren — die Kopfzeile ist der einzige Erkennungsanker der Empfangsseite.
 Endet der Befehl mit Exit 9 (beim Orchestrator steht ein Dialog offen), warte 30 Sekunden
-und wiederhole ihn, hoechstens dreimal; NIE --force. Kommt er dann nicht an, hoere auf —
+und wiederhole ihn — hoechstens drei Wiederholungen, also vier Versuche insgesamt; NIE
+--force. Kommt er dann nicht an, hoere auf —
 die Datei bleibt liegen, der Orchestrator liest sie.
 
 Hoerst du OHNE Hand-off auf (Frage, Fehler, Deckelung erreicht), schicke stattdessen genau
@@ -522,6 +523,10 @@ Stand {slug} ({adresse}, {branch}): {zustand} · +{n} Commits, zuletzt YYYY-MM-D
 
 Die Hinweiszeile „steht seit dem Start ohne Meldung still" gilt nur fuer `worker-`-Arbeitsplaetze —
 in einem `pane-`-Arbeitsplatz arbeitet ein Mensch, dort ist `done`/`idle` der Normalzustand.
+Vor dieser Zeile den Bildschirm lesen (`hc read --lines 0 {adresse}`): zeigt die Fusszeile
+eine laufende Hintergrund-Shell (`1 shell`), wartet der Worker auf einen eigenen
+Hintergrund-Befehl und setzt sich danach von selbst fort — dann statt der Warnung
+`· wartet auf eigenen Hintergrund-Befehl` an die Stand-Zeile haengen (belegt 2026-11-12).
 
 `done` und `idle` sind NIE ein Beleg fuer Fertigstellung (`done` = Turn beendet, noch nicht
 angesehen; `idle` = wartet auf Eingabe) — fertig ist ein Worker erst mit Hand-off und
