@@ -259,7 +259,7 @@ Sende-Seite (Weiche im `## Worktree-Guard` oben).
 
 Rolle: interaktive Arbeits-Session (ein Mensch arbeitet hier) — kein autonomer Worker
 Schreibgrenzen: nur Code und Change-Ordner dieses Changes; zentrale Dateien (WORKFLOW_STATUS.md, INBOX.md, BACKLOG.md, Changelog) schreibt allein der Orchestrator — Teil-Guards ueberspringen sie mit einer ↷-Zeile
-Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende"; den WORKTREE-HANDOFF-Block woertlich und vollstaendig inkl. Kopfzeile an den Orchestrator senden
+Rueckweg: am Ende der Arbeit /dtb:workflow-checkpoint → „Ende"; den WORKTREE-HANDOFF-Block woertlich und vollstaendig inkl. Kopfzeile erst in die Hand-off-Datei schreiben, dann an den Orchestrator senden
 
 ## Wechsel {YYYY-MM-DD HH:MM}
 

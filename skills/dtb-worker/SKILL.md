@@ -254,6 +254,7 @@ Endet der Befehl mit Exit 9 (beim Orchestrator steht ein Dialog offen), warte 30
 und wiederhole ihn — hoechstens drei Wiederholungen, also vier Versuche insgesamt; NIE
 --force. Kommt er dann nicht an, hoere auf —
 die Datei bleibt liegen, der Orchestrator liest sie.
+Jeder andere Fehler (nicht Exit 9): NICHT wiederholen — aufhoeren; die Datei bleibt liegen.
 
 Hoerst du OHNE Hand-off auf (Frage, Fehler, Deckelung erreicht), schicke stattdessen genau
 eine Zeile, mit derselben Wiederholungs-Regel:
@@ -345,8 +346,8 @@ hc 0.1.20 / herdr-app 0.1.15; Kommandos nur hier und in der Vorlage oben):
    [ -s "$G/dtb-auftrag.md" ] && echo "AUFTRAG-OK $G/dtb-auftrag.md" || echo "AUFTRAG-FEHLT Datei leer oder nicht schreibbar"
    ```
 
-   Den Pfad `{G}` vorher mit derselben ersten Zeile ermitteln (eigener Block, er wird in
-   den Auftragstext eingesetzt). `AUFTRAG-FEHLT {Grund}` → Abbruch dieser Aufgabe mit
+   Den Pfad `{G}` vorher mit den ersten beiden Zeilen dieses Blocks plus `echo "$G"`
+   ermitteln (eigener Block, er wird in den Auftragstext eingesetzt). `AUFTRAG-FEHLT {Grund}` → Abbruch dieser Aufgabe mit
    Meldung, kein Start
 3. **Tab starten, benennen, Zustellung pruefen.** In EINEM selbstaendigen Bash-Block:
 
@@ -433,6 +434,9 @@ Turn-Ende; das faengt die Meldepflicht des Auftrags, und wo der Worker sie vergi
 - **(e) Meldung der App `<hc>{adresse} {terminal-name} exited (exit N)…</hc>`** (Session
   beendet oder Tab geschlossen) → pruefen, ob in DIESER Session ein
   `WORKTREE-HANDOFF (dtb) — Quelle: {slug}`-Block eingetroffen ist:
+  - **Selbst geschlossen** (Abschluss Punkt 4 lief in dieser Session fuer `{slug}`) →
+    erwartete Meldung, keine Ausgabe, keine git-Abfrage (Worktree und Branch werden gerade
+    entfernt)
   - **Block da** → genau eine Bestaetigungszeile:
     `✅ {slug}: Session beendet, Hand-off liegt vor · +{n} Commits · {k} uncommitted · {Fortschritt}`
   - **Block fehlt** → Hand-off-Datei pruefen (Ausgang (f)); fehlt auch sie:
@@ -579,7 +583,8 @@ Worktree-Ordner von Hand geloescht, Verwaltungsordner steht bis zum `prune` noch
 `⚠ Uebergabe-Notiz in {pfad} nicht pruefbar — vor dem Abbau von Hand nachsehen: $(git rev-parse --git-common-dir)/worktrees/$(basename "{pfad}")/dtb-session-uebergabe.md (Name meist = Ordnername)`
 `ERZEUGT` → nur dann ohne Warnung, wenn in DIESER Orchestrator-Session ein
 `WORKTREE-HANDOFF (dtb) — Quelle: {slug} …`-Block eingetroffen ist (Verlauf; derselbe
-Anker wie in der Stand-Pruefung). Sonst
+Anker wie in der Stand-Pruefung) — oder die Hand-off-Datei liegt vor (Pruefpunkt 1 der
+Stand-Pruefung meldet `HANDOFF-DATEI`) → Ausgang (f), ebenfalls ohne Warnung. Sonst
 `⚠ Ende-Block fuer {slug} erzeugt, aber hier nicht eingetroffen — im Tab erneut /dtb:workflow-checkpoint → „Ende" und senden`
 (der Marker belegt nur das Erzeugen, nicht die Zustellung).
 — alle Warnungen: kein Abbruch, der Mensch entscheidet (die Notiz liegt im Git-Verwaltungsordner und
@@ -602,12 +607,17 @@ Abschluss vorbei (`git worktree remove`/`prune` von Hand) loescht sie still.
 
    ```bash
    N=$(printf '%s' "{slug}" | cut -c1-32)
-   T=$(hc ls --all 2>/dev/null | tr '}' '\n' | grep "\"name\":\"$N\"" | tail -1 | grep -o '"address":"[^"]*"' | cut -d'"' -f4)
-   [ -n "$T" ] || { echo "TERMINAL-WEG $N"; exit 0; }
+   T=$(hc ls --all 2>/dev/null | tr '}' '\n' | grep "\"name\":\"$N\"" | grep "\"parent\":\"$HC_TERMINAL_ID\"" | tail -1 | grep -o '"address":"[^"]*"' | cut -d'"' -f4)
+   [ -n "$T" ] || { echo "TAB-OFFEN (kein von dieser Session gestartetes Terminal $N — von Hand schliessen)"; exit 0; }
    TB=$(herdr-app ls 2>/dev/null | awk -v t="\"$T\"" '/"id": "tb/ {gsub(/[",]/,"",$2); id=$2} /"terminal":/ && index($0,t) {print id; exit}')
    [ -n "$TB" ] && herdr-app do tab.close --id "$TB" --confirmed true >/dev/null 2>&1 && echo "TAB-ZU $TB" || echo "TAB-OFFEN (kein Tab gefunden oder Schliessen gescheitert)"
    hc rm "$T" >/dev/null 2>&1 && echo "ENTFERNT $T" || echo "NICHT-ENTFERNT $T (laeuft noch — erst im Tab beenden)"
    ```
+
+   Der Filter auf `"parent"` setzt die Regel „nur selbst gestartete Terminals" durch — der
+   Name allein ist nicht eindeutig (gekuerzter Slug, beendete Alt-Eintraege, von Hand gleich
+   benannter Tab). Meldet der Block `TAB-OFFEN (kein von dieser Session …)`, nichts
+   schliessen und die Zeile dem Menschen zeigen.
 
    Danach `git worktree remove {pfad}` + `git branch -d task/{slug}` — unter Windows ggf.
    kurz warten (Datei-Lock des eben geschlossenen Tabs) und mit `git worktree prune`

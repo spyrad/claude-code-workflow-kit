@@ -118,10 +118,10 @@ Alle vier Punkte der Planung sind seit dem 2026-11-12 entschieden (Belege: `prob
 - Tab mit Kind-Beziehung: Start über `hc run --bg` mit Fenster-Label, danach den Tab umbenennen; der erste Auftrag ist einzeilig und nennt eine Auftragsdatei.
 - Tab nach der Abnahme: Der Orchestrator bietet das Schließen an, der Mensch bestätigt.
 
-Noch ungeprüft, in die Abnahme (Plan-Schritt 4.1) verlegt:
+In der Abnahme beantwortet (2026-11-12):
 
-- Trifft eine Meldung ein, während der Mensch beim Orchestrator tippt — wird sie zurückgehalten?
-- Arbeitet ein Worker bei geschlossenem App-Fenster zu Ende?
+- Trifft eine Meldung ein, während der Mensch beim Orchestrator tippt: Sie wird nicht zurückgehalten — der Entwurf wird vor die Meldung gehängt und mit abgeschickt; der Orchestrator wertet ihn als Entwurf, nicht als Auftrag (`probe.md` → „Abnahme 4.1").
+- Arbeitet ein Worker bei geschlossenem App-Fenster zu Ende: ja, belegt im zweiten Anlauf (`probe.md` → „Abnahme 4.2").
 
 ---
 

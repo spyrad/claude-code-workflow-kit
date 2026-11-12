@@ -337,6 +337,8 @@ Endet der Befehl mit Exit 9 (beim Orchestrator steht ein Dialog offen), 30 Sekun
 und wiederholen — hoechstens drei Wiederholungen, also vier Versuche insgesamt; NIE
 --force. Kommt er dann nicht an, dem Menschen
 sagen — die Datei bleibt liegen, der Orchestrator liest sie auf „Stand?".
+Jeder andere Fehler (nicht Exit 9): NICHT wiederholen — aufhoeren und dem Menschen sagen;
+die Datei bleibt liegen.
 ```
 
 **Regeln zur Vorlage:**

@@ -270,6 +270,10 @@ durch den Menschen im Chat („weiter mit Phase 4"). Wegwerf-Aufgabe `zz-test-hc
 4. **Der Mensch braucht je Test genau eine Anweisung.** Der erste Versuch, drei Handgriffe in
    einem Dialog zu bündeln, scheiterte; einzeln liefen alle Tests.
 
+Beleg der Nacharbeit (Befunde 1 und 2): Sie liegt im Checkpoint-Commit `860f493`, nicht im
+Phasen-Commit `851b4b9`. Der Hinweis zum Hintergrund-Befehl (Befund 1) ist nach dem Einbau in
+keinem Abnahme-Lauf erneut gefahren; die Wiederholungs-Regel (Befund 2) lief in „Abnahme 4.2".
+
 **Ungeprüft geblieben:** Hand-off (statt Testmeldung) trifft auf einen offenen Dialog und wird
 aus der Datei gelesen (Ausgang (f)); Arbeit des Workers während das Fenster wirklich
 geschlossen ist; Vertrauens-Dialog beim Start (der Ordner war schon vertraut); `TAB-NAME-FEHLT`,

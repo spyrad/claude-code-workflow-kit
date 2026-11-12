@@ -99,8 +99,10 @@ echo "NOTIZ $N"; cat "$N"
 
 **Adress-Pruefung (deklarierte Herdr-Ausnahme):** Der juengste `Orchestrator:`-Wert ist eine
 fluechtige Momentaufnahme (Terminal-ID der Herdr-App, z.B. `t13`). Ist er nicht `—`, in EINEM
-selbstaendigen Bash-Block pruefen — nur der Exit-Code zaehlt (0 = vorhanden, 3 = nicht
-gefunden, 11 = beendet), die Ausgabe wird nicht per Regex gelesen:
+selbstaendigen Bash-Block pruefen — nur der Exit-Code zaehlt (0 = bekannt — auch ein
+beendetes, noch nicht entferntes Terminal —, 3 = nicht gefunden; belegt 2026-11-12), die
+Ausgabe wird nicht per Regex gelesen. Exit 0 belegt nur, dass die App das Terminal kennt,
+nicht dass dort eine Session laeuft:
 
 ```bash
 [ -n "$HC_TERMINAL_ID" ] && command -v hc >/dev/null 2>&1 || { echo APP-AUS; exit 0; }
@@ -109,7 +111,7 @@ hc get "{terminal-id}" >/dev/null 2>&1 && echo ERREICHBAR || echo NICHT-ERREICHB
 
 - `ERREICHBAR` → `(erreichbar)`; `APP-AUS` (Session laeuft nicht in der Herdr-App) → Pruefung
   still ueberspringen, `(ungeprueft)` — Sichern und Wiederfinden laufen ohne die App weiter
-- `NICHT-ERREICHBAR` (z.B. Orchestrator neu gestartet oder beendet; auch jede Adresse im
+- `NICHT-ERREICHBAR` (z.B. Orchestrator neu gestartet oder beendet und entfernt; auch jede Adresse im
   Schema der alten `herdr`-CLI aus einer aelteren Notiz — kein Sonderfall) → die
   ⚠-Zeile im Abschnitt, darunter die Textzeile
   `Neue Orchestrator-Adresse? · weiter = ohne (Block manuell tragen)`. Die Antwort gilt fuer
@@ -119,7 +121,7 @@ hc get "{terminal-id}" >/dev/null 2>&1 && echo ERREICHBAR || echo NICHT-ERREICHB
   eingesetzt; `{handoff-datei}` = `dtb-handoff.md` im selben Git-Verwaltungsordner wie die
   Notiz — der Ordner aus der `NOTIZ`- bzw. Pfad-Zeile des Blocks oben):
   `hc send {orchestrator} "$(cat '{handoff-datei}')"`
-  Darunter eine Zeile: `Exit 9 = beim Orchestrator steht ein Dialog offen → 30 s warten, wiederholen (hoechstens drei Wiederholungen = vier Versuche), nie --force`
+  Darunter eine Zeile: `Exit 9 = beim Orchestrator steht ein Dialog offen → 30 s warten, wiederholen (hoechstens drei Wiederholungen = vier Versuche), nie --force · jeder andere Fehler: nicht wiederholen, aufhoeren und dem Menschen sagen — die Datei bleibt liegen`
 
 > **Kopplungs-Hinweis (Herdr-Kanon):** Kommandos von `hc`/`herdr-app` leben sonst nur in
 > `dtb:worker` (`### Pane-Auftrag` / `### Pane-Ausfuehrung`). Dieser Schritt ist dort als
