@@ -335,12 +335,12 @@ und kein Slash-Befehl fuer die umgebauten Skills getippt — stattdessen:
 - [x] 1.3 Rueckmeldung ohne Hook und Takt — `0378ebe`
 - [x] 1.4 Lektionen und Befunde sichten — `0378ebe`
 - [x] 1.5 Entscheidungen festschreiben — `0378ebe`
-- [x] 2.1 Gate, Traeger-Weiche, Frontmatter
-- [x] 2.2 Pane-Auftrag und Vorbedingungen
-- [x] 2.3 Start-Sequenz
-- [x] 2.4 Rueckweg Warten ohne Warten
-- [x] 2.5 Ueberwachung
-- [x] 2.6 Eigenpruefung des neuen Textes
+- [x] 2.1 Gate, Traeger-Weiche, Frontmatter — `5da0035`
+- [x] 2.2 Pane-Auftrag und Vorbedingungen — `5da0035`
+- [x] 2.3 Start-Sequenz — `5da0035`
+- [x] 2.4 Rueckweg Warten ohne Warten — `5da0035`
+- [x] 2.5 Ueberwachung — `5da0035`
+- [x] 2.6 Eigenpruefung des neuen Textes — `5da0035`
 - [ ] 3.1 pane-start
 - [ ] 3.2 workflow-resume und workflow-checkpoint
 - [ ] 3.3 Doku

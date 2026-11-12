@@ -11,7 +11,7 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
-| herdr-app-umstellung | Geplant | 0/19 | 1.0 → /dtb:implement herdr-app-umstellung |
+| herdr-app-umstellung | In Arbeit | 12/19 | 3.1 → /dtb:implement herdr-app-umstellung phase 3 |
 
 ---
 
@@ -20,7 +20,7 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-12: #200 herdr-app-umstellung geplant und reviewt; die Sessions laufen bereits in der Herdr-App (`HC_TERMINAL_ID` gesetzt), Schritt 1.0 zur Hälfte erledigt (Commit `7b17b8e`, Zweig fehlt); `kit-sync` 18/18 auf `044d430`; #199 nach der Nachmessung; #180 als nächstes Fast-Track-Thema |
+| **Notizen** | 2026-11-12: #200 herdr-app-umstellung Phasen 1–2 fertig (`0378ebe`, `5da0035`) auf dem Arbeitszweig `feature/herdr-app-umstellung` im Haupt-Checkout, nicht gepusht — dieser Stand samt Log liegt bis zum Merge nur dort (#204); auf dem Zweig sucht `dtb:pane-start` bis Phase 3 den alten Abschnitts-Titel, die installierten Kopien sind unberührt; Phase 4 braucht den Menschen am App-Fenster; #199 nach der Nachmessung; #180 als nächstes Fast-Track-Thema |
 
 ---
 
@@ -37,7 +37,7 @@
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — bisher nur „Ende" im Betrieb gesehen (#178 und #179 ebenfalls nur „Ende") (seit 2026-10-22 · behalten 2026-10-29) ⏳
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-11-03) ⏳
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-29) ⏳
-- [ ] **`/dtb:idea-triage`** — Kontext: 117 ungesichtet, mit Vorsortierung; #54/#70 sind korrekt escapt (geprüft 2026-11-06) (seit ≤2026-09-09 · behalten 2026-10-29) ⏳
+- [ ] **`/dtb:idea-triage`** — Kontext: 120 ungesichtet, mit Vorsortierung; #54/#70 sind korrekt escapt (geprüft 2026-11-06) (seit ≤2026-09-09 · behalten 2026-10-29) ⏳
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-29) ⏳
 
 ---
@@ -62,6 +62,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:implement herdr-app-umstellung`
+**Naechster Befehl:** `/dtb:implement herdr-app-umstellung phase 3`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 117 ungesichtet → /dtb:idea-triage
+**Becken:** 120 ungesichtet → /dtb:idea-triage
