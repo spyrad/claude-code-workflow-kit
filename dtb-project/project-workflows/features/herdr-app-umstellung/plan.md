@@ -329,18 +329,18 @@ und kein Slash-Befehl fuer die umgebauten Skills getippt — stattdessen:
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.0 Planungsstand sichern, Arbeitszweig anlegen
-- [x] 1.1 Umgebung und Adressen
-- [x] 1.2 Start, Sichtbarkeit, Zustellung
-- [x] 1.3 Rueckmeldung ohne Hook und Takt
-- [x] 1.4 Lektionen und Befunde sichten
-- [x] 1.5 Entscheidungen festschreiben
-- [ ] 2.1 Gate, Traeger-Weiche, Frontmatter
-- [ ] 2.2 Pane-Auftrag und Vorbedingungen
-- [ ] 2.3 Start-Sequenz
-- [ ] 2.4 Rueckweg Warten ohne Warten
-- [ ] 2.5 Ueberwachung
-- [ ] 2.6 Eigenpruefung des neuen Textes
+- [x] 1.0 Planungsstand sichern, Arbeitszweig anlegen — `0378ebe`
+- [x] 1.1 Umgebung und Adressen — `0378ebe`
+- [x] 1.2 Start, Sichtbarkeit, Zustellung — `0378ebe`
+- [x] 1.3 Rueckmeldung ohne Hook und Takt — `0378ebe`
+- [x] 1.4 Lektionen und Befunde sichten — `0378ebe`
+- [x] 1.5 Entscheidungen festschreiben — `0378ebe`
+- [x] 2.1 Gate, Traeger-Weiche, Frontmatter
+- [x] 2.2 Pane-Auftrag und Vorbedingungen
+- [x] 2.3 Start-Sequenz
+- [x] 2.4 Rueckweg Warten ohne Warten
+- [x] 2.5 Ueberwachung
+- [x] 2.6 Eigenpruefung des neuen Textes
 - [ ] 3.1 pane-start
 - [ ] 3.2 workflow-resume und workflow-checkpoint
 - [ ] 3.3 Doku

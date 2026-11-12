@@ -114,3 +114,65 @@ von selbst — dafür braucht es weder Stop-Hook noch Takt. Zwei Reste bleiben:
    der Worker bekommt Exit 9. Der Dialog ist damit geschützt (die Kernannahme kippt nicht),
    aber der Auftrag an den Worker braucht eine Regel für diesen Fall — Block zusätzlich in eine
    Datei schreiben und das Senden wiederholen bzw. den Fehlschlag sichtbar stehen lassen.
+
+---
+
+## Eigenprüfung Phase 2
+
+**Stand:** 2026-11-12 · Gegenstand: `skills/dtb-worker/SKILL.md` auf dem Arbeitszweig
+(Repo-Fassung, nicht die installierte Kopie). Jeder Bash-Block wurde aus der Skill-Datei
+herausgelöst (Zeile der öffnenden Code-Marke), von der Listen-Einrückung befreit, mit
+Platzhaltern gefüllt und einzeln in einer frischen Shell gefahren. Test-Arbeitsplatz:
+Worktree `.dtb-worktrees/worker-zz-test-hc-eigen`, Zweig `task/zz-test-hc-eigen`, Terminals
+`t1b` und `t1c` — alles wieder entfernt.
+
+### Blöcke
+
+| # | Block (Abschnitt) | Ergebnis |
+|---|-------------------|----------|
+| E1 | Gate (`### Traeger-Weiche`) | in der App `APP-OK t13`; mit geleerter Variable `APP-FEHLT` |
+| E2 | Fremde Session (`#### Hinweg: Vorbedingungen`) | erste Fassung fand nichts, auch nicht in der Positivprobe — der Pfadvergleich scheiterte an doppelten Schrägstrichen (`c://users//…`). Korrigiert auf `sed 's#[\\][\\]*#/#g'`; danach: eigene Adresse `t13` → leer, als fremde Adresse `t99` → `t13` |
+| E3 | Auftragsdatei schreiben (`#### Hinweg: Start-Sequenz`, Schritt 2) | `AUFTRAG-OK …/.git/worktrees/worker-zz-test-hc-eigen/dtb-auftrag.md`; mehrzeiliger Text mit Anführungszeichen unverändert in der Datei |
+| E4 | Tab starten, benennen, Zustellung prüfen (Schritt 3), erste Fassung | `START-OK t1b …`, aber `TAB-NAME-FEHLT` und `ZUSTAND idle`: der Tab erschien erst kurz nach dem Start im Fenster, und die Session stand beim Abfragen noch auf `idle`. Der Bildschirm (`hc read --lines 0 t1b`) zeigte die angekommene Startzeile und eine arbeitende Session |
+| E5 | derselbe Block, korrigiert (Schleife: höchstens 90 s, alle 5 s) | `START-OK t1c zz-test-hc-eigen 2026-11-12 12:53`, `TAB-OK tb1d23…`, `ZUSTAND working`, Dauer 5 s; `herdr-app ls` zeigt Tab und Terminal mit dem Namen `zz-test-hc-eigen` |
+| E6 | Stand-Prüfung, Prüfpunkt 1 (`#### Rueckweg: Stand-Pruefung`) | `ADRESSE t1b`, `ZUSTAND live done`, `HANDOFF-DATEI …/dtb-handoff.md`; unbekannter Slug → `TERMINAL-WEG zz-gibt-es-nicht` |
+| E7 | Tab schließen (`#### Abschluss`, Punkt 4) | `TAB-ZU tb3a48…`, `ENTFERNT t1b`; die App meldete danach von selbst `<hc>t1b zz-test-hc-eigen exited (exit 1)…</hc>` |
+| E8 | Übergabe-Notiz-Block (`#### Abschluss`, vor Punkt 1) | unverändert übernommen, enthält kein Kommando von `hc`/`herdr-app` — nicht erneut gefahren |
+
+### Ablauf am Stück (beide Läufe)
+
+- Die Startzeile `Lies die Datei …/dtb-auftrag.md vollstaendig und fuehre den Auftrag darin aus.`
+  kam an; der Worker las die Datei aus dem Git-Verwaltungsordner ohne Rückfrage (diese Sessions
+  laufen im Modus „auto"; andere Berechtigungs-Modi **ungeprüft**).
+- Der Worker schrieb den Block in `dtb-handoff.md` und sendete ihn mit
+  `hc send t13 "$(cat '…/dtb-handoff.md')"`. Angekommen ist er vollständig, vier Zeilen, mit
+  Anführungszeichen: `<hc from="t1b zz-test-hc-eigen">WORKTREE-HANDOFF (dtb) — Quelle: …</hc>`.
+- Adressen können Buchstaben tragen (`t1b`, `t1c`) — kein Muster auf „t + Ziffern" verwenden.
+
+### Kommandos im Skill gegen die Belege
+
+| Kommando im Skill | Beleg |
+|-------------------|-------|
+| `command -v hc`, `command -v herdr-app`, `$HC_TERMINAL_ID` | Probe 1.1–1.4, E1 |
+| `hc get "$HC_TERMINAL_ID"` → Label `herdr.space` | Probe 1.9, E4/E5 |
+| `hc run --bg --json --name … --cwd … --label herdr.space=… claude "…"` | Probe 2.B1–2.B5, E4/E5 |
+| `herdr-app ls` (Tab-Kennung zum Terminal) und `herdr-app do tab.rename --id … --name …` | Probe 2.B4, E5 |
+| `hc ls`, `hc ls --all` (flache Einträge mit `name`, `state`, `status`) | Probe 1.7, E2, E6 |
+| `hc read --lines 0 {adresse}` | Probe 2 und 3, E4 |
+| `hc send {adresse} "…"`, auch mehrzeilig und aus einer Datei | Probe 2.S1, 2.S2, Ablauf oben |
+| `herdr-app do tab.close --id … --confirmed true`, `hc rm {adresse}` | Probe 3.5, E7 |
+| `hc get {orchestrator}` nur über den Exit-Code (0 vorhanden, 3 nicht gefunden) | gefahren am 2026-11-12: unbekannter Name → Exit 3, beendetes Terminal → Exit 0, entferntes → Exit 3 |
+| `MSYS_NO_PATHCONV=1` vor Text mit führendem `/` | Probe 2.S3, 2.S4 |
+
+**Im Skill beschrieben, aber ungeprüft** (gehen in die Abnahme, Schritt 4.1):
+
+- Wiederholung des Hand-offs nach Exit 9 durch den Worker selbst (die Abweisung ist belegt,
+  Probe 3.8; das Wiederholen und der Ausgang „Hand-off aus der Datei gelesen" nicht)
+- die Zeile `WORKER-MELDUNG (dtb) — …` bei einem Aufhören ohne Hand-off
+- Start-Dialog (Vertrauensfrage) und der Hinweis „Status-Erkennung fehlt auf diesem Rechner"
+- alle `START-FEHLT`- und `AUFTRAG-FEHLT`-Zweige außer dem Normalfall
+- der volle Auftragstext der Vorlage mit einer echten `task.md` (hier lief ein gekürzter Testauftrag)
+
+**Unverändert:** Subagenten-Träger und Listen-Lauf — der Abschnitt ab
+`### Schritt 6: Worker starten` ist gleich dem Stand vor dem Umbau (113 Zeilen auf beiden
+Seiten, kein Unterschied). Zeilenzahl der Datei: 741 → 740.
