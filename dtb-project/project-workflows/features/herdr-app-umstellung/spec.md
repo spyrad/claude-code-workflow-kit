@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-12
 **Ziel:** Alle Herdr-gestützten Abläufe des Kits (Pane-Worker, interaktiver Pane-Start, Pane-Übergabe) laufen in der Herdr-App über `hc` und `herdr-app` statt über die alte `herdr`-CLI.
 **Prioritaet:** Hoch
-**Status:** In Arbeit <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
