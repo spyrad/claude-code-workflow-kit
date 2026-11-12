@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-11-10
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-11/2026-11-10.md`
+**Letztes Update:** 2026-11-12
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-11/2026-11-12.md`
 
 ---
 
@@ -11,6 +11,7 @@
 |------|---------------------|-------------|-------------------|
 | checkpoint-ohne-rueckfragen | Fertig zum Testen | 8/8 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
 | checkpoint-schneller | Fertig zum Testen | 6/6 | gemeinsame Nachmessung bis 2026-12-02, dann Abnahme |
+| herdr-app-umstellung | Geplant | 0/19 | 1.1 → /dtb:implement herdr-app-umstellung |
 
 ---
 
@@ -19,7 +20,7 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | #179 implement-ohne-feature-start abgenommen, gemergt (`3ab951d`), gepusht, kit-sync 9/9, Worktree/Branch entfernt, archiviert |
+| **Notizen** | 2026-11-12: #199 (Checkpoint committet eigene Pfade, Push per Opt-in) erfasst, Umsetzung nach der Nachmessung; #180 als nächstes Fast-Track-Thema gewählt |
 
 ---
 
@@ -61,6 +62,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** — offen — (mit /dtb:workflow-next bestimmen)
+**Naechster Befehl:** `/dtb:implement herdr-app-umstellung`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 115 ungesichtet → /dtb:idea-triage
+**Becken:** 116 ungesichtet → /dtb:idea-triage
