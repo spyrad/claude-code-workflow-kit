@@ -111,10 +111,17 @@ Rückmeldung von `hc`.
 
 ## Offene Punkte
 
-- Braucht die App eine Claude-Integration für die Status-Erkennung (Gegenstück zu `herdr integration install claude` der alten CLI)?
-- Ersetzt die eingebaute `hc`-Rückmeldung den Stop-Hook vollständig, oder bleibt ein Rest (Turn-Ende ohne Terminal-Ende)?
-- Wie wird ein Tab so angelegt, dass sein Terminal zugleich als Kind des Orchestrators gilt (damit dessen Meldungen ankommen) — über `herdr-app` allein, oder Terminal über `hc` starten und danach im Tab zeigen?
-- Was geschieht mit dem Tab eines Workers nach der Abnahme — schließt ihn der Orchestrator, oder bleibt das beim Menschen?
+Alle vier Punkte der Planung sind seit dem 2026-11-12 entschieden (Belege: `probe.md`, Tabelle „Technische Entscheidungen" in `plan.md`):
+
+- Claude-Integration: nicht nötig — frische Sessions melden ihren Status ohne Zutun; die Start-Sequenz bekommt eine Hinweiszeile für den Fall, dass die Erkennung fehlt.
+- Stop-Hook: entfällt ganz. Zwei Reste sind ohne Hook gelöst: die Meldepflicht des Workers je Turn-Ende und die Hand-off-Datei für einen abgewiesenen Hand-off.
+- Tab mit Kind-Beziehung: Start über `hc run --bg` mit Fenster-Label, danach den Tab umbenennen; der erste Auftrag ist einzeilig und nennt eine Auftragsdatei.
+- Tab nach der Abnahme: Der Orchestrator bietet das Schließen an, der Mensch bestätigt.
+
+Noch ungeprüft, in die Abnahme (Plan-Schritt 4.1) verlegt:
+
+- Trifft eine Meldung ein, während der Mensch beim Orchestrator tippt — wird sie zurückgehalten?
+- Arbeitet ein Worker bei geschlossenem App-Fenster zu Ende?
 
 ---
 

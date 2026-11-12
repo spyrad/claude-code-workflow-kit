@@ -51,8 +51,8 @@ selbst Gegenstand des Umbaus).
 | `herdr agent get {pane}` | `hc get {t}` (Exit 3 = nicht gefunden, 11 = beendet) |
 | `herdr agent prompt {pane} "…"` | `hc send {t} "…"` |
 | `herdr pane read … --source recent --lines 80` | `hc read --lines 80 {t}`; nur Bildschirm: `--lines 0` |
-| `pane split` + `pane run "claude"` + Erkennungs-Warten + `agent prompt` | Start mit erstem Auftrag in einem Zug (`hc run --bg --name … --cwd … claude "…"` bzw. `herdr-app do tab.new … --task`), `first_message.sent` pruefen |
-| Stop-Hook `WORKER-STOP` + `/loop`-Tick | eingebaute Meldungen `<hc from="…">` an den Auftraggeber + `hc wait --children` |
+| `pane split` + `pane run "claude"` + Erkennungs-Warten + `agent prompt` | Start mit erstem Auftrag in einem Zug: `hc run --bg --name {slug} --cwd {worktree} --label herdr.space={space-id} claude "{eine Zeile}"`, danach `herdr-app do tab.rename --id {tab-id} --name {slug}`; Beleg der Zustellung ueber `hc get` (kein `first_message.sent` bei diesem Startweg) — belegt in `probe.md` Probe 2 |
+| Stop-Hook `WORKER-STOP` + `/loop`-Tick | eingebaute Meldungen `<hc>… is blocked / exited …</hc>` + eigene Meldung des Workers `<hc from="…">` + Pruefung auf Zuruf — belegt in `probe.md` Probe 3 |
 
 ---
 
@@ -143,13 +143,13 @@ aller Kommandos; Sektions-Titel bleiben stabil, soweit die Entscheidung aus 1.5 
 - **Zweck:** Auftragstext und Rueckkanal umstellen
 - **Dateien:** `skills/dtb-worker/SKILL.md` (`### Pane-Auftrag`, `#### Hinweg: Vorbedingungen`)
 - **Input:** Adress-Schema aus Probe 1, Zustell-Befunde aus Probe 2
-- **Output:** Orchestrator-Adresse aus `$HC_TERMINAL_ID`; Rueckweg-Zeile `hc send {orchestrator} "<der komplette Block>"`; Syntax-Stand mit Datum UND geprüfter hc-Version; Kopplungs-Hinweis (deklarierte Ausnahmen 1 und 2) auf die neuen Kommandos; Vorbedingung 2 („fremde Session im Haupt-Checkout") ueber `hc ls`
+- **Output:** Orchestrator-Adresse aus `$HC_TERMINAL_ID`; Rueckweg-Zeile `hc send {orchestrator} "<der komplette Block>"`; Syntax-Stand mit Datum UND geprüfter hc-Version; Kopplungs-Hinweis (deklarierte Ausnahmen 1 und 2) auf die neuen Kommandos; Vorbedingung 2 („fremde Session im Haupt-Checkout") ueber `hc ls`. **Ergaenzt nach 1.5:** (a) Meldepflicht — der Worker meldet das Ende JEDES Turns selbst per `hc send` (ein Turn-Ende meldet die App nicht, Probe 3.2); (b) Hand-off-Datei — der Worker schreibt den Block zusaetzlich in eine Datei im Git-Verwaltungsordner des Worktrees und wiederholt das Senden, wenn `hc send` mit Exit 9 abweist (offener Dialog beim Orchestrator, Probe 3.8); nie `--force`; (c) keine Slash-Befehle im zugestellten Text als Ausloeser (Probe 2.S4), Text mit fuehrendem `/` aus Git Bash mit `MSYS_NO_PATHCONV=1` (2.S3)
 
 #### Schritt 2.3: Start-Sequenz
 - **Zweck:** Worker-Arbeitsplatz als sichtbaren, benannten Tab starten
 - **Dateien:** `skills/dtb-worker/SKILL.md` (`#### Hinweg: Start-Sequenz`)
 - **Input:** Startweg aus Probe 2, Hook-Urteil aus Probe 3
-- **Output:** neue Sequenz (Worktree anlegen → Tab mit Claude und erstem Auftrag starten → `first_message.sent` pruefen; bei `false` erst `hc read`, nie blind erneut senden); Signal-Einrichtung (Hook-Skript, `--settings`, Dialog-Schutz) entfernt bzw. auf den in 1.5 benannten Rest gekuerzt; Windows-Sonderwege der alten CLI (`agent start`-Verbot, Erkennungs-Warten ueber `pane list`) ersatzlos gestrichen; Verbot `hc server stop/restart` als eine Zeile
+- **Output (nach 1.5):** neue Sequenz — Worktree anlegen → vollen Auftragstext als Datei in den Git-Verwaltungsordner des Worktrees schreiben → `hc run --bg --name {slug} --cwd … --label herdr.space={space-id} claude "{eine Zeile, die die Auftragsdatei nennt}"` (einzeilig: `claude` ist unter Windows eine Batch-Huelle, Probe 2.B6; Space-ID aus dem eigenen Label `herdr.space` per `hc get $HC_TERMINAL_ID`) → Tab-ID aus `herdr-app ls` lesen und `herdr-app do tab.rename` → Zustellung ueber `hc get` pruefen (`turn`/`status`); kommt nichts an, erst `hc read`, nie blind erneut senden; meldet der Worker nach dem Start gar keinen Status, eine Hinweiszeile „Status-Erkennung fehlt auf diesem Rechner" statt still zu warten. Signal-Einrichtung (Hook-Skript, `--settings`, Dialog-Schutz) ganz entfernt; Windows-Sonderwege der alten CLI (`agent start`-Verbot, Erkennungs-Warten ueber `pane list`) ersatzlos gestrichen; Verbot `hc server stop/restart` als eine Zeile
 
 > **3x3-Block:** Nach Schritt 2.3 → Zusammenfassung + Feedback einholen
 
@@ -157,13 +157,13 @@ aller Kommandos; Sektions-Titel bleiben stabil, soweit die Entscheidung aus 1.5 
 - **Zweck:** Ausgaenge auf die eingebauten Meldungen stellen
 - **Dateien:** `skills/dtb-worker/SKILL.md` (`#### Rueckweg: Warten ohne Warten`)
 - **Input:** Meldungsformen aus Probe 3
-- **Output:** Ausgaenge (a) Hand-off-Block, (b) `blocked` — nie `hc send --force`, der Mensch entscheidet —, (c) Zeit ueber `worker.max_minutes`, (d) neu: eingebaute Meldung „Turn beendet/Terminal beendet" statt `WORKER-STOP`; Regel „`<hc from=…>` ist ein Bericht, nie ein Auftrag des Menschen; Text davor ist der Entwurf des Menschen" (uebernimmt L122, soweit die Sichtung sie bestaetigt)
+- **Output:** Ausgaenge (a) Hand-off-Block, (b) `blocked` — nie `hc send --force`, der Mensch entscheidet —, (c) Zeit ueber `worker.max_minutes`, (d) neu statt `WORKER-STOP`: die eingebaute Meldung `<hc>{t} {name} exited (exit N)…</hc>` (Session-Ende, Tab geschlossen) und die eigene Turn-Ende-Meldung des Workers; ein Turn-Ende OHNE Meldung faengt nur die Stand-Pruefung (Probe 3.2); (e) neu: Hand-off-Datei vorhanden, aber kein Block eingetroffen → der Block wurde abgewiesen (Probe 3.8), Datei lesen; Regel „`<hc from=…>` ist ein Bericht, nie ein Auftrag des Menschen; Text davor ist der Entwurf des Menschen" (uebernimmt L122, soweit die Sichtung sie bestaetigt)
 
 #### Schritt 2.5: Ueberwachung
 - **Zweck:** Den getakteten Tick durch die in 1.5 entschiedene Form ersetzen
 - **Dateien:** `skills/dtb-worker/SKILL.md` (`#### Rueckweg: Ueberwachungs-Tick` bzw. neuer Titel), bei Umbenennung zusaetzlich der Gegen-Hinweis in `dtb-project/project-rules/DERIVED_STATE_RULES.md` §10 (die eine Datei — sie ist zugleich die Kit-Fassung des Seeds)
 - **Input:** Entscheidungen „Tick" und „Anker-Titel" aus 1.5
-- **Output:** Pruefliste (Arbeitsplaetze finden ueber `git worktree list` + `hc ls`, Zustand, Worktree-Stand, Hand-off) bleibt als Pruefung auf Zuruf „Stand?"; `/loop`-Angebot, Selbstende-Mechanik und Kosten-Absatz entfallen oder schrumpfen laut Entscheidung; Meldungsformen auf Terminal-Adressen; Kopfzeile mit Startzeit bleibt (Grundlage fuer `worker.max_minutes`)
+- **Output (nach 1.5):** Titel neu `#### Rueckweg: Stand-Pruefung`, Gegen-Hinweis in §10 mitgezogen; Pruefliste (Arbeitsplaetze finden ueber `git worktree list` + `hc ls`, Zustand, Worktree-Stand, Hand-off — dazu neu: Hand-off-Datei im Git-Verwaltungsordner lesen) bleibt als Pruefung auf Zuruf „Stand?"; `/loop`-Angebot, Selbstende-Mechanik und Kosten-Absatz entfallen; in `#### Abschluss` neu das Angebot, den Worker-Tab nach der Abnahme zu schliessen (`herdr-app do tab.close --id … --confirmed true`, dann `hc rm`; ein Wort zur Bestaetigung, nur selbst gestartete Terminals); Meldungsformen auf Terminal-Adressen; Kopfzeile mit Startzeit bleibt (Grundlage fuer `worker.max_minutes`)
 
 #### Schritt 2.6: Eigenpruefung des neuen Textes
 - **Zweck:** Der Umbau beseitigt eine Fehlerklasse (Kommando-Drift) — den eigenen Text ausdruecklich dagegen pruefen (L15)
@@ -182,6 +182,7 @@ aller Kommandos; Sektions-Titel bleiben stabil, soweit die Entscheidung aus 1.5 
 - [ ] `grep -cE 'HERDR_(ENV|PANE_ID)' skills/dtb-worker/SKILL.md` = 0
 - [ ] `grep -cE '^### (Traeger-Weiche|Pane-Auftrag|Pane-Ausfuehrung)' skills/dtb-worker/SKILL.md` = 3 (Anker stabil)
 - [ ] `grep -c 'HC_TERMINAL_ID' skills/dtb-worker/SKILL.md` ≥ 2 (Gate + Auftrag)
+- [ ] Nach 1.5: `grep -c '^#### Rueckweg: Stand-Pruefung' skills/dtb-worker/SKILL.md` = 1 und `grep -cE 'Ueberwachungs-Tick|WORKER-STOP|claude --settings' skills/dtb-worker/SKILL.md` = 0; `grep -c 'Ueberwachungs-Tick' dtb-project/project-rules/DERIVED_STATE_RULES.md` = 0
 - [ ] Subagenten-Traeger und Listen-Lauf unberuehrt — der Abschnitt ab `### Schritt 6: Worker starten` bis Dateiende ist gleich dem Stand vor dem Umbau (gegen den merge-base, L85): `diff <(git show "$(git merge-base master HEAD)":skills/dtb-worker/SKILL.md | sed -n '/^### Schritt 6: Worker starten/,$p') <(sed -n '/^### Schritt 6: Worker starten/,$p' skills/dtb-worker/SKILL.md)` liefert keine Ausgabe; Gegenprobe: beide Seiten haben mehr als 0 Zeilen (Werkzeug-Fehlschlag ist kein Befund)
 
 #### Manual
@@ -200,7 +201,7 @@ Alle Leser und Spiegel des Workers nachziehen; Kopplungen mechanisch verifiziere
 - **Zweck:** Interaktiven Arbeitsplatz auf den neuen Unterbau stellen
 - **Dateien:** `skills/dtb-pane-start/SKILL.md` (`## Herdr-Gate (hart)`, 1c Vorbedingung 4, `## Struktur-Check`, `## Herdr-Mechanik`, Begruessungstext, `## Rueckweg und Abschluss`, Frontmatter `description`)
 - **Input:** Worker-Fassung aus Phase 2
-- **Output:** Gate wie im Worker; Struktur-Check-Anker = die Titel, die Phase 2 hinterlaesst (Zahl im Text „N/N" passend); die vier bewussten Abweichungen neu formuliert (die Abweichung „Startbefehl OHNE Signal-Einrichtung" entfaellt, wenn der Hook entfaellt); Rueckweg-Zeile im Begruessungstext spiegelt die Vorlage; Wartepflicht und Begruessungs-Inhalt unveraendert; Ueberwachungs-Angebot laut Entscheidung 1.5
+- **Output:** Gate wie im Worker; Struktur-Check-Anker = die Titel, die Phase 2 hinterlaesst (Zahl im Text „N/N" passend); die vier bewussten Abweichungen neu formuliert (die Abweichung „Startbefehl OHNE Signal-Einrichtung" entfaellt, wenn der Hook entfaellt); Rueckweg-Zeile im Begruessungstext spiegelt die Vorlage; Wartepflicht und Begruessungs-Inhalt unveraendert. **Nach 1.5:** der Tick-Anker heisst `#### Rueckweg: Stand-Pruefung`, das `/loop`-Angebot im Abschluss wird zum Hinweis auf „Stand?"; die Begruessung reist wie der Worker-Auftrag als Datei plus EINE Startzeile (Start-Sequenz per Referenz); der vorgeschlagene Startbefehl bleibt ein Vorschlag, den der Mensch tippt (per `hc send` waere er ohnehin nicht ausloesbar, Probe 2.S4)
 
 #### Schritt 3.2: `dtb:workflow-resume` und `dtb:workflow-checkpoint`
 - **Zweck:** Pane-Uebergabe und Hand-off-Transport nachziehen
@@ -234,6 +235,7 @@ Alle Leser und Spiegel des Workers nachziehen; Kopplungen mechanisch verifiziere
 - [ ] `grep -c '^## Pane-Uebergabe' skills/dtb-workflow-resume/SKILL.md` = 3 (Ausgabeformen unveraendert vorhanden)
 - [ ] Checkpoint-Seite vollstaendig: `grep -c '^Orchestrator: {pane-id' skills/dtb-workflow-checkpoint/SKILL.md` = 0 und `grep -c 'Orchestrator-Pane?' skills/dtb-workflow-checkpoint/SKILL.md` = 0 (Notiz-Format und Rueckfrage tragen das neue Adress-Schema); `grep -c '^Orchestrator: {' skills/dtb-workflow-checkpoint/SKILL.md` = 1 (das Feld selbst bleibt)
 - [ ] `grep -cE 'claude --settings|HERDR_ENV=1|/loop 15m' CLAUDE.md` = 0
+- [ ] Nach 1.5: `grep -c 'Ueberwachungs-Tick' skills/dtb-pane-start/SKILL.md` = 0
 
 > Hinweis ohne Sperrwirkung: der Umbau soll kuerzen, nicht aufblaehen (Ausgangswerte: worker 741,
 > pane-start 354, resume 410 Zeilen) — die Zeilenzahl wird im Phasen-Bericht genannt, ist aber
@@ -272,7 +274,7 @@ und kein Slash-Befehl fuer die umgebauten Skills getippt — stattdessen:
 - **Zweck:** Hinweg und Rueckweg am Stueck
 - **Dateien:** Wegwerf-Aufgabe `features/zz-test-hc-worker/task.md` (vom Lauf selbst erzeugt und vorher committet, L18/L57); Protokoll als Abschnitt „Abnahme 4.1" in `probe.md`
 - **Input:** Orchestrator-Session in der App, Repo-Fassung des Skills
-- **Output:** eigener Tab mit dem Slug als Namen · Auftrag kam an · Worker committet auf `task/zz-test-hc-worker` · Hand-off-Block erreicht den Orchestrator · Ende-Meldung ohne Hook und ohne `/loop` · Branch-Verifikation gruen; danach Worktree, Branch und Wegwerf-Ordner entfernt
+- **Output:** eigener Tab mit dem Slug als Namen · Auftrag kam an · Worker committet auf `task/zz-test-hc-worker` · Hand-off-Block erreicht den Orchestrator · Ende-Meldung ohne Hook und ohne `/loop` · Branch-Verifikation gruen; danach Worktree, Branch und Wegwerf-Ordner entfernt. **Nach 1.5 zusaetzlich** (in der Probe ungeprueft bzw. neu): Hand-off trifft auf einen offenen Dialog beim Orchestrator → Datei vorhanden, Senden wiederholt, Block kommt an (3.8) · eine Meldung trifft ein, waehrend der Mensch beim Orchestrator tippt (3.9) · der Worker arbeitet bei geschlossenem App-Fenster zu Ende (3.10) · Angebot „Tab schliessen" nach der Abnahme
 
 #### Schritt 4.2: `pane-start` und Session-Wechsel
 - **Zweck:** Interaktiven Weg und Uebergabe-Notiz belegen
@@ -309,14 +311,14 @@ und kein Slash-Befehl fuer die umgebauten Skills getippt — stattdessen:
 |-------|----------|-------------|-------------|
 | Altsystem | (A) ganz ersetzen, (B) beide parallel | A | Entscheidung des Menschen 2026-11-12 (Discovery) |
 | Sichtbarkeit | (A) eigener Tab je Arbeitsplatz, (B) unsichtbares Terminal | A | Entscheidung des Menschen 2026-11-12 |
-| Gate-Bedingung | (A) `$HC_TERMINAL_ID` + `hc` + `herdr-app` im PATH, (B) nur `hc` | Offen | Probe 1 — A ist der Vorschlag (ohne `herdr-app` kein Tab) |
-| Startweg (Tab + Kind-Beziehung + erster Auftrag) | (A) `herdr-app do tab.new … --task`, (B) `hc run --bg …` und danach im Tab zeigen | Offen | Probe 2 |
-| Stop-Hook | (A) entfaellt ganz, (B) Rest bleibt fuer „Turn-Ende ohne Terminal-Ende" | Offen | Probe 3 — Wunsch des Menschen: A, wenn es traegt |
-| Ueberwachungs-Tick | (A) getakteter Lauf entfaellt, Pruefliste bleibt auf Zuruf „Stand?", (B) `/loop` bleibt als Netz | Offen | Probe 3 — A ist der Vorschlag |
-| Anker-Titel `#### Rueckweg: Ueberwachungs-Tick` | (A) behalten, (B) umbenennen (z. B. „Stand-Pruefung") und Spiegel mitziehen (pane-start, DSR §10) | Offen | folgt der Tick-Entscheidung: bei A-Tick ist der alte Titel irrefuehrend → B |
-| Orchestrator-Adresse in Auftrag und Uebergabe-Notiz | (A) Terminal-ID (`t7`), (B) vergebener Name | Offen | Probe 1 — ueberlebt die ID einen Neustart des Kerns? |
-| Claude-Integration fuer die Status-Erkennung | (A) nicht noetig, (B) noetig → Vorbedingung im Gate oder Hinweis | Offen | Probe 3 |
-| Tab nach der Abnahme | (A) der Mensch schliesst, (B) der Orchestrator bietet `hc kill` + `hc rm` an | Offen | Vorschlag B als Angebot nach der Abnahme (die hc-Anleitung verlangt, selbst gestartete Terminals aufzuraeumen); Entscheidung des Menschen in 1.5 |
+| Gate-Bedingung | (A) `$HC_TERMINAL_ID` + `hc` + `herdr-app` im PATH, (B) nur `hc` | A | Entscheidung des Menschen 2026-11-12 — `probe.md` Probe 1 (1.1–1.4 in der App gesetzt und aufrufbar, 1.13 außerhalb leer); `herdr-app` wird für das Umbenennen des Tabs gebraucht (2.B4) |
+| Startweg (Tab + Kind-Beziehung + erster Auftrag) | (A) `herdr-app do tab.new … --task`, (B) `hc run --bg …` und danach im Tab zeigen | B | Entscheidung des Menschen 2026-11-12 — `probe.md` Probe 2: nur `hc run --bg --name … --cwd … --label herdr.space={id} claude "…"` liefert Kind-Beziehung (2.B2), sichtbaren Tab (2.B3) und ersten Auftrag (2.B5); danach `herdr-app do tab.rename` (2.B4). Folgen: erster Auftrag einzeilig (2.B6) — der volle Auftragstext liegt als Datei im Git-Verwaltungsordner des Worktrees, die eine Zeile nennt sie; `first_message.sent` entfaellt als Pruefung (2.B7), Beleg ist `hc get`/Bildschirm. Variante A scheidet aus (2.A3, 2.A6) |
+| Stop-Hook | (A) entfaellt ganz, (B) Rest bleibt fuer „Turn-Ende ohne Terminal-Ende" | A | Entscheidung des Menschen 2026-11-12 — `probe.md` Probe 3: Rueckfrage, Session-Ende und geschlossener Tab melden sich von selbst (3.3–3.5); der Dialog-Schutz ist durch `hc send` abgedeckt (2.S5, 3.8 — Exit 9 statt Antwort). Zwei Reste ohne Hook geloest: (1) Turn-Ende ohne Hand-off wird nicht gemeldet (3.2) → Meldepflicht des Workers per `hc send` im Auftrag, Auffangnetz ist die Pruefung auf Zuruf; (2) ein abgewiesener Hand-off (3.8) → Block zusaetzlich als Datei im Git-Verwaltungsordner, Senden wiederholen, die Pruefung auf Zuruf liest die Datei |
+| Ueberwachungs-Tick | (A) getakteter Lauf entfaellt, Pruefliste bleibt auf Zuruf „Stand?", (B) `/loop` bleibt als Netz | A | Entscheidung des Menschen 2026-11-12 — `probe.md` Probe 3 (3.3–3.5 Meldungen von selbst, 3.7 `hc wait --children any`). Die Pruefliste bleibt als Pruefung auf Zuruf und ist das Auffangnetz fuer die zwei Reste der Hook-Entscheidung (liest zusaetzlich die Hand-off-Datei); `/loop`-Angebot, Selbstende-Mechanik und Kosten-Absatz entfallen |
+| Anker-Titel `#### Rueckweg: Ueberwachungs-Tick` | (A) behalten, (B) umbenennen (z. B. „Stand-Pruefung") und Spiegel mitziehen (pane-start, DSR §10) | B | Entscheidung des Menschen 2026-11-12 — neuer Titel `#### Rueckweg: Stand-Pruefung` (folgt der Tick-Entscheidung: ohne Takt ist der alte Titel irrefuehrend). Spiegel im selben Zug: Struktur-Check und Angebot in `dtb:pane-start` (Schritt 3.1), Gegen-Hinweis in `DERIVED_STATE_RULES.md` §10 (Schritt 2.5); Leser laut `sichtung.md` → Leser-Scan |
+| Orchestrator-Adresse in Auftrag und Uebergabe-Notiz | (A) Terminal-ID (`t7`), (B) vergebener Name | A | Entscheidung des Menschen 2026-11-12 — `probe.md` Probe 1 (1.1 `$HC_TERMINAL_ID`, 1.9 `name: null` bei von Hand geoeffneten Tabs); ein Name laesst sich nachtraeglich nicht vergeben (`hc --help`: kein Befehl dafuer, nur `run --name`). Ob die ID einen Neustart des Kerns ueberlebt, ist ungeprueft — eine veraltete Adresse faellt in den bestehenden Weg `NICHT-ERREICHBAR` (Schritt 3.2) |
+| Claude-Integration fuer die Status-Erkennung | (A) nicht noetig, (B) noetig → Vorbedingung im Gate oder Hinweis | A | Entscheidung des Menschen 2026-11-12 — `probe.md` Probe 3 (3.1: drei frische Sessions melden ihren Status ohne Zutun). Herkunft der Meldung ungeklaert, belegt nur auf diesem Rechner → keine Gate-Vorbedingung, aber eine Hinweiszeile in der Start-Sequenz (Schritt 2.3): meldet ein Worker nach dem Start keinen Status, das sichtbar sagen statt still zu warten |
+| Tab nach der Abnahme | (A) der Mensch schliesst, (B) der Orchestrator bietet `hc kill` + `hc rm` an | B | Entscheidung des Menschen 2026-11-12 — Angebot nach der Abnahme, ein Wort zur Bestaetigung; nie von selbst, nie vor der Abnahme, nur selbst gestartete Terminals. Belegte Form: `herdr-app do tab.close --id {tab-id} --confirmed true`, danach `hc rm {t}` (`probe.md` 3.5 und Aufraeumen der Probe) |
 | Versions-Hinweis | (A) Syntax-Stand mit Datum + hc-Version an den zwei Kommando-Orten, (B) Versions-Pruefung zur Laufzeit | A | bestehendes Muster („Syntax-Stand 2026-08-16"); eine Laufzeit-Pruefung waere neuer Umfang |
 
 ---
@@ -327,12 +329,12 @@ und kein Slash-Befehl fuer die umgebauten Skills getippt — stattdessen:
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [ ] 1.0 Planungsstand sichern, Arbeitszweig anlegen
-- [ ] 1.1 Umgebung und Adressen
-- [ ] 1.2 Start, Sichtbarkeit, Zustellung
-- [ ] 1.3 Rueckmeldung ohne Hook und Takt
-- [ ] 1.4 Lektionen und Befunde sichten
-- [ ] 1.5 Entscheidungen festschreiben
+- [x] 1.0 Planungsstand sichern, Arbeitszweig anlegen
+- [x] 1.1 Umgebung und Adressen
+- [x] 1.2 Start, Sichtbarkeit, Zustellung
+- [x] 1.3 Rueckmeldung ohne Hook und Takt
+- [x] 1.4 Lektionen und Befunde sichten
+- [x] 1.5 Entscheidungen festschreiben
 - [ ] 2.1 Gate, Traeger-Weiche, Frontmatter
 - [ ] 2.2 Pane-Auftrag und Vorbedingungen
 - [ ] 2.3 Start-Sequenz
