@@ -273,4 +273,71 @@ durch den Menschen im Chat („weiter mit Phase 4"). Wegwerf-Aufgabe `zz-test-hc
 **Ungeprüft geblieben:** Hand-off (statt Testmeldung) trifft auf einen offenen Dialog und wird
 aus der Datei gelesen (Ausgang (f)); Arbeit des Workers während das Fenster wirklich
 geschlossen ist; Vertrauens-Dialog beim Start (der Ordner war schon vertraut); `TAB-NAME-FEHLT`,
-`START-FEHLT`, `HC-FEHLT`.
+`START-FEHLT`, `HC-FEHLT`. — Die ersten beiden Punkte sind in „Abnahme 4.2" nachgeholt.
+
+## Abnahme 4.2: `pane-start` und Session-Wechsel
+
+Geladen: skills/dtb-pane-start/SKILL.md (Repo-Fassung des Arbeitszweigs, Struktur-Check gegen skills/dtb-worker/SKILL.md im Projekt-Root; kein Slash-Befehl getippt)
+Geladen: {worktree}/skills/dtb-workflow-checkpoint/SKILL.md und {worktree}/skills/dtb-workflow-resume/SKILL.md (im Tab, per Satz statt Slash-Befehl)
+
+Gefahren 2026-11-12, 14:18–15:10, vom Orchestrator `t13` (hc 0.1.20, herdr-app 0.1.15). Freigabe
+durch den Menschen im Chat („weiter"). Wegwerf-Change `zz-test-hc-pane` (nur `discovery.md`,
+committet als `01d92a3`), Worktree `.dtb-worktrees/pane-zz-test-hc-pane` auf
+`feature/zz-test-hc-pane`.
+
+| Punkt | Ergebnis | Beleg |
+|---|---|---|
+| Guard, Gate | ✅ | `HAUPT-CHECKOUT`, `APP-OK t13` |
+| Vorbedingungen 1–3 | ✅ | Change-Ordner committet, Branch frei, Worktree-Pfad frei |
+| Struktur-Check | ✅ | 3/3 Anker (`^### Pane-Ausfuehrung`, `^### Pane-Auftrag`, `^#### Rueckweg: Stand-Pruefung`) je 1 Treffer |
+| Vorbedingung 4 (fremde Session, per Referenz aus dem Worker) | ✅ | keine Ausgabe; Positivprobe ohne Ausschluss fand `t13` (L130) |
+| Begrüßungsdatei | ✅ | `AUFTRAG-OK …/.git/worktrees/pane-zz-test-hc-pane/dtb-auftrag.md` |
+| Eigener Tab, Claude gestartet | ✅ | `START-OK t1f zz-test-hc-pane 2026-11-12 14:18`, `TAB-OK tb849bf2…`, `ZUSTAND working`; `hc ls`: `"parent":"t13"` |
+| Begrüßung zugestellt, Session wartet | ✅ | Bildschirm 14:18: Begrüßung mit Arbeitsplatz, Vorschlag `/dtb:feature-plan zz-test-hc-pane`, Orchestrator `t13`, „Ich führe den Befehl nicht selbst aus"; 0 Änderungen im Worktree |
+| Arbeit im Tab | ✅ | auf Eingabe des Menschen `ergebnis.md` angelegt und als `0aab604` committet |
+| Checkpoint „Wechsel" | ✅ | Notiz `dtb-session-uebergabe.md` mit `## Wechsel 2026-11-12 14:24`, `Orchestrator: t13`; nichts an den Orchestrator gesendet |
+| `/clear` | ✅ | Terminal blieb `live` (`idle`), keine Ende-Meldung beim Orchestrator |
+| `workflow-resume` findet die Notiz und prüft die Adresse | ✅ | Bericht: `Orchestrator: t13 (erreichbar)`, Rückweg-Zeile `hc send t13 "$(cat '…/dtb-handoff.md')"`, eigener Change als Item, `herdr-app-umstellung` nur als Zeile „Weitere aktive Features im Repo" |
+| Checkpoint „Ende" liefert EINEN Block | ✅ | Notiz-Marker `## Ende-Block erzeugt 2026-11-12 14:32`; Hand-off-Datei, Kopfzeile `WORKTREE-HANDOFF (dtb) — Quelle: zz-test-hc-pane @ feature/zz-test-hc-pane, 2026-11-12 14:32`, „Wechsel" und „Ende" kumuliert |
+| Hand-off trifft auf einen offenen Dialog (Rest aus 4.1) | ✅ | Orchestrator hielt eine Auswahlfrage 3 min offen: vier Versuche mit Exit 9 („t13 is blocked (question)"), danach Stopp ohne `--force`, Meldung an den Menschen im Tab; Stand-Prüfung meldete `HANDOFF-DATEI`, der Orchestrator las den Block aus der Datei (Ausgang (f)). Später sendete die Session auf „senden" des Menschen erneut — Exit 0, Inhalt gleich der Datei, kein zweiter Block übernommen |
+| Arbeit bei geschlossenem App-Fenster (Rest aus 4.1) | ✅ | `zeit2.txt`: 8 Zeitstempel 15:05:46–15:09:18; Protokoll des Orchestrators: `herdr-app status` scheitert ab 15:06:17 (Fenster zu), `t1f` dabei durchgehend `working` — 7 Zeilen entstanden bei geschlossenem Fenster; die Fertig-Meldung des Tabs kam beim Orchestrator an, während das Fenster noch zu war |
+| Branch-Stand | ✅ | `+1 Commits` vor dem Arbeitszweig, `git diff --stat` = genau `ergebnis.md`, 0 uncommitted (vor dem Fenster-Test) |
+
+**Befunde:**
+
+1. **Getippter Slash-Befehl lädt die alte Kopie.** Der Mensch tippte im Tab `/dtb-workflow-checkpoint`
+   — geladen wurde `~/.claude/`, wie die Lade-Regel vorhersagt. Der Aufruf wurde vor der Weiche
+   verworfen und mit der Repo-Fassung wiederholt. Inhaltlich weicht die alte Kopie bei
+   „Wechsel" nur im Wortlaut ab (Diff installiert ↔ Repo). Gilt bis zum `kit-sync` nach dem Merge.
+2. **`herdr-app status` zeigt, ob das Fenster offen ist.** Ein erster Fenster-Test scheiterte,
+   weil „das Fenster" nicht eindeutig war (der Mensch fragte „welches Fenster"); erst „das ganze
+   Fenster der Herdr-App, X oben rechts" wurde verstanden. Der Befehl scheitert bei geschlossenem
+   Fenster und eignet sich als Beleg (`herdr-app ls` dagegen nennt kein Fenster-Feld).
+3. **Exit 9 gilt auch für die eigene Auswahlfrage des Orchestrators** (`blocked (question)`), nicht
+   nur für Berechtigungs-Dialoge.
+
+**Ungeprüft geblieben:** Vertrauens-Dialog beim Start (Ordner schon vertraut); `TAB-NAME-FEHLT`,
+`START-FEHLT`.
+
+## Abnahme 4.3: Gate außerhalb der App und Aufräumen
+
+Geladen: skills/dtb-pane-start/SKILL.md, skills/dtb-worker/SKILL.md, skills/dtb-workflow-resume/SKILL.md (Repo-Fassung, in einer Claude-Session in Windows Terminal/PowerShell außerhalb der Herdr-App; Gate-Blöcke per Satz statt Slash-Befehl)
+
+Gefahren 2026-11-12, 15:15–15:25. Die Session außerhalb der App hatte `$HC_TERMINAL_ID` leer,
+`hc` und `herdr-app` lagen aber im PATH — das Gate hängt also wirklich an der eigenen
+Terminal-Adresse, nicht an den Werkzeugen.
+
+| Punkt | Ergebnis | Beleg |
+|---|---|---|
+| `dtb:pane-start` bricht hart ab und nennt den Weg in die App | ✅ | `APP-FEHLT`, ⛔-Meldung mit „die Herdr-App oeffnen …" und dem Befehl `/dtb:pane-start zz-test-hc-pane` zum erneuten Absetzen |
+| Pane-Träger von `dtb:worker` bricht hart ab, keine stille Degradierung | ✅ | `APP-FEHLT`, ⛔-Meldung „Pane-Modus braucht die Herdr-App …", Subagent nur als genannte Alternative |
+| `workflow-resume` 2a läuft außerhalb der App still weiter | ✅ | `APP-AUS`, `hc get` nicht aufgerufen, keine Warnzeile, `Orchestrator: t13 (ungeprueft)`, Rückweg-Zeile trotzdem gebaut |
+| Gegenfälle in der App | ✅ | `APP-OK t13` (4.1, 4.2), `(erreichbar)` (4.2); `NICHT-ERREICHBAR` nur in der Probe (Phase 1) |
+| Tab geschlossen und entfernt (Angebot nach der Abnahme, ein Wort) | ✅ | Bestätigung „ja", `TAB-ZU tb849bf2…`, `STATE finished`, `ENTFERNT t1f` |
+| `git worktree list` zeigt nur den Haupt-Checkout | ✅ | eine Zeile (`feature/herdr-app-umstellung`) |
+| kein `zz-test-`-Ordner, kein `task/zz-test-*`/`feature/zz-test-*`-Branch | ✅ | Zählung je 0; `feature/zz-test-hc-pane` mit `-D` gelöscht (war `0aab604`, Wegwerf), Ordner per `git rm` |
+
+Nicht angefasst: `.dtb-worktrees/pane-sdd-geschichte-blog` (fremder Ordner, in `git worktree list`
+dieses Repos nicht verlinkt).
+
+→ Nach Merge und Push: /dtb:kit-sync sync (erst pushen, dann syncen — L39); bis dahin laufen unter ~/.claude/ die alten Skills

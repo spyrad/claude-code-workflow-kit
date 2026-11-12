@@ -346,8 +346,8 @@ und kein Slash-Befehl fuer die umgebauten Skills getippt — stattdessen:
 - [x] 3.3 Doku — `c188566`
 - [x] 3.4 Kopplungs-Sweep — `c188566`
 - [x] 4.1 Worker-Lauf mit Pane-Traeger
-- [ ] 4.2 pane-start und Session-Wechsel
-- [ ] 4.3 Gate ausserhalb der App und Aufraeumen
+- [x] 4.2 pane-start und Session-Wechsel
+- [x] 4.3 Gate ausserhalb der App und Aufraeumen
 
 ---
 
