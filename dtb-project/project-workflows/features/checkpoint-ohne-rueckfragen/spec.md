@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-03
 **Ziel:** Der Checkpoint laeuft im Normalfall ohne jede Rueckfrage durch — er fragt nur noch, wenn eine offene Aufgabe nicht sicher zugeordnet werden kann.
 **Prioritaet:** Mittel
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -94,13 +94,13 @@ geaendert (Becken-Nachtrag #185).
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] Ein Checkpoint ohne unsichere Aufgaben-Zuordnung und ohne moegliches Duplikat stellt keine einzige Rueckfrage (ausser Abnahme-Frage bzw. fehlenden Hand-off-Pflichtfeldern)
-- [ ] Dringende Verlustfunde werden erfasst und gemeldet, „Kann warten"-Ideen landen im Becken, moegliche Duplikate werden gefragt
-- [ ] Faellige alte Aufgaben tragen ⏳, ohne Frage und ohne neuen „behalten"-Stempel
-- [ ] Die Verlustpruefung stellt aus dem Checkpoint heraus keine Schlussfrage mehr
-- [ ] `DERIVED_STATE_RULES.md` §9.4 und die Kurzkopie im Checkpoint sagen dasselbe; alle Kopplungs-Hinweise sind nachgezogen
-- [ ] Der Checkpoint-Skill hat weniger Zeilen als vorher
-- [ ] **Nachmessung (gemeinsam mit #177, bis 2026-12-02):** In der gemeinsamen Nachmessung stellt der
+- [x] Ein Checkpoint ohne unsichere Aufgaben-Zuordnung und ohne moegliches Duplikat stellt keine einzige Rueckfrage (ausser Abnahme-Frage bzw. fehlenden Hand-off-Pflichtfeldern) — Beleg: `../checkpoint-schneller/nachmessung.md` (2026-11-20)
+- [x] Dringende Verlustfunde werden erfasst und gemeldet, „Kann warten"-Ideen landen im Becken, moegliche Duplikate werden gefragt — Beleg: `../checkpoint-schneller/nachmessung.md` (3 Laeufe, 2 Duplikatfragen)
+- [x] Faellige alte Aufgaben tragen ⏳, ohne Frage und ohne neuen „behalten"-Stempel — „Alters-Vorlage" 0 Antworten nach dem Merge; WORKFLOW_STATUS seit 2026-11-03 ohne neuen Stempel
+- [x] Die Verlustpruefung stellt aus dem Checkpoint heraus keine Schlussfrage mehr — keine Frage gemessen; aber 4/58 Laeufe blieben nach ihrem Bericht stehen → Befund #211
+- [x] `DERIVED_STATE_RULES.md` §9.4 und die Kurzkopie im Checkpoint sagen dasselbe; alle Kopplungs-Hinweise sind nachgezogen — gegengelesen 2026-11-20
+- [x] Der Checkpoint-Skill hat weniger Zeilen als vorher — 829 → 828 beim Merge `5ede096` (seither durch andere Changes 838)
+- [x] **Nachmessung (gemeinsam mit #177, bis 2026-12-02 — erledigt 2026-11-20, `../checkpoint-schneller/nachmessung.md`: Kern-Median 3,0 min, „Alters-Vorlage" 0, Kontrollpunkt nur 2× Duplikat):** In der gemeinsamen Nachmessung stellt der
   Checkpoint keine Rueckfrage zu Verlustfunden oder alten Aufgaben mehr — nur noch Zuordnungs- und
   Duplikatfragen (Kategorien von `checkpoint-schneller/checkpoint-phasen.py --rueckfragen`:
   „Alters-Vorlage" = 0 Antworten; „Sammelvorlage/Kontrollpunkt" nur in Laeufen mit Zuordnungs- oder

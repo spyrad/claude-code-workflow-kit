@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-02
 **Ziel:** Der Checkpoint braucht im Median hoechstens 4 aktive Minuten, ohne dass ein Verlustfund verloren geht.
 **Prioritaet:** Hoch
-**Status:** Fertig zum Testen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
@@ -63,11 +63,11 @@ ein Kontrollpunkt statt mehrerer Vorlagen, Dashboard nur, wo es eine Seite gibt.
 ## Success Criteria
 
 **Das Feature gilt als erfolgreich wenn:**
-- [ ] Der Checkpoint endet mit der festen Weiter-Zeile und stellt keine Commit-Frage mehr
-- [ ] Vor dem Schreiben gibt es hoechstens eine Rueckfrage-Runde (ausgenommen die Abnahme-Entscheidung)
-- [ ] Ohne vorhandene Dashboard-Seite wird keine erzeugt; mit Seite wird sie wie bisher aufgefrischt
-- [ ] Die Verlustpruefung ist unveraendert; 3 Vergleichslaeufe nach dem Merge finden dieselben Lektionen, Fach-Fragen und Entscheidungen
-- [ ] Median der aktiven Minuten ≤ 4 nach mindestens 10 Laeufen (chain-metrics), gemessen spaetestens 2026-12-02
+- [x] Der Checkpoint endet mit der festen Weiter-Zeile und stellt keine Commit-Frage mehr — Beleg: `nachmessung.md` (2026-11-20)
+- [x] Vor dem Schreiben gibt es hoechstens eine Rueckfrage-Runde (ausgenommen die Abnahme-Entscheidung) — Beleg: `nachmessung.md` (2026-11-20)
+- [x] Ohne vorhandene Dashboard-Seite wird keine erzeugt; mit Seite wird sie wie bisher aufgefrischt — Beleg: `probelauf.md` (mit Seite); Projekte ohne Seite (dtb-operations, mega.dev, oma-my-new-web-page) hatten nach dem Merge Checkpoints und haben am 2026-11-20 weiter keine
+- [x] Die Verlustpruefung ist unveraendert; 3 Vergleichslaeufe nach dem Merge finden dieselben Lektionen, Fach-Fragen und Entscheidungen — Beleg: `nachmessung.md` (2026-11-20) (Funde gegen Zieldateien statt Lauf am selben Gespraech)
+- [x] Median der aktiven Minuten ≤ 4 nach mindestens 10 Laeufen (chain-metrics), gemessen spaetestens 2026-12-02 — 3,0 min nach 58 Laeufen, gemessen 2026-11-20 (`nachmessung.md`)
 
 ---
 
