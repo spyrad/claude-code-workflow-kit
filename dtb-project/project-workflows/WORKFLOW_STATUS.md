@@ -19,7 +19,7 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-23: #200, #177, #173 archiviert. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04` auf `feature/checkpoint-auto-commit`, nicht gepusht) liegt mit Worktree und Tab nur auf dem anderen Rechner |
+| **Notizen** | 2026-11-23: #200, #177, #173 archiviert und gepusht (`6e579d7`); S3: Pi in der Herdr-App repariert (`shellPath`, `~/.pi/agent/AGENTS.md`), L139, #213. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04` auf `feature/checkpoint-auto-commit`, nicht gepusht) liegt mit Worktree und Tab nur auf dem anderen Rechner |
 
 ---
 
@@ -40,7 +40,7 @@ Kein aktives Feature.
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — in Abnahme 4.2 (Wegwerf-Change) A1, A2, A4 gesehen, A3 nicht; zählt erst an einem echten Change; 2026-11-13 (#199) nur „Ende", kein Wechsel (seit 2026-10-22 · behalten 2026-10-29) ⏳
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-11-03) ⏳
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-29) ⏳
-- [ ] **`/dtb:idea-triage`** — Kontext: 127 ungesichtet, mit Vorsortierung; #54/#70 sind korrekt escapt (geprüft 2026-11-06) (seit ≤2026-09-09 · behalten 2026-10-29) ⏳
+- [ ] **`/dtb:idea-triage`** — Kontext: 128 ungesichtet, mit Vorsortierung; #54/#70 sind korrekt escapt (geprüft 2026-11-06) (seit ≤2026-09-09 · behalten 2026-10-29) ⏳
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-29) ⏳
 
 ---
@@ -68,4 +68,4 @@ Keine.
 
 **Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 127 ungesichtet → /dtb:idea-triage
+**Becken:** 128 ungesichtet → /dtb:idea-triage
