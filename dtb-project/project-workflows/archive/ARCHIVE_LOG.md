@@ -127,3 +127,9 @@
 | 2026-11-09 | Feature | plan-in-einem-befehl | features/plan-in-einem-befehl/ | Abgenommen 2026-11-09 (Beleg: Probelauf A/B + Fehlerpfad „Anker fehlt“ an einer Kopie, Merge `4bc2a47`) → Abgeschlossen |
 | 2026-11-10 | Idee | #179 "Kette straffen (3/4): feature-start vor implement überflüssig machen" | INBOX.md | Ausgearbeitet → archive/implement-ohne-feature-start/ |
 | 2026-11-10 | Feature | implement-ohne-feature-start | features/implement-ohne-feature-start/ | Abgenommen 2026-11-10 (Beleg: Auswahl in implement an echter Ausgabe abgenommen, Gegenprobe 25 Treffer / 0 Defekte, zwei impl-review-Läufe je 8 FIXED, Merge `3ab951d`) → Abgeschlossen |
+| 2026-11-23 | Idee | #200 "Kit auf die Herdr-App umstellen (`herdr-app` + `hc` statt `herdr`-CLI)" | INBOX.md | Ausgearbeitet → archive/herdr-app-umstellung/ |
+| 2026-11-23 | Feature | herdr-app-umstellung | features/herdr-app-umstellung/ | Abgenommen 2026-11-12 (Beleg: Abnahme-Läufe 4.1–4.3 in der App, Gegenprüfung F1/F5 `02ff5e8`, Merge `164c644`) → Abgeschlossen. 19/19 über 4 Phasen, impl-review 9 FIXED · 1 SKIPPED (`1818764`), kit-sync 4/4; L130–L137 |
+| 2026-11-23 | Idee | #177 "Kette straffen (1/4): `dtb:workflow-checkpoint` schneller machen" | INBOX.md | Ausgearbeitet → archive/checkpoint-schneller/ |
+| 2026-11-23 | Feature | checkpoint-schneller | features/checkpoint-schneller/ | Abgenommen 2026-11-20 (Beleg: `nachmessung.md` — 58 Läufe nach dem Merge, Kern-Median 3,0 min statt 5,2) → Abgeschlossen. 6/6 |
+| 2026-11-23 | Idee | #173 "Checkpoint ohne Rückfragen bei Verlustfunden und offenen Aufgaben" | INBOX.md | Ausgearbeitet → archive/checkpoint-ohne-rueckfragen/ |
+| 2026-11-23 | Feature | checkpoint-ohne-rueckfragen | features/checkpoint-ohne-rueckfragen/ | Abgenommen 2026-11-20 (Beleg: gemeinsame Nachmessung `archive/checkpoint-schneller/nachmessung.md` — Alters-Fragen 0, Kontrollpunkt nur 2× Duplikat) → Abgeschlossen. 8/8 |

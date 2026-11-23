@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-11-20 (#173 checkpoint-ohne-rueckfragen und #177 checkpoint-schneller: Abgenommen nach der Nachmessung)
+**Letzte Aktualisierung:** 2026-11-23 (#173, #177, #200 archiviert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,9 +12,6 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 173 | checkpoint-ohne-rueckfragen | Abgenommen | Mittel | features/checkpoint-ohne-rueckfragen/spec.md | Checkpoint laeuft im Normalfall ohne Rueckfrage |
-| 177 | checkpoint-schneller | Abgenommen | Hoch | features/checkpoint-schneller/spec.md | Checkpoint-Median ≤ 4 aktive min ohne Verlust an Funden |
-| 200 | herdr-app-umstellung | Abgenommen | Hoch | features/herdr-app-umstellung/spec.md | Herdr-gestuetzte Ablaeufe (Pane-Worker, pane-start, Pane-Uebergabe) laufen in der Herdr-App ueber hc/herdr-app statt der alten herdr-CLI |
 
 ---
 

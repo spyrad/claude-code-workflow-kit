@@ -1,7 +1,7 @@
 # Workflow-Status: claude-code-workflow-kit
 
-**Letztes Update:** 2026-11-20
-**Letzter Session-Log:** `dtb-project/project-changelog/2026-11/2026-11-20.md`
+**Letztes Update:** 2026-11-23
+**Letzter Session-Log:** `dtb-project/project-changelog/2026-11/2026-11-23.md`
 
 ---
 
@@ -9,9 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| checkpoint-ohne-rueckfragen | Abgenommen | 8/8 | /dtb:archive |
-| checkpoint-schneller | Abgenommen | 6/6 | /dtb:archive |
-| herdr-app-umstellung | Abgenommen | 19/19 | /dtb:archive |
+
+Kein aktives Feature.
 
 ---
 
@@ -20,18 +19,17 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-20: Nachmessung #177/#173 vorgezogen und bestanden (Kern-Median 3,0 min, `features/checkpoint-schneller/nachmessung.md`), beide abgenommen; #211, #212, L138. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04` auf `feature/checkpoint-auto-commit`, nicht gepusht) liegt mit Worktree und Tab nur auf dem anderen Rechner |
+| **Notizen** | 2026-11-23: #200, #177, #173 archiviert. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04` auf `feature/checkpoint-auto-commit`, nicht gepusht) liegt mit Worktree und Tab nur auf dem anderen Rechner |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **checkpoint-schneller + checkpoint-ohne-rueckfragen + herdr-app-umstellung: `/dtb:archive`** — Kontext: alle drei abgenommen; ein Lauf archiviert sie gemeinsam (seit 2026-11-20)
-- [ ] **#200 herdr-app-umstellung: `/dtb:archive`, Zweig `feature/herdr-app-umstellung` lokal und auf GitHub löschen** — Kontext: abgenommen, gemergt (`164c644`), kit-sync gelaufen; `origin/feature/herdr-app-umstellung` existiert noch (seit 2026-11-12) ⏳
+- [ ] **#200 herdr-app-umstellung: Zweig `feature/herdr-app-umstellung` auf GitHub löschen** — Kontext: archiviert 2026-11-23; lokal schon weg, `origin/feature/herdr-app-umstellung` existiert noch (seit 2026-11-12) ⏳
 - [ ] **#199 checkpoint-auto-commit: Umsetzung nach der Nachmessung (bis 2026-12-02)** — Kontext: Nachmessung am 2026-11-20 erledigt, Umsetzung damit frei; `/dtb:implement Checkpoint Auto-Commit` im Tab `checkpoint-auto-commit` auf dem anderen Rechner; Plan Reviewed 0/18, Schritt 4.5 (kit-sync-Nachweis) erst nach Merge und Push (seit 2026-11-13) ⏳
 - [ ] **#199 checkpoint-auto-commit: übersprungene globale Updates beim Merge nachtragen** — Kontext: INBOX #199 → Ausgearbeitet mit Links auf discovery/spec/plan; BACKLOG-Zeile „Checkpoint Auto-Commit · Geplant · Mittel"; vorher zeigen die Links ins Leere (#114, #131) (seit 2026-11-13) ⏳
-- [ ] **#200 herdr-app-umstellung: restliche Review-Fixes im nächsten echten Worker-/Pane-Lauf beobachten** — Kontext: F1 und F5 belegt (`probe.md` → Nachtrag); `pane-start` lief am 2026-11-13 sauber (#199), F2, F3, F4, F9, F10 dort nicht einzeln geprüft; Schließen eines Worker-Tabs mit laufender Claude-Session offen (seit 2026-11-12) ⏳
-- [ ] **herdr-app-umstellung: 5 Review-Findings unter dem Cap** — Kontext: am Ende von `features/herdr-app-umstellung/review.md`, alles Kleinigkeiten; dazu F6 (Heredoc, L38) übersprungen (seit 2026-11-12) ⏳
+- [ ] **#200 herdr-app-umstellung: restliche Review-Fixes im nächsten echten Worker-/Pane-Lauf beobachten** — Kontext: F1 und F5 belegt (`archive/herdr-app-umstellung/probe.md` → Nachtrag); `pane-start` lief am 2026-11-13 sauber (#199), F2, F3, F4, F9, F10 dort nicht einzeln geprüft; Schließen eines Worker-Tabs mit laufender Claude-Session offen (seit 2026-11-12) ⏳
+- [ ] **herdr-app-umstellung: 5 Review-Findings unter dem Cap** — Kontext: am Ende von `archive/herdr-app-umstellung/review.md`, alles Kleinigkeiten; dazu F6 (Heredoc, L38) übersprungen (seit 2026-11-12) ⏳
 - [ ] **INBOX #112 (Checkliste vor dem Feature-Start) auf `dtb:implement` Schritt 1 umhängen** — Kontext: seit #179 startet `feature-start` keine Features mehr; beim nächsten `/dtb:idea-review` umformulieren (Nachtrag 2 zum Hand-off #179) (seit 2026-11-10) ⏳
 - [ ] **#178 plan-in-einem-befehl: ersten echten `/dtb:feature-plan`-Lauf beobachten** — Kontext: erster Lauf mit der neuen Fassung am 2026-11-13 in der Pane von #199 (Struktur-Check 5/5, Spec und Plan in einem Lauf); Backlog-Zweig dort planmäßig übersprungen (Worktree), Fehlerpfad „impl-plan nicht installiert" weiter ungefahren — den nächsten Lauf im Haupt-Checkout ansehen (seit 2026-11-09) ⏳
 - [ ] **#22 seed-skew-aktiv-melden: fetch-Teil der Abhilfe-Befehle im ersten echten Bestandsprojekt-Lauf beobachten** — Kontext: im Pane bewusst ungetestet (Kit-Klon nicht angefasst), show/diff/mv an einer Kopie gruen; naechster `kit-sync check` in einem Zielprojekt mit altem Seed (z. B. PKP) — seit #179 weicht der Seed (§7.3) überall ab (seit 2026-11-09) ⏳
@@ -51,12 +49,12 @@
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-11-23 | #200 herdr-app-umstellung, #177 checkpoint-schneller, #173 checkpoint-ohne-rueckfragen archiviert | drei Ordner nach `archive/`, Archiv-Log ergänzt; kein aktives Feature mehr im Haupt-Checkout | `2026-11/2026-11-23.md` |
 | 2026-11-20 | #177 checkpoint-schneller + #173 checkpoint-ohne-rueckfragen nachgemessen und abgenommen | 58 Läufe nach dem Merge: Kern-Median 3,0 min (vorher 5,2), Alters-Fragen 0, Kontrollpunkt nur 2× Duplikat; #211, #212, L138 | `2026-11/2026-11-20.md` |
 | 2026-11-13 | #199 checkpoint-auto-commit bis zum reviewten Plan (Pane) | `/dtb:pane-start 199` → Discovery, Spec, Plan in einem Lauf, plan-review REVISE → Reviewed (12 Findings), `2dffa04` auf dem Branch; #209, #210 | `2026-11/2026-11-13.md` |
 | 2026-11-12 | #200 herdr-app-umstellung abgenommen, gemergt, kit-sync | Merge `2baaf1e..164c644`, kit-sync 4/4, Gegenprüfung F1/F5 in der App (`02ff5e8`), Abnahme mit Beleg; #208 | `2026-11/2026-11-12.md` |
 | 2026-11-12 | #200 herdr-app-umstellung reviewt | impl-review NEEDS ATTENTION ohne Blocker, Triage 9 FIXED · 1 SKIPPED (`1818764`); L135–L137, #207 | `2026-11/2026-11-12.md` |
 | 2026-11-12 | #200 herdr-app-umstellung fertig umgesetzt | Phasen 1–4 (`0378ebe`, `5da0035`, `c188566`, `851b4b9`); Abnahme-Läufe 4.1–4.3 in der App; L130–L134 | `2026-11/2026-11-12.md` |
-| 2026-11-10 | #179 implement-ohne-feature-start abgenommen, gemergt, kit-sync, archiviert | impl-review-Folgelauf 8/8 FIXED (`8ad9d69`), Merge `3ab951d`, kit-sync 9/9 auf `85ba9c1`, Ordner nach `archive/`; #198 | `2026-11/2026-11-10.md` |
 
 ---
 
@@ -68,6 +66,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive`
+**Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 127 ungesichtet → /dtb:idea-triage
