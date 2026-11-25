@@ -19,7 +19,7 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-23: #200, #177, #173 archiviert und gepusht (`6e579d7`); S3: Pi in der Herdr-App repariert (`shellPath`, `~/.pi/agent/AGENTS.md`), L139, #213. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04` auf `feature/checkpoint-auto-commit`, nicht gepusht) liegt mit Worktree und Tab nur auf dem anderen Rechner. S4: PKP-Datenschutz-Hook als Vorlage für #145/#110 nachgetragen; Zusammenlegung #145/#193 beim nächsten `/dtb:idea-review` |
+| **Notizen** | 2026-11-23: #200, #177, #173 archiviert und gepusht (`6e579d7`); S3: Pi in der Herdr-App repariert (`shellPath`, `~/.pi/agent/AGENTS.md`), L139, #213. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04` auf `feature/checkpoint-auto-commit`, nicht gepusht) liegt mit Worktree und Tab nur auf dem anderen Rechner. S4: Datenschutz-Hook eines internen Projekts als Vorlage für #145/#110 nachgetragen; Zusammenlegung #145/#193 beim nächsten `/dtb:idea-review` |
 
 ---
 
