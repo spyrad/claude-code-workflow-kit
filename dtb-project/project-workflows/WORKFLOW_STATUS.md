@@ -19,7 +19,7 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-26: #214–#219 aus der mega.dev-INBOX übernommen; #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt (`38185e6`), kit-sync 7/7 — wartet auf `/dtb:archive`. Reihenfolge danach: #214 → #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
+| **Notizen** | 2026-11-26: #214–#219 aus der mega.dev-INBOX übernommen; #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt (`38185e6`), kit-sync 7/7, archiviert. Reihenfolge danach: #214 → #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
 
 ---
 

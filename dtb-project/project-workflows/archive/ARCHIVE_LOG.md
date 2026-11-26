@@ -133,3 +133,6 @@
 | 2026-11-23 | Feature | checkpoint-schneller | features/checkpoint-schneller/ | Abgenommen 2026-11-20 (Beleg: `nachmessung.md` — 58 Läufe nach dem Merge, Kern-Median 3,0 min statt 5,2) → Abgeschlossen. 6/6 |
 | 2026-11-23 | Idee | #173 "Checkpoint ohne Rückfragen bei Verlustfunden und offenen Aufgaben" | INBOX.md | Ausgearbeitet → archive/checkpoint-ohne-rueckfragen/ |
 | 2026-11-23 | Feature | checkpoint-ohne-rueckfragen | features/checkpoint-ohne-rueckfragen/ | Abgenommen 2026-11-20 (Beleg: gemeinsame Nachmessung `archive/checkpoint-schneller/nachmessung.md` — Alters-Fragen 0, Kontrollpunkt nur 2× Duplikat) → Abgeschlossen. 8/8 |
+| 2026-11-26 | Idee | #218 "Vier Status-Skills in ihren Beschreibungen voneinander abgrenzen" | INBOX.md | Verworfen → zusammengelegt mit #217 |
+| 2026-11-26 | Idee | #217 "Längengrenze für Skill-Beschreibungen (Auslöser), darin #218" | INBOX.md | Ausgearbeitet → archive/skill-beschreibungen/ |
+| 2026-11-26 | Feature | skill-beschreibungen | features/skill-beschreibungen/ | Abgenommen 2026-11-26 (Beleg: im Tab gegengelesen, Phase 1 „passt"; die 4 nach dem Review geänderten Beschreibungen im Orchestrator gegengelesen) → Abgeschlossen |
