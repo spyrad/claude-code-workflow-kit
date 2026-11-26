@@ -19,14 +19,13 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-26: #214–#219 aus der mega.dev-INBOX übernommen; #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt (`38185e6`), kit-sync 7/7, archiviert. Reihenfolge danach: #214 → #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
+| **Notizen** | 2026-11-26: #214–#219 aus der mega.dev-INBOX übernommen; #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt (`38185e6`), kit-sync 7/7, Arbeitsplatz abgebaut, archiviert (`1715438`). Reihenfolge danach: #214 → #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#217 skill-beschreibungen: Tab schließen, Worktree und Zweig abbauen, dann `/dtb:archive`** — Kontext: abgenommen und gemergt 2026-11-26; Tab `t1w`, Worktree `.dtb-worktrees/pane-skill-beschreibungen`, Zweig `feature/skill-beschreibungen` (seit 2026-11-26)
-- [ ] **#217 skill-beschreibungen: Auslöse-Probe in frischer Session** — Kontext: „was steht an", „wo steckt was", „offene Features", „Projektstand als Seite" → wählt Claude den passenden Status-Skill? (offener Punkt in spec.md/discovery.md) (seit 2026-11-26)
+- [ ] **#217 skill-beschreibungen: Auslöse-Probe in frischer Session** — Kontext: „was steht an", „wo steckt was", „offene Features", „Projektstand als Seite" → wählt Claude den passenden Status-Skill? (offener Punkt in archive/skill-beschreibungen/spec.md) (seit 2026-11-26)
 - [ ] **Nächste mega.dev-Idee nach der Reihenfolge #221: #214 Prüfskript + CI** — Kontext: danach #216, #215, #219 erst nach dem Merge von #199 (seit 2026-11-26)
 - [ ] **#200 herdr-app-umstellung: Zweig `feature/herdr-app-umstellung` auf GitHub und lokal löschen** — Kontext: archiviert 2026-11-23; am 2026-11-26 geprüft: `origin/feature/herdr-app-umstellung` und der lokale Zweig existieren beide noch (seit 2026-11-12) ⏳
 - [ ] **#199 checkpoint-auto-commit: Umsetzung nach der Nachmessung (bis 2026-12-02)** — Kontext: `/dtb:implement Checkpoint Auto-Commit` im Tab `checkpoint-auto-commit`; Plan Reviewed 0/18, Schritt 4.5 (kit-sync-Nachweis) erst nach Merge und Push (seit 2026-11-13) ⏳
@@ -52,7 +51,7 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
-| 2026-11-26 | #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt, kit-sync | 7 Beschreibungen ≤ 338 Zeichen mit „Not for"-Abgrenzung, Regel in `skills/CLAUDE.md`, impl-review 8× FIXED, kit-sync 7/7; #214–#219 aus mega.dev übernommen; L141, L142, #220, #221 | `2026-11/2026-11-26.md` |
+| 2026-11-26 | #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt, kit-sync, archiviert | 7 Beschreibungen ≤ 338 Zeichen mit „Not for"-Abgrenzung, Regel in `skills/CLAUDE.md`, impl-review 8× FIXED, kit-sync 7/7; #214–#219 aus mega.dev übernommen; L141, L142, #220, #221 | `2026-11/2026-11-26.md` |
 | 2026-11-23 | #200 herdr-app-umstellung, #177 checkpoint-schneller, #173 checkpoint-ohne-rueckfragen archiviert | drei Ordner nach `archive/`, Archiv-Log ergänzt; kein aktives Feature mehr im Haupt-Checkout | `2026-11/2026-11-23.md` |
 | 2026-11-20 | #177 checkpoint-schneller + #173 checkpoint-ohne-rueckfragen nachgemessen und abgenommen | 58 Läufe nach dem Merge: Kern-Median 3,0 min (vorher 5,2), Alters-Fragen 0, Kontrollpunkt nur 2× Duplikat; #211, #212, L138 | `2026-11/2026-11-20.md` |
 | 2026-11-13 | #199 checkpoint-auto-commit bis zum reviewten Plan (Pane) | `/dtb:pane-start 199` → Discovery, Spec, Plan in einem Lauf, plan-review REVISE → Reviewed (12 Findings), `2dffa04` auf dem Branch; #209, #210 | `2026-11/2026-11-13.md` |
