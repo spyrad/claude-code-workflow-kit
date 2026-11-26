@@ -9,6 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
+| skill-lint | Abgenommen | 6/6 | /dtb:archive |
 
 Kein aktives Feature.
 
@@ -19,14 +20,16 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-26: #214–#219 aus der mega.dev-INBOX übernommen; #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt (`38185e6`), kit-sync 7/7, Arbeitsplatz abgebaut, archiviert (`1715438`). Reihenfolge danach: #214 → #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
+| **Notizen** | 2026-11-26: #214 skill-lint per Pane (Fast-Track) umgesetzt, abgenommen, gemergt und gepusht (`756085f`), erster CI-Lauf grün, kit-sync 8/8; Arbeitsplatz `pane-skill-lint` (Tab t20) steht noch. Reihenfolge danach: #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
 
 ---
 
 ## Offene Aufgaben
 
+- [ ] **#214 skill-lint: Tab schließen, Worktree und Zweig abbauen, dann `/dtb:archive`** — Kontext: Abnahme 2026-11-26, Tab t20, Worktree `.dtb-worktrees/pane-skill-lint`, Zweig `feature/skill-lint` (nicht auf GitHub) (seit 2026-11-26)
+- [ ] **INBOX-BEFUNDE #46, #58 Fall (1), #88, #195 abräumen** — Kontext: durch skill-lint erledigt (Gegenkanten-Regel, greenfield-prd.after, Stage-Tabelle, Bash in Teil-Guard-Skills); beim nächsten `/dtb:idea-triage` (seit 2026-11-26)
+- [ ] **Nächste mega.dev-Idee nach der Reihenfolge #221: #216 CLAUDE.md ohne Codebase-Karte** — Kontext: danach #215, #219 erst nach dem Merge von #199 (seit 2026-11-26)
 - [ ] **#217 skill-beschreibungen: Auslöse-Probe in frischer Session** — Kontext: „was steht an", „wo steckt was", „offene Features", „Projektstand als Seite" → wählt Claude den passenden Status-Skill? (offener Punkt in archive/skill-beschreibungen/spec.md) (seit 2026-11-26)
-- [ ] **Nächste mega.dev-Idee nach der Reihenfolge #221: #214 Prüfskript + CI** — Kontext: danach #216, #215, #219 erst nach dem Merge von #199 (seit 2026-11-26)
 - [ ] **#200 herdr-app-umstellung: Zweig `feature/herdr-app-umstellung` auf GitHub und lokal löschen** — Kontext: archiviert 2026-11-23; am 2026-11-26 geprüft: `origin/feature/herdr-app-umstellung` und der lokale Zweig existieren beide noch (seit 2026-11-12) ⏳
 - [ ] **#199 checkpoint-auto-commit: Umsetzung nach der Nachmessung (bis 2026-12-02)** — Kontext: `/dtb:implement Checkpoint Auto-Commit` im Tab `checkpoint-auto-commit`; Plan Reviewed 0/18, Schritt 4.5 (kit-sync-Nachweis) erst nach Merge und Push (seit 2026-11-13) ⏳
 - [ ] **#199 checkpoint-auto-commit: übersprungene globale Updates beim Merge nachtragen** — Kontext: INBOX #199 → Ausgearbeitet mit Links auf discovery/spec/plan; BACKLOG-Zeile „Checkpoint Auto-Commit · Geplant · Mittel"; vorher zeigen die Links ins Leere (#114, #131) (seit 2026-11-13) ⏳
@@ -36,7 +39,7 @@ Kein aktives Feature.
 - [ ] **#178 plan-in-einem-befehl: ersten echten `/dtb:feature-plan`-Lauf beobachten** — Kontext: erster Lauf mit der neuen Fassung am 2026-11-13 in der Pane von #199 (Struktur-Check 5/5, Spec und Plan in einem Lauf); Backlog-Zweig dort planmäßig übersprungen (Worktree), Fehlerpfad „impl-plan nicht installiert" weiter ungefahren — den nächsten Lauf im Haupt-Checkout ansehen (seit 2026-11-09) ⏳
 - [ ] **#22 seed-skew-aktiv-melden: fetch-Teil der Abhilfe-Befehle im ersten echten Bestandsprojekt-Lauf beobachten** — Kontext: im Pane bewusst ungetestet (Kit-Klon nicht angefasst), show/diff/mv an einer Kopie gruen; naechster `kit-sync check` in einem Zielprojekt mit altem Seed (z. B. PKP) — seit #179 weicht der Seed (§7.3) überall ab (seit 2026-11-09) ⏳
 - [ ] **checkpoint-ohne-rueckfragen: Nachbesserung Erfassungs-Block beim ersten Checkpoint nach dem Merge prüfen** — Kontext: Probelauf-Befund 1 (Alters-Zeile nicht mehr unter „Erfasst:"); erster Echtlauf mit Funden und ⏳ ist der Checkpoint 2026-11-06 — dessen Bestätigung ansehen; die Nachmessung 2026-11-20 hat das nicht geprüft (seit 2026-11-03) ⏳
-- [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen** — Kontext: Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28) ⏳
+- [ ] **PKP-Durchlaufzeiten am 2026-11-27 wiederholen (auf dem Arbeitsrechner)** — Kontext: nur dort liegen PKP-Protokolle und Anleitung (am 2026-11-26 auf dem Privatrechner geprüft: beides fehlt); Windows-Erinnerung 09:07, Anleitung `~/.claude/analysen/pkp-durchlaufzeiten/README.md`; spaeter nicht moeglich (Protokolle 30 Tage, L106) (seit 2026-10-28) ⏳
 - [ ] **projekt-dashboard: 2 Review-Findings unter dem Cap** — Kontext: feste Slot-Zahl in Schritt 5 (durch #158 jetzt 9, `grep -c` zaehlt Zeilen), Guard-Kopie ohne Spiegel-Eintrag in `skills/CLAUDE.md` (seit 2026-10-27 · behalten 2026-11-03) ⏳
 - [ ] **dtb-assistant: Probeseite project-dashboard.html loeschen oder behalten** — Kontext: Testbett ohne Git, Rest aus dem Probelauf Phase 2 (seit 2026-10-27 · behalten 2026-11-03) ⏳
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — in Abnahme 4.2 (Wegwerf-Change) A1, A2, A4 gesehen, A3 nicht; zählt erst an einem echten Change; 2026-11-13 (#199) und 2026-11-26 (#217) nur „Ende", kein Wechsel (seit 2026-10-22 · behalten 2026-10-29) ⏳
@@ -51,12 +54,12 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-11-26 | #214 skill-lint per Pane (Fast-Track) umgesetzt, abgenommen, gemergt, kit-sync | `scripts/lint-skills.py` + 37 Selbsttests + CI `lint-skills.yml` (erster Lauf grün), Check 8 ruft das Skript, Gegenkanten-Regel; impl-review 10× FIXED; L143–L145 | `2026-11/2026-11-26.md` |
 | 2026-11-26 | #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt, kit-sync, archiviert | 7 Beschreibungen ≤ 338 Zeichen mit „Not for"-Abgrenzung, Regel in `skills/CLAUDE.md`, impl-review 8× FIXED, kit-sync 7/7; #214–#219 aus mega.dev übernommen; L141, L142, #220, #221 | `2026-11/2026-11-26.md` |
 | 2026-11-23 | #200 herdr-app-umstellung, #177 checkpoint-schneller, #173 checkpoint-ohne-rueckfragen archiviert | drei Ordner nach `archive/`, Archiv-Log ergänzt; kein aktives Feature mehr im Haupt-Checkout | `2026-11/2026-11-23.md` |
 | 2026-11-20 | #177 checkpoint-schneller + #173 checkpoint-ohne-rueckfragen nachgemessen und abgenommen | 58 Läufe nach dem Merge: Kern-Median 3,0 min (vorher 5,2), Alters-Fragen 0, Kontrollpunkt nur 2× Duplikat; #211, #212, L138 | `2026-11/2026-11-20.md` |
 | 2026-11-13 | #199 checkpoint-auto-commit bis zum reviewten Plan (Pane) | `/dtb:pane-start 199` → Discovery, Spec, Plan in einem Lauf, plan-review REVISE → Reviewed (12 Findings), `2dffa04` auf dem Branch; #209, #210 | `2026-11/2026-11-13.md` |
 | 2026-11-12 | #200 herdr-app-umstellung abgenommen, gemergt, kit-sync | Merge `2baaf1e..164c644`, kit-sync 4/4, Gegenprüfung F1/F5 in der App (`02ff5e8`), Abnahme mit Beleg; #208 | `2026-11/2026-11-12.md` |
-| 2026-11-12 | #200 herdr-app-umstellung reviewt | impl-review NEEDS ATTENTION ohne Blocker, Triage 9 FIXED · 1 SKIPPED (`1818764`); L135–L137, #207 | `2026-11/2026-11-12.md` |
 
 ---
 
