@@ -7,9 +7,11 @@ Werkzeug-Pflicht und Gegenkante als FEHLER.
 
 Aufruf:  python scripts/lint-skills.py [REPO-ROOT]
          (ohne -I: -I blendet die User-site-packages aus, PyYAML fehlt dann)
+         --ohne-ausnahmen  nur fuer den Selbsttest: prueft ohne EDGE_EXCEPTIONS
+                           (Fixture-Baeume kennen die Kit-Skills der Ausnahmeliste nicht)
 Exit:    0 = kein FEHLER, 1 = mindestens ein FEHLER, 2 = Aufruf-/Umgebungsfehler
-Ausgabe: je Befund eine Zeile "{FEHLER|WARNUNG} {skill}: {regel} — {detail}",
-         danach eine Schlusszeile mit Zaehlern.
+Ausgabe: je Befund eine Zeile "{FEHLER|WARNUNG} {skill}: {regel} — {detail}"
+         (das Detail enthaelt selbst kein " — "), danach eine Schlusszeile mit Zaehlern.
 
 Regel-Aenderungen in skills/CLAUDE.md ziehen dieses Skript im selben Zug mit.
 """
@@ -20,6 +22,7 @@ sys.dont_write_bytecode = True
 
 import os
 import re
+import traceback
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -43,7 +46,7 @@ STAGES = (
     "development", "session", "monitoring", "setup", "greenfield",
 )
 MAX_DESCRIPTION = 350
-EDGE_FIELDS = (("next", "after"), ("after", "next"))
+COUNTER_FIELD = {"next": "after", "after": "next"}
 
 # Bewusst einseitige Pipeline-Kanten: (Quelle, Feld, Ziel, Grund).
 # Jeder Eintrag braucht einen Grund; ein Eintrag, der keine einseitige Kante
@@ -58,9 +61,15 @@ EDGE_EXCEPTIONS = (
 )
 
 FRONTMATTER_RE = re.compile(r"\A---[ \t]*\n(.*?)\n---[ \t]*(?:\n|\Z)", re.S)
-BASH_FENCE_RE = re.compile(r"^[ \t]*```bash\b", re.M)
-GUARD_RE = re.compile(r"^## Worktree-Guard\b", re.M)
+# Shell-Block, Voll-Guard und Teil-Guard verlangen Bash. Bewusst akzeptiertes
+# Falsch-Positiv: ein Anker, der in einer aeusseren (Vier-Backtick-)Fence nur zitiert wird.
+SHELL_FENCE_RE = re.compile(r"^[ \t]*(?:```|~~~)(?:bash|sh|shell)\b", re.M)
+GUARD_RE = re.compile(r"^#{2,3} Worktree-Guard\b", re.M)
 PART_GUARD_RE = re.compile(r"^[ \t]*\*\*Teil-Guard \(Worktree\):\*\*", re.M)
+
+
+class UsageError(Exception):
+    """Aufruf- oder Umgebungsfehler (Exit 2)."""
 
 
 class Report:
@@ -101,15 +110,16 @@ def read_skill(path):
 
 
 def tool_list(value):
+    """Werkzeugnamen ohne Muster-Zusatz: 'Bash(git:*)' zaehlt als 'Bash'."""
     if value is None:
         return []
-    if isinstance(value, (list, tuple)):
-        return [str(item).strip() for item in value]
-    return [item.strip() for item in str(value).split(",")]
+    items = value if isinstance(value, (list, tuple)) else str(value).split(",")
+    return [str(item).split("(")[0].strip() for item in items]
 
 
 def folded(text):
-    return re.sub(r"\s+", " ", text).strip()
+    """Faltung laut skills/CLAUDE.md: Zeilenumbruch + Einrueckung = ein Leerzeichen."""
+    return re.sub(r"\n[ \t]*", " ", text).strip()
 
 
 def skill_dir_for(name):
@@ -119,19 +129,19 @@ def skill_dir_for(name):
     return "dtb-" + name[4:]
 
 
-def lint(root):
+def lint(root, exceptions=EDGE_EXCEPTIONS):
     report = Report()
     skills_dir = os.path.join(root, "skills")
     if not os.path.isdir(skills_dir):
-        print(f"lint-skills: kein Ordner skills/ unter {root}", file=sys.stderr)
-        sys.exit(2)
+        raise UsageError(f"kein Ordner skills/ unter {root}")
 
     dirs = sorted(
         entry for entry in os.listdir(skills_dir)
         if entry.startswith("dtb-") and os.path.isdir(os.path.join(skills_dir, entry))
     )
     existing = set()
-    parsed = {}  # Verzeichnis -> (frontmatter, pipeline-dict | None)
+    # Verzeichnis -> pipeline-Block: dict (fehlender Block = {}), None bei ungueltigem Block
+    pipelines = {}
 
     for skill in dirs:
         path = os.path.join(skills_dir, skill, "SKILL.md")
@@ -143,18 +153,18 @@ def lint(root):
         if problem:
             report.error(skill, "frontmatter", problem)
             continue
-        parsed[skill] = (data, check_skill(report, skill, data, body))
+        pipelines[skill] = check_skill(report, skill, data, body)
 
-    for skill in sorted(parsed):
-        data, pipeline = parsed[skill]
-        if pipeline is not None:
-            check_edges(report, skill, pipeline, existing, parsed)
-    check_exceptions(report, parsed)
+    allowed = {(source, field, target) for source, field, target, _ in exceptions}
+    for skill in sorted(pipelines):
+        if pipelines[skill] is not None:
+            check_edges(report, skill, pipelines, existing, allowed)
+    check_exceptions(report, pipelines, exceptions)
     return len(dirs), report
 
 
 def check_skill(report, skill, data, body):
-    """Feld-Regeln eines Skills; liefert den pipeline-Block (oder None)."""
+    """Feld-Regeln eines Skills; liefert den pipeline-Block ({} wenn fehlend, None wenn ungueltig)."""
     name = data.get("name")
     if name is None:
         report.error(skill, "name-fehlt", "Feld name fehlt")
@@ -170,24 +180,30 @@ def check_skill(report, skill, data, body):
     elif not folded(description).startswith("Use when:"):
         report.error(skill, "use-when", "description beginnt nicht mit 'Use when:'")
 
+    # Nur ein echtes `true` schaltet den Modell-Aufruf ab: fehlt das Feld oder ist es kein
+    # Bool, laedt Claude Code die Beschreibung trotzdem in jede Session -> Laenge zaehlt.
+    dmi = data.get("disable-model-invocation")
     if "disable-model-invocation" not in data:
-        report.warning(skill, "feld-fehlt", "disable-model-invocation fehlt")
-    elif data["disable-model-invocation"] is False and description is not None:
+        report.warning(skill, "feld-fehlt", "disable-model-invocation fehlt (gilt als false)")
+    elif not isinstance(dmi, bool):
+        report.error(skill, "dmi-typ", f"disable-model-invocation ist kein Bool ({dmi!r})")
+    if dmi is not True and description is not None:
         length = len(folded(description))
         if length > MAX_DESCRIPTION:
             report.error(
                 skill, "beschreibung-laenge",
-                f"{length} Zeichen (gefaltet) > {MAX_DESCRIPTION} bei disable-model-invocation: false",
+                f"{length} Zeichen (gefaltet) > {MAX_DESCRIPTION} bei modellaufrufbarem Skill "
+                "(disable-model-invocation nicht true)",
             )
 
     if "allowed-tools" not in data:
         report.warning(skill, "feld-fehlt", "allowed-tools fehlt")
     tools = tool_list(data.get("allowed-tools"))
     reasons = []
-    if BASH_FENCE_RE.search(body):
-        reasons.append("```bash-Block")
+    if SHELL_FENCE_RE.search(body):
+        reasons.append("Shell-Block")
     if GUARD_RE.search(body):
-        reasons.append("## Worktree-Guard")
+        reasons.append("Worktree-Guard")
     if PART_GUARD_RE.search(body):
         reasons.append("**Teil-Guard (Worktree):**")
     if reasons and "Bash" not in tools:
@@ -195,7 +211,7 @@ def check_skill(report, skill, data, body):
 
     if "pipeline" not in data:
         report.warning(skill, "feld-fehlt", "pipeline fehlt")
-        return None
+        return {}
     pipeline = data["pipeline"]
     if not isinstance(pipeline, dict):
         report.error(skill, "pipeline", "pipeline ist kein Block")
@@ -205,7 +221,7 @@ def check_skill(report, skill, data, body):
     if stage not in STAGES:
         report.error(skill, "stage", f"stage '{stage}' nicht im Wertebereich ({', '.join(STAGES)})")
 
-    for field, _ in EDGE_FIELDS:
+    for field in COUNTER_FIELD:
         value = pipeline.get(field)
         if value is not None and not isinstance(value, list):
             report.error(skill, "listenform", f"{field} ist weder Liste noch null")
@@ -213,22 +229,28 @@ def check_skill(report, skill, data, body):
 
 
 def edge_list(pipeline, field):
-    value = pipeline.get(field) if isinstance(pipeline, dict) else None
-    return value if isinstance(value, list) else []
+    """Kanten eines Feldes; None, wenn das Feld weder Liste noch null ist (eigener FEHLER)."""
+    value = pipeline.get(field)
+    if value is None:
+        return []
+    return value if isinstance(value, list) else None
 
 
-def check_edges(report, skill, pipeline, existing, parsed):
+def check_edges(report, skill, pipelines, existing, allowed):
     own_name = "dtb:" + skill[4:]
-    for field, counter in EDGE_FIELDS:
-        for target in edge_list(pipeline, field):
+    for field, counter in COUNTER_FIELD.items():
+        for target in edge_list(pipelines[skill], field) or []:
             target_dir = skill_dir_for(target)
             if target_dir is None or target_dir not in existing:
-                report.error(skill, "kanten-ziel", f"{field}: {target} — kein Skill skills/{target_dir or target}/SKILL.md")
+                report.error(skill, "kanten-ziel", f"{field}: {target} (kein Skill skills/{target_dir or target}/SKILL.md)")
                 continue
-            if target_dir not in parsed:
-                continue  # Ziel hat selbst einen Frontmatter-FEHLER
-            back = edge_list(parsed[target_dir][1], counter)
-            if own_name in back or (own_name, field, target) in exception_keys():
+            target_pipeline = pipelines.get(target_dir)
+            if target_pipeline is None:
+                continue  # Ziel hat selbst einen Frontmatter- oder pipeline-FEHLER
+            back = edge_list(target_pipeline, counter)
+            if back is None:
+                continue  # Gegenfeld ist keine Liste: Ziel traegt dafuer schon `listenform`
+            if own_name in back or (own_name, field, target) in allowed:
                 continue
             report.error(
                 skill, "gegenkante",
@@ -237,36 +259,45 @@ def check_edges(report, skill, pipeline, existing, parsed):
             )
 
 
-def exception_keys():
-    return {(source, field, target) for source, field, target, _ in EDGE_EXCEPTIONS}
-
-
-def check_exceptions(report, parsed):
-    for source, field, target, reason in EDGE_EXCEPTIONS:
-        label = f"EDGE_EXCEPTIONS ({source}.{field} -> {target})"
+def check_exceptions(report, pipelines, exceptions):
+    for source, field, target, reason in exceptions:
+        label = f"EDGE_EXCEPTIONS {source}.{field} -> {target}"
         if not str(reason).strip():
             report.error("lint-skills", "ausnahme-grund", f"{label} ohne Grund")
-        source_dir = skill_dir_for(source)
-        target_dir = skill_dir_for(target)
-        counter = dict(EDGE_FIELDS).get(field)
-        if source_dir not in parsed and target_dir not in parsed:
-            continue  # fremder Baum (z.B. Selbsttest-Fixture): die Ausnahme betrifft ihn nicht
-        if source_dir not in parsed or target_dir not in parsed or counter is None:
-            report.warning("lint-skills", "ausnahme-ueberfluessig", f"{label} deckt keine bestehende Kante")
+        counter = COUNTER_FIELD.get(field)
+        if counter is None:
+            report.error("lint-skills", "ausnahme-feld", f"{label}: Feld muss next oder after sein")
             continue
-        if target not in edge_list(parsed[source_dir][1], field):
-            report.warning("lint-skills", "ausnahme-ueberfluessig", f"{label} deckt keine bestehende Kante")
-        elif source in edge_list(parsed[target_dir][1], counter):
-            report.warning("lint-skills", "ausnahme-ueberfluessig", f"{label} — Gegenkante existiert inzwischen")
+        source_pipeline = pipelines.get(skill_dir_for(source))
+        target_pipeline = pipelines.get(skill_dir_for(target))
+        if source_pipeline is None or target_pipeline is None:
+            report.warning("lint-skills", "ausnahme-ueberfluessig", f"{label}: Quelle oder Ziel fehlt")
+        elif target not in (edge_list(source_pipeline, field) or []):
+            report.warning("lint-skills", "ausnahme-ueberfluessig", f"{label}: deckt keine bestehende Kante")
+        elif source in (edge_list(target_pipeline, counter) or []):
+            report.warning("lint-skills", "ausnahme-ueberfluessig", f"{label}: Gegenkante existiert inzwischen")
 
 
 def main(argv):
-    if len(argv) > 2:
+    args = list(argv[1:])
+    exceptions = EDGE_EXCEPTIONS
+    if "--ohne-ausnahmen" in args:
+        args.remove("--ohne-ausnahmen")
+        exceptions = ()
+    if len(args) > 1:
         print("Aufruf: python scripts/lint-skills.py [REPO-ROOT]", file=sys.stderr)
         return 2
     default_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    root = os.path.abspath(argv[1]) if len(argv) == 2 else default_root
-    count, report = lint(root)
+    root = os.path.abspath(args[0]) if args else default_root
+    try:
+        count, report = lint(root, exceptions)
+    except UsageError as exc:
+        print(f"lint-skills: {exc}", file=sys.stderr)
+        return 2
+    except Exception:  # unerwartet: nie als Exit 1 (= "FEHLER gefunden") ausgeben
+        traceback.print_exc()
+        print("lint-skills: unerwarteter Fehler — Lauf abgebrochen", file=sys.stderr)
+        return 2
     for line in report.lines:
         print(line)
     print(f"lint-skills: {count} Skills geprueft, {report.errors} FEHLER, {report.warnings} WARNUNG(EN)")

@@ -180,9 +180,9 @@ Das Skript läuft bei jedem Push und Pull Request; Check 8 und die Doku kennen e
 - [x] 1.1 Prüfskript — `c10166e`
 - [x] 1.2 Selbsttest mit Fixtures — `c10166e`
 - [x] 1.3 Bestand bereinigen — `c10166e`
-- [x] 2.1 CI-Workflow
-- [x] 2.2 Check 8 nutzt das Skript
-- [x] 2.3 Doku-Nachzug
+- [x] 2.1 CI-Workflow — `5812e39`
+- [x] 2.2 Check 8 nutzt das Skript — `5812e39`
+- [x] 2.3 Doku-Nachzug — `5812e39`
 
 ---
 

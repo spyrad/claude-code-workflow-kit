@@ -216,7 +216,8 @@ Quelle `skills/dtb-*/SKILL.md` und deckt ab: Pflichtfelder, `name` = Verzeichnis
 `Use when:`-Praefix, Listenform von `after`/`next`, Kanten-Ziel, Gegenkante (mit Ausnahmeliste
 im Skript), Stage im Wertebereich, Beschreibungslaenge, `Bash`-Pflicht bei Shell-Block oder
 Worktree-Guard. Die Modell-Sicht unten prueft dann nur noch, was das Skript nicht abdeckt:
-verwaiste `consumes`, zirkulaere `next`-Ketten und `Write` im Body ohne `allowed-tools`-Eintrag.
+verwaiste `consumes`, zirkulaere `next`-Ketten und `Write` im Body ohne `allowed-tools`-Eintrag —
+und zwar ueber dieselbe Quelle `skills/dtb-*/SKILL.md` (im Kit-Repo gibt es kein `.claude/skills/`).
 Endet das Skript mit Exit 2 (Aufruf-/Umgebungsfehler, z.B. PyYAML fehlt) → seine Meldung als
 WARNUNG zeigen und die volle Modell-Sicht laufen lassen. **Fehlt das Skript** (Zielprojekt —
 `dtb:kit-sync` verteilt kein `scripts/`) → unveraendert die volle Modell-Sicht unten.
@@ -236,7 +237,10 @@ Scanne alle `.claude/skills/dtb-*/SKILL.md` im Projekt:
 - Zirkulaere Referenzen (A→B→A via `next`, ueber alle `next`-Listenelemente) → FEHLER
 
 **allowed-tools vs. Body pruefen:**
-- Skill-Body referenziert `Write` oder `Bash` Aktionen aber `allowed-tools` enthaelt es nicht → WARNUNG
+- Skill-Body enthaelt einen Shell-Block (```` ```bash ````/`sh`/`shell`) oder einen Worktree-Guard-Anker
+  (`## Worktree-Guard`, `**Teil-Guard (Worktree):**`), aber `allowed-tools` enthaelt `Bash` nicht → FEHLER
+  (gleiche Einstufung wie `scripts/lint-skills.py`)
+- Skill-Body referenziert sonst `Write` oder `Bash` Aktionen, aber `allowed-tools` enthaelt es nicht → WARNUNG
 
 #### Check 9: Memory-Health
 
