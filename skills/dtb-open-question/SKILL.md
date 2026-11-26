@@ -7,7 +7,7 @@ description: >-
   active feature's `## Offene Punkte` — quick, without interrupting the work.
 disable-model-invocation: false
 argument-hint: "[<feature-slug>] <Fach-Frage>"
-allowed-tools: Read, Glob, Grep, Edit
+allowed-tools: Read, Glob, Grep, Edit, Bash
 pipeline:
   stage: capture
   after: null

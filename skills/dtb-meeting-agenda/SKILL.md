@@ -10,8 +10,8 @@ argument-hint: "[alle]"
 allowed-tools: Read, Glob, Grep
 pipeline:
   stage: monitoring
-  after: null
-  next: null
+  after: [dtb:open-question]
+  next: [dtb:meeting-dump]
   consumes: [features/*/discovery.md, features/*/spec.md, project-rules/DERIVED_STATE_RULES.md]
   produces: []
 ---

@@ -8,7 +8,7 @@ description: >-
   run (stop after the spec with the argument "nur-spec").
 disable-model-invocation: true
 argument-hint: "[Feature-Name] [nur-spec]"
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Glob, Grep, Bash
 pipeline:
   stage: planning
   after: [dtb:feature-discover]

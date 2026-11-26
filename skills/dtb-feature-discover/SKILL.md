@@ -7,7 +7,7 @@ description: >-
   produces a features/<slug>/discovery.md before spec writing.
 disable-model-invocation: true
 argument-hint: "[Idee-Nummer oder Suchbegriff]"
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Glob, Grep, Bash
 pipeline:
   stage: planning
   after: [dtb:idea-review, dtb:greenfield-roadmap, dtb:pane-start]

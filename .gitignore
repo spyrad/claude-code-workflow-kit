@@ -17,3 +17,5 @@ dtb-project/project-rules/*
 .obsidian/
 # Lokale Claude-Code-Einstellungen (Permission-Cache), maschinenspezifisch
 .claude/settings.local.json
+# Python-Bytecode (scripts/lint-skills.py und sein Selbsttest)
+__pycache__/

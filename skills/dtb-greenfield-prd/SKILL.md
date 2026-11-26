@@ -10,7 +10,7 @@ disable-model-invocation: true
 allowed-tools: Read, Write, Glob, Grep
 pipeline:
   stage: greenfield
-  after: null
+  after: [dtb:opportunity-map]
   next: [dtb:greenfield-roadmap]
   consumes: [PRD-MVP.md, project-strategy/*.md, INBOX.md, workflow.config.yaml]
   produces: [PRD-MVP.md]

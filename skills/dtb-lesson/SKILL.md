@@ -11,7 +11,7 @@ allowed-tools: Read, Write, Edit, Grep, Bash
 pipeline:
   stage: development
   after: null
-  next: null
+  next: [dtb:lesson-curate]
   consumes: [project-rules/lessons.md, archive/lessons-ausgemustert.md, workflow.config.yaml]
   produces: [project-rules/lessons.md]
 ---
