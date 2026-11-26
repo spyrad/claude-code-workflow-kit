@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-11-23 (#173, #177, #200 archiviert)
+**Letzte Aktualisierung:** 2026-11-26 (#217 skill-beschreibungen abgenommen)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,6 +12,7 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
+| 217 | Skill-Beschreibungen kürzen und abgrenzen | Abgenommen | Mittel | features/skill-beschreibungen/spec.md | Die Skill-Beschreibungen, die in jede Session geladen werden, sind kurz und klar voneinander abgegrenzt. |
 
 ---
 

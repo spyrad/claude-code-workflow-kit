@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-26
 **Ziel:** Die Skill-Beschreibungen, die in jede Session geladen werden, sind kurz und klar voneinander abgegrenzt.
 **Prioritaet:** Mittel
-**Status:** Spezifiziert <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 
