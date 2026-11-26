@@ -134,7 +134,11 @@ Geprueft: 10 Skills mit disable-model-invocation: false — Fehler: 0
 | „uebersicht der arbeit der letzten 7 tage" | „wochenrueckblick" + Zweck-Satz „the last 7 days" |
 | „woche" / „week" | kein Auslöser, sondern Argumentname — steht in `argument-hint` und in der Modus-Tabelle des Body |
 
-Weitere Streichungen ohne Phrasenbezug: session-summary verliert „Trigger this proactively for any retrospective recap" (Auslöse-Hinweis; der Zweck-Satz „recap of work done" trägt den Anlass) und die Aufzählung „PDF, git diff, git log, application log" (verdichtet zu „summarizing documents"); no-loss-check verliert die Begründung „the loss … happens precisely in sessions that end without a checkpoint" (Bedingung „ends without a checkpoint" bleibt im Proaktiv-Satz). Die übrigen gestrichenen Details stehen im Body (Ist-Analyse; workflow-status `:20`).
+Weitere Streichungen ohne Phrasenbezug: session-summary verliert „Trigger this proactively for any retrospective recap" (Auslöse-Hinweis; der Zweck-Satz „recap of work done" trägt den Anlass) und die Aufzählung „PDF, git diff, git log, application log" — in der ersten Fassung als „verdichtet zu summarizing documents" bezeichnet; das war ungenau (git diff/git log sind keine Dokumente, Ausschluss war entfallen). Nach impl-review F1 (2026-11-26) steht er wieder: „summarizing documents, diffs or git logs"; „application log" bleibt entfallen (von „logs" mitgetragen). no-loss-check verliert die Begründung „the loss … happens precisely in sessions that end without a checkpoint"; die erste Fassung hatte daraus die nicht wissbare Bedingung „ends without a checkpoint" gemacht — nach impl-review F2 wieder „seems to be ending or the topic shifts". Die übrigen gestrichenen Details stehen im Body (Ist-Analyse; workflow-status `:20`).
+
+**Abgrenzung des Dashboards (impl-review F3):** workflow-status und backlog-status nennen project-dashboard nicht; der Ausschluss läuft über den eigenen Satz des Dashboards („Not for a chat answer (that is dtb:workflow-next, dtb:workflow-status or dtb:backlog-status)"), weil ein weiterer Satz backlog-status über 350 Zeichen brächte.
+
+**Endlauf nach Triage 2026-11-26** — `desc-check.py` Exit 0: backlog-status 312, idea-rank 316, lesson 305, meeting-agenda 299, no-loss-check 329, open-question 296, project-dashboard 318, session-summary 338, workflow-next 322, workflow-status 307; Phrasenliste unverändert gegenüber dem Endlauf oben.
 
 ---
 
@@ -156,9 +160,9 @@ Weitere Streichungen ohne Phrasenbezug: session-summary verliert „Trigger this
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Regel + Prüfskript
-- [x] 1.2 drei Beschreibungen kürzen
-- [x] 1.3 vier Status-Skills abgrenzen
+- [x] 1.1 Regel + Prüfskript — `0bc7190`
+- [x] 1.2 drei Beschreibungen kürzen — `0bc7190`
+- [x] 1.3 vier Status-Skills abgrenzen — `0bc7190`
 
 ---
 
