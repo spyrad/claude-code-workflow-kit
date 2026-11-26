@@ -1,0 +1,28 @@
+name: Lint Skills
+
+# Prueft bei jedem Push und Pull Request die mechanischen Frontmatter-Regeln der
+# Kit-Skills (skills/CLAUDE.md -> "Frontmatter (Pflichtfelder)"). Erst der Selbsttest
+# des Pruefskripts, dann der Lint ueber den Bestand: ein manipuliertes oder kaputtes
+# Skript faellt so schon an den roten Fixtures durch. Ein Fehler-Exit macht den Lauf
+# rot — keine Fehler-Unterdrueckung in diesem Workflow. Nur Leserechte, keine Secrets.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: PyYAML installieren
+        run: pip install pyyaml==6.0.1
+      - name: Selbsttest des Pruefskripts
+        run: python -m unittest discover -s scripts/tests
+      - name: Skill-Lint ueber den Bestand
+        run: python scripts/lint-skills.py

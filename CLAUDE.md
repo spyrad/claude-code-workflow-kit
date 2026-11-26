@@ -16,7 +16,14 @@ This is a **distribution repository**, not a standalone project. Users copy part
 - `commands/` → target project's `.claude/commands/`
 - `settings.json` → target project's `.claude/settings.json`
 
-There are no build steps, tests, or runtime dependencies. The `context7` plugin is enabled in settings.json.
+There are no build steps, and the distributed parts have no runtime dependencies. The kit repo
+itself carries one check: `python scripts/lint-skills.py` lints the frontmatter of
+`skills/dtb-*/SKILL.md` against the rules in `skills/CLAUDE.md` (needs PyYAML; call it without
+`-I`, which hides the user site-packages), its self-test is
+`python -m unittest discover -s scripts/tests`, and the CI workflow
+`.github/workflows/lint-skills.yml` runs both on every push and pull request. `scripts/` is not
+distributed by `dtb:kit-sync` — in target projects `dtb:project-health` Check 8 stays the model's
+view. The `context7` plugin is enabled in settings.json.
 
 **Distribution model:** `dtb:kit-sync` installs class-A artifacts (`skills/dtb-*/SKILL.md`,
 `agents/*.md`, `commands/dtb-*.md`, `output-styles/dtb-*.md`) globally to `~/.claude/` and records a content hash per

@@ -29,11 +29,21 @@ pipeline:
 - **allowed-tools**: comma-separated list of tools the skill is permitted to use
 - **pipeline**: declares where the skill sits in the workflow pipeline (see below)
 
+**Machine check:** `scripts/lint-skills.py` is the checking instance for the unambiguous rules of
+this section — required fields, `name` = directory, `Use when:` prefix, `after`/`next` as list or
+null, edge targets exist, counter-edges, `stage` in the enum, description length, and `Bash` in
+`allowed-tools` whenever the body has a ```` ```bash ```` block or a worktree guard anchor
+(`## Worktree-Guard`, `**Teil-Guard (Worktree):**`). CI (`.github/workflows/lint-skills.yml`) runs
+it with its self-test on every push and pull request. **Counter-edges are a rule:** every `next`
+entry needs the matching `after` entry in the target skill and vice versa; a deliberately one-way
+edge goes into `EDGE_EXCEPTIONS` in the script, with a reason. Whoever changes a rule in this
+section changes the script and its self-test (`scripts/tests/`) in the same change.
+
 ### Pipeline block
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `stage` | enum | Workflow phase: `idea`, `planning`, `implementation`, `development`, `session`, `monitoring`, `setup`, `greenfield` |
+| `stage` | enum | Workflow phase: `idea`, `capture`, `planning`, `implementation`, `execution`, `development`, `session`, `monitoring`, `setup`, `greenfield` |
 | `after` | list/null | Predecessor skills (`[dtb:<name>, …]`) or `null` if entry point — a **list** even with a single element (`dtb:project-health` lints every element) |
 | `next` | list/null | Successor skills (`[dtb:<name>, …]`) or `null` if terminal — same list rule |
 | `consumes` | list | Artifact patterns this skill reads (e.g. `features/*/spec.md`, `INBOX.md`) |

@@ -209,6 +209,18 @@ git -C {repo.path} log -1 --format="%cr"
 
 #### Check 8: Skill-Frontmatter-Konsistenz
 
+**Pruefskript zuerst (Kit-Repo):** Liegt `scripts/lint-skills.py` im Projekt-Root, fuehre es aus
+(`python scripts/lint-skills.py` — ohne `-I`, sonst fehlt PyYAML) und uebernimm seine Befunde
+unveraendert (je Zeile `{FEHLER|WARNUNG} {skill}: {regel} — {detail}`). Das Skript prueft die
+Quelle `skills/dtb-*/SKILL.md` und deckt ab: Pflichtfelder, `name` = Verzeichnis,
+`Use when:`-Praefix, Listenform von `after`/`next`, Kanten-Ziel, Gegenkante (mit Ausnahmeliste
+im Skript), Stage im Wertebereich, Beschreibungslaenge, `Bash`-Pflicht bei Shell-Block oder
+Worktree-Guard. Die Modell-Sicht unten prueft dann nur noch, was das Skript nicht abdeckt:
+verwaiste `consumes`, zirkulaere `next`-Ketten und `Write` im Body ohne `allowed-tools`-Eintrag.
+Endet das Skript mit Exit 2 (Aufruf-/Umgebungsfehler, z.B. PyYAML fehlt) → seine Meldung als
+WARNUNG zeigen und die volle Modell-Sicht laufen lassen. **Fehlt das Skript** (Zielprojekt —
+`dtb:kit-sync` verteilt kein `scripts/`) → unveraendert die volle Modell-Sicht unten.
+
 Scanne alle `.claude/skills/dtb-*/SKILL.md` im Projekt:
 
 **Pflichtfelder pruefen:**
