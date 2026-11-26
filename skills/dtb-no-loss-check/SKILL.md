@@ -2,10 +2,10 @@
 name: dtb:no-loss-check
 description: >-
   Use when: "bevor ich Schluss mache", "no loss check", "geht was verloren",
-  "Verlustpruefung", "was ist noch nicht erfasst", "Session-Hygiene". Read-only:
-  reports lessons, questions and decisions from this session never captured,
-  each with a capture command. Use proactively when a session ends without a
-  checkpoint or the topic shifts.
+  "Verlustpruefung", "was ist noch nicht erfasst", "Session-Hygiene". Read-only
+  report of lessons, questions and decisions from this session never captured,
+  each with a capture command. Use proactively when a session seems to be
+  ending or the topic shifts.
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep
 pipeline:

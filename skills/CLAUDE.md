@@ -9,7 +9,7 @@ Every skill file must have YAML frontmatter with these fields:
 name: dtb:<skill-name>
 description: >-
   Use when: "<trigger phrases>". <English summary of what the skill does>.
-  [Not for <neighbouring case> (that is dtb:<other-skill>).]
+  [Use proactively when <condition>.] [Not for <neighbouring case> (that is dtb:<other-skill>).]
 disable-model-invocation: true
 allowed-tools: Read, Write, Glob, Grep, Bash   # subset as needed
 pipeline:
@@ -24,7 +24,7 @@ pipeline:
 ### Field details
 
 - **name**: `dtb:<kebab-case-name>` — must match directory name without `dtb-` prefix
-- **description**: starts with `Use when:` trigger phrases (German), followed by one English sentence on what the skill does; if the skill overlaps a neighbouring skill, add one `Not for … (that is dtb:X).` sentence. Mode, column and output details belong in the body, not here. For skills with `disable-model-invocation: false` the description is at most 350 characters, measured on the folded text (line breaks and indentation count as one space) — these descriptions load into every session of every target project; 350 is a kit measure, not a platform limit. Whoever switches `disable-model-invocation` to `false` checks the length in the same change.
+- **description**: starts with `Use when:` trigger phrases (German), followed by one English sentence on what the skill does; optionally one `Use proactively when …` sentence for skills the model should start unprompted; if the skill overlaps a neighbouring skill, add one `Not for … (that is dtb:X).` sentence — a case no kit skill covers is named without the parenthesis. Details that do not distinguish the skill from a neighbour (modes, columns, output layout) belong in the body, not here. For skills with `disable-model-invocation: false` the description is at most 350 characters, measured on the folded text (line breaks and indentation count as one space) — these descriptions load into every session of every target project; 350 is a kit measure, not a platform limit. Whoever switches `disable-model-invocation` to `false` checks the length in the same change.
 - **disable-model-invocation**: `true` unless the skill should be auto-triggered by the model
 - **allowed-tools**: comma-separated list of tools the skill is permitted to use
 - **pipeline**: declares where the skill sits in the workflow pipeline (see below)

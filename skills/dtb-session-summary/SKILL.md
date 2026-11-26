@@ -3,10 +3,9 @@ name: dtb:session-summary
 description: >-
   Use when: "fass die session zusammen", "was haben wir heute gemacht",
   "recap", "zusammenfassung vom 2026-06-12", "wochenrueckblick",
-  "session summary". Read-only
-  recap of work done: this session, one day or the last 7 days. Not for
-  saving a log (that is dtb:workflow-checkpoint), next steps (that is
-  dtb:workflow-next) or summarizing documents.
+  "session summary". Read-only recap of a session, a day or a week. Not
+  for saving a log (that is dtb:workflow-checkpoint), next steps (that is
+  dtb:workflow-next) or summarizing documents, diffs or git logs.
 disable-model-invocation: false
 argument-hint: "[YYYY-MM-DD | woche]"
 allowed-tools: Read, Glob, Grep

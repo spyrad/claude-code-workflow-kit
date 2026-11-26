@@ -2,8 +2,8 @@
 name: dtb:workflow-next
 description: >-
   Use when: "was steht an", "naechster Schritt", "wo war ich",
-  "workflow next", "was mache ich als naechstes". Read-only: the concrete
-  next action per active feature. Not for pipeline queues (that is
+  "workflow next", "was mache ich als naechstes". Read-only view of the
+  concrete next action per active feature. Not for pipeline queues (that is
   dtb:workflow-status), the backlog list (that is dtb:backlog-status) or
   the HTML page (that is dtb:project-dashboard).
 disable-model-invocation: false
