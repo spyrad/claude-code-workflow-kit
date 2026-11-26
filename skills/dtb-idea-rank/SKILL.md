@@ -3,13 +3,9 @@ name: dtb:idea-rank
 description: >-
   Use when: "Ideen priorisieren", "Rangliste der Ideen", "Aufwand Nutzen",
   "was lohnt sich zuerst", "welche Idee zuerst", "idea rank". Read-only
-  ranking of all open ideas in INBOX.md as one table sorted by importance —
-  columns number, short title, effort as a time range, lane (task / fast-track /
-  full lane per the idea-review triage switch, task rows with worker suitability
-  per the worker grid, both read by reference), importance (six levels, four
-  colors) and a remark cell carrying blockers and dependencies.
-  Changes nothing. Not for the machine basin INBOX-BEFUNDE.md (that is dtb:idea-triage)
-  and not for per-idea decisions (that is dtb:idea-review).
+  ranking of the open INBOX.md ideas as one table by importance and effort.
+  Not for INBOX-BEFUNDE.md (that is dtb:idea-triage) or per-idea decisions
+  (that is dtb:idea-review).
 disable-model-invocation: false
 argument-hint: "[Ideen-Nummern, z.B. 27 33 45]"
 allowed-tools: Read, Glob, Grep

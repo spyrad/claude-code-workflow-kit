@@ -1,24 +1,12 @@
 ---
 name: dtb:session-summary
 description: >-
-  Use when the user wants a recap or summary of work already done —
-  e.g. "fass die session zusammen", "was haben wir (heute / diese
-  session) gemacht/erreicht/geschafft", "gib mir einen recap / kurzen
-  ueberblick", "zusammenfassung vom 2026-06-12", "was hab ich am
-  <Datum> gemacht", "wochenrueckblick", "was lief diese woche",
-  "uebersicht der arbeit der letzten 7 tage", "session summary".
-  Read-only skill: produces a compact, structured summary (Erledigt /
-  Entscheidungen / Offen). Without an argument it summarizes the ACTIVE
-  conversation; with a YYYY-MM-DD argument it reads and summarizes that
-  day's changelog under dtb-project/project-changelog/; with
-  "woche"/"week" it summarizes the last 7 days. Trigger this
-  proactively for any retrospective recap of accomplished work, even if
-  no mode is named. Do NOT use for: writing or saving a changelog entry
-  (that is /dtb:workflow-checkpoint), planning what comes next or
-  resuming work (/dtb:workflow-next, /dtb:workflow-resume), or
-  summarizing arbitrary content like a PDF, a git diff, git log, or an
-  application log file — this skill only recaps development sessions,
-  not documents.
+  Use when: "fass die session zusammen", "was haben wir heute gemacht",
+  "recap", "zusammenfassung vom 2026-06-12", "wochenrueckblick",
+  "session summary". Read-only
+  recap of work done: this session, one day or the last 7 days. Not for
+  saving a log (that is dtb:workflow-checkpoint), next steps (that is
+  dtb:workflow-next) or summarizing documents.
 disable-model-invocation: false
 argument-hint: "[YYYY-MM-DD | woche]"
 allowed-tools: Read, Glob, Grep

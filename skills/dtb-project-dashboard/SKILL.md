@@ -3,9 +3,9 @@ name: dtb:project-dashboard
 description: >-
   Use when: "Projekt-Dashboard", "Dashboard zeigen", "Projektstand als Seite",
   "zeig mir das Dashboard", "project dashboard". Read-only: renders the project
-  state (key figures, active change, open tasks, worktrees, backlog by derived
-  status, recent sessions, INBOX and finding basin, lessons) as one local,
-  self-contained HTML page and opens it in the browser.
+  state as one local, self-contained HTML page and opens it in the browser.
+  Not for a chat answer on next steps or the backlog (that is
+  dtb:workflow-next or dtb:backlog-status).
 disable-model-invocation: false
 argument-hint: "[ohne-browser]"
 allowed-tools: Read, Glob, Grep, Bash, Write, Edit

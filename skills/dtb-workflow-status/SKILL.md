@@ -2,9 +2,10 @@
 name: dtb:workflow-status
 description: >-
   Use when: "Workflow Status", "Pipeline", "Workflow visualisieren",
-  "wo steckt was", "Queue Status". Read-only pipeline visualization
-  showing all workflow stages, queue depths, involved skills/agents,
-  and bottleneck analysis as Mermaid flowchart and queue table.
+  "wo steckt was", "Queue Status". Read-only pipeline view: stages, queue
+  depths and bottlenecks as Mermaid flowchart and table. Not for the next
+  action per feature (that is dtb:workflow-next) or the backlog list (that
+  is dtb:backlog-status).
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
 pipeline:

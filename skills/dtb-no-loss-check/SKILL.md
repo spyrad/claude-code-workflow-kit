@@ -2,12 +2,10 @@
 name: dtb:no-loss-check
 description: >-
   Use when: "bevor ich Schluss mache", "no loss check", "geht was verloren",
-  "Verlustpruefung", "was ist noch nicht erfasst", "Session-Hygiene". Compares the
-  active conversation against the artifact state and reports lessons, subject-matter
-  questions and decisions that surfaced but were never captured — read-only, each
-  finding with a ready-to-run capture command. Trigger this proactively when the
-  session appears to be ending or the topic shifts: the loss this skill guards
-  against happens precisely in sessions that end without a checkpoint.
+  "Verlustpruefung", "was ist noch nicht erfasst", "Session-Hygiene". Read-only:
+  reports lessons, questions and decisions from this session never captured,
+  each with a capture command. Use proactively when a session ends without a
+  checkpoint or the topic shifts.
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep
 pipeline:

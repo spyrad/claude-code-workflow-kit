@@ -2,9 +2,10 @@
 name: dtb:workflow-next
 description: >-
   Use when: "was steht an", "naechster Schritt", "wo war ich",
-  "workflow next", "was mache ich als naechstes". Read-only skill
-  showing the concrete next action per active feature based on
-  artifact existence and pipeline position.
+  "workflow next", "was mache ich als naechstes". Read-only: the concrete
+  next action per active feature. Not for pipeline queues (that is
+  dtb:workflow-status), the backlog list (that is dtb:backlog-status) or
+  the HTML page (that is dtb:project-dashboard).
 disable-model-invocation: false
 argument-hint: "[Feature-Name]"
 allowed-tools: Read, Glob, Grep, Bash
