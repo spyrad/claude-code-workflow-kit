@@ -178,8 +178,8 @@ Alle Beschreibungen von plan-review und den Rollendateien stimmen mit dem neuen 
 - [x] 1.3 Output-Format und Wichtig — `3cdb61e`
 - [x] 1.4 Config-Block plan_review.modelle — `3cdb61e`
 - [x] 1.5 Probelauf an Plan-Kopie — `3cdb61e`
-- [x] 2.1 Doku-Spiegel
-- [x] 2.2 Lint, Selbsttest, Gegenprobe
+- [x] 2.1 Doku-Spiegel — `5f9e7c1`
+- [x] 2.2 Lint, Selbsttest, Gegenprobe — `5f9e7c1`
 
 ---
 
