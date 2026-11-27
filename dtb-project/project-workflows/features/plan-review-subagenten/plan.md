@@ -173,13 +173,13 @@ Alle Beschreibungen von plan-review und den Rollendateien stimmen mit dem neuen 
 > Abhaken gemaess Flip-Bedingung §2 (Automated-Kriterien der Phase gruen); SHA-Nachtrag beim
 > Phasen-Ende-Commit — geflippte Zeile ohne SHA ist mid-phase gueltig (§2 Regel 4).
 
-- [x] 1.1 Frontmatter, Schritt 0 und Schritt 2
-- [x] 1.2 Schritt 3 neu (Dispatch, Rueckgabe-Pruefung, Zusammenfuehrung)
-- [x] 1.3 Output-Format und Wichtig
-- [x] 1.4 Config-Block plan_review.modelle
-- [x] 1.5 Probelauf an Plan-Kopie
-- [ ] 2.1 Doku-Spiegel
-- [ ] 2.2 Lint, Selbsttest, Gegenprobe
+- [x] 1.1 Frontmatter, Schritt 0 und Schritt 2 — `3cdb61e`
+- [x] 1.2 Schritt 3 neu (Dispatch, Rueckgabe-Pruefung, Zusammenfuehrung) — `3cdb61e`
+- [x] 1.3 Output-Format und Wichtig — `3cdb61e`
+- [x] 1.4 Config-Block plan_review.modelle — `3cdb61e`
+- [x] 1.5 Probelauf an Plan-Kopie — `3cdb61e`
+- [x] 2.1 Doku-Spiegel
+- [x] 2.2 Lint, Selbsttest, Gegenprobe
 
 ---
 
@@ -196,6 +196,7 @@ Alle Beschreibungen von plan-review und den Rollendateien stimmen mit dem neuen 
 - Kosten: 80–111 Tsd. Subagenten-Tokens je Rolle, 64–95 s je Rolle (parallel)
 - ungeprueft: Werkzeug fehlt, Rueckgabe unbrauchbar (beide Rueckfall-Pfade aus 3c nicht herbeifuehrbar)
 - Manual-Gate 2026-11-27 → Korrekturen (Mensch): (1) Lektionen als Pfad + Filterregel statt Volltext/Vorauswahl (Schritt 2b, Auftragsvorlage 3a); (2) identisch doppelte Zeilen und abweichende Reihenfolge gelten als verwertbar, widerspruechliche Verdikte derselben Dimension nicht (3c); (3) Einspruch ohne gueltige Dimension wird `Hinweis` ohne Verdikt-Wirkung (Schritt 4). Einspruch-Reaktion in einem Satz reichte in allen 5 Faellen — offener Punkt entschieden: keine zweite Runde
+- Gegenprobe Phase 2: 2026-11-27 — Pruefrage: „Beschreibt die Fundstelle plan-review noch als Rollenspiel in einem Kontext oder widerspricht sie der Subagenten-Isolation?" `grep -rn "plan-review" --include=*.md skills/ agents/ CLAUDE.md README.md` ausserhalb von `skills/dtb-plan-review/`, auf Rollen-/Agent-/Kontext-Begriffe gefiltert: 19 Treffer. Nachgezogen in 2.1: `agents/CLAUDE.md`:5/:11, `CLAUDE.md`:61/:73, `README.md`:79. Gueltig ohne Aenderung: `agents/{architekt,pragmatiker,senior-dev,betriebs-waechter}.md` „Verdikt-Pflicht (plan-review)" (die Einspruchs-Form steht im Auftrag der Subagenten), `agents/CLAUDE.md`:34-41 (Tabelle, Ensemble-Groesse), `skills/dtb-project-init/SKILL.md`:120 (neuer Config-Kommentar), `skills/dtb-feature-fast/SKILL.md`:105 („Muster wie plan-review Schritt 2" — Aufloesung global → Projekt unveraendert), `skills/dtb-impl-plan/SKILL.md`:85 (Grounding 2d unveraendert), `skills/CLAUDE.md`:347 (Z7, Schritt 5 unveraendert), `skills/dtb-pipeline-graph/SKILL.md`:206 (kein plan-review-Bezug, Treffer ueber „Kontext"). Lint Exit 0 (45 Skills), Selbsttest 37 Tests OK
 
 ---
 

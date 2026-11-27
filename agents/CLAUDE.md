@@ -2,12 +2,13 @@
 
 ## Purpose
 
-Agent files define reusable role perspectives for multi-agent skill discussions (e.g. `dtb:plan-review`). Each agent provides a distinct, non-redundant viewpoint.
+Agent files define reusable role perspectives for multi-perspective reviews (e.g. `dtb:plan-review`). Each agent provides a distinct, non-redundant viewpoint. `dtb:plan-review` passes the full text of each active role file as the prompt of its own isolated subagent (`general-purpose`), so no role sees another role's findings.
 
 ## File format
 
 - **Filename**: `{rolle}.md`, lowercase (e.g. `architekt.md`, `pragmatiker.md`)
 - **Location**: `agents/` in repository root
+- **No frontmatter — on purpose:** `dtb:kit-sync` installs these files to `~/.claude/agents/`, the folder Claude Code loads custom subagent types from. With frontmatter they would register as global agent types in every session of every project; the project fallback `agents/` would have no native type at all. The role text is prompt material for a subagent, not a subagent definition (decision 2026-11-27, change `plan-review-subagenten`)
 
 ## Required structure
 
