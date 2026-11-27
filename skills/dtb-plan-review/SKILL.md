@@ -3,27 +3,35 @@ name: dtb:plan-review
 description: >-
   Use when: "Plan Review", "Implementierungsplan reviewen", "Plan bewerten",
   "Plan pruefen". Conducts a structured review of an implementation plan
-  with three agent perspectives (Architekt, Pragmatiker, Senior Dev).
+  with three agent perspectives (Architekt, Pragmatiker, Senior Dev), each run
+  as an isolated parallel subagent that never sees the other roles' findings.
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Write, Edit
+allowed-tools: Read, Glob, Grep, Write, Edit, Agent
 argument-hint: "[Feature-Name]"
 pipeline:
   stage: planning
   after: [dtb:impl-plan, dtb:feature-fast, dtb:feature-plan]
   next: [dtb:implement]
-  consumes: [features/*/plan.md, features/*/spec.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md]
+  consumes: [features/*/plan.md, features/*/spec.md, agents/*.md, project-rules/DERIVED_STATE_RULES.md, project-rules/lessons.md, workflow.config.yaml]
   produces: [features/*/plan.md]
 ---
 
 # Plan Review Discussion
 
-Du fuehrst ein strukturiertes Review eines Implementierungsplans durch. Drei Agenten (Architekt, Pragmatiker und Senior Dev) diskutieren den Plan und stellen Damian als Product Owner gezielte Fragen. Bei Ops-/Security-Bezug kommt ein vierter Agent (Betriebs-Waechter) hinzu — Aktivierung siehe Schritt 2c.
+Du fuehrst ein strukturiertes Review eines Implementierungsplans durch. Drei Rollen (Architekt, Pragmatiker und Senior Dev) reviewen den Plan — jede in einem eigenen, isolierten Subagenten, ohne die Befunde der anderen zu kennen (Schritt 3) — und stellen Damian als Product Owner gezielte Fragen. Du fuehrst Vorpruefungen und Zusammenfuehrung aus, nicht die Rollen selbst. Bei Ops-/Security-Bezug kommt eine vierte Rolle (Betriebs-Waechter) hinzu — Aktivierung siehe Schritt 2c.
 
 ## Schritt 0: Config laden
 
 Lies `workflow.config.yaml` im Projekt-Root.
 
 Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
+
+**Modell je Rolle (optional):** Lies den Block `plan_review.modelle` — Schluessel `architekt`,
+`pragmatiker`, `senior-dev`, `betriebs-waechter`; Wert = ein Modellname, den das Agent-Werkzeug
+fuer seinen Parameter `model` anbietet, oder `null`. Fehlt der Block oder der Schluessel, oder ist
+der Wert `null` → die Rolle erbt das Modell der Session (kein Hinweis). Unbekannter Wert (vom
+Agent-Werkzeug nicht angeboten) oder unbekannter Schluessel → erben und genau eine Zeile je Fall:
+`⚠ plan_review.modelle.{schluessel}: „{wert}" unbekannt — Rolle erbt das Session-Modell`
 
 ## Schritt 1: Plan und Feature-Spec laden
 
@@ -65,7 +73,9 @@ Fehlt eine Rollen-Datei in **beiden** Quellen → melde
 `⚠ Agenten-Definition {name}.md weder global (~/.claude/agents/) noch im Projekt (agents/) gefunden — /dtb:kit-sync ausfuehren`
 und fahre mit den gefundenen Rollen fort (die 3 Kern-Agenten sind Minimum).
 
-Nimm diese Rollen fuer die Diskussion ein.
+Halte den vollstaendigen Text jeder gefundenen Rollen-Datei bereit — er ist das Prompt-Material
+der Rollen-Subagenten in Schritt 3. Du nimmst die Rollen NICHT selbst ein (einzige Ausnahme: der
+Rueckfall in Schritt 3c).
 
 ## Schritt 2b: Lektionen als Prior lesen
 
@@ -73,7 +83,7 @@ Lies `{config.paths.rules}/lessons.md` (Fallback: `dtb-project/project-rules/les
 
 - Fehlt die Datei oder ist sie leer (keine Datenzeile unter der `|---|`-Trennzeile) → diesen Schritt still ueberspringen (kein Abbruch)
 - Sonst: filtere Eintraege, deren `Applies-to` `plan-review` oder `alle` enthaelt
-- Die Agenten beruecksichtigen die passenden `Rule`-Aussagen in ihrer Diskussion still
+- Die Rollen lesen die Datei in Schritt 3 selbst (Pfad + diese Filterregel im Auftrag) und beruecksichtigen die passenden `Rule`-Aussagen still — du gibst sie NICHT als Text weiter und triffst keine Vorauswahl je Rolle (das wuerde jede Rolle durch deinen Kontext vorpraegen)
 - Gib **einen** kompakten Hinweis aus: `📚 {N} Lektion(en) beruecksichtigt`
 - **Konflikt** (zwei nach dem Filter behaltene Lektionen mit gegensaetzlicher `Rule` — z.B. „immer X" vs. „nie X" zum selben Gegenstand):
   beide zeigen und den Widerspruch melden — nicht selbst aufloesen
@@ -89,8 +99,8 @@ Pruefe anhand von Plan und Feature-Spec, ob der Plan mindestens einen dieser Tri
 - Secrets / Config / Berechtigungen
 
 - **Mindestens ein Trigger** → `betriebs-waechter.md` laden (global `~/.claude/agents/` mit
-  Projekt-Root-`agents/`-Fallback wie Schritt 2); der Agent nimmt als
-  vierte Stimme an allen Runden teil. Gib aus: `🔧 Betriebs-Waechter aktiviert: {Trigger-Grund}`
+  Projekt-Root-`agents/`-Fallback wie Schritt 2); die Rolle bekommt in Schritt 3
+  einen eigenen, vierten Subagenten. Gib aus: `🔧 Betriebs-Waechter aktiviert: {Trigger-Grund}`
 - **Kein Trigger** → Agent nicht laden, Ensemble bleibt bei drei Stimmen. Gib aus:
   `🔧 Betriebs-Waechter nicht aktiviert (kein Ops-/Security-Bezug im Plan)`
 
@@ -128,33 +138,114 @@ Ausgabe: Kopfzeile `⚔ Challenger-Pass: {N} Befund(e)`, darunter nummerierte Li
 keine Befunde → nur `⚔ Challenger-Pass: keine Widersprueche oder Promise-Gaps`.
 Befunde fliessen als Input in Runde 2.
 
-## Schritt 3: Diskussion fuehren
+## Schritt 3: Rollen-Laeufe (isolierte Subagenten)
 
-Fuehre die Diskussion in **4 Runden** basierend auf dem geladenen Implementierungsplan (mit Feature-Spec als Kontext):
+Jede aktive Rolle urteilt in einem **eigenen Subagenten** und sieht die Rueckgabe keiner anderen
+Rolle. Grund: Spielt ein Modell alle Rollen im selben Kontext, hat die zweite Stimme die erste
+schon gelesen, und die Perspektiven verschmelzen. Du fuehrst nur Vorarbeit (Schritte 0–2e) und
+Zusammenfuehrung (3d, Schritt 4) aus — die vier Runden schreiben die Rollen.
 
-### Runde 1 — Staerken des Implementierungsplans
-Alle aktiven Agenten bewerten, was am Plan gut ist — jeweils aus ihrer Perspektive: Systemdesign (Architekt), Scope und Spec-Deckung (Pragmatiker), Umsetzbarkeit (Senior Dev), Betrieb & Haertung (Betriebs-Waechter, falls aktiviert).
+**Rollen-Tabelle** (Runden-Fokus, Challenge-Technik und Dimensionen je Rolle):
 
-### Runde 2 — Bedenken & Risiken
-Alle aktiven Agenten identifizieren Probleme aus ihrer Perspektive: technische Risiken und Abhaengigkeiten (Architekt), Scope-Creep, Aufwand-Nutzen und Spec-Deckung — deckt der Plan die Feature-Spec vollstaendig ab, ohne darueber hinauszugehen (Pragmatiker), unrealistische Zeitschaetzungen und fehlende Implementierungsschritte (Senior Dev), und — falls aktiviert — Betriebs-, Deployment- und Sicherheitsrisiken (Betriebs-Waechter).
-Befunde aus Grounding (2d) und Challenger-Pass (2e) werden hier von den zustaendigen Agenten
-aufgegriffen und bewertet.
+| Rolle | Datei | Runde 1 — Staerken | Runde 2 — Bedenken & Risiken | Runde 3 — Challenge (Technik: Leitfrage) | Dimensionen |
+|-------|-------|--------------------|------------------------------|------------------------------------------|-------------|
+| 🏗️ Architekt | `architekt.md` | Systemdesign | technische Risiken und Abhaengigkeiten | Pre-Mortem: „Angenommen das Feature ist gescheitert. Was war die wahrscheinlichste Ursache?" | Technische Machbarkeit, Abhaengigkeiten |
+| ⚡ Pragmatiker | `pragmatiker.md` | Scope und Spec-Deckung | Scope-Creep, Aufwand-Nutzen, Spec-Deckung — deckt der Plan die Feature-Spec vollstaendig ab, ohne darueber hinauszugehen | Devil's Advocate: „Was spricht GEGEN diesen Plan? Welche einfachere Alternative wurde uebersehen?" | Scope/MVP-Schnitt, Spec-Deckung |
+| 💻 Senior Dev | `senior-dev.md` | Umsetzbarkeit | unrealistische Zeitschaetzungen und fehlende Implementierungsschritte | Unknown Unknowns: „Was wissen wir NICHT, das uns spaeter ueberraschen koennte?" | Reihenfolge der Phasen, Zeitschaetzungen, Teststrategie |
+| 🔧 Betriebs-Waechter (nur falls aktiviert) | `betriebs-waechter.md` | Betrieb & Haertung | Betriebs-, Deployment- und Sicherheitsrisiken | Adversarielles Day-2-Szenario: „Es ist 3 Uhr nachts und das System verhaelt sich falsch: sehen wir es und koennen wir es stoppen? Und wie wuerde ein Angreifer genau diese Aenderung ausnutzen?" | Betrieb & Haertung |
 
-### Runde 3 — Challenge-Runde (Anti-Bias)
-Alle aktiven Agenten wenden gezielt kritische Analysetechniken an:
-- **Architekt:** Pre-Mortem — "Angenommen das Feature ist gescheitert. Was war die wahrscheinlichste Ursache?"
-- **Pragmatiker:** Devil's Advocate — "Was spricht GEGEN diesen Plan? Welche einfachere Alternative wurde uebersehen?"
-- **Senior Dev:** Unknown Unknowns — "Was wissen wir NICHT, das uns spaeter ueberraschen koennte?"
-- **Betriebs-Waechter (falls aktiviert):** Adversarielles Day-2-Szenario — "Es ist 3 Uhr nachts und das System verhaelt sich falsch: sehen wir es und koennen wir es stoppen? Und wie wuerde ein Angreifer genau diese Aenderung ausnutzen?"
+### 3a: Dispatch
 
-### Runde 4 — Fragen an Damian
-Alle aktiven Agenten stellen gezielte Entscheidungsfragen an Damian. Die Fragen sollen konkret und entscheidungsrelevant sein — keine rhetorischen Fragen. Fragen koennen sich auf Erkenntnisse aus der Challenge-Runde beziehen.
+Starte je aktiver Rolle **einen** Sub-Agent (Typ `general-purpose`) — alle in **EINER**
+Nachricht, damit sie parallel laufen. Parameter `model` = Wert aus Schritt 0; erbt die Rolle,
+den Parameter weglassen. Plan und Spec liest der Subagent selbst — nicht in den Prompt kopieren.
+
+Auftragsvorlage (je Rolle aus Rollen-Datei und Rollen-Tabelle fuellen):
+
+```
+Du bist die Rolle „{Rolle}" in einem Plan-Review. Deine Rollendefinition:
+
+{vollstaendiger Text der Rollen-Datei aus Schritt 2}
+
+Nur lesen — keine Datei schreiben oder aendern, keine Kommandos ausfuehren. Andere Rollen
+reviewen denselben Plan getrennt von dir; ihre Befunde kennst du nicht, nimm sie nicht vorweg.
+
+Lies:
+- Implementierungsplan: {absoluter Pfad zu features/{slug}/plan.md}
+- Feature-Spec: {absoluter Pfad zu features/{slug}/spec.md | „keine Spec vorhanden" — dann
+  Spec-Deckung nur gegen die planinternen Zusagen pruefen}
+
+Vorpruefungen des Skills (Input fuer deine Runde 2 — aufgreifen, soweit deine Perspektive
+betroffen ist):
+- Formal-Check `## Progress`: {ok | Befund aus Schritt 1}
+- Grounding: {Ergebniszeile(n) aus Schritt 2d}
+- Challenger-Pass: {Ergebnis aus Schritt 2e}
+
+Lektionen (still beruecksichtigen): Lies {absoluter Pfad zu lessons.md} und beachte die
+`Rule`-Spalte aller Zeilen, deren `Applies-to` `plan-review` oder `alle` enthaelt
+{| „keine" — wenn Schritt 2b uebersprungen wurde}
+
+Arbeite aus deiner Perspektive in vier Runden, konkret mit Bezug auf diesen Plan:
+1. Staerken: {Runde-1-Fokus}
+2. Bedenken & Risiken: {Runde-2-Fokus}
+3. Challenge — {Technik}: {Leitfrage}
+4. Fragen an Damian: hoechstens 3, nur Fragen, deren Antwort den Plan aendert
+
+Erst NACH Runde 3 vergibst du Verdikte — nur fuer deine Dimensionen ({Dimensionen}), je
+PASS (keine Bedenken) / WARN (Problem vorhanden, im Plan behebbar) / FAIL (nicht tragfaehig,
+muss neu gedacht werden), keine Zwischenstufen. Ein Problem in einer fremden Dimension meldest
+du als Einspruch, nie als Verdikt.
+
+Rueckgabe exakt in diesem Format (Deutsch):
+RUNDE 1: {Text}
+RUNDE 2: {Text}
+RUNDE 3: {Text}
+RUNDE 4: {je Zeile eine Frage}
+VERDIKT {Dimension}: {PASS|WARN|FAIL} — {1 Satz}    (genau eine Zeile je eigene Dimension)
+EINSPRUCH {fremde Dimension}: {1 Satz}               (optional)
+EMPFEHLUNG: {konkrete Plan-Aenderung}                (je WARN/FAIL mindestens eine)
+```
+
+### 3b: Warte-Regel
+
+Die Subagenten laufen im Hintergrund und melden sich einzeln. Warte, bis **alle M** Rueckgaben
+eingetroffen sind, bevor du zusammenfuehrst. Eine noch laufende Rolle wird
+nie aus dem Hauptkontext gefuellt oder vorweggenommen — auch nicht teilweise. N in
+`🤖 Subagenten: {N}/{M} Rollen isoliert` zaehlt nur Rollen, deren verwertbare Rueckgabe
+tatsaechlich vom Subagenten kam.
+
+### 3c: Rueckgabe-Pruefung und Rueckfall
+
+Das Review bricht nie ab — ein Ausfall faellt sichtbar auf den bisherigen Ablauf zurueck:
+
+- **Agent-Werkzeug nicht verfuegbar** (Aufruf abgelehnt oder nicht angeboten) → alle Rollen im
+  Hauptkontext nach der Rollen-Tabelle (bisheriger Ablauf), N = 0, genau eine Zeile
+  `⚠ Agent-Werkzeug nicht verfuegbar — alle Rollen im Hauptkontext (nicht isoliert)`
+- **Einzelne Rueckgabe fehlgeschlagen oder unbrauchbar** — Fehlermeldung statt Ergebnis, eine
+  eigene Dimension ohne `VERDIKT`-Zeile, ein Verdikt fuer eine fremde Dimension, ein Wert
+  ausser PASS/WARN/FAIL → diese Rolle im Hauptkontext nachholen (Verdikt erst nach ihrer
+  Runde 3), Zeile `⚠ Rolle {Rolle} im Hauptkontext ({Grund})`
+- **Verwertbar trotz Formabweichung** (kein Rueckfall): identisch doppelte Zeilen (einmal
+  uebernehmen) und eine abweichende Reihenfolge der Abschnitte. Widersprechen sich zwei
+  `VERDIKT`-Zeilen derselben Dimension → unbrauchbar (Rueckfall wie oben)
+- Eine nachgeholte Rolle zaehlt nicht in N
+
+### 3d: Zusammenfuehrung
+
+- `RUNDE`-Texte je Rolle inhaltlich unveraendert in die Runden-Abschnitte des Output-Formats
+  setzen — du fuegst den Runden keine eigenen Befunde hinzu und streichst keine Aussage
+- `VERDIKT`-Zeilen → Review-Zusammenfassung (Schritt 4); `EINSPRUCH`-Zeilen → Einspruchs-Regel
+  (Schritt 4)
+- `EMPFEHLUNG`-Zeilen aller Rollen → `## Empfehlungen`; gleiche Empfehlungen mehrerer Rollen
+  erst hier zu einer zusammenfassen, Herkunft in Klammern (`(Architekt, Senior Dev)`)
 
 ## Schritt 4: Zusammenfassung mit Verdikt
 
-Erstelle die Verdikt-Liste und konkrete Empfehlungen. Verdikte werden ERST JETZT vergeben —
-nach Runde 3, nie innerhalb der Runden 1-4 (fruehe Verdikte nageln die Agenten vor der
-Challenge-Runde fest). Jeder Agent bewertet NUR seine eigenen Dimensionen:
+Erstelle die Verdikt-Liste und die Empfehlungen aus den Rueckgaben (3d). Verdikte werden nie
+innerhalb der Runden 1-4 vergeben (fruehe Verdikte nageln eine Rolle vor ihrer Challenge-Runde
+fest): Jede Rolle vergibt sie in ihrem Subagenten erst nach ihrer eigenen Runde 3; fuer eine
+nachgeholte Rolle (3c) gilt dasselbe im Hauptkontext. Fuer eine Rolle, die isoliert geliefert
+hat, vergibst du kein Verdikt. Jede Rolle bewertet NUR ihre eigenen Dimensionen:
 
 | Agent | Dimensionen |
 |-------|-------------|
@@ -170,10 +261,15 @@ Fehlt die Feature-Spec (Altbestand, Fixture): Dimension **Spec-Deckung** nur geg
 planinternen Zusagen pruefen (Deliverables, Checkpoint-Kriterien) und in der Anmerkung
 `keine Spec vorhanden` vermerken.
 
-**Einspruchs-Regel:** Sieht ein Agent ein Problem in einer fremden Dimension, ergaenzt er
-unter der Liste eine Zeile `Einspruch {Agent} zu {Dimension}: {1 Satz}`. Der zustaendige
-Agent bestaetigt oder entkraeftet in einem Satz. Ein bestaetigter Einspruch zaehlt wie WARN
-der Dimension — bei belegtem schwerwiegendem Fall wie FAIL.
+**Einspruchs-Regel:** Sieht eine Rolle ein Problem in einer fremden Dimension, liefert sie eine
+`EINSPRUCH`-Zeile; uebernimm sie unter der Liste als `Einspruch {Rolle} zu {Dimension}: {1 Satz}`.
+Die Reaktion schreibst du als Haupt-Skill in einem Satz, gekennzeichnet:
+`Reaktion (Haupt-Skill, {zustaendige Rolle}): {bestaetigt|entkraeftet} — {1 Satz}`. Stuetze sie
+auf die Rueckgabe der zustaendigen Rolle (deckt deren Runde 2 oder 3 den Punkt ab oder
+widerlegt ihn?) — keine neue Argumentation in deren Namen. Ein bestaetigter Einspruch zaehlt
+wie WARN der Dimension — bei belegtem schwerwiegendem Fall wie FAIL. Nennt eine
+`EINSPRUCH`-Zeile keine Dimension aus der Tabelle oben, wird sie zu `Hinweis {Rolle}: {1 Satz}`
+unter der Liste — ohne Reaktion und ohne Wirkung auf ein Verdikt.
 
 **Gesamt-Verdikt (feste Regel — nie aufweichen, keine Zwischenstufen):**
 - alle Dimensionen PASS → **SOUND**
@@ -267,6 +363,8 @@ Gib die Diskussion in folgendem Format aus:
 
 [📚-Zeile aus Schritt 2b, falls Lektionen beruecksichtigt]
 [🔧-Zeile aus Schritt 2c]
+🤖 Subagenten: {N}/{M} Rollen isoliert
+[⚠-Zeilen aus Schritt 0 (Modellwerte) und Schritt 3c (Rueckfall), je Fall eine]
 🔎 Grounding: [Ergebniszeile(n) aus Schritt 2d]
 ⚔ Challenger-Pass: [Ergebniszeile oder Kopfzeile + nummerierte Befunde aus Schritt 2e]
 
@@ -333,14 +431,14 @@ Gib die Diskussion in folgendem Format aus:
 | Teststrategie | 💻 Senior Dev | PASS/WARN/FAIL | [kurz] |
 | Betrieb & Haertung (nur falls aktiviert) | 🔧 Betriebs-Waechter | PASS/WARN/FAIL | [Deployment, Observability, Angriffsflaeche] |
 
-[Falls Einsprueche: `Einspruch {Agent} zu {Dimension}: {1 Satz}` + Reaktion des zustaendigen Agenten (1 Satz)]
+[Falls Einsprueche: `Einspruch {Rolle} zu {Dimension}: {1 Satz}` + `Reaktion (Haupt-Skill, {zustaendige Rolle}): {bestaetigt|entkraeftet} — {1 Satz}`]
 
 **Gesamt-Verdikt: SOUND / REVISE / RETHINK** — [1 Satz Herleitung ueber die feste Regel]
 
 ## Empfehlungen
 
-1. [Konkrete Empfehlung]
-2. [Konkrete Empfehlung]
+1. [Konkrete Empfehlung] ([Herkunft: Rolle(n)])
+2. [Konkrete Empfehlung] ([Herkunft: Rolle(n)])
 
 ---
 
@@ -359,7 +457,9 @@ festlegen, bevor die Antwort vorliegt — und damit die harte „behoben"-Beding
 
 ## Wichtig — Anweisungen fuer die Ausfuehrung
 
-- **Rollen einhalten:** Jeder Agent argumentiert konsequent aus seiner Perspektive
+- **Isolation:** Jede Rolle urteilt in ihrem eigenen Subagenten (Schritt 3) und argumentiert
+  konsequent aus ihrer Perspektive; keine Rolle sieht die Rueckgabe einer anderen. Du ordnest nur
+  an und fuegst den Runden nichts hinzu — einzige Ausnahme ist der sichtbare Rueckfall (3c)
 - **Konkret bleiben:** Keine generischen Aussagen — immer Bezug auf den spezifischen Implementierungsplan
 - **Verdikt-Disziplin:** Verdikte NUR in der Review-Zusammenfassung (nie in den Runden), nur PASS/WARN/FAIL
   (keine Zwischenstufen wie "WARN mit Tendenz PASS"), Gesamt-Verdikt strikt nach der festen Regel
@@ -369,5 +469,6 @@ festlegen, bevor die Antwort vorliegt — und damit die harte „behoben"-Beding
 - **Deutsch:** Alle Texte auf Deutsch
 - **Keine Datei-Erstellung:** Die Diskussion wird nur in der Konsole ausgegeben. Geschrieben wird
   ausschliesslich in `features/{slug}/plan.md`, und nur an zwei Stellen: Plan-Anpassungen nach
-  Zustimmung in Schritt 5 und das Kopf-Statusfeld in Schritt 6 (Pfleger-Pflicht, still)
+  Zustimmung in Schritt 5 und das Kopf-Statusfeld in Schritt 6 (Pfleger-Pflicht, still).
+  Die Rollen-Subagenten schreiben nie — geschrieben wird nur im Hauptkontext
 - **Finding-Runde (REVISE/RETHINK direkt, SOUND nach „Ja"):** Konkrete Aenderungen am Implementierungsplan vorschlagen und nach Bestaetigung umsetzen — je Empfehlung einzeln

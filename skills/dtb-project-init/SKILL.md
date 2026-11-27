@@ -115,6 +115,13 @@ dashboard:
 lessons:
   schwelle_kb: 80       # dtb:lesson — ab dieser Groesse von lessons.md (KB) Warnung mit Verweis auf dtb:lesson-curate; Dashboard-Fuellstand
   einzeln_pro_lauf: 5   # dtb:lesson-curate — Einzelfaelle je Lauf
+
+plan_review:
+  modelle:              # dtb:plan-review — Modell je Rolle; null = Session-Modell erben
+    architekt: null
+    pragmatiker: null
+    senior-dev: null
+    betriebs-waechter: null
 ```
 
 **Regeln:**
