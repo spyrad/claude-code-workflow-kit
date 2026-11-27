@@ -29,9 +29,12 @@ Falls nicht vorhanden: Verwende Fallback-Pfad `dtb-project/project-workflows/`.
 **Modell je Rolle (optional):** Lies den Block `plan_review.modelle` — Schluessel `architekt`,
 `pragmatiker`, `senior-dev`, `betriebs-waechter`; Wert = ein Modellname, den das Agent-Werkzeug
 fuer seinen Parameter `model` anbietet, oder `null`. Fehlt der Block oder der Schluessel, oder ist
-der Wert `null` → die Rolle erbt das Modell der Session (kein Hinweis). Unbekannter Wert (vom
-Agent-Werkzeug nicht angeboten) oder unbekannter Schluessel → erben und genau eine Zeile je Fall:
-`⚠ plan_review.modelle.{schluessel}: „{wert}" unbekannt — Rolle erbt das Session-Modell`
+der Wert `null` → die Rolle erbt das Modell der Session (kein Hinweis). Je Abweichung genau eine
+Zeile:
+- Unbekannter Wert (vom Agent-Werkzeug nicht angeboten) → Rolle erbt:
+  `⚠ plan_review.modelle.{schluessel}: „{wert}" unbekannt — Rolle erbt das Session-Modell`
+- Unbekannter Schluessel (z.B. Tippfehler — die gemeinte Rolle erbt dann, weil ihr Schluessel fehlt):
+  `⚠ plan_review.modelle.{schluessel}: Schluessel unbekannt (erwartet: architekt, pragmatiker, senior-dev, betriebs-waechter) — ignoriert`
 
 ## Schritt 1: Plan und Feature-Spec laden
 
@@ -40,8 +43,9 @@ Agent-Werkzeug nicht angeboten) oder unbekannter Schluessel → erben und genau 
    - **Formal-Check `## Progress`:** Der Plan muss eine `## Progress`-Sektion haben —
      genau eine Checkbox-Zeile pro Schritt N.M, Format gemaess
      `{config.paths.rules}/DERIVED_STATE_RULES.md` §2. Fehlt die Sektion oder weicht
-     die Nummerierung von den Plan-Schritten ab → als Finding in Runde 2 aufnehmen
-     (der Umsetzungsstand waere sonst nicht ableitbar)
+     die Nummerierung von den Plan-Schritten ab → als Kopfzeile `📋` ausweisen (Output-Format)
+     und als Input an die Rollen-Runde 2 geben (3a) — der Umsetzungsstand waere sonst nicht
+     ableitbar, deshalb steht der Befund immer im Report, unabhaengig davon, ob eine Rolle ihn aufgreift
 3. **Feature-Spec lesen:** Lies `{config.paths.workflows}/features/{slug}/spec.md` als zusaetzlichen Kontext
 
 **Eligibility-Gate (Fit-Check):** Fehlt `plan.md` → Hard-Gate greift (Konvention:
@@ -222,11 +226,16 @@ Das Review bricht nie ab — ein Ausfall faellt sichtbar auf den bisherigen Abla
   Hauptkontext nach der Rollen-Tabelle (bisheriger Ablauf), N = 0, genau eine Zeile
   `⚠ Agent-Werkzeug nicht verfuegbar — alle Rollen im Hauptkontext (nicht isoliert)`
 - **Einzelne Rueckgabe fehlgeschlagen oder unbrauchbar** — Fehlermeldung statt Ergebnis, eine
-  eigene Dimension ohne `VERDIKT`-Zeile, ein Verdikt fuer eine fremde Dimension, ein Wert
-  ausser PASS/WARN/FAIL → diese Rolle im Hauptkontext nachholen (Verdikt erst nach ihrer
-  Runde 3), Zeile `⚠ Rolle {Rolle} im Hauptkontext ({Grund})`
+  der Zeilen `RUNDE 1`–`RUNDE 3` fehlt oder ist leer (die Verdikt-Disziplin „erst nach Runde 3"
+  waere sonst nicht belegt), eine eigene Dimension ohne `VERDIKT`-Zeile, ein Wert ausser
+  PASS/WARN/FAIL → diese Rolle zuerst **einmal neu starten** (gleicher Auftrag plus ein
+  Satz zum Formfehler; die Warte-Regel 3b gilt auch fuer den Neustart). Liefert der Neustart
+  verwertbar, zaehlt er in N. Scheitert auch er → die Rolle im Hauptkontext nachholen (Verdikt
+  erst nach ihrer Runde 3), Zeile `⚠ Rolle {Rolle} im Hauptkontext ({Grund}, nach Neustart)`
 - **Verwertbar trotz Formabweichung** (kein Rueckfall): identisch doppelte Zeilen (einmal
-  uebernehmen) und eine abweichende Reihenfolge der Abschnitte. Widersprechen sich zwei
+  uebernehmen), eine abweichende Reihenfolge der Abschnitte und ein `VERDIKT` fuer eine fremde
+  Dimension — es wird als `EINSPRUCH {Dimension}: {Satz}` uebernommen (normalisieren statt die
+  Rolle mit Kenntnis aller anderen Rueckgaben nachzuholen). Widersprechen sich zwei
   `VERDIKT`-Zeilen derselben Dimension → unbrauchbar (Rueckfall wie oben)
 - Eine nachgeholte Rolle zaehlt nicht in N
 
@@ -234,6 +243,9 @@ Das Review bricht nie ab — ein Ausfall faellt sichtbar auf den bisherigen Abla
 
 - `RUNDE`-Texte je Rolle inhaltlich unveraendert in die Runden-Abschnitte des Output-Formats
   setzen — du fuegst den Runden keine eigenen Befunde hinzu und streichst keine Aussage
+- Einzige Ausnahme vom Streichverbot: Liefert eine Rolle mehr als 3 Fragen in `RUNDE 4`, die
+  ersten 3 uebernehmen und die Zeile `⚠ Rolle {Rolle}: {n} Fragen, auf 3 gekappt` in den
+  Kopfblock setzen
 - `VERDIKT`-Zeilen → Review-Zusammenfassung (Schritt 4); `EINSPRUCH`-Zeilen → Einspruchs-Regel
   (Schritt 4)
 - `EMPFEHLUNG`-Zeilen aller Rollen → `## Empfehlungen`; gleiche Empfehlungen mehrerer Rollen
@@ -245,14 +257,9 @@ Erstelle die Verdikt-Liste und die Empfehlungen aus den Rueckgaben (3d). Verdikt
 innerhalb der Runden 1-4 vergeben (fruehe Verdikte nageln eine Rolle vor ihrer Challenge-Runde
 fest): Jede Rolle vergibt sie in ihrem Subagenten erst nach ihrer eigenen Runde 3; fuer eine
 nachgeholte Rolle (3c) gilt dasselbe im Hauptkontext. Fuer eine Rolle, die isoliert geliefert
-hat, vergibst du kein Verdikt. Jede Rolle bewertet NUR ihre eigenen Dimensionen:
-
-| Agent | Dimensionen |
-|-------|-------------|
-| Architekt | Technische Machbarkeit, Abhaengigkeiten |
-| Pragmatiker | Scope/MVP-Schnitt, Spec-Deckung |
-| Senior Dev | Reihenfolge der Phasen, Zeitschaetzungen, Teststrategie |
-| Betriebs-Waechter (nur falls aktiviert) | Betrieb & Haertung |
+hat, vergibst du kein Verdikt. Jede Rolle bewertet NUR ihre eigenen Dimensionen — die
+Zuordnung steht in der Spalte „Dimensionen" der Rollen-Tabelle (Schritt 3, die eine Quelle;
+die Zeilen der Review-Zusammenfassung tragen dieselben Namen).
 
 **Verdikt-Semantik:** PASS = keine Bedenken; WARN = Problem vorhanden, im Plan behebbar;
 FAIL = Dimension nicht tragfaehig, Plan muss in diesem Punkt neu gedacht werden.
@@ -266,9 +273,13 @@ planinternen Zusagen pruefen (Deliverables, Checkpoint-Kriterien) und in der Anm
 Die Reaktion schreibst du als Haupt-Skill in einem Satz, gekennzeichnet:
 `Reaktion (Haupt-Skill, {zustaendige Rolle}): {bestaetigt|entkraeftet} — {1 Satz}`. Stuetze sie
 auf die Rueckgabe der zustaendigen Rolle (deckt deren Runde 2 oder 3 den Punkt ab oder
-widerlegt ihn?) — keine neue Argumentation in deren Namen. Ein bestaetigter Einspruch zaehlt
+widerlegt ihn?) — keine neue Argumentation in deren Namen. Deckt die Rueckgabe der zustaendigen
+Rolle den Punkt weder ab noch widerlegt sie ihn →
+`Reaktion (Haupt-Skill, {Rolle}): bestaetigt — von {Rolle} nicht behandelt` (der billigere
+Fehler: ein unbegruendet bestaetigter Einspruch kostet einen weiteren Review-Lauf, ein
+unbegruendet entkraefteter laesst eine Schwaeche durch). Ein bestaetigter Einspruch zaehlt
 wie WARN der Dimension — bei belegtem schwerwiegendem Fall wie FAIL. Nennt eine
-`EINSPRUCH`-Zeile keine Dimension aus der Tabelle oben, wird sie zu `Hinweis {Rolle}: {1 Satz}`
+`EINSPRUCH`-Zeile keine Dimension aus der Rollen-Tabelle (Schritt 3), wird sie zu `Hinweis {Rolle}: {1 Satz}`
 unter der Liste — ohne Reaktion und ohne Wirkung auf ein Verdikt.
 
 **Gesamt-Verdikt (feste Regel — nie aufweichen, keine Zwischenstufen):**
@@ -365,6 +376,7 @@ Gib die Diskussion in folgendem Format aus:
 [🔧-Zeile aus Schritt 2c]
 🤖 Subagenten: {N}/{M} Rollen isoliert
 [⚠-Zeilen aus Schritt 0 (Modellwerte) und Schritt 3c (Rueckfall), je Fall eine]
+📋 Formal-Check Progress: [ok | Befund aus Schritt 1]
 🔎 Grounding: [Ergebniszeile(n) aus Schritt 2d]
 ⚔ Challenger-Pass: [Ergebniszeile oder Kopfzeile + nummerierte Befunde aus Schritt 2e]
 
@@ -424,7 +436,7 @@ Gib die Diskussion in folgendem Format aus:
 |-----------|------------|---------|-----------|
 | Technische Machbarkeit | 🏗️ Architekt | PASS/WARN/FAIL | [kurz] |
 | Abhaengigkeiten | 🏗️ Architekt | PASS/WARN/FAIL | [kurz] |
-| Scope / MVP-Schnitt | ⚡ Pragmatiker | PASS/WARN/FAIL | [kurz] |
+| Scope/MVP-Schnitt | ⚡ Pragmatiker | PASS/WARN/FAIL | [kurz] |
 | Spec-Deckung | ⚡ Pragmatiker | PASS/WARN/FAIL | [deckt der Plan die Feature-Spec vollstaendig ab?] |
 | Reihenfolge der Phasen | 💻 Senior Dev | PASS/WARN/FAIL | [kurz] |
 | Zeitschaetzungen | 💻 Senior Dev | PASS/WARN/FAIL | [kurz] |

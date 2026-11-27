@@ -135,6 +135,7 @@ plan_review:
 - `status.alter_schwelle_tage`: Optional (Default 7 bei fehlendem Key — Bestandsprojekte ohne den Key sind gueltig). Ab dieser Liegezeit markieren `dtb:workflow-checkpoint` offene Aufgaben und die Worktree-Sicht Worktrees mit ⏳ (`DERIVED_STATE_RULES.md` §9/§10)
 - `dashboard.bei_checkpoint`: Optional (Default `true` bei fehlendem Key — Bestandsprojekte ohne den Key sind gueltig). `false` schaltet die automatische Aktualisierung von `dtb-project/project-dashboard.html` durch `dtb:workflow-checkpoint` (Schritt 4b) ab; `/dtb:project-dashboard` auf Abruf bleibt. Auch bei `true` frischt der Checkpoint die Seite nur auf, wenn sie schon existiert — angelegt wird sie nur per `/dtb:project-dashboard`
 - `lessons.schwelle_kb` / `lessons.einzeln_pro_lauf`: Optional (Defaults 40 / 5 bei fehlendem Key — Bestandsprojekte ohne den Block sind gueltig). Ab `schwelle_kb` warnt `dtb:lesson` und verweist auf `dtb:lesson-curate`; das Dashboard zeigt den Fuellstand gegen denselben Wert; `einzeln_pro_lauf` kappt die Einzelfaelle eines Kuratierungs-Laufs
+- `plan_review.modelle`: Optional (Default `null` = Session-Modell erben bei fehlendem Block oder Key — Bestandsprojekte ohne den Block sind gueltig). Je Rolle (`architekt`, `pragmatiker`, `senior-dev`, `betriebs-waechter`) ein Modellname, den das Agent-Werkzeug anbietet; ein unbekannter Wert oder Schluessel erbt mit einer ⚠-Zeile (`dtb:plan-review` Schritt 0)
 
 ---
 
