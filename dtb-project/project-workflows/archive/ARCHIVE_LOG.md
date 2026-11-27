@@ -136,3 +136,5 @@
 | 2026-11-26 | Idee | #218 "Vier Status-Skills in ihren Beschreibungen voneinander abgrenzen" | INBOX.md | Verworfen → zusammengelegt mit #217 |
 | 2026-11-26 | Idee | #217 "Längengrenze für Skill-Beschreibungen (Auslöser), darin #218" | INBOX.md | Ausgearbeitet → archive/skill-beschreibungen/ |
 | 2026-11-26 | Feature | skill-beschreibungen | features/skill-beschreibungen/ | Abgenommen 2026-11-26 (Beleg: im Tab gegengelesen, Phase 1 „passt"; die 4 nach dem Review geänderten Beschreibungen im Orchestrator gegengelesen) → Abgeschlossen |
+| 2026-11-27 | Idee | #214 "Skill-Regeln als Skript plus CI statt Prosa-Prüfung" | INBOX.md | Ausgearbeitet → archive/skill-lint/ |
+| 2026-11-27 | Feature | skill-lint | features/skill-lint/ | Abgenommen 2026-11-26 (Beleg: erster CI-Lauf `lint-skills.yml` grün, 37 Selbsttests, impl-review 10× FIXED, kit-sync 8/8) → Abgeschlossen. 6/6 |

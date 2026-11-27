@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-26
 **Ziel:** Die mechanisch prüfbaren Frontmatter-Regeln der Kit-Skills werden bei jedem Push und Pull Request maschinell geprüft statt nur durch das Modell.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

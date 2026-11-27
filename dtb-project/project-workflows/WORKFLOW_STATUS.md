@@ -9,7 +9,6 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| skill-lint | Abgenommen | 6/6 | /dtb:archive |
 
 Kein aktives Feature.
 
@@ -20,13 +19,13 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-26: #214 skill-lint per Pane (Fast-Track) umgesetzt, abgenommen, gemergt und gepusht (`756085f`), erster CI-Lauf grün, kit-sync 8/8; Arbeitsplatz `pane-skill-lint` (Tab t20) steht noch. Reihenfolge danach: #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
+| **Notizen** | 2026-11-26: #214 skill-lint per Pane (Fast-Track) umgesetzt, abgenommen, gemergt und gepusht (`756085f`), erster CI-Lauf grün, kit-sync 8/8; Arbeitsplatz `pane-skill-lint` abgebaut, archiviert 2026-11-27. Reihenfolge danach: #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 checkpoint-auto-commit (Plan Reviewed 0/18, `2dffa04`, nicht gepusht) hat einen Worktree auch auf diesem Rechner |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#214 skill-lint: Tab schließen, Worktree und Zweig abbauen, dann `/dtb:archive`** — Kontext: Abnahme 2026-11-26, Tab t20, Worktree `.dtb-worktrees/pane-skill-lint`, Zweig `feature/skill-lint` (nicht auf GitHub) (seit 2026-11-26)
+- [ ] **#214 skill-lint: `/dtb:archive`** — Kontext: abgenommen 2026-11-26, Tab, Worktree und Zweig `feature/skill-lint` abgebaut, Checkpoint `cdbbefd` gepusht (seit 2026-11-26)
 - [ ] **INBOX-BEFUNDE #46, #58 Fall (1), #88, #195 abräumen** — Kontext: durch skill-lint erledigt (Gegenkanten-Regel, greenfield-prd.after, Stage-Tabelle, Bash in Teil-Guard-Skills); beim nächsten `/dtb:idea-triage` (seit 2026-11-26)
 - [ ] **Nächste mega.dev-Idee nach der Reihenfolge #221: #216 CLAUDE.md ohne Codebase-Karte** — Kontext: danach #215, #219 erst nach dem Merge von #199 (seit 2026-11-26)
 - [ ] **#217 skill-beschreibungen: Auslöse-Probe in frischer Session** — Kontext: „was steht an", „wo steckt was", „offene Features", „Projektstand als Seite" → wählt Claude den passenden Status-Skill? (offener Punkt in archive/skill-beschreibungen/spec.md) (seit 2026-11-26)

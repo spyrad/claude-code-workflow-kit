@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-11-26 (#214 skill-lint abgenommen)
+**Letzte Aktualisierung:** 2026-11-27 (#214 skill-lint archiviert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,6 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 214 | Skill-Lint | Abgenommen | Mittel | features/skill-lint/spec.md | Mechanische Frontmatter-Regeln bei jedem Push/PR maschinell prüfen |
 
 ---
 
