@@ -9,8 +9,7 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-
-Kein aktives Feature.
+| plan-review-subagenten | Abgenommen | 7/7 | /dtb:archive |
 
 ---
 
@@ -19,15 +18,19 @@ Kein aktives Feature.
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-27: PKP-Durchlaufzeiten wiederholt (`~/.claude/analysen/pkp-durchlaufzeiten/lauf-2026-11-27/vergleich.md`), Dashboard-Seite um den Vergleich ergänzt — Abschluss jetzt teuerste Phase (24,0 → 34,7 h), stützt #199. Reihenfolge: #216 → #215 → #219 (nach #199-Merge), siehe #221. #199 hat einen Worktree auf dem anderen Rechner |
+| **Notizen** | 2026-11-27: #215 plan-review-subagenten per Pane umgesetzt, gemergt (`5381a71`), kit-sync 7/7, abgenommen, Arbeitsplatz abgebaut; #216 läuft im Tab `t22` (Privatrechner). PKP-Durchlaufzeiten wiederholt (`~/.claude/analysen/pkp-durchlaufzeiten/lauf-2026-11-27/vergleich.md`), Dashboard-Seite um den Vergleich ergänzt — Abschluss jetzt teuerste Phase (24,0 → 34,7 h), stützt #199. Reihenfolge: #216 → #219 (nach #199-Merge), siehe #221. #199 hat einen Worktree auf dem anderen Rechner |
 
 ---
 
 ## Offene Aufgaben
 
+- [ ] **#215 plan-review-subagenten: `/dtb:archive`** — Kontext: abgenommen 2026-11-27, gemergt und gepusht (`5381a71`), kit-sync 7/7, Tab, Worktree und Zweig abgebaut (seit 2026-11-27)
+- [ ] **#215: 4 Nits unter dem Cap aus impl-review** — Kontext: general-purpose statt Explore begründen, Form des Lektionen-Slots, Warte-Regel harness-neutral, Begriffe Agent/Rolle/Subagent; optional erneutes `/dtb:impl-review` (seit 2026-11-27)
+- [ ] **#215: offene Runde-4-Fragen aus plan-review** — Kontext: Subagent-Typ `Plan` statt `general-purpose`? Zahl der Läufe in der 🤖-Zeile zeigen? (seit 2026-11-27)
+- [ ] **#215: Rückfall-Pfade „Agent-Werkzeug fehlt“ und „Rückgabe unbrauchbar“ beobachten** — Kontext: im Probelauf nicht herbeiführbar, ungeprüft; nächster echter `/dtb:plan-review`-Lauf (seit 2026-11-27)
 - [ ] **PKP-Durchlaufzeiten-Seite: Vergleichsabschnitt im Browser ansehen** — Kontext: Abschnitt „Zweiter Monat im Vergleich" auf https://claude.ai/artifact/AA1DVkgDV1WXR2PsjhWUpn; die Seitenprüfung des Dashboards meldete sich nicht, Rechnungen offline geprüft (seit 2026-11-27)
 - [ ] **INBOX-BEFUNDE #46, #58 Fall (1), #88, #195 abräumen** — Kontext: durch skill-lint erledigt (Gegenkanten-Regel, greenfield-prd.after, Stage-Tabelle, Bash in Teil-Guard-Skills); beim nächsten `/dtb:idea-triage` (seit 2026-11-26)
-- [ ] **Nächste mega.dev-Idee nach der Reihenfolge #221: #216 CLAUDE.md ohne Codebase-Karte** — Kontext: danach #215, #219 erst nach dem Merge von #199 (seit 2026-11-26)
+- [ ] **mega.dev-Reihenfolge #221: #216 CLAUDE.md ohne Codebase-Karte läuft im Tab `t22`** — Kontext: beim Merge auf `CLAUDE.md`-Konflikt mit #215 achten (Zweig von `8940abb`); danach #219 erst nach dem Merge von #199 (seit 2026-11-26)
 - [ ] **#217 skill-beschreibungen: Auslöse-Probe in frischer Session** — Kontext: „was steht an", „wo steckt was", „offene Features", „Projektstand als Seite" → wählt Claude den passenden Status-Skill? (offener Punkt in archive/skill-beschreibungen/spec.md) (seit 2026-11-26)
 - [ ] **#200 herdr-app-umstellung: Zweig `feature/herdr-app-umstellung` auf GitHub und lokal löschen** — Kontext: archiviert 2026-11-23; am 2026-11-26 geprüft: `origin/feature/herdr-app-umstellung` und der lokale Zweig existieren beide noch (seit 2026-11-12) ⏳
 - [ ] **#199 checkpoint-auto-commit: Umsetzung nach der Nachmessung (bis 2026-12-02)** — Kontext: `/dtb:implement Checkpoint Auto-Commit` im Tab `checkpoint-auto-commit`; Plan Reviewed 0/18, Schritt 4.5 (kit-sync-Nachweis) erst nach Merge und Push; Messung 2026-11-27: Checkpoint → commit-and-push 35× (#224) (seit 2026-11-13) ⏳
@@ -52,13 +55,12 @@ Kein aktives Feature.
 
 | Datum | Meilenstein | Ergebnis | Details |
 |-------|-------------|----------|---------|
+| 2026-11-27 | #215 plan-review-subagenten per Pane (Fast-Track) umgesetzt, abgenommen, gemergt, kit-sync | Rollen als isolierte Subagenten, Modell je Rolle (`plan_review.modelle`), Probelauf 4/4 isoliert; impl-review 10× FIXED; L147–L149 | `2026-11/2026-11-27.md` |
 | 2026-11-27 | PKP-Durchlaufzeiten wiederholt, Dashboard um den Vergleich ergänzt | 28.10.–27.11. gegen 28.09.–28.10.: 17 statt 13 Changes fertig, Fast-Track 0,2 statt 0,7 Tage, Abschluss 34,7 statt 24,0 h, offene Auswahlfragen 9,2 statt 4,6 h; L146, #223–#225 | `2026-11/2026-11-27.md` |
 | 2026-11-27 | Arbeitsrechner nachgezogen: Pull + kit-sync | Fast-Forward auf `8940abb`, kit-sync 8/8 (skill-lint) nach 7/7 am Vorabend, Lock auf `8940abb`; #222 | `2026-11/2026-11-27.md` |
 | 2026-11-26 | #214 skill-lint per Pane (Fast-Track) umgesetzt, abgenommen, gemergt, kit-sync | `scripts/lint-skills.py` + 37 Selbsttests + CI `lint-skills.yml` (erster Lauf grün), Check 8 ruft das Skript, Gegenkanten-Regel; impl-review 10× FIXED; L143–L145 | `2026-11/2026-11-26.md` |
 | 2026-11-26 | #217 skill-beschreibungen (mit #218) per Pane umgesetzt, abgenommen, gemergt, kit-sync, archiviert | 7 Beschreibungen ≤ 338 Zeichen mit „Not for"-Abgrenzung, Regel in `skills/CLAUDE.md`, impl-review 8× FIXED, kit-sync 7/7; #214–#219 aus mega.dev übernommen; L141, L142, #220, #221 | `2026-11/2026-11-26.md` |
 | 2026-11-23 | #200 herdr-app-umstellung, #177 checkpoint-schneller, #173 checkpoint-ohne-rueckfragen archiviert | drei Ordner nach `archive/`, Archiv-Log ergänzt; kein aktives Feature mehr im Haupt-Checkout | `2026-11/2026-11-23.md` |
-| 2026-11-20 | #177 checkpoint-schneller + #173 checkpoint-ohne-rueckfragen nachgemessen und abgenommen | 58 Läufe nach dem Merge: Kern-Median 3,0 min (vorher 5,2), Alters-Fragen 0, Kontrollpunkt nur 2× Duplikat; #211, #212, L138 | `2026-11/2026-11-20.md` |
-| 2026-11-13 | #199 checkpoint-auto-commit bis zum reviewten Plan (Pane) | `/dtb:pane-start 199` → Discovery, Spec, Plan in einem Lauf, plan-review REVISE → Reviewed (12 Findings), `2dffa04` auf dem Branch; #209, #210 | `2026-11/2026-11-13.md` |
 
 ---
 
@@ -70,6 +72,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:workflow-next`
+**Naechster Befehl:** `/dtb:archive`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
 **Becken:** 134 ungesichtet → /dtb:idea-triage
