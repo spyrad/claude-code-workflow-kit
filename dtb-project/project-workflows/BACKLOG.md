@@ -1,6 +1,6 @@
 # Feature Backlog
 
-**Letzte Aktualisierung:** 2026-11-27 (#215 plan-review-subagenten abgenommen)
+**Letzte Aktualisierung:** 2026-11-27 (#215 plan-review-subagenten archiviert)
 
 > Die **Status-Spalte ist eine abgeleitete Anzeige** (Quelle: Artefakte + `## Progress`-Checkboxen,
 > Regeln: `project-rules/DERIVED_STATE_RULES.md`). Sie wird von `dtb:workflow-checkpoint`
@@ -12,7 +12,6 @@
 
 | # | Feature | Status | Prio | Datei | Ziel |
 |---|---------|--------|------|-------|------|
-| 215 | plan-review mit Subagenten | Abgenommen | Mittel | features/plan-review-subagenten/spec.md | Rollen urteilen unabhängig als isolierte Subagenten statt Rollenspiel in einem Kontext |
 
 ---
 

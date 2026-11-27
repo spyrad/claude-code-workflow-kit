@@ -138,3 +138,5 @@
 | 2026-11-26 | Feature | skill-beschreibungen | features/skill-beschreibungen/ | Abgenommen 2026-11-26 (Beleg: im Tab gegengelesen, Phase 1 „passt"; die 4 nach dem Review geänderten Beschreibungen im Orchestrator gegengelesen) → Abgeschlossen |
 | 2026-11-27 | Idee | #214 "Skill-Regeln als Skript plus CI statt Prosa-Prüfung" | INBOX.md | Ausgearbeitet → archive/skill-lint/ |
 | 2026-11-27 | Feature | skill-lint | features/skill-lint/ | Abgenommen 2026-11-26 (Beleg: erster CI-Lauf `lint-skills.yml` grün, 37 Selbsttests, impl-review 10× FIXED, kit-sync 8/8) → Abgeschlossen. 6/6 |
+| 2026-11-27 | Idee | #215 "dtb:plan-review mit echten Subagenten statt Rollenspiel in einem Kontext" | INBOX.md | Ausgearbeitet → archive/plan-review-subagenten/ |
+| 2026-11-27 | Feature | plan-review-subagenten | features/plan-review-subagenten/ | Abgenommen 2026-11-27 (Beleg: Manual-Gate Phase 1 im Tab bestätigt, Probelauf 4/4 isoliert, impl-review 10× FIXED, kit-sync 7/7) → Abgeschlossen. 7/7 |

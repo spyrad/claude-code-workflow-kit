@@ -3,7 +3,7 @@
 **Erstellt:** 2026-11-27
 **Ziel:** Die Rollen von `dtb:plan-review` urteilen unabhaengig voneinander, statt dass ein Modell alle Rollen nacheinander im selben Kontext spielt.
 **Prioritaet:** Mittel
-**Status:** Abgenommen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
+**Status:** Abgeschlossen <!-- abgeleitete Anzeige, wird von dtb:workflow-checkpoint synchronisiert (project-rules/DERIVED_STATE_RULES.md) -->
 
 ---
 

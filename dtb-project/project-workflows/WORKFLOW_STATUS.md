@@ -9,7 +9,8 @@
 
 | Item | Status (abgeleitet) | Fortschritt | Naechster Schritt |
 |------|---------------------|-------------|-------------------|
-| plan-review-subagenten | Abgenommen | 7/7 | /dtb:archive |
+
+Kein aktives Feature.
 
 ---
 
@@ -18,13 +19,13 @@
 | Kennzahl | Wert |
 |----------|------|
 | **Blocker** | Keine |
-| **Notizen** | 2026-11-27: #215 plan-review-subagenten per Pane umgesetzt, gemergt (`5381a71`), kit-sync 7/7, abgenommen, Arbeitsplatz abgebaut; #216 läuft im Tab `t22` (Privatrechner). PKP-Durchlaufzeiten wiederholt (`~/.claude/analysen/pkp-durchlaufzeiten/lauf-2026-11-27/vergleich.md`), Dashboard-Seite um den Vergleich ergänzt — Abschluss jetzt teuerste Phase (24,0 → 34,7 h), stützt #199. Reihenfolge: #216 → #219 (nach #199-Merge), siehe #221. #199 hat einen Worktree auf dem anderen Rechner |
+| **Notizen** | 2026-11-27: #215 plan-review-subagenten per Pane umgesetzt, gemergt (`5381a71`), kit-sync 7/7, abgenommen, Arbeitsplatz abgebaut, archiviert 2026-11-27; Push-Kollision mit dem Arbeitsrechner per Rebase gelöst (L150, #226); #216 läuft im Tab `t22` (Privatrechner). PKP-Durchlaufzeiten wiederholt (`~/.claude/analysen/pkp-durchlaufzeiten/lauf-2026-11-27/vergleich.md`), Dashboard-Seite um den Vergleich ergänzt — Abschluss jetzt teuerste Phase (24,0 → 34,7 h), stützt #199. Reihenfolge: #216 → #219 (nach #199-Merge), siehe #221. #199 hat einen Worktree auf dem anderen Rechner |
 
 ---
 
 ## Offene Aufgaben
 
-- [ ] **#215 plan-review-subagenten: `/dtb:archive`** — Kontext: abgenommen 2026-11-27, gemergt und gepusht (`5381a71`), kit-sync 7/7, Tab, Worktree und Zweig abgebaut (seit 2026-11-27)
+- [ ] **`/dtb:lesson-curate`** — Kontext: `lessons.md` hat nach L150/L151 80 KB erreicht (Soft-Limit 80 KB) (seit 2026-11-27)
 - [ ] **#215: 4 Nits unter dem Cap aus impl-review** — Kontext: general-purpose statt Explore begründen, Form des Lektionen-Slots, Warte-Regel harness-neutral, Begriffe Agent/Rolle/Subagent; optional erneutes `/dtb:impl-review` (seit 2026-11-27)
 - [ ] **#215: offene Runde-4-Fragen aus plan-review** — Kontext: Subagent-Typ `Plan` statt `general-purpose`? Zahl der Läufe in der 🤖-Zeile zeigen? (seit 2026-11-27)
 - [ ] **#215: Rückfall-Pfade „Agent-Werkzeug fehlt“ und „Rückgabe unbrauchbar“ beobachten** — Kontext: im Probelauf nicht herbeiführbar, ungeprüft; nächster echter `/dtb:plan-review`-Lauf (seit 2026-11-27)
@@ -46,7 +47,7 @@
 - [ ] **A1-A4 beim naechsten echten Pane-Wechsel beobachten** — Kontext: Weiche nur „Wechsel"/„Ende", Offene Punkte als Momentaufnahme, kein leerer Wiederholungs-Block, Resume zeigt eigenen Change — in Abnahme 4.2 (Wegwerf-Change) A1, A2, A4 gesehen, A3 nicht; zählt erst an einem echten Change; 2026-11-13 (#199) und 2026-11-26 (#217) nur „Ende", kein Wechsel (seit 2026-10-22 · behalten 2026-10-29) ⏳
 - [ ] **triage-vorsortierung: Review-Findings unter dem Cap** — Kontext: in `archive/triage-vorsortierung/review.md`, u. a. B1 (Lektions-Dublette ohne eigenen Vorschlag in 3b), Meldezeile verschobene Zeilen, „streichen" dreifach, Guard-Tabelle (seit 2026-10-18 · behalten 2026-11-03) ⏳
 - [ ] **TypeSafe-Key rotieren** — Kontext: L71 auf beiden Rechnern eingetreten, Key steht in zwei Session-Transcripts (seit 2026-09-28 · behalten 2026-10-29) ⏳
-- [ ] **`/dtb:idea-triage`** — Kontext: 134 ungesichtet, mit Vorsortierung; #54/#70 sind korrekt escapt (geprüft 2026-11-06) (seit ≤2026-09-09 · behalten 2026-10-29) ⏳
+- [ ] **`/dtb:idea-triage`** — Kontext: 135 ungesichtet, mit Vorsortierung; #54/#70 sind korrekt escapt (geprüft 2026-11-06) (seit ≤2026-09-09 · behalten 2026-10-29) ⏳
 - [ ] **edge-tts auf dem Arbeitsrechner aktualisieren** — Kontext: `pip install --user --upgrade edge-tts --cert ~/.claude/tts/ca-bundle.pem` (L88) (seit 2026-10-15 · behalten 2026-10-29) ⏳
 
 ---
@@ -72,6 +73,6 @@ Keine.
 
 ## Handoff
 
-**Naechster Befehl:** `/dtb:archive`
+**Naechster Befehl:** `/dtb:workflow-next`
 **Empfehlung:** Neue Session mit `/clear` starten, dann `/dtb:workflow-resume` (stellt Kontext her), danach obigen Befehl.
-**Becken:** 134 ungesichtet → /dtb:idea-triage
+**Becken:** 135 ungesichtet → /dtb:idea-triage
