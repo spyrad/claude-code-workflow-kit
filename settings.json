@@ -28,6 +28,8 @@
       "Read(./**/id_rsa*)",
       "Read(./.mcp.json)",
       "Read(./.claude/settings.local.json)",
+      "Read(./**/.mcp.json)",
+      "Read(./**/.claude/settings.local.json)",
       "Read(./**/dist/**)",
       "Read(./**/node_modules/**)",
       "Read(./**/__pycache__/**)",
